@@ -25,27 +25,28 @@ msgstr ""
 
 #: ..\..\source\GPUCompute\index.rst:0
 msgid "Table of Contents"
-msgstr ""
+msgstr "目次"
 
 #: ..\..\source\GPUCompute\index.rst:17
 msgid "**Important - Read Me First**"
-msgstr ""
+msgstr "**重要 - はじめにお読みください**"
 
 #: ..\..\source\GPUCompute\index.rst:19
 msgid ""
 "GPU compute is not enabled by default in Fabric Engine applications and must"
 " be specifically enabled in the environment before it can be used."
 msgstr ""
+"GPUコンピュート機能はFabric Engineのアプリケーションからはディフォルトで無効となっています。使用するには環境に応じ有効化する必要があります。"
 
 #: ..\..\source\GPUCompute\index.rst:21
 msgid ""
 "See the :ref:`GPUPG` for information on how KL code can be made to take "
 "advantage of GPU compute."
-msgstr ""
+msgstr ":ref:`GPUPG` に GPU処理に適したKLコードの記述についての情報があります。"
 
 #: ..\..\source\GPUCompute\index.rst:23
 msgid "Please look over the list of :ref:`gpu-known-issues`."
-msgstr ""
+msgstr ":ref:`gpu-known-issues` をご覧ください"
 
 #: ..\..\source\GPUCompute\index.rst:25
 msgid ""
@@ -54,12 +55,16 @@ msgid ""
 "is debugged and known to be working there can sometimes be significant "
 "performance gains achieved by running in unguarded mode."
 msgstr ""
+"GPUでコードを実行する際、guardedモードと unguardedモードの違いはCPU上での違いより明確に重要な意味を持ちます。コードをデバッグし、使用"
+"するようなると、unduardedモードで実行すると極めて大きいパフォーマンスメリットを受ける場合がある事がわかります。"
 
 #: ..\..\source\GPUCompute\index.rst:27
 msgid ""
 "GPU compute currently works on Windows 7 or higher and Linux (CentOS 6.x) "
 "64-bit platforms with supported Nvidia hardware (see below)."
 msgstr ""
+"GPUコンピューティングは現在 Windows 7（以降）と Linux(CentOS 6.x) 64-bit プラットフォームで "
+"nVidiaの対応デバイス（後述）を使用している場合に利用できます。"
 
 #: ..\..\source\GPUCompute\index.rst:31
 msgid ""
@@ -67,20 +72,22 @@ msgid ""
 "it from working with CUDA Unified Memory, which is required for GPU compute "
 "in Fabric Engine.  There is, however, a workaround; see below"
 msgstr ""
+"Windows 10のプレリリース版にはバグがあり、Fabric Engine のGPUコンピュートに必要な CUDA Unified "
+"Memoryが正常に動作しません。このバグの回避策については後述します。"
 
 #: ..\..\source\GPUCompute\index.rst:34
 msgid "Installation"
-msgstr ""
+msgstr "インストール"
 
 #: ..\..\source\GPUCompute\index.rst:37
 msgid "Nvidia Hardware Support"
-msgstr ""
+msgstr "対応 Nvidia ハードウェア"
 
 #: ..\..\source\GPUCompute\index.rst:39
 msgid ""
 "KL GPU compute requires supported Nvidia hardware in order to run. Please "
 "ensure that your Nvidia card is supported by verifying the following:"
-msgstr ""
+msgstr "KLのGPUコンピュートには対応する Nvidiaデバイスが必要です。手持ちの機器が対応しているか、以下に従い確認しましょう。"
 
 #: ..\..\source\GPUCompute\index.rst:41
 msgid ""
@@ -88,12 +95,15 @@ msgid ""
 "and their compute capabilities is available here: "
 "https://developer.nvidia.com/cuda-gpus"
 msgstr ""
+"グラフィックカードの CUDAバージョン 3.0以上必要です。GPUの一覧は: https://developer.nvidia.com/cuda-gpus"
 
 #: ..\..\source\GPUCompute\index.rst:43
 msgid ""
 "For supported cards the latest stable Nvidia driver must be installed: "
 "http://www.nvidia.com/Download/index.aspx?lang=en-us"
 msgstr ""
+"さらに Nvidia の stableドライバのインストールが必要です: http://www.nvidia.com/Download/index.aspx"
+"?lang=en-us"
 
 #: ..\..\source\GPUCompute\index.rst:45
 msgid ""
@@ -102,6 +112,9 @@ msgid ""
 "against CUDA 6.0 but tested against CUDA 6.5 and should be compatible with "
 "both. CUDA 7.0 support will be upcoming in a future version."
 msgstr ""
+"CUDA 6 toolkit のインストールが必要です： https://developer.nvidia.com/cuda-downloads "
+"現在のバージョンは CUDA 6.0 向けにビルドされており CUDA 6.5 や CUDA 7.0 "
+"では動作しません。今後のバージョンにおいてサポートされる予定です。"
 
 #: ..\..\source\GPUCompute\index.rst:49
 msgid ""
@@ -111,10 +124,13 @@ msgid ""
 " workaround is to use the older NVIDIA 349 driver until the issue in Windows"
 " 10 has been fixed."
 msgstr ""
+"Windows 10の最初のリリースin July 2015にはバグがあり、Fabric Engine のGPUコンピュートに必要な CUDA "
+"Unified Memoryが正常に動作しません。Windows 10自体が修正されるまでの回避策は、古いドライバである NVIDIA 349 "
+"driverを使用することです。"
 
 #: ..\..\source\GPUCompute\index.rst:52
 msgid "Enabling GPU Compute"
-msgstr ""
+msgstr "GPU Compute を有効にする"
 
 #: ..\..\source\GPUCompute\index.rst:54
 msgid ""
@@ -123,6 +139,9 @@ msgid ""
 " set. Once this is set Fabric will try to load the required libraries on "
 "startup and any errors encountered will be output to the console."
 msgstr ""
+"Fabricはディフォルトで Nvidiaのライブラリを読み込みには行きません。環境変数 "
+"``FABRIC_FEATURE_CUDA_COMPUTE=1`` を設定するとGPUコンピュートが有効になり、Fabric起動時に関連ライブラリが読み込ま"
+"れるようになります。エラーがあればコンソールに出力されます。"
 
 #: ..\..\source\GPUCompute\index.rst:56
 msgid ""
@@ -130,6 +149,8 @@ msgid ""
 "system library locations or else be explicitly added to the PATH or "
 "LD_LIBRARY_PATH."
 msgstr ""
+"GPUコンピュートには、Nvidiaのライブラリ群を動作システムのグローバル設定に置く ―もしくはPATH や "
+"LD_LIBRARY_PATHに明示的に追加する必要があります。"
 
 #: ..\..\source\GPUCompute\index.rst:58
 msgid ""
@@ -139,6 +160,10 @@ msgid ""
 "Toolkit\\CUDA\\v6.0\\nvvm\\bin``. You may need to add these directories to "
 "your system PATH variable like this:"
 msgstr ""
+"Windows では必要なライブラリは ``nvvm64_20_0.dll`` と ``nvcuda.dll`` です。ディフォルトで "
+"``C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v6.0\\bin`` と "
+"``C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v6.0\\nvvm\\bin`` "
+"にインストールされます。これらのディレクトリを PATH に通すと良いでしょう:"
 
 #: ..\..\source\GPUCompute\index.rst:60
 msgid ""
@@ -154,6 +179,9 @@ msgid ""
 "``/usr/local/cuda/nvvm/lib64``. You may want to update your LD_LIBRARY_PATH "
 "like this:"
 msgstr ""
+"Linux に必要なライブラリは ``libcuda.so`` を ``libnvvm.so`` です。通常 "
+"``/usr/local/cuda/lib64`` と ``/usr/local/cuda/nvvm/lib64`` "
+"にあります。LD_LIBRARY_PATH を次のように更新すると良いでしょう:"
 
 #: ..\..\source\GPUCompute\index.rst:64
 msgid ""
@@ -165,15 +193,16 @@ msgid ""
 "The ``CUDA_PATH`` environment variable must also be present on your system, "
 "though this is often set automatically by the CUDA toolkit."
 msgstr ""
+"環境変数 ``CUDA_PATH`` がシステムに必要です。ただしこれは CUDA toolkit インストーラにより自動で設定されているでしょう。"
 
 #: ..\..\source\GPUCompute\index.rst:68
 msgid ""
 "A sample environment setup for CUDA compute on Linux might look like this:"
-msgstr ""
+msgstr "Linux での CUDA comput 環境変数設定シェルスクリプト例："
 
 #: ..\..\source\GPUCompute\index.rst:78
 msgid "Testing GPU Compute"
-msgstr ""
+msgstr "GPU Compute を試す"
 
 #: ..\..\source\GPUCompute\index.rst:80
 msgid ""
@@ -182,19 +211,22 @@ msgid ""
 "often be seen on the GPU by running canvas in unguarded mode with the -u "
 "flag."
 msgstr ""
+"``Samples/Canvas`` フォルダ以下に GPUを活用するサンプルがあります。nbody-gpu.canvas "
+"という名のファイルです。上述したようにunguarded モードで実行すると極めて大幅なパフォーマンス向上が見込めます。canvas の実行に -u "
+"フラグをつけてみましょう。"
 
 #: ..\..\source\GPUCompute\index.rst:83
 msgid "KL Programming"
-msgstr ""
+msgstr "KLプログラミング"
 
 #: ..\..\source\GPUCompute\index.rst:85
 msgid ""
 "See the :ref:`GPUPG` for more information on how to use GPU compute in KL."
-msgstr ""
+msgstr ":ref:`GPUPG` にKLからのGPU処理についてより詳しい情報があります。"
 
 #: ..\..\source\GPUCompute\index.rst:90
 msgid "Known Issues"
-msgstr ""
+msgstr "既知の不具合"
 
 #: ..\..\source\GPUCompute\index.rst:92
 msgid ""
@@ -202,6 +234,8 @@ msgid ""
 "terminated by the driver and return with CUDA_ERROR_LAUNCH_TIMEOUT. This "
 "timeout may be disabled in an upcoming release."
 msgstr ""
+"GPUでの実行に１０秒以上要するカーネルは、ドライバから強制的に終了され、CUDA_ERROR_LAUNCH_TIMEOUTエラーが返ります。今後のリリース"
+"で解消される見込みです。"
 
 #: ..\..\source\GPUCompute\index.rst:94
 msgid ""
@@ -213,6 +247,10 @@ msgid ""
 "which types of operators slow down Nvidia's compiler the most and how we can"
 " mitigate this."
 msgstr ""
+"Nvidiaのコンパイラは、特に巨大なKLオペレータを解釈する際、非常に長い時間かかることがあります。GPU処理が始まる際、NVIDIAコンパイラ "
+"―LLVM IRを受け取りPTXアセンブリを出力する― とCUDAオペレータの読み込み ―LLVM IRからPTXアセンブリコードを準備する― "
+"に要する時間がFabricのログに記録されます。、どのような種類のオペレータが処理遅延を引きおこすのか、どのように緩和すればいいのかについてFabricでは"
+"調査を続けております。"
 
 #: ..\..\source\GPUCompute\index.rst:96
 msgid ""
@@ -223,10 +261,13 @@ msgid ""
 "GPU compute simultaneously. For this reason it is recommended to run only a "
 "single Fabric process at a time with GPU compute."
 msgstr ""
+"Linux上で稀に、NVIDIAドライバがハングしマシンの再起動を要する事があります。これはNVIDIAのドライバで発生し、NVIDIAが解決するべきバグで"
+"す。このバグは別個のプロセスから、GPU処理を伴う複数のKLオペレータを同時に実行した際に発生します。このためGPU処理を行う場合は、１つのFabricプロ"
+"セスに限定することを推奨いたします。"
 
 #: ..\..\source\GPUCompute\index.rst:98
 msgid ""
 "Using many Integer atomic functions in a single KL GPU operator may "
 "sometimes cause the operator to hang and not return (the Integer.atomic*() "
 "methods in KL)."
-msgstr ""
+msgstr "単一のGPU KLオペレータで Integer.atomic*() の呼び出しを大量に行うと、オペレータがハングし何も返さなくなります。"
