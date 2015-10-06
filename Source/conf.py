@@ -363,6 +363,10 @@ epub_copyright = u'2013, Fabric Engine Inc.'
 # If false, no index is generated.
 #epub_use_index = True
 
+language = 'ja'
+locale_dirs = ['locale/']
+gettext_compact = False
+
 rst_epilog = """
 .. |FABRIC_COMPANY_NAME| replace:: %s
 .. |FABRIC_PRODUCT_NAME| replace:: %s
