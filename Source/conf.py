@@ -164,7 +164,7 @@ html_theme_options = {
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-html_title = "Fabric Engine 2.0.0 Documentation"
+html_title = "Fabric Engine 2.0.0 Unofficial Documentation (ja)"
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #html_short_title = None

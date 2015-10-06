@@ -1,7 +1,7 @@
 .. _TOP:
 
-|FABRIC_PRODUCT_NAME| Unofficial Japanese Documentation
-=========================================
+|FABRIC_PRODUCT_NAME| Unofficial Documentation 日本語版
+=======================================================
 
 .. image:: /images/FE_logo_345_60.*
    :width: 345px
@@ -10,9 +10,15 @@
 | |FABRIC_COPYRIGHT|
 
 
-翻訳者注意書き
+日本語版翻訳について
 ---------------------
-この文書は Fabric Software社公式のものではありません。オリジナルは http://docs.fabric-engine.com/FabricEngine/latest/HTML/index.html から確認できます。完璧な翻訳ではなく、誤りを含む可能性があります。あくまで概略を示すものとしてお使いください。また当該翻訳の正確性の欠如、および翻訳結果から生じるいかなる損害に対しても翻訳者は一切の責任を負わないものとします。
+このドキュメントは `Fabric Engine Documentation 
+<http://docs.fabric-engine.com/FabricEngine/latest/HTML/index.html>`_ の和訳です。
+この日本語に翻訳された文書は Fabric Software社公式のものではありません。
+和訳に関する質問、問い合わせは Fabric Softwawe ではなく
+`この和訳プロジェクトのissues
+<https://github.com/yamahigashi/unofficial-fabricengine-documents-ja/issues>`_ 迄お願いします。
+この文書の和訳は完璧な翻訳ではなく、誤りを含む可能性があります。あくまで概略を示すものとしてお使いください。また当該翻訳の正確性の欠如、および翻訳結果から生じるいかなる損害に対しても翻訳者は一切の責任を負わないものとします。またこの文書のすべての権利は Fabric Software社にあります。
 
 
 Welcome!
