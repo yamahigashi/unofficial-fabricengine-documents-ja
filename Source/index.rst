@@ -1,6 +1,6 @@
 .. _TOP:
 
-|FABRIC_PRODUCT_NAME| Documentation
+|FABRIC_PRODUCT_NAME| Unofficial Japanese Documentation
 =========================================
 
 .. image:: /images/FE_logo_345_60.*
@@ -8,6 +8,12 @@
    :height: 60px
 
 | |FABRIC_COPYRIGHT|
+
+
+翻訳者注意書き
+---------------------
+この文書は Fabric Software社公式のものではありません。オリジナルは http://docs.fabric-engine.com/FabricEngine/latest/HTML/index.html から確認できます。完璧な翻訳ではなく、誤りを含む可能性があります。あくまで概略を示すものとしてお使いください。また当該翻訳の正確性の欠如、および翻訳結果から生じるいかなる損害に対しても翻訳者は一切の責任を負わないものとします。
+
 
 Welcome!
 ---------------------
