@@ -1,0 +1,132 @@
+.. _TOP:
+
+|FABRIC_PRODUCT_NAME| Documentation
+=========================================
+
+.. image:: /images/FE_logo_345_60.*
+   :width: 345px
+   :height: 60px
+
+| |FABRIC_COPYRIGHT|
+
+Welcome!
+---------------------
+
+This is the documentation for |FABRIC_PRODUCT_NAME| |FABRIC_VERSION|, last updated |today|.
+
+The documentation can also be downloaded as a zip from here: |DOCS_ZIP|
+
+:strong:`Parts of the documentation:`
+
+.. rst-class:: indexblocka
+
+|    |RELNOTES-FABRIC_VERSION|
+|        What's new in |FABRIC_PRODUCT_NAME| |FABRIC_VERSION|
+
+.. rst-class:: indexblockb
+
+|    :strong:`Completely fresh to the product? Looking for installation help?`
+|
+|        :ref:`GETTINGSTARTED_INDEX`
+|            For help installing, licensing and starting to use |FABRIC_PRODUCT_NAME| please consult this guide.
+|
+
+.. rst-class:: indexblocka
+
+|    :strong:`Looking for information about Canvas, the visual programming system?`
+|
+|        :ref:`CANVASUSERGUIDE`
+|            A user's guide to the Canvas visual programming system.
+|
+|        :ref:`CANVASPROGRAMMERGUIDE`
+|            A guide for Canvas for Programmers.
+
+.. rst-class:: indexblockb
+
+|    :strong:`Looking for information about the Fabric DCC integrations?`
+|
+|        :ref:`MAYA`
+|            The Fabric for Maya integration
+|
+|        :ref:`SOFTIMAGE`
+|            The Fabric for Softimage integration
+
+.. rst-class:: indexblocka
+
+|    :strong:`New to KL? An existing KL user? Here are the KL programming guides:`
+|
+|        :ref:`KLPG`
+|            An introduction for the KL programming language
+|
+|        :ref:`KLSTYLEGUIDE`
+|            How to write well styled KL
+|
+|        :ref:`KLEXTENSIONSGUIDE`
+|            An overview of all available KL extensions
+|
+|        :ref:`KLTOOLGUIDE`
+|            How to use the KL Tool to develop and debug KL extensions
+|
+|        :ref:`MRPG`
+|            An overview now to use Map Reduce in KL
+
+.. rst-class:: indexblockb
+
+|    :strong:`Searching for low level information, such as the Core or GPU Compute?`
+|
+|        :ref:`CO`
+|            An overview of the inner workings of the Fabric Core
+|
+|        :ref:`DG`
+|            Information about how to debug KL
+|
+|        :ref:`INSTG`
+|            A guide introducing the instrumentation functionality for KL
+|
+|        :ref:`GPUCompute`
+|            An introduction into GPU compute - how to use KL on the GPU
+
+.. rst-class:: indexblocka
+
+|    :strong:`Are you a C++ programmer and are interested in the various C/C++ APIs?`
+|
+|        :ref:`CAPIPG`
+|            The C/C++ Fabric Core programming guide
+|
+|        :ref:`CAPIPG.canvas`
+|            The C/C++ Fabric Canvas programming guide
+|
+|        :ref:`RTVPG`
+|            The C/C++ API for accessing KL data types explained
+|
+|        :ref:`EXTRG`
+|            An introduction to writing your own KL extensions
+|
+|        :ref:`DOCSYSTEM`
+|            The Fabric documentation system based on sphinx
+
+Table of contents
+---------------------------------
+
+.. toctree::
+  :maxdepth: 1
+
+  GettingStartedGuide/index
+  CanvasUserGuide/index
+  CanvasProgrammerGuide/index
+  KLProgrammingGuide/index
+  KLStyleGuide/index
+  KLExtensionsGuide/index
+  KLToolGuide/index
+  MapReduceProgrammingGuide/index
+  CoreOverview/index
+  DebuggingGuide/index
+  InstrumentationGuide/index
+  GPUCompute/index
+  CAPIProgrammingGuide/index
+  RTValProgrammingGuide/index
+  ExtensionAuthoringGuide/index
+  Installation/index
+  LicensingGuide/index
+  DocSystem/index
+  DCCIntegrations/thirdpartylicenses

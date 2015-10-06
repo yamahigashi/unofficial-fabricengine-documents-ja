@@ -1,0 +1,10 @@
+.. _pointswithsizesboundingvolumecache:
+
+PointsWithSizesBoundingVolumeCache (object)
+===========================================================================
+
+.. kl-type:: PointsWithSizesBoundingVolumeCache
+  createrefs=1;
+  methods=1;
+  params=1;
+  members=1;

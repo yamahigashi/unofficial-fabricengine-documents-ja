@@ -1,0 +1,10 @@
+.. _alembicistringarrayproperty:
+
+AlembicIStringArrayProperty (object)
+===========================================================================
+
+.. kl-type:: AlembicIStringArrayProperty
+  createrefs=1;
+  methods=1;
+  params=1;
+  members=1;

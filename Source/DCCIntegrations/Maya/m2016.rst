@@ -1,0 +1,225 @@
+.. _FabricForMaya.UsageMaya2016:
+
+Using Fabric for Maya with Maya 2016
+======================================
+
+Support for Maya 2016 was first added in Fabric Engine version 2.0.0.  One of
+the key new features of Maya 2016 is support for parallel evaluation of the
+Maya node graph.  Fabric for Maya adds user-controlled support for enabling
+specific nodes to run in parallel when the Maya 2016 parallel evaluation
+is enabled.
+
+By default, Canvas and Splice nodes will never run in parallel with each other,
+even if parallel evaluation is enabled.  This is because Fabric for Maya
+does not know for sure if it's safe for any two nodes to run at the same time;
+for instance, if the two nodes use a non-thread-safe KL extension.
+
+Fabric for Maya allows configuration of parallel evaluation behavior on a
+node-by-node basis.  There are two different behaviors:
+
+- Shared execution (or evaluation): the Fabric node will potentially run
+  in parallel with any and all other Fabric nodes which also have shared
+  execution enabled.
+
+  .. note::
+    
+    Canvas nodes and Splice nodes that have shared execution enabled
+    may potentially run in parallel with one another.
+
+- Exclusive execution (or evaluation; the default): The Fabric node will never run in
+  parallel with any other Fabric nodes.  However, it may run in parallel
+  with non-Fabric nodes (as controlled by Maya 2016).
+
+.. note::
+
+  Shared execution of Canvas and Splice nodes is distinct
+  from parallel evaluation within Canvas and Splice nodes.  Even if Fabric 
+  nodes do not have shared execution enabled they can perform internal
+  parallel operations such as PEX calls.
+
+Currently, shared execution can only be enabled through scripting.  There is
+a script command for each of Fabric Canvas and Fabric Splice to enable
+shared execution.
+
+.. note:
+  
+  The script commands to enable shared execution can be run in pre-2016
+  versions of Maya, but they have no effect as Maya will never execute the
+  nodes in parallel.
+
+
+Enabling Parallel Evaluation for Canvas Nodes
+-------------------------------------------------
+
+The MEL command to enable parallel evaluation of a Canvas node is:
+
+.. parsed-literal::
+
+  FabricCanvasSetExecuteShared -mayaNode :samp:`{canvasMayaNodeName}` -enable true;
+
+The command takes immediate effect.
+
+An example MEL script showing parallel computation for Canvas nodes:
+
+.. code-block::
+
+  $count = 16;
+  loadPlugin "FabricMaya";
+  file -f -new;
+  spaceLocator -n "inputLocator1" -p 0 0 0;
+  spaceLocator -n "inputLocator2" -p 0 0 0;
+  createNode -n "combiningCanvasNode" "canvasNode";
+  for ($i = 0; $i < $count; ++$i)
+  {
+      $nodeName = `format -s $i "slowCanvasNode^1s"`;
+      print `format -s $nodeName "** Building node ^1s\n"`;
+      createNode -n $nodeName "canvasNode";
+
+      FabricCanvasSetExecuteShared -m $nodeName -e false;
+
+      FabricCanvasAddFunc -m $nodeName -e "" -t "func" -c "dfgEntry {}\n";
+      FabricCanvasAddPort -m $nodeName -e "func" -d "i1" -p "In" -t "Vec3";
+      FabricCanvasAddPort -m $nodeName -e "func" -d "i2" -p "In" -t "Vec3";
+      FabricCanvasAddPort -m $nodeName -e "func" -d "o" -p "Out" -t "Vec3";
+      FabricCanvasSetCode -m $nodeName -e "func" -c `format -s $i "dfgEntry {\n  UInt64 ticks = getCurrentTicks();\n  o = Vec3();\n  for ( Index n = 0; n < (1<<20); ++n )\n    o += +2e-8 * (i1 + i2);\n  //report(\"op:slow^1s:tid=\" + getHardwareThreadID() + \":\" + getSecondsBetweenTicks(ticks, getCurrentTicks()) + \"ms\");\n}\n"`;
+
+      FabricCanvasAddPort -m $nodeName -e "" -d "i1" -p "In" -t "Vec3";
+      FabricCanvasConnect -m $nodeName -e "" -s "i1" -d "func.i1";
+      connectAttr -f "inputLocator1.translate" `format -s $nodeName "^1s.i1"`;
+
+      FabricCanvasAddPort -m $nodeName -e "" -d "i2" -p "In" -t "Vec3";
+      FabricCanvasConnect -m $nodeName -e "" -s "i2" -d "func.i2";
+      connectAttr -f "inputLocator2.translate" `format -s $nodeName "^1s.i2"`;
+
+      FabricCanvasAddPort -m $nodeName -e "" -d "o" -p "Out" -t "Vec3";
+      FabricCanvasConnect -m $nodeName -e "" -s "func.o" -d "o";
+      $iName = `format -s $i "i^1s"`;
+      FabricCanvasAddPort -m "combiningCanvasNode" -e "" -d $iName -p "In" -t "Vec3";
+      connectAttr -f `format -s $nodeName "^1s.o"` `format -s $iName "combiningCanvasNode.^1s"`;
+  }
+
+  print "** Building node combiningCanvasNode\n";
+  FabricCanvasAddPort -m "combiningCanvasNode" -e "" -d "o" -p "Out" -t "Vec3";
+  spaceLocator -n "outputLocator" -p 0 0 0;
+  connectAttr -f "combiningCanvasNode.o" "outputLocator.translate";
+  $combinedKL = "dfgEntry {\n  UInt64 ticks = getCurrentTicks();\n  o = Vec3();";
+  for ($i = 0; $i < $count; ++$i)
+  {
+    $combinedKL = `format -s $combinedKL -s $i "^1s\n  o += i^2s;"`;
+  }
+  $combinedKL = `format -s $combinedKL "^1s\n  //report(\"op:combined:tid=\" + getHardwareThreadID() + \":\" + getSecondsBetweenTicks(ticks, getCurrentTicks()) + \"ms\");\n}"`;
+  FabricCanvasAddFunc -m "combiningCanvasNode" -e "" -t "func" -c "dfgEntry {}";
+  FabricCanvasSetCode -m "combiningCanvasNode" -e "func" -c $combinedKL;
+  for ($i = 0; $i < $count; ++$i)
+  {
+      $iName = `format -s $i "i^1s"`;
+      FabricCanvasAddPort -m "combiningCanvasNode" -e "func" -d $iName -p "In" -t "Vec3";
+      FabricCanvasConnect -m "combiningCanvasNode" -e "" -s $iName -d `format -s $iName "func.^1s"`;
+  }
+  FabricCanvasAddPort -m "combiningCanvasNode" -e "func" -d "o" -p "Out" -t "Vec3";
+  FabricCanvasConnect -m "combiningCanvasNode" -e "" -s "func.o" -d "o";
+
+  currentTime 1;
+  select -r "inputLocator1";
+  move -r -10 0 -10;
+  setKeyframe "inputLocator1.translate";
+  select -r "inputLocator2";
+  move -r 3 0 -3;
+  setKeyframe "inputLocator2.translate";
+  currentTime 120;
+  select -r "inputLocator1";
+  move -r -10 0 10;
+  setKeyframe "inputLocator1.translate";
+  select -r "inputLocator2";
+  move -r -7 0 7;
+  setKeyframe "inputLocator2.translate";
+  currentTime 1;
+  select -r "inputLocator1";
+
+
+Enabling Parallel Evaluation for Splice Nodes
+-------------------------------------------------
+
+The MEL command to enable parallel evaluation of a Splice node is:
+
+.. parsed-literal::
+
+  fabricSplice "setEvaluateShared" :samp:`{spliceMayaNodeName}` "{\\"enabled\\"\: true}";
+
+The command takes immediate effect.
+
+An example MEL script showing parallel computation for Splice nodes:
+
+.. code-block::
+
+  $count = 16;
+  loadPlugin "FabricMaya";
+  file -f -new;
+  spaceLocator -n "inputLocator1" -p 0 0 0;
+  spaceLocator -n "inputLocator2" -p 0 0 0;
+  createNode -n "combiningSpliceNode" "spliceMayaNode";
+  for ($i = 0; $i < $count; ++$i)
+  {
+      $nodeName = `format -stringArg $i "slowSpliceNode^1s"`;
+      print `format -stringArg $nodeName "Building node ^1s"`;
+      createNode -n $nodeName "spliceMayaNode";
+      fabricSplice "setEvaluateShared" $nodeName "{\"enabled\": true}";
+      fabricSplice "addInputPort" $nodeName "{\"portName\": \"i1\", \"dataType\" : \"Vec3\", \"arrayType\": \"Single Value\", \"addMayaAttr\": true}";
+      connectAttr -f "inputLocator1.translate" `format -stringArg $nodeName "^1s.i1"`;
+      fabricSplice "addInputPort" $nodeName "{\"portName\": \"i2\", \"dataType\" : \"Vec3\", \"arrayType\": \"Single Value\", \"addMayaAttr\": true}";
+      connectAttr -f "inputLocator2.translate" `format -stringArg $nodeName "^1s.i2"`;
+      fabricSplice "addOutputPort" $nodeName "{\"portName\": \"o\", \"dataType\" : \"Vec3\", \"arrayType\": \"Single Value\", \"addMayaAttr\": true}";
+      $iName = `format -stringArg $i "i^1s"`;
+      fabricSplice "addInputPort" "combiningSpliceNode" `format -stringArg $iName "{\"portName\": \"^1s\", \"dataType\" : \"Vec3\", \"arrayType\": \"Single Value\", \"addMayaAttr\": true}"`;
+      connectAttr -f `format -stringArg $nodeName "^1s.o"` `format -stringArg $iName "combiningSpliceNode.^1s"`;
+      fabricSplice "addKLOperator" $nodeName `format -stringArg $i "{\"opName\": \"slow^1s\"}"` `format -stringArg $i "require Math;\noperator slow^1s(\n  in Vec3 i1,\n  in Vec3 i2,\n  io Vec3 o\n  )\n{\n  UInt64 ticks = getCurrentTicks();\n  o = Vec3();\n  for ( Index n = 0; n < (1<<20); ++n )\n    o += +2e-8 * (i1 + i2);\n  report(\"op:slow^1s:tid=\" + getHardwareThreadID() + \":\" + getSecondsBetweenTicks(ticks, getCurrentTicks()) + \"ms\");\n}"`;
+  }
+  print `format -stringArg "combiningSpliceNode" "Building node ^1s"`;
+  fabricSplice "addOutputPort" "combiningSpliceNode" "{\"portName\": \"o\", \"dataType\" : \"Vec3\", \"arrayType\": \"Single Value\", \"addMayaAttr\": true}";
+  spaceLocator -n "outputLocator" -p 0 0 0;
+  connectAttr -f "combiningSpliceNode.o" "outputLocator.translate";
+  $combinedKL = "require Math;\noperator combined(";
+  for ($i = 0; $i < $count; ++$i)
+  {
+    $combinedKL = `format -stringArg $combinedKL -stringArg $i "^1s\n  in Vec3 i^2s,"`;
+  }
+  $combinedKL = `format -stringArg $combinedKL "^1s\n  io Vec3 o\n  )\n{\n  UInt64 ticks = getCurrentTicks();\n  o = Vec3();"`;
+  for ($i = 0; $i < $count; ++$i)
+  {
+    $combinedKL = `format -stringArg $combinedKL -stringArg $i "^1s\n  o += i^2s;"`;
+  }
+  $combinedKL = `format -stringArg $combinedKL "^1s\n  report(\"op:combined:tid=\" + getHardwareThreadID() + \":\" + getSecondsBetweenTicks(ticks, getCurrentTicks()) + \"ms\");\n}"`;
+  fabricSplice "addKLOperator" "combiningSpliceNode" "{\"opName\": \"combined\"}" $combinedKL;
+  currentTime 1;
+  select -r "inputLocator1";
+  move -r -10 0 -10;
+  setKeyframe "inputLocator1.translate";
+  select -r "inputLocator2";
+  move -r 3 0 -3;
+  setKeyframe "inputLocator2.translate";
+  currentTime 120;
+  select -r "inputLocator1";
+  move -r -10 0 10;
+  setKeyframe "inputLocator1.translate";
+  select -r "inputLocator2";
+  move -r -7 0 7;
+  setKeyframe "inputLocator2.translate";
+  currentTime 1;
+  select -r "inputLocator1";
+
+
+Enabling Shared Execution by Default
+-----------------------------------------
+
+Two environment variables, FABRIC_CANVAS_PARALLEL_DEFAULT and FABRIC_SPLICE_PARALLEL_DEFAULT, allow you to enable shared execution of
+Fabric nodes by default in Maya 2016.  To use them, simply set them to a non-zero
+integer.
+
+.. warning::
+
+  These variables should only be used under very controlled circumstances, as
+  they will cause all user-created Fabric nodes to run in parallel with each
+  other.  If these nodes, even indirectly, write to a common shared resource,
+  the result can be a crash.
+
+

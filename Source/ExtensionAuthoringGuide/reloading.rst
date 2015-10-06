@@ -1,0 +1,72 @@
+.. _EAG.reloading:
+
+Extension Reloading
+===================
+
+.. versionadded:: 1.13.0
+
+KL extension code can be reloaded in a running Fabric Engine instance inside any DCC or in a standalone application. Right clicking on a Canvas node also provides the option of reloading any dependent extensions of that node.
+
+In general reloading a KL extension is most useful when the memory layout of extension types and their function prototypes do not need to change but the user wants to update the implementations of existing functions. Reloading extensions should be safe as long as users are aware of the considerations mentioned below.
+
+API Functions
+-------------
+
+The relevant API functions for reloading KL extension code are `FEC_ClientLoadExtension` and `FEC_RegisterKLExtension` in the C API and `Client::loadExtension()` and `RegisterKLExtension` in the C++ and Python APIs. See :ref:`clients` for more information on these functions and their parameters. The `reload` parameter on these functions is new, if set to 0 then these functions will error out as they would in the past if a user tries to load an extension that's already been loaded, however if set to 1 then that extension will be reloaded from disk (or from the provided source code in the case of `RegisterKLExtension`).
+
+Updating KL Type Member Layout
+------------------------------
+
+The memory representation or member layout of a KL type can not be changed by reloading an extension and will result in an error if the user tries. In order to change the memory representation of KL type all Core Clients must be shut down and restarted. For example attempting to add a member to a struct called 'MyStruct' while making a reload call will result in an error that looks like::
+
+  [FABRIC:MT] [MyExt] MyExt.kl:2:1: error: type 'MyStruct' already registered with a different definition
+  [FABRIC:MT] [MyExt] Error encountered while loading extension; extension disabled
+  [FABRIC:MT] [MyExt] Error description: KL compile failed: type 'MyStruct' already registered with a different definition
+
+Updating KL Source Code
+-----------------------
+
+All extension KL source code can be updated when reloading an extension, however there are several important caveats to be aware of.
+
+Extension Dependencies
+++++++++++++++++++++++
+
+In the case of an extension which is dependent on a reloaded one, the behavior depends on whether the functions being called are marked as `function` or as `inline` in the reloaded extension. For example if extension `Foo` looks like this::
+
+  struct FooType
+  {
+    Scalar a;
+  };
+
+  function FooType.bar()
+  {
+    report('called FooType.bar()');
+  }
+
+  inline FooType.foo()
+  {
+    report('called FooType.foo()');
+  }
+
+And extension `Bar` looks like this::
+
+  require Foo;
+
+  struct BarType
+  {
+    FooType foo;
+  };
+
+  function BarType.myFunction()
+  {
+    this.foo.foo();
+    this.foo.bar();
+  }
+
+Then if the source code of `Foo` is reloaded to provide different implementations for the `foo()` and `bar()` methods, the `Bar` type will only reflect the changes in the non-inlined `bar()` method. In order to change the implementation of the inlined `foo()` the `Bar` extension would need to be recompiled and the Core does not automatically reload dependent extensions (though the user is free to reload it manually, which will force a recompilation).
+
+Changing Function Prototypes or Adding/Removing Functions
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+If the prototype of an existing KL function is changed inside an extension (to change the parameter types, or add or remove parameters) or if new functions are added or removed then any new KL code written against this extension will be able to use the new functions, however any existing code in dependent extensions that still refer to the old function prototypes will continue to work but will use the old function. This can lead to confusing scenarios where dependent extensions are using KL functions that may no longer exist in any visible way.
+

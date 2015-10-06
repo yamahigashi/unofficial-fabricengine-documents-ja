@@ -1,0 +1,10 @@
+.. _bulletcollisionalgorithmconstructioninfo:
+
+BulletCollisionAlgorithmConstructionInfo (struct)
+===========================================================================
+
+.. kl-type:: BulletCollisionAlgorithmConstructionInfo
+  createrefs=1;
+  methods=1;
+  params=1;
+  members=1;
