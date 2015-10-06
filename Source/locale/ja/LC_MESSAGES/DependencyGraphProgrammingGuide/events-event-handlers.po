@@ -1,0 +1,102 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\DependencyGraphProgrammingGuide\events-event-handlers.rst:4
+msgid "Event Graphs, Events and EventHandlers"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\events-event-handlers.rst:6
+msgid ""
+"|FABRIC_PRODUCT_NAME| provides a method of traversing the Nodes in the "
+"dependency graph through objects called Events and EventHandlers.  An Event "
+"can be fired, which will then fire a list of EventHandlers; each "
+"EventHandler has a list of child EventHandlers which are visited in turn, "
+"and each EventHandler has a list of :dfn:`pre-descend operators` that are "
+"executed before the child EventHandlers are visited and a list of :dfn"
+":`post-descend operators` that are executed after the child EventHandlers "
+"are visit.  Each event handler can also bind to Nodes in the dependency "
+"graph to access from its Operators.  A typical use of Events and "
+"EventHandlers is for OpenGL rendering.  When an OpenGL viewport is created, "
+"a \"redraw Event\" is associated with it; this event is automatically fired "
+"whenever the viewport needs to be redrawn.  The EventHandlers that \"chain\""
+" off of the redraw Event can then issue OpenGL calls to draw the viewport "
+"contents."
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\events-event-handlers.rst:9
+msgid "Event Creation"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\events-event-handlers.rst:11
+msgid ""
+"To create an Event, call the ``fabricClient.DG.createEvent`` function.  Like"
+" Nodes, Events must have a unique name that is not the same as that of a "
+"Node, Operator or EventHandler.  To get an existing event's name, call its "
+"``getName`` method."
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\events-event-handlers.rst:21
+msgid "EventHandler Creation"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\events-event-handlers.rst:23
+msgid ""
+"Event event has a list of EventHandlers attached so it.  When an Event is "
+"fired, each attached EventHandler is fired in sequence.  To create an "
+"EventHandler, call ``fabricClient.DG.createEventHandler``.  To append the "
+"EventHandler to an Event, call the Event's ``appendEventHandler`` method."
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\events-event-handlers.rst:34
+msgid "Operators and EventHandlers"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\events-event-handlers.rst:36
+msgid ""
+"Each EventHandler has two lists of Operators (or, rather, Bindings) called "
+"``preDescendBindings`` and ``postDescendBindings``, as well as a list of "
+"child EventHandlers.  When an Event is fired, each of its EventHandlers is "
+"visited.  For each EventHandler, Bindings in ``preDescendBindings`` are "
+"executed in sequence, then its child EventHandlers are visited in the same "
+"way, then Bindings in ``postDescendBindings`` are executed in sequence."
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\events-event-handlers.rst:61
+msgid ""
+"EventHandlers in turn can have child EventHandlers.  The child EventHandlers"
+" of a given EventHandler are fired, in order, after the pre-descend "
+"operators are executed and before the post-descend operators are executed.  "
+"Child EventHandlers are added by calling the EventHandler's "
+"``appendChildEventHandler`` method:"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\events-event-handlers.rst:77
+msgid ""
+"EventHandlers can access data stored in Nodes by using their ``setScope`` "
+"method.  Once a Node is bound to an EventHandler, that Node is guaranteed to"
+" be evaluated (if it is dirty) before any Event that could fire the "
+"EventHandler is fired.  The name given in the ``setScope`` method is also "
+"available to child EventHandlers, their children, and so on, for binding.  "
+"If a child EventHandler binds a scope with the same name, it overrides the "
+"parent's scope."
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\events-event-handlers.rst:113
+msgid "EventHandler Data"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\events-event-handlers.rst:115
+msgid ""
+"EventHandlers themselves can also have data, and they set the name of their "
+"own scope, as seen by child EventHandlers, through ``setScopeName``:"
+msgstr ""

@@ -1,0 +1,299 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:2
+msgid "KL Implementation"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:4
+msgid ""
+"As mentioned previously, the map-reduce model is available in KL. Using the "
+"map-reduce model directly from within KL allows for simple multithreading "
+"directly from within KL itself, without the need to create structures within"
+" the host language."
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:7
+msgid "KL Constant Producers"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:9
+msgid ""
+"In KL, a constant value producer is created using the "
+":samp:`createConstValue({value})` call. The :samp:`{value}` parameter can be"
+" any typed KL r-value, eg. a constant value, the value of a variable, or the"
+" result of a function call. The result of the value is a value of type "
+":samp:`ValueProducer<{ValueType}>`, where :samp:`{ValueType}` is the type of"
+" :samp:`{value}`. For example, the KL code:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:18
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:35
+msgid "produces the result:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:24
+msgid ""
+"A constant array producer is created using the "
+":samp:`createConstArray({array})` function. Its single parameter "
+":samp:`{array}` must be an expression that resolves to a fixed-length, "
+"variable-length or external array. The return value is of type "
+":samp:`ArrayProducer<{ElementType}>`, where :samp:`{ElementType}` is the "
+"type of the array elements. For example, the KL code:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:42
+msgid "KL Generators"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:44
+msgid ""
+"A value generator in KL is created using the "
+":samp:`createValueGenerator({functionName})`. :samp:`{functionName}` must be"
+" the name of a KL function available in the same KL module that has the "
+"operator signature :samp:`{functionName}(io {ValueType} value);` the result "
+"is a value of type :samp:`ValueProducer<{ValueType}>`. For example, the KL "
+"code:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:57
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:132
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:212
+msgid "produces the output:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:63
+msgid ""
+"An array generator in KL is created using the "
+":samp:`createArrayGenerator({countValueProducer}, {functionName})`. The "
+":samp:`{countValueProducer}` parameter must be a value producer that "
+"produces a value of type :samp:`Size`, ie. a value of type "
+":samp:`ValueProducer<Size>`. If you are generating a fixed-size array of "
+"size 16, for instance, you can pass the result of "
+":samp:`createConstValue(16)`, but you can also pass a more complex value "
+"producer such as a value generator. :samp:`{functionName}` is the name of a "
+"function in the same module with one of the following prototypes:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:71
+msgid ""
+"In cases where the index parameter is present, the index of the element "
+"within the array is passed to the generator function; similarly, when the "
+"count parameter is present the total number of elements in the array is "
+"passed. This can be useful for figuring out what value to generate."
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:73
+msgid "An example of an array generator:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:92
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:164
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:244
+msgid "produces:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:98
+msgid ""
+"In both cases, you can optionally specify a shared value producer as the "
+"last parameter to the :samp:`create...Generator()` call. When a shared value"
+" producer is provided, the function receives an additional parameter whose "
+"type is the value type of the shared value producer. So, for value "
+"generators, the prototype of the operator becomes:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:106
+msgid "and for array generators the prototype of the operator becomes:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:114
+msgid ""
+"Note that when using a shared value with an array generator you must include"
+" the index and count parameters in the operator even if they are unused."
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:117
+msgid "KL Maps"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:119
+msgid ""
+"A value map in KL is created using the "
+":samp:`createValueMap({inputValueProducer}, {functionName})`. "
+":samp:`{inputValueProducer}` must be a value producer, and "
+":samp:`{functionName}` must be the name of a KL function available in the "
+"same KL module that has the operator signature "
+":samp:`{functionName}({InputType} input, io {OutputType} output);` the type "
+":samp:`InputType` must be the same as the value type of the input value "
+"producer. The result of the :samp:`createValueMap` call is a value of type "
+":samp:`ValueProducer<{OutputType}>`. For example, the KL code:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:138
+msgid ""
+"An array map in KL is created using the "
+":samp:`createArrayMap({inputArrayProducer}, {functionName})`. The "
+":samp:`{inputArrayProducer}` parameter must be an array producer. Assuming "
+"that the element type of :samp:`{inputArrayProducer}` is "
+":samp:`{InputType}`, :samp:`{functionName}` is the name of a function in the"
+" same module with one of the following prototypes:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:146
+msgid ""
+"In cases where the :samp:`index` parameter is present, the index of the "
+"element within the array is passed to the generator function; similarly, "
+"when the count parameter is present the total number of elements in the "
+"array is passed. The result of the :samp:`createArrayMap` call is a value of"
+" type :samp:`ArrayProducer<{OutputType}>`."
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:148
+msgid "An example of an array map:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:171
+msgid ""
+"In both cases, you can optionally specify a shared value producer as the "
+"last parameter to the :samp:`create...Map()` call. When a shared value "
+"producer is provided, the function receives an additional parameter whose "
+"type is the value type of the shared value producer. So, for value maps, the"
+" prototype of the operator becomes:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:179
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:259
+msgid "and for array maps the prototype of the operator becomes:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:194
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:267
+msgid ""
+"Note that when using a shared value with an array map you must include the "
+":samp:`index` and :samp:`count` parameters in the operator even if they are "
+"unused."
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:197
+msgid "KL Transforms"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:199
+msgid ""
+"A value transform in KL is created using the "
+":samp:`createValueTransform({inputValueProducer}, {functionName})`. "
+":samp:`{inputValueProducer}` must be a value producer, and "
+":samp:`{functionName}` must be the name of a KL function available in the "
+"same KL module that has the operator signature :samp:`{functionName}(io "
+"{ValueType} value)`; the type :samp:`{ValueType}` must be the same as the "
+"value type of the input value producer. The result of the "
+":samp:`createValueMap` call is a value of type "
+":samp:`ValueProducer<{ValueType}>`. For example, the KL code:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:218
+msgid ""
+"An array transform in KL is created using the "
+":samp:`createArrayTransform({inputArrayProducer}, {functionName})`. The "
+":samp:`{inputArrayProducer}` parameter must be an array producer. Assuming "
+"that the element type of :samp:`{inputArrayProducer}` is "
+":samp:`{ElementType}`, :samp:`{functionName}` is the name of a function in "
+"the same module with one of the following prototypes:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:226
+msgid ""
+"In cases where the :samp:`{index}` parameter is present, the index of the "
+"element within the array is passed to the generator function; similarly, "
+"when the :samp:`{count}` parameter is present the total number of elements "
+"in the array is passed. The result of the :samp:`createArrayTransform` call "
+"is a value of type :samp:`ArrayProducer<{ElementType}>`."
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:228
+msgid "An example of an array transform:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:251
+msgid ""
+"In both cases, you can optionally specify a shared value producer as the "
+"last parameter to the :samp:`create...Transform()` call. When a shared value"
+" producer is provided, the function receives an additional parameter whose "
+"type is the value type of the shared value producer. So, for value maps, the"
+" prototype of the operator becomes:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:270
+msgid "KL Reduce Operations"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:272
+msgid ""
+"To create a reduce operation in KL, use the "
+":samp:`createReduce({inputArrayProducer}, {functionName})` call. "
+":samp:`{inputArrayProducer}` must be an array producer; assume its element "
+"type is :samp:`{InputType}`. :samp:`{functionName}` must be the name of a "
+"function in the same module with one of the prototypes:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:280
+msgid ""
+"The result of the :samp:`createReduce` call is a value producer with value "
+"type :samp:`{OutputType}`, ie. a result of type "
+":samp:`ValueProducer<{OutputType}>`. An example of using a reduce operation "
+"in KL:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:304
+msgid "This produces the result:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:310
+msgid ""
+"You can optionally specify a shared value producer as the last parameter to "
+"the :samp:`createReduce()` call. When a shared value producer is provided, "
+"the function receives an additional parameter whose type is the value type "
+"of the shared value producer. The prototype of the operator becomes:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:324
+msgid ""
+"Note that when using a shared value with an array map you must include the "
+":samp:`{index}` and :samp:`{count}` parameters in the operator even if they "
+"are unused."
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:327
+msgid "KL Caches"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:329
+msgid ""
+"A value cache is created in KL using the "
+":samp:`createValueCache({inputValueProducer})` call. The element type of the"
+" resulting value producer is the same as that of "
+":samp:`{inputValueProducer}`. Example usage of a value cache in KL:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:354
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:404
+msgid "resulting in:"
+msgstr ""
+
+#: ..\..\source\MapReduceProgrammingGuide\kl.rst:368
+msgid ""
+"Similarly, an array cache is created using the "
+":samp:`createArrayProducer({inputArrayProducer})` call. The resulting array "
+"producer has the same element type as :samp:`{inputArrayProducer}`. Example "
+"usage:"
+msgstr ""

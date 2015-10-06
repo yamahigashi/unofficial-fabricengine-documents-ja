@@ -1,0 +1,203 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\KLToolGuide\index.rst:4
+msgid "Using the KL Tool to Develop and Debug Extensions"
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:10
+msgid "|FABRIC_PRODUCT_NAME| version |FABRIC_VERSION|"
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:11
+msgid "|FABRIC_COPYRIGHT|"
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:15
+msgid "The KL Tool"
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:17
+msgid ""
+"Distributed with Fabric Engine is a command-line executable :file:`kl` "
+"(:file:`kl.exe` on Windows) under the :file:`bin/` folder in the Fabric "
+"Engine distribution.  It is referred to as the :dfn:`KL tool`."
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:21
+msgid ""
+"The KL tool enables running KL programs from the command line and reporting "
+"results. The KL tool is used throughout the internal unit test suite at "
+"Fabric Software. In addition, the KL tool can be very useful in the "
+"development of your own custom KL extensions."
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:26
+msgid ""
+"When a Fabric Engine environment is set up by sourcing "
+":file:`environment.sh` at the root level of the Fabric Engine distribution, "
+"or by double-clicking :file:`prompt.bat` on Windows, the KL tool should be "
+"available on your :envvar:`PATH` and can be run on the command line as the "
+"command :file:`kl`. You can verify that it is working by running "
+":command:`kl --help`, which should show you all the options available."
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:34
+msgid "Compiling and Evaluating KL Source Files with the KL Tool"
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:36
+msgid ""
+"The KL tool should be run providing the name of a KL source file to compile "
+"and run. The provided KL source file is normally a small text file "
+"containing an entry operator (see below) and some code to generate output. "
+"For example, if the file :file:`MyTest.kl` contained KL source code, you "
+"would run it in the KL tool with the command::"
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:46
+msgid "The ``entry()`` Operator"
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:48
+msgid ""
+"The KL tool will look for an operator called ``entry`` taking zero arguments"
+" within the code. This operator will be called by the KL tool after it has "
+"compiled the source code."
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:59
+msgid "Testing Extensions"
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:61
+msgid ""
+"Often, a simple KL source file can be written that loads and performs "
+"various tests on your extension. Simply by including the ``require "
+"MyExtension;`` statement at the beginning of the file will cause the "
+"functionality of your entire extension to included. The ``require`` "
+"statement will also validate that your extension does not include any "
+"syntactic errors. If the compilation of the extension as well as the code in"
+" the KL source file that requires it is successful, then the entry operator "
+"will be invoked."
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:69
+msgid ""
+"In order to test your extension, the KL source file will will typically "
+"construct objects and structs defined in your extension, and test the "
+"functions by invoking them and reporting the results."
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:75
+msgid ""
+"It is better to avoid reporting entire data structures, as these can change "
+"without breaking the behavior of the code. Instead, consider invoking "
+"methods on your types and check the results. Avoid testing internal methods "
+"that are not intended to be exposed to users.Your extension should define "
+"methods that are expected to be used in other extensions, or in operators in"
+" Splice. These methods define the interface to your extension, and should be"
+" tested thoroughly.It is good practice to use access modifiers such as "
+":code:`public` and :code:`private` to control the external API to your "
+"objects and structs; see :ref:`KLPG.types.member-access` for more details."
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:95
+msgid "Output to a Text File"
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:97
+msgid ""
+"The output of the KL tool can be sent to a text file by using the :code:`>` "
+"shell operator::"
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:102
+msgid ""
+"This can be useful when the test generates a lot of output, or when you want"
+" to search through the output in a text editor.  It is also useful for "
+"generating the file with correct output for unit test cases."
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:107
+msgid "Setting up Unit Tests that Use the KL Tool"
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:109
+msgid ""
+"Unit testing systems are easy to setup using the KL tool. Unit tests "
+"typically compare a reference output against the current output to determine"
+" if the behavior of your code has changed."
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:113
+msgid ""
+"If you are using Linux or OS X, or a mingw shell on Windows, you can use the"
+" :command:`cmp` and :command:`diff` utilities to create simple scripts to "
+"perform tests.  A sample such script might be:"
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:150
+msgid ""
+"This script expects, for a given KL source file :file:`test.kl`, for there "
+"to be a corresponding file :file:`test.out` with the correct output.  If "
+"this script is placed in a file such as :file:`verify.sh`, you can then "
+"run::"
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:156
+msgid ""
+"to see whether the output of :file:`test.kl` matches the contents of "
+":file:`test.out`."
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:159
+msgid ""
+"More complex scripts can be written for testing.  The following example "
+"Python code runs the KL tool and compares the output against a reference "
+"file. The reference file will be generated if it does not exist, or the "
+":code:`--update True` option is set."
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:202
+msgid ""
+"Place the python code above in a python file called (for example) "
+":file:`pythonTester.py`. You would then run it passing a unit test KL source"
+" file to test against."
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:210
+msgid "To update test results, run the tester with the --update argument."
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:214
+msgid "​  python pythonTester.py test.kl --update"
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:216
+msgid ""
+"Setting up a unit testing framework for your custom extensions and running "
+"them regularly will help catch changes that might break your APIs."
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:220
+msgid "Indices and Tables"
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:222
+msgid ":ref:`genindex`"
+msgstr ""
+
+#: ..\..\source\KLToolGuide\index.rst:223
+msgid ":ref:`search`"
+msgstr ""

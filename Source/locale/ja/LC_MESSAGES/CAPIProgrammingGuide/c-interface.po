@@ -1,0 +1,240 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:6
+msgid ""
+"Initializes the CAPI interface. This function must be called before any "
+"other CAPI functions; it is often called immediately at application startup."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:15
+msgid ""
+"Shuts down the CAPI interface. This function must be called right once all "
+"use of CAPI has finished; this is often at application exit."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:24
+msgid ""
+"This enables the Core debugger, turning off code optimization and embedding "
+"Dwarf debug info into all compiled code. If runServer is non-zero then the "
+"debug server process is also launched to take control of the Core process. "
+"Set runServer to 0 if you will use an external debugger like gdb."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:33
+msgid "The C Language Interface"
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:35
+msgid ""
+"This chapter describes in detail the general practices that are required of "
+"an application that uses CAPI through the C language interface.  This "
+"chapter is not required reading if you do not plan on using the C language "
+"interface."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:38
+msgid "Namespacing"
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:40
+msgid ""
+"All types and function calls in the C language interface begin with the "
+"prefix :samp:`FEC_{...}`; for instance, :c:func:`FEC_ClientCreate`.  This "
+"both makes it easier to identify CAPI-related code as well minimizes the "
+"chance of namespace clashes with other code."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:43
+msgid "Object Lifecycles"
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:45
+msgid ""
+"Since the C language does not have an automatic mechanism for objects that "
+"go out-of-scope, the CAPI programmer using the C interface is responsible "
+"for manually managing the lifecycle of most of the objects returned from the"
+" C interface."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:48
+msgid "Reference-Counted Objects"
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:50
+msgid ""
+"All of the high-level objects in the C interface are reference-counted "
+"objects.  These objects include:"
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:52
+msgid "Clients (:c:type:`FEC_ClientRef`; see :ref:`clients`)"
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:54
+msgid ""
+"Nodes, Operators, Bindings, Events and EventHandlers (:c:type:`FEC_NodeRef`,"
+" :c:type:`FEC_BindingRef`, etc.; see :ref:`dg-objects`)"
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:56
+msgid ""
+"All of the reference-counted objects are all \"instances\" of a base object "
+"of type :c:type:`FEC_Ref`, and they all have ``Ref`` at the end of their "
+"names.  Reference counted objects are always created using a call that ends "
+"in *Create* or *CreateWith...* (eg. :c:func:`FEC_ClientCreate`).  It is the "
+"responsibility of the programmer to call the function "
+":c:func:`FEC_RefRelease` on the object once the object is no longer needed; "
+"failing to call :c:func:`FEC_RefRelease` on all your reference-counted "
+"objects will result in memory and resource leaks at runtime!"
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:59
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:130
+msgid "API Reference"
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:63
+msgid ""
+"The type of a generic reference in CAPI.  Many CAPI functions return "
+"references that are \"derived\" from this type (see eg. "
+":c:type:`FEC_ClientRef` and :c:type:`FEC_DGNodeRef`).  When using the C "
+"interface, the references must be manually managed by the programmer.  Not "
+"releasing references once they are no longer in use will cause your program "
+"to leak memory and resources and/or hang on exit."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:72
+msgid ""
+"The NULL reference value.  CAPI functions that fail will return this value "
+"for references they would otherwise return.  Passing this value to CAPI "
+"functions will result in an exception."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:81
+msgid ""
+"Retain a reference; this adds one to the reference count of an reference, so"
+" that :c:func:`FEC_RefRelease` will have to be called an additional time for"
+" the reference to be freed.  Calling this function on a FEC_NULL_REF "
+"reference does nothing."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:83
+msgid "This function is not usually needed."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:91
+msgid ""
+"Releases a reference; this subtracts one to the reference count of an "
+"reference; if the reference count is then zero, the reference is freed.  "
+"Calling this function on a FEC_NULL_REF reference does nothing."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:93
+msgid ""
+"Many CAPI functions return reference types; it is the responsibility of the "
+"programmer when using the C interface to call this function on those "
+"references once they are no longer needed."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:100
+msgid ""
+"Determines whether or not the given reference is null, ie. if its value is "
+"FEC_NULL_REF."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:108
+msgid "Variants"
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:110
+msgid ""
+"In addition to reference-counted objects, there is a separate class of "
+"objects that require manual lifecycle management when using the C interface."
+"  A :dfn:`variant` is a generic container for heterogenous data.  Variants "
+"are used in many calls to pass data in and out of the Fabric Core, and are "
+"covered in detail in :ref:`variants`."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:112
+msgid ""
+"Variants are always created using a call that begins with "
+"``FEC_VariantInit...`` and variants must always be destroyed when they are "
+"no longer used by calling ``FEC_VariantDispose()``; as with reference-"
+"counted objects, not calling ``FEC_VariantDispose`` when variants are no "
+"longer needed will result in memory and resource leaks."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:114
+msgid ""
+"There is one important exception to this rule: if a variant is null (ie. "
+"``FEC_VariantIsNull()`` returns true) then it is not necessary (but still "
+"safe) to call ``FEC_VariantDispose``.  This makes error-handling code "
+"simpler."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:119
+msgid "Error Handling"
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:121
+msgid ""
+"Since the C language does not have a (good) generic exception mechanism, the"
+" CAPI C language interface provides an exception mechanism that requires "
+"that the programmer query for exceptions after every call into CAPI that "
+"could fail.  \"Exceptions\" in CAPI are simply C string that describe the "
+"exception. The entry function for obtaining the last exception; is "
+":c:func:`FEC_GetLastExceptionCString`; this function returns NULL if there "
+"is no last exception."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:134
+msgid ""
+"Return the last exception as a C string.  If there is no exception, returns "
+"NULL."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:138
+msgid ""
+"The value returned by this function is no longer value after a call to most "
+"CAPI functions, including :c:func:`FEC_ClearLastException`."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:146
+msgid ""
+"Return the length of the last exception string.  If there is no exception, "
+"returns 0."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:153
+msgid ""
+"Clear the last exception so that :c:func:`FEC_GetLastExceptionCString` "
+"returns NULL.  If there is currently no exception, this function does "
+"nothing."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:157
+msgid ""
+"The value returned from :c:func:`FEC_GetLastExceptionCString` is no longer "
+"valid after a call to this function."
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:164
+msgid "C Interface Example"
+msgstr ""
+
+#: ..\..\source\CAPIProgrammingGuide\c-interface.rst:166
+msgid ""
+"The following example code shows the use of the C language interface to "
+"CAPI."
+msgstr ""

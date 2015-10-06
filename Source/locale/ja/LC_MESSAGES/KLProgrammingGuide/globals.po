@@ -1,0 +1,1469 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:4
+msgid "Functions and Other Global Declarations"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:6
+msgid ""
+"In this chapter we detail the different entities that can appear in the "
+"global scope of a KL program, including functions and function-like "
+"entities, name constants, and instances of the ``require`` statement.  "
+"Structure and object definitions can also appear in the global scope and are"
+" covered in the section :ref:`KLPG.types`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:14
+msgid "Functions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:16
+msgid ""
+"A function is a collection of program statements that can be called from "
+"another part of a program.  A function takes a list of zero or more "
+":dfn:`parameters` and optionally returns a :dfn:`return value`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:22
+msgid "Function Definitions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:24
+msgid ""
+"Function definitions in KL are much the same as the \"traditional\" function"
+" definition syntax in JavaScript, with the following key differences:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:26
+msgid ""
+"The return type and the type of each function parameter must be explicitly "
+"declared.  If a function does not return a value, the return type must be "
+"omitted."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:28
+msgid ""
+"The parameter declarations may additionally declare the parameter as input "
+"(read-only; the default) by preceding the type by ``in`` or input-output "
+"(read-write) by preceding the value by ``io``."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:30
+msgid ""
+"Functions can optionally be defined using the ``inline`` keyword in place of"
+" ``function``; see :ref:`inline`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:32
+msgid ""
+"The ``function`` keyword is optional.  If neither ``function`` nor "
+"``inline`` is present then ``function`` is assumed."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:69
+msgid "Function Invocations"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:71
+msgid ""
+"Function invocations (\"calls\") are made using the same syntax as "
+"JavaScript, namely by appending a comma-delimited list of arguments, "
+"surrounded by parentheses, to the function name."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:87
+msgid "Function Prototypes"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:89
+msgid ""
+"A :dfn:`function prototype` in KL is a function declaration that is missing "
+"a body.  Providing a function prototype allows the function to be called "
+"before it is defined.  This is useful under two circumstances:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:91
+msgid ""
+"When two or more functions call each other.  Such functions are sometimes "
+"referred to as :dfn:`co-recursive`:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:116
+msgid ""
+"When a function definition is provided by a Fabric extension.  The name of "
+"the symbol of the function in the Fabric extension is provided by appending "
+":samp:`= \"{symbol name}\"` or :samp:`= '{symbol name}'` to the function "
+"prototype.  These is usually referred to as :defn:`external functions`:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:136
+msgid "Polymorphism"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:138
+msgid ""
+"KL supports :dfn:`compile-time function polymorphism`.  This means that you "
+"can have multiple functions with the same name so long as they have a "
+"different number of parameters or those parameters differ by type and/or "
+"their input versus input-output qualification."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:140
+msgid ""
+"It is an error to have two functions with the same name that take exactly "
+"the same parameter types but return different types"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:142
+msgid ""
+"When a function call is made in KL source, if there are multiple functions "
+"with the same name then the KL compiler uses a best-match system to "
+"determine which function to call.  Exact parameter type matches are always "
+"prioritized over type casts.  If the compiler is unable to choose a unique "
+"best match then an error will be reported showing the ambiguity."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:144
+msgid ""
+"The following example demonstrates a simple use of function polymorphism:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:173
+msgid "Operators"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:175
+msgid ""
+"The ``operator`` keyword in KL is used to mark functions that are to be used"
+" as entry points into KL from the Fabric dependency graph.  Operators are "
+"declared in the same way as functions except that they must not return a "
+"value.  Fabric does special type-checking to ensure that operators are bound"
+" properly to nodes in a Fabric dependency graph."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:189
+msgid "Constructors"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:191
+msgid ""
+"A :dfn:`constructor` for a user-defined type is a function that initializes "
+"a value with the given the type from other values."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:197
+msgid "Constructor Declarations"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:199
+msgid ""
+"A constructor is declared as a function whose name is the name of the user-"
+"defined type.  The function can take any number of parameters, all of which "
+"must be input parameters; constructors cannot take input-output parameters."
+"  Constructors cannot return values."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:201
+msgid ""
+"Within the body of a constructor definition, the value being initialized is "
+"referred to with the ``this`` keyword; its members are accessed using the "
+"``.`` (dot) operator.  In this context, ``this`` is always read-write, ie. "
+"its members can be modified."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:233
+msgid ""
+"Like functions, constructors can optionally be defined using the ``inline`` "
+"keyword in place of ``function``; see :ref:`inline`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:239
+msgid "Constructor Invocation"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:241
+msgid "Constructors are invoked in one of several ways."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:244
+msgid "Naked Initialization"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:246
+msgid ""
+"If a variable is declared without any initialization, the :dfn:`empty "
+"constructor` (ie. the constructor that takes no parameters) is invoked to "
+"initialize the variable.  This is referred to as :dfn:`naked "
+"initialization`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:267
+msgid "Assignment Initialization"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:269
+msgid ""
+"If a variable is assigned to as part of its declaration, a single-parameter "
+"constructor is invoked.  This is referred to as :dfn:`assignment "
+"initialization`.  If there isn't an exact match for the type of the value "
+"assigned, best-match polymorphism rules are used to choose the constructor "
+"to invoke."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:271
+#: ..\..\source\KLProgrammingGuide\globals.rst:351
+msgid "Example:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:304
+#: ..\..\source\KLProgrammingGuide\globals.rst:1465
+msgid "Output:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:313
+msgid "Invocation Initialization"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:315
+msgid ""
+"If a variable is \"called\" (ie. using function call syntax) as part of its "
+"declaration, the constructor taking the given arguments is invoked.  This is"
+" referred to as :dfn:`invocation initialization`.  If there isn't an exact "
+"match for the arguments passed to the call, best-match polymorphism rules "
+"are used to choose the constructor to invoke."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:317
+msgid "Example::"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:337
+#: ..\..\source\KLProgrammingGuide\globals.rst:371
+#: ..\..\source\KLProgrammingGuide\globals.rst:451
+#: ..\..\source\KLProgrammingGuide\globals.rst:1381
+msgid "Output::"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:345
+msgid "Temporary Initialization"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:347
+msgid ""
+"If a function call is performed where the name of the function is the name "
+"of the type, the constructor taking the given arguments is invoked to create"
+" a temporary value of the named type.  If there isn't an exact match for the"
+" arguments passed to the call, best-match polymorphism rules are used to "
+"choose the constructor to invoke.  This is refered to as :dfn:`temporary "
+"initialization`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:349
+msgid ""
+"KL does not distinguish between construction and casting.  Casting a value "
+"to a different type is the same as constructing a temporary value of the "
+"given type and initializing it, using the appropriate constructor, from the "
+"given value."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:377
+msgid "Base type constructors (inheritance)"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:381
+msgid ""
+"When a specialized structure or object type :ref:`inherits "
+"<KPLG.object.inheritance>` from a base type, the base type's default "
+"constructor is implicitly called before the specialized type's one."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:385
+msgid ""
+"It is a current limitation that base type constructors with arguments cannot"
+" be called by specialized type constructors. The following example uses an "
+"`initialize` method to workaround this issue:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:424
+msgid "Destructors"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:426
+msgid ""
+"A destructor is a function that is called when a variable goes out of scope "
+"and its resources are freed.  Destructors are declared by prepending ``~`` "
+"(tilde) in front of the name of the type and using it as a function.  "
+"Destructors cannot take any parameters or return values.  The destructor is "
+"called before the value is freed so that its members are still accessible.  "
+"In the body of the destructor the value is referred to using the ``this`` "
+"keyword; the value is input-output, ie. it can be modified in the "
+"destructor."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:428
+msgid "Example use of destructor:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:456
+msgid ""
+"Like functions, destructors can optionally be defined using the ``inline`` "
+"keyword in place   of ``function``; see :ref:`inline`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:459
+msgid ""
+"When a specialized structure or object type :ref:`inherits "
+"<KPLG.object.inheritance>` from a base type, base type's destructor is "
+"called after the specialized one."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:467
+msgid "Methods"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:469
+msgid ""
+"A :dfn:`method` is a function that operates on a user-defined structure.  It"
+" uses a slightly different (and more suggestive) syntax than plain function "
+"calls for the case that the method call is strongly tied to a value whose "
+"type is a user-defined structure."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:475
+msgid "Method Definitions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:477
+msgid ""
+"If :samp:`{Type}` is a structure or alias, then a method named "
+":samp:`{methodName}` can be added to the type using the following syntax:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:491
+msgid ""
+"Within the method body, ``this`` refers to the value on which the method is "
+"called.  ``this`` is read-only if the method returns a value and is read-"
+"write if the method does not return a value."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:493
+msgid ""
+"Like functions, methods can optionally be defined using the ``inline`` "
+"keyword in place   of ``function``; see :ref:`inline`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:500
+msgid "Method Invocation"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:502
+msgid ""
+"If :samp:`{value}` is a value of type :samp:`{Type}` then the method "
+":samp:`{methodName}` can be invoked on :samp:`{value}` using the expression "
+":samp:`{value}.{methodName}({argument list})`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:504
+msgid ""
+"Just as there can be multiple functions with the same name, a given type can"
+" have multiple methods with the same name.  When deciding which method to "
+"invoke, the usual best-match rules apply."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:506
+msgid "Example of method definition and invocation:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:531
+msgid "Methods Taking Read-Only or Read-Write Values for ``this``"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:533
+msgid ""
+":code:`this` now always defaults to read-only in method definitions unless "
+"an explicit :code:`!` is specified after method name; the default no longer "
+"depends on whether the method returns a value."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:536
+msgid ""
+"Whether :code:`this` is read-only or read-write (in compiler terms, an "
+"r-value or an l-value) can be controlled on a per-method basis.  By default,"
+" :code:`this` is read-only; :code:`this` can be made read-write by suffixing"
+" the method name with ``!`` (exclamation mark).  The method name can be "
+"suffixed with :code:`?` (question mark) to explicitly mark read-only "
+"methods."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:538
+msgid "Example of explicit read-only or read-write :code:`this` in methods:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:592
+msgid "Interface methods and inheritance"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:596
+msgid ""
+"Although it is usually transparent to the KL coder, interface method's "
+"calling mechanism differs from usual methods, and this requires special care"
+" in some situations."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:598
+msgid ""
+"A specialized object can inherit from a :ref:`base object type "
+"<KPLG.object.inheritance>`. If that base type implements an interface, the "
+"specialized object can provide its own implementation of the same interface "
+"methods. In that case, invoking the interface method will always call the "
+"specialized version of the method (the specialized object method `overrides`"
+" the base object method). This is always true, and it doesn't matter if the "
+"method is called in the context of functions, specialized object's methods, "
+"or base object's method."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:600
+msgid ""
+"However, it is frequent that the specialized implementation of a method "
+"needs to invoke its base implementation. The "
+":samp:`{Type}.parent.{methodName}` syntax allows a specialized class to "
+"invoke the base implementation of an interface method, as seen below:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:642
+msgid "Access to Methods"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:646
+msgid ""
+"Access to methods can be controlled in the same was as :ref:`access to "
+"members <KLPG.types.structs.member-access>` using the ``public``, "
+"``private`` and ``protected`` keywords:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:709
+msgid "Overloaded Operators"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:711
+msgid ""
+"KL allows overloading of binary operators and compound assignment operators "
+"for custom types (ie. specified through ``struct``)."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:713
+msgid ""
+"Like functions, operator overloads can optionally be defined using the "
+"``inline`` keyword in place   of ``function``; see :ref:`inline`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:720
+msgid "Binary Operator Overloads"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:722
+msgid "Binary operators can be overloaded using the following syntax:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:744
+msgid ""
+"Any of the binary arithmetic (``+``, ``-``, ``*``, ``/`` and ``%``), bitwise"
+" (``|``, ``&``, ``^``, ``<<`` and ``>>``) and comparison (``==``, ``!=``, "
+"``<``, ``<=``, ``>`` and ``>=``) operators can be overloaded."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:746
+msgid "Binary operator overloads are subject to the following restrictions:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:748
+msgid ""
+"They must take exactly two parameters.  The two parameters may be of any "
+"type and the two types may be different but they must both be input-only "
+"parameters."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:750
+#: ..\..\source\KLProgrammingGuide\globals.rst:788
+msgid "They must return a value.  However, the return type can be any type."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:758
+#: ..\..\source\KLProgrammingGuide\globals.rst:760
+msgid "Unary Operator Overloads"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:763
+msgid "Unary operators can be overloaded using the following syntax:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:784
+msgid "Only the unary operators ``+``, ``-`` and ``~`` can be overloaded."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:786
+msgid "Unary operator overloads are subject to the following restrictions:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:796
+msgid "Direct Assignment Overloads"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:798
+msgid ""
+"KL provides a default direct assignment for custom types which simply "
+"assigns each of the members.  However, it is also possible to provide an "
+"overload for the direct assignment operator as shown in the example below::"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:802
+msgid "struct A {"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:803
+msgid "UInt32 a;"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:804
+msgid "};"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:806
+msgid "A(UInt32 x) {"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:807
+msgid "this.a = x;"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:808
+#: ..\..\source\KLProgrammingGuide\globals.rst:813
+#: ..\..\source\KLProgrammingGuide\globals.rst:820
+msgid "}"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:811
+msgid "A.=(A a) {"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:811
+msgid "report(\"Performing assignment\"); this.a = 2 * a.a;"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:818
+msgid "operator entry() {"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:816
+msgid ""
+"A a1(42), a2(56); report(\"Before: a1 = \" + a1 + \", a2 = \" + a2); a1 = "
+"a2; report(\"After: a1 = \" + a1 + \", a2 = \" + a2);"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:822
+#: ..\..\source\KLProgrammingGuide\globals.rst:859
+msgid ""
+"Compound assignment overloads are subject to the following restrictions:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:824
+#: ..\..\source\KLProgrammingGuide\globals.rst:861
+msgid ""
+"They must take exactly one parameter.  The parameter may be of any type but "
+"it must be an input-only parameter."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:826
+#: ..\..\source\KLProgrammingGuide\globals.rst:863
+msgid "They must not return a value."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:831
+msgid "Compound Assignment Overloads"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:833
+msgid ""
+"KL provides a default direct assignment for custom types which simply "
+"assigns each of the members.  It also provides a default :dfn:`compound "
+"assignment` operator (ie. ``+=``, ``-=``, ``*=``, ``/=``, ``%=``, ``|=``, "
+"``&=``, ``^=``, ``<<=`` and ``>>=``) by composing the associated binary "
+"operator, if available, with an assignment."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:835
+msgid ""
+"However, it is also possible to provide an overload for any of the compound "
+"assignment operators using the following syntax::"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:853
+msgid "This produces the following output::"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:872
+msgid "Inline Functions and Methods"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:874
+msgid ""
+"Functions, methods, and so on--but not operators--can optionally be declared"
+" with the ``inline`` keyword in place of the ``function`` keyword, which "
+"tells KL to try to inline the function  definition wherever it is used. "
+"``inline`` should generally only be used on small functions, which this may "
+"result in improved runtime performance::"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:888
+msgid "Built-In Functions and Methods"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:890
+msgid ""
+"KL has several built-in functions and methods that are available to all KL "
+"programs."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:893
+msgid "Debugging Functions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:898
+msgid ""
+"Outputs a message to wherever messages are sent from KL; when "
+"|FABRIC_PRODUCT_NAME| is used from the command line or when the KL tool is "
+"used the output is sent to standard error and standard output respectively."
+"  A newline is appended to the message when it is sent."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:900
+msgid ""
+"Within |FABRIC_PRODUCT_NAME| the report function is primarily used for "
+"debugging, whereas it is used for general output from the KL tool."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:907
+msgid ""
+"Outputs the KL function call stack that leads to the calling location, "
+"including KL file names and line numbers. For example the following KL "
+"code::"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:924
+msgid "Will output::"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:932
+msgid "Error Status Functions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:934
+msgid ""
+"KL maintains a contextual error status which can be set, queried and reset "
+"using some built-in functions. This status is restricted to the contextual "
+"KL evaluation and thread. Some KL operations such as integer divide-by-zero "
+"and array out-of-bounds access (when running KL with bounds checking "
+"enabled) will internally call :kl:func:`setError`. |FABRIC_PRODUCT_NAME| "
+"extensions typically set the error status as a way to report operation "
+"failures."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:939
+msgid "Get the last error status that was set."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:944
+msgid "Resets the last error status."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:949
+msgid ""
+"Sets a new error status and reports it using the :kl:func:`report` "
+"mechanism."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:954
+msgid "Integer Numerical Functions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:956
+msgid ""
+"KL has support for several integer numerical functions that are helpful when"
+" dealing with integer expressions.  Each of these functions has a version "
+"for each of the numerical types (``UInt8``, ``SInt8``; ``UInt16``, "
+"``SInt16``; ``UInt32``, ``SInt32``; ``UInt64``, ``SInt64``). The one that is"
+" called is chosen using polymorphism best-match rules; see "
+":ref:`polymorphism`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:961
+msgid "Returns the integer absolute value of the argument."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:963
+msgid ""
+"Regardless of the type of the argument ``n``, the type of the return value "
+"is signed, and is the absolute value of the argument ``n`` interpreted as a "
+"signed integer.  This allows the ``abs`` function to be used on expressions "
+"involving differences of unsigned integers, eg. "
+"``abs(Size(offset)-Size(index))``"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:968
+msgid "Floating-Point Numerical Functions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:970
+msgid ""
+"KL has support for many of the \"standard library\" floating-point numerical"
+" functions from C.  Each of these functions has a version that takes a "
+"parameter or parameters of type ``Float32``, and another that takes a "
+"parameter or parameters of type ``Float64``.  The one that is called is "
+"chosen using polymorphism best-match rules; see :ref:`polymorphism`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:975
+msgid "Trigonometric Functions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:977
+msgid ""
+"Like the C standard library, all trigonometric function use radians for "
+"their arguments and return values, where appropriate."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:983
+msgid ""
+"Returns the sine of the angle :samp:`{x}`.  :samp:`{x}` is measured in "
+"radians."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:989
+msgid ""
+"Returns the cosine of the angle :samp:`{x}`.  :samp:`{x}` is measured in "
+"radians."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:995
+msgid ""
+"Returns the tangent of the angle :samp:`{x}`.  :samp:`{x}` is measured in "
+"radians."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1001
+msgid ""
+"Returns the arcsine of the argument :samp:`{x}`.  The return value is "
+"measured in radians."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1007
+msgid ""
+"Returns the arccosine of the argument :samp:`{x}`.  The return value is "
+"measured in radians."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1013
+msgid ""
+"Returns the arctangent of the argument :samp:`{x}`.  The return value is "
+"measured in radians."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1015
+msgid ""
+"This function doesn't work for large :samp:`{x}` and can only return values "
+"in the range :math:`(-\\pi/2,\\pi/2]`; use the :kl:func:`atan2` function "
+"instead when possible."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1021
+msgid ""
+"Returns the arctangent of the ratio :samp:`{y}/{x}`; the result is measured "
+"in radians and is in the range :math:`(-\\pi,\\pi]`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1026
+msgid "Exponential and Logarithmic Functions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1032
+msgid "Returns the value of :samp:`{x}` raised to the power of :samp:`{y}`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1038
+msgid ""
+"Returns the value of :samp:`{x}` raised to the power of :samp:`{y}` where "
+":samp:`{y}` is an integer.  Uses exponentiation by squaring for very high "
+"performance, and will expand into a fixed operation in the case that "
+":samp:`{y}` is a constant integer."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1044
+msgid ""
+"Returns the value of :math:`e` raised to the power of :samp:`{x}` where "
+":math:`e` is the base of the natural logarithm (approximately 2.7182818...)."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1050
+msgid "Returns the natural (base :math:`e`) logarithm of :samp:`{x}`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1056
+msgid "Returns the common (base 10) logarithm of :samp:`{x}`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1061
+msgid "Non-Transcendental Functions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1067
+msgid "Returns the absolute value of :samp:`{x}`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1073
+msgid ""
+"Returns the value of :samp:`{x}` rounded to the nearest whole (fractional "
+"part of zero) floating-point number."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1079
+msgid ""
+"Returns the greatest whole floating-point number less than or equal to "
+":samp:`{x}`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1085
+msgid ""
+"Returns the smallest whole floating-point number greater than or equal to "
+":samp:`{x}`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1088
+msgid "Category Functions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1094
+msgid ""
+"Returns true if and only if the floating-point number is a regular floating-"
+"point number; that is, if it is not infinite and not a NaN (not-a-number) "
+"value."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1100
+msgid ""
+"Returns true if and only if the floating-point number is infinite.  Note "
+"that this does not check for NaN values; use the "
+":kl:method:`Float32.isNaN()` method for that."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1106
+msgid ""
+"Returns true if and only if the floating-point number is a not-a-number "
+"(NaN) value.  Note that this does not check for infinite values; use the "
+":kl:method:`Float32.isInf()` method for that."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1110
+msgid ""
+"For a floating-point value ``x``, the condition ``!x.isReg()`` is equivalent"
+" to ``x.isInf() || x.isNaN()``"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1115
+msgid "Vector Functions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1117
+msgid ""
+"KL support a large set of :dfn:`vector functions` that are automatically "
+"made available for structures whose members are all of the same integer or "
+"floating-point type (as is usually the case for structures that represent "
+"vectors).  The KL compiler automatically reduces the function call to vector"
+" intrinsic operation that is optimal for the running architecture; for "
+"example, on a modern Intel x86 machine they will be reduced to instructions "
+"using the SSE or AVX vector extensions, resulting in improved performance "
+"over non-vector code."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1119
+msgid ""
+"When :samp:`{<V>}` is a structure whose members :samp:`{<m1>}, {<m2>}, ... "
+"{<mN>}` are all of exactly the same integer or floating-point type "
+":samp:`{<T>}`, the following functions are made available:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1124
+msgid ""
+"Returns :samp:`lhs.{m1} + rhs.{m1}`, :samp:`lhs.{m2} + rhs.{m2}`, ... "
+":samp:`lhs.{mN} + rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1129
+msgid ""
+"Returns :samp:`k + rhs.{m1}`, :samp:`k + rhs.{m2}`, ... :samp:`k + rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1134
+msgid ""
+"Returns :samp:`lhs.{m1} + k`, :samp:`lhs.{m2} + k`, ... :samp:`lhs.{mN} + k`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1139
+msgid ""
+"Returns :samp:`lhs.{m1} - rhs.{m1}`, :samp:`lhs.{m2} - rhs.{m2}`, ... "
+":samp:`lhs.{mN} - rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1144
+msgid ""
+"Returns :samp:`k - rhs.{m1}`, :samp:`k - rhs.{m2}`, ... :samp:`k - rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1149
+msgid ""
+"Returns :samp:`lhs.{m1} - k`, :samp:`lhs.{m2} - k`, ... :samp:`lhs.{mN} - k`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1154
+msgid ""
+"Returns :samp:`lhs.{m1} * rhs.{m1}`, :samp:`lhs.{m2} * rhs.{m2}`, ... "
+":samp:`lhs.{mN} * rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1159
+msgid ""
+"Returns :samp:`k * rhs.{m1}`, :samp:`k * rhs.{m2}`, ... :samp:`k * rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1164
+msgid ""
+"Returns :samp:`lhs.{m1} * k`, :samp:`lhs.{m2} * k`, ... :samp:`lhs.{mN} * k`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1169
+msgid ""
+"Returns :samp:`lhs.{m1} / rhs.{m1}`, :samp:`lhs.{m2} / rhs.{m2}`, ... "
+":samp:`lhs.{mN} / rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1174
+msgid ""
+"Returns :samp:`k / rhs.{m1}`, :samp:`k / rhs.{m2}`, ... :samp:`k / rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1179
+msgid ""
+"Returns :samp:`lhs.{m1} / k`, :samp:`lhs.{m2} / k`, ... :samp:`lhs.{mN} / k`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1184
+msgid ""
+"Returns :samp:`lhs.{m1} % rhs.{m1}`, :samp:`lhs.{m2} % rhs.{m2}`, ... "
+":samp:`lhs.{mN} % rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1189
+msgid ""
+"Returns :samp:`k % rhs.{m1}`, :samp:`k % rhs.{m2}`, ... :samp:`k % rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1194
+msgid ""
+"Returns :samp:`lhs.{m1} % k`, :samp:`lhs.{m2} % k`, ... :samp:`lhs.{mN} % k`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1196
+msgid ""
+"When ``<T>`` is an integer type, the following additional function are "
+"available:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1201
+msgid ""
+"Returns :samp:`lhs.{m1} | rhs.{m1}`, :samp:`lhs.{m2} | rhs.{m2}`, ... "
+":samp:`lhs.{mN} | rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1206
+msgid ""
+"Returns :samp:`k | rhs.{m1}`, :samp:`k | rhs.{m2}`, ... :samp:`k | rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1211
+msgid ""
+"Returns :samp:`lhs.{m1} | k`, :samp:`lhs.{m2} | k`, ... :samp:`lhs.{mN} | k`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1216
+msgid ""
+"Returns :samp:`lhs.{m1} & rhs.{m1}`, :samp:`lhs.{m2} & rhs.{m2}`, ... "
+":samp:`lhs.{mN} & rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1221
+msgid ""
+"Returns :samp:`k & rhs.{m1}`, :samp:`k & rhs.{m2}`, ... :samp:`k & rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1226
+msgid ""
+"Returns :samp:`lhs.{m1} & k`, :samp:`lhs.{m2} & k`, ... :samp:`lhs.{mN} & k`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1231
+msgid ""
+"Returns :samp:`lhs.{m1} ^ rhs.{m1}`, :samp:`lhs.{m2} ^ rhs.{m2}`, ... "
+":samp:`lhs.{mN} ^ rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1236
+msgid ""
+"Returns :samp:`k ^ rhs.{m1}`, :samp:`k ^ rhs.{m2}`, ... :samp:`k ^ rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1241
+msgid ""
+"Returns :samp:`lhs.{m1} ^ k`, :samp:`lhs.{m2} ^ k`, ... :samp:`lhs.{mN} ^ k`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1246
+msgid ""
+"Returns :samp:`lhs.{m1} << rhs.{m1}`, :samp:`lhs.{m2} << rhs.{m2}`, ... "
+":samp:`lhs.{mN} << rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1251
+msgid ""
+"Returns :samp:`k << rhs.{m1}`, :samp:`k << rhs.{m2}`, ... :samp:`k << "
+"rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1256
+msgid ""
+"Returns :samp:`lhs.{m1} << k`, :samp:`lhs.{m2} << k`, ... :samp:`lhs.{mN} <<"
+" k`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1261
+msgid ""
+"Returns :samp:`lhs.{m1} >> rhs.{m1}`, :samp:`lhs.{m2} >> rhs.{m2}`, ... "
+":samp:`lhs.{mN} >> rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1266
+msgid ""
+"Returns :samp:`k >> rhs.{m1}`, :samp:`k >> rhs.{m2}`, ... :samp:`k >> "
+"rhs.{mN}`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1271
+msgid ""
+"Returns :samp:`lhs.{m1} >> k`, :samp:`lhs.{m2} >> k`, ... :samp:`lhs.{mN} >>"
+" k`"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1276
+msgid "Conversion Functions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1283
+msgid ""
+"The :code:`appendDesc` method is called to convert the given type to a "
+":code:`String`.  You can write a custom :code:`appendDesc` method to "
+"customize this conversion, as shown in the following example:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1315
+msgid ""
+"Converts an unsigned integer value into a hexadecimal string representation "
+"of the value."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1323
+msgid ""
+"Converts an integer value into a hexadecimal string representation of the "
+"value.  The output is as if ``n`` was of the corresponding unsigned integer "
+"type; there is no consideration for negative values."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1329
+msgid ""
+"Bitcasts an unsigned integer of the same width to a floating-point number.  "
+"This is a non-numerical conversion that is mostly useful for unit testing KL"
+" itself."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1335
+msgid ""
+"Bitcasts a floating-point number to an unsigned integer of the same width.  "
+"This is a non-numerical conversion that is mostly useful for unit testing KL"
+" itself."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1338
+msgid "Thread/Core-related Functions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1343
+msgid ""
+"Returns the index of the currently-executing thread.  This number is "
+"guaranteed to be in the range 0 to kl:func:`getThreadCount()`-1."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1345
+msgid ""
+"For a give PEX workload, two concurrently executing threads are guaranteed "
+"to return different values for this function."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1350
+msgid ""
+"Returns the upper bound of the :kl:func:`getThreadIndex()` return value."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1355
+msgid "Returns the number of CPU cores in the machine."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1358
+msgid "Performance Counter Functions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1360
+msgid ""
+"KL provides access to high-performance system timer information that can be "
+"used to time operations from within KL code."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1365
+msgid ""
+"Returns the current value of the performance counter.  This number has no "
+"meaning on its own (ie. its units are undefined) but can be used in calls to"
+" ``getSecondsBetweenTicks()`` to measure absolute elapsed time.  Note that "
+"the value returned by ``getCurrentTicks()`` is not affected by system "
+"(\"wall\") clock time changes."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1370
+msgid ""
+"Returns the number of seconds between two performance counter values.  The "
+"measurable resolution is guaranteed to be at least one million parts per "
+"second."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1372
+msgid "Example usage of the performance counter functions::"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1394
+msgid "Fabric Context Functions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1396
+msgid "These functions are used to interact with the Fabric Core context."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1401
+msgid ""
+"Returns the Fabric Core context ID as a String.  This context ID can be used"
+" to bind a new Fabric Core client to an existing context."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1407
+msgid "Named Constants"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1409
+msgid ""
+"A :dfn:`named constant` in KL is a value that can be referred to by name in "
+"expressions but that cannot be changed at runtime.  Named constants are "
+"essentially read-only variables; however, since the KL compiler knows that "
+"their value can never change, it can often produce faster code when named "
+"constants are used in place of variables.  Both scalar and array named "
+"constants can be declared."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1416
+msgid ""
+"Named constants can be declared within any scope (see :ref:`scope`), "
+"including the global scope.  Named constants are only visible within the "
+"scope in which they are declared."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1420
+msgid "Scalar named constants take the form:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1426
+msgid "and array named constants take the form:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1434
+msgid ""
+"In either case, :samp:`{Type}` must be a boolean, integer, floating-point or"
+" string type; :samp:`{name}` must be an identifier; and :samp:`{expr}` must "
+"be an expression involving constant(s) that evaluates to a constant of type "
+"`{Type}`.  In the case of a scalar named constant, the type of the named "
+"constant is :samp:`{Type}`.  In the case of an array named constant, the "
+"type of the named constant is a fixed array of elements of type "
+":samp:`{Type}`; the size of the fixed array is the number of initializing "
+"values given within the brackets."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1436
+msgid "It is a compile-time error to do any of the following:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1438
+msgid "assign to a named constant"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1440
+msgid "pass a named constant to a function as an ``io`` parameter"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1442
+msgid ""
+"declare a global named constant with the same name as a function, operator "
+"or another global named constant"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1444
+msgid ""
+"declare a non-global named constant with the same name as a variable or "
+"another named constant declared in the same scope"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1446
+msgid "Example usage of named constants:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1482
+msgid "Predefined Constants"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1484
+msgid ""
+"There are a variety of predefined constants available to every KL program."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1487
+msgid "Fabric Version Pre-Defined Constants"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1489
+msgid ""
+"The three constants ``FabricVersionMaj``, ``FabricVersionMin`` and "
+"``FabricVersionRev`` are three predefined constants of type ``UInt8`` that "
+"are the major, minor and revision components of the running Fabric version."
+"  For example, this documentation was built for Fabric version "
+"{{FABRIC_VERSION}}, and so KL code executed in this version will have "
+"``FabricVersionMaj = {{FABRIC_VERSION_MAJ}}``, ``FabricVersionMin = "
+"{{FABRIC_VERSION_MIN}}`` and ``FabricVersionRev = {{FABRIC_VERSION_REV}}``."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1500
+msgid "Integer Limit Pre-Defined Constants"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1502
+msgid ""
+"For every integer type ``<IntTy>`` there is a pre-defined integer constant "
+"``<IntTy>Max`` that is the maximum value the integer can attain.  "
+"Additionally, for signed integer types there is a pre-defined integer "
+"constant ``<IntTy>Min`` that is the minimum value the integer can attain.  "
+"In both cases, the type of the integer constant is the type of the integer "
+"itself.  For example:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1521
+msgid "produces:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1539
+msgid "The ``FUNC`` Pre-Defined Constants"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1541
+msgid ""
+"The KL compiler automatically predefines the constant ``FUNC`` at the start "
+"of every function as a string constant describing the function.  The "
+"following code:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1553
+msgid "produces the output:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1565
+msgid "Importing Functionality With ``require``"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1567
+msgid ""
+"Through integration with Fabric, it is possible for derived KL types and/or "
+"Fabric extensions to provide KL code that is defined externally to the "
+"current source file.  To use these types and code within the current source "
+"file, the ``require`` statement is provided; it is similar to the ``import``"
+" statement in Python."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1573
+msgid ""
+"The ``require`` statement should be followed by the name of the registered "
+"type or extension.  For example, to include the functionality provided by "
+"the extension named \"Math\" and the registered type named \"RegType\", the "
+"program should start with::"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1580
+msgid ""
+"Any ``require`` statements must appear at the top of the KL program that "
+"uses the associated functionality.  You can have as many ``require`` "
+"statements as you would like."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1587
+msgid "Using ``require`` with version information"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1589
+msgid ""
+"By default the ``require`` statement will load the latest version of the "
+"extension available. So for example given two versions of the "
+":code:`ExtensionName` extension with the versions :code:`\"1.0.0\"` and "
+":code:`\"1.2.1\"`, doing"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1597
+msgid ""
+"will result in the version :code:`\"1.2.1\"` being loaded. If you want to "
+"load a specific version, you can use the following syntax"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1604
+msgid ""
+"which will result in loading the specific :code:`\"1.0.0\"` version of the "
+"extension. If the specific version cannot be found, an error will be thrown."
+" Alternatively, if you just want to make sure an extension version is higher"
+" than a specific version number, you can use the lesser / greater sign like "
+"so:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1613
+msgid ""
+"If the version lesser / greater than what is specified cannot be found, an "
+"error will be thrown. In this example the :code:`\"1.2.1\"` version of the "
+"extension will be loaded."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1616
+msgid ""
+"Furthermore you can use preprocessor statements to add optional KL code or "
+"to switch behaviors based on extension versions. For that you can use the "
+":code:`EXT_VER_IF: and :code:`EXT_VER_ENDIF` statements. For this you can "
+"use the equal, lesser or greater sign."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1642
+msgid ""
+"The :code:`dummy` function's definition and invocation will only happen if "
+"the extension version of the :code:`ExtensionName` is higher to "
+":code:`\"1.0.0\"` in the example above."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1645
+#: ..\..\source\KLProgrammingGuide\globals.rst:1699
+msgid ""
+"For more information on how to embed versioning information in extensions "
+"please refer to :ref:`EXTS_VERSIONING`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1650
+msgid "Extension versioning environment variables"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1652
+msgid ""
+"Additional to the facilities mentioned above in "
+":ref:`KLPG.require.versioning` you can drive the :code:`require` statement "
+"with a set of environment variables. There are several ways to use "
+"environment variables."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1655
+msgid ""
+"The first approach, which uses a single environment variable for each "
+"extension, defines an environment variable like so:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1661
+msgid ""
+"For the second approach, which suits environments better when you have to "
+"switch between a large amount of environment variables for a given build "
+"set, first you may optionally specify the :envvar:`FABRIC_EXT_VER_PREFIX` "
+"and :envvar:`FABRIC_EXT_VER_SUFFIX` environment variables, which contain a "
+"prefix and a suffix to be used when looking up additional environment "
+"variables, or you can use their default values."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1663
+msgid ""
+"Then for each extension you may specify an environment variable using the "
+"prefix and suffix and the extension's name, which will then contain the "
+"versioning information. For example, using the default prefix and suffix:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1669
+msgid "Or changing the prefix and suffix:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1677
+msgid ""
+"This would resolve in the extension loading mechanism to first resolve the "
+":envvar:`FABRIC_EXT_VER_PREFIX` and :envvar:`FABRIC_EXT_VER_SUFFIX` "
+"environment variables, then will resolve the "
+":envvar:`COMPANY_EXTENSIONNAME_VER_INFO` based on these and will figure out "
+"that version 1.0.0 of the two available versions should be used."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1680
+msgid ""
+"The third approach uses an auxiliary json file which needs to provide a "
+"mapping between the name of the extension and a version to use. The file "
+"path of the json file needs to be specified in the "
+":envvar:`FABRIC_EXT_VERFILE` environment variable. The content of the file "
+"needs to look for example like this:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1689
+msgid ""
+"In the final approach users may set the :envvar:`FABRIC_EXT_OVERRIDE` "
+"environment variable which can be used to specify sets of extensions that "
+"should be loaded together. Each extension may define an override key (see "
+":ref:`EXTS_VERSIONING`) and if that key matches the value of "
+":envvar:`FABRIC_EXT_OVERRIDE` then that extension will be loaded before "
+"others with a different or missing override key. This may cause lower "
+"version numbers of extensions to load. For example:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1695
+msgid ""
+"This will cause all extensions with an override key of \"MyOverride\" to be "
+"preferred over other versions of the same extension with a different "
+"override key."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\globals.rst:1697
+msgid "All environment variables need to use capital letters throughout."
+msgstr ""

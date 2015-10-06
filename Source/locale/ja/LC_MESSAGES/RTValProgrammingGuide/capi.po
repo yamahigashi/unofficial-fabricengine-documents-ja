@@ -1,0 +1,697 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:4
+msgid "Using RTVals from C++ Applications"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:6
+msgid ""
+"The section explains how to use RTVals within a |FABRIC_PRODUCT_NAME| client"
+" application written in C++ using the :ref:`CAPI <CAPIPG>` interface."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:9
+msgid "RTVals are Copy-by-Reference"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:11
+msgid ""
+"RTVals are represented in C++ as instances of the :cpp:class:`RTVal` class."
+"  RTVals are copy-by-reference within C++, meaning that if you assign one "
+"RTVal another variable of type RTVal they will refer to the same RTVal.  If "
+"you wish to copy an RTVal by value, use the :cpp:func:`RTVal::Construct` "
+"call."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:14
+msgid "Common Tasks"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:17
+msgid "Constructing RTVals"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:19
+msgid "RTVals can be created in one of several ways:"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:21
+msgid ""
+"RTVals can be constructed using one of the :code:`Construct...` methods of "
+"the :cpp:class:`RTVal` class."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:23
+msgid ""
+"For existing RTVals that are structure, object, array or dictionary type, "
+"methods on the :cpp:class:`RTVal` class can be called to obtain member or "
+"element values.  In most cases the returned RTVal is a copy of the member or"
+" element data."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:25
+msgid ""
+"The value of a member of a DG node (or other DGContainer) can be obtained "
+"through the :cpp:func:`DGContainer::getMemberSliceValue` call"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:27
+msgid ""
+"To construct a copy of an RTVal, use the :cpp:function:`RTVal::Construct` "
+"method, passing the existing RTVal as the sole argument for the construction"
+" call."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:31
+msgid ""
+"Constructing an RTVal in this way does the same thing as copy-construction "
+"in KL; this means that in the case of pass-by-reference types such as "
+"variable arrays and dictionaries, even though the RTVal will be a copy it "
+"will still refer to the same underlying data.  To duplicate the data you "
+"must instead call :cpp:func:`RTVal::callMethod` to invoke the :code:`clone` "
+"method."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:34
+msgid "Obtaining C++ Equivalents for Simple RTVal Data"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:36
+msgid ""
+"You can get C++ equivalents of the underlying data in simple RTVals using "
+"the :code:`get...` methods of the :cpp:class:`RTVal` class.  You should "
+"probably use the :code:`is....` methods first to check that the type is as "
+"expected, otherwise an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:39
+msgid "Setting RTVals from Simple C++ Data"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:41
+msgid ""
+"You can set members, array elements, and dictionary values using the "
+":code:`set...` methods of the :cpp:class:`RTVal` class."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:44
+msgid "Describing an RTVal"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:46
+msgid ""
+"Often for debugging it is convenient to obtain a description of an RTVal; "
+"use the :cpp:func:`RTVal::getDesc` method for this."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:49
+msgid "Calling Methods on RTVals"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:51
+msgid ""
+"Use the :cpp:func:`RTVal::callMethod` function to invoke a method on an "
+"RTVal."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:54
+msgid "Working with Arrays"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:56
+msgid ""
+"If an RTVal's type is an array type, you can use the array methods to work "
+"with it:"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:58
+msgid ":cpp:func:`RTVal::isArray`"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:59
+msgid ":cpp:func:`RTVal::getArraySize`"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:60
+msgid ":cpp:func:`RTVal::getArrayElement`"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:61
+msgid ":cpp:func:`RTVal::setArrayElement`"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:64
+msgid "Working with Dictionaries"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:66
+msgid ""
+"If an RTVal's type is a dictionary type, you can use the array methods to "
+"work with it:"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:68
+msgid ":cpp:func:`RTVal::isDict`"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:69
+msgid ":cpp:func:`RTVal::getDictSize`"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:70
+msgid ":cpp:func:`RTVal::getDictElement`"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:71
+msgid ":cpp:func:`RTVal::setDictElement`"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:74
+msgid "Working with Structures and Objects"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:76
+msgid ""
+"If an RTVal's type is a structure or an object, you can work with its "
+"members:"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:78
+msgid ":cpp:func:`RTVal::isStruct`"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:79
+msgid ":cpp:func:`RTVal::isObject`"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:80
+msgid ":cpp:func:`RTVal::maybeGetMember`"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:81
+msgid ":cpp:func:`RTVal::maybeGetMemberRef`"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:83
+msgid ""
+"For objects, you can use the :cpp:func:`RTVal::isNullObject` to check if the"
+" object that is being reference is null."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:86
+msgid "Working with Opaque Data"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:88
+msgid ""
+"You can use RTVals of type :code:`Data` to pass opaque data pointers in and "
+"out of the core, through to extensions that you use them."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:90
+msgid ":cpp:func:`RTVal::isData`"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:91
+msgid ":cpp:func:`RTVal::getData`"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:92
+msgid ":cpp:func:`RTVal::setData`"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:96
+msgid "API Reference"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:102
+msgid "RTVals are represented in C++ as instances of the :code:`RTVal` class."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:107
+msgid ""
+"Creates a new RTVal.  RTVals are copy-by-reference within C++, so this is "
+"often used to initialized variables to which RTVals will later be assigned."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:112
+msgid ""
+"RTVal copy constructor.  RTVals are copy-by-reference within C++, so this "
+"simply makes the RTVal reference to the same RTVal as :code:`that`."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:117
+msgid ""
+"RTVal assignment operator.  RTVals are copy-by-reference within C++, so this"
+" simply makes the RTVal refer to the same RTVal as :code:`that`.  If there "
+"are no other RTVals refering to our current RTVal, the current RTVal will be"
+" freed."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:124
+msgid ""
+"Construct a new RTVal using the KL copy construction syntax.  This takes the"
+" target type as well as a list of zero or more other RTVals, and it trys to "
+"invoke a copy construction from those RTVals."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:126
+msgid ""
+"Note that invoking this method specifying an :code:`typeNameCString` which "
+"is an object type will create a null object reference.  In order to create a"
+" new object instance you must use the :code:`Create` method instead."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:128
+#: ..\..\source\RTValProgrammingGuide\capi.rst:250
+msgid "Internally, this uses the following KL code to construct the RTVal:"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:138
+msgid ""
+"Construct a new RTVal of type :code:`Boolean`, setting the initial value "
+"from the value of the parameter :code:`value`."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:144
+msgid ""
+"Construct a new RTVal of type :code:`SInt8`, setting the initial value from "
+"the value of the parameter :code:`value`."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:150
+msgid ""
+"Construct a new RTVal of type :code:`SInt16`, setting the initial value from"
+" the value of the parameter :code:`value`."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:156
+msgid ""
+"Construct a new RTVal of type :code:`SInt32`, setting the initial value from"
+" the value of the parameter :code:`value`."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:162
+msgid ""
+"Construct a new RTVal of type :code:`SInt64`, setting the initial value from"
+" the value of the parameter :code:`value`."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:168
+msgid ""
+"Construct a new RTVal of type :code:`UInt8`, setting the initial value from "
+"the value of the parameter :code:`value`."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:174
+msgid ""
+"Construct a new RTVal of type :code:`UInt16`, setting the initial value from"
+" the value of the parameter :code:`value`."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:180
+msgid ""
+"Construct a new RTVal of type :code:`UInt32`, setting the initial value from"
+" the value of the parameter :code:`value`."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:186
+msgid ""
+"Construct a new RTVal of type :code:`UInt64`, setting the initial value from"
+" the value of the parameter :code:`value`."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:192
+msgid ""
+"Construct a new RTVal of type :code:`Float32`, setting the initial value "
+"from the value of the parameter :code:`value`."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:198
+msgid ""
+"Construct a new RTVal of type :code:`Float64`, setting the initial value "
+"from the value of the parameter :code:`value`."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:204
+msgid ""
+"Construct a new RTVal of type :code:`String`, setting the initial value from"
+" the string bytes given by :code:`data` and :code:`length`.  Note that such "
+"a string may contain null bytes."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:210
+msgid ""
+"Construct a new RTVal of type :code:`String`, setting the initial value from"
+" a null-terminated (C-style) string bytes given by :code:`cString`."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:216
+msgid ""
+"Construct a new RTVal of type :code:`Data`, setting the initial value to the"
+" given pointer value :code:`data`.  This is a simple way of passing pointers"
+" to opaque data through the Fabric core to extensions."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:222
+msgid ""
+"Construct a new RTVal that is a fixed array of the given element type and "
+"size.  The elements of the array are initialized to the default value for "
+"the element type."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:228
+msgid ""
+"Construct a new RTVal that is a variable array of the given element type.  "
+"The array is initially empty (length 0)."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:234
+msgid ""
+"Construct a new RTVal that is an external array referencing data of the "
+"given element type.  The :code:`size` and :code:`data` parameters should "
+"point to the array data that is being referenced."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:240
+msgid ""
+"Construct a new RTVal that is a dictionary with the given key and value "
+"types.  The dictionary is initially empty."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:246
+msgid ""
+"Create a new KL Object of the given type and assign the result to a new "
+"RTVal.  If :code:`typeNameCString` is not an object type an exception will "
+"be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:248
+msgid ""
+"Note that invoking the :code:`Construct` method specifying a "
+":code:`typeNameCString` that is an object type will create a null object "
+"reference.  In order to create a new object instance you must use this "
+"method instead."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:259
+msgid ""
+"Return the value of the RTVal that is of type :code:`Boolean`.  If the RTVal"
+" is not of type :code:`Boolean` an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:264
+msgid ""
+"Return the value of the RTVal that is of type :code:`UInt8`.  IfIf the RTVal"
+" is not of type :code:`UInt8` Exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:269
+msgid ""
+"Return the value of the RTVal that is of type :code:`UInt16`.  IIf the RTVal"
+" is not of type :code:`UInt16` an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:274
+msgid ""
+"Return the value of the RTVal that is of type :code:`UInt32`.  IIf the RTVal"
+" is not of type :code:`UInt32` an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:279
+msgid ""
+"Return the value of the RTVal that is of type :code:`UInt64`.  IIf the RTVal"
+" is not of type :code:`UInt64` an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:284
+msgid ""
+"Return the value of the RTVal that is of type :code:`SInt8`.  IfIf the RTVal"
+" is not of type :code:`SInt8` Exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:289
+msgid ""
+"Return the value of the RTVal that is of type :code:`SInt16`.  IIf the RTVal"
+" is not of type :code:`SInt16` an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:294
+msgid ""
+"Return the value of the RTVal that is of type :code:`SInt32`.  IIf the RTVal"
+" is not of type :code:`SInt32` an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:299
+msgid ""
+"Return the value of the RTVal that is of type :code:`SInt64`.  IIf the RTVal"
+" is not of type :code:`SInt64` an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:304
+msgid ""
+"Return the value of the RTVal that is of type :code:`Float32`.  If the RTVal"
+" is not of type :code:`Float32` an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:309
+msgid ""
+"Set the value of the RTVal that is of type :code:`Float32` to :code:`value`."
+"  If the RTVal is not of type :code:`Float32` an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:314
+msgid ""
+"Return the value of the RTVal that is of type :code:`Float64`.  If the RTVal"
+" is not of type :code:`Float64` an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:319
+msgid ""
+"Return the value of the RTVal that is of type :code:`String` as a C-string."
+"  If the RTVal is not of type :code:`String` an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:324
+msgid ""
+"Return the string length of the RTVal that is of type :code:`String`.  If "
+"the RTVal is not of type :code:`String` an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:329
+msgid ""
+"Return the value of the RTVal that is of type :code:`Data` as a void "
+"pointer.  If the RTVal is not of type :code:`Data` an exception will be "
+"thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:334
+msgid ""
+"Set the value of the RTVal that is of type :code:`Data` to the value of the "
+"void pointer :ref:`data`.  If the RTVal is not of type :code:`Data` an "
+"exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:339
+msgid ""
+"Return whether the RTVal that is of an object type is null.  If the RTVal is"
+" not of an object type an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:344
+msgid ""
+"Return whether the RTVal that is of a type that is a fixed, variable or "
+"external array of some other type.  Use this to check if it's safe to "
+"perform array length and indexing calls."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:349
+msgid "Return whether the RTVal is of a dictionary type."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:354
+msgid "Return whether the RTVal is of a structure type."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:359
+msgid "Return whether the RTVal is of an object type."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:364
+msgid "Return whether the RTVal is of type :code:`Data`."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:369
+msgid "Return whether the RTVal is of an interface type."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:374
+msgid ""
+"Return the length of the RTVal that is of an array type.  If the RTVal is "
+"not of an array type, an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:379
+msgid ""
+"Resize the RTVal that is of a variable array type.  If the RTVal is not of a"
+" variable array type, an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:384
+msgid ""
+"Return a new RTVal that is a copy of the element of the array-typed RTVal at"
+" the given index.  If the RTVal is not of an array type, or the index is "
+"out-of-bounds for the array, an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:389
+msgid ""
+"Set the element of the array-typed RTVal at the given index.  The parameter "
+":code:`value` must be an RTVal whose type can be casted to the element type "
+"of the array.  If the RTVal is not of an array type, or the index is out-of-"
+"bounds for the array, an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:394
+msgid ""
+"Get the size (number of key-value pairs) of the RTVal that is of dictionary "
+"type.  If the RTVal is not of a dictionary type, an exception will be "
+"thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:399
+msgid ""
+"Return a new RTVal that is a copy of the value in the dictionary-typed RTVal"
+" for the given key.  :code:`key` must be an RTVal whose type can be casted "
+"to the key type of the dictionary.  If the RTVal is not of a dictionary "
+"type, or if there is no element for the given key, an exception will be "
+"thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:404
+msgid ""
+"Set the value of the dictionary-typed RTVal for the given key.  :code:`key` "
+"must be an RTVal whose type can be casted to the key type of the dictionary."
+"  If the RTVal is not of a dictionary type, an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:409
+msgid ""
+"Return a new RTVal that is a copy of the named member in the structure- or "
+"object-typed RTVal.  If the RTVal is not of a structure nor object type, an "
+"exception will be thrown.  If there is no member named "
+":code:`memberNameCString`, a null RTVal will be returned."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:414
+msgid ""
+"Return an RTVal that is a reference to the named member in the structure- or"
+" object-typed RTVal.  If the RTVal is not of a structure nor object type, or"
+" there is no member named :code:`memberNameCString`, an exception will be "
+"thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:416
+msgid ""
+"It is the caller's personality to ensure that the result does not outlive "
+"the structure that it is referring to!"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:420
+msgid ""
+"Set the named member in the structure- or object-typed RTVal.  :code:`value`"
+" must be an RTVal whose type can be casted to the member type.  If the RTVal"
+" is not of a structure nor object type, or there is no member named "
+":code:`memberNameCString`, an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:424
+msgid ""
+"Call a method on an RTVal.  :code:`resultTypeCString` must be the name of "
+"the result type of the method call; :code:`methodNameCString` must be the "
+"name of the method to call; and :code:`argCount` and :code:`argRTVals` "
+"specify the arguments for the call."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:426
+msgid ""
+"If the method does not return a value, you must specify the empty string for"
+" :code:`resultTypeCString`; in this case, a null RTVal will be returned.  "
+"Otherwise, the result is a new RTVal that is return value of the method "
+"call."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:428
+msgid ""
+"If no method exists with the given name and that takes the given argument "
+"types and whose result type can be casted to the specified type, an "
+"exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:433
+msgid ""
+"Return a new RTVal of type :code:`String` that is a description of the "
+"RTVal."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:438
+msgid ""
+"Return a new RTVal of type :code:`String` that is the name of the type of "
+"the RTVal."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:443
+msgid ""
+"Return a new RTVal of type :code:`String` that is JSON-formatted description"
+" of the value."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:445
+#: ..\..\source\RTValProgrammingGuide\capi.rst:452
+msgid "This may not work for all types!"
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:450
+msgid ""
+"Set the value of the RTVal from a JSON description obtained with the "
+":code:`getJSON` method."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:456
+msgid ""
+"There are a few methods on the :code:`DGContainer` class that work with "
+"RTVals.  These methods can be used to obtain RTVals that are copies of "
+"member value on DGNodes, for example."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:461
+msgid "Return a copy of the member data for the given slice as an RTVal."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:466
+msgid ""
+"Set the member data for the given slice from an RTVal.  If the RTVal cannot "
+"be casted to the type of the member, an exception will be thrown."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:471
+msgid ""
+"Get a JSON description of the container as an RTVal of type :code:`String`."
+msgstr ""
+
+#: ..\..\source\RTValProgrammingGuide\capi.rst:476
+msgid ""
+"Set the contents of the container from a JSON-formatted RTVal string "
+"obtained with :cpp:func:`DGContainer::getJSONStringValue`"
+msgstr ""

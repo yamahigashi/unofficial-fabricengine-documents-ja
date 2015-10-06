@@ -1,0 +1,301 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:4
+msgid "Using spatial queries with geometries"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:6
+msgid ""
+"Spatial queries are a set of operations which perform searches based on "
+"geometric position. Common spatial queries include finding a ray "
+"intersection (`raycast`), finding the closest surface (`getClosest`), or "
+"searching an intersection with a volume like a sphere. The :kl-"
+"ref:`SpatialQueryable` interface allows to perform various spatial queries "
+"on :kl-ref:`Geometry` types such as the :kl-ref:`PolygonMesh`, the :kl-"
+"ref:`Lines` and the :kl-ref:`Points`."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:13
+msgid ""
+"When multiple spatial queries are performed on a same geometry, an "
+"acceleration structure can greatly improve the performance. The :kl-"
+"ref:`SpatialQueryable` implementations of built-in :kl-ref:`Geometry` types "
+"can internally cache an acceleration structure. The acceleration structure "
+"needs to be properly prepared and updated before performing queries; see "
+":ref:`spatialqueryaccelerationstructures` for more details."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:21
+msgid ""
+"Performing spatial queries on a geometry is thread safe if the geometry is "
+"not modified and no calls are made to :kl-"
+"ref:`SpatialQueryable.prepareForSpatialQueries` or :kl-"
+"ref:`SpatialQueryable.removeSpatialQueryAcceleration`."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:64
+msgid "Using the SpatialQuery object"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:66
+msgid ""
+"Some queries, such as :kl-ref:`SpatialQuery.getElementsInBBox`, are only "
+"accessible through to a :kl-ref:`SpatialQuery` object. The :kl-"
+"ref:`SpatialQuery` object is obtained by calling :kl-"
+"ref:`SpatialQueryable.beginSpatialQuery`, and needs to be used temporarily "
+"until released by a call to :kl-ref:`SpatialQueryable.endSpatialQuery`."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:71
+msgid "A :kl-ref:`SpatialQuery` object is valid if:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:73
+msgid ""
+"it is used in the local scope between :kl-"
+"ref:`SpatialQueryable.beginSpatialQuery` and :kl-"
+"ref:`SpatialQueryable.endSpatialQuery` (same thread)"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:76
+msgid "the geometry is not modified"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:78
+msgid ""
+"no calls to :kl-ref:`SpatialQueryable.prepareForSpatialQueries` or :kl-"
+"ref:`SpatialQueryable.removeSpatialQueryAcceleration` are made"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:81
+msgid ""
+"it was not released with a call to :kl-"
+"ref:`SpatialQueryable.endSpatialQuery`"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:85
+msgid ""
+"The :kl-ref:`SpatialQuery` object holds the thread-specific temporary "
+"storage needed for efficiently performing one or multiple queries. These "
+"objects are recycled internally for a better performance."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:89
+msgid ""
+"A call to :kl-ref:`SpatialQueryable.beginSpatialQuery` is thread-safe, but "
+"the returned :kl-ref:`SpatialQuery` object is not (should only be used "
+"locally)."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:92
+msgid ""
+"The following example demonstrates proper multithreaded usage of a :kl-"
+"ref:`SpatialQuery` :"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:122
+msgid "GeometryLocation structure"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:124
+msgid ""
+"For methods such as :kl-ref:`SpatialQueryable.raycast`, where the result is "
+"a specific surface point, a :kl-ref:`GeometryLocation` structure is "
+"returned. The content and meaning of the :kl-ref:`GeometryLocation` members "
+"is specific to each :kl-ref:`Geometry` type:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:128
+msgid ":kl-ref:`PolygonMesh`:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:130
+msgid "`index` stores the polygon index"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:132
+msgid ""
+"`subIndex` stores polygon's sub-triangle index. For example, in a "
+"quadrilateral with points [4,5,6,7], triangulated as [4,5,6] and [4,6,7], "
+"the `subIndex` for each triangle is 0 and 1, respectively."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:135
+msgid ""
+"`barycentric` store the barycentric weights relative to a triangle's points."
+" For a triangle corresponding to attribute values [a,b,c], the resulting "
+"attribute value can be computed by the linear combination ``(a * "
+"barycentric.x) + (b * barycentric.y) + (c * barycentric.z)``."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:139
+msgid ":kl-ref:`Lines`:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:141
+msgid "`index` stores the line segment index"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:143
+msgid ""
+"`barycentric.xy` stores the weights for the start and the end points of the "
+"segment, respectively. For a segment where the start and end attribute "
+"values are [a,b], the resulting attribute value can be computed by the "
+"linear combination ``(a * barycentric.x) + (b * barycentric.y)``."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:146
+msgid ":kl-ref:`Points`:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:148
+msgid ""
+"`index` stores the point index, which is the same as the attribute index."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:150
+msgid ""
+"`barycentric` might store, when applicable, a `normal` relative to the "
+"point. This allows to keep the specific surface location when points have a "
+"size, and are considered as spheres."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:156
+msgid ""
+"A :kl-ref:`GeometryLocation` is valid only for a specific Geometry, or one "
+"with an identical structure (`topology`). A :kl-ref:`GeometryLocation` is "
+"stable through deformation (animation)."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:160
+msgid ""
+"The :kl-ref:`GetAttributeAtLocation` helper functions can return the value "
+"of an attribute corresponding to a :kl-ref:`GeometryLocation`. These are "
+"simple wrappers around :kl-"
+"ref:`SpatialQueryable.getLocationAttributeIndicesAndWeights` and attributes'"
+" `getLinearCombination` methods."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:168
+msgid "Acceleration structures"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:170
+msgid ""
+"Spatial queries can be performed with an internally cached acceleration "
+"structure like an :kl-ref:`Octree` or a :kl-ref:`SparseGrid`. Performing "
+"multiple queries without a cached acceleration structure can be very slow, "
+"particularly on complex geometries. A few rules need to be followed in order"
+" to properly use acceleration structures through the :kl-"
+"ref:`SpatialQueryable` interface."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:175
+msgid ""
+"Built-in geometries (:kl-ref:`PolygonMesh`, :kl-ref:`Lines`, :kl-"
+"ref:`Points`) support none, :kl-ref:`Octree` or :kl-ref:`SparseGrid` "
+"acceleration structures. These can be specified using the :kl-"
+"ref:`SpatialQueryable.prepareForSpatialQueries` options."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:179
+msgid ""
+"The default acceleration structure is the :kl-ref:`Octree` since it behaves "
+"well in all situations. Both acceleration structures support incremental "
+"updates (small change, small update cost). See "
+":ref:`octreesparsegridcompare` for a comparison of these acceleration "
+"structures."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:183
+msgid ""
+"The :kl-ref:`SpatialQueryable.prepareForSpatialQueries` method will install "
+"or update an acceleration structure in order to accelerate subsequent query "
+"calls (which can then be multithreaded). If :kl-"
+"ref:`SpatialQueryable.prepareForSpatialQueries` is not called initially or "
+"after geometry changes, the geometry will detect it (from attribute and "
+"structure versions) and disable acceleration, which can lead to poor "
+"performance."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:191
+msgid ""
+"When calling :kl-ref:`SpatialQueryable.prepareForSpatialQueries` again after"
+" a :kl-ref:`Geometry` type was modified, the acceleration structure will be "
+"updated incrementally. This implies that the acceleration structure will be "
+"only partially modified to match the changes, which improves the "
+"performance. This is particularly helpful during playback, where the surface"
+" deformation is typically small from frame to frame."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:198
+msgid ""
+"The acceleration structures are internally made of compact arrays. Compiling"
+" KL in `unguarded` mode will usually speed up spatial queries by 30%."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:201
+msgid ""
+"The :kl-ref:`SpatialQueryable.removeSpatialQueryAcceleration` allows to "
+"delete the acceleration structure and free its memory. However, it is "
+"usually not recommended to call this method (see method's description for "
+"more details)."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:208
+msgid "Octree versus SparseGrid"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:210
+msgid ""
+"Here is a quick comparison between the :kl-ref:`Octree` and the :kl-"
+"ref:`SparseGrid`:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:212
+msgid ""
+"Memory: the Octree takes about twice the memory of a SparseGrid. Even if "
+"both structures were optimized for a low memory usage, they still require a "
+"noticeable amount of memory, which can be comparable to the memory used by "
+"the structure of a PolygonMesh."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:216
+msgid ""
+"A SparseGrid builds and updates faster than an Octree, often by a factor of "
+"2 or more."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:218
+msgid ""
+":kl-ref:`SpatialQuery.raycast`: if geometry elements (polygons, points) are "
+"relatively uniformly distributed in space, the SparseGrid can be faster by "
+"about 30%, but could be slower if the geometric elements' density varies a "
+"lot."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:222
+msgid ""
+":kl-ref:`SpatialQuery.getClosest`: the Octree is usually much faster than "
+"the SparseGrid. The SparseGrid is particularly slow if the search point is "
+"far from geometry's surface."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\spatialqueriesusage.rst:225
+msgid ""
+":kl-ref:`SpatialQuery.getElementsInBBox` and :kl-"
+"ref:`SpatialQuery.getElementsInBSphere`: the SparseGrid will be faster if "
+"the search volume is similar to the distance between geometry elements, and "
+"if the geometry elements are relatively uniformly distributed in space."
+msgstr ""

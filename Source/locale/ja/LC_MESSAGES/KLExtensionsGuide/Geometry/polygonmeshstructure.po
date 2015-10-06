@@ -1,0 +1,669 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:4
+msgid "PolygonMesh's structure"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:7
+msgid "Introduction"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:9
+msgid ""
+"The :kl-ref:`PolygonMesh` represents a geometric surface made of polygons, "
+"where each polygon is defined by closed loop of 3 or more 3D points. A point"
+" can be connected to multiple polygons. Although the basic definition of a "
+":kl-ref:`PolygonMesh` is pretty standard, the :kl-ref:`PolygonMesh` "
+"structure contains special characteristics that allows it to balance "
+"performance with memory consumption:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:14
+msgid ""
+"the structure identifies points and polygons with indices, but not edges or "
+"polygonPoints (face-vertex). See :ref:`polygonmeshcomponents` for more "
+"details."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:17
+msgid ""
+"The :kl-ref:`GeometryAttribute` elements are all aligned for a direct "
+"mapping to hardware drawing APIs such as OpenGL. See "
+":ref:`polygonmeshattributes` for more details."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:20
+msgid ""
+"When modifying the mesh structure, some particular rules apply. See "
+":ref:`modifyingpolygonmeshstructure` for more details."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:23
+msgid ""
+"the :kl-ref:`PolygonMesh` structure tries to reduce memory consumption and "
+"fragmentation by grouping most of its topological data into a few contiguous"
+" arrays, which can improve speed, particularly for larger meshes. See "
+":ref:`internalpolygonmeshdata` for more details."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:27
+msgid ""
+"**Because the PolygonMesh makes heavy usage of arrays, `unguarded` KL "
+"compilation typically provides a 30% speedup for most PolygonMesh methods.**"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:32
+msgid ""
+"Unless stated otherwise, functions that read the mesh are threadsafe only if"
+" the mesh structure or attribute sharing layout is not modified. Functions "
+"that modify the mesh or the attribute sharing layout are not threadsafe."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:38
+msgid "PolygonMeshTopology"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:40
+msgid ""
+"The :kl-ref:`PolygonMeshTopology` encapsulates the topological information "
+"for a :kl-ref:`PolygonMesh`. It is mainly composed of two symmetric "
+"structures, one storing point data and the other storing polygon data. Each "
+"point is associated to an index, and has a compact array storing references "
+"to the neighbor polygons' corners (polygonPoints). Similarly, each polygon "
+"is associated to an index, and has a compact array storing references to the"
+" connected points."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:48
+msgid ""
+"The following figures illustrate the concepts of points and polygons and "
+"their local indices (`neighborPolygonIndex`, `neighborPointIndex`):"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:53
+msgid ""
+"The following table shows a simplified view of the storage and relationship "
+"between these components:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:57
+msgid ""
+"This example uses the :kl-ref:`PolygonMesh.getDesc` function to report the "
+"structure corresponding to the illustrated mesh above."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:73
+msgid "More details about the various component types and indices:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:75
+msgid ""
+":dfn:`point`: represented by an index, a point can be connected to a varying"
+" number of polygons (or none). A polygon mesh point is the same as a "
+"`vertex`. :kl-ref:`PolygonMesh` methods that get or set point specific data "
+"usually begin with `.getPoint` or `.setPoint`, respectively."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:79
+msgid ""
+":dfn:`polygon`: represented by an index, a polygon is defined as an ordered "
+"list of 3 or more points. :kl-ref:`PolygonMesh` methods that get or set "
+"polygon specific data usually begin with `.getPolygon` or `.setPolygon`, "
+"respectively."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:85
+msgid ""
+":dfn:`neighborPolygon`: a point-polygon pair, which corresponds to one of "
+"the polygons around a point. The `neighborPolygon` is represented by a pair "
+"of indices formed by the point index and the `neighborPolygonIndex`. The "
+"`neighborPolygonIndex` is a per point local index that ranges from `0` to "
+":kl-ref:`PolygonMesh.getPointPolygonCount` `()-1`, where each index "
+"corresponds to a polygon connected to that point. The `neighborPolygon` and "
+"the `polygonPoint` (described below) represent the same location, however "
+"they are point-relative or polygon-relative, respectively."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:92
+msgid ""
+":dfn:`polygonPoint`: a polygon-point pair, which corresponds to the polygon "
+"corner connecting a point (sometimes called a `face-vertex` or `polygonNode`"
+" in other software). The `polygonPoint` is represented by a pair of indices "
+"formed by the polygon index and the `polygonPointIndex`. The "
+"`polygonPointIndex` is a per polygon local index that ranges from `0` to "
+":kl-ref:`PolygonMesh.getPolygonSize` `()-1`, where each index corresponds to"
+" a point connected to that polygon. The `neighborPolygon` and the "
+"`polygonPoint` (described below) represent the same location, however they "
+"are point-relative or polygon-relative, respectively."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:99
+msgid ""
+":kl-ref:`PolygonMeshEdge`: As opposed to most mesh structures, polygon edges"
+" are not first-class components, but are rather represented by a structure "
+"defined by a pair of polygon index and point index."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:104
+msgid ""
+"The :ref:`PolygonMesh` structure does not associate edges and polygonPoints "
+"(face-vertex) to explicit indices, which allows the structure to be more "
+"compact by avoiding some redundancy. In general, this should not be an issue"
+" since edge indices are usually not transfered from/to other mesh "
+"representations such as DCC's. Avoiding to store edge and polygonPoint "
+"tables allows the mesh structure to be at least 50% smaller than an "
+"equivalent half-edge data structure, and is faster for most operations "
+"because of memory locality."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:111
+msgid ""
+"See :ref:`internalpolygonmeshdata` for more details about how the polygon "
+"mesh structural data is organized."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:114
+msgid "Bounds checking"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:116
+msgid ""
+"The :kl-ref:`PolygonMesh` internal structure stores multiple small arrays in"
+" a single memory buffer. Because of this, most functions will explicitly do,"
+" in KL guarded mode, a check to validate if indices respect the bounds "
+"(using the `Fabric_Guarded` special KL condition). For example:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:120
+msgid ""
+"A function that takes a `point` and a `neighborPolygonIndex` will ensure "
+"that the latter is within the [0 .. :kl-"
+"ref:`PolygonMesh.getPointPolygonCount` -1] range"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:123
+msgid ""
+"A function that takes a `polygon` and a `polygonPointIndex` will ensure that"
+" the latter is within the [0 .. :kl-ref:`PolygonMesh.getPolygonSize` -1] "
+"range"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:126
+msgid ""
+"Because of these explicit bound checks, and because the :ref:`PolygonMesh` "
+"makes heavy usage of arrays, `unguarded` compilation typically provides a "
+"30% speedup for most PolygonMesh methods."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:131
+msgid "PolygonMesh Attributes"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:133
+msgid ""
+"Like other :kl-ref:`Geometry` types, the :kl-ref:`PolygonMesh` stores its "
+"attributes in a :kl-ref:`GeometryAttributes` container. This implies that "
+"all :kl-ref:`GeometryAttribute` values are index-aligned and have the same "
+"size, which allow the attribute value arrays to be mapped directly to "
+"hardware drawing buffers such as OpenGL's. However, maintaining a global "
+"value alignment while supporting value sharing around points requires "
+"additional attribute management for the :kl-ref:`PolygonMesh`, and this has "
+"some impact on the API."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:139
+msgid ""
+"In the :kl-ref:`PolygonMesh` API, an :dfn:`attributeIndex` is relative to "
+"the :kl-ref:`GeometryAttribute` value arrays (total of :kl-"
+"ref:`GeometryAttributes.size` elements). The correspondence between a "
+"`attributeIndex` and a point index is non-trivial, as it depends on the "
+"sharing (splitting) layout of attribute values around points. If there is an"
+" attribute split around a point (even for just one of many attributes), then"
+" each `polygonPoint` value combinations point will be stored at a different "
+"`attributeIndex`. It is guaranteed, however, that an `attributeIndex` within"
+" the [0 .. :kl-ref:`PolygonMesh.pointCount` () - 1] range is owned by the "
+"point of the same same index."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:147
+msgid ""
+"The following figure shows how split attribute values cause additional "
+"`attributeIndex` to be allocated:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:152
+msgid ""
+"Notice that even the point position values are duplicated in order to ensure"
+" global attribute alignment."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:154
+msgid ""
+"The following example dumps the structure of that same mesh, along with "
+"attribute values. The `attributeIndex` is only printed for points that have "
+"unshared attribute values (splits):"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:176
+msgid "The following methods allow to set explicit attribute values:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:178
+msgid ""
+"Point-shared values (uniform values): :kl-"
+"ref:`PolygonMesh.setPointAttribute` `(Size point, io GeometryAttribute "
+"attribute, Value value)`: these methods will ensure that all values are "
+"properly set in case other attributes are unshared around the same point. "
+"The :kl-ref:`PolygonMesh.setPointPosition` and :kl-"
+"ref:`PolygonMesh.setPointNormal` specialized methods are similar. These "
+"methods don't change the attribute sharing layout (`attributeIndex`), and "
+"are thread-safe if the attribute sharing layout doesn't change."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:186
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:201
+msgid ""
+"These methods were defined only for a specific set of GeometryAttribute "
+"types (for example :kl-ref:`Vec3Attribute`). For other types, including "
+"custom attribute types, simply extend the functionality by defining a "
+"similar function in your code."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:190
+msgid "Values that might be unshared around points:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:192
+msgid ""
+"Per point neighbor: :kl-ref:`PolygonMesh.setPointAttribute` `(Size point, "
+"Size neighborPolygonIndex, io GeometryAttribute attribute, Value value)`"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:194
+msgid ""
+"Per polygon point: :kl-ref:`PolygonMesh.setPolygonAttribute` `(Size polygon,"
+" Size polygonPointIndex, io GeometryAttribute attribute, Value value)`"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:196
+msgid ""
+"These methods will set the value to a specific neighbor polygon (polygon "
+"point). They will check if the point sharing can be maintained by comparing "
+"with the previously set values, and will allocate a new `attributeIndex` if "
+"this is not possible. These methods are **not** thread-safe if they change "
+"the attribute sharing layout (`attributeIndex`)."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:207
+msgid ""
+"In order to properly manage value sharing, the PolygonMesh internally "
+"maintains a `Boolean initialized` state per attribute value, so it can "
+"distinguish between explicitly set values and default values."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:210
+msgid ""
+"The :kl-ref:`PolygonMesh.resetAttributeAndAvoidSharingChanges` method can "
+"avoid unrequired splitting and unsplitting of attribute values by trying to "
+"maintain existing attribute sharing layout (`attributeIndex`)"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:214
+msgid ""
+"The `attributeIndex` can be retrieved using either the :kl-"
+"ref:`PolygonMesh.getPointAttributeIndex` or the :kl-"
+"ref:`PolygonMesh.getPolygonAttributeIndex` method."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:217
+msgid ""
+"The :kl-ref:`PolygonMesh.arePointAttributesUniform` and the :kl-"
+"ref:`PolygonMesh.isPointAttributeUniform` will tell if values for all or a "
+"specific attribute are shared for a point, respectively."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:221
+msgid ""
+"Since the mesh maintains the attributes values aligned for being draw-API "
+"friendly (OpenGL), the triangles draw list directly correspond to triplets "
+"of `attributeIndex`. The :kl-"
+"ref:`PolygonMesh.generateAttributesTriangleList` method returns that list."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:228
+msgid "Borders and wings"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:230
+msgid ""
+"While most points are usually connected to polygons forming a regular "
+"surface (`manifold`), some have special topological features such as "
+"`borders` and `wings`. If not treated with care, these rare features can be "
+"the source of issues when walking on the mesh structure."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:234
+msgid "A :dfn:`border` is an edge which is adjacent to a single polygon."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:236
+msgid ""
+"A :dfn:`wing` is a set of polygons that are connected to a same point, and "
+"form an adjacent group relatively to that point. In other words, a `wing` is"
+" a suite of polygons that can be traversed by walking on non-border edges "
+"around a given point."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:239
+msgid ""
+"An `open` wing is a wing delimited by 2 borders. An `open` wing can contain "
+"one or more polygons."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:241
+msgid ""
+"A `closed` wing is formed by a loop of polygons, where all edges of the wing"
+" are not border edges. A `closed` wing can"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:242
+msgid "contain two or more polygons."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:244
+msgid ""
+"When point polygons are ordered (see :ref:`modifyingpolygonmeshstructure` "
+"for point polygon ordering), it is guaranteed that the polygons part of a "
+"same wing have consecutive `polygonNeighborIndex` for a given point."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:252
+msgid "The following illustrates the concept of wings and borders:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:256
+msgid ""
+"This example gathers wing and border information for point 0 using various "
+"methods. The mesh corresponds to the previous illustration:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:320
+msgid ""
+"The point border and wing information can be retrieved with the :kl-"
+"ref:`PolygonMesh.getPointBorderInfo` and :kl-"
+"ref:`PolygonMesh.getPointPolygonFullBorderInfo` methods."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:323
+msgid ""
+"The polygon border information can be retrieved with the :kl-"
+"ref:`PolygonMesh.isPolygonBorder` method."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:325
+msgid ""
+"Given a `neighborPolygonIndex`, the previous and next `neighborPolygonIndex`"
+" within the wing can be retrieved with the :kl-"
+"ref:`PolygonMesh.getPointPrevNeighborPolygonIndexInWing` and the :kl-"
+"ref:`PolygonMesh.getPointNextNeighborPolygonIndexInWing`, respectively."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:332
+msgid "Modifying the mesh structure"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:334
+msgid ""
+"Various methods can modify the mesh structure, such as :kl-"
+"ref:`PolygonMesh.addPolygon`, :kl-ref:`PolygonMesh.createPoints` and :kl-"
+"ref:`PolygonMesh.deletePolygon`. All these functions are not threadsafe, and"
+" a calls to one of these while another thread is accessing the mesh will "
+"cause an undefined behavior."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:338
+msgid ""
+"When mentioned, the changes need to happen between a call to brackets :kl-"
+"ref:`PolygonMesh.beginStructureChanges` and :kl-"
+"ref:`PolygonMesh.endStructureChanges` (or using "
+"`PolygonMeshStructureChangeBracket`). This requirement, along with the point"
+" ordering notion (presented below), make the mesh API more complex while "
+"allowing optimal performance."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:343
+msgid ""
+"If some specific mesh modeling methods are called outside of structure "
+"change brackets, an error message will be printed:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:356
+msgid ""
+"The structure change bracket calls exist for the performance and practical "
+"reasons presented below."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:361
+msgid "Delayed point ordering"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:363
+msgid ""
+"A point has `ordered polygons` if all its adjacent neighbor polygons have "
+"consecutive `polygonPointNeighbor` indices for that point. Additionally to "
+"update the polygon ordering around the point, the process of point ordering "
+"also includes updating wing and border information for that point (see "
+":ref:`borderAndWings` )."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:368
+msgid ""
+"For an optimal performance when modifying multiple polygons, some methods "
+"such as :kl-ref:`PolygonMesh.addPolygon` will not update point ordering "
+"until the outer change bracket closes ( :kl-"
+"ref:`PolygonMesh.endStructureChanges` ). Using an internal list of the "
+"unordered points, the mesh will then update only unordered points."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:373
+msgid ""
+"Delaying point polygons ordering in situations such as adding or deleting "
+"multiple polygons allows for these two optimizations:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:375
+msgid ""
+"Since a point is typically adjacent to 4 or more polygons, this allows the "
+"point ordering to be updated only once instead of being updated for each "
+"added or removed adjacent polygon."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:378
+msgid ""
+"Since there might be many unordered polygons to update (particularly after "
+"building a full mesh), all points can be reordered in batch, taking "
+"advantage of multithreading."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:381
+msgid ""
+"Most methods querying a point that has unordered polygons will report an "
+"error (under `guarded` KL compilation only). Similarly, methods querying "
+"polygon adjacency information might require some connected points to be "
+"properly ordered, and will report a similar error."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:397
+msgid ""
+"In special situations, it might be required to force a point polygons "
+"reordering even within a structure change bracket. The following methods "
+"allow to perform such an update:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:400
+msgid ""
+":kl-ref:`PolygonMesh.updatePointsPolygonOrder` : will reorder polygons for "
+"all unordered points."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:402
+msgid ""
+":kl-ref:`PolygonMesh.updatePointPolygonOrder` : will reorder polygons for a "
+"specific point if unordered."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:406
+msgid ""
+"The :kl-ref:`PolygonMesh.addPolygonAndUpdateStructure` is similar to the "
+":kl-ref:`PolygonMesh.addPolygon` method however it will reorder the related "
+"points immediately."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:412
+msgid "Replacement of deleted component indices"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:414
+msgid ""
+"In general, the :kl-ref:`PolygonMesh` maintains a contiguous range "
+"(`0..N-1`) of point and polygon indices. Because of this, it is usually safe"
+" to iterate over polygons and points using a simple index loop."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:417
+msgid ""
+"However, when a modeling operation such as :kl-"
+"ref:`PolygonMesh.deletePolygon` removes points or polygons, the related "
+"indices will remain unused until the outer :kl-"
+"ref:`PolygonMesh.endStructureChanges` bracket is called. The goal of this "
+"policy is to allow a safe and stable use of polygon and point indices over "
+"multiple modeling operations."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:421
+msgid ""
+"This implies that the code that processing a mesh with removed components "
+"needs to be aware that some indices can be invalid (deleted components). The"
+" :kl-ref:`PolygonMesh.isPolygonDeleted` and :kl-"
+"ref:`PolygonMesh.isPointDeleted` methods allow to verify if a specific index"
+" is valid."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:425
+msgid ""
+"Once the outer :kl-ref:`PolygonMesh.endStructureChanges` is reached, the "
+"mesh will recompact indices by replacing unused indices with the last valid "
+"ones and reduce the index range accordingly. At this point, it is safe again"
+" to iterate over all points or polygons using a simple index loop."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:432
+msgid "Internal data organization"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:434
+msgid ""
+"The internal data structure of the :kl-ref:`PolygonMesh` is very complex in "
+"order to allows both a low memory consumption and fast query and modeling "
+"operations. In order to achieve this, the structure does the following:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:438
+msgid ""
+"Minimizes redundancy by avoiding to store edge and polygonPoint (face-"
+"vertex) information"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:440
+msgid ""
+"Packs polygon and point data in contiguous memory space, using a special "
+"allocators (:kl-ref:`ArrayOffsetAllocator`) which allow to keep these arrays"
+" in a single memory buffer. This lowers memory fragmentation, which reduces "
+"memory usage, but more importantly improves the speed of all mesh operations"
+" by making a more efficient usage of the CPU memory cache. When a certain "
+"proportion of the memory buffer is free (eg: after deleting many polygons), "
+"the mesh will automatically recompact all its internal data to ensure "
+"optimal memory usage."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:447
+msgid ""
+"Uses indices of 32 bits or less for indirections, which reduces memory usage"
+" by 50% compared to mesh implementations that are based on 64-bit pointers. "
+"Another advantage is that the structure is memory location independent, "
+"making copy operations faster."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:451
+msgid ""
+"Encodes polygon and point data using special bit packing, which allows to "
+"reduce memory consumption by another 50%. For example, the \"polygon + "
+"pointNeighborIndex\" pair is encoded as a single UInt32 in most cases."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:455
+msgid ""
+"Reduces memory cache misses by reducing the indirections for operations that"
+" require to jump between point and polygon data (by storing direct data "
+"offsets)."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:458
+msgid ""
+"Stores the global `attributeIndex` data (if unshared attributes) into the "
+"point data, avoiding per-attribute index tables, and maintaining GPU drawing"
+" friendly buffers (see :ref:`polygonmeshattributes`)"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:462
+msgid ""
+"The following figure presents an overview of the mesh internal data "
+"structure. The `pointData` and `polygonData` are implemented as symmetrical "
+":kl-ref:`ArrayOffsetAllocator` structures, and their content refer to each "
+"others. A `pointIter` and a `polyIter` designate an offset (UInt32) within "
+"the packed point or data buffer, respectively. The `startIters` array simply"
+" contains the offsets (`pointIter` or `polyIter`) corresponding to a point "
+"or polygon index. The `neighbor polygons` and `polygon points` arrays "
+"directly contain offsets (`polygonIter` and `pointIter`), which allows to "
+"access connected point and polygon data directly."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:475
+msgid "Current limitations"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:477
+msgid ""
+"The :kl-ref:`PolygonMesh` structure currently has the following limitations:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:479
+msgid ""
+"The mesh polygons are always triangulated as triangle fans, which can "
+"produce artifacts for concave polygons."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:482
+msgid "Polygon holes are not supported."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:484
+msgid "There are no per polygon, or polygon-shared attributes."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\polygonmeshstructure.rst:486
+msgid ""
+"The modeling API lacks various base functions, such as collapseEdge or "
+"mergePoints, which should be added in the future."
+msgstr ""

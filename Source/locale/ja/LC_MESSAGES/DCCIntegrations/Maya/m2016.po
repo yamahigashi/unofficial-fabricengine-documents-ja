@@ -1,0 +1,124 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:4
+msgid "Using Fabric for Maya with Maya 2016"
+msgstr ""
+
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:6
+msgid ""
+"Support for Maya 2016 was first added in Fabric Engine version 2.0.0.  One "
+"of the key new features of Maya 2016 is support for parallel evaluation of "
+"the Maya node graph.  Fabric for Maya adds user-controlled support for "
+"enabling specific nodes to run in parallel when the Maya 2016 parallel "
+"evaluation is enabled."
+msgstr ""
+
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:12
+msgid ""
+"By default, Canvas and Splice nodes will never run in parallel with each "
+"other, even if parallel evaluation is enabled.  This is because Fabric for "
+"Maya does not know for sure if it's safe for any two nodes to run at the "
+"same time; for instance, if the two nodes use a non-thread-safe KL "
+"extension."
+msgstr ""
+
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:17
+msgid ""
+"Fabric for Maya allows configuration of parallel evaluation behavior on a "
+"node-by-node basis.  There are two different behaviors:"
+msgstr ""
+
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:20
+msgid ""
+"Shared execution (or evaluation): the Fabric node will potentially run in "
+"parallel with any and all other Fabric nodes which also have shared "
+"execution enabled."
+msgstr ""
+
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:26
+msgid ""
+"Canvas nodes and Splice nodes that have shared execution enabled may "
+"potentially run in parallel with one another."
+msgstr ""
+
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:29
+msgid ""
+"Exclusive execution (or evaluation; the default): The Fabric node will never"
+" run in parallel with any other Fabric nodes.  However, it may run in "
+"parallel with non-Fabric nodes (as controlled by Maya 2016)."
+msgstr ""
+
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:35
+msgid ""
+"Shared execution of Canvas and Splice nodes is distinct from parallel "
+"evaluation within Canvas and Splice nodes.  Even if Fabric nodes do not have"
+" shared execution enabled they can perform internal parallel operations such"
+" as PEX calls."
+msgstr ""
+
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:40
+msgid ""
+"Currently, shared execution can only be enabled through scripting.  There is"
+" a script command for each of Fabric Canvas and Fabric Splice to enable "
+"shared execution."
+msgstr ""
+
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:52
+msgid "Enabling Parallel Evaluation for Canvas Nodes"
+msgstr ""
+
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:54
+msgid "The MEL command to enable parallel evaluation of a Canvas node is:"
+msgstr ""
+
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:60
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:149
+msgid "The command takes immediate effect."
+msgstr ""
+
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:62
+msgid "An example MEL script showing parallel computation for Canvas nodes:"
+msgstr ""
+
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:141
+msgid "Enabling Parallel Evaluation for Splice Nodes"
+msgstr ""
+
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:143
+msgid "The MEL command to enable parallel evaluation of a Splice node is:"
+msgstr ""
+
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:151
+msgid "An example MEL script showing parallel computation for Splice nodes:"
+msgstr ""
+
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:212
+msgid "Enabling Shared Execution by Default"
+msgstr ""
+
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:214
+msgid ""
+"Two environment variables, FABRIC_CANVAS_PARALLEL_DEFAULT and "
+"FABRIC_SPLICE_PARALLEL_DEFAULT, allow you to enable shared execution of "
+"Fabric nodes by default in Maya 2016.  To use them, simply set them to a "
+"non-zero integer."
+msgstr ""
+
+#: ..\..\source\DCCIntegrations\Maya\m2016.rst:220
+msgid ""
+"These variables should only be used under very controlled circumstances, as "
+"they will cause all user-created Fabric nodes to run in parallel with each "
+"other.  If these nodes, even indirectly, write to a common shared resource, "
+"the result can be a crash."
+msgstr ""

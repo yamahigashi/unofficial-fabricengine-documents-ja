@@ -1,0 +1,373 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:7
+msgid "Map-Reduce"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:9
+msgid ""
+"|FABRIC_PRODUCT_NAME| provides a generic map-reduce framework that can be "
+"used to create recursively-parallel operations on large data sets."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:11
+msgid ""
+"This chapter does not attempt to explain the concepts behind and usage of "
+"the |FABRIC_PRODUCT_NAME| map-reduce framework; it serves purely to "
+"enumerate the types and functions that are provided in KL to support the "
+"framework.  For more information on concepts and usage of the map-reduce "
+"framework, refer to the Map-Reduce Programming Guide."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:19
+msgid "Map-Reduce Types"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:21
+msgid ""
+"In order to support map-reduce, KL introduces two new derived types: "
+":samp:`ValueProducer<{ValueType}>` and :samp:`ArrayProducer<{ElementType}>`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:29
+msgid "The :samp:`ValueProducer<{ValueType}>` Type"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:31
+msgid ""
+"Given an existing type :samp:`{ValueType}`, the type "
+":samp:`ValueProducer<{ValueType}>` is a map-reduce value producer that "
+"produces values of type :samp:`{ValueType}`.  Values of type "
+":samp:`ValueProducer<{ValueType}>` have the following properties:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:33
+msgid ""
+"They can be assigned to variables of the same type; however, there must be "
+"an exact match for :samp:`{ValueType}`.  In other words, "
+":samp:`ValueProducer<{ValueType1}>` and :samp:`ValueProducer<{ValueType2}>` "
+"are the same type if and only if :samp:`{ValueType1}` and "
+":samp:`{ValueType2}` are the same type."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:35
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:43
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:60
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:68
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:76
+msgid "They support a method"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:41
+msgid "that produces the value producer's value."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:49
+msgid "that recursively flushes any caches connected to the value producer."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:54
+msgid "The :samp:`ArrayProducer<{ElementType}>` Type"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:56
+msgid ""
+"Given an existing type :samp:`{ElementType}`, the type "
+":samp:`ArrayProducer<{ElementType}>` is a map-reduce array producer that "
+"produces values of type :samp:`{ElementType}`.  Values of type "
+":samp:`ArrayProducer<{ElementType}>` have the following properties:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:58
+msgid ""
+"They can be assigned to variables of the same type; however, there must be "
+"an exact match for :samp:`{ElementType}`.  In other words, "
+":samp:`ArrayProducer<{ElementType1}>` and "
+":samp:`ArrayProducer<{ElementType2}>` are the same type if and only if "
+":samp:`{ElementType1}` and :samp:`{ElementType2}` are the same type."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:66
+msgid ""
+"that returns the number of elements in the array producer.  Calling "
+":samp:`produce({i})` (below) with :samp:`{i}` not less than the result of "
+"``getCount()`` will throw an exception."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:74
+msgid "that produces the array producer's element at index :samp:`{i}`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:82
+msgid "that recursively flushes any caches connected to the array producer."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:87
+msgid "Map-Reduce Functions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:89
+msgid ""
+"KL supports several functions to support the creation of new value and array"
+" producers from existing producers as well as KL functions and values."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:92
+msgid "Value Producer Creation Functions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:96
+msgid "Creates a value producer that returns a constant value."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:98
+msgid "The expression to evaluate to obtain the constant value."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:101
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:126
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:180
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:315
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:650
+msgid "ValueProducer<ValueType>"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:103
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:140
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:192
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:263
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:317
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:361
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:406
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:480
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:545
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:598
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:665
+msgid "Example::"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:111
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:160
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:228
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:301
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:337
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:371
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:428
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:504
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:578
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:624
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:698
+msgid "Output::"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:118
+msgid ""
+"Creates a value producer that calls the operator named *operatorName* to "
+"generate the value."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:120
+msgid "The name of the operator to call to generate the value."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:123
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:177
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:245
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:387
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:463
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:525
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:647
+msgid "(optional) Shared value producer to pass to *operatorName*."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:128
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:182
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:250
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:392
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:468
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:530
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:652
+msgid "The operator *operatorName* must have the following prototype:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:138
+msgid ""
+"The type *ValueType* is inferred from the first parameter of *operatorName*."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:169
+msgid ""
+"Creates a value producer that calls the given operator to transform the "
+"result of another value producer of the same type."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:171
+msgid "The input value producer to transform."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:174
+msgid "The name of the operator to call to transform the value."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:237
+msgid ""
+"Creates a value producer that calls the operator *operatorName* to map the "
+"result of another value producer, possibly to a value producer of a "
+"different type."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:239
+msgid "The input value producer whose value to map."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:242
+msgid "The name of the operator to call to map the value."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:248
+msgid "ValueProducer<OutputValueType>"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:261
+msgid ""
+"The type *OutputValueType* is inferred from the second parameter of "
+"*operatorName*."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:310
+msgid ""
+"Creates a value producer that caches the result of another value producer of"
+" the same type.  For more information on producer caches, see refer to the "
+"Map-Reduce Programming Guide."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:312
+msgid "The input value producer to cache."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:348
+msgid "Array Producer Creation Functions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:352
+msgid "Creates an array producer that returns constant values."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:354
+msgid ""
+"The expression to evaluate to obtain the constant array.  The expression "
+"must be some sort of KL array (variable-length, fixed-length or external)."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:357
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:390
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:466
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:596
+msgid "ArrayProducer<ElementType>"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:359
+msgid ""
+"The type *ElementType* is the element type of the the array given by "
+"*arrayExpr*."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:379
+msgid ""
+"Creates an array producer that calls the operator named *operatorName* to "
+"generate the elements of the array."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:381
+msgid ""
+"A value producer that produces a value of type ``Size``.  This value "
+"producer is used to determine the size of the array (ie. the number of "
+"elements)."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:384
+msgid "The name of the operator to call to generate the elements."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:404
+msgid ""
+"The type *ElementType* is inferred from the first parameter of "
+"*operatorName*."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:455
+msgid ""
+"Creates an array producer that transforms the input array producer by "
+"calling the operator named *operatorName* on the individual elements."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:457
+msgid "The input array producer to transform."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:460
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:644
+msgid "The name of the operator to call to transform the elements."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:517
+msgid ""
+"Creates an array producer that calls the operator *operatorName* to map the "
+"elements of another array producer, possibly to an array producer of a "
+"different type."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:519
+msgid "The input array producer whose elements to map."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:522
+msgid "The name of the operator to call to map the elements."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:528
+msgid "ArrayProducer<OutputElementType>"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:543
+msgid ""
+"The type *OutputElementType* is inferred from the second parameter of "
+"*operatorName*."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:591
+msgid ""
+"Creates an array producer that caches the result of another array producer "
+"of the same type.  For more information on producer caches, refer to the "
+"Map-Reduce Programming Guide."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:593
+msgid "The input array producer to cache."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:635
+msgid "Reduce Functions"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:639
+msgid ""
+"Creates a value producer that reduces an array producer to a value producer "
+"by calling the operator named *operatorName* to contribute the individual "
+"elements to the reduction."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\map-reduce.rst:641
+msgid "The input array producer to reduce."
+msgstr ""

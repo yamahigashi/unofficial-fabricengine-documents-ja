@@ -1,0 +1,162 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:4
+msgid "Utilizing GPU commpute with Geometries"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:9
+msgid "Introduction"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:11
+msgid ""
+"GPU Compute can now be used to compute Geometry deformations with relative "
+"ease."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:13
+msgid ""
+"The InlineDrawing system has been updated to support rendering of geometries"
+" that are already on the GPU."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:15
+msgid ""
+"Objects are not yet supported on the GPU, only simple tupes, structs and "
+"arrays can be used in GPU compute kernels."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:20
+msgid "PolygonMesh"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:22
+msgid ""
+"The :kl-ref:`PolygonMesh` owns a member called 'topology' of type :kl-"
+"ref:`PolygonMeshTopology` that can be moved onto the GPU and passed into GPU"
+" compute kernels."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:24
+msgid ""
+"Before a :kl-ref:`PolygonMesh` can be used in a GPU kernel, its topology "
+"data must be moved to the GPU. Each :kl-ref:`GeometryAttribute' owned by a "
+"Geometry must also be individually moved to the GPU before it can be used."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:27
+msgid ""
+"GPU Compute kernels do not support objects, meaning that it is not possible "
+"to pass into a GPU kernel the PolygonMesh, Lines, Points, or any of the "
+"various attribute types. Instead, the data contained within these object can"
+" be passed into GPU kernels."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:29
+msgid ""
+"Each of the GeometryAttrbiutes owns data that can be passed into GPU Compute"
+" kernels. Most attributes have a member called 'values' which is an array of"
+" the data type supported by the :kl-ref:`GeometryAttribute`."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:34
+msgid "require Geometry;"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:36
+msgid "operator meshDataOnGPU<<<index>>>(io PolygonMeshTopology meshData){"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:37
+msgid "report(meshData);"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:38
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:55
+msgid "}"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:40
+msgid "operator entry() {"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:42
+msgid ""
+"PolygonMesh mesh = PolygonMesh(); Scalar length = 12.0; Scalar width = 4.0; "
+"Integer lengthSections = 3; Integer widthSections = 4;"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:48
+msgid ""
+"mesh.addPlane(Xfo(), length, width, lengthSections, widthSections, true, "
+"true);"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:50
+msgid "mesh.convertToGPU(); meshDataOnGPU<<<1@true>>>(mesh.topology);"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:53
+msgid "mesh.convertToCPU(); report(mesh.getDesc(true, true));"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:58
+msgid ""
+"Once the data is on the GPU, the same kernels that would normally be used on"
+" the CPU can now be run on the GPU."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:153
+msgid "Setting Attribute Values"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:155
+msgid ""
+"Normally when setting attribute values on the CPU, you can use the "
+"PolygonMesh helper method 'setPointAttribute'. The PolygonMeshTopology "
+"structure supports a similar set of methods tht take instead of the "
+"attribute object, the values of the attribute."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:183
+msgid "Skinning Attribute"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:185
+msgid ""
+"The :kl-ref:`SkinningAttribute` has a member struct called 'data' or type "
+":kl-ref:`SkinningAttributeData` that is passed into GPU compute kernels."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:263
+msgid "Current limitations"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:265
+msgid ""
+"The GPU compute infrustructure currently has the following limitations:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:267
+msgid ""
+"Attribute sizes cannot change during GPU compute operations. The only "
+"supported methods on the PolygonMeshTopology modify values, but do not "
+"modify attribute sharing information."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\Geometry\utilizinggpucompute.rst:268
+msgid ""
+"Objects are not yet supported on the GPU, only simple types, structs and "
+"arrays can be used in GPU compute kernels."
+msgstr ""

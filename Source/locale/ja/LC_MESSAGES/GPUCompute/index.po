@@ -1,0 +1,232 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\GPUCompute\index.rst:4
+msgid "GPU Compute Guide"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:10
+msgid "|FABRIC_PRODUCT_NAME| version |FABRIC_VERSION|"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:11
+msgid "|FABRIC_COPYRIGHT|"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:0
+msgid "Table of Contents"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:17
+msgid "**Important - Read Me First**"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:19
+msgid ""
+"GPU compute is not enabled by default in Fabric Engine applications and must"
+" be specifically enabled in the environment before it can be used."
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:21
+msgid ""
+"See the :ref:`GPUPG` for information on how KL code can be made to take "
+"advantage of GPU compute."
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:23
+msgid "Please look over the list of :ref:`gpu-known-issues`."
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:25
+msgid ""
+"It's important to be aware of guarded vs. unguarded mode when running on the"
+" GPU as its effects can be even more pronounced that on the CPU. Once code "
+"is debugged and known to be working there can sometimes be significant "
+"performance gains achieved by running in unguarded mode."
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:27
+msgid ""
+"GPU compute currently works on Windows 7 or higher and Linux (CentOS 6.x) "
+"64-bit platforms with supported Nvidia hardware (see below)."
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:31
+msgid ""
+"There is a bug in the current pre-release builds of Windows 10 that prevent "
+"it from working with CUDA Unified Memory, which is required for GPU compute "
+"in Fabric Engine.  There is, however, a workaround; see below"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:34
+msgid "Installation"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:37
+msgid "Nvidia Hardware Support"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:39
+msgid ""
+"KL GPU compute requires supported Nvidia hardware in order to run. Please "
+"ensure that your Nvidia card is supported by verifying the following:"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:41
+msgid ""
+"A card with Compute Capability of at least 3.0 is required. A list of GPUs "
+"and their compute capabilities is available here: "
+"https://developer.nvidia.com/cuda-gpus"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:43
+msgid ""
+"For supported cards the latest stable Nvidia driver must be installed: "
+"http://www.nvidia.com/Download/index.aspx?lang=en-us"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:45
+msgid ""
+"The latest CUDA 6 toolkit must be installed from here: "
+"https://developer.nvidia.com/cuda-downloads The current version was built "
+"against CUDA 6.0 but tested against CUDA 6.5 and should be compatible with "
+"both. CUDA 7.0 support will be upcoming in a future version."
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:49
+msgid ""
+"There is a bug in the first Windows 10 release, due in July 2015, that "
+"prevents CUDA Unified Memory from working with the latest NVIDIA drivers; "
+"this will prevent Fabric Engine GPU compute from working on this setup.  The"
+" workaround is to use the older NVIDIA 349 driver until the issue in Windows"
+" 10 has been fixed."
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:52
+msgid "Enabling GPU Compute"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:54
+msgid ""
+"By default Fabric will not try to load Nvidia libraries and enable GPU "
+"compute unless the environment variable ``FABRIC_FEATURE_CUDA_COMPUTE=1`` is"
+" set. Once this is set Fabric will try to load the required libraries on "
+"startup and any errors encountered will be output to the console."
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:56
+msgid ""
+"GPU compute requires that the Nvidia libraries either be present in global "
+"system library locations or else be explicitly added to the PATH or "
+"LD_LIBRARY_PATH."
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:58
+msgid ""
+"On Windows the required libraries are ``nvvm64_20_0.dll`` and ``nvcuda.dll``"
+" and by default are installed in ``C:\\Program Files\\NVIDIA GPU Computing "
+"Toolkit\\CUDA\\v6.0\\bin`` and ``C:\\Program Files\\NVIDIA GPU Computing "
+"Toolkit\\CUDA\\v6.0\\nvvm\\bin``. You may need to add these directories to "
+"your system PATH variable like this:"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:60
+msgid ""
+"``PATH=C:\\Program Files\\NVIDIA GPU Computing "
+"Toolkit\\CUDA\\v6.0\\bin;C:\\Program Files\\NVIDIA GPU Computing "
+"Toolkit\\CUDA\\v6.0\\nvvm\\bin;%PATH%``"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:62
+msgid ""
+"On Linux the required libraries are ``libcuda.so`` and ``libnvvm.so`` and "
+"are usually found in ``/usr/local/cuda/lib64`` and "
+"``/usr/local/cuda/nvvm/lib64``. You may want to update your LD_LIBRARY_PATH "
+"like this:"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:64
+msgid ""
+"``LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/nvvm/lib64:$LD_LIBRARY_PATH``"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:66
+msgid ""
+"The ``CUDA_PATH`` environment variable must also be present on your system, "
+"though this is often set automatically by the CUDA toolkit."
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:68
+msgid ""
+"A sample environment setup for CUDA compute on Linux might look like this:"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:78
+msgid "Testing GPU Compute"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:80
+msgid ""
+"A GPU-enabled sample can be found under ``Samples/Canvas`` with the name "
+"nbody-gpu.canvas. As noted above, significant performance improvements can "
+"often be seen on the GPU by running canvas in unguarded mode with the -u "
+"flag."
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:83
+msgid "KL Programming"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:85
+msgid ""
+"See the :ref:`GPUPG` for more information on how to use GPU compute in KL."
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:90
+msgid "Known Issues"
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:92
+msgid ""
+"Kernels that take longer than 10 seconds to execute on the GPU will be "
+"terminated by the driver and return with CUDA_ERROR_LAUNCH_TIMEOUT. This "
+"timeout may be disabled in an upcoming release."
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:94
+msgid ""
+"Nvidia's compiler can take a very long time to compile large KL operators, "
+"especially in guarded mode. Compilation time in the Nvidia compiler "
+"(generating PTX assembly from the input LLVM IR) and CUDA operator loading "
+"(preparing the PTX code to be run on the GPU) are printed to the Fabric log "
+"when GPU compute is used. This is an area we are investigating to determine "
+"which types of operators slow down Nvidia's compiler the most and how we can"
+" mitigate this."
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:96
+msgid ""
+"On Linux an occasional hang in the Nvidia driver has been encountered that "
+"requires a full reboot in order to recover. This is a bug in the Nvidia "
+"driver and an issue has been filed with Nvidia. The bug appears related to "
+"running multiple KL applications in separate processes where all are using "
+"GPU compute simultaneously. For this reason it is recommended to run only a "
+"single Fabric process at a time with GPU compute."
+msgstr ""
+
+#: ..\..\source\GPUCompute\index.rst:98
+msgid ""
+"Using many Integer atomic functions in a single KL GPU operator may "
+"sometimes cause the operator to hang and not return (the Integer.atomic*() "
+"methods in KL)."
+msgstr ""

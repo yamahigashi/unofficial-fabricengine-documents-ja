@@ -1,0 +1,441 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:7
+msgid "Statements"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:9
+msgid ""
+"The bodies of functions, operators, and so on are composed of "
+":dfn:`statements`.  Statements are the parts of KL programs that actually do"
+" something.  Statements cause expressions to be evaluated, can conditionally"
+" execute other statements, or can iterate over another set of statements "
+"until a condition is met."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:11
+msgid ""
+"The remainder of the chapter describes the different statements that can be "
+"used inside KL function definitions.  Statements are divided into two "
+"categories: simple statements and complex statements."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:19
+msgid "Simple Statements"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:21
+msgid ""
+"A simple statement is a statement that does not check conditions or create a"
+" nested scope.  Simple statements always end with a ``;`` (semicolon) "
+"character."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:23
+msgid ""
+"It is a common syntax error in KL and other C-like languages to forget to "
+"finish a simple statement with a semicolon."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:31
+msgid "Expression Statements"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:33
+msgid ""
+"Any expression, followed by a ``;`` (semicolon), is a statement.  The "
+"statement operates by evaluating the expression and then discarding the "
+"resulting value (if any).  The most common form of an expression statement "
+"is one that invokes a function call (eg. ``report``)."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:57
+msgid "Parallel Execution Statement"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:59
+msgid ""
+"The :dfn:`parallel execution statement`, abbreviated as :dfn:`PEX "
+"statement`, allows a KL program to invoke an operator multiple times in "
+"parallel in a generic fashion.  Each PEX statement requires an operator (see"
+" :ref:`operators`) to invoke as well as a number of times to invoke it, but "
+"can also take an arbitrary number of additional parameters that are passed "
+"to the operator that is called."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:61
+msgid "A PEX statement takes the form:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:67
+msgid ""
+":samp:`{operatorName}` must be the name of an operator whose first parameter"
+" is of type ``Index``, and :samp:`{countExpr}` must be an expression of type"
+" ``Size`` and is the number of calls to the operator to make."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:69
+msgid ""
+"The operator will be called :samp:`{countExpr}` times, potentially with "
+"overlapping parallel calls, with the first argument varying from ``0`` to "
+":samp:`{countExpr}-1`.  Any of the optional additional arguments given are "
+"passed through verbatim, and the operator must have a parameter list that is"
+" compatible (through casting) with the arguments given.  For the purpose of "
+"readability, KL supports a special syntax for operators that adds an initial"
+" parameter of type ``Index``.  This syntax mirrors the parallel execution "
+"syntax:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:78
+msgid ""
+"In a PEX statement, KL and/or |FABRIC_PRODUCT_NAME| will try to distribute "
+"the calls as evenly as possible between the available cores on the running "
+"machine, but without foreknowledge of how long any of the calls will take.  "
+"Thus, a PEX is maximally efficient in cases where each call takes the same "
+"amount of time."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:80
+msgid ""
+"It is possible and even encouraged as a programming practice to make "
+"recursive PEXes."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:82
+msgid ""
+"KL makes no effort to guard against changes to variables passed in the "
+"additional arguments from different cores at the same time.  It is the "
+"programmer's responsibility to ensure that two invocations of the operator "
+"used in a PEX statement cannot change the same value at the same time.  Such"
+" changes can result in difficult-to-track-down bugs or even complete failure"
+" of your program."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:84
+msgid ""
+"There is an inherent overhead in a PEX that may make it less efficient than "
+"serial calls in the case that the operator that is called is trivial.  "
+"Parallel executions best with large workloads."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:106
+msgid "The Empty Statement"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:108
+msgid ""
+"A ``;`` (semicolon) alone is a statement that does nothing.  This can be "
+"used in cases where a statement is required but there is nothing to do."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:124
+msgid "Variable Declaration Statements"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:126
+msgid ""
+"A :dfn:`variable declaration statement` introduces one or more new variables"
+" into the innermost scope.  These variables remain visible for the rest of "
+"the scope and are destroyed, executing destructors when appropriate, when "
+"execution exists this scope."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:128
+msgid ""
+"Variable declarations require a type.  Multiple variables can be declared in"
+" the same statement by separating them with ``,`` (commas)."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:130
+msgid ""
+"The variable names can be followed by array and dictionary specifications.  "
+"See :ref:`arrays` and :ref:`dictionaries` for more information on array and "
+"dictionary specifications."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:132
+msgid ""
+"Variables can be constructed or assigned to when declared to set their "
+"initial values; see :ref:`KLPG.constructor`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:146
+msgid ""
+"It is not currently possible to initialize arrays in KL in the statement "
+"where the variable is declared."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:154
+msgid "Constant Declaration Statements"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:156
+msgid ""
+"A :dfn:`constant declaration statement` is similar to a :ref:`variable "
+"declaration statement <var-decl-statements>` but is preceded with the "
+"keyword `const`.  It follows an identical syntax to global named constants; "
+"see :ref:`KLPG.global.named-constants`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:167
+msgid "The ``return`` Statement"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:169
+msgid "The ``return`` statement takes two forms:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:171
+msgid ""
+"For a function which returns a value, the ``return`` statement immediately "
+"returns the given value to the calling function.  There is an implicit cast "
+"to the type of the return value as specified in the function definition."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:173
+msgid ""
+"For a function which does not return a value, the ``return`` statement does "
+"not take a value and simply returns immediately to the calling function."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:196
+msgid "The ``throw`` Statement"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:198
+msgid ""
+"The ``throw`` statement throws an exception, which will immediately quit "
+"execution of KL code and return the exception to the calling environment "
+"(|FABRIC_PRODUCT_NAME| or the KL tool) where it will be displayed to the "
+"user.  The throw statement takes a single \"parameter\", which can be any "
+"value.  This value will be automatically converted to a string before it is "
+"passed back to the calling environment."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:200
+msgid ""
+"It is not yet possible to catch exceptions from within KL; this is because "
+"LLVM lacks support for exception handling on 64-bit Windows."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:216
+msgid "Complex Statements"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:218
+msgid ""
+"A :dfn:`complex statement` is a statement that groups together and/or "
+"conditionally executes other statements.  Complex statements are built from "
+"simple statements, other complex statements, and expressions."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:226
+msgid "Compound Statements"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:228
+msgid ""
+"At any point when a single statement can be inserted in KL source code, it "
+"is possible to insert multiple statements surrounded by ``{`` (left brace) "
+"and ``}`` (right brace).  This has the following effects:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:230
+msgid ""
+"The statements are executed, in order, as if they were together a single "
+"statement; and"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:232
+msgid "A new, nested scope is introduced; see :ref:`scope`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:240
+msgid "Conditional Statements"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:242
+msgid ""
+"There are two types of conditional statement in KL: the ``if`` statement and"
+" the ``switch`` statement."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:250
+msgid "The ``if`` Statement"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:252
+msgid ""
+"The ``if`` keyword begins a conditional statement, which can optionally "
+"include an ``else`` clause.  As in JavaScript and C, ``if`` and ``else`` "
+"statements can chain."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:272
+msgid "The ``switch`` Statement"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:274
+msgid ""
+"The ``switch...case`` construct is a more compact form for a sequence of "
+"``if...else`` statements, just as in JavaScript and C."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:300
+msgid "Loop Statements"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:302
+msgid ""
+"KL supports four different types of loop statements: \"C-style\" loops, "
+"while loops, do-while loops, and dictionary loops."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:310
+msgid "\"C-Style\" Loops"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:312
+msgid "A :dfn:`C-style loop` takes the form:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:319
+msgid ""
+"where :samp:`{startStmt}` is a statement (possibly empty), "
+":samp:`{checkExpr}` and :samp:`{nextExpr}` are optional expressions, and "
+":samp:`{bodyStmt}` is a statement.  The loop operates as follows:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:321
+msgid ""
+"A new, nested scope is created.  This scope is destroyed when the loop "
+"finishes."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:323
+msgid "The :samp:`{startStmt}` statement is executed."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:325
+msgid ""
+"The :samp:`{checkExpr}` expression, if present, is evaluated, and the "
+"resulting value is converted to a ``Boolean``.  If the result is false, the "
+"loop finishes."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:327
+#: ..\..\source\KLProgrammingGuide\statements.rst:361
+#: ..\..\source\KLProgrammingGuide\statements.rst:394
+msgid "The :samp:`{bodyStmt}` statement is executed."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:329
+msgid ""
+"The :samp:`{nextExpr}` expression, if present, is evaluated, and the "
+"resulting value is discarded.  Execution is transferred back to the step "
+"that evaluates the :samp:`{checkExpr}` expression."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:331
+msgid ""
+"Note that since :samp:`{startStmt}` is a statement, it is possible to "
+"declare a new variable there.  This variable will go out-of-scope when the "
+"loop finishes.  It is common practice to declare loop-bound index variables "
+"in the :samp:`{startStmt}` statement."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:347
+msgid "While Loops"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:349
+msgid "A :dfn:`while loop` takes the form:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:357
+#: ..\..\source\KLProgrammingGuide\statements.rst:392
+msgid ""
+"where :samp:`{checkExpr}` is a expression and :samp:`{bodyStmt}` is a "
+"statement.  The loop operates as follows:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:359
+#: ..\..\source\KLProgrammingGuide\statements.rst:396
+msgid ""
+"The :samp:`{checkExpr}` expression is evaluated, and the resulting value is "
+"converted to a ``Boolean``.  If the result is false, the loop finishes."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:363
+msgid ""
+"Execution is transferred back to the step that evaluates the "
+":samp:`{checkExpr}` expression."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:381
+msgid "Do-While Loops"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:384
+msgid "A :dfn:`do-while loop` takes the form:"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:398
+msgid ""
+"Execution is transferred back to the step that executes the "
+":samp:`{bodyStmt}` statement."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:416
+msgid "Dictionary Loops"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:418
+msgid ""
+"A dictionary loop iterates over all the keys and values, or just the values,"
+" in a dictionary.  For more information on dictionary loops, see "
+":ref:`dictionaries`."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:424
+msgid "Loop Control Statements"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:426
+msgid ""
+"Within the body of a loop, the ``break`` and ``continue`` statements can be "
+"used to prematurely end the current iteration of the loop as described "
+"below."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:434
+msgid "The ``break`` Statement"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:436
+msgid ""
+"The ``break`` statement immediately exits the innermost loop.  It is an "
+"error to use the ``break`` statement outside of a loop."
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:455
+msgid "The ``continue`` Statement"
+msgstr ""
+
+#: ..\..\source\KLProgrammingGuide\statements.rst:457
+msgid ""
+"The ``continue`` statement immediately jumps to the next iteration of the "
+"innermost loop.  It is an error to use the ``continue`` statement outside of"
+" a loop."
+msgstr ""

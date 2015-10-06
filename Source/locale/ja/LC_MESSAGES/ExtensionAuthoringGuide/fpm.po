@@ -1,0 +1,164 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:4
+msgid "The Extension Manifest File"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:6
+msgid ""
+"Every |FABRIC_PRODUCT_NAME| must include an extension manifest file.  This "
+"file must have the filename :file:`{ExtensionName}.fpm.json`; the name of "
+"the extension is, by definition, the first part of the manifest file's "
+"filename."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:8
+msgid ""
+"As the filename suggests, the extension manifest file is in JSON format; for"
+" more information on JSON format, see http://json.org/.  The contents of the"
+" file are a JSON object with two members, :code:`libs` and :code:`code`.  "
+"The value of each of these members must be either an array of strings or a "
+"single string; in the latter case, it is interpreted as an array of strings "
+"containing the single given string.  The :code:`libs` member is optional and"
+" if omitted it will be treated as if it were an empty list of strings.  The "
+":code:`code` member is required."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:10
+msgid ""
+"The following is an example :file:`{ExtensionName}.fpm.json` extension "
+"manifest file:"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:27
+msgid "The :code:`version` Extension Versioning Specification (optional)"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:29
+msgid ""
+"The :code:`version` member specifies the version of the extension using a "
+"major, minor and revision number."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:31
+msgid ""
+"For more information on how to load a specific version in KL please refer to"
+" :ref:`KLPG.require.versioning`."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:33
+msgid ""
+"You can find a unit test shipped with Fabric Engine which demonstrate this "
+"in :code:`Test/Core/Python/ext-versions.py`."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:36
+msgid "The :code:`override` Extension Versioning Override (optional)"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:38
+msgid ""
+"The :code:`override` member optionally specifies an override key for this "
+"extension which is used to determine which version of a given extension "
+"takes priority over others at runtime. For more information please refer to "
+":ref:`KLPG.require.versioning`."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:40
+msgid ""
+"You can find a unit test shipped with Fabric Engine which demonstrate this "
+"in :code:`Test/Core/Python/ext-versions-override.py`."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:43
+msgid "The :code:`dfgPresets` Canvas Presets Specification (optional)"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:45
+msgid ""
+"The :code:`dfgPresets` member can be used to specify a directory and "
+"namespace for Canvas presets shipped with an extension. The directory needs "
+"to specify a folder relative to the folder of the manifest file. The "
+"resulting absolute path will be added the Canvas preset search under the "
+"given presetPath. The presetPath is used as a namespace within Canvas, so in"
+" the example above all presets will show up below "
+":code:`MyCompany.Exts.MyExtension`."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:48
+msgid "The :code:`libs` Compiled Library Specification"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:50
+msgid ""
+"The :code:`libs` member specifies a list of shared libraries (ie. DLLs) that"
+" include compiled code that provides functionality needed by the extension."
+"  When the extension is loaded, these libraries are loaded in the given "
+"order."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:52
+msgid ""
+"The |FABRIC_PRODUCT_NAME| core tries multiple filenames when attempting the "
+"load the given shared library.  For a given string :samp:`{LibName}` in the "
+"array of libraries, the filenames attempted are:"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:54
+msgid ""
+"The file :file:`{LibName}-Windows-{ARCH}.DLL` (Windows), "
+":file:`lib{LibName}-Linux-{ARCH}.so` (Linux) or "
+":file:`lib{LibName}-Darwin-{ARCH}.dylib` (Mac OS X); :samp:`{ARCH}` is the "
+"system architecture, either ``x86`` or ``x86_64``."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:56
+msgid ""
+"The file :file:`{LibName}.DLL` (Windows), :file:`lib{LibName}.so` (Linux) or"
+" :file:`lib{LibName}.dylib` (Mac OS X)"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:58
+msgid "The file :file:`{LibName}` without any prefix or suffix."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:60
+msgid ""
+"In each case, the |FABRIC_PRODUCT_NAME| core attempts to load the shared "
+"library from the directory that contains the "
+":file:`{ExtensionName}.fpm.json` extension manifest file."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:63
+msgid "The :code:`code` KL Source Code Specification"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:65
+msgid ""
+"The :code:`code` member specifies a list of KL source code files that should"
+" be provided by the extension.  These provide the source code included when "
+"the KL statement :samp:`require {ExtensionName};` is used in other KL source"
+" files."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\fpm.rst:67
+msgid ""
+"The KL source files are loaded from the directory containing the "
+":file:`{ExtensionName}.fpm.json` extension manifest file.  The are loaded "
+"and compiled in the order given in the :code:`code` array; therefore, it is "
+"important that if the contents of one source file depends on the contents of"
+" another, the former should follow the latter.  For example, if one source "
+"file defines a type and a second uses the type in another type or function "
+"declaration, the second file should follow the first."
+msgstr ""

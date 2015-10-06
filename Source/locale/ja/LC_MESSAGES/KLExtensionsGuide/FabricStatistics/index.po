@@ -1,0 +1,226 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:4
+msgid "FabricStatistics Extension"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:10
+msgid "|FABRIC_PRODUCT_NAME| version |FABRIC_VERSION|"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:11
+msgid "|FABRIC_COPYRIGHT|"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:13
+msgid ""
+"The ``FabricStatistics`` extension wraps a singleton statistics collector "
+"which can efficiently collect and synthesize custom statistics and profiling"
+" information. Through a thread-safe singleton, statistic source objects and "
+"profiling events can be recorded at any time from KL code."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:17
+msgid ""
+"The FabricStatistics extension has been designed for both simplicity of "
+"usage and to minimize overhead. In particular, most of the work for "
+"analyzing statistics and profiling events is delayed until a final report is"
+" requested."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:23
+msgid "Statistics"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:25
+msgid ""
+"The FabricStatistics extension can collect custom statistics and information"
+" for any registered objects, from any KL source code (extension, "
+"operator...). It supports object hierarchies, which simplifies the reports, "
+"and allows to sum values through the hierarchy (eg: memory usage)."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:28
+msgid ""
+"Statistics collection for an object is enabled through the implementation of"
+" the :kl-ref:`StatisticSource` interface. Through the :kl-"
+"ref:`StatisticSource.getStatistics` method, the object can submit any "
+"statistics or information that can be useful for further analysis. The "
+"implementation of the :kl-ref:`StatisticSource` can be simplified by using "
+"the :kl-ref:`StatisticsAutoRegisterMember` helper object, as seen in the "
+"example below."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:33
+msgid ""
+"In order to be registered by the FabricStatistics extension, objects "
+"implementing the :kl-ref:`StatisticSource` interface must call :kl-"
+"ref:`RegisterToFabricStatistics` in their constructor(s), and :kl-"
+"ref:`UnregisterFromFabricStatistics` in their destructor. Again, this "
+"process can be simplified and made more robust by using the :kl-"
+"ref:`StatisticsAutoRegisterMember` helper."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:37
+msgid ""
+"Statistic source objects will be recorded only if statistics have been "
+"previously enabled by a call to the :kl-ref:`EnableFabricStatistics` "
+"function. Statistic source objects that were constructed before a call to "
+":kl-ref:`EnableFabricStatistics` will not be monitored, so it is recommended"
+" to enable statistics before the scene gets populated."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:41
+msgid ""
+"If a :kl-ref:`StatisticSource` has some sub-objects that are themselves a "
+":kl-ref:`StatisticSource` (eg: `PolygonMesh` has a `GeometryAttributes` "
+"container), this relationship must be explicitly recorded by calling the "
+":kl-ref:`AddStatisticsChild` function."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:46
+msgid ""
+"Failing to unregister an object in its destructor can lead to a crash, since"
+" the FabricStatistics extension only keeps a `Ref<>` (unowned) of the object"
+" in order to avoid leaks (else, the object would never destroyed). Again, "
+"this can be avoided by using the :kl-ref:`StatisticsAutoRegisterMember` "
+"helper."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:50
+msgid ""
+"Statistics returned by an object through the :kl-"
+"ref:`StatisticSource.getStatistics` method are simple name / value pairs, "
+"embedded in a :kl-ref:`StatisticRecord`. Support statistic value types "
+"include `String`, `SInt64` and `Float64`. Although returned statistics can "
+"be arbitrary (eg: `Image` returning its `width` and `eight``), there are "
+"some standard fields:"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:54
+msgid ""
+"\"Name\" (the `Statistic_Name` constant): objects should provide a name, as "
+"this is the best way to identify an object in the statistics report."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:56
+msgid ""
+"\"Category\" (the `Statistic_Category` constant): this allows to regroup "
+"objects of different types in the statistics report for more clarity."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:58
+msgid ""
+"\"Type\" (the `Statistic_Type` constant): the KL type of the source. This "
+"one doesn't have to be provided, as it is automatically generated using the "
+"``.type()`` KL feature. The statistics report can regroup objects of the "
+"same type for more clarity."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:61
+msgid ""
+"\"Memory\" (the `Statistic_MemoryUsage` constant): the main memory usage for"
+" an object. If the object has sub-objects that implement themselves the "
+"StatisticSource interface, these should not be included in the \"Memory\", "
+"but rather registered as children objects (using the :kl-"
+"ref:`AddStatisticsChild` function). By default, the \"Memory\" statistic "
+"will get summed through the hierarchy in the final report. Since KL doesn't "
+"provide (yet) facilities for retrieving actual memory usage, this has to be "
+"estimated manually."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:67
+msgid ""
+"\"GPUMemory\" (the `Statistic_GPUMemoryUsage` constant): similar to "
+"\"Memory\" (above), but for the GPU (eg: OpenGL buffer objects)."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:114
+msgid ""
+"Statistics for all registered objects and their hierarchy can be retrieved "
+"by calling functions such as :kl-ref:`GetStatisticStrings` and :kl-"
+"ref:`GetStatisticsCSV`. In order to minimize runtime overhead, statistic "
+"source objects' :kl-ref:`StatisticSource.getStatistics` methods are only "
+"called when the statistic report is built. Information about destroyed "
+"objects is not retained."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:119
+msgid ""
+"The report can generate the sum of some statistics (eg: \"Memory\"). The "
+"list of the statistics to sum through the object hierarchies is provided by "
+"the `ColumnsToSum` argument in functions such as :kl-"
+"ref:`GetStatisticStrings`."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:124
+msgid ""
+"The :kl-ref:`FabricStatistics_RTValWrapper` object simply wraps the "
+"`FabricStatistics` global functions so they can be accessible through "
+"`RTVals` (global functions are not accessible because of a limitation)"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:130
+msgid "Profiling"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:132
+msgid ""
+"The FabricStatistics extension provides some facility for recording custom "
+"profiling events. FabricStatistics profile events are mostly useful for "
+"tracking specific details, for example breaking operators into multiple "
+"steps, identified with custom tags. The FabricStatistics profile events can "
+"be nested, and the hierarchy of events will be recorded."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:137
+msgid ""
+"Submitted profiling events will only be recorded if profiling is enabled by "
+"a call to :kl-ref:`StartFabricProfiling` or :kl-"
+"ref:`StartFabricProfilingFrames`."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:140
+msgid ""
+"Profiling events need to be bracketed through a call to :kl-"
+"ref:`BeginProfilingEvent` and :kl-ref:`EndProfilingEvent`. The `key` "
+"returned by :kl-ref:`BeginProfilingEvent` must be passed to the "
+"corresponding :kl-ref:`EndProfilingEvent`. When applicable, events can refer"
+" a :kl-ref:`StatisticSource` object in order to provide more information. "
+"The :kl-ref:`AutoProfilingEvent` struct can simplify profiling events "
+"recording since it will automatically call :kl-ref:`EndProfilingEvent` upon "
+"destruction."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:146
+msgid ""
+"All recorded events from the last profiling session can be retrieved by "
+"calling :kl-ref:`GetProfilingEvents` or :kl-ref:`GetProfilingReport`."
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:152
+msgid "Table of Contents"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:164
+msgid "Indices and Tables"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:166
+msgid ":ref:`genindex`"
+msgstr ""
+
+#: ..\..\source\KLExtensionsGuide\FabricStatistics\index.rst:167
+msgid ":ref:`search`"
+msgstr ""

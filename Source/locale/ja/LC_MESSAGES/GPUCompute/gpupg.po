@@ -1,0 +1,276 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\GPUCompute\gpupg.rst:4
+msgid "GPU Compute Programming Guide"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:0
+msgid "Table of Contents"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:9
+msgid ""
+"This document provides an outline of KL programing with GPU Compute "
+"(currently for Nvidia CUDA hardware) covering some details of its "
+"implementation in addition to explaining how it can be used in KL code. "
+"Everything in this document assumes that the user has correctly enabled CUDA"
+" GPU compute support as outlined in the :ref:`GPUCompute`."
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:11
+msgid ""
+"As GPU compute is still a relatively new feature there may be additional "
+"changes in its API as it evolves and we are always interested in feedback "
+"and suggestions from end users."
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:16
+msgid "KL Example"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:18
+msgid ""
+"The following is an example of KL code using GPU compute and is provided as "
+"a starting point to further discussion. This particular code shows the "
+"syntax used to invoke an operator on the GPU but is not an example of an "
+"algorithm that is particularly well-suited to GPU execution."
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:47
+msgid "Invoking a GPU Operator"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:49
+msgid ""
+"GPU compute functionality is accessed in KL via the standard :ref:`KLPG"
+".parallel-execution-statement` syntax on an operator plus an @ followed by a"
+" Boolean that evaluates to ``true``. Passing no parameter or ``false`` after"
+" the @ symbol will invoke the operator on the CPU."
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:51
+msgid ""
+"On machines with no CUDA support, or where CUDA support has not been enabled"
+" or failed to load, passing an @true parameter to a :ref:`KLPG.parallel-"
+"execution-statement` call will invoke the operator in a simulated GPU "
+"environment on the CPU, which can sometimes be useful for testing. A message"
+" will be printed each time an operator is invoked in this way to ensure that"
+" the user is aware that this code is not running on the GPU despite the "
+"@true PEX call:"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:58
+msgid "Type Support"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:60
+msgid ""
+"Not all KL types are supported on the GPU and in particular ``object``, "
+"``interface``, and ``MapReduce`` operators are currently unsupported. KL "
+"will output an error if a user tries to run an operator that uses one of "
+"these types on the GPU. In addition ``Dict`` and ``String`` types cannot "
+"currently be passed as parameters to a GPU operator, though a GPU operator "
+"may make use of them internally. These limitations around types may be "
+"removed in an upcoming version based on feedback and relevant use cases."
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:62
+msgid ""
+"The KL type that is most relevant to running operators on the GPU is the "
+"Variable Array as this maps most directly to use cases where the GPU "
+"operates in parallel on a large set (or sets) of input data. These variable "
+"arrays will often contain elements of a complex struct type, such as a :kl-"
+"ref:`Vec3` or an :kl-ref:`Xfo`. See the ``input`` and ``output`` arrays in "
+"the :ref:`gpupg-example`."
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:65
+msgid "Memory Management"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:67
+msgid ""
+"There are four types of memory made available in GPU compute so that the "
+"user can choose the type most suited to their needs. The three types are:"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:69
+msgid ""
+"*CPU*: Standard CPU memory, allocated on the heap via malloc(). This is the "
+"default backing memory for all types created on the CPU."
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:71
+msgid ""
+"*GPU*: Standard GPU-allocated memory. This type of memory is accessible only"
+" on the GPU and attempting to access it on the CPU will result in an error "
+"(in ``guarded`` mode) or a crash (in ``unguarded`` mode)."
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:73
+msgid ""
+"*SVM*: SVM stands for Shared Virtual Memory and in the CUDA case represents "
+"what is referred to as CUDA Managed Memory. This type of memory is "
+"accessible both on the CPU and the GPU and data transfers are managed "
+"transparently by the Nvidia driver. This type of memory is easiest for new "
+"users as it does not require the user to track where memory lives. More "
+"experienced users however may require more fine-grained control."
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:75
+msgid ""
+"*GLBuffer*: GLBuffer is memory that was loaded into an OpenGL buffer and "
+"then bound for use in GPU compute operators. This type of memory will be "
+"discussed further in the \"GL Binding\" section."
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:78
+msgid "Changing Memory Backing"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:80
+msgid ""
+"All KL types support several methods to change where their backing memory "
+"lives. For most types (including all shallow types) these methods are a no-"
+"op as their backing memory is not owned by them. However in the case of "
+"Variable Arrays these methods change where the member elements of the "
+"Variable Array are stored. The three relevant methods are:"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:82
+msgid "``myVar.convertToCPU()``"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:84
+msgid "``myVar.convertToGPU()``"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:86
+msgid "``myVar.convertToSVM()``"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:88
+msgid ""
+"These methods convert the backing memory of the type to one of the three "
+"types of memory discussed above."
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:91
+msgid "GL Binding"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:93
+msgid ""
+"There is an additional conversion method convertToGLBuffer() on Variable "
+"Arrays that allows converting their backing memory into a GL buffer which "
+"can be used in rendering in addition to GPU compute. This method requires "
+"that a valid GL context be bound at the time it's called and will otherwise "
+"result in an exception:"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:99
+msgid "A short example of using GL binding is provided here:"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:121
+msgid ""
+"The parameters passed to convertToGLBuffer() are the same as the `target` "
+"and `usage` parameters normally passed to a `glBufferData()` call and can "
+"have the same values."
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:124
+msgid "Determining Array Memory Location"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:126
+msgid ""
+"KL provides a mechanism to determine where a given Variable Array's elements"
+" currently live using the getElementsMemType() method. A short example of "
+"its use is outlined here:"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:144
+msgid "Memory and Resizing Arrays"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:146
+msgid ""
+"When using GPU compute the array resize() method resizes the allocated "
+"memory on the device where the memory resides. GL buffer-bound arrays can "
+"not be resized via the resize() method and will throw an error."
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:148
+msgid ""
+"For memory types that are accessible on the CPU (CPU and SVM), the elements "
+"in a newly-resized array will be initialized using the default constructor "
+"for the element type of the array (for example initialized with the Vec3() "
+"constructor). For GPU memory the elements in a newly-resized array will be "
+"initialized to zeros. This is an important distinction to be aware of as it "
+"represents a difference in behavior between CPU and GPU arrays."
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:171
+msgid "The copyTo() Array Method"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:173
+msgid ""
+"The copyTo() method can be used to transfer data between arrays, regardless "
+"of where their memory is located. The method will resize the destination "
+"array to be of the same size as the source array. Memory location for the "
+"destination array will remain unchanged."
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:194
+msgid "Parameter Passing"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:196
+msgid ""
+"Parameters to a KL GPU operator can be of any supported type and as with any"
+" normal KL operator they can be passed as ``in`` (the default) or ``io`` "
+"parameters. Shallow type parameters (such as an ``Integer`` or a ``struct``)"
+" will have their values copied to and from the GPU before and after each "
+"parallel operator invocation. Variable Arrays on the other hand will only "
+"have a pointer to their values passed into the operator. The backing memory "
+"for the Variable Array elements must live in memory accessible to the target"
+" device."
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:198
+msgid ""
+"In ``guarded`` mode, KL will perform checks on Variable Array parameters to "
+"ensure that their backing memory currently lives in an accessible memory "
+"space. If not a KL exception will be thrown to inform the user. As an "
+"example, the following KL code:"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:212
+msgid "Will result in the error message:"
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:218
+msgid ""
+"Adding a ``convertToGPU()`` or ``convertToSVM()`` method call to the "
+"``input`` and ``output`` parameters will resolve the error, as seen in the "
+":ref:`gpupg-example`."
+msgstr ""
+
+#: ..\..\source\GPUCompute\gpupg.rst:220
+msgid ""
+"In ``unguarded`` mode KL code that uses device and CPU memory incorrectly "
+"will crash."
+msgstr ""

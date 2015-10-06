@@ -1,0 +1,213 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:4
+msgid "Calling Convention for Exported Functions"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:8
+msgid ""
+"The use of the :command:`kl2edk` tool to generate the header file with the "
+"types and function prototypes corresponding to KL code has mostly made this "
+"section irrelevant, since you can now guarantee that you use the right "
+"calling convention for your extension functions by just copying the function"
+" prototypes from the generated header file.  However, we retain this section"
+" for reference and to help those looking for a deeper understanding of how "
+"KL interfaces with C++."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:10
+msgid ""
+"We saw in the :ref:`EAG.sample` section that to return a string from a "
+"function exported to KL it was necessary to declare the C++ function "
+"signature with the return value as a first parameter and with the C++ "
+"function returning ``void``.  In KL the function declaration was::"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:14
+msgid "whereas the function definition in C++ was::"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:23
+msgid ""
+"In order to have the extension function called correctly from KL it is "
+"necessary in some cases to adjust the C++ function parameters and return "
+"type.  We refer to this as the *calling convention* for exported functions."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:25
+msgid ""
+"The rules for the calling convention are dependent on the types of the "
+"function parameters and the return type.  For the purpose of the calling "
+"convention, there are two kinds of types: *simple* types and *complex* "
+"types."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:30
+msgid "Calling Convention for Simple Types"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:32
+msgid "The simple types are the small, predefined types; they are:"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:34
+msgid "``Boolean``;"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:35
+msgid ""
+"The integer types: ``UInt8``, ``SInt8``, ``UInt16``, ``SInt16``, ``UInt32``,"
+" ``SInt32``, ``UInt64`` and ``SInt64``;"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:36
+msgid "The floating-point types: ``Float32`` and ``Float64``; and"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:37
+msgid ""
+"The aliases for simple types: ``Integer``, ``Byte``, ``Index``, ``Size`` and"
+" ``Scalar``."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:39
+msgid "See :ref:`types.simple` for more information about the simple types."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:41
+msgid ""
+"Simple types are directly returned from C++ functions and are directly "
+"passed by value as ``in`` parameters:"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:43
+msgid ""
+"When a KL function returns a simple type the corresponding C++ function "
+"should also return the same simple type."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:45
+msgid ""
+"When a KL function takes a simple type as an ``in`` parameter the C++ "
+"function should also take the same simple type by value."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:47
+msgid ""
+"When a KL function takes a simple type as an ``io`` parameter the C++ "
+"function should take the same simple type by reference."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:49
+msgid "For example, the KL function::"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:58
+msgid "should have the C++ definition::"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:74
+msgid "Calling Convention for Complex Types"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:76
+msgid ""
+"The :ref:`complex types <types.complex>` are all the types that are not "
+"simple types.  They include:"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:78
+msgid ":ref:`KL::String <types.string>`"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:79
+msgid "All container types; see :ref:`types.container`"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:80
+msgid "All user-defined types; see :ref:`types.user-defined`"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:82
+msgid ""
+"Complex types are always passed by reference.  Furthermore, in the case they"
+" are returned from functions the return value should be stored into a hidden"
+" first reference parameter; the resulting function should return void.  In "
+"order to simplify the use of this convention, the typedefs ``INParam``, "
+"``IOParam`` and ``RetVal`` are provided for each built-in complex type; see"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:84
+msgid ""
+"In order to facilitate this, predefined complex types provide typedefs that "
+"help with this calling convention:"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:86
+msgid "``KL::<ComplexType>::INParam``"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:88
+msgid "The type of an ``in`` parameter from KL."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:90
+msgid "``KL::<ComplexType>::IOParam``"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:92
+msgid "The type of an ``io`` parameter from KL."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:94
+msgid "``KL::<ComplexType>::Result``"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:96
+msgid "The type of a \"hidden return parameter\" in KL."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:98
+msgid ""
+"A hidden return parameter must always be the first parameter of the C++ "
+"function in which it is used.  This condition cannot be enforced by the "
+"``FabricEDK.h`` header, therefore it is the programmer's responsibility to "
+"ensure it is met."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:100
+msgid ""
+"If you wish to provide these same typedefs in your custom structure "
+"definitions, use the ``FABRIC_EDK_COMPLEX_TYPE(TypeName)`` macro as "
+"demonstrated below."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:102
+msgid "For example, the following KL function declaration:"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:116
+msgid "should be represented by the following C++ function:"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:138
+msgid "Mixing Simple and Complex Types"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cconv.rst:140
+msgid ""
+"It is perfectly acceptable (and common) to mix simple and complex types in "
+"extension functions; you must simply follow the rules for each type "
+"individually."
+msgstr ""

@@ -1,0 +1,160 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\InstrumentationGuide\core.rst:2
+msgid "Core Instrumentation Interface"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:4
+msgid ""
+"The lowest-level access to the Fabric Engine instrumentation interface is "
+"through the :samp:`startInstrumentation` and :samp:`stopInstrumentation` "
+"methods that are available on Fabric client objects."
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:7
+msgid "The :samp:`startInstrumentation` Method"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:9
+msgid ""
+"The :samp:`startInstrumentation` method tells Fabric Engine to start "
+"collecting instrumentation data.  It takes no parameters.  Calling this "
+"function a second time in a row has no effect.  Instrumentation data will "
+"continue to be collected until the :samp:`stopInstrumentation` method is "
+"called."
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:12
+msgid "The :samp:`stopInstrumentation` Method"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:14
+msgid ""
+"The :samp:`stopInstrumentation` method tells Fabric Engine to stop "
+"collecting instrumentation data and returns the collected instrumentation "
+"data.  It takes a single parameter whose value specifies the format of the "
+"data that is returned; it should be one of the following values:"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:17
+msgid ":samp:`\"raw\"`"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:17
+msgid ""
+"Return the raw instrumentation data.  The format for this data is described "
+"below."
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:20
+msgid ":samp:`\"svg\"`"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:20
+msgid ""
+"Return the data as an SVG-formatted string that is suitable for display in "
+"any SVG-enabled display widget."
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:23
+msgid "The Raw Data Format"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:25
+msgid ""
+"The result of the :samp:`stopInstrumentation` method when passed the "
+":samp:`\"raw\"` argument is the raw instrumentation data.  Its format is as "
+"follows:"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:27
+msgid ""
+"An array of :dfn:`thread objects` each of which are an object with the "
+"following members:"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:29
+msgid ""
+"An :samp:`\"n\"` member whose value, a string, is the name of the thread "
+"(eg. :samp:`\"Worker Thread 1\"`)"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:31
+msgid ""
+"An :samp:`\"s\"` member whose value is an array of :dfn:`time records`.  "
+"Each sub-array time record specifies Fabric Engine accounted for while "
+"instrumenting, and the time records happened immediately after each other in"
+" the order of the array.  Each time record is itself an array with the "
+"following elements, in order:"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:33
+msgid "A :dfn:`duration` value (floating-point) measured in seconds"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:35
+msgid "A :dfn:`description` value (string)"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:37
+msgid ""
+"A :dfn:`nesting depth` value (non-negative integer), used internally by the "
+"time record keeping mechanism"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:39
+msgid ""
+"A :dfn:`category` value indicating where the operation was happening, having"
+" one of the following values:"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:43
+msgid ":samp:`0`"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:43
+msgid ""
+"Time spent was external to Fabric (ie. by the dynamic language) or used by a"
+" worker thread while idle"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:46
+msgid ":samp:`1`"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:46
+msgid ""
+"Time spent was internal to the Fabric Engine core itself but not in user "
+"code"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:49
+#: ..\..\source\InstrumentationGuide\core.rst:52
+msgid ":samp:`2`"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:49
+msgid "Time spent was in user code (ie. KL operators)"
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:52
+msgid ""
+"Time spent was in an extension.  NOTE: as of this writing this category is "
+"currently not used and all time spend in extensions shows up in the user "
+"category."
+msgstr ""
+
+#: ..\..\source\InstrumentationGuide\core.rst:55
+msgid "Example"
+msgstr ""

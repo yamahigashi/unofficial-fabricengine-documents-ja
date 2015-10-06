@@ -1,0 +1,189 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:4
+msgid "Nodes"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:6
+msgid ""
+"The fundamental unit of the |FABRIC_PRODUCT_NAME| dependency graph is called"
+" a :dfn:`Node`.  A Node contains data and has a list of Operators, written "
+"in the KL programming language, that manipulate the data."
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:9
+msgid "Node Creation"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:11
+msgid ""
+"Each node must have a unique name which is specified when it node is "
+"created.  The name of the node must not conflict with the name of any Event,"
+" EventHandler or Operator (see below).  To create a node, call "
+"``fabricClient.DG.createNode``."
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:18
+msgid "The name of a node can be retrieved through the ``getName`` method."
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:27
+msgid "Node Members"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:29
+msgid ""
+"A Node has zero or more :dfn:`members`.  Each member has a name (a non-empty"
+" string), a type (referred to as the name of a registered type), and, "
+"optionally, a default value.  Members can be added to nodes with the "
+"``addMember`` method and an object with details of all the members can be "
+"retrieved with the ``getMembers`` method."
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:38
+msgid ""
+"The optional third argument to ``node.addMember()`` is NOT an RTVal; it is a"
+" simple Python structure that has the same layout of the KL type.  Use of "
+"this default value is NOT recommended as it is from a very old version of "
+"the DG API."
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:40
+msgid ""
+"Each member has a value, or in the case of a node with a slice count greater"
+" than one (see below), one value per slice.  The value of a member is "
+"retrieved using the ``getData`` method and set using the ``setData`` method."
+"  Both methods take the member name as the first argument and the slice "
+"index as the second argument."
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:52
+msgid "Node Slice Counts"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:54
+msgid ""
+"Each Node has a :dfn:`slice count`.  Setting the slice count of a node to a "
+"number greater than one enables the core to compute over an array of data "
+"(\"SIMD parallelization\"); each member has one value for each slice of the "
+"node.  The default slice count for a node is one."
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:56
+msgid ""
+"Operators can run on nodes per-slice or on all slices at once, depending on "
+"how the operator is bound to the node.  This will be explained below."
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:58
+msgid ""
+"The slice count for a node is set with the ``setSliceCount`` (or "
+"``setSize``) method and retrieved with the ``getSliceCount`` (or "
+"``getSize``) method."
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:82
+msgid "Node Dependencies"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:84
+msgid ""
+"Each node has zero or more named :dfn:`dependencies`; the dependency is "
+"another node.  If a node A has a dependency on another node B, then all of "
+"the operators of node A will run after all of those on node B have finished "
+"running."
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:86
+msgid "The name of a dependency must be a non-empty string."
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:88
+msgid ""
+"The name of the dependency is used to bind operators to the data in the "
+"dependency node"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:90
+msgid "Each dependency of a node must have a different name"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:92
+msgid ""
+"You cannot create a dependency loop between Nodes, ie. you cannot have Node "
+"A dependent on Node B at the same time as Node B is dependent on Node A."
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:94
+msgid ""
+"Dependencies are added using the ``setDependency`` method, and dependencies "
+"of a node are retrieved using the ``getDependencies`` method."
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:105
+msgid "Node Evaluation"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:107
+msgid ""
+"Each node is either :dfn:`clean` or :dfn:`dirty`.  A node become dirty if "
+"any of the following happen:"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:109
+msgid "The node's ``setData`` method is called"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:111
+msgid ""
+"Anything about the node changes (eg. added dependencies, added members)"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:113
+msgid "Any of the node's dependencies becomes dirty"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:115
+msgid ""
+"Nodes can be :dfn:`evaluated`.  Evaluating a node does the following: if the"
+" node is clean, nothing happens.  Otherwise,"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:117
+msgid "All the dependencies of the node are evaluated"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:119
+msgid "All of the operators bound to the node are executed"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:121
+msgid "The node is marked as clean"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:123
+msgid ""
+"A node can be manually evaluated by calling the `evaluate` method.  Nodes "
+"are automatically evaluated when:"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:125
+msgid "A node is a dependency of another node that is evaluated"
+msgstr ""
+
+#: ..\..\source\DependencyGraphProgrammingGuide\nodes.rst:127
+msgid ""
+"An EventHandler (see below) has an operator bound to the data in the node, "
+"and the EventHandler is executed"
+msgstr ""
