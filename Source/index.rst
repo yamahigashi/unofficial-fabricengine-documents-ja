@@ -16,9 +16,13 @@
 <http://docs.fabric-engine.com/FabricEngine/latest/HTML/index.html>`_ の和訳です。
 この日本語に翻訳された文書は Fabric Software社公式のものではありません。
 和訳に関する質問、問い合わせは Fabric Softwawe ではなく
-`この和訳プロジェクトのissues
+`この和訳プロジェクト
+<https://github.com/yamahigashi/unofficial-fabricengine-documents-ja/>`_ の
+`issues
 <https://github.com/yamahigashi/unofficial-fabricengine-documents-ja/issues>`_ 迄お願いします。
 この文書の和訳は完璧な翻訳ではなく、誤りを含む可能性があります。あくまで概略を示すものとしてお使いください。また当該翻訳の正確性の欠如、および翻訳結果から生じるいかなる損害に対しても翻訳者は一切の責任を負わないものとします。またこの文書のすべての権利は Fabric Software社にあります。
+
+また各ページの翻訳前のオリジナルページへは、サイドバーこのページセクション『原文公式ページへ移動』のリンクからたどることができます。
 
 
 Welcome!

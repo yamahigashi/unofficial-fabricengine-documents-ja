@@ -67,7 +67,7 @@ if not graphviz_dot:
 graphviz_output_format = 'svg'
 
 # Add any paths that contain templates here, relative to this directory.
-# templates_path = ['_templates']
+templates_path = ['_templates']
 
 # The suffix of source filenames.
 source_suffix = '.rst'
@@ -142,21 +142,21 @@ html_theme = 'default'
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-fabric_color_sky_blue = "#21a8e0"
-fabric_color_greenish = "#73992b"
-fabric_color_aubergine = "#2e1a2e"
+fabric_color_sky_blue   = "#21a8e0"
+fabric_color_greenish   = "#73992b"
+fabric_color_aubergine  = "#2e1a2e"
 fabric_color_33pct_gray = "#a8a8a8"
 fabric_color_15pct_gray = "#dadada"
-fabric_color_black = "#000000"
+fabric_color_black      = "#000000"
 html_theme_options = {
-  "sidebarbgcolor": "#171a1f",
+  "sidebarbgcolor":   "#004040",
   "sidebartextcolor": "#ffffff",
   "sidebarlinkcolor": "#a8a8a8",
-  "relbarbgcolor": "#1c252a",
-  "relbartextcolor": "#ffffff",
-  "relbarlinkcolor": "#a8a8a8",
-  "footerbgcolor": "#000000",
-  "footertextcolor": "#a8a8a8"
+  "relbarbgcolor":    "#002e30",
+  "relbartextcolor":  "#ffffff",
+  "relbarlinkcolor":  "#a8a8a8",
+  "footerbgcolor":    "#000000",
+  "footertextcolor":  "#a8a8a8"
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
@@ -192,7 +192,9 @@ html_static_path = ['_static']
 #html_use_smartypants = True
 
 # Custom sidebar templates, maps document names to template names.
-#html_sidebars = {}
+html_sidebars = {
+    '**': ['localtoc.html', 'relations.html', 'goto_original.html', 'searchbox.html'],
+}
 
 # Additional templates that should be rendered to pages, maps page names to
 # template names.
