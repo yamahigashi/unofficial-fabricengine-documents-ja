@@ -1,9 +1,14 @@
-# Fabric Engine Documetation 非公式日本語版
+# Fabric Engine 非公式和訳文書
 http://docs.fabric-engine.com/FabricEngine/latest/HTML/index.html
-のドキュメント私家翻訳版を許可を得て公開。閲覧はこちらからどうぞ
+のドキュメントを許可を得て私家翻訳版を公開。閲覧は[こちら](http://yamahigashi.github.io/unofficial-fabricengine-documents-ja/)からどうぞ
 
 *このドキュメントは公式なものではありません。*
-*より正確なドキュメントをお求めであれば、公式のドキュメントを参照してください*
+*より正確なドキュメントをお求めであれば、[公式のドキュメント](http://docs.fabric-engine.com/FabricEngine/latest/HTML/index.html)を参照してください*
+
+
+## 翻訳へのご協力のお願い
+
+
 
 ## 翻訳ステータス
 
