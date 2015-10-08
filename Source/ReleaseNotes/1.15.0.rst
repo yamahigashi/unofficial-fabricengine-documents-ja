@@ -1,0 +1,280 @@
+.. _RELNOTES-1.15.0:
+
+Fabric Engine 1.15.0 Release Notes
+=================================================
+
+.. image:: /images/FE_logo_345_60.*
+   :width: 345px
+   :height: 60px
+
+| Fabric Engine version 1.15.0
+| Released Thursday 12 February 2015
+| Copyright 2010-2015 Fabric Software Inc. All rights reserved.
+
+.. contents:: Table of Contents
+  :local:
+
+Important Notes - Read Me First!
+--------------------------------
+
+- Because of the introduction of access controls (eg. ``public`` vs. ``private``) in the AlembicWrapper extension it is possible that existing code using the Alembic extension might encounter problems calling internal functions that are no longer ``public``.  Code should be refactored to not use internal functions; if this is not possible, you should contact Fabric Software for guidance.
+
+- If you have added custom ``.clone()`` methods on objects in existing KL code then you will need to refactor the code to use the new ``.cloneMembersTo()`` method.  See :ref:`KLPG.types.objects.clone` for more information.
+
+- Due to a fix in ``mathRandomScalar`` and similar functions the output of this function has changed.  If your existing code is dependent on the exact values of this function not changing then contact Fabric Software for information on how to get the old behaviour.
+
+Major Changes in 1.15.0
+----------------------------
+
+- The are major enhancements to the GPU compute framework which make it much more usable for real-world 3D problems.  Specifically:
+
+  - GPU-bound variable arrays can now be bound to OpenGL VBOs for direct rendering
+
+  - The Geometry and InlineDrawing extensions have been enhanced to take advantage of VBO-bound variable arrays, enabling direct rendering of GPU-computed attributes
+
+- Licensing: Two additional license types, Render-only and Developer have been added in addition to the default Interactive license. For more information see the :ref:`LG`.
+
+- KL: Support has been added to the KL language for member and method access controls for structs, objects and interfaces.  Access is controlled through the new ``public``, ``private``, ``protected`` and ``permits`` keywords in KL.  More details can be found in the section :ref:`KLPG.types.member-access`.
+
+- KL: We have deprecated the ``this.parent#method()`` syntax for parent method calls and replaced it with the more obvious ``this.parent.method()`` syntax.
+
+- KL Tool: Fixed support for ``--useir`` flag in KL tool in order to enable experimentation with integration with other languages.
+
+.. _downloads-1.15.0:
+
+Downloads
+---------
+
+All downloads for Fabric Engine 1.15.0 can be obtained at http://fabricengine.com/get-fabric/.  For information on installation please refer to the :ref:`InstallationGuide`.
+
+Comprehensive Changes in Fabric Engine 1.15.0
+---------------------------------------------
+
+Distribution
++++++++++++++++++
+
+- The ``environment.sh`` can now be sourced from any directory and will now automatically set ``MAYA_MODULE_PATH`` if ``MAYA_VERSION`` is found in the environment.
+
+Fabric Core
+++++++++++++++++++
+
+- Added support for "slow operation callback" that will be called at the beginning and end of slow Fabric Core operations.
+
+- We now only prune the compiled IR cache once a day since it can be a slow operation
+
+KL Language
+++++++++++++++
+
+- Direct access to OpenGL functionality, specifically the ability to bind GPU data to VBOs, has been added to the KL programming language.  This replaces the old CudaGL extension which has been removed.  For more information, see FIXME
+
+- We have deprecated the use of the ``#`` (sharp) operator to call parent versions of methods.  You should instead just call ``this.parent.method(...)`` directly.
+
+- Support has been added to the KL language for member and method access controls for structs, objects and interfaces.  Access is controlled through the new ``public``, ``private``, ``protected`` and ``permits`` keywords in KL.  More details can be found in the section :ref:`KLPG.types.member-access`.  The AlembicWrappers extension has been updated with access controls to serve as a real-world example.
+
+- Several fixes for the creation and destruction of objects that ensure that parent constructors and destructors are properly called.
+
+- Many fixes to the resolution of object and interface casts.
+
+- The ``function`` keyword is now entirely optional in front of function declarations and definitions.  See :ref:`functions` for more information.
+
+- The constants ``FabricVersionMaj``, ``FabricVersionMin`` and ``FabricVersionRev`` have all been exposed in the language so that compile-type determination about the running version of Fabric is available.
+
+- The paradigm for redefining the ``.clone()`` method for objects has changed.  See :ref:`KLPG.types.objects.clone` for more information.
+
+- Added the ``Type.createNew()`` method that will create a new instance of objects from the Type for an object.
+
+KL Tool
+++++++++++++++++++++
+
+- Fixed support for ``--useir`` flag in KL tool.  Note that ``--useir`` is limited to non-GPU-compute code.
+
+- Added ``-c`` flag to allow passing the KL source code as a command-line parameter
+
+EDK
+++++++++++++
+
+- Added EDKObjects example demonstrating binding object constructors and methods to EDK-implemented functions.
+
+zBug
+++++++
+
+- We have released a new version of zBug, available at http://dist.fabric-engine.com/zBug/.  In addition to many interface improvements we now automatically set the ``FABRIC_DEBUG`` and ``FABRIC_OPT_TYPE`` environment variables to enable KL source-level debugging.
+
+Extensions (General)
++++++++++++++++++++++++
+
+- All extensions distributed with Fabric now have the same version number as Fabric itself.
+
+Geometry Extension
++++++++++++++++++++++
+
+- Added support for GPU compute access to geometry attributes, allowing a full GPU compute-enabled geometry pipeline including direct rendering from GPU-computed attributes in VBOS.
+
+- Added ``hasAttribute`` method to ``PolygonMesh``
+
+- Fixed bug in ``addCylinder`` causing an invalid cylinder to be generated.
+
+- Fixed value types for ``UInt16ConstantArrayAttribute``
+
+- Added the ``PolygonMesh.getPolygonPackedSharedAttributeValues()`` method which will extract mesh attribute values into a one which has optimal vertex shared values.  See the ``PolygonMesh_attributeShareExport.kl`` unit test for an example of usage.
+
+- Added the ``PolygonMesh.getUVsAsPackedArray()`` method
+
+InlineDrawing Extension
+++++++++++++++++++++++
+
+- Added support for GPU compute access to geometry attributes, allowing a full GPU compute-enabled geometry pipeline including direct rendering from GPU-computed attributes in VBOS.
+
+- The InlineDrawing guide has been moved into the InlineDrawing extension documentation.
+
+- Fix leak of context metadata
+
+- Performance improvements for ``inlinetransform.getChild()``
+
+- Fix for uniform declaration in shader which would cause GLSL errors on some platforms
+
+- Added missing lock in ``InlineTransformBase.removeChild()`` that would occasionally result in a crash when removing children.
+
+AlembicWrapper Extension
+++++++++++++++++++++++++++++
+
+- Converted the AlembicWrapper extension to use ``public`` and ``private`` as an example of the new KL access control features.
+
+Math Extension
+++++++++++++++++++++
+
+- Fixes to ``mathRandomInteger``, ``mathRandomScalar``, ``mathRandomFloat32`` and ``mathRandomFloat64`` to make the random numbers be more "random" modulo 4.
+
+OpenImageIO Extension
+++++++++++++++++++++++
+
+- Fixed issue on Linux when loading TIFF files that have an embedded PNG.
+
+- Report error when images cannot be loaded
+
+Filesystem Extension
+++++++++++++++++++++++
+
+- Added ``last_write_time`` accessor
+
+Singletons Extension
++++++++++++++++++++++++++++
+
+- Documented that KL structures cannot be used with the Singletons extension
+
+SpliceAPI
++++++++++++++
+
+- Splice Nodes are now only persisting the file path to an external file path when setKLOperatorFile was used. Additionally you can now use relative paths to the KL files, as well as use environment variables within KL file paths. Environment variables have to be written like this: :dfn:`${MYENVVAR}`.
+
+- The :dfn:`loadSplice` command now supports the asReferenced boolean flag. With it set splice files can now be referenced into scenes. As with referenced KL files you can use environment variables within KL file paths. Environment variables have to be written like this: :dfn:`${MYENVVAR}`. Referenced splice nodes will be saved to the maya file as the splice file path only.
+
+.. note:: This currently only works for Maya.
+
+- Now only persist non-default values within the Splice JSON
+
+- Fix for autoInitObjets functionality
+
+- Fabric version info is now available through Splice interface
+
+- Performance timers have been improved, more granular feedback for each Splice Node used.
+
+- Added support for "slow operation callback" that will be called at the beginning and end of slow Fabric Core operations.
+
+- Fix a crash when using custom persistence
+
+SpliceMaya
+++++++++++++++++
+
+- Performance improvement of the generic spliceMayaNode. Outputs data is now only converted for plug being pulled, which results in a performance improvement in scenarios where IO ports aren't used for pulling data into maya.
+
+- Maya UVs are now set as a merged set, not as unique uvs per polygon. This ensures connected uv patches and reduces data sizes.
+
+- Fix for name uniqueness issue
+
+- Fix issue with reloading of Splice nodes
+
+- Fix a crash when using a native integer array as a compound child
+
+- Arrays of compound attributes now use the same value for each element
+
+- Fix for font height offset issues
+
+- Lock the Splice KL code editor for file-based KL operators
+
+- Fix an issue with compound dirtying during scene load
+
+- Fix an issue with multicompound parameters not working on load
+
+- The plugin version now appears as the Fabric Engine version rather than just "1.0"
+
+- Added support for constant size gizmos
+
+- Fixed an issue with port default values not being applied
+
+
+SpliceSoftimage
+++++++++++++++++++++++
+
+- New spliceGetData ICE node. Please see :ref:`splice_softimage_ice`
+
+- Documented EvalContext ``getDirtyInputs`` limitation
+
+- The plugin version now appears as the Fabric Engine version rather than just "1.0"
+
+- Fix an issue with .so symbol collision on Linux
+
+.. _knownissues-1.15.0:
+
+.. _documentation-1.15.0:
+
+SpliceStandalone
++++++++++++++++++++++
+
+- We now display loading progress messages through use of the new core "slow operation callback" mechanism.
+
+- We now use "in" for "geo" ports
+
+
+Documentation
+-------------
+
+Complete documentation for Fabric Engine can be :ref:`found here <TOP>`.
+
+.. _upgrading-apps-1.15.0:
+
+Upgrading Applications to Version 1.15.0
+----------------------------------------------------
+
+Please see the :ref:`RELNOTES-1.13.0` for upgrading information.
+
+.. _notes-1.15.0:
+
+Previous Release Notes
+----------------------
+
+- :ref:`RELNOTES-1.14.2`
+
+- :ref:`RELNOTES-1.14.1`
+
+- :ref:`RELNOTES-1.14.0`
+
+- :ref:`RELNOTES-1.13.0`
+
+- :ref:`RELNOTES-1.12.0`
+
+- :ref:`RELNOTES-1.11.4`
+
+- :ref:`RELNOTES-1.11.3`
+
+- :ref:`RELNOTES-1.11.2`
+
+- :ref:`RELNOTES-1.11.0`
+
+- :ref:`RELNOTES-1.10.0`
+
+- :ref:`RELNOTES-1.9.0-beta`
+
+- :ref:`RELNOTES-1.8.0-beta`
+
+- :ref:`RELNOTES-1.7.3-beta`

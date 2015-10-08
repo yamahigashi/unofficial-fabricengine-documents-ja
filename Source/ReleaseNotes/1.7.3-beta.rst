@@ -1,0 +1,312 @@
+.. _RELNOTES-1.7.3-beta:
+
+Creation Platform 1.7.3-beta Release Notes
+==========================================
+
+.. image:: /images/FE_logo_345_60.*
+   :width: 345px
+   :height: 60px
+
+| Creation Platform version 1.7.3-beta
+| Copyright 2010-2015 Fabric Software Inc. All rights reserved.
+
+Important Notes - Read Me First!
+--------------------------------
+
+- The major jump in version (the last version was 1.0.32) is because of synchronizing with the version numbering scheme of the Creation Platform core.
+
+- From now on, changes to the last digit of the version (1.7.4, 1.7.5, ...) will be reserved for bug fix releases. The next major version of Creation Platform will be 1.8.x.
+
+- Creation Platform requires a video card and driver that support OpenGL 3.2 or later.
+
+- Several modules that were distributed with Creation Platform are now distributed separately. These include Tufty (fur and hair grooming and simulation), Flex (the muscle simulation), Orb (server side rendering), and Cast (character solvers and systems). To get access to these additional modules, please contact us.
+
+- If you are on Windows and upgrading from version 1.0.31 (two versions ago):
+
+  - The Windows installer now defaults to an installation for all users of the machine. This exposes a bug in the Windows Installer system that stops the upgrade from version 1.0.31-beta from working correctly. As such, you must manually uninstall version 1.0.31-beta using the "Programs and Features" control panel before installing 1.7.3-beta.
+
+  - To install 1.7.3-beta only for the current user, select the "Advanced" option after accepting the EULA in the Window installer.
+
+.. _downloads-1.7.3-beta:
+
+Downloads
+---------
+
+- Creation Platform 1.7.3-beta Installers
+
+  - `Windows 64-bit with Python 2.7 <http://dist.fabric-engine.com/CreationPlatform/1.7.3-beta/CreationPlatform-1.7.3-beta-Windows-64Bit-Python2.7.msi>`_
+
+    - Requires Windows 7 SP1 or above.
+
+  - `Windows 64-bit with Python 2.6 <http://dist.fabric-engine.com/CreationPlatform/1.7.3-beta/CreationPlatform-1.7.3-beta-Windows-64Bit-Python2.6.msi>`_
+
+    - Requires Windows 7 SP1 or above.
+
+  - `Windows 32-bit with Python 2.7 <http://dist.fabric-engine.com/CreationPlatform/1.7.3-beta/CreationPlatform-1.7.3-beta-Windows-32Bit-Python2.7.msi>`_
+
+    - Requires Windows 7 SP1 or above.
+
+  - `Mac OSX 64-bit with Python 2.7 <http://dist.fabric-engine.com/CreationPlatform/1.7.3-beta/CreationPlatform-1.7.3-beta-MacOSX-64Bit.dmg>`_
+
+    - Requires Mac OS X 10.7 "Lion" or above.
+
+  - `Ubuntu 64-bit with Python 2.7 <http://dist.fabric-engine.com/CreationPlatform/1.7.3-beta/CreationPlatform-1.7.3-beta-Ubuntu-amd64-Python2.7.deb>`_
+
+    - Built on Ubuntu 12.04.
+
+  - `Ubuntu 64-bit with Python 2.6 <http://dist.fabric-engine.com/CreationPlatform/1.7.3-beta/CreationPlatform-1.7.3-beta-Ubuntu-amd64-Python2.6.deb>`_
+
+    - Built on Ubuntu 10.04.
+
+  - `CentOS 64-bit with Python 2.6 <http://dist.fabric-engine.com/CreationPlatform/1.7.3-beta/CreationPlatform-1.7.3-beta-CentOS-x86_64-Python2.6.rpm>`_
+
+    - Built on CentOS 6.3.
+
+- `Demo Applications for Creation Platform 1.7.3-beta <http://dist.fabric-engine.com/CreationPlatform/1.7.3-beta/CreationPlatform-1.7.3-beta-Demos.zip>`_
+
+  - All platforms.
+
+- `CPCAPI DCC Integrations for Creation Platform 1.7.3-beta <http://dist.fabric-engine.com/CreationPlatform/1.7.3-beta/CreationPlatform-CPCAPI-1.7.3-beta.zip>`_
+
+  - All platforms.
+
+Table of Contents
+-----------------
+
+- :ref:`notes-1.7.3-beta`
+
+- :ref:`installing-1.7.3-beta`
+
+- :ref:`documentation-1.7.3-beta`
+
+- :ref:`compiling-1.7.3-beta`
+
+.. _notes-1.7.3-beta:
+
+Release Notes for 1.7.3-beta
+----------------------------
+
+Supported Platforms
++++++++++++++++++++
+
+Creation Platform 1.7.3-beta officially supports the following platforms:
+
+- Windows 7 64-bit using Python 2.7
+- Windows 7 64-bit using Python 2.6
+- Windows 7 32-bit using Python 2.7
+- Ubuntu 12.04 (Python 2.7)
+- Ubuntu 10.04 (Python 2.6)
+- CentOS 6.3 (Python 2.6)
+- Mac OS X 10.7 "Lion" or later (Python 2.7)
+
+Creation Platform Changes
++++++++++++++++++++++++++
+
+**New Sample Applications**
+
+- Camera Projection Tool: texturing through camera projection.
+
+- FBX Viewer: standalone viewer for FBX assets.
+
+- Alembic Viewer: standalone viewer for Alembic assets.
+
+To access these samples, see :ref:`downloads-1.7.3-beta`.
+
+**New geometry attribute system based on KL Objects**
+
+- Attributes container now contains a collection of typed attributes (eg: Vec3 positions, Vec2 uvs, RGBA colors) instead of being restricted to Scalar arrays. Attributes (eg: uvs) can be passed and modified individually.
+
+- Attributes can be added dynamically in KL, and the rendering of these works without the need to call Python functions
+
+- Setting polygon mesh attributes (positions, normals, uvs, etc) is much simpler:
+
+  - Attributes are set directly from type structs (Vec2, Vec3, Color, RGBA, etc)
+
+  - PolygonMesh and Lines now contain references to the Attributes container, no longer needs to be passed around
+
+  - PolygonMesh attribute sharing no longer requires an external bit vector to be passed.
+
+**Real-Time Renderer Framework v2.0**
+
+NOTE: documentation will be updated soon after the release
+
+- Upgraded to take advantage of the power of generic KL Objects:
+
+  - Rendering parameters are now KL Objects, which enable to pass any custom type to RTR callback functions.
+  - RTR callback KL functions can now take KL objects as input or output values.
+  - Material and shaders are no longer 'special' rendering parameters, but simply other KL Object parameters. Shader selection based on material category is no longer a 'special' feature, but just another KL rendering callback.
+
+- Shaders, textures and attribute buffers are loaded to OpenGL only when required (just before drawing).
+
+- New RTR Passes high-level language (backward compatible):
+
+  - Passes can now be fully modular, with the equivalent of function inputs and default parameter values.
+
+  - Default passes broken in multiple shared and re-usable components, such as ShadowSpotLight and AmbientSSAO. Components can invoke other components; for example, ShadowSpotLight will call SpotLight if shadows are disabled.
+
+  - Linkage and optimization steps has been added to allow this modularity to have no performance impact.
+
+  - Most 'apply' attributes, such as shaders, GL settings, renderTargets, etc, can now be specified at any level, not only at 'leaf' apply level.
+
+  - Conditions ('if') will generate code branches and groups behind the scenes, enabling for much clearer code and still very optimized, batch-processed data.
+
+  - Various Passes optimizations are now done automatically, such as factorizing groups based on boundingVolume searches or similar conditions.
+
+- Backward compatible with older 'group', 'apply' and 'pass' statements.
+
+- Default passes have all been rewritten to take advantage of the higher-level language, resulting in much simpler and reusable pass components.
+
+**New Flexible Importer System**
+
+- New KL Types 'ImporterIdentifier' and 'ImporterOptions'.
+
+- Parsed meta data access now in KL.
+
+- All importers operate on slices now, and are able to store data from any number of files.
+
+- New demos FBXBulkImport.py and AlembicBulkImport.py
+
+**Documentation Changes**
+
+- Creation Platform is now documented using the Sphinx documentation system. This makes documentation searchable, indexed, much easier to navigate and nicer to read.
+
+Creation Core Changes
++++++++++++++++++++++
+
+- Added support for new KL object type.
+
+- Scheduler improvements resulting in increased framerates on many demos.
+
+- Fixes to Core profiler to provide more accurate profiling data.
+
+- Fixes to data member lifecycle code to provide improved consistency in member construction and destruction.
+
+- Output of basic stack traces on Windows if a crash is encountered.
+
+- Improvements to the background code optimization process.
+
+- Fixes in the intermediate code caching system.
+
+- Added generic messaging system between Core clients.
+
+- Upgrade to LLVM 3.2.
+
+.. _installing-1.7.3-beta:
+
+Installing Creation Platform
+----------------------------
+
+Creation Platform runs on Windows 7 SP1 (both 32- and 64-bit), CentOS 6.3, Ubuntu 10.04 LTS, Ubuntu 12.04 LTS, and Mac OS X 10.7 "Lion" or later.
+
+**Install Python**
+
+If you don't already have Python on your system, you need to install it first.
+
+- For Windows, you can get the latest version of Python 2.7 directly from http://python.org. You will also need to add the Python folders, usually C:\Python27, and C:\Python27\Scripts, to your PATH environment variable.
+
+  - On 64-bit Windows, we also provide a build of Creation Platform that works with Python 2.6.
+
+- For CentOS 6.3, Ubuntu 10.04 LTS and Ubuntu 12.04 LTS, your system already came with the right version of Python installed.
+
+- For OS X, Python 2.7 is automatically installed on your system as part of the base OS install.
+
+  - IMPORTANT NOTE: On Mac OSX you must use the system-installed version of Python found in /usr/bin/python. Using a different version of Python (installed via MacPorts or HomeBrew for example) will result on a crash when trying to run any Creation Platform application.
+
+Once the install is finished, make sure that you are able to open a command prompt and run python. Windows users will probably have to add the directory in which Python was installed (usually c:\Python27) to their PATH environment variable.
+
+
+**Upgrading from 1.0.30-beta: Uninstall Old Version of Creation Platform, Creation Core and PySide**
+
+In Creation Platform 1.0.31-beta, we switched to using a single installer for Creation Platform (rather than two separate installers as in previous releases). This single installer also installs the PySide framework.
+
+If you are still running Creation Platform 1.0.30-beta or earlier, you will need to manually uninstall this version, including the Creation Core, as well as any previously-installed versions of PySide. The instructions for doing so vary by platform:
+
+- Windows: use the "Programs and Features" control panel to first remove "Fabric Engine Creation Platform", then remove "Fabric Engine Core", then remove "Python 2.7 PySide-....." (where .... is the version information). You will need to do this as a user with administrator privileges.
+
+- Linux (Ubuntu/Debian): use the command line ("dpkg -r") or a GUI tool (eg. Ubuntu Software Center) to first remove the "fabricengine-creation-platform" package, then the "fabricengine-core" package. You should then run "apt-get remove python-pyside" and then "apt-get autoremove" to remove the existing PySide from your system. You will need to do all of these as an administrator (eg. using the sudo command).
+
+- Mac OS X: Manually delete the /Library/FabricEngine folder and all of its subfolders (ie. using the Finder or using the command "rm -rf /Library/FabricEngine" from the terminal). You must then also remove PySide from your system. If you installed PySide using MacPorts, run "sudo port uninstall py27-pyside @1.1.0_1+universal" (the version number may be different for you; you can see it by running "port list py27-pyside"). If you installed PySide from Nokia's website, run the uninstaller provided by Nokia. You will need to do both of these as an administrator (eg. using the sudo command).
+
+NOTE: On Windows, you may continue to use the official build of PySide, leaving it installed; however, we have experienced stability issues with the official build that are fixed in the version that is installed with Creation Platform. If you still want to use the official PySide build, use the "Advanced" option in the Creation Platform installer to deselect the PySide module before proceeding with installation.
+Install Creation Platform
+
+From the :ref:`downloads-1.7.3-beta` section, download and install Creation Platform for your platform.
+
+- On Windows 7 32-bit, the installer is CreationPlatform-1.7.3-beta-Windows-32Bit-Python2.7.msi. It is a .MSI file that can be run directly. Note that the installer is unsigned, so your browser may tell you it's not safe to run it.
+
+- On Windows 7 64-bit, the installer is CreationPlatform-1.7.3-beta-Windows-64Bit-Python2.7.msi (for Python 2.7) or CreationPlatform-1.7.3-beta-Windows-64Bit-Python2.6.msi (for Python 2.6). It is a .MSI file that can be run directly. Note that the installer is unsigned, so your browser may tell you it's not safe to run it.
+
+- On CentOS 6.3, the installer is CreationPlatform-1.7.3-beta-CentOS-x86_64-Python2.6.rpm. It is a .rpm package that can be installed using 'rpm -i' or using a GUI tool.
+
+  - IMPORTANT NOTE: you must log out and log back in in order to get the environment variables set that Creation Platform needs to run!
+
+- On Ubuntu 10.04 LTS, the installer is CreationPlatform-1.7.3-beta-Ubuntu-amd64-Python2.6.deb. It is a .deb package that can be installed using 'dpkg -i' or using a GUI tool.
+
+  - IMPORTANT NOTE: you must log out and log back in in order to get the environment variables set that Creation Platform needs to run!
+
+- On Ubuntu 12.04 LTS, the installer is CreationPlatform-1.7.3-beta-Ubuntu-amd64-Python2.7.deb. It is a .deb package that can be installed using 'dpkg -i' or using a GUI tool.
+
+  - IMPORTANT NOTE: you must log out and log back in in order to get the environment variables set that Creation Platform needs to run!
+
+- On Mac OS X Lion or Mountain Lion, the installer is CreationPlatform-1.7.3-beta-MacOSX-64Bit.dmg. It is an executable on a .dmg file that can be run directly from the mounted disk image.
+
+  - IMPORTANT NOTE: you must restart your system in order to get the environment variables set that Creation Platform needs to run!
+
+**Test Creation Platform**
+
+The Creation Platform installer ships with a simple application, HelloCreation, that can be used to test the installation. To run HelloCreation:
+
+-  On Windows:
+
+  - Open a command prompt (cmd.exe)
+
+  - Change to the Creation Platform install directory (usually C:\Program Files\Creation Platform for per-machine installs and C:\Users\<USERNAME>\AppData\Local\Apps\Creation Platform for per-user installs)
+
+  - Run python Utils\HelloCreation.pyw
+
+- On Ubuntu, open a shell and run python /usr/lib/creation-platform/Python/HelloCreation.pyw
+
+- On CentOS, open a shell and run python /usr/lib64/creation-platform/Python/HelloCreation.pyw
+
+- On Mac OS X, open Terminal and run hello-creation
+
+**Install Sample Applications ("Demos")**
+
+From the :ref:`downloads-1.7.3-beta` section, download the CreationPlatform-1.7.3-beta-Demos.zip file, which you can extract to a location of your choosing. The demos are located below the Apps subfolder of the created CreationPlatform-Demos-1.7.3-beta folder, and are identical for all platforms. These demos can be run using the python command; for example, python Apps/GeometryDeformation.py.
+
+.. _documentation-1.7.3-beta:
+
+Documentation
+-------------
+
+Complete documentation for Creation Platform can be found in :ref:`TOP`.
+
+After installing Creation Platform, you can also find the documentation in the Start menu in Windows, the Applications menu in CentOS and Ubuntu, and through a link in the '/Applications/Creation Platform' folder in Mac OS X. The documentation can be accessed from the "Help" menu of Creation Platform applications.
+
+.. _compiling-1.7.3-beta:
+
+Optional: Compiling the DCC Integrations
+----------------------------------------
+
+In order to use the DCC integrations after you have installed Creation Platform you will need to download the CPCAPI (Creation Platform C++ API) source files here: `CPCAPI for Creation Platform 1.7.3-beta <http://dist.fabric-engine.com/CreationPlatform/1.7.3-beta/CreationPlatform-CPCAPI-1.7.3-beta.zip>`_
+
+You will then need to consult the .. kl-extlist::
+DCCIG, in particular the section on "Installing and using the CPCAPI". In there you will find instructions on how to compile and any necessary environment variables that must be set.
+
+Important note: Due to an issue with Python imports the folder where you unpack the CPCAPI source files cannot have a period (.) in its name. By default Windows will unpack this zip file into a folder with the same name as the zip and this includes a . in "1.7.3-beta". You will need to rename this folder.
+
+The currently supported DCC integrations are:
+
+- Maya 2013 on Windows 64-bit
+
+- Maya 2013 on Linux 64-bit
+
+- SoftImage 2013 on Windows 64-bit
+
+That's it!
+
+Indices and Tables
+------------------
+
+* :ref:`genindex`
+* :ref:`search`

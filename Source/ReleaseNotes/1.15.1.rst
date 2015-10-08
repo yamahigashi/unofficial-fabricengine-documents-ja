@@ -1,0 +1,93 @@
+.. _RELNOTES-1.15.1:
+
+Fabric Engine 1.15.1 Release Notes
+=================================================
+
+.. image:: /images/FE_logo_345_60.*
+   :width: 345px
+   :height: 60px
+
+| Fabric Engine version 1.15.1
+| Released Friday 13 March 2015
+| Copyright 2010-2015 Fabric Software Inc. All rights reserved.
+
+.. contents:: Table of Contents
+  :local:
+
+Important Notes - Read Me First!
+--------------------------------
+
+- This is a bugfix release; please refer to the :ref:`RELNOTES-1.15.0` for more general information about the 1.15.0 release.
+
+Major Improvements in 1.15.1
+--------------------------------
+
+- The cached load time of Fabric applications has been greatly reduced, by more than 50% in most cases.
+
+- The extenion load times reporting by Fabric are now correct and much more intuitive.
+
+- Several important bugs in the GPU memory allocator have been fixed.
+
+- Total number of bytes allocated insize to the storage of a variable array is no longer limited to 2^32-1.
+
+- Added :code:`.setDirty()` method to Core and Splice API to allow manual setting of dependency graph nodes to dirty, forcing them to evaluate the next time even if the inputs haven't changed.
+
+Downloads
+---------
+
+All downloads for Fabric Engine 1.15.1 can be obtained at http://fabricengine.com/get-fabric/.  For information on installation please refer to the :ref:`InstallationGuide`.
+
+Comprehensive Changes
+---------------------------------
+
+- Splice: Add graph and node infomation to :code:`getDGPortInfo()`
+
+- Geometry: Fix for polygon edge
+
+- AlembicWrapper: Adding public accessors so client code can parse extra data in the file. (e.g. Horde)
+
+- Core: Exposed :code:`Fabric_Debug` constant so extensions can tell if they are running with ``FABRIC_DEBUG`` set.
+
+- Math: Only dump stacks for warnings when :code:`Fabric_Debug` is true.
+
+- Geometry: PolygonMesh: added a simple "delete unused points" method
+
+- Geometry: added :code:`PolygonMesh.getPolygonSubTrianglePolygonPoints()` and :code:`PolygonMesh.getPolygonSubTriangleCount()`.
+
+- Core: Variable arrays: Add :code:`.reserve()` method to variable arrays to pre-allocation of space.  Changed behaviour of :code:`.resize()` method so that it resizes to exactly the requested size if the size was previously 0.
+
+- Documentation: Remove deprecation warnings for :code:`Scalar` and :code:`Size` types.
+
+- Core: Don't throw exceptions on IR cache deletion errors
+
+- Core: Remember variable array memory location for empty arrays, so that array storage locality can be controlled before the data is added.
+
+- Core: Fix crash in GPU allocator free function
+
+- Core: Big improvements in cached load time
+
+- Core: Make extension load time messages more intuitive
+
+- Core: Total number of bytes allocated insize to the storage of a variable array is no longer limited to 2^32-1.
+
+- Core: Fixed an issue with assigning unowned objects to themselves.
+
+- Core: Fixed an issue with defining :code:`appendDesc()` for objects.
+
+- Core: Reduce memory usage during KL parsing by removing right-recursion from the KL grammar.
+
+Documentation
+-------------
+
+Complete documentation for Fabric Engine can be :ref:`found here <TOP>`.
+
+Previous Release Notes (Recent)
+-------------------------------
+
+- :ref:`RELNOTES-1.15.0`
+
+- :ref:`RELNOTES-1.14.2`
+
+- :ref:`RELNOTES-1.14.1`
+
+- :ref:`RELNOTES-1.14.0`

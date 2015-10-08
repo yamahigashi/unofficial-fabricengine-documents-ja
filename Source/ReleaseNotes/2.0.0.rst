@@ -1,0 +1,134 @@
+.. _RELNOTES-2.0.0:
+
+Fabric Engine 2 Release Notes
+=================================================
+
+.. image:: /images/FE_logo_345_60.*
+   :width: 345px
+   :height: 60px
+
+| Fabric Engine version 2.0.0
+| Released September 30 2015
+| Copyright 2010-2015 Fabric Software Inc. All rights reserved.
+
+Fabric 2 introduces Fabric Canvas, an easy to use yet powerful visual programming interface that leverages an all-new data flow graph in the Fabric Core. The Fabric for Maya and Fabric for Softimage integrations allow you to use Fabric in -- and across -- your favourite digital content creation applications.
+
+- Fabric 2 is supported on Windows and Linux. OS X builds are provided but are not officially supported; official support on OS X will arrive in a subsequent release.
+- Fabric for Maya integration is supported for Autodesk Maya 2014, 2015 and 2016 and their corresponding service packs and extensions on Windows and Linux. OS X support will follow in a subsequent release.
+- Fabric for Softimage integration is supported for Autodesk Softimage 2014 and 2015 and their corresponding service packs on Windows. 
+Fabric 2 GPU support is available on NVIDIA hardware. See the GPU Compute Guide in the documentation for more details.
+
+To learn more about Fabric Canvas, please see:
+
+- :ref:`CANVASUSERGUIDE`
+- :ref:`CANVASPROGRAMMERGUIDE`
+- :ref:`GETTINGSTARTED_INDEX`
+
+Downloads
+---------
+
+All downloads for Fabric Engine 2 can be obtained at http://dist.fabric-engine.com/FabricEngine/2.0.0/.  For information on installation please refer to :ref:`GETTINGSTARTED_INDEX`.
+
+Support
+-------
+
+Fabric 2 is available for free use under Evaluation, Studio or Educational licenses and is also available under commercial terms. With the release of Fabric 2, we have closed the Beta program. Commercial customers have been informed on how to contact us for Support. Non-commercial customers are encouraged to use the following options:
+
+- http://answers.fabricengine.com Ask & answer questions within the Fabric community. This is where you should post your support issues.
+- https://groups.google.com/forum/#!forum/fabricengine For deeper discussion and to share your Canvas graphs.
+- bugs@fabricengine.com If you have found a bug you can email us with clear steps to reproduce the issue (be sure to include details on what operating system and DCC application and their respective versions that you are using). Please note that we will respond only if additional information is required to resolve an issue with the Fabric platform.
+
+.. _knownissues-2.0.0:
+
+Known Issues, Limitations and Workarounds
+-----------------------------------------
+
+.. note:: In the Fabric 2 Beta, Canvas graphs were stored with the extension .dfg.json. Graphs now use the .canvas extension. Graphs using the old convention will still work, but File --> Open Graph" will show only files with a .canvas extensions so you should change the extension to .canvas. [FE-5289]
+
+.. note:: A new ‘persist value’ option has been added to top level graph ports, and these will be ‘false’ by default for previously created graphs. That option can be enabled by right-clicking over the port and selecting ‘Edit Port’ -> ‘metadata’ -> ‘persist value’. Otherwise, graphs that are re-saved will not persist ports’ values. Note, however, that Maya and Softimage graphs will still persist values that are reflected as native attributes, as these are part of the scene and not only the graph. [FE-5194]
+
+.. note:: SpliceStandalone is specific to versions of Fabric Engine prior to 2.0 and is not included as part of the distribution of Fabric 2. If you have written tools using SpliceStandalone, they will need to be rewritten. Doing so should not be difficult, as the vast majority of the API is similar however you will need to make some changes to be compatible with the design of Fabric 2. [FE-4599]
+
+- **Issue**: In Maya 2016 scenes build with the beta version of 2.0.0 may cause crashes when using a PolygonMesh output port [FE-5367]. This is due to the way the attributes were created prior to a fix. 
+
+    Workaround: Recreate the output attributes which are of type PolygonMesh in the release version of 2.0.0.
+
+- **Issue**: When using Fabric for Maya 2014 or 2015, renaming ports in Canvas won’t reflect the changes immediately in the node editor. [FE-5415]
+
+    Workaround: Force a refresh by selecting the Canvas node and clicking on the input and outputs connection icon in the node editor.
+
+- **Issue**: Using GPU compute with Maya 2016 causes Maya to crash. [FE-5402]
+
+    Workaround: Use Maya 2014 or 2015 if you are using GPU compute features (which are not used by default).
+
+- **Limitation**: Cannot edit read variables inside a subgraph. [FE-5236]
+
+    Workaround: Create a new read variable node with a new name.
+
+- **Limitation**: Fabric for Softimage does not support the input or output of ICE data.  [FE-5091] 
+
+    Workaround: You can still use the Splice legacy implementation of you want to interact with ICE. You can also store data in a singleton using the KL Singletons extension and that way communicate between Splice and Canvas setups.
+
+- **Limitation**: Imploding a selection of graphs when there is a backdrop and/or a variable selected doesn’t work when right-clicking on a node. [FE-4828] 
+
+    Workaround: Select the nodes and/or backdrops and/or variables and then right-click in an empty area. Finally, in the context menu, choose “Implode”.
+
+- **Limitation**: KL2DFG uses $TYPE$ type specifications for polymorphic nodes. This means that even though a node might just support a selection of types, you can connect anything to it. In a future release we are looking into supporting a known type list to improve usability. [FE-4813]
+
+    Workaround: Hover the pin to show the tooltip, which includes a list of known supported types.
+
+- **Issue**: There is a conflict in use of TBB between versions of Solid Angle’s SItoA plugin versions prior to 3.0.0  for Arnold and Fabric for Softimage. SItoA 3.0.0 and higher versions do not present a problem. [FE-4559] 
+
+    Workaround:
+
+      - Open a file explorer and go into the Fabric workgroup folder, for instance: "..../FabricSoftimage2014SP2/Application/Plugins".
+      - You will find a file called "tbb.dll".
+      - Open a second file explorer and go into the SItoA nt-x86-64 binary folder, for instance: ".../SItoA/Application/Plugins/bin/nt-x86-64".
+      - There you will also find a "tbb.dll" file.
+      - Copy (not move!) the Fabric tbb.dll file into the SItoA nt-x86-64 binary folder, overwriting SItoA’s tbb.dll. (make a backup before, just in case).
+      - In the Softimage Plugin Manager: make sure that the SItoA workgroup comes before the Fabric workgroup.
+      - Restart Softimage.
+      - You should now be able to load one of the Fabric Canvas samples to confirm that there is no longer a conflict.
+
+- **Issue**: If you have a graph node which is based on a preset with a KL function node inside which is NOT based on a preset, if you split the KL function node from the preset the change won't be reflected  in the UI. [FE-5454]. 
+
+    Workaround: You can see the change if you hit :dfn:`Go up` and start editing the KL function node again.
+
+- **Issue**: Creating an Execute port immediately after opening Canvas.exe by right clicking on the right side of the graph will cause a crash. This will be fixed in an upcoming dot release. [FE-5400]
+
+- **Issue**: When nodes are renamed, they retain the original unique name assigned by the Fabric Core. For example, if you name a node "hello" then rename it to "world", when you edit the "world" node, you will still see the unique-to-Fabric Core unique name of "hello". [FE-4577]
+
+- **Issue**: There is a known memory leak when freeing dictionaries of arrays in objects. [FE-4404]
+
+- **Issue**: When nodes are duplicated, they are given a unique name by the Fabric Core. For example, duplicating "hello" results in the second node being named "hello_2". If the first node is then renamed to "world", the second node does not get renamed; its unique name remains "hello_2". [FE-5327]
+
+- **Limitation**: The Fabric for Maya plugin cannot be unloaded then reloaded within a single Maya session. [FE-5383]
+
+- **Limitation**: In Canvas, the Value Editor does not always update correctly on undo/redo. [FE-5364]
+
+- **Limitation**: The set of allowed characters when naming nodes and graphs is [a-z][A-Z][0-9]. If the Fabric Core detects a conflict, it will insert an underscore and a digit to ensure uniqueness. [FE-5285]
+- **Limitation**: Fabric for Softimage does not currently support array of ports. [FE-5088]
+
+- **Limitation**: In Canvas, when saving Presets, the comment is not retained. [FE-4900]
+
+- **Limitation**: Once an attribute is created, "opaque in DCC" and "native DCC array" properties cannot be changed. [FE-4799]
+
+- **Limitation**: DrawingHandle::drawTexturedPlane() does not handle Alpha channels properly. [FE-4792]
+
+- **Limitation**: Canvas Preset folders cannot use a ‘.’ in their name. [FE-4767]
+
+- **Limitation**: Reading Alembic meshes with topology changes is not supported. [FE-4535]
+
+- **Limitation**: In order to work correctly, variable declaration nodes need to be connected to the output of graphs, either directly or through other nodes. [FE-4505]
+
+- **Limitation**: Only variables directly accessible by the Canvas graph are released when destroying the FabricCore client. This means that InlineDrawing content and Manipulation handles which are not pulled by the graph (i.e. not connected to an output) will continue to exist. For example, for InlineDrawing DrawingHandles you will have to manually connect the EmptyDrawingHandle node to clear it. [FE-4465]
+
+- **Issue**: Canvas value editor: there are many display glitches on OS X [FE-5129]
+
+- **Issue**: Canvas value editor: the color picker does not work on OS X [FE-5458]
+
+- **Limitation**: There is a Windows 10 bug that prevents Unified Memory in the GPU from running in the first Windows 10 release. The workaround is to run the older version 349 of the Nvidia driver. [FE-4381]
+
+- **Issue**: The workflow of splitting from presets in Canvas is not documented. [FE-5461]  In the absence of documentation, here is a short explanation:
+
+  - Within the Canvas UI, if you go inside a node that is an isntance of a preset, you will be able to inspect the contents but not change them; instead, there will be a bar at the top of the window informing you that it is an instance of a preset and it must be split from the preset for changes to be made, along with a button that can be made to perform the split.  Splitting from the preset means that changes can be made but also means that if the preset is later changed your node will not automatically be updated.  If you accidentally or intentionally split from a preset and then later want to return to the pre-split state, you may do so using the undo history.

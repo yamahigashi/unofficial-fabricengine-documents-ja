@@ -1,0 +1,168 @@
+.. _RELNOTES-1.14.1:
+
+Fabric Engine 1.14.1 Release Notes
+=================================================
+
+.. image:: /images/FE_logo_345_60.*
+   :width: 345px
+   :height: 60px
+
+| Fabric Engine version 1.14.1
+| Released Tuesday 2 December 2014
+| Copyright 2010-2015 Fabric Software Inc. All rights reserved.
+
+.. contents:: Table of Contents
+  :local:
+
+Important Notes - Read Me First!
+--------------------------------
+
+- This is a bugfix release that is highly recommended for all users who are running version 1.14.0.  It addresses various important issues including a major performance issue in the Splice Maya plugin and a major stability issue in KL.  Please refer to the :ref:`documentation for 1.14.0 <RELNOTES-1.14.0>` for general information about the 1.14.0 release.
+
+.. _downloads-1.14.1:
+
+Downloads
+---------
+
+All downloads for Fabric Engine 1.14.1 can be obtained at http://fabricengine.com/get-fabric/.  For information on installation please refer to the :ref:`InstallationGuide`.
+
+Changes in Fabric Engine 1.14.1
+-------------------------------------
+
+Core
+++++++
+
+- Fixed a bug in the KL compiler that occasionally resulted in the message "Error: unrecognized heapSpec value", usually followed by a crash.
+
+- Fixed a big in the KL compiler that would result in a "null" owned interface being casted to a non-"null" unowned ("Ref<>") interface.  Using this unowned interface would usually result in a crash.
+
+- Fixed a bug in RTVals that would incorrectly calculate the offset of members into RTVals when the RTVals are objects that involve multiple levels of inheritance.
+
+- Fixed a crash in kl2edk when processing methods whose names are less than six characters long.
+
+- Expose fewer global symbols from Extension DLL/.so files, which will help avoid conflicting dynamic library symbols in host applications.
+
+- Clean up error message when loading an extension with a missing KL source file.
+
+- Fix check for Windows version when running on latest versions of Windows.
+
+- Remove support for Python 2.6 on OS X because no one is using it and it can no longer be targetted when building on OS X 10.10 ("Yosemite").
+
+SpliceAPI
++++++++++++++
+
+- Fix conversion from internal port to non-internal port when de-serializing.
+
+- Fixed UNGUARDED env var behaviour.
+
+- KL operators with errors were not being persisted; this has been fixed.
+
+- Ensure that Splice passes KL error and warning details from Core to user.
+
+- Allow building with boost 1.42.
+
+- Fix crash on client creation when no extension folders are specified.
+
+- Various fixes related to evaluation context.
+
+- We now set the 'time' value in the drawcontext in all DCC Splice integrations.
+
+- Fixed parsing of integer and boolean options.
+
+SpliceMaya
+++++++++++++++++
+
+- A major performance issue related to propagating dirty state to and from Maya has been addressed.  This fix provides a significant performance increase in many Splice Maya scenes, particuarly those with Splice nodes with many ports.
+
+- Fix a bug in the handling of compound attributes that could result in a crash in unguarded mode.
+
+- Maya deformer was not operating on meshes array; fixed.
+
+- Export only Maya load/unload calls from shared library to avoid issues with conflicting library symbols.
+
+SpliceSoftimage
+++++++++++++++++++++++
+
+- Integrated new viewport changes.
+
+- We now support traversing the Resources/Splice folder.
+
+- Integrated the Fabric Python module into Softimage.
+
+- Log messages are now sent to Softimage at "Verbose" level so they can be disabled for performance reasons.
+
+Geometry Extension
++++++++++++++++++++++++
+
+- Add support for "merge points" operation on PolygonMesh.
+
+- Various fixes for generation of geometry primitives.
+
+InlineDrawing Extension
++++++++++++++++++++++++
+
+- Fixed an invalid reference issue that could cause crashes when rendering after remove instances.  This could sometimes manifest as crashes when closing scenes.
+
+- Fixed InlineCamera.setFromPositionAndTarget method.
+
+- Added better error messages.
+
+Characters Extension
+++++++++++++++++++++
+
+- Fix error when bones have length 0.
+
+OpenImageIO Extension
++++++++++++++++++++++++
+
+- Fixed export of library symbols so that libpng library symbols do not conflict with host application.
+
+.. _knownissues-1.14.1:
+
+Documentation
++++++++++++++
+
+- Adding missing documentation in a few places.
+
+.. _documentation-1.14.1:
+
+Documentation
+-------------
+
+Complete documentation for Fabric Engine can be :ref:`found here <TOP>`.
+
+.. _upgrading-apps-1.14.1:
+
+Upgrading Applications to Version 1.14.1
+----------------------------------------------------
+
+Please see the :ref:`RELNOTES-1.13.0` for upgrading information.
+
+.. _notes-1.14.1:
+
+Previous Release Notes
+----------------------
+
+- :ref:`RELNOTES-1.14.0`
+
+- :ref:`RELNOTES-1.13.0`
+
+- :ref:`RELNOTES-1.12.0`
+
+- :ref:`RELNOTES-1.11.4`
+
+- :ref:`RELNOTES-1.11.3`
+
+- :ref:`RELNOTES-1.11.2`
+
+- :ref:`RELNOTES-1.11.0`
+
+- :ref:`RELNOTES-1.10.0`
+
+- :ref:`RELNOTES-1.9.0-beta`
+
+- :ref:`RELNOTES-1.8.0-beta`
+
+- :ref:`RELNOTES-1.7.3-beta`
+
+
