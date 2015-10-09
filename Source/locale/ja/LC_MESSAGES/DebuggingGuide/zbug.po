@@ -1,0 +1,385 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\..\source\DebuggingGuide\zbug.rst:4
+msgid "Using zBug"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:7
+msgid "Setting up the Environment"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:9
+msgid ""
+"By default KL code is compiled with full optimization and with no debug info"
+" in order to reduce memory use as much as possible and to make the KL code "
+"run as fast as possible. However in order to debug you will need at the very"
+" least to include debug info with your KL code, and in order to take full "
+"advantage of all debugging features you will likely want to disable "
+"optimization. Fortunately both of these are automatically done for you when "
+"launching a Fabric application from zBug."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:11
+msgid ""
+"When a Fabric application is launched from zBug the following environment "
+"variables are automatically set:"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:18
+msgid ""
+"This will enable debug info and disable optimizations. For more detailed "
+"information on what these environment variables do you can see this section:"
+" :ref:`DG.envvars`."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:21
+msgid "Launching an Application"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:23
+msgid ""
+"The current version of zBug requires launching the Fabric application within"
+" zBug in order to provide debugging capabilities. For most applications this"
+" is as simple as pre-pending zBug to the command being run:"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:29
+msgid ""
+"For example debugging a Fabric Engine Python application could be launched "
+"like this:"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:36
+msgid "Debugging Maya"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:38
+msgid ""
+"Maya under Linux can't be launched as above however Maya provides a -d "
+"command-line option that allows it to be started within a debugger. Running "
+"Maya inside zBug is as simple as providing this option and pointing it to "
+"zBug:"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:45
+msgid "Attaching to a Running Application"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:47
+msgid ""
+"If zBug is launched without any command-line parameters it will look for a "
+"Fabric application running in debug mode (FABRIC_DEBUG=2) and automatically "
+"connect to this process if it exists. The process is located via a PID file "
+"found in the user's Fabric application data folder."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:49
+msgid ""
+"Since in this case Fabric will start before zBug, you will need to manually "
+"set `export FABRIC_DEBUG=2` and `export FABRIC_OPT_TYPE=2` before starting "
+"the application, otherwise zBug will not see the KL debugging symbols."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:51
+msgid ""
+"If there is more than one Fabric application running on the system at a "
+"given time then the user can supply a -p parameter to zBug to specify the "
+"process ID of the Fabric process to connect to. In the case of Fabric "
+"running within a DCC, this process ID will normally be that of the DCC "
+"itself."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:57
+msgid ""
+"Once connected with zBug debugging can occur as it would for a process "
+"launched from within zBug. Simply closing zBug will disconnect from the "
+"running process and allow execution to continue normally."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:59
+msgid ""
+"Depending on the version of Linux you're using you may need to run zBug as "
+"root if you're attaching to a process. You will see an error message like "
+"this if you try to run as a normal user:"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:65
+msgid ""
+"This is a security measure of certain distros and not a limitation of zBug."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:68
+msgid "User Interface"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:70
+msgid ""
+"The zBug user interfaces tries to keep its defaults as simple as possible "
+"while leaving access to more advanced debugging features open to those who "
+"need them. The interface is written in Python and uses PySide for its UI "
+"elements. As such it is very configurable, both from a source code level as "
+"well as from within the UI itself."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:72
+msgid ""
+"Inside each subwindow in the UI (except for the source code window, which is"
+" fixed) there is a button at the top right corner of the subwindow that will"
+" cause it to pop out so that it can be moved around the screen. With this a "
+"user is able to configure zBug to have exactly the windows that are most "
+"important in the places that make the most sense."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:75
+msgid "Interrupts and Breakpoints"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:77
+msgid ""
+"When debugging an application in zBug the application may either be running "
+"or else in an interrupted or breakpoint state (we'll refer to this as being "
+"stopped). Controls within a stopped state are the same, however most of the "
+"functionality in zBug is disabled while the application is running."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:79
+msgid ""
+"In order to interact with a running application a user will first have to "
+"click the Interrupt button in order to stop execution. When zBug enters an "
+"interrupted or breakpoint state the UI will update all relevant sections to "
+"indicate where the program has stopped. If there is source code available "
+"for the current position the :ref:`DG.zbug.source` section will be updated "
+"to display this source code and the current line will be highlighted in "
+"yellow. The interface will update in the same way if a breakpoint is hit, "
+"and the line currently breakpointing will also be highlighted in yellow."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:81
+msgid ""
+"Source code will not exist for all possible execution points within a "
+"running Fabric application, since the C++ code for the closed Fabric "
+"application itself is not available to end users, and neither are code "
+"sections and function calls that live within the DCCs. The "
+":ref:`DG.zbug.source` subwindow will indicate if the source code for the "
+"given frame is available or not. However all KL code used in your "
+"application should always be available."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:83
+msgid ""
+"Any breakpoints in the source code currently loaded will show up as a red "
+"line in the source file. A complete list of current breakpoints across all "
+"source files is available in the :ref:`DG.zbug.breakpoints` subwindow."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:86
+msgid "UI Sections"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:91
+msgid "Breakpoints"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:93
+msgid ""
+"The breakpoints window lists all breakpoints currently set in the program. "
+"Clicking on any breakpoint found here will open up the source file and line "
+"where the breakpoint is set in the :ref:`DG.zbug.source` window."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:95
+msgid ""
+"In the current release there is an extra internal breakpoint that always "
+"shows up in this list and can simply be ignored. It will be hidden in a "
+"future version."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:98
+msgid "Control Toolbar"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:100
+msgid ""
+"The topmost area of zBug holds the process control toolbar and contains "
+"buttons to control execution and process flow of the application being "
+"debugged."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:102
+msgid ""
+"Start: When a zBug session is opened this is the only button accessible and "
+"clicking it will launch the process being debugged."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:104
+msgid ""
+"Interrupt: Once the debugged application is running, clicking Interrupt at "
+"any time will stop its execution and return control to zBug. At that point "
+"you can browse any code that's been loaded to that point, you can view where"
+" the execution has stopped by looking at the :ref:`DG.zbug.stack` or "
+":ref:`DG.zbug.threads` and you can set breakpoints."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:106
+msgid ""
+"Continue: When in a stopped state you may click Continue to tell the "
+"application to continue running."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:108
+msgid ""
+"Step In: When in a stopped state you may use Step In to bring execution "
+"inside the function currently being highlighted in the :ref:`DG.zbug.source`"
+" subwindow. If it's not possible for execution to go inside the function on "
+"the currently highlighted line (for example if the line is a simple variable"
+" assignment) then behavior is the same as for Step Over."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:110
+msgid ""
+"Step Over: When in a stopped state you may Step Over the current instruction"
+" to allow execution to continue down the current file. Step Over does not "
+"necessarily take you to the next line as there may be several instructions "
+"that need to execute on the line that's currently selected, for example the "
+"line :code:`for (Integer i=0; i<5; i++) {` contains an assignment, a "
+"comparison, and a variable increment, and each of these will be processed "
+"individually before moving on to the next line in the KL file."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:112
+msgid ""
+"Step Out: When in a stopped state you may Step Out of the current function "
+"into its calling function. This will bring execution to the current "
+"function's caller as seen in the :ref:`DG.zbug.stack`."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:115
+msgid "Disassembly"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:117
+msgid ""
+"This window will probably not be used by most users but provides access to "
+"the assembly code for the source code visible in the currently selected "
+"frame."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:120
+msgid "LLDB"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:122
+msgid ""
+"This window gives a standard LLDB console, opening up access to any LLDB "
+"functionality that is not provided through the zBug UI. It's not expected "
+"that users will need to enter manual LLDB commands but more advanced users "
+"may want access and it's provided for that reason. A tutorial on basic LLDB "
+"commands is available here: `LLDB Tutorial "
+"<http://lldb.llvm.org/tutorial.html>`_."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:125
+msgid "Locals"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:127
+msgid ""
+"In this section all local variables found in the scope of the current stop "
+"position will be listed, whether in C++ code or KL. Variables with some "
+"structure (for example KL :code:`struct` and :code:`object`) can be unfolded"
+" using the '+' symbol next to the variable name to inspect values at each "
+"level of the type's hierarchy."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:129
+msgid ""
+"Currently for certain KL types such as :code:`object` or variable arrays you"
+" will see type members that don't form part of the type that you defined in "
+"KL code. These refer to internal KL data that isn't normally seen by users "
+"but is useful for Fabric Core team developers when working on the KL "
+"compiler. These may be hidden in a future version but for now show up in the"
+" UI and can simply be ignored."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:131
+msgid ""
+"Support is also missing for some KL types, specifically dictionaries, "
+"interfaces, and Map-Reduce producers. These will be added in an upcoming "
+"release."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:134
+msgid "Output"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:136
+msgid ""
+"The output window displays any output that would normally be printed to the "
+"command-line in a console application."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:139
+msgid "Registers"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:141
+msgid ""
+"Most users will not make use of this subwindow but it provides access to the"
+" CPU register values in the currently highlighted frame."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:146
+msgid "Source Code"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:148
+msgid ""
+"The source window is the main window of the zBug application and displays "
+"the source code (if available) for the currently selected frame in the "
+":ref:`DG.zbug.stack` window."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:153
+msgid "Sources List"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:155
+msgid ""
+"The sources list in zBug defaults to only displaying KL code that's been "
+"received from the debugged application. Clicking on any KL source file in "
+"this list will open up its source code into the :code:`DG.zbug.source` "
+"window, allowing the user to set or unset breakpoints there."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:158
+msgid "Stack"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:160
+msgid ""
+"This window provides a stack trace for the currently selected thread. "
+"Clicking on any function name in the stack trace will take you to the source"
+" code for that function (if available)."
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:165
+msgid "Threads"
+msgstr ""
+
+#: ..\..\source\DebuggingGuide\zbug.rst:167
+msgid ""
+"All threads found in the current application will be listed here and "
+"clicking on any one will open up its current stack trace into the "
+":ref:`DG.zbug.stack` window."
+msgstr ""
