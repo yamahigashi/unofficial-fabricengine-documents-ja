@@ -21,4 +21,4 @@ Fabric can also run unlicensed. If you decide to continue unlicensed, Fabric wil
 
 .. image:: /images/GettingStarted/licensing3.png
 
-.. note:: If you are looking for a more technical explanation on licenses, please check the :ref:`Licensing Guide <_LG>` for more information.
+.. note:: If you are looking for a more technical explanation on licenses, please check the :ref:`Licensing Guide <LG>` for more information.
