@@ -13,11 +13,11 @@ msgstr ""
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:4
 msgid "Canvas inside of Maya"
-msgstr ""
+msgstr "Maya内部のCanvas"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:9
 msgid "The CanvasNode"
-msgstr ""
+msgstr "CanvasNode"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:11
 msgid ""
@@ -27,10 +27,16 @@ msgid ""
 " graph`. You can then open up the Canvas user interface through the "
 ":dfn:`Open Canvas` button on the Maya Attribute editor."
 msgstr ""
+"CanvasはMayaのハイパーグラフノードのように、Maya内部に統合されています。"
+"あなたはノードエディターで、 :dfn:`TAB` キーを押して、 :dfn:`canvas` とタイプするか、"
+"Fabricトップレベルメニューから :dfn:`Create graph` を選ぶことで、"
+"CanvasNodeを作成することができます。"
+"さらに、Mayaのアトリビュートエディターの :dfn:`Open Canvas` ボタンを押すことで、"
+"Canvasユーザーインターフェース開くことができます。"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:16
 msgid "Adding ports / attributes"
-msgstr ""
+msgstr "ポートまたはアトリビュートの追加"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:18
 msgid ""
@@ -40,6 +46,12 @@ msgid ""
 " matching attributes to the Maya node, which allow you to connect data "
 "between the two worlds. The supported data types are;"
 msgstr ""
+"Maya内部のCanvasNodeは標準では何のアトリビュートも持ちません。"
+"そのため、任意の目的のための汎用的なノードといえるのです。"
+"Canvasユーザーインターフェースを開いた後で、あなたは通常の方法でポートを解放することができます。"
+"そうすることは、Mayaノードに対応するアトリビュートを加えることにもなります。それによって、"
+"あなたは２つの世界の間とデータをつなぐことができるのです。"
+"サポートされているデータ型は;"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:20
 msgid "Boolean"
@@ -86,14 +98,15 @@ msgid ""
 "When using the dialog to create a port there are a couple of extra features "
 "within Maya."
 msgstr ""
+"ポートを作成するためのダイアログを使っているとき、Mayaにおいてはいくつかの拡張機能があります。"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:36
 msgid "Native vs. multi arrays"
-msgstr ""
+msgstr "ネイティブ対マルチ配列(multi arrays)"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:38
 msgid "Maya supports two types of arrays"
-msgstr ""
+msgstr "Mayaは２つのタイプの配列をサポートしています。"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:40
 msgid ""
@@ -101,6 +114,9 @@ msgid ""
 "VectorArray as a single attribute. This is very efficient for large arrays "
 "and is much faster than using multi arrays."
 msgstr ""
+"ネイティブ：MayaはIntArray, DoubleArray, またはVectorArrayを単一のアトリビュートとして"
+"表現する手段を持っています。これは大きな配列を扱う際は非常に効率的で、"
+"マルチ配列を使うよりもずっと高速です。"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:41
 msgid ""
@@ -108,22 +124,28 @@ msgid ""
 "them to different things in the hyper graph and you can build up arrays "
 "interactively. This is very flexible, but much slower than native arrays."
 msgstr ""
+"マルチ：配列の各要素が各々の単一のプラグを持っています。あなたはそれらをハイパーグラフの"
+"異なるものに繋げることができ、配列を対話的に構築することができます。"
+"これはとても柔軟性がありますが、ネイティブ配列よりもずっと低速です。"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:43
 msgid ""
 "Within Canvas you can choose which type of array you want - depending on "
 "your needs."
 msgstr ""
+"Canvas内部では、（あなたが何を必要とするかによりますが）あなたが望む型の配列を選ぶことができます。"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:45
 msgid ""
 "Native arrays are only support for these types: :code:`Scalar[]`, "
 ":code:`Float32[]`, :code:`Integer[]`, :code:`SInt32[]`, :code:`Vec3[]`."
 msgstr ""
+"ネイティブ配列は次の型のみサポートしています： :code:`Scalar[]`、 "
+":code:`Float32[]`、 :code:`Integer[]`、 :code:`SInt32[]`、 :code:`Vec3[]`。"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:48
 msgid "Opaque data"
-msgstr ""
+msgstr "不透明なデータ"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:50
 msgid ""
@@ -136,10 +158,19 @@ msgid ""
 "for passing data between Canvas Maya nodes which Maya is not able to reflect"
 " at all (for example a custom KL datastructure)."
 msgstr ""
+":dfn:`opaque in DCC` チェックボックスをオンにすることにより、"
+"Mayaは特別なデータ型を、（ネイティブ型として表現することなく）"
+"Mayaアトリビュートとして使うことができるようになります。"
+"これらのアトリビュートはお互いに接続することができます（例えば、あるMayaノードから隣のMayaノードへ）。"
+"Mayaはその接続間のデータを解釈することはしません。"
+"これは、あなたがCanvasの外ではアクセスする必要を感じていないものの、"
+"しかしそのデータをMayaノード間で渡したいと思っている場合にとても便利です。"
+"また、これは、（例えばカスタムのKLデータ構造など）Mayaがまったく表現できない"
+"Canvas Mayaノード間でデータを渡すためにも、とても便利なのです。"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:53
 msgid "Port metadata"
-msgstr ""
+msgstr "ポートのメタデータ"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:55
 msgid ""
@@ -148,10 +179,14 @@ msgid ""
 "data section of the dialog when creating a port. Right now Maya supports "
 "only the :dfn:`range` settings."
 msgstr ""
+"ユーザーインターフェース機能のいくつかを使うために、あなたはポートに対してメタデータを設定できます。"
+"このメタデータは、アトリビュートを作成するときに、Mayaによって取得されます。"
+"ポートを作成するときのダイアログのメタデータセクションを開いてください。"
+"現時点では、Mayaは :dfn:`range` 設定のみサポートしています。"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:60
 msgid "Loading / saving of Canvas graphs"
-msgstr ""
+msgstr "Canvasグラフのロードとセーブ"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:62
 msgid ""
@@ -159,14 +194,17 @@ msgid ""
 " do this select the Canvas Maya node of choice and pick :dfn:`Load graph` or"
 " :dfn:`Save graph`."
 msgstr ""
+"あなたはCanvasグラフをMayaからディスクにセーブし、またそれらをロードし直すことができます。"
+"これをするためには、Canvas Mayaノードを選択し、 :dfn:`Load graph` または"
+" :dfn:`Save graph` を実行します。"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:64
 msgid "You can only load graphs into a Canvas Maya node which is empty."
-msgstr ""
+msgstr "あなたがグラフをロードできるのは、空のCanvas Mayaノードに対してだけです。"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:67
 msgid "Realtime Rendering"
-msgstr ""
+msgstr "リアルタイムレンダリング"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:69
 msgid ""
@@ -175,18 +213,24 @@ msgid ""
 ":dfn:`DrawingHandle.DrawPolygonMesh`. Please see the :code:`InlineDrawing` "
 "Canvas sample scenes for examples of this."
 msgstr ""
+"あなたはCanvasから直接Mayaのビューポートに描画することができます。"
+"そのためには、 :dfn:`EmptyDrawingHandle` と、それに連続させることのできる ―例えば
+" :dfn:`DrawingHandle.DrawPolygonMesh のような― ノード群を使用します。"
+"これの例として、 :code:`InlineDrawing` Canvasサンプルシーンを見てください。"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:73
 msgid ""
 "You need to provide a proper name (for the name port) for each of the "
 "drawing nodes when using multiple nodes consecutively."
 msgstr ""
+"複数のノードを連続して（カスケードして）使うときには、各描画ノードに対して、"
+"（ `name` ポートに）適切な名前を設定する必要があります。"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:76
 msgid "Keyboard shortcuts"
-msgstr ""
+msgstr "キーボードショートカット"
 
 #: ..\..\source\DCCIntegrations\Maya\canvas.rst:78
 msgid ""
 "Canvas for Maya implements all standard :ref:`canvas-user-guide-shortcuts`."
-msgstr ""
+msgstr "Maya向けのCanvasでは、全ての標準的な :ref:`canvas-user-guide-shortcuts` を実装しています。"
