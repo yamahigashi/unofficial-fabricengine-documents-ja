@@ -13,7 +13,7 @@ msgstr ""
 
 #: ..\..\source\CanvasProgrammerGuide\klfunctioneditor.rst:4
 msgid "KL Function Editor"
-msgstr ""
+msgstr "KL Function エディタ"
 
 #: ..\..\source\CanvasProgrammerGuide\klfunctioneditor.rst:6
 msgid ""
@@ -21,6 +21,8 @@ msgid ""
 "run through the same just-in-time compilation process utilizing LLVM as do "
 "graphs."
 msgstr ""
+"Canvas 内に独自のKL関数ノードを作成できます。これらのノードは LLVMを使用した、グラフに対する just-in-time "
+"（JIT）コンパイルと同じ処理過程を経て実行されます。"
 
 #: ..\..\source\CanvasProgrammerGuide\klfunctioneditor.rst:8
 msgid ""
@@ -30,16 +32,19 @@ msgid ""
 "clicking the node and choose :dfn:`Edit`. This will open the KL function "
 "editor."
 msgstr ""
+"独自のKL関数の作成には、グラフ内カラの空間を右クリックし、 :dfn:`New empty function` "
+"を選択します。関数が作成されます。編集するには、ノードをシフトキーを押しながらダブルクリックするか、ノードを右クリックしコンテキストメニューより "
+":dfn:`Edit` を選び KL function エディタを開きます。"
 
 #: ..\..\source\CanvasProgrammerGuide\klfunctioneditor.rst:12
 msgid ""
 "The KL function editor essentially contains two sections: The port list and "
 "the code window."
-msgstr ""
+msgstr "KL function エディタは２つの基礎要素 ―portリストと、codeウィンド から成ります。"
 
 #: ..\..\source\CanvasProgrammerGuide\klfunctioneditor.rst:15
 msgid "KL function ports"
-msgstr ""
+msgstr "KL関数ポート"
 
 #: ..\..\source\CanvasProgrammerGuide\klfunctioneditor.rst:16
 msgid ""
@@ -50,22 +55,26 @@ msgid ""
 "a port by right clicking any entry in the port list and choose :dfn:`Add new"
 " port`."
 msgstr ""
+"ポートの型、名前、データ型を定義しポートを追加、削除できます。ディフォルトでポートの方は多態性（polymorphic）"
+"を持ちます。特定の型を指定することも可能です。多態性についてのより詳しい説明は :ref:`canvas-programmer-guide-polymorp"
+"hism` を参照してください。単にポートリスト内を右クリックし、 :dfn:`Add new port` を選ぶことでポートを追加することもできます。"
 
 #: ..\..\source\CanvasProgrammerGuide\klfunctioneditor.rst:18
 msgid ""
 "To remove a port, right click it and choose :dfn:`Delete port` in the "
 "context menu."
-msgstr ""
+msgstr "ポートの削除は、右クリックのコンテキストメニューから :dfn:`Delete port` を選びます。"
 
 #: ..\..\source\CanvasProgrammerGuide\klfunctioneditor.rst:20
 msgid ""
 "The KL function editor port list also supports the Ctrl-Enter (Add new port)"
 " and Ctrl-Backspace (Delete port) keyboard shortcuts."
 msgstr ""
+"KL関数エディタでは、 Ctrl-Enter で新規ポート追加、 Ctrl-Backspace でポートの削除 のキーボードショートカットが使えます。"
 
 #: ..\..\source\CanvasProgrammerGuide\klfunctioneditor.rst:22
 msgid "Ports can be referenced by name in the KL code below."
-msgstr ""
+msgstr "ポートはKLコード内より、そのポート名で参照できます。"
 
 #: ..\..\source\CanvasProgrammerGuide\klfunctioneditor.rst:24
 msgid ""
@@ -73,16 +82,18 @@ msgid ""
 "you have to add that extension to the :dfn:`Required Extensions` field on "
 "the top left."
 msgstr ""
+"KLエクステンションに実装された型を、ポートに使用する際は、そのエクステンションをエディタウィンド左上 :dfn:`Required "
+"Extensions` 欄に記入します。"
 
 #: ..\..\source\CanvasProgrammerGuide\klfunctioneditor.rst:26
 msgid ""
 "Reordering of ports in the KL function editor is not yet supported, but will"
 " be added in a future version."
-msgstr ""
+msgstr "KL関数エディタ内でのポートの並び順変更は未対応です。将来のバージョンにより対応される予定です。"
 
 #: ..\..\source\CanvasProgrammerGuide\klfunctioneditor.rst:29
 msgid "KL code window"
-msgstr ""
+msgstr "KL code ウィンド"
 
 #: ..\..\source\CanvasProgrammerGuide\klfunctioneditor.rst:31
 msgid ""
@@ -92,6 +103,9 @@ msgid ""
 ":dfn:`Float32` ports as in image above, you can define an entry point like "
 "this:"
 msgstr ""
+"KL関数ノードのエントリポイントは dfgEntry ブロックになります。Canvasコンパイラは dfgEntry を適切な関数宣言 "
+"―つまり必要なポートや機能の定義― に置き換えます。以下の例では３つの :dfn:`Float32` "
+"ポートがあり、エントリポイントの定義はこのようになります。"
 
 #: ..\..\source\CanvasProgrammerGuide\klfunctioneditor.rst:41
 msgid ""
@@ -99,6 +113,8 @@ msgid ""
 "editor. So given you have two ports of type :dfn:`Float32[]`, for example, "
 "you can implement a task using PEX like this:"
 msgstr ""
+"もちろん、KL関数エディタ内ではオペレータを直接定義できます。例えば２つの :dfn:`Float32[]` "
+"ポートをもつ、PEX（並列実行）オペレータ使用例は："
 
 #: ..\..\source\CanvasProgrammerGuide\klfunctioneditor.rst:54
 msgid ""
@@ -107,10 +123,13 @@ msgid ""
 "preset file using the :dfn:`Reload` button. When leaving the KL function "
 "editor the UI will warn you in case you have unsaved changes."
 msgstr ""
+"ウィンド左上の :dfn:`Save` を押しKL関数をコンパイルします。 :dfn:`Reload` "
+"ボタンを押すと、KL関数で使用する外部プリセットファイル中のKLコードを読み込み直します。KL関数エディタから抜ける際、未保存の変更がある場合には警告UIが"
+"表示されます。"
 
 #: ..\..\source\CanvasProgrammerGuide\klfunctioneditor.rst:56
 msgid "For more information on KL's features, please see the :ref:`KLPG`."
-msgstr ""
+msgstr "より詳しい KL の機能については :ref:`KLPG` を参照してください。"
 
 #: ..\..\source\CanvasProgrammerGuide\klfunctioneditor.rst:58
 msgid ""
@@ -121,3 +140,6 @@ msgid ""
 "the extension to the :dfn:`Required extensions` text field on the top left "
 "of the window."
 msgstr ""
+"KL関数ノード内であらたにデータ型を定義することも可能です。ただしデータ型の実装はKLエクステンション内で行うことを強くお薦めします。Canvasコンパイラ"
+"より変更を追跡させやすくするためです。エディタウィンド左上の  :dfn:`Required extensions` "
+"欄に使用するKLエクステンションを追記し、KL関数がそのエクステンションを確実に読み込むようにします。"
