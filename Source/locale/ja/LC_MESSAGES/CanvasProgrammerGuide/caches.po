@@ -13,13 +13,13 @@ msgstr ""
 
 #: ..\..\source\CanvasProgrammerGuide\caches.rst:4
 msgid "Caches"
-msgstr ""
+msgstr "キャッシュ"
 
 #: ..\..\source\CanvasProgrammerGuide\caches.rst:6
 msgid ""
 "If you are looking for a less technical explanation please refer to :ref"
 ":`canvas-user-guide-caches` in the user guide."
-msgstr ""
+msgstr "ユーザガイド内 :ref:`canvas-user-guide-caches` により平易な説明があります。"
 
 #: ..\..\source\CanvasProgrammerGuide\caches.rst:8
 msgid ""
@@ -27,6 +27,8 @@ msgid ""
 " refrain from recomputing it if none of the upstream inputs have changed. "
 "This is useful for branches in graphs which are expensive to compute."
 msgstr ""
+"Canvas においてキャッシュとは、処理結果の値のコピーを保存し、上流の入力に変更がない場合に不要な再計算を省くようなデータの集まりを意味します。計算が非"
+"常に高価なグラフ中の枝に対し、非常に有用となります。"
 
 #: ..\..\source\CanvasProgrammerGuide\caches.rst:10
 msgid ""
@@ -36,6 +38,9 @@ msgid ""
 " you want to modify the returned value you'll have to use a :dfn:`Clone` "
 "node."
 msgstr ""
+"キャッシュは、変更不変な値（immutable values）を返します。したがい、参照カウントされたデータ構造（reference counted "
+"data structure）の内容を下流から変更することはできません。（ :ref:`canvas-programmer-guide-referencet"
+"ypes` により詳しい解説があります。）返り値を編集する場合には、 :dfn:`Clone` ノードを使用します。"
 
 #: ..\..\source\CanvasProgrammerGuide\caches.rst:14
 msgid ""
@@ -46,6 +51,10 @@ msgid ""
 "always be kept around, if you need a guaranteed container please use a "
 "variable."
 msgstr ""
+"キャッシュは :ref:`canvas-programmer-guide-variables` "
+"と混在させることはできません。キャッシュはメモリ内に保存されている保証はありません。メモリーマネージャがキャッシュを破棄する可能性があるからです。つまりキャ"
+"ッシュは常に決定論的に一意に再計算可能であるべきとみなされます。キャッシュが、「常に存在すること」"
+"を期待してはいけません。そのようなコンテナとしての保証が必要な場合は変数を使用してください。"
 
 #: ..\..\source\CanvasProgrammerGuide\caches.rst:16
 msgid ""
@@ -56,3 +65,7 @@ msgid ""
 "kl2dfg`, using the :dfn:`dfgPresetCacheRule` doxygen qualifier and choosing "
 ":dfn:`always` as the value."
 msgstr ""
+"すべての Canvas ノードはキャッシュをサポートしています。が、単純化と見通しのため、特別なノードとしてユーザに公開しています。そのようなノードは、キャ"
+"ッシュが有効に設定された場合基本的に、パススルーノードとして振る舞います。任意のプリセットに対しキャッシュを有効にするには "
+":ref:`canvas-programmer-guide-kl2dfg` の :dfn:`dfgPresetCacheRule` doxygen "
+"修飾子を使用するか :dfn:`always` を設定するかします。"

@@ -13,7 +13,7 @@ msgstr ""
 
 #: ..\..\source\CanvasProgrammerGuide\valuepersistance.rst:4
 msgid "Port value persistance"
-msgstr ""
+msgstr "ポートの値の永続化（Port value persistance）"
 
 #: ..\..\source\CanvasProgrammerGuide\valuepersistance.rst:6
 msgid ""
@@ -23,12 +23,16 @@ msgid ""
 "can be set as persistable, using `Edit Port -> metadata -> persist value` "
 "(see :ref:`canvas-user-guide-port-options`)."
 msgstr ""
+"ポートの値は特定の状況で永続化（be persisted / seved）させることができます。UI上で入力ポートが編集されると "
+"`defaultValue` がノードの入力ポートに関連付けられ、グラフとともに保存されるようになります。さらに最上位グラフのポートでは `Edit "
+"Port -> metadata -> persist value` ( :ref:`canvas-user-guide-port-options` "
+"を参照) の操作を行うことで永続化させることができます。"
 
 #: ..\..\source\CanvasProgrammerGuide\valuepersistance.rst:8
 msgid ""
 "In order to persist a port's value, a different mechanism is used depending "
 "on the value type:"
-msgstr ""
+msgstr "ポートの値を永続化させるには、その型のタイプにより異なるメカニズムをとります。"
 
 #: ..\..\source\CanvasProgrammerGuide\valuepersistance.rst:10
 msgid ""
@@ -37,6 +41,9 @@ msgid ""
 "convertToString!()` and `Boolean convertFromString!(String data)` methods, "
 "respectively. If these are not implemented, a warning will be issued."
 msgstr ""
+"永続化されたKLオブジェクトの値は、 `RTValToJSONEncoder` と `RTValFromJSONDecoder` "
+"KLインターフェースを実装している必要があります。 `String convertToString!()` と `Boolean "
+"convertFromString!(String data)` メソッドをそれぞれ定義します。未実装の場合警告が表示されます。"
 
 #: ..\..\source\CanvasProgrammerGuide\valuepersistance.rst:13
 msgid ""
@@ -44,6 +51,8 @@ msgid ""
 "by the user, in its persisted `String`, as there is no built-in versioning "
 "system"
 msgstr ""
+"KLの変更、エクステンションのバージョンの変更によるデータの互換性は、バージョン管理システムが内蔵されていないので、ユーザもしくは、永続化されたKLやエクス"
+"テンションの `String` などにより適切に処理される必要があります。"
 
 #: ..\..\source\CanvasProgrammerGuide\valuepersistance.rst:15
 msgid ""
@@ -51,3 +60,5 @@ msgid ""
 "`json` traversal of their data members. Users must be careful as Objects "
 "members will be deeply traversed too."
 msgstr ""
+"他のKL型（基底型、構造体、配列）はそれらのメンバデータを深い `json` 走査（deep json "
+"traversal）の結果として保存します。ユーザはオブジェクトメンバが深い走査されることに注意してください。"

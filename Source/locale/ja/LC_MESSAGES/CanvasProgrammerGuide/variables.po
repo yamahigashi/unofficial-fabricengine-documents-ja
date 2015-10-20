@@ -13,7 +13,7 @@ msgstr ""
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:4
 msgid "Variables"
-msgstr "Variable（変数）"
+msgstr "変数（Variable）"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:6
 msgid ""
@@ -97,6 +97,8 @@ msgid ""
 "node. However, the *new variable* node's output doesn't have to be connected"
 " for to effectively declare the variable."
 msgstr ""
+"*new variable* ノードは初期値を決定する入力ポートを１つもちます。グラフ評価の一番初めに値を引いてきます。このノードは、ノードの現在の値を返し"
+"、 *get* ノード同様の振舞をします。ただし、 *new variable* の出力は効果的な変数の宣言のため、接続されている必要はありません。"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:52
 msgid ""
@@ -109,6 +111,10 @@ msgid ""
 "it, other situations might require more care to ensure that the execution "
 "order is the expected one."
 msgstr ""
+"*set* ノードは変数の値を変更し、新しい値を出力として返します。 *get* ノードは、変数の現在の値を返す出力ポートを１つのみ持ちます。 *set* "
+"と *get* の実行順もしくはポートの順は、極めて重要です。なぜなら *get* ノードの値は *set* "
+"ノードの前後どちらで実行されるかにより変化するためです。 *get* ノードが *set* ノードの左 ―つまり上流に接続されていると、 *set* "
+"より先に実行されることが保証されます。いっぽう、他の状況では実行順が期待通りになるか注意が必要です。"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:63
 msgid ""
@@ -117,60 +123,63 @@ msgid ""
 " example: `Node 'get': unable to resolve var path 'A'`. Note that this error"
 " will be resolved as soon as an accessible variable is created."
 msgstr ""
+"*get*、 *set* ノードが未宣言、もしくはアクセス不能な変数（ :ref:`canvas_variables_scope` "
+"参照）を参照してしまう場合、エラー\n、たとえば : `Node 'get': unable to resolve var path 'A'` "
+"と表示されます。このエラーは変数がアクセス可能になると直ぐ解決されます。"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:71
 msgid "Creating variable nodes"
-msgstr ""
+msgstr "変数ノードの作成"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:73
 msgid ""
 "In the Canvas application, variables nodes can be added in the following "
 "ways:"
-msgstr ""
+msgstr "Canvas アプリケーションでは、変数ノードは以下の方法で作成します。"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:75
 msgid "In the Canvas Graph window, right-click will bring a contextual menu:"
-msgstr ""
+msgstr "Canvas グラフウィンドウより、右クリックのコンテキストメニューから："
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:77
 msgid ""
 "*New Variable* will open the *New Variable* dialog to define a new variable "
 "in the current graph."
-msgstr ""
+msgstr "*New Variable* により *New Variable* ダイアログが表示され、現在のグラフに新しい変数を定義します。"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:79
 msgid "*Read Variable (Get)* will add a *get variable* node."
-msgstr ""
+msgstr "*Read Variable (Get)* により *get variable* ノードを追加します。"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:81
 msgid "*Write Variable (Set)* will add a *set variable* node."
-msgstr ""
+msgstr "*Write Variable (Set)* により *set variable* ノードを追加します。"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:83
 msgid ""
 "In the Canvas Graph window, the *Tab* key will open a search widget in "
 "which:"
-msgstr ""
+msgstr "Canvas グラフウィンドより、  *Tab* キーを押し検索ウィジェットを開き："
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:85
 msgid ""
 "typing \"var.\" will open the *New Variable* dialog to define a new variable"
 " in the current graph."
-msgstr ""
+msgstr "\"var.\" とキー入力し、 *New Variable* ダイアログから現在のグラフに変数を定義します。"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:87
 msgid ""
 "typing \"get.\" will give a list of available variables that are accessible "
 "from the current graph, and selecting one of these will create a *get* node "
 "for that variable."
-msgstr ""
+msgstr "\"get.\" とキー入力し、現在のグラフよりアクセス可能な変数一覧を得、必要な変数を選び *get* ノードを作成します。"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:91
 msgid ""
 "typing \"set.\" will a list of available variables that are accessible from "
 "the current graph, and selecting one of these  will create a *set* node for "
 "that variable."
-msgstr ""
+msgstr "\"set.\" とキー入力し、現在のグラフよりアクセス可能な変数一覧を得、必要な変数を選び *set* ノードを作成します。"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:95
 msgid ""
@@ -178,10 +187,12 @@ msgid ""
 "existing graph variables. Dropping these in the Canvas Graph window will "
 "create a *get variable* node with the **absolute path** of the variable."
 msgstr ""
+"エクスプローラウィンドより、 *Variables* を開き、現在のグラフ中に存在する変数のパスを得ます。Canvas "
+"グラフウィンドにドラッグ・アンド・ドロップし、 *get variable* ノードをそのノードの **absolute path** 付で作成します。"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:103
 msgid "Variable scope"
-msgstr ""
+msgstr "変数のスコープ"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:105
 msgid ""
@@ -189,6 +200,8 @@ msgid ""
 " (*new variable* node), they might be accessible from other graphs based on "
 "some simple scoping rules."
 msgstr ""
+"変数はその変数を定義（*new variable* ノード）したグラフからは常にアクセス可能な一方、それ以外のグラフからは、シンプルなスコープのルールに則っ"
+"たアクセスが可能です。"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:109
 msgid ""
@@ -197,6 +210,8 @@ msgid ""
 "the same graph. If not found, the variable will be searched in the parent "
 "graph, and so on until the top graph is reached."
 msgstr ""
+"*get* 、 *set* ノードを変数に紐付けるため、変数のパスはアクセス可能に解決される必要があります。初めに同じグラフ内の変数を検索します。見つからな"
+"いと、親のグラフ内を検索し、トップグラフまで遡ります。"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:114
 msgid ""
@@ -204,6 +219,8 @@ msgid ""
 " that is, its path from the top graph down to its actual declaration (*new "
 "variable*) node, for example `myGraph.mySubGraph.A`."
 msgstr ""
+"それでも見つからない場合、変数のパスは *絶対パス* として解決されます。これはトップグラフから、そのノードの実際の宣言のあるパスです。例えば、 "
+"`myGraph.mySubGraph.A` となります。"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:119
 msgid ""
@@ -214,6 +231,9 @@ msgid ""
 " with a different value. Of course this assumes that sub-graphs are "
 "accessing the time with a *get Time* node."
 msgstr ""
+"変数は現在のグラフから上に向かって検索されるので、 *クロージャー* の実装や、子グラフでのオーバーライドが可能になります。例えば、 `Time` "
+"変数を最上位グラフで定義し、サブグラフではそれ独自の値で `Time` をリマップするよう実装できます。もちろん、 *get Time* ノードによりその "
+"time 取得できます。"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:127
 msgid ""
@@ -222,16 +242,18 @@ msgid ""
 "*set* node) not declared inside it. As such, it assumes that the variable "
 "will be defined by its parent graphs."
 msgstr ""
+"変数名はグラフの編集時に動的に解決されるため、プリセットではそのプリセット内部で変数 (*get* や *set* "
+"ノード)を宣言しないようにししましょう。変数は親のグラフ内で定義されることを想定しています。"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:135
 msgid "Variable versus Cache"
-msgstr ""
+msgstr "変数 vs キャッシュ"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:137
 msgid ""
 "While both a cache node and a variable create a stateful value container "
 "within a graph, the following differences should be noted:"
-msgstr ""
+msgstr "キャッシュノードも変数ノードも、グラフ中において状態を持つ値のコンテナとして作成されますが、以下の違いに留意してください："
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:140
 msgid ""
@@ -240,6 +262,9 @@ msgid ""
 "such, a variable can be used to ensure that a same KL object is reused for "
 "all graph evaluations (if no *set variable* node sets a new object)."
 msgstr ""
+"キャッシュノードは、自身の入力ポートもしくはサブグラフが変更されると再計算されます。変数ノードでは、値は初めての評価時の初期化のみです。このように変数は、あ"
+"るKLオブジェクトが、全グラフの評価において間違いなく再利用されることを期待し使用することができます。( *set variable* "
+"ノードで新しいオブジェクト割当をしていない場合)"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:145
 msgid ""
@@ -248,10 +273,12 @@ msgid ""
 "of the graph because they can accumulate changes from evaluation to "
 "evaluation."
 msgstr ""
+"キャッシュノードは、パフォーマンスのためだけに使用するべきです。実際のグラフ評価に影響を与えてはいけません。一方、変数は、評価から次の評価へと変更を蓄積して"
+"いくため、グラフの挙動に影響を与えます。"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:153
 msgid "Example"
-msgstr ""
+msgstr "例"
 
 #: ..\..\source\CanvasProgrammerGuide\variables.rst:155
 msgid ""
@@ -260,3 +287,5 @@ msgid ""
 "existing `lastTicks` value gets compared with the newly updated value, and "
 "the difference is outputted in seconds."
 msgstr ""
+"以下の例では `GetElapsedSeconds` プリセットが、 `lastTicks` 変数を現在の印として初期化します。すると各評価で、 "
+"`lastTicks` の値は新規更新される値と比較され、毎秒毎に別の値を出力します。"

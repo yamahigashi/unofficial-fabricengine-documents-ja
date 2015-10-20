@@ -13,21 +13,21 @@ msgstr ""
 
 #: ..\..\source\CanvasProgrammerGuide\referencetypes.rst:4
 msgid "Reference counted data structures"
-msgstr ""
+msgstr "参照カウントされたデータ構造（Reference counted data structures）"
 
 #: ..\..\source\CanvasProgrammerGuide\referencetypes.rst:6
 msgid ""
 "To understand the issues with reference counted data structures in Canvas "
 "two things are relevant:"
-msgstr ""
+msgstr "Canvas における参照カウントされたデータ構造にまつわる問題を理解するには、２つの論点があります。"
 
 #: ..\..\source\CanvasProgrammerGuide\referencetypes.rst:8
 msgid "KL objects, arrays and dictionaries are reference counted"
-msgstr ""
+msgstr "KLオブジェクト、配列、辞書は参照カウントされている"
 
 #: ..\..\source\CanvasProgrammerGuide\referencetypes.rst:9
 msgid "Canvas passes data between nodes without cloning"
-msgstr ""
+msgstr "Canvas ではノード間のデータ受け渡しに複製（clone）をともなわ「ない」"
 
 #: ..\..\source\CanvasProgrammerGuide\referencetypes.rst:11
 msgid ""
@@ -39,13 +39,18 @@ msgid ""
 " when you should use :ref:`canvas-programmer-guide-caches` or :ref:`canvas-"
 "programmer-guide-variables` or :dfn:`Clone` nodes."
 msgstr ""
+"単純な値や構造体 ―例えば :dfn:`Scalar` :dfn:`String` :dfn:`Vec3` ― "
+"では、コピーされるためこのことは問題となりません。しかし、参照カウントされたコンテナのコピーは、ディープコピー（deep "
+"copy）されません。つまり参照されたデータは複製されません。このため :ref:`canvas-programmer-guide-caches` や "
+":ref:`canvas-programmer-guide-variables` や :dfn:`Clone` "
+"ノードを使用する際に、KLオブジェクトや配列をCanvas を通じ受け渡すには、非常に注意を要します。"
 
 #: ..\..\source\CanvasProgrammerGuide\referencetypes.rst:13
 msgid ""
 "In the example below the array is changed even though we are not setting it "
 "in the variable again. This is due to the fact that the array is reference "
 "counted."
-msgstr ""
+msgstr "以下に示す例では、配列の値を元の変数に再設定しないにもかかわらず変更されてしまう例です。これは配列が参照カウントされているためです。"
 
 #: ..\..\source\CanvasProgrammerGuide\referencetypes.rst:17
 msgid ""
@@ -53,3 +58,5 @@ msgid ""
 "node. That way the array is cloned after being accessed and the original "
 "array in the variable won't change."
 msgstr ""
+"このグラフの挙動を当初の意図通りにするには、cloneノードを間に挟みましょう。すると、アクセスがあると配列は複製され、変数内の元の配列は変更されないままと"
+"なります。"
