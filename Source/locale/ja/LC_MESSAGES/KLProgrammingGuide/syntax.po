@@ -13,7 +13,7 @@ msgstr ""
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:4
 msgid "KL Syntax"
-msgstr ""
+msgstr "KLの文法"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:6
 msgid ""
@@ -25,20 +25,25 @@ msgid ""
 "syntax of JavaScript and/or C, we recommend that you skip this chapter and "
 "move on to the next."
 msgstr ""
+"KLが開発された当初、可能な限り JavaScriptのシンタックスを模倣するよう設計しました。JavaScript自体は *C-like "
+"language* をシンタックスはともかく参照しています。この節ではKLの文法を詳細に掘り下げます。C言語に親しんでいない場合、レファレンスとなることでし"
+"ょう。一方、もし既に JavaScript and/or C言語 に詳しいのであれば、この節はスキップし、ガイドの続きへ進むことをお薦めします。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:8
 msgid "Some of the key characteristics of C-like languages are:"
-msgstr ""
+msgstr "Cライクな言語の特徴："
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:10
 msgid "Programs are plain, human-readable text files."
-msgstr ""
+msgstr "プログラムは人間可読なプレーンテキストです。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:12
 msgid ""
 "A program is a sequence of :index:`tokens <single: token>`.  There are four "
 "major types of tokens: keywords, identifiers, symbols and constants."
 msgstr ""
+"プログラムは一連の :index:`tokens <single: token>` から成ります。トークンには4つの構成要素があります。 "
+"キーワード（keywords） 、識別子（identifiers）, シンボル（symbols）、定数（constants）"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:14
 msgid ""
@@ -48,6 +53,9 @@ msgid ""
 "newlines (ASCII 10), tabs (ASCII 9), carriage returns (ASCII 13) and "
 "vertical tabs (ASCII 11)."
 msgstr ""
+"トークンは任意の個数のホワイトスペースで区切ります。2つの隣接するトークン同士は、それぞれ個別に見えるようにスペースで分割しなければなりません。「ホワイトス"
+"ペースによる」とは スペース（ASCII 32）、改行 \\n（ASCII 10）、タブ（ASCII 9）、キャリッジ・リターン \\r（ASCII "
+"13）、ヴァーティカルタブ（ASCII 11）を意味します。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:16
 msgid ""
@@ -57,22 +65,25 @@ msgid ""
 "``*/``, and line comments, which begin with ``//`` and continue to the next "
 "newline (ASCII 10)."
 msgstr ""
+"プログラムにはどこにでもコメントを付することができます。コメントはコンピュータでの処理の際、ホワイトスペースと同じように扱われます。2つのコメント方法があり"
+"ます。 ブロックコメント、 ``/*`` で始まり次ので終わり ``*/`` 。そして行コメント ``//`` で始まり次の改行コード（\\n ASCII "
+"10）まで続きます。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:18
 msgid "Blocks are delimited by ``{`` and ``}``"
-msgstr ""
+msgstr "ブロックは ``{`` と ``}`` により分割されます。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:20
 msgid "Statements are terminated with ``;``"
-msgstr ""
+msgstr "文（statement）は ``;`` で終端です。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:22
 msgid "We delve into some more details of the KL syntax below."
-msgstr ""
+msgstr "次にKLシンタックスの詳細を掘り下げます。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:32
 msgid "Encoding"
-msgstr ""
+msgstr "エンコーディング"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:34
 msgid ""
@@ -82,6 +93,9 @@ msgid ""
 "which contain invalid UTF-8 sequences cannot be compiled and will result in "
 "syntax errors."
 msgstr ""
+"KLプログラムは人間可読なプレインテキストですが、KLではテキストファイルのエンコーディングを UTF-8 "
+"に限ります。KLコンパイラは全てのソースコードを エンコーディングマーク無しの UTF-8とみなします。KLプログラムではコードに不正なUTF-8シーケンス"
+"が含まれていると、コンパイルできずシンタックスエラーが返ります。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:36
 msgid ""
@@ -93,17 +107,22 @@ msgid ""
 " want to insert foreign language characters into a KL source file you must "
 "use an editor that can write UTF-8 files."
 msgstr ""
+"これの意味するところがわからないのであっても、C言語でのソースコード（あるいはJavaScript）"
+"がそうであるようにプレイン7ビットASCIIテキストであれば、UTF-8ディフォルトエンコードです。１つ注意すべき点があり、Windowsで "
+"\"Unicode format\" として保存 (実際には UCS-2 としてエンコードされる) "
+"されたテキストファイルは、KLコンパイラでは読み込めません。アルファベット以外の外国語をKLソースコードに混入させるときには、エディタの設定で UTF-8 "
+"を必ず使いましょう。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:38
 msgid ""
 "The benefit of specifying an encoding is that high-bit characters, such as "
 "foreign language characters, can be inserted directly into string constants "
 "in KL source files."
-msgstr ""
+msgstr "エンコードを特定することの利点は、外国語で使用される高ビットの文字を、KLソースファイル中に文字列定数として直接挿入できることです。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:44
 msgid "Line Continuations"
-msgstr ""
+msgstr "行の連続性"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:46
 msgid ""
@@ -112,24 +131,26 @@ msgid ""
 "for breaking long lines into multiple lines when a single token needs to be "
 "split; usually this token would be a long string."
 msgstr ""
+"C言語同様、KLプログラム中のバックスラッシュ文字  ``\\`` で終わる行は、その次の行と連結されます。単独トークンを分割するときなど、長くなってしまう"
+"行を複数の行に分割でき便利です。たとえば長い文字列などのトークンです。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:48
 msgid "This example shows the use of line continuations in a KL source file:"
-msgstr ""
+msgstr "このサンプルではKLソース・ファイル中での文字列連結使用例です。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:65
 msgid "Comments"
-msgstr ""
+msgstr "コメント"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:67
 msgid ""
 "KL supports the same two types of comments as C and JavaScript: block "
 "comments and line comments."
-msgstr ""
+msgstr "KLはC言語やJavaScriptと同じ２つのコメント法をサポートします。ブロックコメントと行コメントです。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:73
 msgid "Block Comments"
-msgstr ""
+msgstr "ブロックコメント"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:75
 msgid ""
@@ -138,14 +159,16 @@ msgid ""
 "ends a block comment as soon as it encounters the first sequence ``*/``.  "
 "Also like C, KL does not recognize nested comments."
 msgstr ""
+"ブロックコメントは、任意の、 ``/*`` ではじまる次ので終わる ``*/`` 連続した文字の連なりにより構成されます。C言語同様、KLのブロックコメント"
+"は ``*/`` がきたら即コメント終端とみなします。また同様にネストしたブロックコメントを認識しません。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:77
 msgid "The following example illustrates acceptable block comments in KL:"
-msgstr ""
+msgstr "KLで受け付ける例："
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:98
 msgid "The following example unacceptable (erroneous) block comments in KL:"
-msgstr ""
+msgstr "KLでは無効な例："
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:118
 msgid ""
@@ -155,10 +178,11 @@ msgid ""
 "with your program.  For this reason, we recommend that you use line "
 "comments, which are described next."
 msgstr ""
+"ブロックコメントを使用する際の注意点：プログラム中、以上のエラーが発生すると問題の原因解明が非常に困難になります。このため行コメントの使用をお薦めします。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:124
 msgid "Line Comments"
-msgstr ""
+msgstr "行コメント"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:126
 msgid ""
@@ -168,14 +192,17 @@ msgid ""
 "  However, they can't be used to comment out sections of code in the middle "
 "of a line."
 msgstr ""
+"行コメントは、 ``//`` で始まり行の終端、つまり改行コード(ASCII character "
+"10）まで続く文字の連なりです。ブロックコメントと違い、行コメントでは「落とし穴」はありません。期待通りに動作することでしょう。ただ行の途中で、コードのセク"
+"ションをコメントアウトすることはできません"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:128
 msgid "The following example illustrates the use of line comments in KL:"
-msgstr ""
+msgstr "KLでの行コメントの例："
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:149
 msgid "Tokens"
-msgstr ""
+msgstr "トークン"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:151
 msgid ""
@@ -184,14 +211,16 @@ msgid ""
 "comment.  There are four categories of tokens in KL: keywords, identifiers, "
 "symbols, and constants."
 msgstr ""
+"KLプログラムはトークンの連なりとして *パース* されます。トークンとは、コメントや、ホワイトスペースではない何らかの文字の連なりです。トークンには以下の"
+"４つのカテゴリがあります。キーワード（keywords）, 識別子（identifiers）, シンボル（symbols）定数（constants）"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:157
 msgid "Keywords"
-msgstr ""
+msgstr "キーワード"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:159
 msgid "The following is the list of all the keywords in KL:"
-msgstr ""
+msgstr "KLでの全キーワードのリスト："
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:164
 msgid "``alias``"
@@ -305,31 +334,31 @@ msgstr ""
 msgid ""
 "Keywords cannot be used as identifiers, ie. cannot be used for variable, "
 "parameter, function, constant or type names."
-msgstr ""
+msgstr "キーワードは識別子として使用することはできません。すなわち、以下の名前に使用することはできません。変数、パラメータ、関数、定数、型の名前です。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:198
 msgid "Identifiers"
-msgstr ""
+msgstr "識別子"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:200
 msgid ":dfn:`Identifiers` are a sequence of one or more characters that:"
-msgstr ""
+msgstr ":dfn:`Identifiers` とは、文字１つかそれ以上の連なりから成ります："
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:202
 msgid "begin with any of the characters ``a...z``, ``A...Z`` or ``_``; and"
-msgstr ""
+msgstr "``a...z``, ``A...Z``, ``_`` などの文字から始まり、"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:203
 msgid ""
 "are followed by zero or more of the characters ``a...z``, ``A...Z``, "
 "``0...9`` or ``_``"
-msgstr ""
+msgstr "次の文字0個以上つづきます。 ``a...z``, ``A...Z``, ``0...9`` or ``_``"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:205
 msgid ""
 "Identifiers are used in KL for variable names, parameter names, function "
 "names, constant names, method names and type names."
-msgstr ""
+msgstr "識別子は、KLでの変数の名前、パラメータの名前、関数の名前、定数の名前、メソッドの名前、型の名前に使用します。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:207
 msgid ""
@@ -339,10 +368,13 @@ msgid ""
 "difference in practice; it simply changes certain syntax errors into "
 "semantic errors."
 msgstr ""
+"KLでの組み込み型（例： ``Boolean``, ``String``, ``Float32`` "
+"）はキーワードではなく、識別子です。このことは言語設計の技術的詳細として重要ではありますが、実際にはあまり違いはありません。違いといえばシンタックスエラーの"
+"かわりにセマンティクスエラーがでる程度です。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:209
 msgid "Some examples of valid identifiers in KL:"
-msgstr ""
+msgstr "正常な識別子の例："
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:211
 msgid "``foo``"
@@ -374,7 +406,7 @@ msgstr ""
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:219
 msgid "Some examples of invalid identifiers:"
-msgstr ""
+msgstr "だめな識別子の例："
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:221
 msgid "``2by4``"
@@ -386,14 +418,14 @@ msgstr ""
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:228
 msgid "Symbols"
-msgstr ""
+msgstr "シンボル"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:230
 msgid ""
 "A small set of non-alphanumeric, non-underscore characters or short "
 "sequences of such characters are the :dfn:`symbols` in KL.  They are "
 "specifically:"
-msgstr ""
+msgstr "KLにおける :dfn:`symbols` とは、英数字以外の、アンダースコアを含まない文字（もしくはそれらの短いセット）です。具体的には："
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:235
 msgid "``=``"
@@ -607,11 +639,14 @@ msgid ""
 " is treated as the two symbols ``==`` and ``(``: there is no symbol starting"
 " with ``==(`` but ``==`` is a symbol."
 msgstr ""
+"KLコンパイラは、シンボル走査に \"貪欲\" です。文字の最長シーケンスを有効なシンボルとして解釈します。 ``==(`` が ``==`` と "
+"``(`` の２つのシンボルとして扱われる理由です。``==(`` ではじまるシンボルは存在せず、 ``==`` ではじまるシンボルは存在します。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:296
 msgid "Constants"
-msgstr ""
+msgstr "定数"
 
+# 4つしかないんだけどどういうことなの
 #: ..\..\source\KLProgrammingGuide\syntax.rst:298
 msgid ""
 "A constant is a token that is interpreted as a fixed value of a specific "
@@ -619,40 +654,45 @@ msgid ""
 "constants, floating-point constants, and string constants.  Each of these "
 "are explained below."
 msgstr ""
+"定数とは、特定の型の固定された値として解釈されるトークンです。KLでは5つの型の定数をサポートします：真偽値（boolean）, 整数（integer）, "
+"浮動小数点数（floating-point）, 文字列（string） です。それぞれいかに説明します。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:304
 msgid "Boolean Constants"
-msgstr ""
+msgstr "真偽値定数"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:306
 msgid ""
 "The two keywords ``true`` and ``false`` are the two :dfn:`boolean "
 "constants`.  They are each a value of type ``Boolean``."
 msgstr ""
+"``true`` と ``false`` の２つのキーワードが２つの :dfn:`boolean constants` です。どちらも "
+"``Boolean`` 型の値です。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:329
 msgid "Integer Constants"
-msgstr ""
+msgstr "整数定数"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:331
 msgid "An :dfn:`integer constant` can take one of three forms:"
-msgstr ""
+msgstr ":dfn:`integer constant` の3つの形態:"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:333
 msgid "The single digit ``0``"
-msgstr ""
+msgstr "一桁の ``0``"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:334
 msgid ""
 "A decimal constant that starts with a single digit in the range ``1...9`` "
 "followed by zero or more digits in the range ``0...9``"
-msgstr ""
+msgstr "``1...9`` の一桁から始まり、ゼロ桁以上の ``0...9`` が続く10進定数"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:335
 msgid ""
 "The two characters ``0x`` or ``0X`` followed by one or more characters in "
 "one of the ranges ``0...9``, ``a...f`` and ``A...F``"
 msgstr ""
+"``0x`` もしくは ``0X`` とそれに1つ以上の ``0...9``, ``a...f`` and ``A...F`` の文字が続く16進定数"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:337
 msgid ""
@@ -660,14 +700,16 @@ msgid ""
 "type specification.  An integer type specification specified the "
 "signededness and bit width of the integer and takes the form"
 msgstr ""
+"どの形態であれ、整数定数では必要に応じ整数型の型の指定を行えます。整数型の指定では、符号（signededness）"
+"の可否、ビット長の指定、どの形態かについて指定します。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:339
 msgid "The character ``s`` (signed) or the character ``u``, followed by:"
-msgstr ""
+msgstr "``s`` (signed) もしくは ``u`` (unsigned)に続けて、"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:340
 msgid "(optionally) ``8``, ``16``, ``32`` or ``64`` (the bit width)"
-msgstr ""
+msgstr "(任意) ``8``, ``16``, ``32`` or ``64`` (ビット幅)"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:342
 msgid ""
@@ -675,16 +717,18 @@ msgid ""
 "  So, for example, ``145u`` is an unsigned 32-bit integer constant and "
 "``78s`` is a signed 32-bit integer constant."
 msgstr ""
+"ビット幅を指定しない場合、整数のビット幅は 32-bit です。なので、 ``145u`` は unsigned 32-bit 整数定数で ``78s`` "
+"は signed 32-bit 整数定数を意味します。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:344
 msgid ""
 "If no type specification is provided at all the integer is signed 32-bit.  "
 "For example, ``5421`` is a signed 32-bit integer constant."
-msgstr ""
+msgstr "型の指定がない場合、整数は signed 32-bitになります。なので ``5421`` は signed 32-bit 整数定数です。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:363
 msgid "Floating-Point Constants"
-msgstr ""
+msgstr "浮動小数点数定数"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:365
 msgid ""
@@ -693,44 +737,48 @@ msgid ""
 "corresponding to the C type ``float`` and ``Float64`` corresponding to the C"
 " type ``double``:"
 msgstr ""
+"KLの :dfn:`floating-point constant` は ``Float32`` と ``Float64`` "
+"の2つの型があります。シンタックスは C/C++ に非常に近く ``Float32`` は C での ``float`` を意味し ``Float64`` "
+"は C での ``double`` 型："
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:367
 msgid "``1.2`` is of type ``Float64``"
-msgstr ""
+msgstr "``1.2`` は ``Float64`` 型"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:368
 msgid "``1.2f`` is of type ``Float32``"
-msgstr ""
+msgstr "``1.2f`` は ``Float32`` 型"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:369
 msgid "``.7`` is of type ``Float64``"
-msgstr ""
+msgstr "``.7`` は ``Float64`` 型"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:370
 msgid "``3.4e7`` and ``3.4e+7`` are of type ``Float64``"
-msgstr ""
+msgstr "``3.4e7`` や ``3.4e+7`` は ``Float64`` 型"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:371
 msgid "``3.4e7f`` and ``3.4e+7f`` are of type ``Float32``"
-msgstr ""
+msgstr "``3.4e7f`` や ``3.4e+7f`` は ``Float32`` 型"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:372
 msgid "``.5e-4f`` is of type ``Float32``"
-msgstr ""
+msgstr "``.5e-4f`` は ``Float32`` 型"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:374
 msgid ""
 "KL extends the C/C++ syntax by allowing more explicit specification of the "
 "type using the ``f32`` and ``f64`` suffixes.  For example:"
 msgstr ""
+"KLは C/C++ のシンタックスをさらに拡張し、``f32`` and ``f64`` を接尾語として使うことでより明示的な型の指定を可能にします。例："
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:376
 msgid "``4.5e-6f32`` is the same as ``4.5e-6f``"
-msgstr ""
+msgstr "``4.5e-6f32`` は ``4.5e-6f`` と同じ"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:377
 msgid "``2.874f64`` is the same as ``2.873``"
-msgstr ""
+msgstr "``2.874f64`` は ``2.873`` 同じ"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:379
 msgid ""
@@ -741,6 +789,9 @@ msgid ""
 " is added to a variable of type ``Float32`` then the constant is treated as "
 "having type ``Float32``."
 msgstr ""
+"``f``, ``f32`` も ``f64`` も接尾語に使われていない場合、浮動小数点数定数は :dfn:`untyped "
+"floating-point constant` になります。untyped floating-point 定数は自動的にその周囲の式の型を継承します。 "
+"例えば, 浮動小数点数定数 ``.5`` が ``Float32`` 型の変数に加算されるとその定数は ``Float32`` であるとして扱われます。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:413
 msgid ""
@@ -749,36 +800,38 @@ msgid ""
 " such expressions appear to be slightly off, as seen in the example above "
 "with the constant ``.12e20f32``."
 msgstr ""
+"IEEE浮動小数点形式では、ほとんどの少数や分数の式を表現することはできません。ですのでそのような式で出力された値が、多少ずれているように見えたとしても驚い"
+"てはいけません。上記の例では定数 ``.12e20f32`` など。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:421
 msgid "String Constants"
-msgstr ""
+msgstr "文字列定数"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:423
 msgid ""
 "A :dfn:`string constant` is a constant value of type ``String``.  It takes "
 "one of the following forms:"
-msgstr ""
+msgstr ":dfn:`string constant` とは ``String`` 型の定数値です。とりうる2つの形態:"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:425
 msgid ""
 "A sequence of characters, possibly including string constant escape "
 "sequences (described below), enclosed in a pair of ``\"`` (double-quote) "
 "characters; or"
-msgstr ""
+msgstr "文字の連なり。 ２つの ``\"`` (ダブルクォート)文字で囲われた、文字列定数のエスケープシーケンス（後述）を含む"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:427
 msgid ""
 "A sequence of characters, possibly including string constant escape "
 "sequences (described below), enclosed in a pair of ``'`` (single-quote) "
 "characters; or"
-msgstr ""
+msgstr "文字の連なり。２つの ``'`` (シングルクォート)文字で囲われた、文字列定数のエスケープシーケンス（後述）を含む"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:429
 msgid ""
 "A :dfn:`string constant escape sequence` is one of the following sequences "
 "of characters, describing what the sequence is replaced by in the string:"
-msgstr ""
+msgstr ":dfn:`string constant escape sequence` とは以下の、文字列に置き換えられる文字の連なりです。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:431
 msgid "``\\n``"
@@ -786,7 +839,7 @@ msgstr ""
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:432
 msgid "a single newline (ASCII 10) character"
-msgstr ""
+msgstr "単一の改行文字（ASCII 10）"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:433
 msgid "``\\f``"
@@ -794,7 +847,7 @@ msgstr ""
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:434
 msgid "a single form feed (ASCII 12) character"
-msgstr ""
+msgstr "単一フォームフィード（ASCII12）文字"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:435
 msgid "``\\r``"
@@ -802,7 +855,7 @@ msgstr ""
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:436
 msgid "a single carriage return (ASCII 13) character"
-msgstr ""
+msgstr "単一のキャリッジリターン（ASCII 13）文字"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:437
 msgid "``\\t``"
@@ -810,7 +863,7 @@ msgstr ""
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:438
 msgid "a single carriage tab (ASCII 9) character"
-msgstr ""
+msgstr "単一のキャリッジタブ（ASCII9）文字"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:439
 msgid "``\\v``"
@@ -818,7 +871,7 @@ msgstr ""
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:440
 msgid "a single vertical tab (ASCII 11) character"
-msgstr ""
+msgstr "単一の垂直タブ（ASCII11）文字"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:441
 msgid "``\\a``"
@@ -826,7 +879,7 @@ msgstr ""
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:442
 msgid "a single bell (ASCII 7) character"
-msgstr ""
+msgstr "単一のベル（ASCII7）文字"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:443
 msgid "``\\b``"
@@ -834,7 +887,7 @@ msgstr ""
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:444
 msgid "a single backspace (ASCII 8) character"
-msgstr ""
+msgstr "単一のバックスペース（ASCII8）文字"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:445
 msgid "``\\0``"
@@ -842,7 +895,7 @@ msgstr ""
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:446
 msgid "a single null (ASCII 0) character"
-msgstr ""
+msgstr "単一のヌル（ASCII0）文字"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:447
 msgid "``\\\"``"
@@ -850,7 +903,7 @@ msgstr ""
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:448
 msgid "a single double-quote (ASCII 34) character"
-msgstr ""
+msgstr "単一の二重引用符（ASCII34）文字"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:449
 msgid "``\\'``"
@@ -858,7 +911,7 @@ msgstr ""
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:450
 msgid "a single single-quote (ASCII 39) character"
-msgstr ""
+msgstr "単一のシングルクォート（ASCII39）文字"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:451
 msgid "``\\\\``"
@@ -866,7 +919,7 @@ msgstr ""
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:452
 msgid "a single backslash (ASCII 92) character"
-msgstr ""
+msgstr "単一のバックスラッシュ（ASCII92）文字"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:454
 msgid ":samp:`\\\\x{HH}`"
@@ -880,10 +933,13 @@ msgid ""
 "sequence ``0x0A`` (decimal 10) is equivalent to the escape sequence ``\\n`` "
 "(ASCII 10)."
 msgstr ""
+"単一の文字、ASCIIコード16進数で指定。2つの文字 :samp:`{HH}` はともに16進文字です。（すなわち ``0...9``, "
+"``a...f``, ``A...F``)。例： ``0x0A`` (十進数の10) はエスケープシーケンスの ``\\n`` (ASCII 10) "
+"に等しくなります。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:465
 msgid "The ``FILE`` and ``LINE`` Constants"
-msgstr ""
+msgstr "``FILE`` 、 ``LINE`` 定数"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:467
 msgid ""
@@ -894,16 +950,21 @@ msgid ""
 "of the current file being compiled.  So, for example, if the following KL "
 "source code is passed on standard input:"
 msgstr ""
+"この2つのキーワード ``FILE`` と ``LINE`` はKLプログラム中、特別な定数です。 ``FILE`` "
+"はコンパイルされている現在のファイルのファイル名と同一な文字列定数に置換されます。 ``FILE`` "
+"は同様に、現在のファイル中での行番号と同一な整数定数日感されます。例えば、以下のKLソースコードが標準入力から渡されると："
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:479
 msgid "Program Structure"
-msgstr ""
+msgstr "プログラム構造"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:481
 msgid ""
 "A KL program consists of zero or more :index:`global declarations <single: "
 "global declaration>` in sequence.  A global declaration is one of:"
 msgstr ""
+"KLプログラムはそのシーケンス中にゼロ個以上の :index:`global declarations <single: global "
+"declaration>` から成ります。グローバル宣言は次のいずれかです："
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:483
 msgid ""
@@ -911,22 +972,25 @@ msgid ""
 "constructor, a destructor, a method or an operator overload; see "
 ":ref:`functions`."
 msgstr ""
+":ref:`functions` 関数の宣言、関数プロトタイプの宣言、オペレータの宣言、コンストラクタの宣言、デストラクタの宣言、メソッドの宣言、演算子オー"
+"バーロードの宣言"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:485
 msgid ""
 "A declaration of a structure or an object; see :ref:`KLPG.types.structures` "
 "and :ref:`KLPG.types.objects`."
 msgstr ""
+":ref:`KLPG.types.structures`, :ref:`KLPG.types.objects` : 構造体の宣言、オブジェクトの宣言"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:487
 msgid ""
 "A declaration of global named constant; see :ref:`KLPG.global.named-"
 "constants`."
-msgstr ""
+msgstr ":ref:`KLPG.global.named-constants` ：グローバル定数の宣言"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:489
 msgid "A ``require`` statement; see see :ref:`KLPG.require`"
-msgstr ""
+msgstr ":ref:`KLPG.require` ：  ``require`` 文"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:491
 msgid ""
@@ -935,6 +999,8 @@ msgid ""
 "terminated with a ``;`` (semicolon) character.  For more detailed "
 "information on all the statements available in KL, see :ref:`statements`."
 msgstr ""
+"関数、オペレータ、他同様は、ゼロ以上の :index:`statements <single: statement>` を構成します。どの文も ``;`` "
+"（セミコロン）で終わります。KLで利用可能な文に関する詳しい情報は  :ref:`statements` を参照してください。"
 
 #: ..\..\source\KLProgrammingGuide\syntax.rst:493
 msgid ""
@@ -942,3 +1008,5 @@ msgid ""
 "take the place of a single statement.  This also introduces a nested scope; "
 "for more information, see :ref:`scope-compound-statement`."
 msgstr ""
+"中括弧（``{`` と ``}``）で囲まれた複数の文の連なりは、単文の場をとることができます。これによりネストされたスコープを導入できます。より詳しい情報"
+"は :ref:`scope-compound-statement` を参照してください。"
