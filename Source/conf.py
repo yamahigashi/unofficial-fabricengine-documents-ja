@@ -32,6 +32,8 @@ import FabricEngine.Sphinx.KL
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
   'sphinx.ext.autodoc',
+  #'sphinx.ext.pngmath',
+  'sphinx.ext.mathjax',
   'sphinx.ext.graphviz',
   'FabricEngine.Sphinx.KL',
   'FabricEngine.Sphinx.DFG',
