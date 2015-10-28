@@ -1669,16 +1669,20 @@ msgid ""
 "variable, parameter or structure member where they are declared, eg. "
 "``String strings[4]``."
 msgstr ""
+"固定長配列（ :dfn:`fixed-size array` ）とは、実行時サイズが固定されている配列です。固定長配列は可変長配列よりもパフォーマンス特性に"
+"優れ、コンパイル時に配列のサイズが判明している場合、可変長配列のかわりに使用します。固定長配列を宣言するには、変数、パラメータ、構造体メンバ名の後に "
+":samp:`[{size}]` を付け足します。例： ``String strings[4]``"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1411
 msgid ""
 "Fixed-size arrays have all the :ref:`properties of arrays <array-"
 "properties>` as well as the following additional properties:"
 msgstr ""
+"固定長配列は :ref:`properties of arrays <array-properties>` をすべて持ち、さらに追加の特徴があります："
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1413
 msgid "The maximum size of a fixed-size array is :math:`2^31-1`."
-msgstr ""
+msgstr "配列の最大サイズは :math:`2^31-1`."
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1417
 msgid ""
@@ -1687,16 +1691,18 @@ msgid ""
 "recommended that fixed-size arrays only be used for arrays that are "
 "reasonably small."
 msgstr ""
+"固定長配列はスタック上に確保される（ヒープではありません）ため、巨大な固定長配列を使用するとスタックオーバーフローを引き起こします。固定長配列を使用する際は"
+"、適正な大きさである場合に限りましょう。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1419
 msgid ""
 "Fixed-size arrays are copied when they are assigned, ie. they are :dfn"
 ":`copy-by-value`."
-msgstr ""
+msgstr "固定長配列は、割当時にコピーされます。つまり :dfn:`copy-by-value` です。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1443
 msgid "External Arrays"
-msgstr ""
+msgstr "外部配列（External Arrays）"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1445
 msgid ""
@@ -1709,12 +1715,17 @@ msgid ""
 "the name of the variable, parameter or structure member where they are "
 "declared, eg. ``String strings<>``."
 msgstr ""
+":dfn:`external array` とは作成時にサイズが固定され、データ操作時にはそのデータを所有しません。外部配列はおもに、オペレータのパラメータ"
+" ― |FABRIC_PRODUCT_NAME| dependency graph 内でのスライスデータと結合（bind）されたパラメータだけでなく、 "
+"|FABRIC_PRODUCT_NAME| エクステンション内の外部のデータと結合されたパラメータにも使います。また、KL内で使用することも可能です。外部配"
+"列の宣言には、変数、パラメータ、構造体メンバの名前の後ろに、 ``<>`` を食わ会えます。例： ``String strings<>``"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1447
 msgid ""
 "External arrays have all the :ref:`properties of arrays <array-properties>` "
 "as well as the following additional properties:"
 msgstr ""
+"外部配列は、 :ref:`properties of arrays <array-properties>` をすべて持ちさらに追加の特徴を持ちます："
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1449
 msgid ""
@@ -1724,25 +1735,27 @@ msgid ""
 "lots of ways that this usage can break, such as through resizing the "
 "variable array.  This usage is primarily meant for testing::"
 msgstr ""
+"外部配列は、既存の可変長配列からコンストラクト可能です。これは単に、その可変長配列がコンストラクトされた時点の可変長配列に含まれるデータを指します。ただし、"
+"この使用方法にはたくさんの穴があります。たとえば可変長配列をリサイズした場合などです。これは主にテストのため使用してください。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1456
 msgid ""
 "External arrays support an empty constructor (which constructs an empty "
 "external array)::"
-msgstr ""
+msgstr "外部配列は空コンストラクタ（empty constructor）をサポートします。（空の外部配列がコンストラクトされます）"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1461
 msgid ""
 "External arrays support a copy constructor and an assignment operator, both "
 "of which simply make one external array refer to the same data as the "
 "other::"
-msgstr ""
+msgstr "外部配列は、コピーコンストラクタ、代入演算子両方サポートし、他方の配列と同じデータを参照する外部配列を作成します。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1472
 msgid ""
 "External arrays support a ``size()`` method that returns the number of "
 "elements in the external array."
-msgstr ""
+msgstr "外部配列は、 ``size()`` メソッドをサポートし、外部配列の要素数を返します。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1474
 msgid ""
@@ -1751,6 +1764,8 @@ msgid ""
 "useful especially when passing data from C++ into KL and back out. You can "
 "also use this constructor to reinterpret any memory as an array::"
 msgstr ""
+"外部配列は、 ``data`` ポインタだけでなく ``size`` を指定し初期化できます。これにより任意のメモリを配列として割り当てできます。とくにC+"
+"+からKLへと（もしくはその逆）データを渡す際に便利です。このコンストラクタを使い、どんなメモリも配列として再解釈することができます::"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1483
 msgid ""
@@ -1758,6 +1773,8 @@ msgid ""
 "This makes them cheaper to pass around, but can't be used to manage the "
 "lifetime of memory. (See next point)"
 msgstr ""
+"可変長配列とは逆に、外部配列は参照カウントされないオブジェクトです。つまり受け渡し低価でありますが、メモリのライフタイムを管理することはできなくなります。（"
+"次項参照）"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1485
 msgid ""
@@ -1767,14 +1784,16 @@ msgid ""
 "array should never out-live the owner of the data, else it will map to "
 "garbage data::"
 msgstr ""
+"外部配列は、それが操作されるデータの生存期間を管理できません。可変長配列は破棄時にメモリが開放されますが、外部配列は単に他のオブジェクトが所持するメモリをマ"
+"ップしたものに過ぎません。外部配列は真のデータ所持者より長生きしてはいけません、さもなくば不要なゴミデータにマップされてしまいます。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1501
 msgid "The following is an example of using external arrays:"
-msgstr ""
+msgstr "外部配列の使用例:"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1524
 msgid "Dictionaries"
-msgstr ""
+msgstr "辞書（Dictionaries）"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1526
 msgid ""
@@ -1786,6 +1805,9 @@ msgid ""
 "any type.  Dictionaries are declared by appending :samp:`[{KeyType}]` to the"
 " variable, parameter or member name.  For example:"
 msgstr ""
+"KLは、キーと値のペア、辞書（ :dfn:`dictionaries` ）をサポートします。辞書のキーにはKL基本型（ :code:`Boolean`, "
+"``String``, 整数型、浮動小数点型）だけでなく、 :samp:`.hash` メソッドが定義された独自定義した型 (see "
+":ref:`KLPG.dictionaries.custom-key-types`)でも取れます。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1534
 msgid "Dictionaries in KL have the following properties:"
