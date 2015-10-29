@@ -13,7 +13,7 @@ msgstr ""
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:7
 msgid "Statements"
-msgstr ""
+msgstr "文（Statements）"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:9
 msgid ""
@@ -23,6 +23,8 @@ msgid ""
 " execute other statements, or can iterate over another set of statements "
 "until a condition is met."
 msgstr ""
+"関数、オペレータ等の本体は文（ :dfn:`statements` ）により構成されます。文とはKLプログラムの実際に何かをなす際の部品の一部です。文は式の"
+"評価を成し、条件により他の文を実行し、さらには他の複文を条件に合致するまで反復処理したりすることができます。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:11
 msgid ""
@@ -30,10 +32,12 @@ msgid ""
 "used inside KL function definitions.  Statements are divided into two "
 "categories: simple statements and complex statements."
 msgstr ""
+"この章の残りの部分では、KL関数定義の内部に使用することのできる、「文」のいくつかのバリエーションについて記述します。文は以下の２つのカテゴリ分けされます。"
+"単純な文と、複雑な文です。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:19
 msgid "Simple Statements"
-msgstr ""
+msgstr "単純な文"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:21
 msgid ""
@@ -41,16 +45,17 @@ msgid ""
 " nested scope.  Simple statements always end with a ``;`` (semicolon) "
 "character."
 msgstr ""
+"単純な文とは、条件のチェックをしない、もしくはネストしたスコープを作らない文のことです。単純な文は常に ``;`` (セミコロン)文字で終わります。 "
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:23
 msgid ""
 "It is a common syntax error in KL and other C-like languages to forget to "
 "finish a simple statement with a semicolon."
-msgstr ""
+msgstr "KLでも、C言語属においても、文末のセミコロン付け忘れは一般的な文法エラーですね。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:31
 msgid "Expression Statements"
-msgstr ""
+msgstr "式文（Expression Statements）"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:33
 msgid ""
@@ -59,10 +64,12 @@ msgid ""
 "resulting value (if any).  The most common form of an expression statement "
 "is one that invokes a function call (eg. ``report``)."
 msgstr ""
+"どの式、``;`` (セミコロン)で終わるものは全て文です。式を評価しその結果となる値（返り値がある場合）"
+"をすべて無視することで、文は動作します。最も一般的な式文は関数呼び出しです。（例えば ``report``)"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:57
 msgid "Parallel Execution Statement"
-msgstr ""
+msgstr "並列実行文（PEX文）"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:59
 msgid ""
@@ -73,10 +80,13 @@ msgid ""
 "can also take an arbitrary number of additional parameters that are passed "
 "to the operator that is called."
 msgstr ""
+"並列実行文（ :dfn:`parallel execution statement`, 略記 :dfn:`PEX "
+"statement`,）により、KLプログラムからオペレータを一般的な手法により複数回呼び出します。どの PEX文も、呼び出しには１つオペレータを必要 "
+"(参照 :ref:`operators`) とし、呼び出し回数の指定も同様に必要です。さらに任意の数の、オペレータに渡す追加パラメータをとることも可能です。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:61
 msgid "A PEX statement takes the form:"
-msgstr ""
+msgstr "PEX文は以下の形式:"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:67
 msgid ""
@@ -84,6 +94,8 @@ msgid ""
 " is of type ``Index``, and :samp:`{countExpr}` must be an expression of type"
 " ``Size`` and is the number of calls to the operator to make."
 msgstr ""
+":samp:`{operatorName}` は最初のパラメータが ``Index`` 、 :samp:`{countExpr}` は ``Size`` "
+"型の式、オペレータが呼び出される回数を表すものであります。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:69
 msgid ""
@@ -96,6 +108,10 @@ msgid ""
 " parameter of type ``Index``.  This syntax mirrors the parallel execution "
 "syntax:"
 msgstr ""
+"オペレータを :samp:`{countExpr}` 回 呼びだします。可能であれば重奏し並列に呼び出します。この際第一引数を  ``0`` から "
+":samp:`{countExpr}-1` まで変化させます。与えられたオプショナルな追加の引数は一個一個渡されます。オペレータは与えられた引数と互換性のあ"
+"るパラメータ（キャスト含め）リストを持つ必要があります。可読性のため、KLでは特別なシンタックスを用意し、オペレータに初期引数 ``Index`` "
+"を追加します。この文法は並列実行の文法に倣います。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:78
 msgid ""
@@ -105,12 +121,14 @@ msgid ""
 "Thus, a PEX is maximally efficient in cases where each call takes the same "
 "amount of time."
 msgstr ""
+"KLそして  |FABRIC_PRODUCT_NAME| は、PEX文におけるオペレータ呼び出しを、実行マシン上の利用可能コアに対し可能な限り均等に割り当て"
+"ようとします。しかしどの呼び出しにどれだけの時間が掛かるかは事前に不明なため、PEXの効率は各呼び出しが同等の所要時間の場合に最大効率となります。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:80
 msgid ""
 "It is possible and even encouraged as a programming practice to make "
 "recursive PEXes."
-msgstr ""
+msgstr "プログラムの練習としてPEXの再帰呼び出しを試す価値があります。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:82
 msgid ""
@@ -121,6 +139,8 @@ msgid ""
 " changes can result in difficult-to-track-down bugs or even complete failure"
 " of your program."
 msgstr ""
+"KLは、追加引数に異なるコアより同時に渡される変数への変更を保護しません。あるPEX文において、特定のオペレータの２つの呼び出しが、同じ値を同時に変更しない"
+"ように保証するのはプログラマの責任の範疇となります。このような同値同時変更を許してしまうと、追跡困難なバグの温床となり、ひいてはプログラムを破綻させます。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:84
 msgid ""
@@ -128,20 +148,22 @@ msgid ""
 "serial calls in the case that the operator that is called is trivial.  "
 "Parallel executions best with large workloads."
 msgstr ""
+"PEXには生来オーバーヘッドが存在します。そのため些細なオペレータ呼び出しをPEXで行うよりは、直列実行のほうが効率的な場合があります。並列実行（Paral"
+"lel executions）は大規模なワークロードにおいて最も効果的です。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:106
 msgid "The Empty Statement"
-msgstr ""
+msgstr "空文（Empty Statement）"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:108
 msgid ""
 "A ``;`` (semicolon) alone is a statement that does nothing.  This can be "
 "used in cases where a statement is required but there is nothing to do."
-msgstr ""
+msgstr "``;`` (セミコロン) 単独で、何もしない文となります。文を必要とするが、何もしないで良い場合に使用します。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:124
 msgid "Variable Declaration Statements"
-msgstr ""
+msgstr "変数宣言文"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:126
 msgid ""
@@ -150,12 +172,15 @@ msgid ""
 "the scope and are destroyed, executing destructors when appropriate, when "
 "execution exists this scope."
 msgstr ""
+"変数宣言文（ :dfn:`variable declaration statement` "
+"）とは、その文のある最も内側のスコープに新しい変数を１つ（以上）導入します。これらの変数は、実行が同スコープ内である場合、スコープの残りから可視であり続け、"
+"外れると破棄され ―適切であればデストラクタが実行されます。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:128
 msgid ""
 "Variable declarations require a type.  Multiple variables can be declared in"
 " the same statement by separating them with ``,`` (commas)."
-msgstr ""
+msgstr "変数の宣言には型が必要です。複数の変数の宣言では、同一文内に ``,`` (カンマ)で区切ります。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:130
 msgid ""
@@ -163,22 +188,23 @@ msgid ""
 "See :ref:`arrays` and :ref:`dictionaries` for more information on array and "
 "dictionary specifications."
 msgstr ""
+"変数の名前は、配列や辞書の仕様に従います。 :ref:`arrays` and :ref:`dictionaries` の詳細情報を参照してください。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:132
 msgid ""
 "Variables can be constructed or assigned to when declared to set their "
 "initial values; see :ref:`KLPG.constructor`."
-msgstr ""
+msgstr "変数は、宣言され初期値を設定する際、コンストラクトもしくは代入による割当が可能です。  :ref:`KLPG.constructor` 参照。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:146
 msgid ""
 "It is not currently possible to initialize arrays in KL in the statement "
 "where the variable is declared."
-msgstr ""
+msgstr "現在KLでは、変数を宣言したその文において、配列を初期化することはできません。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:154
 msgid "Constant Declaration Statements"
-msgstr ""
+msgstr "定数宣言文"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:156
 msgid ""
@@ -187,14 +213,17 @@ msgid ""
 "keyword `const`.  It follows an identical syntax to global named constants; "
 "see :ref:`KLPG.global.named-constants`."
 msgstr ""
+"定数宣言文（ :dfn:`constant declaration statement` ）は :ref:`variable declaration "
+"statement <var-decl-statements>` と似ていますが、 `const` "
+"キーワードを頭に付加します。文法はグローバル定義された名前付き定数と同様です。 :ref:`KLPG.global.named-constants` 参照"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:167
 msgid "The ``return`` Statement"
-msgstr ""
+msgstr "``return`` 文"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:169
 msgid "The ``return`` statement takes two forms:"
-msgstr ""
+msgstr "``return`` 文には２種の形式があります："
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:171
 msgid ""
@@ -202,16 +231,18 @@ msgid ""
 "returns the given value to the calling function.  There is an implicit cast "
 "to the type of the return value as specified in the function definition."
 msgstr ""
+"値を返す関数において、 ``return`` 文は呼び出し元の関数へと、文に与えられた値を即座に返します。返却される値の型は、関数定義に指定された型へと暗黙"
+"的なキャストが行われます。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:173
 msgid ""
 "For a function which does not return a value, the ``return`` statement does "
 "not take a value and simply returns immediately to the calling function."
-msgstr ""
+msgstr "値を返さない関数において、 ``return`` 文は値を取らず、呼び出し元関数へと即座に戻ります。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:196
 msgid "The ``throw`` Statement"
-msgstr ""
+msgstr "``throw`` 文"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:198
 msgid ""
@@ -222,16 +253,21 @@ msgid ""
 "value.  This value will be automatically converted to a string before it is "
 "passed back to the calling environment."
 msgstr ""
+"``throw`` 文は、例外を投げます。KLコードの実行を即座に中止し、呼びだし元の環境へ(|FABRIC_PRODUCT_NAME| あるいは the "
+"KL tool) 例外を返し、ユーザに表示されます。``throw`` 文は、パラメータを１つ取ります。このパラメータはどんな値でも構いません。この値は、呼"
+"び出し元環境へと渡される前に、自動的に文字列へと変換されます。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:200
 msgid ""
 "It is not yet possible to catch exceptions from within KL; this is because "
 "LLVM lacks support for exception handling on 64-bit Windows."
 msgstr ""
+"KL内で例外を捕捉（catch exception）することはまだできません。64bit Windows での LLVM "
+"に例外ハンドリングが対応していないためです。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:216
 msgid "Complex Statements"
-msgstr ""
+msgstr "複雑な文"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:218
 msgid ""
@@ -239,10 +275,12 @@ msgid ""
 "conditionally executes other statements.  Complex statements are built from "
 "simple statements, other complex statements, and expressions."
 msgstr ""
+"複雑な文（ :dfn:`complex statement` ）とは、異なる文を一纏めにし条件により異なる文を実行する文です。複雑な分は、単純な文、他の複雑"
+"な分、そして複数の式により構成します。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:226
 msgid "Compound Statements"
-msgstr ""
+msgstr "合成文（Compound Statements）"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:228
 msgid ""
@@ -250,30 +288,32 @@ msgid ""
 "is possible to insert multiple statements surrounded by ``{`` (left brace) "
 "and ``}`` (right brace).  This has the following effects:"
 msgstr ""
+"KLソースコード中、単文を挿入可能場所であれば、複数の文を挿入可能です。 ``{`` (左中括弧) and ``}`` "
+"(右中括弧)で包みます。このような影響があります："
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:230
 msgid ""
 "The statements are executed, in order, as if they were together a single "
 "statement; and"
-msgstr ""
+msgstr "この文は、１つの文であるかのように実行されます。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:232
 msgid "A new, nested scope is introduced; see :ref:`scope`."
-msgstr ""
+msgstr "新しい、ネストされたスコープが導入されます。 :ref:`scope` 参照"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:240
 msgid "Conditional Statements"
-msgstr ""
+msgstr "条件文"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:242
 msgid ""
 "There are two types of conditional statement in KL: the ``if`` statement and"
 " the ``switch`` statement."
-msgstr ""
+msgstr "KLには２種類の条件文があります。 ``if`` 文と ``switch`` 文です。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:250
 msgid "The ``if`` Statement"
-msgstr ""
+msgstr "``if`` 文"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:252
 msgid ""
@@ -281,34 +321,38 @@ msgid ""
 "include an ``else`` clause.  As in JavaScript and C, ``if`` and ``else`` "
 "statements can chain."
 msgstr ""
+"``if`` キーワードにより条件文を開始します。必要に応じ ``else`` 句を含めることができます。JavaScript や C言語同様 "
+"``if`` と ``else`` 文は連続できます。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:272
 msgid "The ``switch`` Statement"
-msgstr ""
+msgstr "``switch`` 文"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:274
 msgid ""
 "The ``switch...case`` construct is a more compact form for a sequence of "
 "``if...else`` statements, just as in JavaScript and C."
 msgstr ""
+"``switch...case`` 構文により、一連の ``if...else`` 文をコンパクトにします。これもJavaScript、C言語同様。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:300
 msgid "Loop Statements"
-msgstr ""
+msgstr "ループ文"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:302
 msgid ""
 "KL supports four different types of loop statements: \"C-style\" loops, "
 "while loops, do-while loops, and dictionary loops."
 msgstr ""
+"KLでは４つのループ分があります。 \"C-style\" ループ, while ループ, do-while ループ, dictionary ループです。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:310
 msgid "\"C-Style\" Loops"
-msgstr ""
+msgstr "\"C-Style\" ループ"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:312
 msgid "A :dfn:`C-style loop` takes the form:"
-msgstr ""
+msgstr ":dfn:`C-style loop` の形式:"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:319
 msgid ""
@@ -316,16 +360,18 @@ msgid ""
 ":samp:`{checkExpr}` and :samp:`{nextExpr}` are optional expressions, and "
 ":samp:`{bodyStmt}` is a statement.  The loop operates as follows:"
 msgstr ""
+":samp:`{startStmt}` の場には文（空でも可）を, :samp:`{checkExpr}` と :samp:`{nextExpr}` "
+"は任意に式を置き, :samp:`{bodyStmt}` は文を置きます。ループは以下のように動作します:"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:321
 msgid ""
 "A new, nested scope is created.  This scope is destroyed when the loop "
 "finishes."
-msgstr ""
+msgstr "新しいネストされたスコープを作ります。ループ完了で破棄します。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:323
 msgid "The :samp:`{startStmt}` statement is executed."
-msgstr ""
+msgstr ":samp:`{startStmt}` 文を実行します。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:325
 msgid ""
@@ -333,12 +379,13 @@ msgid ""
 "resulting value is converted to a ``Boolean``.  If the result is false, the "
 "loop finishes."
 msgstr ""
+":samp:`{checkExpr}` 式があれば評価します。結果の値を ``Boolean`` に変換します。 false であればループを終了します。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:327
 #: ..\..\source\KLProgrammingGuide\statements.rst:361
 #: ..\..\source\KLProgrammingGuide\statements.rst:394
 msgid "The :samp:`{bodyStmt}` statement is executed."
-msgstr ""
+msgstr ":samp:`{bodyStmt}` 文を実行します。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:329
 msgid ""
@@ -346,6 +393,8 @@ msgid ""
 "resulting value is discarded.  Execution is transferred back to the step "
 "that evaluates the :samp:`{checkExpr}` expression."
 msgstr ""
+":samp:`{nextExpr}` 式があれば評価します。結果の値は無視します。:samp:`{checkExpr}` "
+"式の評価へと実行ステップが戻されます。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:331
 msgid ""
@@ -354,21 +403,23 @@ msgid ""
 "loop finishes.  It is common practice to declare loop-bound index variables "
 "in the :samp:`{startStmt}` statement."
 msgstr ""
+":samp:`{startStmt}` は文であるため、ここに変数を宣言することが可能です。ループ終了とともにこの変数はスコープからはずれます。ループに束縛"
+"されたインデックス変数を :samp:`{startStmt}` に宣言することは一般的な慣習です。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:347
 msgid "While Loops"
-msgstr ""
+msgstr "While ループ"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:349
 msgid "A :dfn:`while loop` takes the form:"
-msgstr ""
+msgstr ":dfn:`while loop` の形式："
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:357
 #: ..\..\source\KLProgrammingGuide\statements.rst:392
 msgid ""
 "where :samp:`{checkExpr}` is a expression and :samp:`{bodyStmt}` is a "
 "statement.  The loop operates as follows:"
-msgstr ""
+msgstr ":samp:`{checkExpr}` の場には式を、 :samp:`{bodyStmt}` 文を置きます。以下のように動作します:"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:359
 #: ..\..\source\KLProgrammingGuide\statements.rst:396
@@ -376,30 +427,31 @@ msgid ""
 "The :samp:`{checkExpr}` expression is evaluated, and the resulting value is "
 "converted to a ``Boolean``.  If the result is false, the loop finishes."
 msgstr ""
+":samp:`{checkExpr}` 式を評価します。結果の値を ``Boolean`` に変換します。false であればループを終了します。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:363
 msgid ""
 "Execution is transferred back to the step that evaluates the "
 ":samp:`{checkExpr}` expression."
-msgstr ""
+msgstr "実行ステップを :samp:`{checkExpr}` 式の評価まで戻します。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:381
 msgid "Do-While Loops"
-msgstr ""
+msgstr "Do-While ループ"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:384
 msgid "A :dfn:`do-while loop` takes the form:"
-msgstr ""
+msgstr ":dfn:`do-while loop` の形式"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:398
 msgid ""
 "Execution is transferred back to the step that executes the "
 ":samp:`{bodyStmt}` statement."
-msgstr ""
+msgstr ":samp:`{bodyStmt}` 文の実行まで、実行ステップを戻します。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:416
 msgid "Dictionary Loops"
-msgstr ""
+msgstr "Dictionary ループ"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:418
 msgid ""
@@ -407,35 +459,37 @@ msgid ""
 " in a dictionary.  For more information on dictionary loops, see "
 ":ref:`dictionaries`."
 msgstr ""
+"dictionary ループは、その辞書の全てのキーと値 ―もしくはキーか値それぞれ単独で反復処理します。辞書のループについては "
+":ref:`dictionaries` 参照"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:424
 msgid "Loop Control Statements"
-msgstr ""
+msgstr "ループ制御文"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:426
 msgid ""
 "Within the body of a loop, the ``break`` and ``continue`` statements can be "
 "used to prematurely end the current iteration of the loop as described "
 "below."
-msgstr ""
+msgstr "ループ本体において、 ``break`` と ``continue`` 文を使用し、現在のループサイクルを途中で終了させることができます。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:434
 msgid "The ``break`` Statement"
-msgstr ""
+msgstr "``break`` 文"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:436
 msgid ""
 "The ``break`` statement immediately exits the innermost loop.  It is an "
 "error to use the ``break`` statement outside of a loop."
-msgstr ""
+msgstr "``break`` 文により、最も内側のループを即座に終了します。 ``break`` 文はループの外で使用するとエラーになります。"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:455
 msgid "The ``continue`` Statement"
-msgstr ""
+msgstr "``continue`` 文"
 
 #: ..\..\source\KLProgrammingGuide\statements.rst:457
 msgid ""
 "The ``continue`` statement immediately jumps to the next iteration of the "
 "innermost loop.  It is an error to use the ``continue`` statement outside of"
 " a loop."
-msgstr ""
+msgstr "``continue`` 文によりループの最も内側の、次の反復へと即座にジャンプします。ループの外で使用するとエラーとなります。"
