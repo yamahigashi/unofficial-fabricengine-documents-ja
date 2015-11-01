@@ -13,7 +13,7 @@ msgstr ""
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:4
 msgid "Functions and Other Global Declarations"
-msgstr ""
+msgstr "関数と他のグローバルな宣言"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:6
 msgid ""
@@ -23,10 +23,15 @@ msgid ""
 "Structure and object definitions can also appear in the global scope and are"
 " covered in the section :ref:`KLPG.types`."
 msgstr ""
+"この章では、KLプログラムのグローバルスコープの中で現れる、"
+"関数や関数ライクなエンティティ、名前定数、そして ``require`` ステートメントのインスタンスを含む、"
+"それぞれのエンティティの詳細について触れていきます。"
+"構造とオブジェクトの定義もグローバルスコープの中に現れます。そしてこれらについても、このセクション :ref:`KLPG.types` で"
+"触れていきます。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:14
 msgid "Functions"
-msgstr ""
+msgstr "関数"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:16
 msgid ""
@@ -34,16 +39,21 @@ msgid ""
 "another part of a program.  A function takes a list of zero or more "
 ":dfn:`parameters` and optionally returns a :dfn:`return value`."
 msgstr ""
+"関数はプログラムの他の部分から呼ばれるプログラム文の集まりです。"
+"関数はゼロまたはそれいじょうの :dfn:`parameters` のリストを受け取り、"
+"オプションとして、 :dfn:`return value` を返します。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:22
 msgid "Function Definitions"
-msgstr ""
+msgstr "関数定義"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:24
 msgid ""
 "Function definitions in KL are much the same as the \"traditional\" function"
 " definition syntax in JavaScript, with the following key differences:"
 msgstr ""
+"KLにおける関数定義は、JavaScriptにおける \"伝統的な\" 関数定義の文法とほとんど同じです。"
+"次の重要な違いを除いて："
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:26
 msgid ""
@@ -51,6 +61,8 @@ msgid ""
 "declared.  If a function does not return a value, the return type must be "
 "omitted."
 msgstr ""
+"戻り値の型と関数の各パラメーターの型は明示的に宣言しなければなりません。"
+"もし関数が値を返さないのなら、戻り値の型の指定は取り除く必要があります。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:28
 msgid ""
@@ -58,22 +70,28 @@ msgid ""
 "(read-only; the default) by preceding the type by ``in`` or input-output "
 "(read-write) by preceding the value by ``io``."
 msgstr ""
+"パラメーター宣言では、追加的に、``in`` を前につけることで、入力(読み込みのみ：デフォルトです)パラメーターとして、"
+"または、 ``io`` を前につけることで、入出力（読み書き）パラメーターとして宣言することができます。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:30
 msgid ""
 "Functions can optionally be defined using the ``inline`` keyword in place of"
 " ``function``; see :ref:`inline`."
 msgstr ""
+"関数はオプションとして ``function``の代わりに``inline`` キーワードを使って定義することができます。"
+"詳細は :ref:`inline` を見てください。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:32
 msgid ""
 "The ``function`` keyword is optional.  If neither ``function`` nor "
 "``inline`` is present then ``function`` is assumed."
 msgstr ""
+"``function`` キーワードはオプションです。もし ``function`` や ``inline`` が指定されなかった場合は、"
+"``function`` が指定されたとみなされます。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:69
 msgid "Function Invocations"
-msgstr ""
+msgstr "関数呼び出し"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:71
 msgid ""
@@ -81,10 +99,12 @@ msgid ""
 "JavaScript, namely by appending a comma-delimited list of arguments, "
 "surrounded by parentheses, to the function name."
 msgstr ""
+"関数呼び出し（\"コール\"）はJavaScriptと同じ文法で作られています。すなわち、関数名に対して"
+"コンマ区切りの引数リストを加え、丸カッコで囲みます。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:87
 msgid "Function Prototypes"
-msgstr ""
+msgstr "関数プロトタイプ"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:89
 msgid ""
@@ -92,12 +112,15 @@ msgid ""
 "a body.  Providing a function prototype allows the function to be called "
 "before it is defined.  This is useful under two circumstances:"
 msgstr ""
+"KLにおける :dfn:`function prototype` はボディ（関数本体）のない関数宣言です。"
+"関数プロトタイプを使うことで、関数の定義より前の位置から、その関数を呼び出すことができます。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:91
 msgid ""
 "When two or more functions call each other.  Such functions are sometimes "
 "referred to as :dfn:`co-recursive`:"
 msgstr ""
+"二つもしくはそれ以上の関数が互いを呼ぶとき、そのような関数は :dfn:`co-recursive` と呼ばれることがあります："
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:116
 msgid ""
@@ -106,10 +129,13 @@ msgid ""
 ":samp:`= \"{symbol name}\"` or :samp:`= '{symbol name}'` to the function "
 "prototype.  These is usually referred to as :defn:`external functions`:"
 msgstr ""
+"関数定義がFabricエクステンションから与えられたものだった場合、そのFabricエクステンション内の関数のシンボル名は、"
+"関数プロトタイプに :samp:`= \"{symbol name}\"` または :samp:`= '{symbol name}'` を追加したものになります。"
+"これらは通常、 :defn:`external functions`: と呼ばれます。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:136
 msgid "Polymorphism"
-msgstr ""
+msgstr "ポリモーフィズム"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:138
 msgid ""
@@ -118,12 +144,16 @@ msgid ""
 "different number of parameters or those parameters differ by type and/or "
 "their input versus input-output qualification."
 msgstr ""
+"KLは :dfn:`compile-time function polymorphism` をサポートしています。"
+"これは、関数のパラメーターの数が異なるか、または、これらのパラメーターで型やin/ioの修飾が異なる場合に限り、"
+"同じ名前の複数の関数を持つことができる、というものです。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:140
 msgid ""
 "It is an error to have two functions with the same name that take exactly "
 "the same parameter types but return different types"
 msgstr ""
+"全く同じ型のパラメータ群を持つ同じ名前の関数を２つ持とうとするとエラーになります（異なる型を返していたとしてもです）。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:142
 msgid ""
@@ -133,15 +163,21 @@ msgid ""
 "prioritized over type casts.  If the compiler is unable to choose a unique "
 "best match then an error will be reported showing the ambiguity."
 msgstr ""
+"関数呼び出しがKLソース内で書かれていた時に、もし同じ名前の複数の関数が存在していたら、"
+"その時はKLコンパイラはどの関数を呼び出すべきか決めるためにベストマッチ・システムを使用します。"
+"厳格なパラメーターの型のマッチング（訳者注：暗黙のキャストなどを伴わずに、互いに全く同じ型であると判別すること）"
+"は常に型キャストより優先して行われます。"
+"もしコンパイラが唯一の最適な関数を選べなかった場合は、多義性（曖昧さ）を示すエラーを報告します。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:144
 msgid ""
 "The following example demonstrates a simple use of function polymorphism:"
 msgstr ""
+"次の例は、関数ポリモーフィズムの一つの使用例を示すものです。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:173
 msgid "Operators"
-msgstr ""
+msgstr "演算子"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:175
 msgid ""
@@ -151,20 +187,23 @@ msgid ""
 "value.  Fabric does special type-checking to ensure that operators are bound"
 " properly to nodes in a Fabric dependency graph."
 msgstr ""
+"KLにおける ``operator`` キーワードは、関数がFabricディペンデンシー・グラフからKLへの"
+"エントリーポイントとして使われるように、その関数をマークするために使用されます。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:189
 msgid "Constructors"
-msgstr ""
+msgstr "コンストラクタ"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:191
 msgid ""
 "A :dfn:`constructor` for a user-defined type is a function that initializes "
 "a value with the given the type from other values."
 msgstr ""
+"ユーザー定義の型の :dfn:`constructor` は他の値から、ユーザーが定義した型の値を初期化する関数です。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:197
 msgid "Constructor Declarations"
-msgstr ""
+msgstr "コンストラクタ宣言"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:199
 msgid ""
@@ -173,6 +212,10 @@ msgid ""
 "must be input parameters; constructors cannot take input-output parameters."
 "  Constructors cannot return values."
 msgstr ""
+"コンストラクタは、ユーザー定義の型と同じ名前の関数として宣言されます。"
+"このコンストラクタ関数は任意の個数のパラメーターを取ることができます。"
+"ただし、入力パラメーターである必要があります。コンストラクターは入出力パラメーターは取ること"
+"ができません。また、コンストラクターは値を返せません。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:201
 msgid ""
@@ -181,24 +224,29 @@ msgid ""
 "``.`` (dot) operator.  In this context, ``this`` is always read-write, ie. "
 "its members can be modified."
 msgstr ""
+"コンストラクタ定義の本体の中では、初期化される値は、 ``this`` キーワードによって参照できます。"
+"そのメンバーには ``.``（ドット）演算子を使うことでアクセスできます。"
+"このコンテキストにおいて、 ``this`` は常に読み書き可能です。つまり、メンバーは変更できます。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:233
 msgid ""
 "Like functions, constructors can optionally be defined using the ``inline`` "
 "keyword in place of ``function``; see :ref:`inline`."
 msgstr ""
+"関数のように、コンストラクタはオプションで ``function`` の代わりに ``inline`` を使って"
+"定義することができます。詳しくは :ref:`inline` を参照してください。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:239
 msgid "Constructor Invocation"
-msgstr ""
+msgstr "コンストラクタ呼び出し"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:241
 msgid "Constructors are invoked in one of several ways."
-msgstr ""
+msgstr "コンストラクタの呼び出し方はいくつかあります。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:244
 msgid "Naked Initialization"
-msgstr ""
+msgstr "裸の初期化"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:246
 msgid ""
@@ -207,10 +255,13 @@ msgid ""
 "initialize the variable.  This is referred to as :dfn:`naked "
 "initialization`."
 msgstr ""
+"ある変数が何の初期化もなしに宣言されたとしたら、 :dfn:`empty constructor` "
+"（つまり、何のパラメーターも取らないコンストラクタ）がその変数を初期化するために呼び出されます。"
+"これを :dfn:`naked initialization` と呼びます。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:267
 msgid "Assignment Initialization"
-msgstr ""
+msgstr "代入初期化"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:269
 msgid ""
@@ -220,20 +271,24 @@ msgid ""
 "assigned, best-match polymorphism rules are used to choose the constructor "
 "to invoke."
 msgstr ""
+"もし、（ある型の初期化時に、）それと同じ型の変数が宣言の一部として代入されていた場合、"
+"単一パラメーターコンストラクタが呼び出されます。これは :dfn:`assignment initialization` "
+"と呼ばれます。もし、割り当てられた値の型にぴったりマッチするコンストラクタがなければ、"
+"呼び出すべきコンストラクタを選ぶために、ベスト・マッチ・ポリモーフィズムルールが適用されます。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:271
 #: ..\..\source\KLProgrammingGuide\globals.rst:351
 msgid "Example:"
-msgstr ""
+msgstr "例："
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:304
 #: ..\..\source\KLProgrammingGuide\globals.rst:1465
 msgid "Output:"
-msgstr ""
+msgstr "出力："
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:313
 msgid "Invocation Initialization"
-msgstr ""
+msgstr "呼び出し初期化"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:315
 msgid ""
@@ -243,21 +298,27 @@ msgid ""
 "match for the arguments passed to the call, best-match polymorphism rules "
 "are used to choose the constructor to invoke."
 msgstr ""
+"もし、ある変数がその宣言の一部として \"呼び出されて\"（つまり、関数呼び出しの文法を使って）いた場合、"
+"与えられた引数を取る（マッチする）コンストラクターが呼ばれます。"
+"これを :dfn:`invocation initialization` と呼びます。もし、呼び出し時に渡された引数とぴったり"
+"マッチするコンストラクタがない場合は、呼び出すべきコンストラクタを選ぶために、"
+"ベスト・マッチ・ポリモーフィズムルールが適用されます。"
+
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:317
 msgid "Example::"
-msgstr ""
+msgstr "例::"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:337
 #: ..\..\source\KLProgrammingGuide\globals.rst:371
 #: ..\..\source\KLProgrammingGuide\globals.rst:451
 #: ..\..\source\KLProgrammingGuide\globals.rst:1381
 msgid "Output::"
-msgstr ""
+msgstr "出力::"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:345
 msgid "Temporary Initialization"
-msgstr ""
+msgstr "一時初期化"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:347
 msgid ""
@@ -268,6 +329,10 @@ msgid ""
 "choose the constructor to invoke.  This is refered to as :dfn:`temporary "
 "initialization`."
 msgstr ""
+"もし関数呼び出し時の関数前が型の名前と同じだった場合、与えられた引数を取るコンストラクタは、"
+"指定された型の一時的な値を作るために呼び出されます。もし、呼び出し時に渡された引数とぴったり"
+"マッチするコンストラクタがない場合は、呼び出すべきコンストラクタを選ぶために、"
+"ベスト・マッチ・ポリモーフィズムルールが適用されます。これを :dfn:`temporary initialization` と呼びます。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:349
 msgid ""
@@ -276,10 +341,13 @@ msgid ""
 "given type and initializing it, using the appropriate constructor, from the "
 "given value."
 msgstr ""
+"KLはコンストラクションとキャスティングを区別しません。"
+"異なる型への値のキャストは、（与えられた値から適切なコンストラクタを選んで使用することにより、）"
+"与えられた型の一時的な値を生成して、それを初期化するのと同じです。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:377
 msgid "Base type constructors (inheritance)"
-msgstr ""
+msgstr "基底型のコンストラクタ（継承）"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:381
 msgid ""
@@ -287,6 +355,8 @@ msgid ""
 "<KPLG.object.inheritance>` from a base type, the base type's default "
 "constructor is implicitly called before the specialized type's one."
 msgstr ""
+"指定された構造体またはオブジェクト型が基底型から :ref:`inherits <KPLG.object.inheritance>` するとき、"
+"指定された型のコンストラクタより前に、基底型のデフォルトコンストラクタが暗黙的に呼び出されます。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:385
 msgid ""
@@ -294,10 +364,12 @@ msgid ""
 " be called by specialized type constructors. The following example uses an "
 "`initialize` method to workaround this issue:"
 msgstr ""
+"現時点での制約として、特殊化した型のコンストラクタから、引数を伴って基底クラスのコンストラクタを呼び出すことはできません。"
+"次の例では、この問題の回避策として`initialize`メソッドを使っています。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:424
 msgid "Destructors"
-msgstr ""
+msgstr "デストラクタ"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:426
 msgid ""
@@ -310,16 +382,24 @@ msgid ""
 "keyword; the value is input-output, ie. it can be modified in the "
 "destructor."
 msgstr ""
+"デストラクタは変数がスコープの外に出て、そのリソースを解放するときに呼ばれる関数です。"
+"デストラクタは型の名前の前に ``~`` （チルダ）をつけ、また関数として使われるように宣言されます。"
+"デストラクタはどのようなパラメーターも取らず、戻り値も返しません。デストラクタは"
+"値が解放される前に呼ばれます。したがって、そのメンバーにはまだアクセスすることができます。"
+"デストラクタの本体では、そうしたメンバーの値には ``this`` キーワードを使って参照します。"
+"また、それらの値は入出力可能なので、つまりはデストラクタで書き換え可能です。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:428
 msgid "Example use of destructor:"
-msgstr ""
+msgstr "デストラクタの使用例"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:456
 msgid ""
 "Like functions, destructors can optionally be defined using the ``inline`` "
 "keyword in place   of ``function``; see :ref:`inline`."
 msgstr ""
+"関数のように、デストラクタはオプションとして ``function`` の代わりに ``inline`` キーワードを"
+"使って定義できます。詳細は :ref:`inline` を見てください。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:459
 msgid ""
@@ -327,10 +407,12 @@ msgid ""
 "<KPLG.object.inheritance>` from a base type, base type's destructor is "
 "called after the specialized one."
 msgstr ""
+"特殊化された構造体またはオブジェクト型が基底型を継承するとき、基底型のデストラクタは"
+"特殊化した後に呼び出されます。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:467
 msgid "Methods"
-msgstr ""
+msgstr "メソッド"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:469
 msgid ""
@@ -339,16 +421,21 @@ msgid ""
 "calls for the case that the method call is strongly tied to a value whose "
 "type is a user-defined structure."
 msgstr ""
+":dfn:`method` はユーザー定義の構造体上で操作を行う関数です。"
+"メソッドは、普通の関数呼び出しよりもわずかに異なる（そしてより示唆的な）文法を使います。"
+"これは、メソッドコールがユーザー定義の構造体を型として持つ値に強く結びつけられていることによります。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:475
 msgid "Method Definitions"
-msgstr ""
+msgstr "メソッド定義"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:477
 msgid ""
 "If :samp:`{Type}` is a structure or alias, then a method named "
 ":samp:`{methodName}` can be added to the type using the following syntax:"
 msgstr ""
+"もし :samp:`{Type}` が構造体かエイリアスだった場合、 :samp:`{methodName}` と名付けられたメソッド"
+"は次の文法を使うことで、型に加えることができます。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:491
 msgid ""
@@ -356,16 +443,21 @@ msgid ""
 "called.  ``this`` is read-only if the method returns a value and is read-"
 "write if the method does not return a value."
 msgstr ""
+"メソッド本体内で、 ``this`` はそのメソッドが呼ばれた値を参照します。"
+"``this`` は、もしそのメソッドが値を返すのであれば、読み込みのみ可能です。"
+"もし、値を返さないのであれば、読み書きが可能です。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:493
 msgid ""
 "Like functions, methods can optionally be defined using the ``inline`` "
 "keyword in place   of ``function``; see :ref:`inline`."
 msgstr ""
+"関数のように、メソッドはオプションとして ``function`` キーワードの代わりに ``inline`` "
+"を使って定義することができます。詳細は :ref:`inline` をご覧ください。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:500
 msgid "Method Invocation"
-msgstr ""
+msgstr "メソッド呼び出し"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:502
 msgid ""
@@ -373,6 +465,9 @@ msgid ""
 ":samp:`{methodName}` can be invoked on :samp:`{value}` using the expression "
 ":samp:`{value}.{methodName}({argument list})`."
 msgstr ""
+"もし :samp:`{value}` が :samp:`{Type}` 型の値であるなら、そのメソッド :samp:`{methodName}` "
+"は :samp:`{value}.{methodName}({argument list})` という書き方を使って、 :samp:`{value}` 上で"
+"呼び出すことができます。"
 
 #: ..\..\source\KLProgrammingGuide\globals.rst:504
 msgid ""
