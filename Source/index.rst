@@ -145,4 +145,5 @@ Table of contents
   Installation/index
   LicensingGuide/index
   DocSystem/index
+  DCCIntegrations/index
   DCCIntegrations/thirdpartylicenses

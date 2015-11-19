@@ -157,23 +157,16 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: unsigned getErrorCount() const
+    .. cpp:function:: String getErrors() const
 
-      Returns the number of errors on the executable.  Errors can be accessed
-      by (zero-based) index using :cpp:func:`FabricCore::DFGExec::getError`.
-      
-      :returns: The number of errors
+      Returns the errors on the executable as a JSON array of strings.
 
 
 
 
-    .. cpp:function:: char const *getError( unsigned index ) const
+    .. cpp:function:: String getErrors() const
 
-      Returns the error at the given index on the executable.  Errors can be accessed
-      by (zero-based) index; see :cpp:func:`FabricCore::DFGExec::getErrorCount`.
-      
-      :param index: The index of the error
-      :returns: The error description
+      Returns the errors on the executable as a JSON array of strings.
 
 
 
@@ -419,7 +412,7 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: char const *addInstFromPreset(char const *presetFilePath )
+    .. cpp:function:: char const *addInstFromPreset(char const *presetFilePath, char const *desiredName = 0)
 
       Create a new instance node in the graph that is an instance of the
       preset with the given preset path.  Will throw an exception if the
@@ -433,7 +426,7 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: char const *addInstWithNewGraph(char const *title = 0 )
+    .. cpp:function:: char const *addInstWithNewGraph(char const *title = 0)
 
       Create a new instance node in the graph that is an instance of a new
       (empty) graph.  Optionally, specify the title of the new graph; if present,
@@ -445,7 +438,7 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: char const *addInstWithNewFunc(char const *title = 0 )
+    .. cpp:function:: char const *addInstWithNewFunc(char const *title = 0)
 
       Create a new instance node in the graph that is an instance of a new
       (empty) function.  Optionally, specify the title of the new function; if present,
@@ -916,11 +909,24 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: void setExecPortMetadata(char const *execPortName, char const *key, char const *value, bool canUndo = true, bool shouldSplitFromPreset = true )
+    .. cpp:function:: void setExecPortMetadata(char const *name, char const *key, char const *value, bool canUndo = true, bool shouldSplitFromPreset = true )
 
       Sets the metadata for an executable port for the given key.
       
-      :param portName: The name of the executable port
+      :param name: The name of the executable port
+      :param key: The key for the metadata
+      :param value: The value for the metadata
+      :param canUndo: Whether the action should be undoable
+      :param shouldSplitFromPreset: Whether the metadata change should split from the preset, if the executable is an instance of a preset
+
+
+
+
+    .. cpp:function:: void setExecPortMetadata(unsigned index, char const *key, char const *value, bool canUndo = true, bool shouldSplitFromPreset = true )
+
+      Sets the metadata for an executable port for the given key.
+      
+      :param index: The index of the executable port
       :param key: The key for the metadata
       :param value: The value for the metadata
       :param canUndo: Whether the action should be undoable
@@ -1226,6 +1232,20 @@ Canvas Core API Classes
 
 
 
+    .. cpp:function:: bool isPreset() const
+
+      Queries whether the executable is a preset
+
+
+
+
+    .. cpp:function:: bool instExecIsPreset( char const *instName ) const
+
+      Queries whether the executable is a preset
+
+
+
+
     .. cpp:function:: bool editWouldSplitFromPreset() const
 
       Queries whether editing the executable would cause it or one of its
@@ -1235,6 +1255,14 @@ Canvas Core API Classes
 
 
     .. cpp:function:: void maybeSplitFromPreset()
+
+      Split the executable from the preset it is an instance of if it is
+      an instance of a preset; otherwise, has no effect.
+
+
+
+
+    .. cpp:function:: void addPriorPortName(
 
       Split the executable from the preset it is an instance of if it is
       an instance of a preset; otherwise, has no effect.
@@ -1692,5 +1720,10 @@ Canvas Core API Classes
     .. cpp:function:: void blockComps()
 
       Unblock recompilations of DFGBindings.
+
+
+
+
+.. cpp:class:: FabricCore::Client : public FabricCore::Ref
 
 

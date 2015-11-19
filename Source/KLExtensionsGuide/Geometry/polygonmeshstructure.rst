@@ -1,4 +1,4 @@
-﻿.. _polygonmeshstructure:
+.. _polygonmeshstructure:
 
 PolygonMesh's structure
 =======================

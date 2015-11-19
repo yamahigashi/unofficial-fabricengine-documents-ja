@@ -141,6 +141,24 @@ FABRIC_VERBOSE_IR_CACHE
 
 If non-zero, the Core will output additional information into the IR cache. It will output the source KL, the unoptimized IR for the given KL, and finally the optimized IR once optimization is complete. The files are named by cache key as with the existing cache files.
 
+Fabric Canvas
+--------------------
+
+FABRIC_DFG_PATH
+++++++++++++++++++++++++
+
+A colon-separated (semicolon on Windows) path of additional directories to search for Canvas presets.
+
+FABRIC_CANVAS_JSON_STRICT
++++++++++++++++++++++++++++++++
+
+Setting this variable to 1 will cause Canvas to export its JSON representations for graphs and functions using a strict JSON format; by default, Fabric will export using a loose format where newlines and other control characters will not be escaped.  This loose format is better for version control but not compatible with strict JSON parsers.
+
+FABRIC_NO_EXPIRY_DIALOG
++++++++++++++++++++++++++++++++
+
+Normally when canvas loads it will pop a warning window if the user's license expires in less than a month. Setting this variable to 1 will cause Canvas to skip this window and instead print the warning to the command line.
+
 SPLICE API
 ---------------
 

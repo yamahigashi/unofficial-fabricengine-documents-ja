@@ -36,6 +36,9 @@ Canvas
 **CTRL+V**
   Paste
 
+**CTRL+A**
+  Select all nodes
+
 **CTRL+Tab**
   Show/hide the node explorer and the value editor.
   

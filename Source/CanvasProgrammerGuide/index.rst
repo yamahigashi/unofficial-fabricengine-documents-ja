@@ -30,6 +30,7 @@ Table of Contents
   valuepersistance
   kl2dfg
   faq
+  tests
 
 Indices and Tables
 ------------------
