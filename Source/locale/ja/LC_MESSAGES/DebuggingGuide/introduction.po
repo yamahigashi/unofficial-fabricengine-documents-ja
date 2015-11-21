@@ -13,7 +13,7 @@ msgstr ""
 
 #: ..\..\source\DebuggingGuide\introduction.rst:2
 msgid "Introduction"
-msgstr ""
+msgstr "はじめに"
 
 #: ..\..\source\DebuggingGuide\introduction.rst:4
 msgid ""
@@ -28,10 +28,17 @@ msgid ""
 "provided by LLDB zBug can also be used to debug pure C or C++ applications "
 "or extensions using the same UI."
 msgstr ""
+"|FABRIC_PRODUCT_NAME| は |FABRIC_PRODUCT_NAME| と "
+"KLを使って記述されたアプリケーションのデバッグを支援する機能を提供しています。Fabric Engine デバッガー (zBugと呼びます, "
+"ジーバグ/zee-bugと発音) は、 `LLDB <http://lldb.llvm.org/>`_ に基づき、既存のデバッグソフトウェア "
+"―Visual Studio デバッガや、gdb ― と同等の機能の提供を目指し、KLコードのデバッグのサポートを追加します。zBug によって、ユーザは "
+"KLアプリケーションに関するコードを多用な角度 ―C/C++エクステンションを含む― "
+"からデバッグすることができます。LLDBにより提供されるサポートによって、同一のUIによりピュアC,C++アプリケーションからエクステンションまでを、zBu"
+"gでデバッグすることができます。"
 
 #: ..\..\source\DebuggingGuide\introduction.rst:7
 msgid "How Debugging Works"
-msgstr ""
+msgstr "デバッグ方法"
 
 #: ..\..\source\DebuggingGuide\introduction.rst:9
 msgid ""
@@ -43,6 +50,10 @@ msgid ""
 "used by most open compilers (with Microsoft's Visual Studio compiler being "
 "the big exception) and this is the debug info format used by KL as well."
 msgstr ""
+"おおまかに言えば、KLアプリケーションのデバッグも、コンパイル済C/C++アプリケーションのデバッグに大きな違いはありません。どちらもコンパイルされたコード"
+"に、デバッガへ渡すいくつかの情報を内包させることになります。ファイル名、行番号、変数名、型、あるいはそのほかの情報です。デバッグ情報のための最も一般的なフォ"
+"ーマットは <Dwarf> です。このフォーマットは多くのオープンなコンパイラ（Microsoft の Visual Studio "
+"のコンパイラは一番大きい例外）に使用されています。KLでも同様にこのデバッグ情報フォーマットを使用します。"
 
 #: ..\..\source\DebuggingGuide\introduction.rst:11
 msgid ""
@@ -52,6 +63,9 @@ msgid ""
 " takes additional time to produce and requires additional memory when "
 "running the application."
 msgstr ""
+"典型的な C++ アプリケーションをデバッグする準備が整ったら、開発者は通常、出力成果物の中にこのデバッグ情報を含めるかどうか、コンパイラに指示します。コン"
+"パイルされたコードには、ディフォルトでデバッグ情報は内包されません。コンパイルに余分な時間をとるうえ、アプリケーション実行時に余分なメモリを消費するためです"
+"。"
 
 #: ..\..\source\DebuggingGuide\introduction.rst:13
 msgid ""
@@ -62,6 +76,8 @@ msgid ""
 "debug as line numbers may change and variables that the developer wrote into"
 " the code may be optimized away and replaced."
 msgstr ""
+"開発者は通常、コンパイラが出力コードに対する最適化を行わないよう指示します。コンパイルコードに対する最適化は、実行時の高速化に寄与しますが、最適化処理により"
+"コードが大幅に変更され、デバッグが難しくなります。行番号が変更され、コードに記述した変数が置き換わり、どこかへいってしまったりするのです。"
 
 #: ..\..\source\DebuggingGuide\introduction.rst:15
 msgid ""
@@ -74,3 +90,7 @@ msgid ""
 "and enable optimizations to allow the KL compiler to change your code as "
 "necessary in order to make it as fast as possible."
 msgstr ""
+"KLコードをデバッグする際も、このアイデア両方当てはまります。開発者はそれぞれ独立して選択 ―自身のコードに対する最適化を施すかどうか; "
+"デバッグ情報を埋め込むかどうか― することができます。デバッグにおいて一般的には <デバッグ情報を内包し、最適化は行わない> "
+"という選択になります。コードを記述し、デバッグし、正常に動作するかどうか見定め、ようやくその後、デバッグ情報を無効にしてメモリを節約し、最適化を有効にしKL"
+"コンパイラが必要に応じ可能な限り高速動作するようコードを変更させます。"

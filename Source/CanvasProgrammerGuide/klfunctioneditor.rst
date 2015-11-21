@@ -25,6 +25,10 @@ Ports can be referenced by name in the KL code below.
 
 .. note:: Reordering of ports in the KL function editor is not yet supported, but will be added in a future version.
 
+Requirements field
+----------------------
+If a KL function node depends on an extension on disk, you will need to put the extension requirement definition into the requirements text field. For more information, please see :ref:`canvas-user-guide-graphview-requirements`.
+
 KL code window
 ----------------------
 

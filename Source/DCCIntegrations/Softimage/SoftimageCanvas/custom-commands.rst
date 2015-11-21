@@ -352,6 +352,44 @@ FabricCanvasDisconnect
 
         The path of the destination port.
 
+FabricCanvasCreatePreset
+-----------------------------------
+    
+    **Description**
+
+    Create a new preset from an existing node.
+    
+    **Scripting Syntax**
+
+    ``name = FabricCanvasCreatePreset( binding, execPath, nodeName, presetDirPath, presetName )``
+
+    **Return value**
+
+    The pathname where the new preset was saved on disk, or the empty
+string if the preset was not saved.
+    
+    **Parameters**
+
+      - ``binding``
+
+        The name of a CanvasOp operator (i.e. the graph).
+
+      - ``execPath``
+
+        The path of the node to which the port belongs to.
+
+      - ``nodeName``
+
+        The name of the node
+
+      - ``presetDirPath``
+
+        The path to the directory in the preset tree where the preset should be located
+
+      - ``presetName``
+
+        The name of the preset to be created
+
 FabricCanvasEditPort
 -----------------------------------
     
@@ -448,6 +486,58 @@ FabricCanvasExportGraph
 
         The path + filename + extension of the JSON file, e.g. "D:\Temp\my_graph.canvas"
     
+FabricCanvasGetBindingID
+-----------------------------------
+    
+    **Description**
+
+    Returns the ID of the FabricCore DFGBinding used by a specified Canvas operator. This is useful if you want to create a python FabricCore client, for example, to access the same data.
+    
+    **Scripting Syntax**
+
+    ``FabricCanvasGetBindingID( OperatorName )``
+
+    **Parameters**
+
+      - ``OperatorName``
+
+        The name of a CanvasOp operator.
+
+    **Example**
+
+    The following VBScript gets the FabricCore DFGBinding ID of a null and logs it.
+
+    .. code-block:: none
+
+      Option Explicit
+
+      Dim bindingID
+      bindingID = FabricCanvasGetBindingID("null.kine.global.CanvasOp")
+      logmessage "binding ID: " & bindingID
+
+FabricCanvasGetContextID
+-----------------------------------
+    
+    **Description**
+
+    Returns the FabricCore client contextID used by Canvas operators. This is useful if you want to create a python FabricCore client, for example, to access the same data.
+    
+    **Scripting Syntax**
+
+    ``FabricCanvasGetContextID( )``
+
+    **Example**
+
+    The following VBScript gets the FabricCore client contextID and logs it.
+
+    .. code-block:: none
+
+      Option Explicit
+
+      Dim coreCtxtID
+      coreCtxtID = FabricCanvasGetContextID()
+      logmessage "FabricCore client contextID: " & coreCtxtID
+
 FabricCanvasImplodeNodes
 -----------------------------------
     
@@ -507,6 +597,19 @@ FabricCanvasImportGraph
 
         The path + fielname + extension of the JSON file, e.g. "D:\Temp\my_graph.canvas"
     
+FabricCanvasInspectOp
+-----------------------------------
+    
+    **Description**
+
+    Opens the property page for the currently selected object's Canvas operator, if any.
+    
+    Note: the menu "Fabric -> Inspect Canvas Op" also calls this command.
+
+    **Scripting Syntax**
+
+    ``FabricCanvasInspectOp( )``
+
 FabricCanvasInstPreset
 -----------------------------------
     
@@ -1161,16 +1264,41 @@ FabricCanvasSetNodeComment
 
         The comment.
     
-FabricCanvasSetNodeTitle
+FabricCanvasSetTitle
 -----------------------------------
     
     **Description**
 
-    Sets the title of a node.
+    Sets the title of an executable.
     
     **Scripting Syntax**
 
-    ``FabricCanvasSetNodeTitle( binding, execPath, nodeName, title )``
+    ``FabricCanvasSetTitle( binding, execPath, title )``
+    
+    **Parameters**
+
+      - ``binding``
+
+        The name of a CanvasOp operator (i.e. the graph).
+
+      - ``execPath``
+
+        The path of the executable in the Canvas operator.
+
+      - ``title``
+
+        The new title for the node.
+    
+FabricCanvasEditNode
+-----------------------------------
+    
+    **Description**
+
+    Renames a node in a Canvas graph
+    
+    **Scripting Syntax**
+
+    ``FabricCanvasEditNode( binding, execPath, currentNodeName, desiredNodeName, uiMetadata )``
     
     **Parameters**
 
@@ -1182,13 +1310,25 @@ FabricCanvasSetNodeTitle
 
         The path of the node.
 
-      - ``nodeName``
+      - ``oldNodeName``
 
-        The name of the node.
+        The current name of the node.
 
-      - ``title``
+      - ``desiredNewNodeName``
 
-        The new title for the node.
+        The desired new name of the node.
+        
+      - ``nodeMetadata``
+
+        NOT YET DOCUMENTED
+        
+      - ``execMetadata``
+
+        NOT YET DOCUMENTED
+
+    **Returns**
+
+    The actual new name of the node
     
 FabricCanvasSetPortDefaultValue
 -----------------------------------

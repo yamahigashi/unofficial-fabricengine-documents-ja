@@ -12,14 +12,14 @@ http://docs.fabric-engine.com/FabricEngine/latest/HTML/index.html
 
 ## 翻訳ステータス
 
-* [ ] CanvasProgrammerGuide
+* [x] CanvasProgrammerGuide
 * [x] CanvasUserGuide
 * [ ] CAPIProgrammingGuide
-* [ ] CoreOverview
+* [x] CoreOverview
 * [ ] DCCIntegrations
     * [ ] DCCIntegrations\Arnold
     * [ ] DCCIntegrations\KLTips
-    * [ ] DCCIntegrations\Maya
+    * [x] DCCIntegrations\Maya
     * [ ] DCCIntegrations\OFX
     * [ ] DCCIntegrations\Scripting
     * [ ] DCCIntegrations\Softimage
@@ -32,7 +32,7 @@ http://docs.fabric-engine.com/FabricEngine/latest/HTML/index.html
 * [ ] DocSystem
 * [ ] ExtensionAuthoringGuide
 * [x] GettingStartedGuide
-* [ ] GPUCompute
+* [x] GPUCompute
 * [ ] InstrumentationGuide
 * [ ] KLExtensionsGuide
     * [ ] KLExtensionsGuide\Alembic
@@ -63,9 +63,9 @@ http://docs.fabric-engine.com/FabricEngine/latest/HTML/index.html
     * [ ] KLExtensionsGuide\Singletons
     * [ ] KLExtensionsGuide\Util
 * [ ] KLProgrammingGuide
-* [ ] KLStyleGuide
-* [ ] KLToolGuide
-* [ ] LicensingGuide
+* [x] KLStyleGuide
+* [x] KLToolGuide
+* [x] LicensingGuide
 * [ ] MapReduceProgrammingGuide
 * [x] ReleaseNotes
 * [ ] RTValProgrammingGuide

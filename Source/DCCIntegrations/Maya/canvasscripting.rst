@@ -154,6 +154,22 @@ Disconnects two pins / ports inside a Canvas graph.
 
   FabricCanvasDisconnect -m "canvasNode1" -e "" -s "Scalar.value" -d "Vec3.z";
 
+FabricCanvasCreatePreset
+-------------------------------------
+
+Create a new preset from an existing node.
+
+  - -n, -nodeName: The name of the node
+  - -pd, -presetDirPath: The path to the directory in the preset tree where the preset should be located
+  - -pn, -presetName: The name of the preset to be created
+
+Returns the pathname where the new preset was saved on disk, or the empty
+string if the preset was not saved.
+
+.. code-block:: KL
+
+    FabricCanvasCreatePreset -m "canvasNode1" -e "" -n "x" -pd "User" -pn "MyPreset"
+
 FabricCanvasEditPort
 -------------------------------------
 
@@ -185,13 +201,11 @@ Explodes a sub graph node and moves all of the contains nodes into the parent gr
 FabricCanvasGetContextID
 -------------------------------------
 
-Returns the FabricCore client contextID used by a specified Canvas Maya node. This is useful if you want to create a python FabricCore client, for example, to access the same data.
-
-  - -n, -node: The name of the Canvas maya node
+Returns the FabricCore client contextID used by Canvas Maya nodes. This is useful if you want to create a python FabricCore client, for example, to access the same data.
 
 .. code-block:: kl
 
-  FabricCanvasGetContextID -n "canvasNode1";
+  FabricCanvasGetContextID;
   // Result: QmwISgSKKfQmqJYLnQuG9vtwrM/zvquvibDemkR8/TahGgHW9Z1yl9IlDFBRfl0nreQyb6yKtgfYrOHPyUdGDE1vBDD84M3D4ndWStI0ijIORlTepDtNOjEbmN8kArnX 
 
 FabricCanvasGetBindingID
@@ -342,13 +356,12 @@ FabricCanvasSetArgType
 Changes the data type for an argument of the Canvas graph.
 
   - -m, -mayaNode: The name of the Canvas maya node
-  - -e, -execPath: The path of the node inside of Canvas to operate on
   - -n, -name: The name of the argument
   - -t, -type: The new data type for the argument
 
 .. code-block:: KL
 
-  FabricCanvasSetArgType -m "canvasNode1" -e "" -n "factor" -t "Float32";
+  FabricCanvasSetArgType -m "canvasNode1" -n "factor" -t "Float32";
 
 FabricCanvasSetArgValue
 -------------------------------------
@@ -356,14 +369,13 @@ FabricCanvasSetArgValue
 Sets the value of an argument in a Canvas graph.
 
   - -m, -mayaNode: The name of the Canvas maya node
-  - -e, -execPath: The path of the node inside of Canvas to operate on
   - -n, -name: The name of the argument
   - -t, -type: The new data type for the argument
   - -v, -value: The JSON encoding the value
 
 .. code-block:: KL
 
-  FabricCanvasSetArgValue -m "canvasNode1" -e "" -p "Vec3.x" -t "Float32" -v "1";
+  FabricCanvasSetArgValue -m "canvasNode1" -n "Vec3.x" -t "Float32" -v "1";
 
 FabricCanvasSetCode
 -------------------------------------
@@ -405,19 +417,34 @@ Sets the content of a node comment in a Canvas graph
 
   FabricCanvasSetNodeComment -m "canvasNode1" -e "" -n "Vec3" -c "My useful information";
 
-FabricCanvasSetNodeTitle
+FabricCanvasSetTitle
 -------------------------------------
 
-Sets the title of a node in a Canvas graph
+Sets the title of an executable in a Canvas graph
 
   - -m, -mayaNode: The name of the Canvas maya node
-  - -e, -execPath: The path of the node inside of Canvas to operate on
-  - -n, -nodeName: The name of the node
-  - -t, -title: The new title for the node
+  - -e, -execPath: The path of the executable inside of Canvas to operate on
+  - -t, -title: The new title for the executable
 
 .. code-block:: KL
 
-  FabricCanvasSetNodeTitle -m "canvasNode1" -e "" -n "Vec3" -t "MyTitle";
+  FabricCanvasSetTitle -m "canvasNode1" -e "" -t "MyTitle";
+
+FabricCanvasEditNode
+-------------------------------------
+
+Renames a node in a Canvas graph.
+
+  - -m, -mayaNode: The name of the Canvas maya node
+  - -e, -execPath: The path of the graph inside of Canvas to operate on
+  - -n, -oldNodeName: The current name of the node
+  - -d, -desiredNewNodeName: The desired new name for the node
+  - -nm, -nodeMetadata: (Optional) Additional metadata for the node
+  - -xm, -execMetadata: (Optional) Additional metadata for the executable (for instances)
+
+.. code-block:: KL
+
+  FabricCanvasEditNode -m "canvasNode1" -e "" -n "Vec3" -d "MyTitle";
 
 FabricCanvasSetPortDefaultValue
 -------------------------------------

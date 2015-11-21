@@ -13,11 +13,11 @@ msgstr ""
 
 #: ..\..\source\DebuggingGuide\zbug.rst:4
 msgid "Using zBug"
-msgstr ""
+msgstr "zBug の使用"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:7
 msgid "Setting up the Environment"
-msgstr ""
+msgstr "環境設定"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:9
 msgid ""
@@ -29,12 +29,15 @@ msgid ""
 "optimization. Fortunately both of these are automatically done for you when "
 "launching a Fabric application from zBug."
 msgstr ""
+"KLコードは、可能な限りのメモリの節約と高速動作のため、ディフォルトで完全な最適化がかかり、デバッグ情報を含めずコンパイルされます。しかしデバッグするために"
+"は、すくなくともデバッグ情報をKLコードに埋め込み、さらにデバッグ機能を全開に活用するためには最適化を無効にします。幸いにも、zBug 経由で "
+"Fabric アプリケーションを起動すると両方の設定を自動で行います。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:11
 msgid ""
 "When a Fabric application is launched from zBug the following environment "
 "variables are automatically set:"
-msgstr ""
+msgstr "zBug 経由で Fabric アプリケーションを起動すると、以下の環境変数が自動で設定されます:"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:18
 msgid ""
@@ -42,10 +45,12 @@ msgid ""
 "information on what these environment variables do you can see this section:"
 " :ref:`DG.envvars`."
 msgstr ""
+"これによってデバッグ情報が有効になり、最適化が無効になります。これら環境変数についてのより詳しい情報は  :ref:`DG.envvars` "
+"節を参照してください。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:21
 msgid "Launching an Application"
-msgstr ""
+msgstr "アプリケーションの起動"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:23
 msgid ""
@@ -53,16 +58,18 @@ msgid ""
 " zBug in order to provide debugging capabilities. For most applications this"
 " is as simple as pre-pending zBug to the command being run:"
 msgstr ""
+"現行バージョンの zBug はデバッグ機能の提供のためには、zBug 内から Fabricアプリケーションを起動する必要があります。ほとんどのアプリケーショ"
+"ンでは、zBug 実行コマンドにちょっと付け加えるだけで済みます。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:29
 msgid ""
 "For example debugging a Fabric Engine Python application could be launched "
 "like this:"
-msgstr ""
+msgstr "Fabric Engine Pythonアプリケーションのデバッグ実行例:"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:36
 msgid "Debugging Maya"
-msgstr ""
+msgstr "Maya でのデバッグ"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:38
 msgid ""
@@ -71,10 +78,13 @@ msgid ""
 "Maya inside zBug is as simple as providing this option and pointing it to "
 "zBug:"
 msgstr ""
+"Linux版の Maya は上記コマンドでは実行できません、かわりに Mayaには -d "
+"というコマンドラインオプションがあり、デバッガをスタートさせルオプションです。zBug ないで Maya を実行するにはこのオプションを使い、zBug "
+"を指定します。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:45
 msgid "Attaching to a Running Application"
-msgstr ""
+msgstr "実行中のアプリケーションへのアタッチ"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:47
 msgid ""
@@ -83,6 +93,9 @@ msgid ""
 "connect to this process if it exists. The process is located via a PID file "
 "found in the user's Fabric application data folder."
 msgstr ""
+"コマンドラインパラメータ無しで起動すると、zBug はデバッグモードで実行中の Fabricアプリケーション(FABRIC_DEBUG=2)"
+"を探し、存在するなら自動的にそのプロセスへの接続を行います。接続先プロセスは、ユーザの Fabric アプリケーションデータフォルダ中にある、 "
+"PIDファイルを通して検索されます。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:49
 msgid ""
@@ -90,6 +103,9 @@ msgid ""
 "set `export FABRIC_DEBUG=2` and `export FABRIC_OPT_TYPE=2` before starting "
 "the application, otherwise zBug will not see the KL debugging symbols."
 msgstr ""
+"この場合、zBug よりも先に Fabric をスタートさせ、さらにはスタート前に手動で  `export FABRIC_DEBUG=2`, "
+"`export FABRIC_OPT_TYPE=2` と設定する必要があります。さもなければ zBug から "
+"KLのデバッグシンボルが不可視となってしまいます。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:51
 msgid ""
@@ -99,6 +115,9 @@ msgid ""
 "running within a DCC, this process ID will normally be that of the DCC "
 "itself."
 msgstr ""
+"システムに複数の Fabricアプリケーションが実行中である場合では、zBug に -p "
+"パラメータを指定し、接続を行いたいアプリケーションのプロセスIDを満たします。DCC中で実行中の Fabric であれば、プロセスIDは通常DCC自身の "
+"ID となります。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:57
 msgid ""
@@ -106,6 +125,7 @@ msgid ""
 "launched from within zBug. Simply closing zBug will disconnect from the "
 "running process and allow execution to continue normally."
 msgstr ""
+"zBug と接続がなされると、zBug から起動した時と同じようにデバッグ可能となります。zBug を閉じるとプロセスと切断しますが、実行は継続します。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:59
 msgid ""
@@ -113,15 +133,17 @@ msgid ""
 "root if you're attaching to a process. You will see an error message like "
 "this if you try to run as a normal user:"
 msgstr ""
+"Linuxのバジョンによっては、プロセスのアタッチに zBug をルート権限で走らせる必要があります。この場合通常ユーザで思考すると以下のエラーメッセージが"
+"表示されます:"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:65
 msgid ""
 "This is a security measure of certain distros and not a limitation of zBug."
-msgstr ""
+msgstr "これは zBugの制限ではなく、特定Linuxディストリビューションのセキュリティ要件です。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:68
 msgid "User Interface"
-msgstr ""
+msgstr "ユーザインターフェイス"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:70
 msgid ""

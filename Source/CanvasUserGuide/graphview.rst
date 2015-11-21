@@ -70,11 +70,15 @@ Connecting nodes
 
 .. image:: /images/Canvas/userguide_06.jpg
 
-You can connect nodes by clicking and dragging in a port. You can also shift click on a port to connect to multiple ports sequentially. Additionally you can use the header ports to get access to all ports of a node, even if the node is currently collapsed. 
+You can connect nodes by clicking and dragging in a port. You can also shift click on a port to connect to multiple ports sequentially. Additionally you can use the header ports to get access to all ports of a node, even if the node is currently collapsed.
 
 .. image:: /images/Canvas/userguide_07.jpg
 
 You may only connect ports which are compatible. If you try to connect incompatible ports a tooltip will explain the reason for connection failure.
+
+When clicking on the header port of a node you will get a list of ports decorated either with a '=' for in ports (to suggest that the port value is passed through) or '>' for out and io ports.
+
+.. image:: /images/Canvas/header_port_connection.png
 
 Exposing ports
 ----------------------
@@ -132,6 +136,16 @@ With a subgraph node selected you can also perform the opposite operation: Explo
 Copy and paste
 --------------------
 You can copy and paste nodes within Canvas using the system specific keyboard shortcuts. Canvas saves selected nodes or graphs as text to the system clipboard. The encoded JSON text can also be pasted into other applications, text editors or other open Canvas environments. This allows to directly copy and paste graphs between different DCCs.
+
+.. _canvas-user-guide-graphview-requirements:
+
+Defining extension requirements
+-----------------------------------
+Some graphs can depend on KL extensions on disk. If you wrote your own custom KL data structure, for example or if you downloaded a third party KL extension, you should specify that dependency in the :dfn:`Required Extensions` field in the top. This is useful if you are defining ports which use data types from a KL extension. The field can take a comma separated list of extensions, providing the name and the version required. Use a star for any version. The field is available both in the graph view as well as in the KL function editor. For example:
+
+.. code-block:: bash
+
+    Math:*,Utils:1.1
 
 Saving / exporting presets
 ---------------------------------

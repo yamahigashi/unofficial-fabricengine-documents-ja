@@ -25,10 +25,10 @@ msgid ""
 "of the language; the KL type system can still be explained purely from the "
 "point of view of the language itself."
 msgstr ""
-"大部分の言語と異なり、KLは動的な型システム ―Fabricの環境から引き継ぐ を持ちます。複合型の登録は、多くの場合動的言語（例えば "
-"JavaScriptや Python）で実行されているFabric環境を通し行われます。これらの型は自動的にその実行環境においてKLプログラムから利用可能と"
-"なります。ただし、このことは言語のセマンティクス（プログラム意味論）に影響をあたえるものではありません。つまりKLの型システムは依然として、純粋に、その言語"
-"自体の観点から説明できます。"
+"多くの言語と異なり、KLは動的な型システム ―Fabricの環境から引き継ぐ を持ちます。複合型の登録は、動的言語（例えば JavaScriptや "
+"Python）で実行されているFabric環境を通じ行われます。これらの型は自動的にその実行環境においてKLプログラムから利用可能となります。ただし、このこ"
+"とは言語のセマンティクス（プログラム意味論）に影響をあたえるものではありません。つまりKLの型システムは依然として、純粋に、その言語自体の観点から説明できま"
+"す。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:8
 msgid ""
@@ -1669,16 +1669,20 @@ msgid ""
 "variable, parameter or structure member where they are declared, eg. "
 "``String strings[4]``."
 msgstr ""
+"固定長配列（ :dfn:`fixed-size array` ）とは、実行時サイズが固定されている配列です。固定長配列は可変長配列よりもパフォーマンス特性に"
+"優れ、コンパイル時に配列のサイズが判明している場合、可変長配列のかわりに使用します。固定長配列を宣言するには、変数、パラメータ、構造体メンバ名の後に "
+":samp:`[{size}]` を付け足します。例： ``String strings[4]``"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1411
 msgid ""
 "Fixed-size arrays have all the :ref:`properties of arrays <array-"
 "properties>` as well as the following additional properties:"
 msgstr ""
+"固定長配列は :ref:`properties of arrays <array-properties>` をすべて持ち、さらに追加の特徴があります："
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1413
 msgid "The maximum size of a fixed-size array is :math:`2^31-1`."
-msgstr ""
+msgstr "配列の最大サイズは :math:`2^31-1`."
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1417
 msgid ""
@@ -1687,16 +1691,18 @@ msgid ""
 "recommended that fixed-size arrays only be used for arrays that are "
 "reasonably small."
 msgstr ""
+"固定長配列はスタック上に確保される（ヒープではありません）ため、巨大な固定長配列を使用するとスタックオーバーフローを引き起こします。固定長配列を使用する際は"
+"、適正な大きさである場合に限りましょう。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1419
 msgid ""
 "Fixed-size arrays are copied when they are assigned, ie. they are :dfn"
 ":`copy-by-value`."
-msgstr ""
+msgstr "固定長配列は、割当時にコピーされます。つまり :dfn:`copy-by-value` です。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1443
 msgid "External Arrays"
-msgstr ""
+msgstr "外部配列（External Arrays）"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1445
 msgid ""
@@ -1709,12 +1715,17 @@ msgid ""
 "the name of the variable, parameter or structure member where they are "
 "declared, eg. ``String strings<>``."
 msgstr ""
+":dfn:`external array` とは作成時にサイズが固定され、データ操作時にはそのデータを所有しません。外部配列はおもに、オペレータのパラメータ"
+" ― |FABRIC_PRODUCT_NAME| dependency graph 内でのスライスデータと結合（bind）されたパラメータだけでなく、 "
+"|FABRIC_PRODUCT_NAME| エクステンション内の外部のデータと結合されたパラメータにも使います。また、KL内で使用することも可能です。外部配"
+"列の宣言には、変数、パラメータ、構造体メンバの名前の後ろに、 ``<>`` を食わ会えます。例： ``String strings<>``"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1447
 msgid ""
 "External arrays have all the :ref:`properties of arrays <array-properties>` "
 "as well as the following additional properties:"
 msgstr ""
+"外部配列は、 :ref:`properties of arrays <array-properties>` をすべて持ちさらに追加の特徴を持ちます："
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1449
 msgid ""
@@ -1724,25 +1735,27 @@ msgid ""
 "lots of ways that this usage can break, such as through resizing the "
 "variable array.  This usage is primarily meant for testing::"
 msgstr ""
+"外部配列は、既存の可変長配列からコンストラクト可能です。これは単に、その可変長配列がコンストラクトされた時点の可変長配列に含まれるデータを指します。ただし、"
+"この使用方法にはたくさんの穴があります。たとえば可変長配列をリサイズした場合などです。これは主にテストのため使用してください。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1456
 msgid ""
 "External arrays support an empty constructor (which constructs an empty "
 "external array)::"
-msgstr ""
+msgstr "外部配列は空コンストラクタ（empty constructor）をサポートします。（空の外部配列がコンストラクトされます）"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1461
 msgid ""
 "External arrays support a copy constructor and an assignment operator, both "
 "of which simply make one external array refer to the same data as the "
 "other::"
-msgstr ""
+msgstr "外部配列は、コピーコンストラクタ、代入演算子両方サポートし、他方の配列と同じデータを参照する外部配列を作成します。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1472
 msgid ""
 "External arrays support a ``size()`` method that returns the number of "
 "elements in the external array."
-msgstr ""
+msgstr "外部配列は、 ``size()`` メソッドをサポートし、外部配列の要素数を返します。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1474
 msgid ""
@@ -1751,6 +1764,8 @@ msgid ""
 "useful especially when passing data from C++ into KL and back out. You can "
 "also use this constructor to reinterpret any memory as an array::"
 msgstr ""
+"外部配列は、 ``data`` ポインタだけでなく ``size`` を指定し初期化できます。これにより任意のメモリを配列として割り当てできます。とくにC+"
+"+からKLへと（もしくはその逆）データを渡す際に便利です。このコンストラクタを使い、どんなメモリも配列として再解釈することができます::"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1483
 msgid ""
@@ -1758,6 +1773,8 @@ msgid ""
 "This makes them cheaper to pass around, but can't be used to manage the "
 "lifetime of memory. (See next point)"
 msgstr ""
+"可変長配列とは逆に、外部配列は参照カウントされないオブジェクトです。つまり受け渡し低価でありますが、メモリのライフタイムを管理することはできなくなります。（"
+"次項参照）"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1485
 msgid ""
@@ -1767,14 +1784,16 @@ msgid ""
 "array should never out-live the owner of the data, else it will map to "
 "garbage data::"
 msgstr ""
+"外部配列は、それが操作されるデータの生存期間を管理できません。可変長配列は破棄時にメモリが開放されますが、外部配列は単に他のオブジェクトが所持するメモリをマ"
+"ップしたものに過ぎません。外部配列は真のデータ所持者より長生きしてはいけません、さもなくば不要なゴミデータにマップされてしまいます。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1501
 msgid "The following is an example of using external arrays:"
-msgstr ""
+msgstr "外部配列の使用例:"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1524
 msgid "Dictionaries"
-msgstr ""
+msgstr "辞書（Dictionaries）"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1526
 msgid ""
@@ -1786,10 +1805,14 @@ msgid ""
 "any type.  Dictionaries are declared by appending :samp:`[{KeyType}]` to the"
 " variable, parameter or member name.  For example:"
 msgstr ""
+"KLは、キーと値のペア、辞書（ :dfn:`dictionaries` ）をサポートします。辞書のキーにはKL基本型（ :code:`Boolean`, "
+"``String``, 整数型、浮動小数点型）だけでなく、 :samp:`.hash` メソッドが定義された独自定義した型 (see "
+":ref:`KLPG.dictionaries.custom-key-types`)"
+"を、そして辞書の値にはどのような型も取れます。辞書の宣言には、変数（パラメータ、メンバ名）に :samp:`[{KeyType}]` を付けます。例:"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1534
 msgid "Dictionaries in KL have the following properties:"
-msgstr ""
+msgstr "KL での辞書には以下の特徴があります:"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1536
 msgid ""
@@ -1800,16 +1823,19 @@ msgid ""
 "opposed to a deep copy).  In order to obtain a deep copy of a dictionary, "
 "use the ``clone()`` method, described below."
 msgstr ""
+":dfn:`share-on-assign` です。他の辞書に割当てる際、内容そのものをコピーするのではなく内容への参照をコピーします。つまり、一方の辞書へ"
+"の変更が、他方にも作用します。これはシャローコピーと呼ばれます。（対義語はディープコピー）辞書のディープコピーを得るには、 ``clone()`` "
+"メソッドを用います。以下に説明します。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1538
 msgid ""
 "Dictionaries can be nested, and can be co-nested with array types.  For "
 "example:"
-msgstr ""
+msgstr "ネスト可能です。配列型をネストさせることができます。例:"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1546
 msgid "Dictionaries can contain at most :math:`2^32-1` key-value pairs."
-msgstr ""
+msgstr "最大要素数は  :math:`2^{32}-1` "
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1548
 msgid ""
@@ -1817,13 +1843,14 @@ msgid ""
 ":code:`Boolean` value indicating whether there is a value in the dictionary "
 "for the given key."
 msgstr ""
+":samp:`has({key})` メソッドにより、与えられた key 要素が存在するかどうかを :code:`Boolean` の値で返します。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1550
 msgid ""
 "Dictionaries support the :samp:`get({key})` method that returns the value "
 "associated with the given key.  If there is no value for the given key, an "
 "exception is thrown."
-msgstr ""
+msgstr ":samp:`get({key})` メソッドにより、与えられた key に対応する値を返します。対応する値が存在しない場合例外を投げます。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1552
 msgid ""
@@ -1831,6 +1858,8 @@ msgid ""
 "value for the key, replacing the existing value if there is already a value "
 "for the key."
 msgstr ""
+":samp:`set({key}, {value})` メソッドにより、 key に対応した 値 "
+"を設定します。キーに対応する値が既に存在する場合、値を上書きします。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1554
 msgid ""
@@ -1841,6 +1870,10 @@ msgid ""
 "(eg. :samp:`{value} = {dict}[{key}]`), it is equivalent to using the "
 ":samp:`get({key})` method."
 msgstr ""
+":samp:`[{key}]` インデクサ演算子によるインデクシングに対応しています。代入ターゲットとしての使用、あるいは関数の "
+"ioパラメータとしての使用は（例： :samp:`{dict}[{key}] = {value}` ）、 :samp:`set({key}, "
+"{value})` メソッドと同等です。read-onlyな式としての使用は、（例： :samp:`{value} = {dict}[{key}]`)は、 "
+":samp:`get({key})` と同等です。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1556
 msgid ""
@@ -1848,6 +1881,8 @@ msgid ""
 "returns the value associated with the given key, if it exists, or "
 ":samp:`{defaultValue}`` if there is no value for the given key."
 msgstr ""
+":samp:`get({key}, {defaultValue})` メソッドにより、key に対応する値が存在すればその値を、そうでなければ  "
+":samp:`{defaultValue}`` を返します。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1558
 msgid ""
@@ -1855,51 +1890,53 @@ msgid ""
 " for the given key.  If there is no value for the given key, nothing "
 "happens."
 msgstr ""
+":samp:`delete({key})` メソッドにより、与えられた key に対する値を削除します。与えられたkeyが存在しない場合は、なにも置きません"
+"。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1560
 msgid ""
 "Dictionaries support the ``clone()`` method which makes a deep copy of the "
 "dictionary.  The resulting copy is initially not shared with any other "
 "dictionaries."
-msgstr ""
+msgstr "``clone()`` メソッドにより、辞書のディープコピーを作成します。作成されたコピーは初期状態で他の何物の辞書からも共有されません。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1562
 msgid ""
 "Dictionaries support the ``clear()`` method which removes all keys and "
 "values."
-msgstr ""
+msgstr "``clear()`` メソッドにより、全てのキーと値を取り除きます。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1564
 msgid ""
 "Dictionaries can be iterated over using JavaScript-like ``in`` iteration:"
-msgstr ""
+msgstr "JavaScriptのように ``in`` により、繰り返しが可能です。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1573
 msgid ""
 "For improved performance, both the key and value can be made available "
 "through ``in`` iteration:"
-msgstr ""
+msgstr "パフォーマンス向上のため、キーと値の両方を ``in`` の反復中利用可能とななります。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1582
 msgid ""
 "In a dictionary iteration, the value can be assigned to if and only if the "
 "dictionary can be assigned to.  The key, on the other hand, cannot be "
 "assigned to."
-msgstr ""
+msgstr "辞書の反復処理中、値はその辞書自体が割り当て済であれば、代入可能です。一方キーは反復処理中での代入は不可能です。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1584
 msgid ""
 "Insertion order (not sort order!) is the iteration order for dictionaries, "
 "just as for JavaScript objects:"
-msgstr ""
+msgstr "挿入順（ソート順ではなく）が、反復処理の順序となります。JavaScriptのオブジェクトと同じです。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1597
 msgid "The following is an example use of dictionaries:"
-msgstr ""
+msgstr "辞書の利用例："
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1622
 msgid "Dictionaries Using Custom Key Types"
-msgstr ""
+msgstr "キーにカスタム型を使用した辞書"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1624
 msgid ""
@@ -1907,16 +1944,18 @@ msgid ""
 "implementing a :samp:`.hash` method for the type as well as a :samp:`==` "
 "operator:"
 msgstr ""
+"独自定義した構造体 :samp:`struct` を辞書のキーの型として使用できます。型に :samp:`.hash` メソッド、 :samp:`==` "
+"演算子 を実装します。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1658
 msgid "Map-Reduce Types"
-msgstr ""
+msgstr "Map-Reduce 型"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1660
 msgid ""
 "There are two additional derived types used exclusively for work within "
 "Fabric's map-reduce framework, namely:"
-msgstr ""
+msgstr "Fabric の map-reduce フレームワークには、排他的に使用可能な２つの派生型があります:"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1662
 msgid ":samp:`ValueProducer<{Type}>`"
@@ -1928,11 +1967,11 @@ msgstr ""
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1665
 msgid "For more information, see :ref:`map-reduce`."
-msgstr ""
+msgstr ":ref:`map-reduce` の詳細を参照してください。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1672
 msgid "Implicit Type Casting Rules in KL"
-msgstr ""
+msgstr "KL での型の暗黙的キャスト"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1674
 msgid ""
@@ -1941,6 +1980,8 @@ msgid ""
 "of the function or method, KL will attempt to find the best match using "
 "implicit casts.  The best match is chosen as follows:"
 msgstr ""
+"KLにおいて、引数の型がその関数（もしくはメソッド）のどの多態なパラメータとも一致させずに、関数やメソッドを呼んぶと、KLは、最善の型を探すため暗黙のキャス"
+"トを行います。以下に従い最善なものが選択されます:"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1676
 msgid ""
@@ -1951,6 +1992,9 @@ msgid ""
 "considered because it only takes one parameter but two arguments have been "
 "given."
 msgstr ""
+"引数の数は、パラメータの数と完全に一致させます。仮にミスマッチがあると、多態バージョンは無視されます。例を挙げると、関数呼び出し "
+":code:`foo(14, 23)` がなされ、対して :code:`foo(Integer)` "
+"が利用可能な場合、関数で処理可能なパラメータは１つなのに、与えられた引数が２つなため適切に処理されません。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1678
 msgid ""
@@ -1958,10 +2002,11 @@ msgid ""
 " the call is computed as the maximum \"cost\" for each argument.  The cost "
 "for each argument is computed as follows:"
 msgstr ""
+"引数（複数）の数と、パラメータの数が合っている場合、呼び出し『コスト』はそれぞれの引数の最大のコストと等しくなります。それぞれの引数のコストは以下:"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1680
 msgid "The cost is zero if there is an exact type match"
-msgstr ""
+msgstr "型が一致していればコストは 0"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1681
 msgid ""
@@ -1969,6 +2014,8 @@ msgid ""
 ":code:`A`, the argument type is :code:`B`, and :code:`B` inherits from "
 ":code:`A`"
 msgstr ""
+"継承関係であればコストは 極小 （例：受付パラメータの型が :code:`A`, 呼び出し引数の型が :code:`B`, :code:`B` が "
+":code:`A` を引き継ぎ）"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1682
 msgid ""
@@ -1978,25 +2025,28 @@ msgid ""
 "whereas expensive operations (conversions to strings, numerical conversions "
 "that might lose precision) have a high cost."
 msgstr ""
+"以上に当てはまらない場合、コストは型のよりけりです。一般的に期待される通りではあります。例えば、小さい整数型からより大きい整数型（ "
+":code:`UInt16` to :code:`UInt32` など)はとても低コストです。一方高価な操作（文字列への変換, "
+"精度を失うような数値変換)は高コストになります。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1685
 msgid "Type Aliases"
-msgstr ""
+msgstr "型の別名(Type Aliases)"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1687
 msgid ""
 "The ``alias`` statement can be used to alias a type to make code more "
 "readable.  Its syntax is the same as a variable declaration::"
-msgstr ""
+msgstr "エイリアス（ ``alias`` ）文により、ある型に別名を振りコードの可読性を向上させます。変数宣言の文法と同一の文法です::"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1693
 msgid ""
 "``alias`` statements must appear within the global scope of a KL program."
-msgstr ""
+msgstr "``alias`` 文はKLプログラム中、グローバルスコープに置きます。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1710
 msgid "The ``Data`` Type and the ``data`` and ``dataSize`` Methods"
-msgstr ""
+msgstr "``Data`` 型 ``data``, ``dataSize`` メソッド"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1712
 msgid ""
@@ -2006,6 +2056,9 @@ msgid ""
 "pointers; instead, KL has the concept of the ``Data`` type whose value is a "
 "pointer to data which can be passed to an external library call."
 msgstr ""
+"OpenGLなどの外部ライブラリとの接続を行う際、値の基礎となるデータへ直接のアクセスを必要とすることがあります。例えば、データへのポインタを受け付けるライ"
+"ブラリです。KL自体にはポインタの概念がありません。ですが、KLには ``Data`` 型 "
+"―この型の値は外部ライブラリ呼び出しの際に渡されるデータへのポインタを示す― のコンセプトがあります。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1714
 msgid ""
@@ -2018,6 +2071,10 @@ msgid ""
 " are dictionaries as well as other derived types that do not lay out their "
 "elements or members contiguously in memory:"
 msgstr ""
+"KLでの多くの値は、組み込みメソッド ``data`` を持ち、 ``Data`` 型の値を返します。さらに組み込みメソッド  ``dataSize`` "
+"を持ち、 ``Size`` 型の値を返します。 ``data`` メソッドは値の基であるデータへのポインタを返し、  ``dataSize`` "
+"はメモリに占める値のバイト数を返します。ただひとつ、辞書（およびその派生型）はこの  ``data`` and ``dataSize`` "
+"メソッドを持ちません。なぜなならこの型の値の要素（もしくはメンバ）は、メモリ上に連続して配置されるわけではないからです。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1724
 msgid ""
@@ -2029,6 +2086,10 @@ msgid ""
 "provided by Fabric itself or Fabric extensions, where they are used as "
 "pointers to data in memory."
 msgstr ""
+"CやC++言語のポインターと異なり、 ``data`` メソッドの返す値はインスペクト不可、いかなる式での使用も不可です。この値は、 "
+":code:`Boolean` へのキャストだけが行えます。 ``Data`` の値が 0以上の値を示していれば :code:`true` "
+"になります。しかし ``Data`` の値はそのまま直接外部ライブラリの関数 ―Fabric自身もしくはFabricエクステンションでも、メモリ上のデータへ"
+"のポインタを使用する箇所でこへでも与えることができます。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1726
 msgid ""
@@ -2038,7 +2099,10 @@ msgid ""
 " regular C string.  If you want to pass the number of characters in the "
 "string, pass ``string.length`` instead."
 msgstr ""
+"``String`` 型の値については、 ``dataSize`` の返す値は、ヌル終端文字を含みます。これはFabricにより文字列へと自動的に付与されま"
+"す。これにより、文字列のデータを直接 C言語ライブラリで C言語の通常の文字列であるかのように使用できます。文字列中の文字数を受け渡したい場合は、 "
+"``string.length`` を渡します。"
 
 #: ..\..\source\KLProgrammingGuide\types.rst:1728
 msgid "Example of ``Data`` values and the ``data`` and ``dataSize`` methods:"
-msgstr ""
+msgstr "``Data`` の値 ``data``, ``dataSize`` メソッドの使用例:"

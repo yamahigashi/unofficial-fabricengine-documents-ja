@@ -31,6 +31,12 @@ In the main menu bar you will find the "Fabric" menu. It contains a set of tools
 
     This is the same as using "Export Graph" in the operator's property page.
 
+  - **Inspect Canvas Op**
+
+    Opens the property page for the currently selected object's Canvas operator, if any.
+
+    This is the same as invoking the custom command "FabricCanvasInspectOp".
+
   - **Splice Editor (legacy)**
 
     NOT YET DOCUMENTED.

@@ -256,6 +256,16 @@ Provides the functionality of a dictionary that maps keys of type :samp:`{KeyTy}
 
 .. note:: References returned from the array indexing operators should be considered temporary and should not be stored in other variables.  Methods that potential modify the dictionary can cause the references to become invalid, leading to programming errors.
 
+.. cpp:function::
+  KL::Dict<KeyTy, ValueTy>::iterator KL::Dict<KeyTy, ValueTy>::begin()
+  KL::Dict<KeyTy, ValueTy>::iterator KL::Dict<KeyTy, ValueTy>::end()
+  KL::Dict<KeyTy, ValueTy>::const_iterator KL::Dict<KeyTy, ValueTy>::begin() const
+  KL::Dict<KeyTy, ValueTy>::const_iterator KL::Dict<KeyTy, ValueTy>::end() const
+  
+  The iteration interface for dictionaries.  Please refer to the :file:`EDKDicts.cpp` example
+  in the :file:`$FABRIC_DIR/Samples/EDK/EDKDicts` folder for an example of dictionary 
+  iteration in the EDK.
+
 :code:`KL::Object`
 ^^^^^^^^^^^^^^^^^^
   

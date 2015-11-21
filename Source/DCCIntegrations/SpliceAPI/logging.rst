@@ -161,6 +161,9 @@ Class Outline
         public:
           AutoTimer(std::string const &name);
           ~AutoTimer();
+          const char * getName();
+          void resume();
+          void stop();
 
         private:
           std::string mName;

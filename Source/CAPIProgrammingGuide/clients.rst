@@ -275,6 +275,16 @@ There is also an :ref:`CAPI.clients.api-reference-cpp`.
 
 
 
+.. c:function:: void FEC_ClientRegisterExtensions(FEC_ClientRef clientRef, char const *pathname)
+
+  Register extensions below the specified directory
+
+  :param clientRef: The client
+  :param pathname: The pathname in which to search for extensions
+
+
+
+
 .. c:function:: void FEC_ClientExportExtension(FEC_ClientRef clientRef, char const *extNameCString, char const *outputFile)
 
   Export an extension in obfuscated format to the specified file.
@@ -439,5 +449,14 @@ There is also an :ref:`CAPI.clients.api-reference-c`.
   FabricCore::ClientOptimizationType_None
 
     Do not optimize KL code
+
+
+
+
+    .. cpp:function:: void registerExtensions(char const *pathnameCStr)
+
+      Register extensions below the specified directory
+
+      :param pathname: The pathname in which to search for extensions
 
 

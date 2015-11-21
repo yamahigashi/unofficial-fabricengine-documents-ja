@@ -20,6 +20,8 @@ msgid ""
 "|FABRIC_PRODUCT_NAME| provides a generic map-reduce framework that can be "
 "used to create recursively-parallel operations on large data sets."
 msgstr ""
+"|FABRIC_PRODUCT_NAME| では一般的な map-reduce フレームワークを提供し、それにより大規模なデータ集合に対する再帰的並列操作を"
+"作成することができます。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:11
 msgid ""
@@ -29,20 +31,25 @@ msgid ""
 "framework.  For more information on concepts and usage of the map-reduce "
 "framework, refer to the Map-Reduce Programming Guide."
 msgstr ""
+"この章では、map-reduce の背景概念や |FABRIC_PRODUCT_NAME| "
+"map-reduceフレームワークの使用法については説明しません。ここでは純粋に、KLでこのフレームワークに提供される型,関数を列挙します。map-redu"
+"ceの概念や、フレームワークの使用法についてのさらなる情報は :ref:`MRPG` を参照してください。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:19
 msgid "Map-Reduce Types"
-msgstr ""
+msgstr "Map-Reduce 型"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:21
 msgid ""
 "In order to support map-reduce, KL introduces two new derived types: "
 ":samp:`ValueProducer<{ValueType}>` and :samp:`ArrayProducer<{ElementType}>`."
 msgstr ""
+"map-reduce のサポートのため、KLでは新しい２つの派生型を導入します。 :samp:`ValueProducer<{ValueType}>` と "
+":samp:`ArrayProducer<{ElementType}>` です。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:29
 msgid "The :samp:`ValueProducer<{ValueType}>` Type"
-msgstr ""
+msgstr ":samp:`ValueProducer<{ValueType}>` 型"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:31
 msgid ""
@@ -51,6 +58,9 @@ msgid ""
 "produces values of type :samp:`{ValueType}`.  Values of type "
 ":samp:`ValueProducer<{ValueType}>` have the following properties:"
 msgstr ""
+":samp:`ValueProducer<{ValueType}>` に既存の型 :samp:`{ValueType}` "
+"を与え、map-reduce値プロデューサを生成します。 :samp:`{ValueType}` 型の値を生成します。 "
+":samp:`ValueProducer<{ValueType}>` 型の値は以下の特徴を持ちます："
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:33
 msgid ""
@@ -60,6 +70,9 @@ msgid ""
 "are the same type if and only if :samp:`{ValueType1}` and "
 ":samp:`{ValueType2}` are the same type."
 msgstr ""
+":samp:`{ValueType}` と正確に一致する同じ型の変数に代入できます。換言すると "
+":samp:`ValueProducer<{ValueType1}>` と :samp:`ValueProducer<{ValueType2}>` "
+"が同じ型となるのは、 :samp:`{ValueType1}` と :samp:`{ValueType2}` が同じ型の場合のみです。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:35
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:43
@@ -67,19 +80,19 @@ msgstr ""
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:68
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:76
 msgid "They support a method"
-msgstr ""
+msgstr "以下のメソッドをサポートします"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:41
 msgid "that produces the value producer's value."
-msgstr ""
+msgstr "これは値プロデューサ（value producer）の値を生成します。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:49
 msgid "that recursively flushes any caches connected to the value producer."
-msgstr ""
+msgstr "これは値プロデューサに接続されている全てのキャッシュを再帰的に破棄（フラッシュ）します。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:54
 msgid "The :samp:`ArrayProducer<{ElementType}>` Type"
-msgstr ""
+msgstr ":samp:`ArrayProducer<{ElementType}>` 型"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:56
 msgid ""
@@ -88,6 +101,9 @@ msgid ""
 "produces values of type :samp:`{ElementType}`.  Values of type "
 ":samp:`ArrayProducer<{ElementType}>` have the following properties:"
 msgstr ""
+":samp:`ArrayProducer<{ElementType}>` に既存の :samp:`{ElementType}` 型を与え、 "
+"map-reduce 配列プロデューサを生成します。 :samp:`{ElementType}` 型の値を生成します。 "
+":samp:`ArrayProducer<{ElementType}>` 型の値は以下の特徴を持ちます："
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:58
 msgid ""
@@ -97,6 +113,9 @@ msgid ""
 ":samp:`ArrayProducer<{ElementType2}>` are the same type if and only if "
 ":samp:`{ElementType1}` and :samp:`{ElementType2}` are the same type."
 msgstr ""
+":samp:`{ElementType}` と正確に一致する同じ型の変数に代入できます。換言すると "
+":samp:`ValueProducer<{ElementType1}>` と :samp:`ValueProducer<{ElementType2}>` "
+"が同じ型となるのは、 :samp:`{ElementType1}` と :samp:`{ElementType2}` が同じ型の場合のみです。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:66
 msgid ""
@@ -104,36 +123,38 @@ msgid ""
 ":samp:`produce({i})` (below) with :samp:`{i}` not less than the result of "
 "``getCount()`` will throw an exception."
 msgstr ""
+"これは配列プロデューサ内の要素数を返します。 :samp:`produce({i})` を ``getCount()`` の結果よりも超える "
+":samp:`{i}` で呼び出しを行うと例外を投げます。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:74
 msgid "that produces the array producer's element at index :samp:`{i}`."
-msgstr ""
+msgstr "これは配列プロデューサの :samp:`{i}` 番目の要素を生成します。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:82
 msgid "that recursively flushes any caches connected to the array producer."
-msgstr ""
+msgstr "これは、配列プロデューサに接続されている全てのキャッシュを破棄します。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:87
 msgid "Map-Reduce Functions"
-msgstr ""
+msgstr "Map-Reduce 関数"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:89
 msgid ""
 "KL supports several functions to support the creation of new value and array"
 " producers from existing producers as well as KL functions and values."
-msgstr ""
+msgstr "KLは幾つかの関数をサポートし、それにより既存のプロデューサ,KL関数,値から、新規の値（もしくは配列）プロデューサの作成ができます。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:92
 msgid "Value Producer Creation Functions"
-msgstr ""
+msgstr "値プロデューサを作成する関数"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:96
 msgid "Creates a value producer that returns a constant value."
-msgstr ""
+msgstr "定数を返す値プロデューサを作成します。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:98
 msgid "The expression to evaluate to obtain the constant value."
-msgstr ""
+msgstr "定数を得るため評価する式"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:101
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:126
@@ -155,7 +176,7 @@ msgstr ""
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:598
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:665
 msgid "Example::"
-msgstr ""
+msgstr "用例::"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:111
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:160
@@ -169,17 +190,17 @@ msgstr ""
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:624
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:698
 msgid "Output::"
-msgstr ""
+msgstr "出力::"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:118
 msgid ""
 "Creates a value producer that calls the operator named *operatorName* to "
 "generate the value."
-msgstr ""
+msgstr "値を生成するため  *operatorName* と名づけられたオペレータを呼ぶ、値プロデューサを作成します。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:120
 msgid "The name of the operator to call to generate the value."
-msgstr ""
+msgstr "値を生成するため呼ぶオペレータの名前"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:123
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:177
@@ -189,7 +210,7 @@ msgstr ""
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:525
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:647
 msgid "(optional) Shared value producer to pass to *operatorName*."
-msgstr ""
+msgstr "（オプション） *operatorName* へ渡される共有される値プロデューサ"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:128
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:182
@@ -199,41 +220,41 @@ msgstr ""
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:530
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:652
 msgid "The operator *operatorName* must have the following prototype:"
-msgstr ""
+msgstr "オペレータ *operatorName* は以下のプロトタイプに従う必要があります:"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:138
 msgid ""
 "The type *ValueType* is inferred from the first parameter of *operatorName*."
-msgstr ""
+msgstr "*ValueType* 型は *operatorName* 第一パラメータの型から推測されます。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:169
 msgid ""
 "Creates a value producer that calls the given operator to transform the "
 "result of another value producer of the same type."
-msgstr ""
+msgstr "与えられたオペレータを呼び出し、結果を同型の異なる値へトランスフォームする値プロデューサを作成します。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:171
 msgid "The input value producer to transform."
-msgstr ""
+msgstr "トランスフォームさせるために入力する値プロデューサ"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:174
 msgid "The name of the operator to call to transform the value."
-msgstr ""
+msgstr "値をトランスフォームさせるために呼び出すオペレータの名前"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:237
 msgid ""
 "Creates a value producer that calls the operator *operatorName* to map the "
 "result of another value producer, possibly to a value producer of a "
 "different type."
-msgstr ""
+msgstr "オペレータ *operatorName* を呼び出し、結果を異なる値プロデューサへと ―場合によっては異なる型へとマップする値プロデューサを作成します。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:239
 msgid "The input value producer whose value to map."
-msgstr ""
+msgstr "値のマップ元となる入力値プロデューサ"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:242
 msgid "The name of the operator to call to map the value."
-msgstr ""
+msgstr "値のマップのために呼び出すオペレータの名前"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:248
 msgid "ValueProducer<OutputValueType>"
@@ -243,32 +264,32 @@ msgstr ""
 msgid ""
 "The type *OutputValueType* is inferred from the second parameter of "
 "*operatorName*."
-msgstr ""
+msgstr "*OutputValueType* の型は *operatorName* の第二パラメータから推測されます"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:310
 msgid ""
 "Creates a value producer that caches the result of another value producer of"
 " the same type.  For more information on producer caches, see refer to the "
 "Map-Reduce Programming Guide."
-msgstr ""
+msgstr "他の同型の値プロデューサの結果をキャッシュする、値プロデューサを作成します。詳細は :ref:`MRPG` を参照してください。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:312
 msgid "The input value producer to cache."
-msgstr ""
+msgstr "キャッシュする入力値プロデューサ"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:348
 msgid "Array Producer Creation Functions"
-msgstr ""
+msgstr "配列プロデューサを作成する関数"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:352
 msgid "Creates an array producer that returns constant values."
-msgstr ""
+msgstr "定数を返す配列プロデューサを作成します。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:354
 msgid ""
 "The expression to evaluate to obtain the constant array.  The expression "
 "must be some sort of KL array (variable-length, fixed-length or external)."
-msgstr ""
+msgstr "定数配列を得るため評価する式。この指揮はKL配列の一種である必要があります。 (可変長配列, 固定長配列, 外部配列のいずれか)"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:357
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:390
@@ -281,45 +302,46 @@ msgstr ""
 msgid ""
 "The type *ElementType* is the element type of the the array given by "
 "*arrayExpr*."
-msgstr ""
+msgstr "*ElementType* は *arrayExpr* により与えられる配列の要素の型"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:379
 msgid ""
 "Creates an array producer that calls the operator named *operatorName* to "
 "generate the elements of the array."
-msgstr ""
+msgstr "配列の要素を生成するため  *operatorName* と名づけられたオペレータを呼ぶ、値プロデューサを作成します。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:381
 msgid ""
 "A value producer that produces a value of type ``Size``.  This value "
 "producer is used to determine the size of the array (ie. the number of "
 "elements)."
-msgstr ""
+msgstr "``Size`` 型の値を生成する値プロデューサ。この値プロデューサにより配列のサイズ（要素数）を決定します。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:384
 msgid "The name of the operator to call to generate the elements."
-msgstr ""
+msgstr "要素を生成するため呼ぶオペレータの名前"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:404
 msgid ""
 "The type *ElementType* is inferred from the first parameter of "
 "*operatorName*."
-msgstr ""
+msgstr "*ElementType* 型は *operatorName* の第一パラメータの型から推測されます。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:455
 msgid ""
 "Creates an array producer that transforms the input array producer by "
 "calling the operator named *operatorName* on the individual elements."
 msgstr ""
+"入力された配列プロデューサを *operatorName* という名前のオペレータを各要素に対して呼び出し、トランスフォームさせる配列プロデューサを作成します。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:457
 msgid "The input array producer to transform."
-msgstr ""
+msgstr "トランスフォームさせる入力配列プロデューサ"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:460
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:644
 msgid "The name of the operator to call to transform the elements."
-msgstr ""
+msgstr "要素に対しトランスフォームするため適用するオペレータの名前"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:517
 msgid ""
@@ -327,14 +349,15 @@ msgid ""
 "elements of another array producer, possibly to an array producer of a "
 "different type."
 msgstr ""
+"オペレータ *operatorName* を呼び出し、結果を異なる配列プロデューサへと ―場合によっては異なる型へとマップする配列プロデューサを作成します。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:519
 msgid "The input array producer whose elements to map."
-msgstr ""
+msgstr "要素のマップ元となる入力配列プロデューサ"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:522
 msgid "The name of the operator to call to map the elements."
-msgstr ""
+msgstr "要素のマップのために呼び出すオペレータの名前"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:528
 msgid "ArrayProducer<OutputElementType>"
@@ -344,22 +367,22 @@ msgstr ""
 msgid ""
 "The type *OutputElementType* is inferred from the second parameter of "
 "*operatorName*."
-msgstr ""
+msgstr "*OutputElementType* の型は *operatorName* の第二パラメータから推測されます"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:591
 msgid ""
 "Creates an array producer that caches the result of another array producer "
 "of the same type.  For more information on producer caches, refer to the "
 "Map-Reduce Programming Guide."
-msgstr ""
+msgstr "他の同型の配列プロデューサの結果をキャッシュする、配列プロデューサを作成します。詳細は :ref:`MRPG` を参照してください。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:593
 msgid "The input array producer to cache."
-msgstr ""
+msgstr "キャッシュする入力配列プロデューサ"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:635
 msgid "Reduce Functions"
-msgstr ""
+msgstr "Reduce 関数"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:639
 msgid ""
@@ -367,7 +390,9 @@ msgid ""
 "by calling the operator named *operatorName* to contribute the individual "
 "elements to the reduction."
 msgstr ""
+"*operatorName* オペレータを各々個別の要素をリダクションかけるために呼び出し、配列プロデューサを reduce "
+"し値を生成する、値プロデューサを作成します。"
 
 #: ..\..\source\KLProgrammingGuide\map-reduce.rst:641
 msgid "The input array producer to reduce."
-msgstr ""
+msgstr "Reduceかかる入力配列プロデューサ"

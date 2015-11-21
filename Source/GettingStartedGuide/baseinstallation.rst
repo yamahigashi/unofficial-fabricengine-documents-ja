@@ -6,7 +6,7 @@ Installing the |FABRIC_PRODUCT_NAME| archive
 |FABRIC_PRODUCT_NAME| runs on Windows 7 SP1 (or later) 64-bit, CentOS 6.x 64-bit, and Mac OS X 10.7 "Lion" (or later).
 
 .. note:: Windows requires installing Visual Studio 2013 `redistributable <https://www.microsoft.com/en-us/download/details.aspx?id=40784>`_ if it is not already in the system.
- 
+.. note:: OS X requires installing the Qt 4 Framework libraries. If they are not found, you will get the following error :strong:`"dyld: Library not loaded: /usr/local/lib/QtOpenGL.framework/Versions/4/QtOpenGL Referenced from: /Applications/FabricEngine/bin/canvas Reason: image not found Trace/BPT trap: 5"`. To install them, you can use the Homebrew package manager (http://brew.sh/). Once Homebrew is installed, open a terminal and run the following command "brew install qt4". Canvas then should work as expected.
 
 |FABRIC_PRODUCT_NAME| is provided as a single archive for each platform. The archive contains:
 

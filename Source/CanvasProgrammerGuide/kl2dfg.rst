@@ -28,9 +28,10 @@ Will cause kl2dfg to pick a different name for the preset than the name of the f
 
 .. cmdline:: kl2dfg -list
 
-polymorphism
+polyThis
 -----------------------
-kl2dfg will generate only one preset for methods with the same notation within an extension. For example:
+
+kl2dfg will generate only one preset for methods with the same notation within an extension, with respect to a common "this" type (or return type, in the case of functions). For example:
 
 .. code-block:: kl
 
@@ -39,6 +40,21 @@ kl2dfg will generate only one preset for methods with the same notation within a
     function SInt32 Vec4.getMySum() { ... }
 
 Would result in only one Canvas preset file, called :dfn:`Func.getMySum` instead of two separate presets for :dfn:`Vec3` and :dfn:`Vec4`.
+
+.. note:: You can find more information about the consequences of polymorphism here: :ref:`canvas-programmer-guide-polymorphism`.
+
+polyParams
+-----------------------
+
+kl2dfg will generate only one preset for methods with the same notation within an extension, with respect to parameter types. For example:
+
+.. code-block:: kl
+
+    function SInt32 MyType.someFunc(Integer x) { ... }
+    
+    function SInt32 MyType.someFunc(Float32 x) { ... }
+
+Would result in one Canvas preset file, called :dfn:`MyType.someFunc`, that has a polymorphic type for the first parameter.
 
 .. note:: You can find more information about the consequences of polymorphism here: :ref:`canvas-programmer-guide-polymorphism`.
 
@@ -95,6 +111,20 @@ addExecutePort
 --------------------
 For easier daisy chaining of Canvas presets kl2dfg supports to add an extra port as the first port of any Canvas preset.
 You can also enable this functionality on a per preset basis by using the :dfn:`dfgAddExecutePort` doxygen qualifier.
+
+polyThisInTypeDir
+---------------------
+
+By default, presets that are polymorphic in 'this' will only be placed in the
+generic 'Func' subdirectory of the target directory.  Using this flag will
+also place them in the type directory for each type for which 'this' applies.
+
+noPolyThisInFuncDir
+---------------------
+
+By default, presets that are polymorphic in 'this' will be placed in the
+generic 'Func' subdirectory of the target directory.  Using this flag will
+disable this behaviour.
 
 Example
 ------------------

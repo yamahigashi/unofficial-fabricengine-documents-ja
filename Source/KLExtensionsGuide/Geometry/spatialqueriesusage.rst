@@ -102,6 +102,9 @@ The following example demonstrates proper multithreaded usage of a :kl-ref:`Spat
     Size elementCount = query.getElementsInBBox( Vec3(0, index, 0), Vec3(1, index+1, 1) );
     if( elementCount )
       intersectsElementsBBox[index] = true;
+
+    //Release temporary query object
+    target.endSpatialQuery(query);
   }
 
   operator entry(){
