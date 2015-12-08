@@ -139,11 +139,11 @@ msgstr ""
 #: ..\..\source\DebuggingGuide\zbug.rst:65
 msgid ""
 "This is a security measure of certain distros and not a limitation of zBug."
-msgstr "これは zBugの制限ではなく、特定Linuxディストリビューションのセキュリティ要件です。"
+msgstr "これは zBugの制限ではなく、特定Linuxディストリビューションのセキュリティ要件にもとづくものです。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:68
 msgid "User Interface"
-msgstr "ユーザインターフェイス"
+msgstr "ユーザインタフェース "
 
 #: ..\..\source\DebuggingGuide\zbug.rst:70
 msgid ""
@@ -153,6 +153,8 @@ msgid ""
 "elements. As such it is very configurable, both from a source code level as "
 "well as from within the UI itself."
 msgstr ""
+"zBug のユーザインタフェースは、必要に応じて必要な機能にアクセスできるように保ったままディフォルトで可能な限りシンプルであるように努めています。インタフ"
+"ェースの各要素は、Python, PySide で記述されます。これにより、ソースコードからもUI自身からも容易に設定の改変が可能になっています。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:72
 msgid ""
@@ -162,10 +164,12 @@ msgid ""
 "user is able to configure zBug to have exactly the windows that are most "
 "important in the places that make the most sense."
 msgstr ""
+"UIの各サブウィンド内部には、左上隅にボタンがあり、メインウィンドから分離させ画面上どこへで動かせるようになります。（ソースコードウィンドだけは例外で固定さ"
+"れています）これにより、ユーザは最も重要なものを望みの場所へと持って行きシーンを構成することができます。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:75
 msgid "Interrupts and Breakpoints"
-msgstr ""
+msgstr "インタラプト(中断)・ブレークポイント"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:77
 msgid ""
@@ -174,6 +178,8 @@ msgid ""
 "stopped). Controls within a stopped state are the same, however most of the "
 "functionality in zBug is disabled while the application is running."
 msgstr ""
+"zBugで、あるアプリケーションが<実行中>であろうと、 <インタラプト中>, <ブレークポイント中>どれであろうとデバッグ可能です。ただし<終了><実行中"
+">の状態では zBugの大半の機能は無効です。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:79
 msgid ""
@@ -186,6 +192,10 @@ msgid ""
 "yellow. The interface will update in the same way if a breakpoint is hit, "
 "and the line currently breakpointing will also be highlighted in yellow."
 msgstr ""
+"実行中のアプリケーションとやり取りをするには、まずインタラプトボタンを押し、実行をストップさせます。zBug が <インタラプト>, <ブレークポイント> "
+"状態に突入すると、UIはプログラムがどこで止まったかを示すセクションをアップデートします。その位置の利用可能なソースコードががあれば、  "
+":ref:`DG.zbug.source` セクションを更新し、ソースコードを表示し現在行を黄色にハイライトします。ブレークポイントがヒットした際にも同様で"
+"す。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:81
 msgid ""
@@ -197,6 +207,10 @@ msgid ""
 "given frame is available or not. However all KL code used in your "
 "application should always be available."
 msgstr ""
+"実行中のFabricアプリケーションの全ての実行位置に対してソースコードが必ず存在するはけではありません。例えば、Fabricそれ自身C++のコードがクロー"
+"ズドであるため、エンドユーザには利用可能ではありません。一方コードセクションや、関数コールどちらもDCC上では有効です。与えられフレームでのソースコードが利"
+"用可能であろうがなかろうが、 :ref:`DG.zbug.source` がサブウィンドに表示されます。ユーザのアプリケーションで使用されるKLコードは常に"
+"利用可能ではあります。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:83
 msgid ""
@@ -204,14 +218,16 @@ msgid ""
 "line in the source file. A complete list of current breakpoints across all "
 "source files is available in the :ref:`DG.zbug.breakpoints` subwindow."
 msgstr ""
+"読み込まれているソースコード中の全てのブレークポイント行は、ソース・ファイル中に赤く表示されます。ソースコードをまたいだ全ブレークポイントの一覧は、  "
+":ref:`DG.zbug.breakpoints`  サブウィンドに表示されます。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:86
 msgid "UI Sections"
-msgstr ""
+msgstr "UIセクション"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:91
 msgid "Breakpoints"
-msgstr ""
+msgstr "ブレークポイント"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:93
 msgid ""
@@ -219,6 +235,8 @@ msgid ""
 "Clicking on any breakpoint found here will open up the source file and line "
 "where the breakpoint is set in the :ref:`DG.zbug.source` window."
 msgstr ""
+"ブレークポイントウィンドでは、プログラム中に設定中の全てのブレークポイントを一覧します。いずれかのブレークポイントをクリックすると、該当ソースファイルを開き"
+"、 :ref:`DG.zbug.source` ウィンドに仕掛けられた箇所を表示します。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:95
 msgid ""
@@ -226,23 +244,25 @@ msgid ""
 "shows up in this list and can simply be ignored. It will be hidden in a "
 "future version."
 msgstr ""
+"現行リリースでは、内部的なエクストラブレークポイントが存在し、リストに常に表示されるものの無視可能となっているものがあります。将来のバージョンでは不可視とす"
+"る予定です。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:98
 msgid "Control Toolbar"
-msgstr ""
+msgstr "コントロールツールバー"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:100
 msgid ""
 "The topmost area of zBug holds the process control toolbar and contains "
 "buttons to control execution and process flow of the application being "
 "debugged."
-msgstr ""
+msgstr "zBug の最上部領域には、プロセスコントロールツールバーがあり、アプリケーションのデバッグフローを実行/処理の制御のためのボタンがあります。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:102
 msgid ""
 "Start: When a zBug session is opened this is the only button accessible and "
 "clicking it will launch the process being debugged."
-msgstr ""
+msgstr "Start（開始）: zBug セッションを開いている場合、このボタンのみが押下可能です。プロセスのデバッグを開始します。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:104
 msgid ""
@@ -252,12 +272,15 @@ msgid ""
 " the execution has stopped by looking at the :ref:`DG.zbug.stack` or "
 ":ref:`DG.zbug.threads` and you can set breakpoints."
 msgstr ""
+"Interrupt（中断）: デバッグ対象のアプリケーションが実行中の場合、インタラプトを押すことでいつでも実行を中断し、zBugへ制御を戻します。以降、「"
+"この時点で読み込まれている」どのコードもブラウズ可能となり、どこで実行が中断となっているかを、 :ref:`DG.zbug.stack` あるいは "
+":ref:`DG.zbug.threads` から確認可能となります。またそこへブレークポイントを設定することもできます。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:106
 msgid ""
 "Continue: When in a stopped state you may click Continue to tell the "
 "application to continue running."
-msgstr ""
+msgstr "Continue（継続）: 中断状態のさいクリックするとアプリケーションの実行を継続します。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:108
 msgid ""
@@ -267,6 +290,9 @@ msgid ""
 "the currently highlighted line (for example if the line is a simple variable"
 " assignment) then behavior is the same as for Step Over."
 msgstr ""
+"Step In（ステップイン）: 中断状態の場合、ステップインにより :ref:`DG.zbug.source` "
+"サブウィンドにハイライト表示された現在位置の関数内部のステップインを実行します。現在位置での関数内部の実行が不可能なばあい（ただの単純な変数代入など）"
+"、ステップオーバと同じ挙動になります。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:110
 msgid ""
@@ -278,6 +304,9 @@ msgid ""
 "comparison, and a variable increment, and each of these will be processed "
 "individually before moving on to the next line in the KL file."
 msgstr ""
+"Step Over（ステップオーバー）: 中断状態の場合、現在の命令をステップオーバーし、現在のファイルの続きを再開します。ステップオーバーでは「次の行」 "
+"―つまり現在選択している行の実行に必要な幾つかの命令を含むような行― を必要としません。例:  :code:`for (Integer i=0; i<5; "
+"i++) {` では代入、比較、変数インクリメントを含みます。KLファイルの実際の次の行に行くよりも先にどれも別個に処理されます。"
 
 #: ..\..\source\DebuggingGuide\zbug.rst:112
 msgid ""
