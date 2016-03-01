@@ -217,14 +217,14 @@ lock-free algorithms; for more information on atomic operations, see
 http://en.wikipedia.org/wiki/Linearizability.
 
 .. kl:function::
-  UInt8 UInt8.atomicAdd(UInt8 val)
-  SInt8 SInt8.atomicAdd(SInt8 val)
-  UInt16 UInt16.atomicAdd(UInt16 val)
-  SInt16 SInt16.atomicAdd(SInt16 val)
-  UInt32 UInt32.atomicAdd(UInt32 val)
-  SInt32 SInt32.atomicAdd(SInt32 val)
-  UInt64 UInt64.atomicAdd(UInt64 val)
-  SInt64 SInt64.atomicAdd(SInt64 val)
+  UInt8 UInt8.atomicAdd!(UInt8 val)
+  SInt8 SInt8.atomicAdd!(SInt8 val)
+  UInt16 UInt16.atomicAdd!(UInt16 val)
+  SInt16 SInt16.atomicAdd!(SInt16 val)
+  UInt32 UInt32.atomicAdd!(UInt32 val)
+  SInt32 SInt32.atomicAdd!(SInt32 val)
+  UInt64 UInt64.atomicAdd!(UInt64 val)
+  SInt64 SInt64.atomicAdd!(SInt64 val)
   
   Atomically add a value to the integer
   
@@ -232,28 +232,28 @@ http://en.wikipedia.org/wiki/Linearizability.
   :returns: the old value of the integer
 
 .. kl:function::
-  UInt8 UInt8.atomicInc()
-  SInt8 SInt8.atomicInc()
-  UInt16 UInt16.atomicInc()
-  SInt16 SInt16.atomicInc()
-  UInt32 UInt32.atomicInc()
-  SInt32 SInt32.atomicInc()
-  UInt64 UInt64.atomicInc()
-  SInt64 SInt64.atomicInc()
+  UInt8 UInt8.atomicInc!()
+  SInt8 SInt8.atomicInc!()
+  UInt16 UInt16.atomicInc!()
+  SInt16 SInt16.atomicInc!()
+  UInt32 UInt32.atomicInc!()
+  SInt32 SInt32.atomicInc!()
+  UInt64 UInt64.atomicInc!()
+  SInt64 SInt64.atomicInc!()
   
   Atomically increments the integer
   
   :returns: the old value of the integer
 
 .. kl:function::
-  UInt8 UInt8.atomicSub(UInt8 val)
-  SInt8 SInt8.atomicSub(SInt8 val)
-  UInt16 UInt16.atomicSub(UInt16 val)
-  SInt16 SInt16.atomicSub(SInt16 val)
-  UInt32 UInt32.atomicSub(UInt32 val)
-  SInt32 SInt32.atomicSub(SInt32 val)
-  UInt64 UInt64.atomicSub(UInt64 val)
-  SInt64 SInt64.atomicSub(SInt64 val)
+  UInt8 UInt8.atomicSub!(UInt8 val)
+  SInt8 SInt8.atomicSub!(SInt8 val)
+  UInt16 UInt16.atomicSub!(UInt16 val)
+  SInt16 SInt16.atomicSub!(SInt16 val)
+  UInt32 UInt32.atomicSub!(UInt32 val)
+  SInt32 SInt32.atomicSub!(SInt32 val)
+  UInt64 UInt64.atomicSub!(UInt64 val)
+  SInt64 SInt64.atomicSub!(SInt64 val)
   
   Atomically subtracts a value from the integer
   
@@ -261,28 +261,28 @@ http://en.wikipedia.org/wiki/Linearizability.
   :returns: the old value of the integer
 
 .. kl:function::
-  UInt8 UInt8.atomicDec()
-  SInt8 SInt8.atomicDec()
-  UInt16 UInt16.atomicDec()
-  SInt16 SInt16.atomicDec()
-  UInt32 UInt32.atomicDec()
-  SInt32 SInt32.atomicDec()
-  UInt64 UInt64.atomicDec()
-  SInt64 SInt64.atomicDec()
+  UInt8 UInt8.atomicDec!()
+  SInt8 SInt8.atomicDec!()
+  UInt16 UInt16.atomicDec!()
+  SInt16 SInt16.atomicDec!()
+  UInt32 UInt32.atomicDec!()
+  SInt32 SInt32.atomicDec!()
+  UInt64 UInt64.atomicDec!()
+  SInt64 SInt64.atomicDec!()
   
   Atomically decrements the integer
   
   :returns: the old value of the integer
 
 .. kl:function::
-  UInt8 UInt8.atomicOr(UInt8 val)
-  SInt8 SInt8.atomicOr(SInt8 val)
-  UInt16 UInt16.atomicOr(UInt16 val)
-  SInt16 SInt16.atomicOr(SInt16 val)
-  UInt32 UInt32.atomicOr(UInt32 val)
-  SInt32 SInt32.atomicOr(SInt32 val)
-  UInt64 UInt64.atomicOr(UInt64 val)
-  SInt64 SInt64.atomicOr(SInt64 val)
+  UInt8 UInt8.atomicOr!(UInt8 val)
+  SInt8 SInt8.atomicOr!(SInt8 val)
+  UInt16 UInt16.atomicOr!(UInt16 val)
+  SInt16 SInt16.atomicOr!(SInt16 val)
+  UInt32 UInt32.atomicOr!(UInt32 val)
+  SInt32 SInt32.atomicOr!(SInt32 val)
+  UInt64 UInt64.atomicOr!(UInt64 val)
+  SInt64 SInt64.atomicOr!(SInt64 val)
   
   Atomically perform a bitwise or on the integer
   
@@ -290,14 +290,14 @@ http://en.wikipedia.org/wiki/Linearizability.
   :returns: the old value of the integer
 
 .. kl:function::
-  UInt8 UInt8.atomicAnd(UInt8 val)
-  SInt8 SInt8.atomicAnd(SInt8 val)
-  UInt16 UInt16.atomicAnd(UInt16 val)
-  SInt16 SInt16.atomicAnd(SInt16 val)
-  UInt32 UInt32.atomicAnd(UInt32 val)
-  SInt32 SInt32.atomicAnd(SInt32 val)
-  UInt64 UInt64.atomicAnd(UInt64 val)
-  SInt64 SInt64.atomicAnd(SInt64 val)
+  UInt8 UInt8.atomicAnd!(UInt8 val)
+  SInt8 SInt8.atomicAnd!(SInt8 val)
+  UInt16 UInt16.atomicAnd!(UInt16 val)
+  SInt16 SInt16.atomicAnd!(SInt16 val)
+  UInt32 UInt32.atomicAnd!(UInt32 val)
+  SInt32 SInt32.atomicAnd!(SInt32 val)
+  UInt64 UInt64.atomicAnd!(UInt64 val)
+  SInt64 SInt64.atomicAnd!(SInt64 val)
   
   Atomically perform a bitwise and on the integer
   
@@ -305,14 +305,14 @@ http://en.wikipedia.org/wiki/Linearizability.
   :returns: the old value of the integer
 
 .. kl:function::
-  UInt8 UInt8.atomicXor(UInt8 val)
-  SInt8 SInt8.atomicXor(SInt8 val)
-  UInt16 UInt16.atomicXor(UInt16 val)
-  SInt16 SInt16.atomicXor(SInt16 val)
-  UInt32 UInt32.atomicXor(UInt32 val)
-  SInt32 SInt32.atomicXor(SInt32 val)
-  UInt64 UInt64.atomicXor(UInt64 val)
-  SInt64 SInt64.atomicXor(SInt64 val)
+  UInt8 UInt8.atomicXor!(UInt8 val)
+  SInt8 SInt8.atomicXor!(SInt8 val)
+  UInt16 UInt16.atomicXor!(UInt16 val)
+  SInt16 SInt16.atomicXor!(SInt16 val)
+  UInt32 UInt32.atomicXor!(UInt32 val)
+  SInt32 SInt32.atomicXor!(SInt32 val)
+  UInt64 UInt64.atomicXor!(UInt64 val)
+  SInt64 SInt64.atomicXor!(SInt64 val)
   
   Atomically perform a bitwise xor on the integer
   
@@ -320,14 +320,14 @@ http://en.wikipedia.org/wiki/Linearizability.
   :returns: the old value of the integer
 
 .. kl:function::
-  UInt8 UInt8.atomicCAS(UInt8 oldVal, UInt8 newVal)
-  SInt8 SInt8.atomicCAS(SInt8 oldVal, SInt8 newVal)
-  UInt16 UInt16.atomicCAS(UInt16 oldVal, UInt16 newVal)
-  SInt16 SInt16.atomicCAS(SInt16 oldVal, SInt16 newVal)
-  UInt32 UInt32.atomicCAS(UInt32 oldVal, UInt32 newVal)
-  SInt32 SInt32.atomicCAS(SInt32 oldVal, SInt32 newVal)
-  UInt64 UInt64.atomicCAS(UInt64 oldVal, UInt64 newVal)
-  SInt64 SInt64.atomicCAS(SInt64 oldVal, SInt64 newVal)
+  UInt8 UInt8.atomicCAS!(UInt8 oldVal, UInt8 newVal)
+  SInt8 SInt8.atomicCAS!(SInt8 oldVal, SInt8 newVal)
+  UInt16 UInt16.atomicCAS!(UInt16 oldVal, UInt16 newVal)
+  SInt16 SInt16.atomicCAS!(SInt16 oldVal, SInt16 newVal)
+  UInt32 UInt32.atomicCAS!(UInt32 oldVal, UInt32 newVal)
+  SInt32 SInt32.atomicCAS!(SInt32 oldVal, SInt32 newVal)
+  UInt64 UInt64.atomicCAS!(UInt64 oldVal, UInt64 newVal)
+  SInt64 SInt64.atomicCAS!(SInt64 oldVal, SInt64 newVal)
   
   Atomically perform a compare-and-swap operation: if the integer's value
   is ``oldVal``, change it to ``newVal``.  Returns ``oldVal`` if and only
@@ -336,6 +336,21 @@ http://en.wikipedia.org/wiki/Linearizability.
   :param oldVal: The value to compare with the integer
   :param newVal: The value to set the integer to if the comparison succeeds
   :returns: the old value of the integer
+
+.. kl:function::
+  UInt8 UInt8.atomicGet!()
+  SInt8 SInt8.atomicGet!()
+  UInt16 UInt16.atomicGet!()
+  SInt16 SInt16.atomicGet!()
+  UInt32 UInt32.atomicGet!()
+  SInt32 SInt32.atomicGet!()
+  UInt64 UInt64.atomicGet!()
+  SInt64 SInt64.atomicGet!()
+  
+  Atomically obtains the value of an integer.  The operation is "atomic" in
+  the sense that the value is treated as volatile.
+  
+  :returns: the value of the integer
 
 .. index::
   single: floating-point types
@@ -438,6 +453,13 @@ Output::
   Another string
   A string and Another string
   Another string now includes A string
+
+.. _KLPH.types.RTVal
+
+The ``RTVal`` Type
+^^^^^^^^^^^^^^^^^^^
+
+The :code:`RTVal` type is a type that holds a dynamically-typed valued
 
 .. index::
   single: derived types
@@ -1123,7 +1145,7 @@ It is possible to declare the existence of an object or interface without actual
 
 .. kl-example:: Forward Declaration of Objects and Interfaces
 
-  // Forward delcaration of interface IntTwo
+  // Forward declaration of interface IntTwo
   interface IntTwo;
 
   interface IntOne {
@@ -1134,7 +1156,7 @@ It is possible to declare the existence of an object or interface without actual
     sub!(IntOne int);
   };
 
-  // Forward delcaration of object ObjTwo
+  // Forward declaration of object ObjTwo
   object ObjTwo;
 
   object ObjOne : IntOne, IntTwo {
@@ -1295,6 +1317,57 @@ You can only do a few things with values of type :code:`Type`; they are primaril
     {
       report(S.jsonDesc());
     }
+
+.. _KLPG.types.rtval:
+
+The :code:`RTVal` Type
+"""""""""""""""""""""""""
+
+The :code:`RTVal` type is once which contains a dynamically-typed value.  A value of type :code:`RTVal` can be created from a value of any other type in KL, except :code:`RTVal` itself.
+
+Using the :code:`RTVal` type allows you to work with values whose types are only known at runtime.  In order to determine the type of the value inside of an :code:`RTVal` value, use its :code:`.type()` method as shown below:
+
+.. kl-example:: RTVal Type
+  
+  unwrapValue(RTVal rtVal) {
+    if (rtVal.type() == UInt32) {
+      UInt32 val(rtVal);
+      report("Value is UInt32: " + val);
+    }
+    else if (rtVal.type() == String) {
+      String val(rtVal);
+      report("Value is String: " + val);
+    }
+    else
+      report("Unhandled type: " + rtVal.type());
+  }
+
+  operator entry() {
+    unwrapValue(RTVal(4056u32));
+    unwrapValue(RTVal("foo"));
+    unwrapValue(RTVal(3.141));
+  }
+
+Notice above that, unlike most conversions, conversions to and from the :code:`RTVal` type must be explicit; this is because it's too easy for bugs to slip by if the conversions are done for you automatically.
+
+.. _KLPG.types.dfgbinding:
+
+The :code:`DFGBinding` Type
+"""""""""""""""""""""""""
+
+The :code:`DFGBinding` type represents a Canvas (historically called "the DFG") binding.
+
+Currently, the only supported use of the :code:`DFGBinding` type is as follows:
+
+  - A value of type :code:`DFGBinding` can be constructed from a JSON-formatted binding description (ie. :code:`.canvas` file)
+
+  - The methods :code:`.getArgValue({index})` and :code:`setArgValue({index}, {rtVal})` are supported
+
+  - The method :code:`.execute()` is supported.
+
+This allows you to load and execute a Canvas graph entirely from KL.  There is also a CAPI entry point for converting DFGBindings to and from RTVals, which will allow you to pass them in from client applications.
+
+This documentation will be expanded in the future to cover complex use cases.
 
 .. index::
   single: unowned object references

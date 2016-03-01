@@ -37,12 +37,22 @@ Installing Fabric for Softimage
 
 The Fabric for Softimage plugin is shipped as a standard workgroup. To load the workgroup simply open the Plugin Manager, click on the Workgroups Tab, and connect to the Workgroup extracted location.
 
-In order to have the Softimage plugin working properly, these additional environment variables must be defined:
+The 'FABRIC' environment variables (optional):
+
+If the 'FABRIC' environment variables are not set on your system then the plugin will automatically set them temporarily for you.
+You might however wish to set them manually, in which case you need to define them as following;
 
 .. code-block:: bash
 
     export FABRIC_EXTS_PATH=$FABRIC_DIR/Exts
     export FABRIC_DFG_PATH=$FABRIC_DIR/Presets
+
+Most importantly this will also allow you to specify more than one path for extensions and presets, separated by semicolons (Windows) or colons (unix). For example you might have some own Fabric extension that you wish to use as well as some own preset folders to save presets into. Example (Windows):
+
+.. code-block:: bash
+
+    export FABRIC_EXTS_PATH=$FABRIC_DIR/Exts;D:/StudioXYFabric/Exts;C:/Temp/Tests/
+    export FABRIC_DFG_PATH=$FABRIC_DIR/Presets;D:/StudioXYFabric/Presets;C:/RnDPresets
 
 To make use of the python client (which is able to access the same data through the python interface) the :envvar:`PYTHONPATH` has to include the :dfn:`Python/PYTHON_VERSION` subfolder of the Fabric for Softimage workgroup. Depending on your operating system it might be required to add the location of the FabricCore-|FABRIC_VERSION| library to your :envvar:`PATH` or the :envvar:`LD_LIBRARY_PATH`.
 

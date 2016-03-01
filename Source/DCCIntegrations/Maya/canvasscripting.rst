@@ -486,3 +486,15 @@ Splits an executable (graph or function) from the preset it references
 .. code-block:: KL
 
   FabricCanvasSplitFromPreset -m "canvasNode1" -e "DrawMesh";
+
+FabricCanvasDismissLoadDiags
+-------------------------------------
+
+Dismisses one or more load diagnostics
+
+  - -m, -mayaNode: The name of the Canvas maya node
+  - -di, -diagIndices: The indices of the load diagnostics to dismiss
+
+.. code-block:: KL
+
+  FabricCanvasDismissLoadDiags -m "canvasNode1" -di "[3, 14]";

@@ -27,7 +27,7 @@ You can use the :dfn:`Fabric Standalone` to get familiar with the |FABRIC_PRODUC
 
 If you are interested in one of the integrations for Fabric :dfn:`Canvas` you will find the relevant information here as well. Using :dfn:`Canvas` within DCCs provides a high performance alternative to the host application's features while being 100% portable! If you are interested in using :dfn:`Canvas` directly within a DCC, you can skip to the :ref:`GETTINGSTARTED_DCCINSTALLATION` section. If you want to know more information about the Canvas user interface, please refer to the :ref:`CANVASUSERGUIDE`.
 
-If you are a commercial customer, feel free to ask questions and submit tickets through your Zendesk portal. If you are using a free |FABRIC_PRODUCT_NAME| license, feel free to ask questions on the |FABRIC_PRODUCT_NAME| `answers page <answers.fabricengine.com>`_.
+If you are a commercial customer, feel free to ask questions and submit tickets through your Zendesk portal. If you are using a free |FABRIC_PRODUCT_NAME| license, feel free to ask questions on the |FABRIC_PRODUCT_NAME| `forum <http://forums.fabricengine.com/>`_.
 
 Table of Contents
 -----------------

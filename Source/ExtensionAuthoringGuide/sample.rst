@@ -101,7 +101,7 @@ The next two lines create a |FABRIC_PRODUCT_NAME| client.  We communicate direct
   import FabricEngine.Core as fabric
   fabricClient = fabric.createClient();
 
-The next several lines create an KL operator.  The KL operator calls the :code:`GetHelloWorldString` provided by the extension and stores the result in an :code:`io` parameter that is later bound to a node member::
+The next several lines create an KL operator.  The KL operator calls the :code:`GetHelloWorldString` provided by the extension and stores the result in an :code:`io` parameter that is later bound to a node member:
 
 .. code-block:: python
   

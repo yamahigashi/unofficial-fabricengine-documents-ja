@@ -10,11 +10,11 @@ The first step is to install the appropriate developer tools for your platform. 
 
 The instructions for installing developer tools vary by platform:
 
-- On Windows, install Visual Studio.  Visual Studio 2010 is the officially supported version, but other versions may work as well.
+- On Windows, install Visual Studio.  Visual Studio 2013 is the officially supported version, but other versions may work as well.
 
 - On Linux, installed the Clang++ or the GNU C++ compiler.  Usually this means installing a package such as ``clang`` or ``g++`` (on Ubuntu).
 
-- On OS X, install Xcode, available from the OS X app store.
+- On OS X, install Xcode 5 (we use 5.0.1), available from the OS X app store.
 
 Installing the :command:`scons` tool also varies by platform.
 

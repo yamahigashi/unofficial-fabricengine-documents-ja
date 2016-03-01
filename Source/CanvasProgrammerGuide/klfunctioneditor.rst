@@ -5,7 +5,7 @@ KL Function Editor
 
 Within Canvas you can directly create custom KL function nodes. These nodes run through the same just-in-time compilation process utilizing LLVM as do graphs. 
 
-To create custom KL functions, right click the empty space in a graph view and choose :dfn:`New empty function`. This will create the function. To edit it, double shift-click the new node or open the context menu by right-clicking the node and choose :dfn:`Edit`. This will open the KL function editor.
+To create custom KL functions, right click the empty space in a graph view and choose :dfn:`New empty function`. This will create the function node and open the KL function editor. To open the KL function editor in an existing function node, double shift-click the node or open the context menu by right-clicking the node and choose :dfn:`Edit`.
 
 .. image:: /images/Canvas/userguide_19.jpg
 
