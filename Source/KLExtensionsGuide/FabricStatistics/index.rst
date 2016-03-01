@@ -145,7 +145,7 @@ call :kl-ref:`EndProfilingEvent` upon destruction.
 
 All recorded events from the last profiling session can be retrieved by calling :kl-ref:`GetProfilingEvents` or :kl-ref:`GetProfilingReport`.
 
-.. kl-fileexample:: ${FABRIC_SCENE_GRAPH_DIR}/Test/Exts/Statistics/CPUProfiling.kl
+.. kl-fileexample:: ${FABRIC_SCENE_GRAPH_DIR}/Tests/Statistics/CPUProfiling.kl
 
 
 Table of Contents

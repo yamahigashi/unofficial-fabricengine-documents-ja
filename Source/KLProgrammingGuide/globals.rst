@@ -795,7 +795,7 @@ Unary operator overloads are subject to the following restrictions:
 Direct Assignment Overloads
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-KL provides a default direct assignment for custom types which simply assigns each of the members.  However, it is also possible to provide an overload for the direct assignment operator as shown in the example below::
+KL provides a default direct assignment for custom types which simply assigns each of the members.  However, it is also possible to provide an overload for the direct assignment operator as shown in the example below:
 
 .. kl-example:: Direct Assignment Overload
 
@@ -819,7 +819,7 @@ KL provides a default direct assignment for custom types which simply assigns ea
     report("After: a1 = " + a1 + ", a2 = " + a2);
   }
 
-Compound assignment overloads are subject to the following restrictions:
+Direct assignment overloads are subject to the following restrictions:
 
 - They must take exactly one parameter.  The parameter may be of any type but it must be an input-only parameter.
 
@@ -904,29 +904,29 @@ Debugging Functions
   
   .. versionadded:: 1.13.0
 
-Outputs the KL function call stack that leads to the calling location, including KL file names and line numbers. For example the following KL code::
-
-  function func2()
-  {
-    dumpstack();
-  }
-
-  function func1()
-  {
-    func2();
-  }
-
-  operator entry()
-  {
-    func1();
-  }
-
-Will output::
-
-  1 function.func2() call.kl:4
-  2 function.func1() call.kl:9
-  3 operator.entry() call.kl:14
-  4 kl.internal.entry.stub.cpu()
+  Outputs the KL function call stack that leads to the calling location, including KL file names and line numbers. For example the following KL code::
+  
+    function func2()
+    {
+      dumpstack();
+    }
+  
+    function func1()
+    {
+      func2();
+    }
+  
+    operator entry()
+    {
+      func1();
+    }
+  
+  Will output::
+  
+    1 function.func2() call.kl:4
+    2 function.func1() call.kl:9
+    3 operator.entry() call.kl:14
+    4 kl.internal.entry.stub.cpu()
 
 Error Status Functions
 ^^^^^^^^^^^^^^^^^^^^^^

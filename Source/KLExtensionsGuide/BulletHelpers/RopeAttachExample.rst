@@ -3,5 +3,5 @@
 Rope Attach Example
 ====================================================================================
 
-.. kl-fileexample:: ${FABRIC_SCENE_GRAPH_DIR}/Test/Exts/Bullet/SoftBodies_RopeAttach.kl
+.. kl-fileexample:: ${FABRIC_SCENE_GRAPH_DIR}/Tests/Bullet/SoftBodies_RopeAttach.kl
 
