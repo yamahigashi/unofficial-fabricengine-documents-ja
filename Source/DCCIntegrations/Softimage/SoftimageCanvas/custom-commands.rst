@@ -750,7 +750,7 @@ FabricCanvasOpConnectPort
     
     **Scripting Syntax**
 
-    ``success = FabricCanvasOpConnectPort( OperatorName, portName, [targetName] )``
+    ``success = FabricCanvasOpConnectPort( OperatorName, portName, [targetNames], [checkIfAlreadyConnected] )``
     
     **Return value**
 
@@ -766,11 +766,50 @@ FabricCanvasOpConnectPort
 
         The port name.
 
-      - ``targetName``
+      - ``targetNames``
 
-        An optional target name. If specified then the port specified via 'portName' is connected with the target, else it is disconnected.
+        Optional target name(s), separated by semicolon. If this is set then the port specified via 'portName' is connected with the target(s). If this is not set (i.e. "") then all connections to the port specified via 'portName' are removed.
 
-        Note: it usually is sufficient to just specify the object's name, e.g. "myNull". The command will automatically expand the target to match the port's type, e.g. "myNull.kine.global" if the port has the data type "Mat44".
+        Note: it usually is sufficient to just specify the object names, e.g. "myNull" or "myNull;null2;poi". The command will automatically expand the target to match the port's type, e.g. "myNull.kine.global" if the port has the data type "Mat44".
+
+        Default is "".
+
+      - ``checkIfAlreadyConnected``
+
+        If true then check if targetNames is already connected and, if it is, don't add a further connection.
+
+        Default is true.
+
+FabricCanvasOpDisconnectPort
+-----------------------------------
+    
+    **Description**
+
+    Disconnects objects from an exposed Canvas port that has the type "XSI Port".
+    
+    **Scripting Syntax**
+
+    ``success = FabricCanvasOpDisconnectPort( OperatorName, portName, [targetNames]``
+    
+    **Return value**
+
+    A boolean indicating whether the operation was successful or not.
+
+    **Parameters**
+
+      - ``OperatorName``
+
+        The name of a CanvasOp operator.
+
+      - ``portName``
+
+        The port name.
+
+      - ``targetNames``
+
+        Optional target name(s), separated by semicolon. If this is set then the target(s) in targetNames are disconnected from the port. If this is not set (i.e. "") then all connections to the port are removed.
+
+        Note: it usually is sufficient to just specify the object names, e.g. "myNull" or "myNull;null2;poi". The command will automatically expand the target to match the port's type, e.g. "myNull.kine.global" if the port has the data type "Mat44".
 
         Default is "".
 
@@ -1398,4 +1437,24 @@ FabricCanvasSplitFromPreset
       - ``execPath``
 
         The path of the node.
+    
+FabricCanvasDismissLoadDiags
+-----------------------------------
+    
+    **Description**
 
+    Dismisses load diagnostics.
+    
+    **Scripting Syntax**
+
+    ``FabricCanvasDismissLoadDiags( binding, diagIndices )``
+    
+    **Parameters**
+
+      - ``binding``
+
+        The name of a CanvasOp operator (i.e. the graph).
+
+      - ``diagIndices``
+
+        An array of load diagnostics indices.

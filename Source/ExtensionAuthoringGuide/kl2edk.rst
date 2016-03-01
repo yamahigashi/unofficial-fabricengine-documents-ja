@@ -178,7 +178,7 @@ The content of the codegen file in a little more detail:
 
 - :samp:`methodop`: an operator to use when accessing methods on the native type. this can be "." or "->".
 
-- :samp:`functionbodies`: Optionally you can specify a dictionary here of function body implementations. This doesn‚Äôt not have to include the conversions, these will be added automatically by kl2edk. You only need to worry about the third-party api specific implementation code. As seen in the json example above, the callback :samp:`String_printf` will be generated with the additional lines of C++ code provided.
+- :samp:`functionbodies`: Optionally you can specify a dictionary here of function body implementations. This doesnÅft not have to include the conversions, these will be added automatically by kl2edk. You only need to worry about the third-party api specific implementation code. As seen in the json example above, the callback :samp:`String_printf` will be generated with the additional lines of C++ code provided.
 
 - :samp:`parameterconversionstoskip`: Optionally you can specify an array here of strings containing a combination of a c++ symbol name and a parameter. Each symbol and parameter will be skipped for the code generation when creating the parameter conversion code. For example:
 

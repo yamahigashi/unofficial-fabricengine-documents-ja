@@ -1353,6 +1353,30 @@ Thread/Core-related Functions
   function UInt16 getCoreCount()
   
   Returns the number of CPU cores in the machine.
+  
+.. kl:function::
+  function atomicMemoryBarrier()
+  
+  Produces an atomic memory barrier at this point in the code.  The barrier
+  is a "full" (sequentially consistent) barrier.
+  
+.. kl:function::
+  function atomicMemoryBarrier_Acquire()
+  
+  Produces an atomic memory barrier at this point in the code.  The barrier
+  is a "acquire" barrier.
+  
+.. kl:function::
+  function atomicMemoryBarrier_Release()
+  
+  Produces an atomic memory barrier at this point in the code.  The barrier
+  is a "release" barrier.
+  
+.. kl:function::
+  function atomicMemoryBarrier_AcquireRelease()
+  
+  Produces an atomic memory barrier at this point in the code.  The barrier
+  is a "acquire-release" barrier.
 
 Performance Counter Functions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

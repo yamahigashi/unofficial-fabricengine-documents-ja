@@ -3,15 +3,39 @@
 Canvas inside of Maya
 =============================
 
-.. image:: /images/Canvas/userguide_29.jpg
+.. image:: /images/Canvas/userguide_29.png
 
-The CanvasNode
+Canvas Node Types
 --------------------
 
-Canvas is integrated inside of maya as a maya hypergraph node. You can instantiate the canvasNode in the node editor hitting :dfn:`TAB` and typing :dfn:`canvas` or through the Fabric top level menu and choosing :dfn:`Create graph`. You can then open up the Canvas user interface through the :dfn:`Open Canvas` button on the Maya Attribute editor.
+Fabric for Maya comes with two node types:
+
+The CanvasNode is a generic MPxNode where you can attach almost every kind of maya attribute type, it is suited for any generic computation such as rigging or simulation solvers.
+
+The CanvasDeformer is a deformer node that seamlessly works with Maya's deformation tools and commands and works with a PolygonMesh Array, allowing to modify the positions of a mesh without changing its topology. It is faster than CanvasNode for deformations since it avoids creating a new full mesh.
+
+CanvasNode
+--------------------
+
+You can instantiate the canvasNode in the node editor hitting :dfn:`TAB` and typing :dfn:`canvas` or through the Fabric top level menu and choosing :dfn:`Create graph (Node)`. You can then open up the Canvas graph through the :dfn:`Open Canvas` button on the Maya Attribute editor.
 
 .. image:: /images/Canvas/userguide_30.jpg
 
+CanvasDeformer
+--------------------
+
+You can instantiate the canvasDeformer in the node editor hitting :dfn:`TAB` and typing :dfn:`canvasDeformer` or through the Fabric top level menu and choosing :dfn:`Create graph (Deformer)` with an object selection. You can then open up the Canvas graph through the :dfn:`Open Canvas` button on the Maya Attribute editor.
+
+When opening the Canvas graph you will notice there is a default an IO port called **meshes**.
+
+.. note:: This port must not be removed nor renamed or else the deformer node will not work properly!.
+
+To apply a deformation, get a PolygonMesh element from the meshes PolygonMesh array (using Array.Get), modify its vertex positions and set the output PolygonMesh to the meshes array with Array.Set. Finally, connect the modified meshes array to the meshes IO port.
+
+.. image:: /images/Canvas/userguide_31.png
+
+.. note:: Only vertex positions can be modified at this point.
+ 
 Adding ports / attributes
 ----------------------------
 

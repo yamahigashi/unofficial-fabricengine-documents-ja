@@ -105,17 +105,26 @@ You will receive a license from the Fabric Engine team once your request has bee
 Using the RLM server for licensing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Once your RLM server is running you'll need to point your user instances of |FABRIC_PRODUCT_NAME| to this server. This can be done via the standard RLM environment variable:
+Once your RLM server is running you'll need to point your clients of |FABRIC_PRODUCT_NAME| to this server.
+
+You can use the general RLM environment variable:
 
 .. code-block:: none
 
   RLM_LICENSE=port@host
 
-Or via the Fabric-specific RLM variable:
+Or the Fabric-specific RLM variable:
 
 .. code-block:: none
 
   fabricinc_LICENSE=port@host
+
+RLM also supports to define the server in a license file. This license file is stored in the same place as a nodelocked license, can take any name (with the .lic extension) and tells the license system to look into an specific server. 
+The following is an example of this file. 
+
+.. code-block:: none
+  
+  HOST 192.168.1.221 any 5053
 
 If the licensing server is running and you have entered its host and port correctly then your copy of |FABRIC_PRODUCT_NAME| should now be licensed.
 

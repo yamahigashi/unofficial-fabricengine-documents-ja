@@ -211,7 +211,7 @@ To update test results, run the tester with the --update argument.
 
 .. code::
 
-​  python pythonTester.py test.kl --update
+  python pythonTester.py test.kl --update
 
 Setting up a unit testing framework for your custom extensions and running
 them regularly will help catch changes that might break your APIs.

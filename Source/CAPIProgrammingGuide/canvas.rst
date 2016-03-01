@@ -147,7 +147,7 @@ Canvas Core API Classes
 
     .. cpp:function:: DFGExec getSubExec(char const *execPath ) const
 
-      Returns the a sub-executable of an executable.  A sub-executable is
+      Returns the sub-executable of an executable path. A sub-executable is
       referenced through a path of the form "node.subnode.subnode", where
       each element of the path is a node in its containing graph.
       
@@ -167,6 +167,13 @@ Canvas Core API Classes
     .. cpp:function:: String getErrors() const
 
       Returns the errors on the executable as a JSON array of strings.
+
+
+
+
+    .. cpp:function:: String getLoadDiags() const
+
+      Returns the load diagnostics on the binding as a JSON array of objects.
 
 
 
@@ -1387,6 +1394,32 @@ Canvas Core API Classes
 
 
 
+    .. cpp:function:: bool hasRecursiveConnectedErrors() const
+
+
+
+
+    .. cpp:function:: String getErrors(bool recursive) const
+
+      Returns the errors on the binding as a JSON array of objects.
+
+
+
+
+    .. cpp:function:: String getLoadDiags() const
+
+      Returns the load diagnostics on the binding as a JSON array of objects.
+
+
+
+
+    .. cpp:function:: void dismissLoadDiag(unsigned diagIndex) const
+
+      Dismisses the given load diagnostic.
+
+
+
+
     .. cpp:function:: void execute_lockType(LockType lockType )
 
       Execute the binding, ie. execute the KL function that is generated from the root executable (graph or function), passing the argument values as the port values.
@@ -1405,9 +1438,9 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: void setNotificationCallback(DFGNotificationCallback callback, void *userdata )
+    .. cpp:function:: void registerNotificationCallback( DFGNotificationCallback callback, void *userdata )
 
-      Set the notification callback function and userdata to pass it.  The
+      Register a notification callback function and userdata to pass it.  The
       function must have the function signature::
 
         void BindingNotificationCallback(
@@ -1416,13 +1449,51 @@ Canvas Core API Classes
           uint32_t jsonLength
           );
       
-      It will receive the value of :code:`userdata` that was passed to :code:`setNotificationCallback`,
+      It will receive the value of :code:`userdata` that was passed to :code:`registerNotificationCallback`,
       and :code:`jsonCString` and :code:`jsonLength` will be a JSON-encoded string with
       the contents of the notification.
 
-      If :code:`callback` is NULL, the binding will not invoke notification callbacks.
+      The callback must be removed with :cpp:func:`FabricCore::DFGBinding::unregisterNotificationCallback`
+      if it is no longer intersted in notifications.
 
-      :param callback: The callback function to call for notifications, or NULL to disable notifications
+      :param callback: The callback function to call for notifications
+      :param userdata: The userdata value to pass to the callback function
+
+
+
+
+    .. cpp:function:: void setNotificationCallback( DFGNotificationCallback callback, void *userdata )
+
+      Set a notification callback function and userdata to pass it.  The
+      function must have the function signature::
+
+        void BindingNotificationCallback(
+          void *userdata,
+          char const *jsonCString,
+          uint32_t jsonLength
+          );
+      
+      It will receive the value of :code:`userdata` that was passed to :code:`registerNotificationCallback`,
+      and :code:`jsonCString` and :code:`jsonLength` will be a JSON-encoded string with
+      the contents of the notification.
+
+      This function will throw an error if a callback has already been registered,
+      unless callback is :code:`NULL` in which case it will
+      remove the existing callback.
+
+      :param callback: The callback function to call for notifications, or NULL to clear the current callback
+      :param userdata: The userdata value to pass to the callback function
+
+
+
+
+    .. cpp:function:: void unregisterNotificationCallback( DFGNotificationCallback callback, void *userdata )
+
+      Unregister a notification callback function and userdata that was previously
+      added with :cpp:func:`FabricCore::DFGBinding::registerNotificationCallback`.
+      Both the callback and userdata must match what was passed to this function.
+
+      :param callback: The callback function to call for notifications
       :param userdata: The userdata value to pass to the callback function
 
 
@@ -1658,7 +1729,7 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: DFGBinding createNewUnboundGraph()
+    .. cpp:function:: DFGBinding createBindingToNewGraph()
 
       Create a new DFGBinding object with an empty graph as its root executable.
       
@@ -1720,6 +1791,30 @@ Canvas Core API Classes
     .. cpp:function:: void blockComps()
 
       Unblock recompilations of DFGBindings.
+
+
+
+
+  The DFGNotifBracket Class
+  -----------------------------
+
+  .. cpp:class:: FabricCore::DFGNotifBracket
+
+    The DFGNotifBracket class is used to suspend notifications until
+    a set of DFG commands has executed.
+
+
+
+
+    .. cpp:function:: DFGNotifBracket( DFGHost host )
+
+      By creating a DFGNotifBracket in the current scope, all DFG
+      notifications will be suspended until the scope closes.
+
+
+
+
+    .. cpp:function:: ~DFGNotifBracket()
 
 
 

@@ -12,7 +12,7 @@ Creating nodes
 
 Nodes can be created in several ways.
 
-  * Preset Tree: Look for the node you want to create in the preset tree. It provides access to all Fabric factory presets, as well as any presets found in the directories on the :envvar:`FABRIC_DFG_PATH` environment variable. Drag the preset you want to instantiate as a node into the graph view to create a node.
+  * Preset Tree: Look for the node you want to create in the preset tree. It provides access to all Fabric factory presets, as well as any presets found in the "Fabric/Presets/User" location from the user home folder and in the directories defined on the :envvar:`FABRIC_DFG_PATH` environment variable. Drag the preset you want to instantiate as a node into the graph view to create a node.
   * Tab Search: When focusing the graph view, hit the :dfn:`TAB` key to bring up the smart search. Then type the name of a part of the name of the preset you want to instantiate. For example try :dfn:`Math.Vec3.ComposeVec3` or :dfn:`MaVComp`.
   * Context menu: Special nodes, such as backdrops, empty graph nodes and function nodes can be created by right-clicking into Canvas and then choosing the respective entry of the context menu.
 

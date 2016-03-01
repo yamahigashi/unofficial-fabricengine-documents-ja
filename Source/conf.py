@@ -145,21 +145,21 @@ html_theme = 'default'
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-fabric_color_sky_blue   = "#21a8e0"
-fabric_color_greenish   = "#73992b"
-fabric_color_aubergine  = "#2e1a2e"
+fabric_color_sky_blue = "#21a8e0"
+fabric_color_greenish = "#73992b"
+fabric_color_aubergine = "#2e1a2e"
 fabric_color_33pct_gray = "#a8a8a8"
 fabric_color_15pct_gray = "#dadada"
-fabric_color_black      = "#000000"
+fabric_color_black = "#000000"
 html_theme_options = {
   "sidebarbgcolor":   "#004040",
   "sidebartextcolor": "#ffffff",
   "sidebarlinkcolor": "#a8a8a8",
   "relbarbgcolor":    "#002e30",
-  "relbartextcolor":  "#ffffff",
-  "relbarlinkcolor":  "#a8a8a8",
-  "footerbgcolor":    "#000000",
-  "footertextcolor":  "#a8a8a8"
+  "relbartextcolor": "#ffffff",
+  "relbarlinkcolor": "#a8a8a8",
+  "footerbgcolor": "#000000",
+  "footertextcolor": "#a8a8a8"
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
@@ -167,7 +167,7 @@ html_theme_options = {
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-html_title = "Fabric Engine 2.0.1 Unofficial Documentation (ja)"
+html_title = "Fabric Engine 2.1.0 Unofficial Documentation (ja)"
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #html_short_title = None
@@ -392,7 +392,7 @@ rst_epilog = """
   "Fabric Software Inc.",
   "Fabric Engine",
   "FabricEngine",
-  "Copyright 2010-2016 Fabric Software Inc. All rights reserved.",
+  "Copyright (c) 2010-2016, Fabric Software Inc. All rights reserved.",
   "2.1.0",
   "2.1.0",
   "2.1.0",
@@ -400,10 +400,10 @@ rst_epilog = """
   "2.1.0",
   "Fabric Engine",
   "FabricEngine", 
-  "FabricEngine", "2.0.1",
-  "FabricEngine", "2.0.1",
-  "FabricEngine", "2.0.1",
-  "2.0.1", "2.0.1"
+  "FabricEngine", "2.1.0",
+  "FabricEngine", "2.1.0",
+  "FabricEngine", "2.1.0",
+  "2.1.0", "2.1.0"
 )
 
 def setup(app):

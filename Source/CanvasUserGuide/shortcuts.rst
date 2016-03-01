@@ -18,6 +18,9 @@ Canvas
 **Tab**
   Quick node creation search dialog.
 
+**CTRL+<context menu item>**
+  Pressing the CTRL key while choosing a menu item in the context menu (e.g. "New empty graph", "New backdrop", "Implode nodes") will omit prompting the user for a name, instead the node is created using a default name.
+
 **CTRL+A**
   Select all nodes.
 
@@ -35,9 +38,6 @@ Canvas
 
 **CTRL+V**
   Paste
-
-**CTRL+A**
-  Select all nodes
 
 **CTRL+Tab**
   Show/hide the node explorer and the value editor.

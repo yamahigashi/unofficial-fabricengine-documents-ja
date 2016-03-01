@@ -109,7 +109,7 @@ This tab displays more advanced parameters that define the operator's behavior a
       - "execute graph only if necessary" will keep track of whether the graph is up to date or not and only execute it if necessary. This is the default.
       - "always execute graph" will execute the graph each time the operator gets evaluated.
 
-  - **persitenceData**
+  - **persistenceData**
 
     This is used internally.
 
