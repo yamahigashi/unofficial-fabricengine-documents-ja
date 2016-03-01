@@ -141,15 +141,6 @@ msgid ""
 "lifetime of the instantiated C++ classes that the object represents."
 msgstr ""
 
-#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:100
-msgid ""
-"KL objects must be referenced by at least once by an owning class or node to"
-" ensure that they are not destroyed. By maintaining references to objects, "
-"you can guarantee that they will not be destroyed, and can control when they"
-" will eventually be freed. For systems of interdependent classes see "
-"‘Managing Data ownership and bidirectional relationships’ below."
-msgstr ""
-
 #: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:103
 msgid "Mapping Public methods"
 msgstr ""
@@ -167,16 +158,6 @@ msgstr ""
 
 #: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:117
 msgid "Public Members"
-msgstr ""
-
-#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:119
-msgid ""
-"Mapping of public members from KL to C++ is not automatic. There is no "
-"facility in KL to detect when a KL Object’s or Struct’s member value changes"
-" to automatically synchronize values to the mapped C++ class or struct. "
-"Ideally all interactions with a struct or class occur through public "
-"methods(except in the ‘Simple Data-Container Structs’ example provided "
-"below)."
 msgstr ""
 
 #: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:123
@@ -312,17 +293,6 @@ msgid ""
 "backpointers are required."
 msgstr ""
 
-#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:287
-msgid ""
-"Note: If 2 classes reference each other, then neither class will ever be "
-"destroyed due to the cyclic reference. A Owner object should reference its "
-"‘owned’ objects, and those ‘owned’ objects should maintain simple ‘Ref’ "
-"pointers back to the owners. Ref pointers must be manually maintained. If "
-"the pointer is not nulled and the owner is destroyed, the pointer will "
-"become garbage and cause a crash if accessed. Cleanup is required to ensure "
-"your code is stable under all conditions. ."
-msgstr ""
-
 #: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:330
 msgid "Handling Dependencies between Classes"
 msgstr ""
@@ -347,58 +317,130 @@ msgstr ""
 msgid "KL Code object A"
 msgstr ""
 
-#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:380
+#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:385
 msgid ""
 "The dependencies between the C++ classes needs to be reflected in the "
 "definition of the KL objects, and in the order that the classes are loaded "
 "by the fpm.json file."
 msgstr ""
 
-#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:382
+#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:387
 msgid ""
 "Note: Object B maintains a KL reference to Object A, to ensure that its "
 "lifetime lasts longer than B. Only once A is destroyed or releases its "
 "reference to B(as long as only A reference B), B will be destroyed."
 msgstr ""
 
-#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:387
+#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:392
 msgid "Other Tips and Tricks"
 msgstr ""
 
-#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:390
+#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:395
 msgid "Mapping Const Functions to KL as const functions"
 msgstr ""
 
-#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:391
-msgid ""
-"By default, kl methods that return values are const. You may have a class "
-"that declares methods that take non-const reference arguments and perform "
-"computation returning the results in the args. To declare a KL function that"
-" is also cost, simply append a ‘?’ as the end of the function name."
-msgstr ""
-
-#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:394
-#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:413
+#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:399
+#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:418
 msgid "C++ Code"
 msgstr ""
 
-#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:403
-#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:422
-#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:437
+#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:408
+#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:427
+#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:442
 msgid "KL Code"
 msgstr ""
 
-#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:433
+#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:438
 msgid "Cloning Objects in KL"
 msgstr ""
 
-#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:435
+#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:440
 msgid ""
 "When a KL object that references some C++ data is cloned in KL, then the "
 "expected behavior is that the C++ class is also closed, ensuring that the "
 "1-1 mapping of objects to C++ classes."
 msgstr ""
 
-#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:448
+#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:453
 msgid "C++ code"
 msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:100
+msgid ""
+"KL objects must be referenced by at least once by an owning class or node to"
+" ensure that they are not destroyed. By maintaining references to objects, "
+"you can guarantee that they will not be destroyed, and can control when they"
+" will eventually be freed. For systems of interdependent classes see "
+"?eManaging Data ownership and bidirectional relationships?f below."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:119
+msgid ""
+"Mapping of public members from KL to C++ is not automatic. There is no "
+"facility in KL to detect when a KL Object?fs or Struct?fs member value "
+"changes to automatically synchronize values to the mapped C++ class or "
+"struct. Ideally all interactions with a struct or class occur through public"
+" methods(except in the ?eSimple Data-Container Structs?f example provided "
+"below)."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:287
+msgid ""
+"Note: If 2 classes reference each other, then neither class will ever be "
+"destroyed due to the cyclic reference. A Owner object should reference its "
+"?eowned?f objects, and those ?eowned?f objects should maintain simple "
+"?eRef?f pointers back to the owners. Ref pointers must be manually "
+"maintained. If the pointer is not nulled and the owner is destroyed, the "
+"pointer will become garbage and cause a crash if accessed. Cleanup is "
+"required to ensure your code is stable under all conditions. ."
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:360
+msgid "KL Code object B"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:369
+msgid "Resulting MyExt.fpm.json file"
+msgstr ""
+
+#: ..\..\source\ExtensionAuthoringGuide\cPlusPlusApis.rst:396
+msgid ""
+"By default, kl methods that return values are const. You may have a class "
+"that declares methods that take non-const reference arguments and perform "
+"computation returning the results in the args. To declare a KL function that"
+" is also cost, simply append a ?e??f as the end of the function name."
+msgstr ""
+
+#~ msgid ""
+#~ "KL objects must be referenced by at least once by an owning class or node to"
+#~ " ensure that they are not destroyed. By maintaining references to objects, "
+#~ "you can guarantee that they will not be destroyed, and can control when they"
+#~ " will eventually be freed. For systems of interdependent classes see "
+#~ "‘Managing Data ownership and bidirectional relationships’ below."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Mapping of public members from KL to C++ is not automatic. There is no "
+#~ "facility in KL to detect when a KL Object’s or Struct’s member value changes"
+#~ " to automatically synchronize values to the mapped C++ class or struct. "
+#~ "Ideally all interactions with a struct or class occur through public "
+#~ "methods(except in the ‘Simple Data-Container Structs’ example provided "
+#~ "below)."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Note: If 2 classes reference each other, then neither class will ever be "
+#~ "destroyed due to the cyclic reference. A Owner object should reference its "
+#~ "‘owned’ objects, and those ‘owned’ objects should maintain simple ‘Ref’ "
+#~ "pointers back to the owners. Ref pointers must be manually maintained. If "
+#~ "the pointer is not nulled and the owner is destroyed, the pointer will "
+#~ "become garbage and cause a crash if accessed. Cleanup is required to ensure "
+#~ "your code is stable under all conditions. ."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "By default, kl methods that return values are const. You may have a class "
+#~ "that declares methods that take non-const reference arguments and perform "
+#~ "computation returning the results in the args. To declare a KL function that"
+#~ " is also cost, simply append a ‘?’ as the end of the function name."
+#~ msgstr ""
