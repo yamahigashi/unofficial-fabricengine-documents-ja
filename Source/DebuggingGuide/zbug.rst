@@ -10,7 +10,7 @@ By default KL code is compiled with full optimization and with no debug info in 
 
 When a Fabric application is launched from zBug the following environment variables are automatically set:
 
-.. code-block:: none
+.. code-block:: sh
 
   export FABRIC_DEBUG=2
   export FABRIC_OPT_TYPE=2
@@ -22,13 +22,13 @@ Launching an Application
 
 The current version of zBug requires launching the Fabric application within zBug in order to provide debugging capabilities. For most applications this is as simple as pre-pending zBug to the command being run:
 
-.. code-block:: none
+.. code-block:: sh
 
   zBug <application> [<arg1> <arg2> ...]
 
 For example debugging a Fabric Engine Python application could be launched like this:
 
-.. code-block:: none
+.. code-block:: sh
 
   zBug python MyFabricApp.py
 
@@ -37,7 +37,7 @@ Debugging Maya
 
 Maya under Linux can't be launched as above however Maya provides a -d command-line option that allows it to be started within a debugger. Running Maya inside zBug is as simple as providing this option and pointing it to zBug:
 
-.. code-block:: none
+.. code-block:: sh
 
   maya -d zBug
 
@@ -50,7 +50,7 @@ If zBug is launched without any command-line parameters it will look for a Fabri
 
 If there is more than one Fabric application running on the system at a given time then the user can supply a -p parameter to zBug to specify the process ID of the Fabric process to connect to. In the case of Fabric running within a DCC, this process ID will normally be that of the DCC itself.
 
-.. code-block:: none
+.. code-block:: sh
 
   zBug -p <pid>
 
@@ -58,7 +58,7 @@ Once connected with zBug debugging can occur as it would for a process launched 
 
 Depending on the version of Linux you're using you may need to run zBug as root if you're attaching to a process. You will see an error message like this if you try to run as a normal user:
 
-.. code-block:: none
+.. code-block:: sh
 
   error: attach failed: Operation not permitted
 

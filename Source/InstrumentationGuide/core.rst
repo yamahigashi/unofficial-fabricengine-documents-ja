@@ -54,7 +54,7 @@ The result of the :samp:`stopInstrumentation` method when passed the :samp:`"raw
 Example
 -------
 
-.. code-block:: none
+.. code-block:: pycon
   
   $ python 
   Python 2.7.1 (r271:86832, Jul 31 2011, 19:30:53) 

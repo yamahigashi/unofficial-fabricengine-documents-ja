@@ -12,7 +12,7 @@ We will assume that you have already obtained a |FABRIC_PRODUCT_NAME| client han
 
 For the rest of this section, we will assume that the client handle is referred to by the Python variable named `client`.
 
-.. code-block:: none
+.. code-block:: pycon
   
   $ python
   >>> import FabricEngine.Core
@@ -34,7 +34,7 @@ You can also register a custom type to then use for RTVals; see :ref:`DGPG.regis
 
 For the purposes of these examples, we will register a custom structure MyType with a custom constructor and a couple of methods:
 
-.. code-block:: none
+.. code-block:: pycon
   
   >>> myTypeSource = """
   ... function MyType(String string, UInt32 uint32) {
@@ -72,7 +72,7 @@ Creating an RTVal
 
 To create a type, call the method ``client.RT.types.<TypeName>(<constructor parameters>)``:
 
-.. code-block:: none
+.. code-block:: pycon
   
   >>> myRTVal = client.RT.types.MyType("Hello", 42)
   >>> print myRTVal
@@ -84,7 +84,7 @@ parameters.  You can see that RTVals have an automatic conversion to a string th
 
 If you try to construct with a non-existing constructor, you'll get an exception:
 
-.. code-block:: none
+.. code-block:: pycon
   
   >>> client.RT.types.MyType("foo")
   Traceback (most recent call last):
@@ -102,7 +102,7 @@ Getting Python values from an RTVal
 By default RTVal methods and members are represented in Python by an 'RTVal' type, however in the case of simple types such as integers and strings a user may want these to be represented by the default Python type. The getSimpleType() method can be used on any
 RTVal to return its value as a simple Python type, or 'None' if there is no default Python type that can be used to represent it:
 
-.. code-block:: none
+.. code-block:: pycon
 
   >>> print myRTVal
   <RTVal:{string:"Hello",uint32:42}>
@@ -122,7 +122,7 @@ To call a method, simply calling the method, passing arguments.
   
   Method calls in Python have a quirk where the name of the return type, as a string, must be passed as a first parameter; if there is no return type for the method, pass the empty string.  This quirk will be fixed in a future version of |FABRIC_PRODUCT_NAME|.
 
-.. code-block:: none
+.. code-block:: pycon
   
   >>> myRTVal.tweet('')
   [FABRIC:MT] Tweet tweet!  string='Hello' uint32=42
@@ -130,7 +130,7 @@ To call a method, simply calling the method, passing arguments.
 
 In addition to plain Python types like integers and strings, you can also pass other RTVals as arguments:
 
-.. code-block:: none
+.. code-block:: pycon
   
   >>> myRTVal2 = client.RT.types.MyType(", there", 71)
   >>> print(myRTVal2)
@@ -160,7 +160,7 @@ Interfacing with the Dependency Graph
 
 RTVals can be used to interface with the :ref:`dependency graph <DGPG>`.  You can use the ``node.getValue(<member>, <slice>)`` method to get a member value as an RTVal:
 
-.. code-block:: none
+.. code-block:: pycon
   
   >>> node = client.DG.createNode("node")
   >>> node.addMember("myType", "MyType")
@@ -170,7 +170,7 @@ RTVals can be used to interface with the :ref:`dependency graph <DGPG>`.  You ca
 
 Similarly, you can use the ``setValue(<member>, <slice>, <value>)`` method to set the value from an RTVal:
 
-.. code-block:: none
+.. code-block:: pycon
   
   >>> node.setValue("myType", 0, myRTVal)
   >>> print node.getValue("myType", 0)

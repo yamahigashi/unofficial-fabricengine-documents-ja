@@ -10,14 +10,14 @@ Node Creation
 
 Each node must have a unique name which is specified when it node is created.  The name of the node must not conflict with the name of any Event, EventHandler or Operator (see below).  To create a node, call ``fabricClient.DG.createNode``.
 
-.. code-block:: none
+.. code-block:: pycon
   
   >>> node = fabricClient.DG.createNode('vertices')
   >>> 
 
 The name of a node can be retrieved through the ``getName`` method.
 
-.. code-block:: none
+.. code-block:: pycon
   
   >>> node.getName()
   'vertices'
@@ -28,7 +28,7 @@ Node Members
 
 A Node has zero or more :dfn:`members`.  Each member has a name (a non-empty string), a type (referred to as the name of a registered type), and, optionally, a default value.  Members can be added to nodes with the ``addMember`` method and an object with details of all the members can be retrieved with the ``getMembers`` method.
 
-.. code-block:: none
+.. code-block:: pycon
   
   >>> node.addMember("position", "Vec3", Vec3(0.0, 0.0, 0.0))
   >>> node.getMembers()['position']
@@ -39,7 +39,7 @@ A Node has zero or more :dfn:`members`.  Each member has a name (a non-empty str
 
 Each member has a value, or in the case of a node with a slice count greater than one (see below), one value per slice.  The value of a member is retrieved using the ``getData`` method and set using the ``setData`` method.  Both methods take the member name as the first argument and the slice index as the second argument.
 
-.. code-block:: none
+.. code-block:: pycon
   
   >>> vars(node.getData('position', 0))
   {'y': 0, 'x': 0, 'z': 0}
@@ -57,7 +57,7 @@ Each Node has a :dfn:`slice count`.  Setting the slice count of a node to a numb
 
 The slice count for a node is set with the ``setSliceCount`` (or ``setSize``) method and retrieved with the ``getSliceCount`` (or ``getSize``) method.
 
-.. code-block:: none
+.. code-block:: pycon
   
   >>> node.getCount()
   1
@@ -93,7 +93,7 @@ Each node has zero or more named :dfn:`dependencies`; the dependency is another 
 
 Dependencies are added using the ``setDependency`` method, and dependencies of a node are retrieved using the ``getDependencies`` method.
 
-.. code-block:: none
+.. code-block:: pycon
   
   >>> anotherNode = fabricClient.DG.createNode("originalVertices")
   >>> node.setDependency(anotherNode, "original")
@@ -126,7 +126,7 @@ A node can be manually evaluated by calling the `evaluate` method.  Nodes are au
 
 - An EventHandler (see below) has an operator bound to the data in the node, and the EventHandler is executed
 
-.. code-block:: none
+.. code-block:: pycon
   
   >>> op = fabricClient.DG.createOperator("offsetPosition")
   >>> op.setEntryPoint("offset")

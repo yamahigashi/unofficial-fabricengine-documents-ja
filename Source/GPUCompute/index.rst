@@ -67,7 +67,7 @@ The ``CUDA_PATH`` environment variable must also be present on your system, thou
 
 A sample environment setup for CUDA compute on Linux might look like this:
 
-.. code-block:: none
+.. code-block:: sh
 
   export FABRIC_FEATURE_CUDA_COMPUTE=1
   export CUDA_PATH=/usr/local/cuda

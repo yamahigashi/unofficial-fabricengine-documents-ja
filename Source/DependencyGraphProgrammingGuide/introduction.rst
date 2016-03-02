@@ -15,7 +15,7 @@ Examples
 
 This document includes lots of examples showing |FABRIC_PRODUCT_NAME| core commands and the resulting output.  The commands are presented as if entered on the Python command line:
 
-.. code-block:: none
+.. code-block:: pycon
   
   >>> print "Hello, world!"
   Hello, world!
@@ -28,7 +28,7 @@ The ``fabricClient`` Object
 
 An object (``fabricClient`` in the examples below) through which you can manipulate the core can be obtained as follows in Python and Node.js:
 
-.. code-block:: none
+.. code-block:: pycon
   
   >>> import FabricEngine.Core
   [FABRIC] Fabric Engine Core version |FABRIC_VERSION|

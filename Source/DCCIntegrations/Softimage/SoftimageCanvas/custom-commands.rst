@@ -507,7 +507,7 @@ FabricCanvasGetBindingID
 
     The following VBScript gets the FabricCore DFGBinding ID of a null and logs it.
 
-    .. code-block:: none
+    .. code-block:: aspx-vb
 
       Option Explicit
 
@@ -530,7 +530,7 @@ FabricCanvasGetContextID
 
     The following VBScript gets the FabricCore client contextID and logs it.
 
-    .. code-block:: none
+    .. code-block:: aspx-vb
 
       Option Explicit
 
@@ -842,7 +842,7 @@ FabricCanvasOpPortMapDefine
 
     The following VBScript creates a null with a Canvas graph (the graph draws a red torus into the viewport using the inline drawing) and exposes the RGB channels as XSI parameters.
 
-    .. code-block:: none
+    .. code-block:: aspx-vb
 
       Option Explicit
 
@@ -916,7 +916,7 @@ FabricCanvasOpPortMapQuery
 
     The following VBScript logs the entire port mapping of a Canvas operator.
 
-    .. code-block:: none
+    .. code-block:: aspx-vb
 
       Option Explicit
 
