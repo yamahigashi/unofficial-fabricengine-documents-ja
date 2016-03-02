@@ -13,7 +13,7 @@ msgstr ""
 
 #: ..\..\source\RTValProgrammingGuide\what.rst:4
 msgid "What is an RTVal?"
-msgstr ""
+msgstr "RTVal とは何であるか"
 
 #: ..\..\source\RTValProgrammingGuide\what.rst:6
 msgid ""
@@ -22,22 +22,24 @@ msgid ""
 "Type Value\"; \"Registered Type\" is the historical name in "
 "|FABRIC_PRODUCT_NAME| for KL types."
 msgstr ""
+":dfn:`RTVal` とは、KL言語によって管理されるデータのコンテナです。\"RTVal\" はもともと \"Registered Type "
+"Value\" をくっつけた言葉で、もともとは歴史的に |FABRIC_PRODUCT_NAME| での KLの型を表す名称でした。"
 
 #: ..\..\source\RTValProgrammingGuide\what.rst:8
 msgid ""
 "An RTVal has three key attributes: they have a type, they have a value, and "
 "they are reference-counted."
-msgstr ""
+msgstr "RTVal には３つの重要な特質があります：『型』を持ち, 『値』をもち, 『参照カウント』されます。"
 
 #: ..\..\source\RTValProgrammingGuide\what.rst:11
 msgid "RTVals have Types"
-msgstr ""
+msgstr "RTVal は型を持つ"
 
 #: ..\..\source\RTValProgrammingGuide\what.rst:13
 msgid ""
 "Every RTVal has a fixed KL type.  The type is specified when the RTVal is "
 "created and cannot be changed."
-msgstr ""
+msgstr "RTVal はあるKLの型を持ちます。この型は RTVal作成時に指定し、以後不変です。"
 
 #: ..\..\source\RTValProgrammingGuide\what.rst:15
 msgid ""
@@ -45,22 +47,25 @@ msgid ""
 "internal, predefined type or a user-defined type such as a structure or an "
 "object."
 msgstr ""
+"RTVal はどのようなKLの型でも \"ほぼ\"  [#almost]_ 取れます。型は internalな型でも事前定義された型でも、ユーザ定義の型 "
+"―構造体あるいはオブジェクトでも可能です。"
 
 #: ..\..\source\RTValProgrammingGuide\what.rst:17
 msgid ""
 "The exceptions are types that \"internal\" types for interacting with other,"
 " non-KL parts of the system, such as ``Container``."
 msgstr ""
+"ただし例外があり、\"internal\" 型のうち他 ―システムのうち非KLなものと相互作用するもの、例えば ``Container`` は不可能です。"
 
 #: ..\..\source\RTValProgrammingGuide\what.rst:20
 msgid "RTVals have Values"
-msgstr ""
+msgstr "RTVal は値を持つ"
 
 #: ..\..\source\RTValProgrammingGuide\what.rst:22
 msgid ""
 "Every RTVal has a value.  The initial value of the RTVal is determined when "
 "the RTVal is created."
-msgstr ""
+msgstr "RTVal は値を持ちます。初期値はRTVal作成時に決定されます。"
 
 #: ..\..\source\RTValProgrammingGuide\what.rst:24
 msgid ""
@@ -70,27 +75,31 @@ msgid ""
 "when an RTVal is destroyed, its :ref:`destructor <KLPG.destructor>` is "
 "called."
 msgstr ""
+"KL言語内での値であるため、RTVal は他のデータと同様のライフサイクル処理を遂げます。RTVal が作られると、その型の :ref:`コンストラクタ "
+"<KLPG.constructor>` が呼ばれます。おなじように破棄時にはそれらの型の :ref:`デストラクタ <KLPG.destructor>` "
+"が呼ばれます。"
 
 #: ..\..\source\RTValProgrammingGuide\what.rst:26
 msgid ""
 "The value of an RTVal can change, usually through one of two mechanisms:"
-msgstr ""
+msgstr "RTVal の値は変更可能です。つうじょう以下2つのうちいずれかです："
 
 #: ..\..\source\RTValProgrammingGuide\what.rst:28
 msgid ""
 "A (:ref:`read-write <KLPG.method.this-type>`) method of the RTVal's type is "
 "called on the RTVal; or"
 msgstr ""
+"RTVal の型の (:ref:`read-write <KLPG.method.this-type>`)メソッドをそのRTValで呼び出す。あるいは"
 
 #: ..\..\source\RTValProgrammingGuide\what.rst:30
 msgid ""
 "The RTVal is passed to another method or function call taking an `io` "
 "argument."
-msgstr ""
+msgstr "RTVal を他のメソッド（もしくは関数）へ `io` 引数として渡す。"
 
 #: ..\..\source\RTValProgrammingGuide\what.rst:33
 msgid "RTVals are Reference-Counted"
-msgstr ""
+msgstr "RTVal は参照カウントされる"
 
 #: ..\..\source\RTValProgrammingGuide\what.rst:35
 msgid ""
@@ -99,3 +108,6 @@ msgid ""
 "dropped, it is destroyed.  In both Python and C++, assigning one RTVal value"
 " to another simply copies a reference to the same underlying object."
 msgstr ""
+"RTVal は参照カウントされるオブジェクトであり、 |FABRIC_PRODUCT_NAME| "
+"クライアントが所持します。あるRTValへの最後の参照カウントが落ちると、そのRTVal は破棄されます。 Python や "
+"C++内であれば、あるRTVal値 から他への代入とは、単純な「オブジェクト」への参照と同様な参照のコピーです。"

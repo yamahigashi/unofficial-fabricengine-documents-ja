@@ -13,17 +13,19 @@ msgstr ""
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:4
 msgid "Using RTVals from C++ Applications"
-msgstr ""
+msgstr "RTVals のC++アプリからの利用"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:6
 msgid ""
 "The section explains how to use RTVals within a |FABRIC_PRODUCT_NAME| client"
 " application written in C++ using the :ref:`CAPI <CAPIPG>` interface."
 msgstr ""
+"この節では RTVal を :ref:`CAPI <CAPIPG>` インタフェースを使いC++で書かれた |FABRIC_PRODUCT_NAME| "
+"クライアントアプリからどのように扱うかについて説明します。"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:9
 msgid "RTVals are Copy-by-Reference"
-msgstr ""
+msgstr "RTVal は参照によるコピー（Copy-by-Reference）"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:11
 msgid ""
@@ -33,24 +35,27 @@ msgid ""
 "you wish to copy an RTVal by value, use the :cpp:func:`RTVal::Construct` "
 "call."
 msgstr ""
+"RTVal は C++中、 :cpp:class:`RTVal` クラスのインタフェースとして表現されます。RTValはC++中では参照によるコピー（Cop"
+"y-by-Reference）です。つまり、あるRTValを他のRTVal型の変数へ代入する場合、結果として2は同じRTValを指すことになります。RTVa"
+"lを<値によるコピー>するには、 :cpp:func:`RTVal::Construct` を呼びます。"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:14
 msgid "Common Tasks"
-msgstr ""
+msgstr "一般的タスク"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:17
 msgid "Constructing RTVals"
-msgstr ""
+msgstr "RTVal のコンストラクト"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:19
 msgid "RTVals can be created in one of several ways:"
-msgstr ""
+msgstr "RTVal は以下のうちどれかにより作成します："
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:21
 msgid ""
 "RTVals can be constructed using one of the :code:`Construct...` methods of "
 "the :cpp:class:`RTVal` class."
-msgstr ""
+msgstr "RTVal を  :cpp:class:`RTVal` クラスの :code:`Construct...` メソッドを呼び、コンストラクト"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:23
 msgid ""
@@ -59,12 +64,16 @@ msgid ""
 "element values.  In most cases the returned RTVal is a copy of the member or"
 " element data."
 msgstr ""
+":cpp:class:`RTVal` クラスのメソッドを、既存のRTVal ――例えば構造体、オブジェクト、配列、辞書などの型―― "
+"メンバ（もしくは要素）の値を得るために呼ぶ。大抵の場合、戻りRTVal はメンバ（もしくは要素）データのコピーになります。"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:25
 msgid ""
 "The value of a member of a DG node (or other DGContainer) can be obtained "
 "through the :cpp:func:`DGContainer::getMemberSliceValue` call"
 msgstr ""
+"DGノード (もしくは他のDGContainer)のメンバの値を、 :cpp:func:`DGContainer::getMemberSliceValue`"
+"  を呼び出し、得ます。"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:27
 msgid ""
@@ -72,6 +81,8 @@ msgid ""
 "method, passing the existing RTVal as the sole argument for the construction"
 " call."
 msgstr ""
+"RTValのコピーをコンストラクトするには、 :cpp:func:`RTVal::Construct` メソッドを使用します。既存の RTVal "
+"を唯一の引数としてわたします。"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:31
 msgid ""
@@ -82,10 +93,13 @@ msgid ""
 "must instead call :cpp:func:`RTVal::callMethod` to invoke the :code:`clone` "
 "method."
 msgstr ""
+"これらの方法による RTVal のコンストラクトは、KLでのコピーコンストラクションと同じです。つまり "
+"参照渡し（pass-by-reference）では、可変長配列や辞書型は、RTValがそれらをコピーしようと、同じ通底するデータを参照したままとなります。デ"
+"ータをコピーするのであれば、 :cpp:func:`RTVal::callMethod` を呼び出し、 :code:`clone` メソッドを呼びます。"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:34
 msgid "Obtaining C++ Equivalents for Simple RTVal Data"
-msgstr ""
+msgstr "C++ で 単純なRTValデータの同等物を得る"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:36
 msgid ""
@@ -94,46 +108,51 @@ msgid ""
 "probably use the :code:`is....` methods first to check that the type is as "
 "expected, otherwise an exception will be thrown."
 msgstr ""
+"C++ での単純なRTValのデータに相当するものを取得するには、 :cpp:class:`RTVal` クラスの :code:`get...` "
+"メソッドを使います。 :code:`is....` メソッドによりその型があるか先にチェックするようにしましょう。さもないと例外が発生するかもしれません。"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:39
 msgid "Setting RTVals from Simple C++ Data"
-msgstr ""
+msgstr "C++ の単純なデータの RTValへの設定"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:41
 msgid ""
 "You can set members, array elements, and dictionary values using the "
 ":code:`set...` methods of the :cpp:class:`RTVal` class."
 msgstr ""
+"<メンバ、配列の要素、辞書>の値を :cpp:class:`RTVal`  クラスの :code:`set...` メソッドを使い設定できます。"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:44
 msgid "Describing an RTVal"
-msgstr ""
+msgstr "RTVal の文字列表現"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:46
 msgid ""
 "Often for debugging it is convenient to obtain a description of an RTVal; "
 "use the :cpp:func:`RTVal::getDesc` method for this."
 msgstr ""
+"デバッグのため、ある RTVal を人間可読な状態で得ることができると大変便利です。そのような場合 :cpp:func:`RTVal::getDesc` "
+"メソッドを使いましょう。"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:49
 msgid "Calling Methods on RTVals"
-msgstr ""
+msgstr "RTVal のメソッド呼び出し"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:51
 msgid ""
 "Use the :cpp:func:`RTVal::callMethod` function to invoke a method on an "
 "RTVal."
-msgstr ""
+msgstr ":cpp:func:`RTVal::callMethod` 関数をつかい RTValのメソッドを呼びます。"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:54
 msgid "Working with Arrays"
-msgstr ""
+msgstr "配列との併用"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:56
 msgid ""
 "If an RTVal's type is an array type, you can use the array methods to work "
 "with it:"
-msgstr ""
+msgstr "ある RTVal型 が配列型であれば、配列メソッドを適用できます："
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:58
 msgid ":cpp:func:`RTVal::isArray`"
@@ -153,13 +172,13 @@ msgstr ""
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:64
 msgid "Working with Dictionaries"
-msgstr ""
+msgstr "辞書との併用"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:66
 msgid ""
 "If an RTVal's type is a dictionary type, you can use the array methods to "
 "work with it:"
-msgstr ""
+msgstr "ある RTVal型 が辞書型であれば、辞書メソッドを適用できます："
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:68
 msgid ":cpp:func:`RTVal::isDict`"
@@ -179,13 +198,13 @@ msgstr ""
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:74
 msgid "Working with Structures and Objects"
-msgstr ""
+msgstr "構造体,オブジェクトとの併用"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:76
 msgid ""
 "If an RTVal's type is a structure or an object, you can work with its "
 "members:"
-msgstr ""
+msgstr "ある RTval型 が構造体（あるいはオブジェクト）であれば、それらのメンバを使用できます："
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:78
 msgid ":cpp:func:`RTVal::isStruct`"
@@ -208,16 +227,19 @@ msgid ""
 "For objects, you can use the :cpp:func:`RTVal::isNullObject` to check if the"
 " object that is being reference is null."
 msgstr ""
+"オブジェクトの場合、 :cpp:func:`RTVal::isNullObject` をオブジェクトの参照が nullとなっていないかチェックできます。"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:86
 msgid "Working with Opaque Data"
-msgstr ""
+msgstr "Opaque データとの併用"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:88
 msgid ""
 "You can use RTVals of type :code:`Data` to pass opaque data pointers in and "
 "out of the core, through to extensions that you use them."
 msgstr ""
+":code:`Data` 型のRTval であれば、opaque データポイントとして Core "
+"外に渡すことができます。エクステンションに渡すなどに利用できます。"
 
 #: ..\..\source\RTValProgrammingGuide\capi.rst:90
 msgid ":cpp:func:`RTVal::isData`"
