@@ -13,7 +13,7 @@ msgstr ""
 
 #: ..\..\source\InstrumentationGuide\core.rst:2
 msgid "Core Instrumentation Interface"
-msgstr ""
+msgstr "Core計測機能のインタフェース"
 
 #: ..\..\source\InstrumentationGuide\core.rst:4
 msgid ""
@@ -21,10 +21,12 @@ msgid ""
 "through the :samp:`startInstrumentation` and :samp:`stopInstrumentation` "
 "methods that are available on Fabric client objects."
 msgstr ""
+"Fabric Engine の計測インタフェースへの最低レベルのアクセスは :samp:`startInstrumentation` , "
+":samp:`stopInstrumentation` メソッドを通して行います。Fabricクライアント上で使用可能です。"
 
 #: ..\..\source\InstrumentationGuide\core.rst:7
 msgid "The :samp:`startInstrumentation` Method"
-msgstr ""
+msgstr ":samp:`startInstrumentation` メソッド"
 
 #: ..\..\source\InstrumentationGuide\core.rst:9
 msgid ""
@@ -34,10 +36,13 @@ msgid ""
 "continue to be collected until the :samp:`stopInstrumentation` method is "
 "called."
 msgstr ""
+":samp:`startInstrumentation` メソッドは、Fabric Engine "
+"に計測データ収集開始の合図を送ります。パラメータは取りません。この関数を同じ箇所で2度呼び出しても意味がありません。 "
+":samp:`stopInstrumentation` メソッドを呼ぶまで、データを収集し続けます。"
 
 #: ..\..\source\InstrumentationGuide\core.rst:12
 msgid "The :samp:`stopInstrumentation` Method"
-msgstr ""
+msgstr ":samp:`stopInstrumentation` メソッド"
 
 #: ..\..\source\InstrumentationGuide\core.rst:14
 msgid ""
@@ -46,6 +51,8 @@ msgid ""
 "data.  It takes a single parameter whose value specifies the format of the "
 "data that is returned; it should be one of the following values:"
 msgstr ""
+":samp:`stopInstrumentation` メソッドは Fabric Engine "
+"に計測データ収集終了の合図を送り、収集したデータを返します。引数パラメータを一つとり、返り値のフォーマットを指定できます。以下のどれかの値のどれかです。"
 
 #: ..\..\source\InstrumentationGuide\core.rst:17
 msgid ":samp:`\"raw\"`"
@@ -55,7 +62,7 @@ msgstr ""
 msgid ""
 "Return the raw instrumentation data.  The format for this data is described "
 "below."
-msgstr ""
+msgstr "raw 計測データを返します。このフォーマットについては後述します。"
 
 #: ..\..\source\InstrumentationGuide\core.rst:20
 msgid ":samp:`\"svg\"`"
@@ -65,11 +72,11 @@ msgstr ""
 msgid ""
 "Return the data as an SVG-formatted string that is suitable for display in "
 "any SVG-enabled display widget."
-msgstr ""
+msgstr "SVG-フォーマットの文字列でデータを返します。SVGを表示可能なウィジェットであればどのようなものでも適しているでしょう。"
 
 #: ..\..\source\InstrumentationGuide\core.rst:23
 msgid "The Raw Data Format"
-msgstr ""
+msgstr "Raw データフォーマット"
 
 #: ..\..\source\InstrumentationGuide\core.rst:25
 msgid ""
@@ -77,18 +84,20 @@ msgid ""
 ":samp:`\"raw\"` argument is the raw instrumentation data.  Its format is as "
 "follows:"
 msgstr ""
+":samp:`stopInstrumentation` メソッドに :samp:`\"raw\"` "
+"引数を渡した結果。計測データの生データです。以下のフォーマットに従います。"
 
 #: ..\..\source\InstrumentationGuide\core.rst:27
 msgid ""
 "An array of :dfn:`thread objects` each of which are an object with the "
 "following members:"
-msgstr ""
+msgstr ":dfn:`thread objects` の配列。どのオブジェクトも以下のメンバを持ちます。"
 
 #: ..\..\source\InstrumentationGuide\core.rst:29
 msgid ""
 "An :samp:`\"n\"` member whose value, a string, is the name of the thread "
 "(eg. :samp:`\"Worker Thread 1\"`)"
-msgstr ""
+msgstr ":samp:`\"n\"` メンバ：値は文字列でスレッド名を表します。（例 :samp:`\"Worker Thread 1\"`)"
 
 #: ..\..\source\InstrumentationGuide\core.rst:31
 msgid ""
@@ -98,26 +107,28 @@ msgid ""
 " the order of the array.  Each time record is itself an array with the "
 "following elements, in order:"
 msgstr ""
+":samp:`\"s\"` メンバ：値は :dfn:`time records` の配列。どのサブ配列も Fabric Engine "
+"が計測に要したタイムレコードを示し、配列の格納順がタイムレコードの実行順となっています。各タイムレコードは以下の要素から成ります："
 
 #: ..\..\source\InstrumentationGuide\core.rst:33
 msgid "A :dfn:`duration` value (floating-point) measured in seconds"
-msgstr ""
+msgstr ":dfn:`duration` 値（浮動小数点数）：測定した秒"
 
 #: ..\..\source\InstrumentationGuide\core.rst:35
 msgid "A :dfn:`description` value (string)"
-msgstr ""
+msgstr ":dfn:`description` 値 (文字列)"
 
 #: ..\..\source\InstrumentationGuide\core.rst:37
 msgid ""
 "A :dfn:`nesting depth` value (non-negative integer), used internally by the "
 "time record keeping mechanism"
-msgstr ""
+msgstr ":dfn:`nesting depth` 値 （正の整数）：内部でタイムレコードを保持するメカニズムのために使用"
 
 #: ..\..\source\InstrumentationGuide\core.rst:39
 msgid ""
 "A :dfn:`category` value indicating where the operation was happening, having"
 " one of the following values:"
-msgstr ""
+msgstr ":dfn:`category` 値：どこで操作が起きたかを示し、以下のいずれかの値："
 
 #: ..\..\source\InstrumentationGuide\core.rst:43
 msgid ":samp:`0`"
@@ -127,7 +138,7 @@ msgstr ""
 msgid ""
 "Time spent was external to Fabric (ie. by the dynamic language) or used by a"
 " worker thread while idle"
-msgstr ""
+msgstr "Fabric 『外』での経過時間（例：動的言語など）あるいはワーカスレッドのアイドル時間"
 
 #: ..\..\source\InstrumentationGuide\core.rst:46
 msgid ":samp:`1`"
@@ -137,7 +148,7 @@ msgstr ""
 msgid ""
 "Time spent was internal to the Fabric Engine core itself but not in user "
 "code"
-msgstr ""
+msgstr "Fabric Engine core 自身が要する経過時間、ユーザコード『ではない』"
 
 #: ..\..\source\InstrumentationGuide\core.rst:49
 #: ..\..\source\InstrumentationGuide\core.rst:52
@@ -146,7 +157,7 @@ msgstr ""
 
 #: ..\..\source\InstrumentationGuide\core.rst:49
 msgid "Time spent was in user code (ie. KL operators)"
-msgstr ""
+msgstr "ユーザコードの消費する時間（KLオペレータなど）"
 
 #: ..\..\source\InstrumentationGuide\core.rst:52
 msgid ""
@@ -154,7 +165,9 @@ msgid ""
 "currently not used and all time spend in extensions shows up in the user "
 "category."
 msgstr ""
+"エクステンションの消費する時間。注意：上に書かれているようにこのカテゴリは現在、ユーザカテゴリに含まれるエクステンションに要する全ての時間を表すわけではあり"
+"ません。"
 
 #: ..\..\source\InstrumentationGuide\core.rst:55
 msgid "Example"
-msgstr ""
+msgstr "用例"
