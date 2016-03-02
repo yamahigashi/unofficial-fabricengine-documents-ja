@@ -33,39 +33,39 @@ http://docs.fabric-engine.com/FabricEngine/latest/HTML/index.html
 * [ ] ExtensionAuthoringGuide
 * [x] GettingStartedGuide
 * [x] GPUCompute
-* [ ] InstrumentationGuide
-* [ ] KLExtensionsGuide
-    * [ ] KLExtensionsGuide\Alembic
-    * [ ] KLExtensionsGuide\AlembicWrapper
-    * [ ] KLExtensionsGuide\Animation
-    * [ ] KLExtensionsGuide\Bullet
-    * [ ] KLExtensionsGuide\BulletHelpers
-    * [ ] KLExtensionsGuide\Characters
-    * [ ] KLExtensionsGuide\Containers
-    * [ ] KLExtensionsGuide\DFGHelpers
-    * [ ] KLExtensionsGuide\FabricInterfaces
-    * [ ] KLExtensionsGuide\FabricOBJ
-    * [ ] KLExtensionsGuide\FabricOGL
-    * [ ] KLExtensionsGuide\FabricStatistics
-    * [ ] KLExtensionsGuide\FabricSynchronization
-    * [ ] KLExtensionsGuide\Fbx
-    * [ ] KLExtensionsGuide\FbxHelpers
-    * [ ] KLExtensionsGuide\FileIO
-    * [ ] KLExtensionsGuide\Geometry
-    * [ ] KLExtensionsGuide\Images
-    * [ ] KLExtensionsGuide\InlineDrawing
-    * [ ] KLExtensionsGuide\JSON
-    * [ ] KLExtensionsGuide\Manipulation
-    * [ ] KLExtensionsGuide\Math
-    * [ ] KLExtensionsGuide\OpenImageIO
-    * [ ] KLExtensionsGuide\OSOGL
-    * [ ] KLExtensionsGuide\Parameters
-    * [ ] KLExtensionsGuide\Singletons
-    * [ ] KLExtensionsGuide\Util
-* [ ] KLProgrammingGuide
+* [x] InstrumentationGuide
+* [x] KLExtensionsGuide
+    * [x] KLExtensionsGuide\Alembic
+    * [x] KLExtensionsGuide\AlembicWrapper
+    * [x] KLExtensionsGuide\Animation
+    * [x] KLExtensionsGuide\Bullet
+    * [x] KLExtensionsGuide\BulletHelpers
+    * [x] KLExtensionsGuide\Characters
+    * [x] KLExtensionsGuide\Containers
+    * [x] KLExtensionsGuide\DFGHelpers
+    * [x] KLExtensionsGuide\FabricInterfaces
+    * [x] KLExtensionsGuide\FabricOBJ
+    * [x] KLExtensionsGuide\FabricOGL
+    * [x] KLExtensionsGuide\FabricStatistics
+    * [x] KLExtensionsGuide\FabricSynchronization
+    * [x] KLExtensionsGuide\Fbx
+    * [x] KLExtensionsGuide\FbxHelpers
+    * [x] KLExtensionsGuide\FileIO
+    * [x] KLExtensionsGuide\Geometry
+    * [x] KLExtensionsGuide\Images
+    * [x] KLExtensionsGuide\InlineDrawing
+    * [x] KLExtensionsGuide\JSON
+    * [x] KLExtensionsGuide\Manipulation
+    * [x] KLExtensionsGuide\Math
+    * [x] KLExtensionsGuide\OpenImageIO
+    * [x] KLExtensionsGuide\OSOGL
+    * [x] KLExtensionsGuide\Parameters
+    * [x] KLExtensionsGuide\Singletons
+    * [x] KLExtensionsGuide\Util
+* [x] KLProgrammingGuide
 * [x] KLStyleGuide
 * [x] KLToolGuide
 * [x] LicensingGuide
 * [ ] MapReduceProgrammingGuide
 * [x] ReleaseNotes
-* [ ] RTValProgrammingGuide
+* [x] RTValProgrammingGuide
