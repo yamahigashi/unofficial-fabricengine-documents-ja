@@ -13,7 +13,7 @@ msgstr ""
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:5
 msgid "Introduction"
-msgstr ""
+msgstr "導入"
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:7
 msgid ""
@@ -23,29 +23,33 @@ msgid ""
 "Python bindings; however, a sophisticated Fabric Platform application can "
 "interface directly to CAPI if needed."
 msgstr ""
+"Fabric Core C/C++ API, ――以下この文書では :dfn:`CAPI` と呼称―― は "
+"Fabricプラットフォームのアプリケーションスタックにとって最低レイヤの API です。 CAPIは Fabric Core Python "
+"バインディングへ、ネイティブ言語レイヤを提供するためにあります。ただし必要があれば Fabricプラットフォームアプリから CAPI "
+"へと直接やり取りすることもできます。"
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:11
 msgid "Example use cases where interfacing to CAPI might be desired include:"
-msgstr ""
+msgstr "CAPI とのやりとりが適した使用箇所例："
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:13
 msgid ""
 "Interfacing a Fabric Platform application with a third-party application "
 "whose plugin or extension API does not provide or provides a deficient "
 "Python API"
-msgstr ""
+msgstr "Fabric プラットフォームアプリ ⇔ Python APIを欠いたサードパーティ製アプリあるいはエクステンションAPI でのやりとり"
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:15
 msgid ""
 "Interfacing pre-built Fabric Platform content with a runtime engine such as "
 "a game engine"
-msgstr ""
+msgstr "事前ビルドされた Fabric プラットフォームコンテンツ ⇔ ゲームエンジンなどのようなランタイムエンジン でのやりとり"
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:17
 msgid ""
 "Applications where the runtime overhead of the Python interpreter cannot be "
 "afforded"
-msgstr ""
+msgstr "Python インタプリタの実行オーバーヘッドを無視できないようなアプリ"
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:19
 msgid ""
@@ -60,10 +64,16 @@ msgid ""
 "all aspects of Fabric Platform and the Fabric Core can be found at "
 ":ref:`TOP`."
 msgstr ""
+"CAPI は <C言語、C++言語> と <Fabric Core> との直接のインタフェースです。CAPIにより "
+"C/C++言語のプログラム環境へと、Fabric Core を完全に公開しています。CAPIを用いることで例えば、Fabric Core "
+"dependency graph を作成し、ノードグループへとデータを流し込み、KLオペレータを起動させ、結果をビューポートへと描画、さらにはさらなる作業の"
+"ために実行結果を保存することさえできます。Fabric Core の機能全てが利用可能です。Fabric "
+"プラットフォームの強力なエクステンション機構も含みます。このガイドでは、Fabric Coreの基礎概念を前提とします。Fabricプラットフォームと "
+"Fabric Core についての文書の全容 :ref:`TOP` から確認できます。"
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:22
 msgid "One API, Two Interfaces"
-msgstr ""
+msgstr "一つのAPI, 二つのインタフェース"
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:24
 msgid ""
@@ -76,6 +86,11 @@ msgid ""
 "the C++ language interface when possible.  Both interfaces link with exactly"
 " the same shared library (DLL)."
 msgstr ""
+"CAPI はピュア C なAPI ――C++インタフェースをインライン化し、C++アプリからも利用容易にしつつ―― "
+"として実装されています。つまりリンクにまつわる問題を最小限にとどめています。Fabric "
+"プラットフォームのサポートする環境上での、Cのリンクインタフェースは、C++のそれよりもより良くコントロールされているためです。C++ "
+"インタフェースはしたがって C++ プログラマの利便性のために存在します。もちろんこれはプログラマ皆にとって偉大な利便性です。可能な限りこちらを使いましょう"
+"。C,C++どちらのインタフェースも、同じ共有ライブラリ（DLL)にリンクします。"
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:26
 msgid ""
@@ -83,10 +98,12 @@ msgid ""
 " C++ varieties.  There are a few key differences in the usage of C versus "
 "the C++ APIs, which we discuss in detail below."
 msgstr ""
+"このガイド内で API について言及した場合、C と C++ 両方のバリエーションが常に存在します。この2つの間には、いくつか重要な違いがあります。以下に記"
+"述します。"
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:29
 msgid "Work in Progress"
-msgstr ""
+msgstr "作業進行中"
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:31
 msgid ""
@@ -99,14 +116,18 @@ msgid ""
 "functionality is available through CAPI you can always resort to looking at "
 "the CAPI header file :file:`$FABRIC_DIR/include/FabricEngine/FabricCore.h`."
 msgstr ""
+"この文書は現在、まだ作業途上にあります。いくつもセクションが抜けています。ですがコード掘り下げたいのであれば、CAPIをためしてみたり、サンプルをコピーした"
+"りすることは可能です。 :ref:`build-env` では、CAPIを使用しCAPIヘッダがどこにあるかなどの、サンプルコードのビルド方法を解説します。"
+"このサンプルは、CAPIアプリケーションを作成する際の土台となり、CAPIを使って何ができるのかについての確認にもなるでしょう。CAPI ヘッダファイルは "
+":file:`$FABRIC_DIR/include/FabricEngine/FabricCore.h` から。"
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:34
 msgid "The Road Ahead"
-msgstr ""
+msgstr "ここからさきは"
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:36
 msgid "The remainder of the guide is laid out as follows:"
-msgstr ""
+msgstr "このガイドの残りは以下："
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:38
 msgid ""
@@ -115,6 +136,8 @@ msgid ""
 "examples.  The examples are a good starting point for seeing actually CAPI "
 "code in action."
 msgstr ""
+":ref:`build-env` ：はじめに CAPI アプリケーションのビルド環境の構築からです。CAPIサンプルがどこにあり、どうやってビルドするかにつ"
+"いてもここです。CAPI コードを実際に試してみるのに最適でしょう。"
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:40
 msgid ""
@@ -122,6 +145,8 @@ msgid ""
 ":ref:`c-interface` and :ref:`cpp-interface` describe the general practices "
 "for each of the interfaces."
 msgstr ""
+":ref:`c-interface` , :ref:`cpp-interface` ：上述の CAPIの <C と C++> "
+"二つのインタフェースです。この二つについての一般的な扱いについて記述します。"
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:42
 msgid ""
@@ -130,6 +155,9 @@ msgid ""
 ":ref:`clients` describes the lifecycle of a CAPI application, and explains "
 "how clients are created and used."
 msgstr ""
+":ref:`clients` Fabric Core の :dfn:`client` ：アプリケーション（もしくはプラグイン）が "
+"CAPIの使用前には、まずCAPIの初期化と Fabric Core の CAPI :dfn:`client` の作成を行う必要があります。 "
+":ref:`clients` では CAPI アプリケーションのライフサイクルと client の作成と使用方法について記述します。"
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:44
 msgid ""
@@ -138,6 +166,8 @@ msgid ""
 ":ref:`exceptions` describes in detail the error and exception handling "
 "mechanisms used by CAPI."
 msgstr ""
+"(未定) よいアプリケーションプログラミングテクニックというものは、つねに実行時のコードの結果をチェックし起こりうるエラーについて備えるものです。CAPIを"
+"使用した例外ハンドルについて詳述します :ref:`exceptions` "
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:46
 msgid ""
@@ -145,12 +175,16 @@ msgid ""
 "many cases to pass heterogenous data in and out of the Fabric Core.  "
 ":ref:`variants` details the use of variants."
 msgstr ""
+"(未定) CAPI での :dfn:`variant` と呼ばれる基本型について取り扱います。ヘテロジニアスなデータを、Fabric Core "
+"外へと受け渡す際によく用います。 :ref:`variants`  に詳述します。"
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:48
 msgid ""
 "(TBD) :ref:`CAPIPG.registered-types` describes the interface to the "
 "registered types system that is provided by CAPI."
 msgstr ""
+"(未定) :ref:`CAPIPG.registered-types` で registered types システムへの "
+"CAPIを用いたインタフェースについて説明します。"
 
 #: ..\..\source\CAPIProgrammingGuide\intro.rst:50
 msgid ""
@@ -159,3 +193,6 @@ msgid ""
 ":`dg-objects` provides a full description of the dependency graph API that "
 "is provided by CAPI."
 msgstr ""
+"(未定) Fabric Core への主なインタフェースは、Fabric Core :dfn:`dependency graph` "
+"によって扱われる個々のオブジェクを通して成り立ちます。 :ref:`dg-objects` ではCAPIの dependency graph API "
+"について詳述します。"

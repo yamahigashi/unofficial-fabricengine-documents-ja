@@ -21,6 +21,8 @@ msgid ""
 "used.  The API is designed for use by a visual programming interface, but "
 "can be driven directly by scripting."
 msgstr ""
+"Canvas Core API は Canvas を扱うための最低レベルのインタフェースです。このAPIはビジュアルプログラミングインタフェースから使われる"
+"ことを意図しますが、スクリプトから直接作動させることも可能です。"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:12
 msgid ""
@@ -28,10 +30,12 @@ msgid ""
 "the letters :code:`DFG` for historical reasons.  Occasionally Canvas may be "
 "referred to as \"the DFG\" in documentation."
 msgstr ""
+"Canvas Core API の使用するオブジェクトは通常、 :code:`DFG` で始まります。（歴史的経緯によります）そのようなわけで、文書内 "
+"Canvas を \"the DFG\" と指す箇所があります。"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:16
 msgid "The main classes that the Canvas Core API exposes are:"
-msgstr ""
+msgstr "Canvas Core API の公開するメインのクラス："
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:18
 msgid ""
@@ -39,6 +43,8 @@ msgid ""
 "different Canvas executables and bindings, such as the undo/redo stack and "
 "the preset tree, and is also the interface to use to create new bindings."
 msgstr ""
+":code:`FabricCore::DFGHost`: 複数のCanvas 実行ファイル、バインディング間で共有する全てのオブジェクトを管理します。und"
+"o/redo スタックや、プリセットツリー、新しいバインディングの作成インタフェースなどです。"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:22
 msgid ""
@@ -48,20 +54,23 @@ msgid ""
 "subgraphs, but fundamentally all computation happens at the level of "
 "bindings."
 msgstr ""
+":code:`FabricCore::DFGBinding`: 実行可能なバインディングです。引数の集まりと実際にCanvas内で行う計算処理へのインタフェ"
+"ースです。バインドされる実行ブツはサブグラフを伴う非常に複雑なグラフ1個でもよいが、基本的にはすべての演算はそれぞれのバインディングレベルで行われます。"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:28
 msgid ""
 ":code:`FabricCore::DFGExec`: this object is a Canvas executable, which can "
 "be either a graph of nodes or a KL function."
 msgstr ""
+":code:`FabricCore::DFGExec`: Canvasの実行ブツです。ノードからなるグラフであったり、KL関数であった理します。"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:31
 msgid "Each of these objects has its API details laid out below."
-msgstr ""
+msgstr "これらのオブジェクトの API については詳細を後述します。"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:34
 msgid "Canvas Core API in Python"
-msgstr ""
+msgstr "Canvas Core API と Python"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:36
 msgid ""
@@ -71,6 +80,9 @@ msgid ""
 "the Canvas Core unit tests located under "
 ":file:`$FABRIC_DIR/Test/Core/Canvas`."
 msgstr ""
+"Canvas Core API は全て Python の FabricEngine.Core モジュールを通じて利用可能です。呼び出しはCAPI "
+"呼び出しと完全に 1対1対応しています。Canvas Core へ Python API からアクセスするには  "
+":file:`$FABRIC_DIR/Test/Core/Canvas` の単体テストのファイルを参照し用例を確認してください。"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:45
 msgid "Canvas Core API Enums"
@@ -82,7 +94,7 @@ msgstr ""
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:53
 msgid "The type of a port in Canvas.  One of:"
-msgstr ""
+msgstr "Canvas のポートの型。次のどれか："
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:55
 msgid ":code:`DFGPortType_In`"
@@ -102,7 +114,7 @@ msgstr ""
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:64
 msgid "The type of an executable in Canvas.  One of:"
-msgstr ""
+msgstr "Canvas 内で実行されるモノの型、次のいずれか："
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:66
 msgid ":code:`DFGExecType_Graph`"
@@ -118,31 +130,31 @@ msgstr ""
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:74
 msgid "The type of a node in a Canvas graph.  One of:"
-msgstr ""
+msgstr "Canvas グラフに存在するノードの型、次のいずれか："
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:76
 msgid ":code:`DFGNodeType_Inst` - an instance of an executable"
-msgstr ""
+msgstr ":code:`DFGNodeType_Inst` - 実行されるモノのインスタンス"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:77
 msgid ":code:`DFGNodeType_Get` - a variable get node"
-msgstr ""
+msgstr ":code:`DFGNodeType_Get` - 変数取得ノード"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:78
 msgid ":code:`DFGNodeType_Set` - a variable set node"
-msgstr ""
+msgstr ":code:`DFGNodeType_Set` - 変数設定ノード"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:79
 msgid ":code:`DFGNodeType_Var` - a variable definition node"
-msgstr ""
+msgstr ":code:`DFGNodeType_Var` - 変数定義ノード"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:80
 msgid ":code:`DFGNodeType_User` - a user node"
-msgstr ""
+msgstr ":code:`DFGNodeType_User` - ユーザノード"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:86
 msgid "Canvas Core API Classes"
-msgstr ""
+msgstr "Canvas Core API クラス"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:120
 msgid ""
@@ -150,29 +162,31 @@ msgid ""
 ":code:`FabricCore::DFGExecType_Graph` or "
 ":code:`FabricCore::DFGExecType_Func`."
 msgstr ""
+"実行されるモノの型を返す :code:`FabricCore::DFGExecType_Graph` か "
+":code:`FabricCore::DFGExecType_Func` のどちらか"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:123
 msgid "The type of the executable"
-msgstr ""
+msgstr "実行されるモノ型"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:130
 msgid ""
 "Returns the type of a node in a graph.  See :cpp:enum:`DFGNodeType` for "
 "various node types."
-msgstr ""
+msgstr "グラフ中のノードの型を返す, ノードの型については :cpp:enum:`DFGNodeType`"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:133
 msgid "The name of the node in the graph"
-msgstr ""
+msgstr "グラフ中のノードの名前"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:134
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:285
 msgid "The type of the node"
-msgstr ""
+msgstr "ノードの型"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:141
 msgid "Returns the host to which the executable belongs."
-msgstr ""
+msgstr "実行されるモノが属するホストを返す"
 
 #: ..\..\source\CAPIProgrammingGuide\canvas.rst:143
 msgid ":code:`FabricCore::DFGHost`"
