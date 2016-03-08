@@ -13,7 +13,7 @@ msgstr ""
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:4
 msgid "Understanding the Sample Extension"
-msgstr ""
+msgstr "サンプルエクステンションの解説"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:6
 msgid ""
@@ -22,10 +22,12 @@ msgid ""
 "fit together you will understand the basics of how extensions work in "
 "|FABRIC_PRODUCT_NAME|."
 msgstr ""
+"この節では前節でビルドしたサンプルエクステンションに含まれるそれぞれのファイルを一通り見ていきましょう。一連のファイルがお互いどのように機能するかを通し、 "
+"|FABRIC_PRODUCT_NAME| におけるエクステンションがどのように機能するかを理解していきます。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:9
 msgid ":file:`HelloWorld.fpm.json`"
-msgstr ""
+msgstr ":file:`HelloWorld.fpm.json`"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:11
 msgid ""
@@ -33,6 +35,8 @@ msgid ""
 "the sample extension it is the file :file:`HelloWorld.fpm.json`, and its "
 "contents are:"
 msgstr ""
+"エクステンションに唯一必須であるファイルは、エクステンションマニフェストファイルです；サンプルでは :file:`HelloWorld.fpm.json` "
+"が該当、具体的内容は以下"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:20
 msgid ""
@@ -43,6 +47,10 @@ msgid ""
 "in KL or using the :code:`exts` parameter when creating a "
 "|FABRIC_PRODUCT_NAME| core client."
 msgstr ""
+"エクステンションマニフェストは、 :file:`.fpm.json` で終わらせます。 :file:`.fpm.json` "
+"の前にくっつくファイル名はすなわち <エクステンション名> を表します。このエクステンション名が、KLにおける :samp:`require "
+"{ExtensionName};` 文によるエクステンションインクルードのエクステンション、あるいは |FABRIC_PRODUCT_NAME| "
+"coreクライアント作成時の :code:`exts` パラメータになります。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:22
 msgid ""
@@ -50,6 +58,9 @@ msgid ""
 "<http://json.org/>`_), and must be a single JSON object.  The two members of"
 " the JSON object are :code:`libs` and :code:`code`; both are optional."
 msgstr ""
+"マニフェストファイルの内容は JSON形式で単一JSONオブジェクトとして記述します (see `http://json.org/ "
+"<http://json.org/>`_)  サンプルにおけるJSONオブジェクトは :code:`libs` and :code:`code`; "
+"これら2つはオプショナルです。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:24
 msgid ""
@@ -61,6 +72,10 @@ msgid ""
 "built on.  This means that you can (and should) use the same SConstruct file"
 " to build the extension on all the platforms the extension supports."
 msgstr ""
+":code:`libs` の値は、文字列, 文字列の配列 どちらも許容します。どの文字列も、エクステンションをなす共有ライブラリのベース名です。実際の共有ラ"
+"イブラリのファイル名はプラットフォームに依存します。サンプルの :file:`SConstruct` "
+"ファイルが、共有ライブラリのビルドをビルドを実行するプラットフォームに沿う正しいファイル名で扱います。つまりエクステンションがサポートする全プラットフォーム"
+"に対し、同じ SConstruct ファイルによってビルドを行うことができます。（可能というだけでなく勿論そうすべきです）"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:26
 msgid ""
@@ -69,6 +84,9 @@ msgid ""
 "files are compiled and included into KL code wherever the :samp:`require "
 "{ExtensionName};` statement is used to include the extension."
 msgstr ""
+":code:`code` の値は KL ソースファイルのファイル名（文字列単体でも配列でも）です( ``.kl`` "
+"なエクステンションも含みます)。これらはコンパイルされ KLコードに含まれることになり :samp:`require {ExtensionName};` "
+"文によりエクステンションインクルードに使用します。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:28
 msgid ""
@@ -81,15 +99,21 @@ msgid ""
 "referred to by the :code:`libs` and :code:`code` members in the extension "
 "manifest be in the same directory as the extension manifest file itself."
 msgstr ""
+"|FABRIC_PRODUCT_NAME| ではエクステンションの検出にエクステンションパス中に存在する :file:`.fpm.json` "
+"ファイルを用います。エクステンションパスとは、環境変数 :envvar:`FABRIC_EXTS_PATH` "
+"に列挙された全てのディレクトリを含みます。このディレクトリには |FABRIC_PRODUCT_NAME| "
+"をインストールした際のプラットフォームに依存した基本エクステンションが存在する、事前定義されたディレクトリを含みます。 "
+"|FABRIC_PRODUCT_NAME| では、 エクステンションマニフェスト中の :code:`libs` と :code:`code` "
+"メンバは同じエクステンションマニフェストと同じディレクトリに存在しなければなりません。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:30
 msgid ""
 "For more information about :file:`.fpm.json` files, see :ref:`EAG.fpm`."
-msgstr ""
+msgstr ":file:`.fpm.json` についてのより詳細な情報は :ref:`EAG.fpm` を参照してください"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:33
 msgid ":file:`HelloWorld.kl`"
-msgstr ""
+msgstr ":file:`HelloWorld.kl`"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:35
 msgid ""
@@ -101,6 +125,10 @@ msgid ""
 "top of the operator code.  The contents of the :file:`HelloWorld.kl` file "
 "are simple::"
 msgstr ""
+":file:`HelloWorld.kl` ソースファイルは、 :samp:`require {ExtensionName};` により、他の "
+"KLソースからこのエクステンションを名前で読み込んでくる際にインクルードすることになる、 KL ソースコードです。換言すると "
+":code:`HelloWorld`  エクステンションの提供する機能を、とある KLオペレータで使用したいのであれば、オペレータのコードの一番上に  "
+"``require HelloWorld;`` とするとインクルードできます。 :file:`HelloWorld.kl` ファイルの内容は単純です::"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:39
 msgid ""
@@ -112,6 +140,11 @@ msgid ""
 "have complex internal naming.  The ``= \"GetHelloWorldString\"`` notation is"
 " simply telling KL the symbol name in the shared library."
 msgstr ""
+"これは KL文であり、ネイティブコードの共有ライブラリで定義された関数を参照しています。一番重要な点は、 ``= "
+"\"GetHelloWorldString\"`` です：これは KLに、「この関数はネイティブコード共有ライブラリの中で "
+":code:`GetHelloWorldString` として呼ばれるものだ」ということを示しています。これを欠いてしまうと、ライブラリをロードした途端、リ"
+"ンク問題をひきおこします。なぜならディフォルトでは KL関数は複雑な内部名を持つためです。 ``= \"GetHelloWorldString\"`` "
+"という記法は KLへと共有ライブラリでのシンボル名を単純に伝達しているわけです。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:41
 msgid ""
@@ -120,6 +153,9 @@ msgid ""
 "everything else available in KL.  You can use the same ``= \"...\"`` "
 "notation to bind methods to code within the native code shared library."
 msgstr ""
+"注意点：KLソースファイルは 型定義（ `struct` キーワードを使用）や、メソッド定義、オペレータ定義、その他 KL "
+"で可能なことは全てを含めることができます。先ほど同じ ``= \"...\"`` 記法によってメソッドとネイティブコード共有ライブラリでのコードをバインドす"
+"ることができます。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:44
 msgid ":file:`HelloWorld.cpp`"
