@@ -13,22 +13,22 @@ msgstr ""
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:7
 msgid "The CAPI Build Environment"
-msgstr ""
+msgstr "CAPIビルド環境"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:10
 msgid "CAPI Prerequisites"
-msgstr ""
+msgstr "CAPIの事前準備"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:12
 msgid ""
 "In order to use CAPI in your applications, you need a basic build "
 "environment.  This build environment is operating system-dependent as "
 "follows:"
-msgstr ""
+msgstr "アプリケーションでCAPIを使用するため、まずは基本的なビルド環境が必要です。各OSによって変わります:"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:15
 msgid "Windows"
-msgstr ""
+msgstr "Windows"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:15
 msgid ""
@@ -38,10 +38,13 @@ msgid ""
 "possible to make CAPI work with non-Visual Studio compilers for Windows but "
 "it is not supported."
 msgstr ""
+"Visual Studio 2010 以降を必要とします。\"Express\" だと 32bit CAPIアプリ, プラグインしかビルドできませんが、 "
+"\"Professional\" バージョンであれば 64-bitビルド に使えます。（訳注：\"Express\"であっても WinSDK8.1A "
+"を入れれば64bitビルド可能ですが煩雑な設定が必要になります）非VSコンパイラであっても CAPI のビルドは可能ですがサポートいたしません。"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:18
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:18
 msgid ""
@@ -50,14 +53,17 @@ msgid ""
 "version of gcc, and may also work with other C and C++ compilers as well, "
 "but this is not supported."
 msgstr ""
+"C and/or C++ コンパイラのインストールが必要です。CAPI は gcc version "
+"4.xコンパイラによりビルドしています。現代的なバージョンの gcc, あるいは他の "
+"C,C++コンパイラであっても機能するはずです。ただしサポートいたしません。"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:21
 msgid "Mac OS X"
-msgstr ""
+msgstr "Mac OS X"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:21
 msgid "You must have installed Xcode 4.2 or later."
-msgstr ""
+msgstr "Xcode 4.2 以降のインストールが必要です。"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:23
 msgid ""
@@ -65,6 +71,8 @@ msgid ""
 " on your system; however, these libraries are automatically satisfied as "
 "part of the Fabric Core installer process."
 msgstr ""
+"さらに、CAPI が依存するライブラリがシステムにインストールされている必要があります。ただしこの条件は Fabric Core "
+"のインストールプロセスの一部として自動的に満たされます。"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:25
 msgid ""
@@ -74,10 +82,13 @@ msgid ""
 "installed using your usual package management system for Linux or through "
 "MacPorts under Mac OS X (see http://www.macports.org/)."
 msgstr ""
+"最後に、CAPIサンプルを（変更なしに）ビルドするには、ビルドツールの :dfn:`SCons` バージョン2.x.x が必要です。Scons "
+"配布ファイルは http://www.scons.org/ にあります。OSに存在する一般的なパッケージマネージャを使用してもよいでしょう。Linux "
+"であれば apt や yum, Mac OS X であればMacPorts  (see http://www.macports.org/)"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:28
 msgid "CAPI Files and the :envvar:`FABRIC_DIR` Environment Variable"
-msgstr ""
+msgstr "CAPIファイル と 環境変数 :envvar:`FABRIC_DIR`"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:30
 msgid ""
@@ -88,28 +99,31 @@ msgid ""
 ":file:`$FABRIC_DIR` (the value of the :envvar:`FABRIC_DIR` environment "
 "variable) as follows:"
 msgstr ""
+"CAPI は Fabric Engine と一緒にシステムにインストールされます。スクリプト中では、環境変数 :envvar:`FABRIC_DIR` "
+"をシステム上のFabric Engine をインストールしたディレクトリに設定します。インストール処理において、CAPI ファイル群は "
+":file:`$FABRIC_DIR` (環境変数 :envvar:`FABRIC_DIR` の値)のサブフォルダにコピーされます。具体的には以下:"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:32
 msgid ""
 "The CAPI header files are installed under the :file:`$FABRIC_DIR/include` "
 "subdirectory"
-msgstr ""
+msgstr "CAPI header ファイルは :file:`$FABRIC_DIR/include` サブフォルダ以下"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:34
 msgid ""
 "The CAPI shared library is stored under the :file:`$FABRIC_DIR/lib` "
 "subdirectory"
-msgstr ""
+msgstr "CAPI sharedライブラリ は :file:`$FABRIC_DIR/lib` サブフォルダ以下"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:36
 msgid ""
 "The CAPI sample source code is installed under the "
 ":file:`$FABRIC_DIR/CAPI/Samples` subdirectory"
-msgstr ""
+msgstr "CAPI のサンプルソースファイルは :file:`$FABRIC_DIR/CAPI/Samples` サブフォルダ以下"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:39
 msgid "CAPI Library Linking"
-msgstr ""
+msgstr "CAPI ライブラリリンク"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:41
 msgid ""
@@ -120,6 +134,10 @@ msgid ""
 "you will be linking against a dynamic library (a .so file on Linux, .dylib "
 "on OSX or .lib + .dll on Windows) then you will defined FEC_SHARED."
 msgstr ""
+"CAPI をコンパイルする際、CAPIライブラリの種類に応じ、 `FEC_STATIC` or `FEC_SHARED` "
+"どちらを使用するか定義します。CAPIライブラリと静的リンクするのであれば（Linux/OSX であれば .a ファイル ／ Windowsであれば "
+"static .lib） `FEC_STATIC` と設定します。一方動的ライブラリとして(Linux であれば .so ファイル ／ OSXであれば "
+".dylib ／ Windowsであれば .lib + .dll） `FEC_SHARED` と定義しましょう。"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:43
 msgid ""
@@ -127,10 +145,12 @@ msgid ""
 "dllimport and is maintained across Linux and OSX for consistency and future "
 "compatibility."
 msgstr ""
+"これらの定義を使用すると、 Windowsであれば dllimport によりAPIコールが最適化され、LinuxやOSXであれば一貫性と将来に渡る互換性を"
+"保つことができます。"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:46
 msgid "Building the Samples"
-msgstr ""
+msgstr "サンプルのビルド"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:48
 msgid ""
@@ -138,28 +158,31 @@ msgid ""
 "  They can be found under the :file:`$FABRIC_DIR/CAPI/Samples` directory and"
 " currently consist of the following:"
 msgstr ""
+"CAPI にはサンプルコードが付属しています。各OSでビルドと実行可能です。 :file:`$FABRIC_DIR/CAPI/Samples` "
+"ディレクトリにあり、現時点での内容は以下となっています:"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:52
 msgid ":file:`C/HelloWorld/...`"
-msgstr ""
+msgstr ":file:`C/HelloWorld/...`"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:52
 msgid "The C interface version of the \"HelloWorld\" application"
-msgstr ""
+msgstr "Cインタフェースを使用した \"HelloWorld\" アプリ"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:55
 msgid ":file:`CPP/HelloWorld/...`"
-msgstr ""
+msgstr ":file:`CPP/HelloWorld/...`"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:55
 msgid "The C++ interface version of the \"HelloWorld\" application"
-msgstr ""
+msgstr "C++ インタフェースを使用した \"HelloWorld\" アプリ"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:57
 msgid ""
 "It is recommended to make a copy of the desired source code directory into "
 "another location before building a sample rather than building it in place."
 msgstr ""
+"サンプルをビルドする前に、まずソースコードを別の場所へとコピーしておくことをお薦めします（サンプルディレクトリでそのままビルドするのではなく）。"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:59
 msgid ""
@@ -167,10 +190,12 @@ msgid ""
 "command line for you platform within the copy of the sample directory.  It "
 "will produce an executable that can be run from the sample build directory."
 msgstr ""
+"サンプルのビルドには、プラットフォームに応じたコマンドラインを開き、サンプルのコピーのあるディレクトリへ移動し :command:`scons` "
+"とコマンドを実行します。実行ファイルを作ります。サンプルのビルドディレクトリから実行可能です。"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:62
 msgid "Using CAPI With Other Build Systems and Projects"
-msgstr ""
+msgstr "CAPI を他のビルドシステムやプロジェクトから使用するには"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:64
 msgid ""
@@ -180,12 +205,15 @@ msgid ""
 "high level steps that are will need to be done for every C/C++ project or "
 "build system in which you wish to use CAPI.  They are:"
 msgstr ""
+"他のビルドシステムやプロジェクトと、CAPIの使用を統合するには、C/C++ コンパイラとリンカに幾つかオプションを設定する必要があります。OSや、コンパイ"
+"ラに依存する工程に従うのではなく、Fabricではより高次のステップを提供しています。CAPIを使用するどの C/C++ "
+"プロジェクトやビルドシステムにも適用できます。"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:66
 msgid ""
 "Add the directory :file:`$FABRIC_DIR/include` to the include (header) search"
 " path."
-msgstr ""
+msgstr ":file:`$FABRIC_DIR/include` を include (header) 検索パスに追加する"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:68
 msgid ""
@@ -195,9 +223,12 @@ msgid ""
 ":samp:`{X}` and :samp:`{Y}` are the major and minor versions of the Fabric "
 "Core that are installed (eg. ``1.5``)."
 msgstr ""
+":file:`$FABRIC_DIR/lib` にある CAPI ライブラリ (.lib/.so) を追加する。共有ライブラリの名前はOSと "
+"CAPIバージョン により変わりますが、:samp:`FabricCore-{X}.{Y}` :samp:`{X}` , :samp:`{Y}` は "
+"インストールした Fabric Core のメジャー、マイナーバージョン(eg. ``1.5``)となります。"
 
 #: ..\..\source\CAPIProgrammingGuide\build-env.rst:70
 msgid ""
 "Be sure to include the CAPI header at the top of any C/C++ source files that"
 " use CAPI as follows:"
-msgstr ""
+msgstr "CAPI ヘッダを C/C++ ソース・ファイルの最上部で確実にインクルードします。以下のようにします:"
