@@ -8,6 +8,9 @@ http://docs.fabric-engine.com/FabricEngine/latest/HTML/index.html
 
 ## 翻訳へのご協力のお願い
 
+* 誤りや気になる表現について見かけた際は issue にご登録ください
+* 翻訳プロジェクトへのご参加は yamahigashi 宛までご連絡ください
+* PR を直で送っていただいても大歓迎です
 
 
 ## 翻訳ステータス
@@ -69,3 +72,11 @@ http://docs.fabric-engine.com/FabricEngine/latest/HTML/index.html
 * [ ] MapReduceProgrammingGuide
 * [x] ReleaseNotes
 * [x] RTValProgrammingGuide
+
+
+## Credit contributors, translators
+
+翻訳された文書の全ての権利は Fabric Software社に帰属します。
+TKCM
+[github/emadurandal](https://github.com/emadurandal)
+[github/yamahigashi](https://github.com/yamahigashi)
