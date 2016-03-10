@@ -47,7 +47,7 @@ The kl-fileexample is the same as the kl-example directive, just that it uses an
 
 .. code-block:: rst
 
-    .. kl-fileexample:: ${FABRIC_SCENE_GRAPH_DIR}/Test/Exts/Singletons/Singletons_Test1.kl
+    .. kl-fileexample:: ${FABRIC_SCENE_GRAPH_DIR}/Tests/Singletons/Singletons_Test1.kl
 
 .. _kl_css_directive:
 The kl-css directive
