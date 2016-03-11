@@ -13,7 +13,7 @@ msgstr ""
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:4
 msgid "The Extension Manifest File"
-msgstr ""
+msgstr "エクステンション・マニフェストファイル"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:6
 msgid ""
@@ -22,6 +22,9 @@ msgid ""
 "the extension is, by definition, the first part of the manifest file's "
 "filename."
 msgstr ""
+"|FABRIC_PRODUCT_NAME| のエクステンションには必ずエクステンション・マニフェストファイルを含めます。このファイルは、ファイル名 "
+":file:`{ExtensionName}.fpm.json` の形式にします。エクステンション名を,定義に通り, "
+"マニフェストファイルのファイル名の一部とします。"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:8
 msgid ""
@@ -34,38 +37,46 @@ msgid ""
 " if omitted it will be treated as if it were an empty list of strings.  The "
 ":code:`code` member is required."
 msgstr ""
+"ファイル名が示すように、エクステンション・マニフェストファイルはJSON形式です。JSONフォーマットについては http://json.org/ "
+"を参照してください。マニフェストファイルの内容は、２つのメンバを持った JSONオブジェクトです。それぞれ :code:`libs` と "
+":code:`code` です。どちらの値も、文字列配列あるいはただの文字列です。ただの文字列の場合、要素イチの文字列配列と同じ扱いになります。 "
+":code:`libs` メンバは必須ではありません。抜かして記述した場合、空リストとして扱われます。対して :code:`code` メンバは必須です。"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:10
 msgid ""
 "The following is an example :file:`{ExtensionName}.fpm.json` extension "
 "manifest file:"
-msgstr ""
+msgstr "次はマニフェストファイルの例 :file:`{ExtensionName}.fpm.json` です:"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:27
 msgid "The :code:`version` Extension Versioning Specification (optional)"
-msgstr ""
+msgstr ":code:`version` ：エクステンション・バージョニングの指定（任意）"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:29
 msgid ""
 "The :code:`version` member specifies the version of the extension using a "
 "major, minor and revision number."
-msgstr ""
+msgstr ":code:`version` メンバでエクステンションのバージョンを指定します。<メジャー, マイナー, リビジョンナンバー> 形式です。"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:31
 msgid ""
 "For more information on how to load a specific version in KL please refer to"
 " :ref:`KLPG.require.versioning`."
 msgstr ""
+"KLから特定のバージョンを指定してエクステンションを読み込む方法については :ref:`KLPG.require.versioning` "
+"を参照してください。"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:33
 msgid ""
 "You can find a unit test shipped with Fabric Engine which demonstrate this "
 "in :code:`Test/Core/Python/ext-versions.py`."
 msgstr ""
+"この事項についてデモンストレートする Fabric Engine に付属のユニットテストが "
+":code:`Test/Core/Python/ext-versions.py` にあります。"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:36
 msgid "The :code:`override` Extension Versioning Override (optional)"
-msgstr ""
+msgstr ":code:`override` ：エクステンション・バージョニングの上書き（任意）"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:38
 msgid ""
@@ -74,16 +85,21 @@ msgid ""
 "takes priority over others at runtime. For more information please refer to "
 ":ref:`KLPG.require.versioning`."
 msgstr ""
+":code:`override` メンバエクステンションの上書き（オーバライド）キーを指定します。このキーは実行時に複数のバージョンの中からどのバージョンを"
+"使用するかの優先順位を決定するために使用します。このメンバを使用するかどうかは任意です。詳細については、 "
+":ref:`KLPG.require.versioning` を参照してください。"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:40
 msgid ""
 "You can find a unit test shipped with Fabric Engine which demonstrate this "
 "in :code:`Test/Core/Python/ext-versions-override.py`."
 msgstr ""
+"この事項についてデモンストレートする Fabric Engine に付属のユニットテストが "
+":code:`Test/Core/Python/ext-versions-override.py` にあります。"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:43
 msgid "The :code:`dfgPresets` Canvas Presets Specification (optional)"
-msgstr ""
+msgstr ":code:`dfgPresets` ：Canvasプリセットの指定（任意）"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:45
 msgid ""
@@ -95,10 +111,15 @@ msgid ""
 " the example above all presets will show up below "
 ":code:`MyCompany.Exts.MyExtension`."
 msgstr ""
+":code:`dfgPresets` メンバは、エクステンションに付属する Canvasプリセットのディレクトリ,名前空間を指定するために用います。ディレク"
+"トリはマニフェストファイルからの相対パスで記述します。結果、presetPath下に "
+"Canvasプリセットの検索が絶対パスとして追加されます。このpresetPath とは "
+"Canvas内での名前空間として扱われ、上記の例では、プリセットが :code:`MyCompany.Exts.MyExtension` "
+"の配下に表示されます。"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:48
 msgid "The :code:`libs` Compiled Library Specification"
-msgstr ""
+msgstr ":code:`libs` ：コンパイル済みライブラリの指定"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:50
 msgid ""
@@ -107,6 +128,8 @@ msgid ""
 "  When the extension is loaded, these libraries are loaded in the given "
 "order."
 msgstr ""
+":code:`libs` メンバでは、共有ライブラリ（例 DLL)のリストを指定します。共有ライブラリとはエクステンションに必要な機能を提供するコンパイルさ"
+"れたコードを含むものです。エクステンションが読み込まれると、この共有ライブラリも与えられた順序で読み込まれます。"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:52
 msgid ""
@@ -114,6 +137,8 @@ msgid ""
 "load the given shared library.  For a given string :samp:`{LibName}` in the "
 "array of libraries, the filenames attempted are:"
 msgstr ""
+"|FABRIC_PRODUCT_NAME| core は共有ライブラリを読み込む際には、複数の名前で試行します。具体的にはライブラリ名 "
+":samp:`{LibName}` の文字列配列を与えた場合、試行するファイル名："
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:54
 msgid ""
@@ -122,16 +147,22 @@ msgid ""
 ":file:`lib{LibName}-Darwin-{ARCH}.dylib` (Mac OS X); :samp:`{ARCH}` is the "
 "system architecture, either ``x86`` or ``x86_64``."
 msgstr ""
+":file:`{LibName}-Windows-{ARCH}.DLL` (Windows), "
+":file:`lib{LibName}-Linux-{ARCH}.so` (Linux), "
+":file:`lib{LibName}-Darwin-{ARCH}.dylib` (Mac OS X); :samp:`{ARCH}` "
+"はシステムアーキテクチャ,  ``x86`` か ``x86_64`` のどちらか"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:56
 msgid ""
 "The file :file:`{LibName}.DLL` (Windows), :file:`lib{LibName}.so` (Linux) or"
 " :file:`lib{LibName}.dylib` (Mac OS X)"
 msgstr ""
+":file:`{LibName}.DLL` (Windows), :file:`lib{LibName}.so` (Linux), "
+":file:`lib{LibName}.dylib` (Mac OS X)"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:58
 msgid "The file :file:`{LibName}` without any prefix or suffix."
-msgstr ""
+msgstr ":file:`{LibName}` 単体で、接頭接尾語なし"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:60
 msgid ""
@@ -139,10 +170,12 @@ msgid ""
 "library from the directory that contains the "
 ":file:`{ExtensionName}.fpm.json` extension manifest file."
 msgstr ""
+"どのケースでも、|FABRIC_PRODUCT_NAME| core はエクステンション・マニフェストファイル "
+":file:`{ExtensionName}.fpm.json` に記載された共有ライブラリディレクトリから読み込もうとします。"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:63
 msgid "The :code:`code` KL Source Code Specification"
-msgstr ""
+msgstr ":code:`code` ：KLソースコードの指定"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:65
 msgid ""
@@ -151,6 +184,8 @@ msgid ""
 "the KL statement :samp:`require {ExtensionName};` is used in other KL source"
 " files."
 msgstr ""
+":code:`code` メンバでは、エクステンションに無くてはならないKLソースコードファイルのリストを指定します。これらソースコードは、KL文 "
+":samp:`require {ExtensionName};` を他の KLソースファイルから使用した際に、読み込まれます。"
 
 #: ..\..\source\ExtensionAuthoringGuide\fpm.rst:67
 msgid ""
@@ -162,3 +197,8 @@ msgid ""
 "file defines a type and a second uses the type in another type or function "
 "declaration, the second file should follow the first."
 msgstr ""
+"KLソースファイルは、エクステンション・マニフェストファイル :file:`{ExtensionName}.fpm.json` "
+"を含むディレクトリから直接読み込まれます。読み込み（コンパイル）順は、 :code:`code` "
+"に指定する配列の順です。したがって、ソースファイルが他のソースに依存している場合、読み込み順が極めて重要になります。依存する側を後ろにします。例えば、あるソ"
+"ースファイルにある型を定義したとし、ほかの２番めソースでその型をどこか他の型や関数定義内で使うとした場合、その２番目のファイルは１番目のファイルの後におきま"
+"す。"

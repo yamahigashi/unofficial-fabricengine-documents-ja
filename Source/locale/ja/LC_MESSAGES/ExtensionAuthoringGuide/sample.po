@@ -159,13 +159,14 @@ msgstr ""
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:44
 msgid ":file:`HelloWorld.cpp`"
-msgstr ""
+msgstr ":file:`HelloWorld.cpp`"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:46
 msgid ""
 "The file :file:`HelloWorld.cpp` contains the C++ source code for the native "
 "code shared library.  Its contents are:"
 msgstr ""
+":file:`HelloWorld.cpp` ソースファイルには ネイティブコード共有ライブラリの C++ コードが含まれ明日。内容は以下のとおりです:"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:64
 msgid ""
@@ -173,6 +174,8 @@ msgid ""
 " all the definitions for the the |FABRIC_PRODUCT_NAME| EDK (Extension "
 "Development Kit)."
 msgstr ""
+":code:`#include \"HelloWorld.h\"` の行では C++ヘッダファイル ―  |FABRIC_PRODUCT_NAME| "
+"EDK (Extension Development Kit) のための全定義の詰まったヘッダファイルのインクルードを行います。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:66
 msgid ""
@@ -184,6 +187,11 @@ msgid ""
 " C++ functions.  For more information about :command:`kl2edk`, see "
 ":ref:`EAG.kl2edk`."
 msgstr ""
+"このヘッダファイル :file:`HelloWorld.h` は、:file:`HelloWorld.kl` を元に :command:`kl2edk` "
+"ユーティリティにより生成されます; この振舞は :file:`SConstruct` ビルドスクリプトからも自動で行われます。 "
+":command:`kl2edk` コマンドは、KLソールファイルで使用されている全 <カスタム構造体, オブジェクト, インタフェース型>を "
+"C++での表現へと生成します。関数プロトタイプについてもどうように C++関数へと変換されます。 :command:`kl2edk` についての詳細は "
+":ref:`EAG.kl2edk` を参照してください。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:68
 msgid ""
@@ -191,6 +199,8 @@ msgid ""
 "functions and types without prefixing them with the EDK namespace; this is "
 "purely a notational convenience."
 msgstr ""
+":code:`using namespace Fabric::EDK;` の行では、EDK関数と型を "
+"EDKネームスペース無しに参照できるようにします。これは単に記法を楽にするためです。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:70
 msgid ""
@@ -199,6 +209,8 @@ msgid ""
 "the name of the extension.  Its purpose is to implement internal functions "
 "that are used to load the extension."
 msgstr ""
+":code:`IMPLEMENT_FABRIC_EDK_ENTRIES` の行は、エクステンションの中で１度だけ記述する必要があるものです。h基数を一つとり"
+"、エクステンション名をわたします。エクステンションのロードに必要となる内部関数の実装に使用します。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:72
 msgid ""
@@ -208,12 +220,15 @@ msgid ""
 "initialization process.  It allows you to inject one-time setup code into "
 "extensions."
 msgstr ""
+":code:`IMPLEMENT_FABRIC_EDK_ENTRIES` 呼び出しにはいくつか種類があり、 "
+":code:`IMPLEMENT_FABRIC_EDK_ENTRIES_WITH_SETUP_CALLBACK` "
+"とすると引数を二つとるようになります。初期化処理の最後に呼ばれる関数のアドレスをわたします。エクステンション中、１度限りのセットアップ処理を導入できます。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:74
 msgid ""
 "The remaining code is the definition of a function that is made available to"
 " KL.  There are several important points:"
-msgstr ""
+msgstr "コードの残りでは、KLで利用可能となる関数定義です。重要な点を幾つか:"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:76
 msgid ""
@@ -221,6 +236,8 @@ msgid ""
 "``FABRIC_EXT_EXPORT`` keyword.  The purpose of the keyword is to ensure that"
 " the function has an unmangled symbol name and the right calling convention."
 msgstr ""
+"KLでも使用可能な関数にするには、 ``FABRIC_EXT_EXPORT`` キーワードを頭につけます。キーワードを使用する目的は、この関数がアンマネージ"
+"ドなシンボル名を含み、正しく呼び出すための規則を持つということを明示するためです。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:78
 msgid ""
@@ -229,10 +246,13 @@ msgid ""
 "declaration :code:`function String GetHelloWorldString()`.  We will talk "
 "more about this in the section on calling conventions."
 msgstr ""
+":code:`KL::String` 型を第一パラメータとして使用する際には注意が必要です。KLの宣言 :code:`function String "
+"GetHelloWorldString()` 関数による戻り値がこの :code:`KL::String` "
+"型の値を解すことにも注意してください。呼び出し規則についてのセクションでより詳しく記述いたします。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:81
 msgid ":file:`test.py`"
-msgstr ""
+msgstr ":file:`test.py`"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:83
 msgid ""
@@ -241,12 +261,15 @@ msgid ""
 ":code:`GetHelloWorldString` function that is provided in the "
 ":code:`HelloWorld` extension."
 msgstr ""
+":file:`test.py` ファイルは Pythonソースファルです。単純な |FABRIC_PRODUCT_NAME| dependency "
+"graph を作成し、その dependency graphから :code:`HelloWorld` エクステンションの "
+":code:`GetHelloWorldString` 関数を呼び出します。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:85
 msgid ""
 "The first few lines of the file explicitly add the current directory to the "
 ":envvar:`FABRIC_EXTS_PATH` environment variable:"
-msgstr ""
+msgstr "ファイル最初のほうで明示的に、カレントディレクトリを環境変数 :envvar:`FABRIC_EXTS_PATH` へ設定します:"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:95
 msgid ""
@@ -256,6 +279,9 @@ msgid ""
 ":envvar:`FABRIC_EXTS_PATH` must be modified before the core client is "
 "created."
 msgstr ""
+"通常カスタムエクステンションは所定の決められた場所へとインストールします。この場所は環境変数 :envvar:`FABRIC_EXTS_PATH` "
+"により事前に設定した場所です。ただし、上記のように、Coreクライアント作成前であれば、 :envvar:`FABRIC_EXTS_PATH`  "
+"を設定し使用することが可能です。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:97
 msgid ""
@@ -263,6 +289,8 @@ msgid ""
 "directly with the core of |FABRIC_PRODUCT_NAME| as it is the easiest way to "
 "demonstrate the functionality of an extension:"
 msgstr ""
+"次の２行で、 |FABRIC_PRODUCT_NAME| クライアントを作成します。 |FABRIC_PRODUCT_NAME|  の "
+"Coreと直接やりとりをします。エクステンションの機能デモンストレーションするのに最適ですね。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:122
 msgid ""
@@ -272,6 +300,9 @@ msgid ""
 "code that is provided in the extension; in this case, the code in "
 ":file:`HelloWorld.kl`."
 msgstr ""
+"code:`require HelloWorld;`: この行では注意が必要です。この文は :code:`GetHelloWorldString` "
+"関数の宣言をするために必須です。require文 はエクステンションによって提供されるKLソースコードをまとめてインクルードします。このサンプルの場合、 "
+":file:`HelloWorld.kl` 中のコードです。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:124
 msgid ""
@@ -280,26 +311,28 @@ msgid ""
 ":code:`entry` operator to run which in turn calls the "
 ":code:`GetHelloWorldString` function in the extension:"
 msgstr ""
+"次の数行では、 :code:`String` 型のメンバを持つノードを作成、そのノードにオペレータをバインド、ノードを評価、しています。つまり "
+":code:`entry` オペレータを実行し、エクステンションの :code:`GetHelloWorldString` 関数を呼び出させます。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:137
 msgid ""
 "The next line verifies that the operator did in fact set the member to the "
 "right value:"
-msgstr ""
+msgstr "次の行で、オペレータがメンバを正しい値に設定したかどうか検証します。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:143
 msgid "Finally, we close the client so that the script will exit:"
-msgstr ""
+msgstr "最後にクライアントを閉じ、スクリプトを終了させます。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:150
 msgid ":file:`SConstruct`"
-msgstr ""
+msgstr ":file:`SConstruct`"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:152
 msgid ""
 "The :file:`SConstruct` file is used to build the extension.  The only lines "
 "of interest are the last ones:"
-msgstr ""
+msgstr ":file:`SConstruct` ファイルはエクステンションのビルドに使用します。最重要な箇所は、最後:"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:161
 msgid ""
@@ -310,6 +343,11 @@ msgid ""
 " input KL source files using the :command:`kl2edk` tool.  The resulting "
 ":file:`HelloWorld.h` is then included by :file:`HelloWorld.cpp`."
 msgstr ""
+"この行では、 :command:`scons` に「エクステンション名 :code:`HelloWorld` をネイティブコードソースファイル "
+":file:`HelloWorld.cpp` と :file:`HelloWorld.kl` "
+"KLソースコードを使用しビルドせよ」と指示しています。このビルドコマンドにより、入力となるKLソースファイルから :command:`kl2edk` "
+"を使用しヘッダファイル :file:`HelloWorld.h` が生成されます。結果、 :file:`HelloWorld.cpp` から "
+":file:`HelloWorld.h` がインクルードされます。"
 
 #: ..\..\source\ExtensionAuthoringGuide\sample.rst:104
 msgid ""
@@ -317,6 +355,8 @@ msgid ""
 ":code:`GetHelloWorldString` provided by the extension and stores the result "
 "in an :code:`io` parameter that is later bound to a node member:"
 msgstr ""
+"次の数行では、 KLオペレータを作成します。KLオペレータはエクステンションの :code:`GetHelloWorldString` を呼び、結果を "
+":code:`io` パラメータに保存、後の工程でノードメンバにバインドします:"
 
 #~ msgid ""
 #~ "The next several lines create an KL operator.  The KL operator calls the "
