@@ -77,6 +77,6 @@ http://docs.fabric-engine.com/FabricEngine/latest/HTML/index.html
 ## Credit contributors, translators
 
 翻訳された文書の全ての権利は Fabric Software社に帰属します。
-TKCM
-[github/emadurandal](https://github.com/emadurandal)
-[github/yamahigashi](https://github.com/yamahigashi)
+* TKCM
+* [github/emadurandal](https://github.com/emadurandal)
+* [github/yamahigashi](https://github.com/yamahigashi)
