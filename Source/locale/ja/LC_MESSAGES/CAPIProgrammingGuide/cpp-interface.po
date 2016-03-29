@@ -13,7 +13,7 @@ msgstr ""
 
 #: ..\..\source\CAPIProgrammingGuide\cpp-interface.rst:7
 msgid "The C++ Language Interface"
-msgstr ""
+msgstr "C++言語インタフェース"
 
 #: ..\..\source\CAPIProgrammingGuide\cpp-interface.rst:9
 msgid ""
@@ -22,17 +22,19 @@ msgid ""
 "chapter is not required reading if you do not plan on using the C++ language"
 " interface."
 msgstr ""
+"この節では、C++言語インタフェースを通じてCAPIを利用するアプリケーションから必要になる一般的なプラクティスについて深く掘り下げます。C++言語インタフ"
+"ェースの利用予定がないのであればこの節を読む必要はありません。"
 
 #: ..\..\source\CAPIProgrammingGuide\cpp-interface.rst:11
 msgid ""
 "Since C++ provides both object lifecycle management and exception features, "
 "there is much less work for a programmer to do when using CAPI's C++ "
 "interface."
-msgstr ""
+msgstr "C++ にはライフサイクル管理、例外機能両方あるので、CAPIのC++インタフェースを使用する際、プログラマの責務を軽減します。"
 
 #: ..\..\source\CAPIProgrammingGuide\cpp-interface.rst:14
 msgid "Namespacing"
-msgstr ""
+msgstr "名前空間"
 
 #: ..\..\source\CAPIProgrammingGuide\cpp-interface.rst:16
 msgid ""
@@ -44,14 +46,18 @@ msgid ""
 "(assuming the resulting symbol name does not conflict with other symbols in "
 "your program at compile time) by adding"
 msgstr ""
+"全ての C++ インタフェースのオブジェクト（クラス）,関数は、C++名前空間  ``FabricCore`` "
+"の中にあります。プログラマは、明示的な名前空間の使用か暗黙の使用どちらか選択できます。明示的な使用であれば、CAPI オブジェクト（関数）を "
+"``FabricCore::...`` プリフィクスを付け使用します。例: :cpp:class:`FabricCore::DGNode` "
+"暗黙の名前空間の使用であれば、プリフィクスを省略できます（ただし、コンパイル時、プログラム中、他のシンボルとの名前の衝突を起きさないようにしましょう）"
 
 #: ..\..\source\CAPIProgrammingGuide\cpp-interface.rst:22
 msgid "at the top of each source file that uses the CAPI C++ interface."
-msgstr ""
+msgstr "CAPI C++ インタフェースを使用するソースファイルの最初に記述します。"
 
 #: ..\..\source\CAPIProgrammingGuide\cpp-interface.rst:25
 msgid "Object Lifecycles"
-msgstr ""
+msgstr "オブジェクト生存サイクル"
 
 #: ..\..\source\CAPIProgrammingGuide\cpp-interface.rst:27
 msgid ""
@@ -59,10 +65,12 @@ msgid ""
 "they go out of scope when using the C++ interface to CAPI.  Scoping rules "
 "for CAPI C++ objects are the same as for any other C++ object."
 msgstr ""
+"CAPI C++インタフェース使用の際は、参照カウントオブジェクト,variant双方、スコープ外へといった時点で自動で開放されます。CAPI "
+"C++オブジェクトのスコープについての規則は、他のC++オブジェクトにならいます。"
 
 #: ..\..\source\CAPIProgrammingGuide\cpp-interface.rst:30
 msgid "Error Handling"
-msgstr ""
+msgstr "エラーハンドリング"
 
 #: ..\..\source\CAPIProgrammingGuide\cpp-interface.rst:32
 msgid ""
@@ -72,13 +80,17 @@ msgid ""
 "and can be caught using a standard ``catch ( FabricCore::Exception e ) { ..."
 " }`` statement.  For more information, see :ref:`exceptions`."
 msgstr ""
+"C++ インタフェースではエラーハンドリングに C++ 標準の例外ハンドリングを使用しています。CAPI "
+"C++インタフェースを使用する際、発生するエラーは :cpp:class:`FabricCore::Exception` 型の "
+"C++例外として送信します。これを通常の  ``catch ( FabricCore::Exception e ) { ... }`` "
+"ステートメントで補足することができます。より詳しくは :ref:`exceptions` を参照してください。"
 
 #: ..\..\source\CAPIProgrammingGuide\cpp-interface.rst:35
 msgid "Example"
-msgstr ""
+msgstr "用例"
 
 #: ..\..\source\CAPIProgrammingGuide\cpp-interface.rst:37
 msgid ""
 "The following example code shows the use of the C++ language interface to "
 "CAPI."
-msgstr ""
+msgstr "以下のサンプルコードで CAPIへの C++言語インタフェースの用例を示します。"

@@ -75,26 +75,30 @@ msgid ""
 "for manually managing the lifecycle of most of the objects returned from the"
 " C interface."
 msgstr ""
+"C言語では、オブジェクトが自動でスコープ外となる機構をそなえないため、Cのインタフェースを用いる CAPI "
+"プログラマーには、Cインタフェースから返すオブジェクトのライフサイクルを、手動で管理する責務があります。"
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:48
 msgid "Reference-Counted Objects"
-msgstr ""
+msgstr "参照カウントされるオブジェクト"
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:50
 msgid ""
 "All of the high-level objects in the C interface are reference-counted "
 "objects.  These objects include:"
-msgstr ""
+msgstr "Cインタフェースにある「高レベルオブジェクト」は全て参照カウントされます。以下を含みます："
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:52
 msgid "Clients (:c:type:`FEC_ClientRef`; see :ref:`clients`)"
-msgstr ""
+msgstr "Clients (:c:type:`FEC_ClientRef`; :ref:`clients` 参照)"
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:54
 msgid ""
 "Nodes, Operators, Bindings, Events and EventHandlers (:c:type:`FEC_NodeRef`,"
 " :c:type:`FEC_BindingRef`, etc.; see :ref:`dg-objects`)"
 msgstr ""
+"Nodes, Operators, Bindings, Events, EventHandlers (:c:type:`FEC_NodeRef`, "
+":c:type:`FEC_BindingRef`, etc.;  :ref:`dg-objects` 参照)"
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:56
 msgid ""
@@ -107,11 +111,16 @@ msgid ""
 "failing to call :c:func:`FEC_RefRelease` on all your reference-counted "
 "objects will result in memory and resource leaks at runtime!"
 msgstr ""
+"参照カウントされるオブジェクトは全て、型 :c:type:`FEC_Ref` の基本オブジェクトの 『インスタンス』です。さらに名前末尾に ``Ref`` "
+"と付与されています。参照カウントされるオブジェクトは常に、 *Create* あるいは *CreateWith...* (例 "
+":c:func:`FEC_ClientCreate`) とつけ作成します。不要になったのであればそのオブジェクトの "
+":c:func:`FEC_RefRelease` 関数をプログラマの責務として呼びだします。実行時の :c:func:`FEC_RefRelease` "
+"呼び出し失敗は、全参照カウントオブジェクトはメモリ、リソースリークを引き起こします。"
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:59
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:130
 msgid "API Reference"
-msgstr ""
+msgstr "APIレファレンス"
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:63
 msgid ""
@@ -122,6 +131,9 @@ msgid ""
 "releasing references once they are no longer in use will cause your program "
 "to leak memory and resources and/or hang on exit."
 msgstr ""
+"CAPIにおける一般的な参照型. 多くのCAPI関数でこの型を『継承』した参照を返す. (例参照 :c:type:`FEC_ClientRef` and "
+":c:type:`FEC_DGNodeRef`).  Cインタフェースを使用する際, 参照はプログラマが管理の責務を負う. "
+"不要になったのであれば参照を開放すること. さもないとメモリ、リソースのリークを起こし最悪終了時ハングする."
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:72
 msgid ""
@@ -129,6 +141,7 @@ msgid ""
 "for references they would otherwise return.  Passing this value to CAPI "
 "functions will result in an exception."
 msgstr ""
+"NULL参照の値. CAPI関数が失敗した際, 本来の戻り値のかわりにこの値を返す. CAPI関数へこのNULL参照の値を渡すと例外を発生する."
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:81
 msgid ""
@@ -137,10 +150,12 @@ msgid ""
 " the reference to be freed.  Calling this function on a FEC_NULL_REF "
 "reference does nothing."
 msgstr ""
+"参照を保持する; ある参照の参照カウントを一つ加算, 開放のためには :c:func:`FEC_RefRelease` をさらに一回追加で呼び出す. "
+"FEC_NULL_REF 参照に対しこの関数を呼び出しても何もなさない."
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:83
 msgid "This function is not usually needed."
-msgstr ""
+msgstr "この関数は通常必要となることはない."
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:91
 msgid ""
@@ -148,6 +163,8 @@ msgid ""
 "reference; if the reference count is then zero, the reference is freed.  "
 "Calling this function on a FEC_NULL_REF reference does nothing."
 msgstr ""
+"参照を開放する; ある参照の参照カウントを一つ減らす. 結果参照カウントがゼロ以下になる場合, 参照は開放される.  FEC_NULL_REF "
+"参照に対しこの関数を呼び出しても何もなさない."
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:93
 msgid ""
@@ -155,12 +172,13 @@ msgid ""
 "programmer when using the C interface to call this function on those "
 "references once they are no longer needed."
 msgstr ""
+"多くのCAPI関数が戻り値として参照型を返す; Cインタフェースを使用し, 不要となった参照に対しこれらの関数をよぶことはプログラマの責任である."
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:100
 msgid ""
 "Determines whether or not the given reference is null, ie. if its value is "
 "FEC_NULL_REF."
-msgstr ""
+msgstr "指定した参照が Nullかどうかを返す. つまりその値が FEC_NULL_REF かどうか."
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:108
 msgid "Variants"
@@ -174,6 +192,9 @@ msgid ""
 "are used in many calls to pass data in and out of the Fabric Core, and are "
 "covered in detail in :ref:`variants`."
 msgstr ""
+"参照カウントオブジェクトにはさらに、区別されたオブジェクトのクラス ―Cインタフェースで使用する際手動でライフサイクル管理を必要とする― がある。  "
+":dfn:`variant` がヘテロジニアス ―異種起源なデータの一般的なコンテナである。Fabric Core "
+"内外でのデータの受け渡しのための大部分の呼び出しにVariant(s) を使用しています。 :ref:`variants` で詳述します。"
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:112
 msgid ""
@@ -183,6 +204,10 @@ msgid ""
 "counted objects, not calling ``FEC_VariantDispose`` when variants are no "
 "longer needed will result in memory and resource leaks."
 msgstr ""
+"Variants は常に ``FEC_VariantInit...`` ではじまる呼び出しを使用し作成します。同様 "
+"``FEC_VariantDispose()`` ではじまる呼び出しにより（必要なくなったら）"
+"破棄します。参照カウントオブジェクトと同じように不要となったら必ず ``FEC_VariantDispose`` "
+"を呼びます。さもないとメモリ、リソースリークをひきおこします。"
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:114
 msgid ""
@@ -191,10 +216,13 @@ msgid ""
 "safe) to call ``FEC_VariantDispose``.  This makes error-handling code "
 "simpler."
 msgstr ""
+"このルールに特記すべき例外はありません: variant が nullである場合（つまり ``FEC_VariantIsNull()`` が true "
+"を返す）のであれば、``FEC_VariantDispose`` を呼ぶ必要はありません。（まだ安全ではあります）"
+"エラーハンドリングのコードを単純化できます。"
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:119
 msgid "Error Handling"
-msgstr ""
+msgstr "エラーハンドリング"
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:121
 msgid ""
@@ -206,24 +234,30 @@ msgid ""
 ":c:func:`FEC_GetLastExceptionCString`; this function returns NULL if there "
 "is no last exception."
 msgstr ""
+"C言語には（良い）一般的な例外機構が存在しないので、CAPI のCインタフェースでは例外機構の提供が限定されたものとなっています。つまり、プログラマが失敗す"
+"る可能性のある CAPIの呼び出し部分全ての箇所に例外をクエリする必要があります。CAPIでの『例外』"
+"とは例外を記述した単純なCの文字列です。例外を最後に捕捉することになるエントリ関数は、 "
+":c:func:`FEC_GetLastExceptionCString`; です。最終例外が存在しないのであれば NULL を返します。"
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:134
 msgid ""
 "Return the last exception as a C string.  If there is no exception, returns "
 "NULL."
-msgstr ""
+msgstr "最終例外を C文字列として戻す, 例外が存在しないのであれば NULL を返す."
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:138
 msgid ""
 "The value returned by this function is no longer value after a call to most "
 "CAPI functions, including :c:func:`FEC_ClearLastException`."
 msgstr ""
+"この関数が返す値は, コール後大半の CAPI関数 ― :c:func:`FEC_ClearLastException` "
+"を含むで非値（つまりなくなる）となる. "
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:146
 msgid ""
 "Return the length of the last exception string.  If there is no exception, "
 "returns 0."
-msgstr ""
+msgstr "最終例外の文字列の長さを戻す. 例外が無いのであれば, 0 を戻す."
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:153
 msgid ""
@@ -231,19 +265,22 @@ msgid ""
 "returns NULL.  If there is currently no exception, this function does "
 "nothing."
 msgstr ""
+"最終例外をクリアする. :c:func:`FEC_GetLastExceptionCString` は NULL を返す. "
+"最終例外がないのであれば何もなさない."
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:157
 msgid ""
 "The value returned from :c:func:`FEC_GetLastExceptionCString` is no longer "
 "valid after a call to this function."
 msgstr ""
+"この関数の呼び出し後は :c:func:`FEC_GetLastExceptionCString` の返す値は無効(invalid)なものとなる."
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:164
 msgid "C Interface Example"
-msgstr ""
+msgstr "Cインタフェースの例"
 
 #: ..\..\source\CAPIProgrammingGuide\c-interface.rst:166
 msgid ""
 "The following example code shows the use of the C language interface to "
 "CAPI."
-msgstr ""
+msgstr "以下のサンプルコードで CAPIへの C言語インタフェースの用例を示す."
