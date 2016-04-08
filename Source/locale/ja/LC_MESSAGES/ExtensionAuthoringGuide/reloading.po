@@ -13,7 +13,7 @@ msgstr ""
 
 #: ..\..\source\ExtensionAuthoringGuide\reloading.rst:4
 msgid "Extension Reloading"
-msgstr ""
+msgstr "エクステンションの再読み込み"
 
 #: ..\..\source\ExtensionAuthoringGuide\reloading.rst:8
 msgid ""
@@ -21,6 +21,8 @@ msgid ""
 " any DCC or in a standalone application. Right clicking on a Canvas node "
 "also provides the option of reloading any dependent extensions of that node."
 msgstr ""
+"KLエクステンションコードは、Fabric EngineインスタンスがDCC上で実行中であろうと、スタンドアロンアプリケーションとして実行中であろうと、いつ"
+"でも再読み込みができます。Canvas ノードの右クリックすると、そのノードの依存エクステンションのリロードオプションが表示されます。"
 
 #: ..\..\source\ExtensionAuthoringGuide\reloading.rst:10
 msgid ""
@@ -30,10 +32,13 @@ msgid ""
 "extensions should be safe as long as users are aware of the considerations "
 "mentioned below."
 msgstr ""
+"KLエクステンションの通常の再読み込みは以下のような状況で特に有用です。エクステンションの型, "
+"関数プロトタイプのメモリ上での配置が不変に保ったまま、既存関数の実装をアップデートしたい場合。エクステンションの再読み込みは下記の注意事項に気をつけるかぎり"
+"において安全です。"
 
 #: ..\..\source\ExtensionAuthoringGuide\reloading.rst:13
 msgid "API Functions"
-msgstr ""
+msgstr "API 関数"
 
 #: ..\..\source\ExtensionAuthoringGuide\reloading.rst:15
 msgid ""
@@ -47,10 +52,16 @@ msgid ""
 "then that extension will be reloaded from disk (or from the provided source "
 "code in the case of `RegisterKLExtension`)."
 msgstr ""
+"KLエクステンションの再読み込みに関連する API関数コードは、C APIの `FEC_ClientLoadExtension`,  "
+"`FEC_RegisterKLExtension`  と、C++ and Python APIには `Client::loadExtension()`, "
+"`RegisterKLExtension` があります。これらの関数とそのパラメータについてのより詳しい情報は :ref:`clients` "
+"参照してください。これらの関数の `reload` パラメータは比較的新しく追加されたものです。0に設定した場合: "
+"――過去にユーザがそのエクステンションを読み込もうとしていた場合―― 関数は既に読み込み済であるとエラーを出力する。1に設定した場合: "
+"そのエクステンションはディスク （あるいは `RegisterKLExtension` 関数であれば指定したソースコード）より再読み込みされる。"
 
 #: ..\..\source\ExtensionAuthoringGuide\reloading.rst:18
 msgid "Updating KL Type Member Layout"
-msgstr ""
+msgstr "KLの型のメンバのレイアウトをアップデート"
 
 #: ..\..\source\ExtensionAuthoringGuide\reloading.rst:20
 msgid ""
