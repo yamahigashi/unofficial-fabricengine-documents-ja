@@ -61,7 +61,7 @@ msgstr ""
 
 #: ..\..\source\ExtensionAuthoringGuide\reloading.rst:18
 msgid "Updating KL Type Member Layout"
-msgstr "KLの型のメンバのレイアウトをアップデート"
+msgstr "KL型のメンバのレイアウトのアップデート"
 
 #: ..\..\source\ExtensionAuthoringGuide\reloading.rst:20
 msgid ""
@@ -72,20 +72,23 @@ msgid ""
 "struct called 'MyStruct' while making a reload call will result in an error "
 "that looks like::"
 msgstr ""
+"あるKLの型の、メモリ上での表現あるいはメンバのレイアウトは、エクステンションのリロードでは変更できません。そのようなことをしてしまうとエラーとなるでしょう"
+"。KL型のメモリ上の表現を変更するには、すべてのCoreクライアントをいったん落とし再起動しましょう。例えば、ある構造体 'MyStruct' "
+"にメンバを追加し、そのままリロードしてしまうと以下のようなエラーが発生します::"
 
 #: ..\..\source\ExtensionAuthoringGuide\reloading.rst:27
 msgid "Updating KL Source Code"
-msgstr ""
+msgstr "KLソースコードのアップデート"
 
 #: ..\..\source\ExtensionAuthoringGuide\reloading.rst:29
 msgid ""
 "All extension KL source code can be updated when reloading an extension, "
 "however there are several important caveats to be aware of."
-msgstr ""
+msgstr "すべてのエクステンションのKLソースコードはエクステンションリロードするとアップデートされます。ただしいくつかの注意点があります。"
 
 #: ..\..\source\ExtensionAuthoringGuide\reloading.rst:32
 msgid "Extension Dependencies"
-msgstr ""
+msgstr "エクステンション間の依存"
 
 #: ..\..\source\ExtensionAuthoringGuide\reloading.rst:34
 msgid ""
@@ -94,10 +97,12 @@ msgid ""
 "`function` or as `inline` in the reloaded extension. For example if "
 "extension `Foo` looks like this::"
 msgstr ""
+"リロードをかけるエクステンションに他のものに依存がある場合、リロードするエクステンションの関数がどのように呼ばれるか ―― `function`, "
+"`inline` どちらのマークがついているかに応じて振る舞いが変わります。例えばエクステンション `Foo` 外貨のような場合::"
 
 #: ..\..\source\ExtensionAuthoringGuide\reloading.rst:51
 msgid "And extension `Bar` looks like this::"
-msgstr ""
+msgstr "そしてエクステンション `Bar` が以下::"
 
 #: ..\..\source\ExtensionAuthoringGuide\reloading.rst:66
 msgid ""
@@ -109,10 +114,14 @@ msgid ""
 "extensions (though the user is free to reload it manually, which will force "
 "a recompilation)."
 msgstr ""
+"`foo()`, `bar()` メソッドの実装を変更し `Foo` のソースコードをリロードすると、 `Bar` 型では非inlie関数である "
+"`bar()`　メソッドのみしか変更が反映されません。インライン関数 `foo()` の実装への候を反映するには、 `Bar` "
+"エクステンションの再コンパイルが必要です。さらにCore は自動で依存するエクステンションのリロードを行わないため、ユーザが手動でリロードをかけ再コンパイル"
+"を強制させます。"
 
 #: ..\..\source\ExtensionAuthoringGuide\reloading.rst:69
 msgid "Changing Function Prototypes or Adding/Removing Functions"
-msgstr ""
+msgstr "関数プロトタイプの変更、関数の追加と削除"
 
 #: ..\..\source\ExtensionAuthoringGuide\reloading.rst:71
 msgid ""
@@ -125,3 +134,7 @@ msgid ""
 "scenarios where dependent extensions are using KL functions that may no "
 "longer exist in any visible way."
 msgstr ""
+"あるエクステンション内で、A．既存KL関数のプロトタイプを変更する（パラメータの型の変更、パラメータの追加,削除など）"
+"B.関数を追加,削除する場合、このエクステンションに対するあたらしいKLコードは、新しい関数を使用可能です。ただし、エクステンションが依存する既存コードは古"
+"い関数プロトタイプへ参照したままとなり古い関数を使用してしまいます。依存エクステンションが、すでに目視不可能な存在しないKL関数を使用してしまい、多大な混乱"
+"を生じてしまいます。"
