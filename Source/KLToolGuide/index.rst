@@ -12,7 +12,7 @@ Using the KL Tool to Develop and Debug Extensions
 
 
 The KL Tool
-===========
+-----------
 
 Distributed with Fabric Engine is a command-line executable :file:`kl`
 (:file:`kl.exe` on Windows) under the :file:`bin/` folder in the Fabric
@@ -31,7 +31,7 @@ You can verify that it is working by running :command:`kl --help`, which
 should show you all the options available.
 
 Compiling and Evaluating KL Source Files with the KL Tool
----------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The KL tool should be run providing the name of a KL source file to compile
 and run. The provided KL source file is normally a small text file containing
@@ -43,7 +43,7 @@ the KL tool with the command::
 
 
 The ``entry()`` Operator
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 The KL tool will look for an operator called ``entry`` taking zero arguments
 within the code. This operator will be called by the KL tool after it
@@ -56,7 +56,7 @@ has compiled the source code.
   }
 
 Testing Extensions
-==================
+------------------
 
 Often, a simple KL source file can be written that loads and performs various
 tests on your extension. Simply by including the ``require MyExtension;``
@@ -92,7 +92,7 @@ functions by invoking them and reporting the results.
   }
 
 Output to a Text File
-----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The output of the KL tool can be sent to a text file by using the :code:`>`
 shell operator::
@@ -104,7 +104,7 @@ to search through the output in a text editor.  It is also useful for
 generating the file with correct output for unit test cases.
 
 Setting up Unit Tests that Use the KL Tool
---------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Unit testing systems are easy to setup using the KL tool. Unit tests typically
 compare a reference output against the current output to determine if the
@@ -217,7 +217,7 @@ Setting up a unit testing framework for your custom extensions and running
 them regularly will help catch changes that might break your APIs.
 
 Indices and Tables
-======================
+---------------------
 
 * :ref:`genindex`
 * :ref:`search`

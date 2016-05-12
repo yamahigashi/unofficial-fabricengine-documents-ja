@@ -31,7 +31,7 @@ Each of the GeometryAttrbiutes owns data that can be passed into GPU Compute ker
 
 .. kl-example:: Moving a polygonMesh to the GPU
 
-require Geometry;
+  require Geometry;
 
   operator meshDataOnGPU<<<index>>>(io PolygonMeshTopology meshData){
     report(meshData);
