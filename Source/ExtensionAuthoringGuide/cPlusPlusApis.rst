@@ -97,7 +97,7 @@ In KL, Objects are ref counted objects. Only once all references to an object ar
     function ObjectA() = "ObjectA_construct";
     function ~ObjectA() = "ObjectA_destroy";
 
-KL objects must be referenced by at least once by an owning class or node to ensure that they are not destroyed. By maintaining references to objects, you can guarantee that they will not be destroyed, and can control when they will eventually be freed. For systems of interdependent classes see eManaging Data ownership and bidirectional relationshipsf below.
+KL objects must be referenced by at least once by an owning class or node to ensure that they are not destroyed. By maintaining references to objects, you can guarantee that they will not be destroyed, and can control when they will eventually be freed. For systems of interdependent classes see â€˜Managing Data ownership and bidirectional relationshipsâ€™ below.
 
 Mapping Public methods
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -116,7 +116,7 @@ Mapping methods from KL to C++ starts by defining the KL method, and the name of
 Public Members
 ^^^^^^^^^^^^^^^^^^^^^^
 
-Mapping of public members from KL to C++ is not automatic. There is no facility in KL to detect when a KL Objectfs or Structfs member value changes to automatically synchronize values to the mapped C++ class or struct. Ideally all interactions with a struct or class occur through public methods(except in the eSimple Data-Container Structsf example provided below). 
+Mapping of public members from KL to C++ is not automatic. There is no facility in KL to detect when a KL Objectâ€™s or Structâ€™s member value changes to automatically synchronize values to the mapped C++ class or struct. Ideally all interactions with a struct or class occur through public methods(except in the â€˜Simple Data-Container Structsâ€™ example provided below). 
 
 
 Pure data container structs
@@ -205,7 +205,7 @@ C++ API Code
 
 .. code-block:: c++
     
-    // A base class that implements a method called egetNamef.
+    // A base class that implements a method called â€˜getNameâ€™.
     class A {
       std::string getName();
     }
@@ -220,14 +220,14 @@ KL Wrapping Code
 
 .. code-block:: kl
 
-    // The eAf interface declares a method called egetNamef. 
-    // Objects that support the eAf interface must implement egetNamef
+    // The â€˜Aâ€™ interface declares a method called â€˜getNameâ€™. 
+    // Objects that support the â€˜Aâ€™ interface must implement â€˜getNameâ€™
     interface A {
       String getName();
     }
 
-    // Object B supports the eAf interface (can be automatically cast to A)
-    // and so must implement all methods defined in egetNamef.
+    // Object B supports the â€˜Aâ€™ interface (can be automatically cast to A)
+    // and so must implement all methods defined in â€˜getNameâ€™.
     object B : A {
       Data pointer;
     }
@@ -284,7 +284,7 @@ In some APIs, you may have a collection of classes whose lifetimes are related, 
 
 The Ref<> feature in KL is a raw unmanaged pointer. Ref<> pointers will not affect the lifetime of an object, and so can be used in cases where backpointers are required.
  
-Note: If 2 classes reference each other, then neither class will ever be destroyed due to the cyclic reference. A Owner object should reference its eownedf objects, and those eownedf objects should maintain simple eReff pointers back to the owners.
+Note: If 2 classes reference each other, then neither class will ever be destroyed due to the cyclic reference. A Owner object should reference its â€˜ownedâ€™ objects, and those â€˜ownedâ€™ objects should maintain simple â€˜Refâ€™ pointers back to the owners.
 Ref pointers must be manually maintained. If the pointer is not nulled and the owner is destroyed, the pointer will become garbage and cause a crash if accessed. Cleanup is required to ensure your code is stable under all conditions. . 
 
 .. code-block:: kl
@@ -393,7 +393,7 @@ Other Tips and Tricks
 
 Mapping Const Functions to KL as const functions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-By default, kl methods that return values are const. You may have a class that declares methods that take non-const reference arguments and perform computation returning the results in the args. To declare a KL function that is also cost, simply append a e?f as the end of the function name. 
+By default, kl methods that return values are const. You may have a class that declares methods that take non-const reference arguments and perform computation returning the results in the args. To declare a KL function that is also cost, simply append a â€˜?â€™ as the end of the function name. 
 
 
 C++ Code
@@ -445,7 +445,7 @@ KL Code
 
   object MyObj {
     String s;
-    // c
+    // â€¦
   };
   function MyObj MyObj.clone() = "MyObj_clone";
 

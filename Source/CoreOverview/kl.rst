@@ -1,7 +1,7 @@
 The KL Language
 =======================
 
-KL is the custom language used to define operators in |FABRIC_PRODUCT_NAME|. KL combines the benefits of high performance languages like C++ with the benefits of dynamic languages like JavaScript and Python. ÅeKLÅf stands for ÅeKernel LanguageÅf and refers to the scope of the language: writing operators. Kernels are small stateless blocks of code with an entry function. The syntax of KL is similar to the syntax of JavaScript and C.
+KL is the custom language used to define operators in |FABRIC_PRODUCT_NAME|. KL combines the benefits of high performance languages like C++ with the benefits of dynamic languages like JavaScript and Python. ‚ÄòKL‚Äô stands for ‚ÄòKernel Language‚Äô and refers to the scope of the language: writing operators. Kernels are small stateless blocks of code with an entry function. The syntax of KL is similar to the syntax of JavaScript and C.
 
 Ease of Use
 ---------------------

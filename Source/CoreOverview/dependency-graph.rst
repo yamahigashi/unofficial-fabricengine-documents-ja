@@ -12,7 +12,7 @@ The dependency graph model in |FABRIC_PRODUCT_NAME| abstracts the concepts of th
 Multi-Threaded Evaluation
 -------------------------
 
-Nodes are constructed using the developerÅfs preferred dynamic language, and the developer defines dependencies between those nodes. Operators are constructed and applied to the nodes in the graph. This combination of nodes, dependencies, and KL operators describes a complete workload made up of many tasks that can be distributed across available compute resources
+Nodes are constructed using the developer‚Äôs preferred dynamic language, and the developer defines dependencies between those nodes. Operators are constructed and applied to the nodes in the graph. This combination of nodes, dependencies, and KL operators describes a complete workload made up of many tasks that can be distributed across available compute resources
 
 Task-Based Parallelism
 ----------------------
