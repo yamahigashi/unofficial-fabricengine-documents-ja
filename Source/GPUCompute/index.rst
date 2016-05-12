@@ -26,10 +26,6 @@ GPU Compute Guide
 
 - GPU compute currently works on Windows 7 or higher and Linux (CentOS 6.x) 64-bit platforms with supported Nvidia hardware (see below).
 
-  .. note::
-
-    There is a bug in the current pre-release builds of Windows 10 that prevent it from working with CUDA Unified Memory, which is required for GPU compute in Fabric Engine.  There is, however, a workaround; see below
-
 Installation
 ------------
 
@@ -42,11 +38,8 @@ KL GPU compute requires supported Nvidia hardware in order to run. Please ensure
 
 - For supported cards the latest stable Nvidia driver must be installed: http://www.nvidia.com/Download/index.aspx?lang=en-us
 
-- The latest CUDA 6 toolkit must be installed from here: https://developer.nvidia.com/cuda-downloads The current version was built against CUDA 6.0 but tested against CUDA 6.5 and should be compatible with both. CUDA 7.0 support will be upcoming in a future version.
+- CUDA toolkit 6 or later must be installed from https://developer.nvidia.com/cuda-downloads The current version was built against CUDA 6.0 but should work up to CUDA toolkit 7.5
 
-.. note::
-
-  There is a bug in the first Windows 10 release, due in July 2015, that prevents CUDA Unified Memory from working with the latest NVIDIA drivers; this will prevent Fabric Engine GPU compute from working on this setup.  The workaround is to use the older NVIDIA 349 driver until the issue in Windows 10 has been fixed.
 
 Enabling GPU Compute
 ++++++++++++++++++++
@@ -67,7 +60,7 @@ The ``CUDA_PATH`` environment variable must also be present on your system, thou
 
 A sample environment setup for CUDA compute on Linux might look like this:
 
-.. code-block:: sh
+.. code-block:: none
 
   export FABRIC_FEATURE_CUDA_COMPUTE=1
   export CUDA_PATH=/usr/local/cuda

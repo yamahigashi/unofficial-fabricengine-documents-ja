@@ -130,6 +130,11 @@ A :dfn:`function prototype` in KL is a function declaration that is missing a bo
       perror("something that caused an error");
     }
 
+.. index::
+  single: polymorphism
+  single: function polymorphism
+  pair: function; polymorphism
+
 .. _polymorphism:
 
 Polymorphism
@@ -537,7 +542,7 @@ Whether :code:`this` is read-only or read-write (in compiler terms, an r-value o
 
 Example of explicit read-only or read-write :code:`this` in methods:
 
-.. kl-example:: Explcit read-only or read-write "this" in methods
+.. kl-example:: Explicit read-only or read-write "this" in methods
 
   struct Vec2 {
     Float64 x;
@@ -795,7 +800,7 @@ Unary operator overloads are subject to the following restrictions:
 Direct Assignment Overloads
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-KL provides a default direct assignment for custom types which simply assigns each of the members.  However, it is also possible to provide an overload for the direct assignment operator as shown in the example below:
+KL provides a default direct assignment for custom types which simply assigns each of the members.  However, it is also possible to provide an overload for the direct assignment operator as shown in the example below::
 
 .. kl-example:: Direct Assignment Overload
 
@@ -819,7 +824,7 @@ KL provides a default direct assignment for custom types which simply assigns ea
     report("After: a1 = " + a1 + ", a2 = " + a2);
   }
 
-Direct assignment overloads are subject to the following restrictions:
+Compound assignment overloads are subject to the following restrictions:
 
 - They must take exactly one parameter.  The parameter may be of any type but it must be an input-only parameter.
 
@@ -904,29 +909,29 @@ Debugging Functions
   
   .. versionadded:: 1.13.0
 
-  Outputs the KL function call stack that leads to the calling location, including KL file names and line numbers. For example the following KL code::
-  
-    function func2()
-    {
-      dumpstack();
-    }
-  
-    function func1()
-    {
-      func2();
-    }
-  
-    operator entry()
-    {
-      func1();
-    }
-  
-  Will output::
-  
-    1 function.func2() call.kl:4
-    2 function.func1() call.kl:9
-    3 operator.entry() call.kl:14
-    4 kl.internal.entry.stub.cpu()
+Outputs the KL function call stack that leads to the calling location, including KL file names and line numbers. For example the following KL code::
+
+  function func2()
+  {
+    dumpstack();
+  }
+
+  function func1()
+  {
+    func2();
+  }
+
+  operator entry()
+  {
+    func1();
+  }
+
+Will output::
+
+  1 function.func2() call.kl:4
+  2 function.func1() call.kl:9
+  3 operator.entry() call.kl:14
+  4 kl.internal.entry.stub.cpu()
 
 Error Status Functions
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -1406,13 +1411,23 @@ Output::
 
   Elapsed time: 4.1e-08 seconds
 
-.. index::
-  single: polymorphism
-  single: function polymorphism
-  pair: function; polymorphism
+Memory Usage Functions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. index::
-  pair: named; constant
+.. kl:function::
+  function UInt64 klHeapInUse()
+  
+  Returns the number of bytes currently allocated on the KL heap.  Memory is allocated on the KL heap in order to provide memory for variable arrays, dictionaries, objects, most strings, and some other less-commonly used types.
+
+  .. note:: This function cannot be called on the GPU
+
+  .. kl-example:: klHeapInUse()
+
+    operator entry() {
+      report("klHeapInUse() before: " + klHeapInUse());
+      Float32 a[](16); // allocates some memory on the KL heap
+      report("klHeapInUse() after: " + klHeapInUse());
+    }
 
 Fabric Context Functions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1424,6 +1439,9 @@ These functions are used to interact with the Fabric Core context.
   
   Returns the Fabric Core context ID as a String.  This context ID can be
   used to bind a new Fabric Core client to an existing context.
+
+.. index::
+  pair: named; constant
 
 .. _KLPG.global.named-constants:
 
@@ -1510,7 +1528,7 @@ There are a variety of predefined constants available to every KL program.
 Fabric Version Pre-Defined Constants
 """"""""""""""""""""""""""""""""""""
 
-The three constants ``FabricVersionMaj``, ``FabricVersionMin`` and ``FabricVersionRev`` are three predefined constants of type ``UInt8`` that are the major, minor and revision components of the running Fabric version.  For example, this documentation was built for Fabric version {{FABRIC_VERSION}}, and so KL code executed in this version will have ``FabricVersionMaj = {{FABRIC_VERSION_MAJ}}``, ``FabricVersionMin = {{FABRIC_VERSION_MIN}}`` and ``FabricVersionRev = {{FABRIC_VERSION_REV}}``.
+The three constants ``FabricVersionMaj``, ``FabricVersionMin`` and ``FabricVersionRev`` are three predefined constants of type ``UInt8`` that are the major, minor and revision components of the running Fabric version.  For example, this documentation was built for Fabric version |FABRIC_VERSION|, and so KL code executed in this version will have ``FabricVersionMaj = |FABRIC_VERSION_MAJ|``, ``FabricVersionMin = |FABRIC_VERSION_MIN|`` and ``FabricVersionRev = |FABRIC_VERSION_REV|``.
 
 .. code-block:: kl
 
@@ -1665,6 +1683,26 @@ behaviors based on extension versions. For that you can use the :code:`EXT_VER_I
 
 The :code:`dummy` function's definition and invocation will only happen if the extension version
 of the :code:`ExtensionName` is higher to :code:`"1.0.0"` in the example above.
+
+If you wish to check the version of Fabric itself, use :code:`Fabric` as the extension name:
+
+.. kl-example:: Conditional Compilation using Preprocessor Statements
+
+  EXT_VER_IF Fabric : "< 2.0.0"
+  foo() {
+    report("Version is < 2.0.0");
+  }
+  EXT_VER_ENDIF
+
+  EXT_VER_IF Fabric : ">= 2.0.0"
+  foo() {
+    report("Version is >= 2.0.0");
+  }
+  EXT_VER_ENDIF
+
+  operator entry() {
+    foo();
+  }
 
 For more information on how to embed versioning information in extensions please refer to :ref:`EXTS_VERSIONING`.
 

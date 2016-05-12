@@ -64,6 +64,9 @@ The documentation can also be downloaded as a zip from here: |DOCS_ZIP|
 |        :ref:`MAYA`
 |            The Fabric for Maya integration
 |
+|        :ref:`MODO`
+|            The Fabric for MODO integration
+|
 |        :ref:`SOFTIMAGE`
 |            The Fabric for Softimage integration
 
@@ -104,7 +107,7 @@ The documentation can also be downloaded as a zip from here: |DOCS_ZIP|
 
 .. rst-class:: indexblocka
 
-|    :strong:`Are you a C++ programmer and are interested in the various C/C++ APIs?`
+|    :strong:`Are you a programmer and interested in the various APIs?`
 |
 |        :ref:`CAPIPG`
 |            The C/C++ Fabric Core programming guide
@@ -114,6 +117,9 @@ The documentation can also be downloaded as a zip from here: |DOCS_ZIP|
 |
 |        :ref:`RTVPG`
 |            The C/C++ API for accessing KL data types explained
+|
+|        :ref:`PYTHONPG`
+|            The Python Fabric Core and FabricUI programming guide
 |
 |        :ref:`EXTRG`
 |            An introduction to writing your own KL extensions
@@ -141,6 +147,7 @@ Table of contents
   GPUCompute/index
   CAPIProgrammingGuide/index
   RTValProgrammingGuide/index
+  PythonGuide/index
   ExtensionAuthoringGuide/index
   Installation/index
   LicensingGuide/index

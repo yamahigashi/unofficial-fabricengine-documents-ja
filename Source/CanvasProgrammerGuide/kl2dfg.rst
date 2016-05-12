@@ -109,6 +109,11 @@ Enables the generation of array presets for given methods. This makes working wi
 
 addExecutePort
 --------------------
+
+.. note::
+  
+  This option is deprecated, since as of version 2.2.0 all instance nodes in Canvas automatically have a first Execute port called 'exec'.
+
 For easier daisy chaining of Canvas presets kl2dfg supports to add an extra port as the first port of any Canvas preset.
 You can also enable this functionality on a per preset basis by using the :dfn:`dfgAddExecutePort` doxygen qualifier.
 

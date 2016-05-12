@@ -1241,9 +1241,9 @@ You can only do a few things with values of type :code:`Type`; they are primaril
     {
       Type booleanType = Boolean;
       UInt32 uint32;
-      report("booleanType == uint32.type" + booleanType == uint32.type);
+      report("booleanType == uint32.type " + (booleanType == uint32.type()));
       Boolean boolean;
-      report("booleanType == boolean.type" + booleanType == boolean.type);
+      report("booleanType == boolean.type " + (booleanType == boolean.type()));
     }
 
 - For :ref:`interfaces <KLPG.types.interfaces>` the :code:`{value}.type()` method returns the type of the specific object that the generic object refers to; this is how you do runtime type inference on objects.  See :ref:`KLPG.types.interfaces` for more information.

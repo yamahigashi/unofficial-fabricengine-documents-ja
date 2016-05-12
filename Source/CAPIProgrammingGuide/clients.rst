@@ -379,6 +379,13 @@ There is also an :ref:`CAPI.clients.api-reference-cpp`.
 
 
 
+.. c:function:: void FEC_FlagUserInteraction()
+
+  Notify the Core of user activity.
+
+
+
+
 .. c:function:: void FEC_ClientEnableBackgroundTasks(FEC_ClientRef clientRef)
 
   Enable background task execution for the client.  This should be called once the application has finished loading.  If this function is never called then background tasks (such as background optimization of KL code) will never execute.  You can call this function immediately when the client is created but startup performance may suffer.

@@ -35,7 +35,7 @@ Example of Type Registration
 
 The following code registers a new |FABRIC_PRODUCT_NAME| type ``Vec3`` and associates it with a Python type of the same name:
 
-.. code-block:: pycon
+.. code-block:: none
   
   >>> # Registered types
   class Vec3():

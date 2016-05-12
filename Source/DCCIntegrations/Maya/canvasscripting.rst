@@ -22,9 +22,9 @@ Adds a new backdrop node to the Canvas graph.
 
   - -m, -mayaNode: The name of the Canvas maya node
   - -e, -execPath: The path of the node inside of Canvas to operate on
-  - -x, -xPos: The x coordinate for placing the new node
-  - -y, -yPos: The y coordinate for placing the new node
-  - -t, -title: The name of the new node
+  - -x, -xPos: The x coordinate for placing the new backdrop
+  - -y, -yPos: The y coordinate for placing the new backdrop
+  - -t, -title: The name of the new backdrop
 
 .. code-block:: KL
 
@@ -147,12 +147,16 @@ Disconnects two pins / ports inside a Canvas graph.
 
   - -m, -mayaNode: The name of the Canvas maya node
   - -e, -execPath: The path of the node inside of Canvas to operate on
-  - -s, -srcPortPath: The path to the source (left) port / pin
-  - -d, -dstPortPath: The path to the destination (left) port / pin
+  - -s, -srcPortPath: The path(s) to the source (left) port(s) / pin(s)
+  - -d, -dstPortPath: The path(s) to the destination (left) port(s) / pin(s)
 
 .. code-block:: KL
 
   FabricCanvasDisconnect -m "canvasNode1" -e "" -s "Scalar.value" -d "Vec3.z";
+
+.. code-block:: KL
+
+  FabricCanvasDisconnect -m "canvasNode1" -e "" -s "Scalar.value|Scalar.value|Scalar.value" -d "Vec3.x|Vec3.y|Vec3.z";  
 
 FabricCanvasCreatePreset
 -------------------------------------
@@ -173,7 +177,7 @@ string if the preset was not saved.
 FabricCanvasEditPort
 -------------------------------------
 
-Disconnects two pins / ports inside a Canvas graph.
+Edits an existing port. Use this to rename a port, change its data type, etc.
 
   - -n, -oldPortName: The old name of the port
   - -d, -desiredNewPortName: The desired new name of the port
@@ -228,7 +232,7 @@ Implodes a selection of nodes and create a new subgraph node containing them.
   - -m, -mayaNode: The name of the Canvas maya node
   - -e, -execPath: The path of the node inside of Canvas to operate on
   - -n, -nodeName: The names of all of the nodes to implode. Separated by the pipe character.
-  - -d, -desiredNodeName: The desired name of the new subgraph node
+  - -d, -desiredImplodedNodeName: The desired name of the new subgraph node
 
 .. code-block:: KL
 
@@ -287,7 +291,7 @@ Removes a single or multiple nodes from the Canvas graph.
 
   - -m, -mayaNode: The name of the Canvas maya node
   - -e, -execPath: The path of the node inside of Canvas to operate on
-  - -n, -nodeName: The name(s) of the node(s) to move
+  - -n, -nodeName: The name(s) of the node(s) to remove
 
 .. code-block:: KL
 
@@ -301,7 +305,7 @@ Removes a port from the Canvas graph.
 
   - -m, -mayaNode: The name of the Canvas maya node
   - -e, -execPath: The path of the node inside of Canvas to operate on
-  - -n, -name: The name of the port to remove
+  - -n, -portName: The name of the port to remove
 
 .. code-block:: KL
 
@@ -314,8 +318,8 @@ Renames a port in the Canvas graph.
 
   - -m, -mayaNode: The name of the Canvas maya node
   - -e, -execPath: The path of the node inside of Canvas to operate on
-  - -n, -name: The name of the port to rename
-  - -d, -desiredName: The desired new name for the port
+  - -n, -oldPortName: The name of the port to rename
+  - -d, -desiredNewPortName: The desired new name for the port
 
 .. code-block:: KL
 
@@ -341,6 +345,7 @@ Resizes a backdrop inside of a Canvas graph
 
   - -m, -mayaNode: The name of the Canvas maya node
   - -e, -execPath: The path of the node inside of Canvas to operate on
+  - -n, -nodeName: The name of the backdrop node  
   - -x, -xPos: The x coordinate for the backdrop
   - -y, -yPos: The y coordinate for the backdrop
   - -w, -width: The new width for the backdrop
@@ -350,26 +355,13 @@ Resizes a backdrop inside of a Canvas graph
 
   FabricCanvasResizeBackDrop -m "canvasNode1" -e "" -n "backdrop" -x "248" -y "280" -w "401" -h "131";
 
-FabricCanvasSetArgType
--------------------------------------
-
-Changes the data type for an argument of the Canvas graph.
-
-  - -m, -mayaNode: The name of the Canvas maya node
-  - -n, -name: The name of the argument
-  - -t, -type: The new data type for the argument
-
-.. code-block:: KL
-
-  FabricCanvasSetArgType -m "canvasNode1" -n "factor" -t "Float32";
-
 FabricCanvasSetArgValue
 -------------------------------------
 
 Sets the value of an argument in a Canvas graph.
 
   - -m, -mayaNode: The name of the Canvas maya node
-  - -n, -name: The name of the argument
+  - -n, -argName: The name of the argument
   - -t, -type: The new data type for the argument
   - -v, -value: The JSON encoding the value
 
@@ -416,19 +408,6 @@ Sets the content of a node comment in a Canvas graph
 .. code-block:: KL
 
   FabricCanvasSetNodeComment -m "canvasNode1" -e "" -n "Vec3" -c "My useful information";
-
-FabricCanvasSetTitle
--------------------------------------
-
-Sets the title of an executable in a Canvas graph
-
-  - -m, -mayaNode: The name of the Canvas maya node
-  - -e, -execPath: The path of the executable inside of Canvas to operate on
-  - -t, -title: The new title for the executable
-
-.. code-block:: KL
-
-  FabricCanvasSetTitle -m "canvasNode1" -e "" -t "MyTitle";
 
 FabricCanvasEditNode
 -------------------------------------

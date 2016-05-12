@@ -6,7 +6,6 @@ Installing the |FABRIC_PRODUCT_NAME| archive
 |FABRIC_PRODUCT_NAME| runs on Windows 7 SP1 (or later) 64-bit, CentOS 6.x 64-bit, and Mac OS X 10.7 "Lion" (or later).
 
 .. note:: Windows requires installing Visual Studio 2013 `redistributable <https://www.microsoft.com/en-us/download/details.aspx?id=40784>`_ if it is not already in the system.
-.. note:: OS X requires installing the Qt 4 Framework libraries. If they are not found, you will get the following error :strong:`"dyld: Library not loaded: /usr/local/lib/QtOpenGL.framework/Versions/4/QtOpenGL Referenced from: /Applications/FabricEngine/bin/canvas Reason: image not found Trace/BPT trap: 5"`. To install them, you can use the Homebrew package manager (http://brew.sh/). Once Homebrew is installed, open a terminal and run the following command "brew install qt4". Canvas then should work as expected.
 
 |FABRIC_PRODUCT_NAME| is provided as a single archive for each platform. The archive contains:
 
@@ -25,8 +24,18 @@ Installing the |FABRIC_PRODUCT_NAME| archive
 
 To install |FABRIC_PRODUCT_NAME| on your machine simply extract the provided archive. You may use multiple installations next to each other, each directory name is unique and based on the specific version of |FABRIC_PRODUCT_NAME|.
 
-Launching the Fabric Standalone
+.. _GETTINGSTARTED_STANDALONE:
+
+Launching the Fabric Standalone (canvas.py)
 -----------------------------------------------------
+
+.. versionadded:: 2.2.0
+
+As of 2.2.0 the Fabric Standalone has been converted to Python. ``canvas.py`` is a python app that requires a 64 bit Python 2.7 installed in your system (as defined by the VFX Reference Platform). OS X and most common Linux distributions already ship with it (if your Linux distribution doesnÅft have a Python 2.7.x installation or has an older one, you will need to install it, either with your typical package manager or manually). Be aware, though, that Python 2.7 needs to be the default version in the system in order for the environment.sh shell script to work properly. If Python 2.7 is not your default version you will need to modify the environment.sh or prompt.bat scripts to pick up the correct ``PYTHONPATH``. In the case of Windows, just install Python 2.7 and make sure your PATH enviroment variable includes the directory of your Python distribution.
+
+.. note::
+
+  On OSX it is currently necessary to use the default system Python. If you've installed a newer version via homebrew or another package manager you will need to ensure that you're using the system version found in ``/usr/bin/python`` when you run the Fabric Standalone.
 
 |FABRIC_PRODUCT_NAME| relies on several environment variables. To make this easy for you a shell script / batch file for each supported operating system are provided.
 
@@ -48,10 +57,16 @@ On Linux / OSX:
 
       source environment.sh
 
-To launch the Fabric Standalone, type canvas and hit enter in the shell of choice:
+``canvas.py`` can be launched from the terminal/command prompt after sourcing the ``environment.sh`` or running the ``prompt.bat`` by just typing ``canvas.py`` in the command-line:
 
   .. code-block:: bash
 
-      canvas
+      canvas.py
+
+Or by invoking it with python: ``python bin/canvas.py``:
+
+  .. code-block:: bash
+
+      python $FABRIC_DIR/bin/canvas.py
 
 .. note:: The first time any |FABRIC_PRODUCT_NAME| utilities / plugins are launched, the KL compiler will compile and optimize all provided KL extensions for the target platform on multiple CPUs. This may take a few minutes. You will also get a Fabric Licensing dialog. Check the next section for instructions on license installation.

@@ -622,7 +622,7 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: bool hasSrcPort(char const *portPath ) const
+    .. cpp:function:: bool hasSrcPorts(char const *portPath ) const
 
       Query whether a given port has a connection from another port.
       
@@ -1261,6 +1261,13 @@ Canvas Core API Classes
 
 
 
+    .. cpp:function:: unsigned getExecPortIndex() const
+
+      Get the exec port index for the named exec port.
+
+
+
+
     .. cpp:function:: void maybeSplitFromPreset()
 
       Split the executable from the preset it is an instance of if it is
@@ -1416,6 +1423,20 @@ Canvas Core API Classes
     .. cpp:function:: void dismissLoadDiag(unsigned diagIndex) const
 
       Dismisses the given load diagnostic.
+
+
+
+
+    .. cpp:function:: void suspendDirtyNotifs()
+
+      Suspends dirty notifications until resumeDirtyNotifs() is called
+
+
+
+
+    .. cpp:function:: void resumeDirtyNotifs()
+
+      Suspends dirty notifications after suspectDirtyNotifs() has been called
 
 
 

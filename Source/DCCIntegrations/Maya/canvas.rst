@@ -17,6 +17,8 @@ The CanvasDeformer is a deformer node that seamlessly works with Maya's deformat
 CanvasNode
 --------------------
 
+This is the main Canvas node and the one you will typically be using in your scenes.
+
 You can instantiate the canvasNode in the node editor hitting :dfn:`TAB` and typing :dfn:`canvas` or through the Fabric top level menu and choosing :dfn:`Create graph (Node)`. You can then open up the Canvas graph through the :dfn:`Open Canvas` button on the Maya Attribute editor.
 
 .. image:: /images/Canvas/userguide_30.jpg
@@ -24,17 +26,28 @@ You can instantiate the canvasNode in the node editor hitting :dfn:`TAB` and typ
 CanvasDeformer
 --------------------
 
+This node is a variant of the Canvas node and it is specialized / optimized for deformations, taking advantage of Maya's deformation features. The benefit of using this node for deformations rather than the 'regular' Canvas node is a gain in speed of around 3x - 5x.
+
+.. note:: The gain in speed comes at a price: the node is not as flexible as the 'regular' Canvas node and, more importantly, one must respect a certain way of building the Canvas graph. See following section for more detailed information.
+
 You can instantiate the canvasDeformer in the node editor hitting :dfn:`TAB` and typing :dfn:`canvasDeformer` or through the Fabric top level menu and choosing :dfn:`Create graph (Deformer)` with an object selection. You can then open up the Canvas graph through the :dfn:`Open Canvas` button on the Maya Attribute editor.
 
 When opening the Canvas graph you will notice there is a default an IO port called **meshes**.
 
 .. note:: This port must not be removed nor renamed or else the deformer node will not work properly!.
 
-To apply a deformation, get a PolygonMesh element from the meshes PolygonMesh array (using Array.Get), modify its vertex positions and set the output PolygonMesh to the meshes array with Array.Set. Finally, connect the modified meshes array to the meshes IO port.
+The correct and safe way to apply a deformation consists of getting the array of vertex positions of a PolygonMesh element from the meshes PolygonMesh array (using Array.Get and GetAllPointPositions), modify the values of the array and finally setting the vertex positions on the output PolygonMesh to the meshes array with Array.Set.
+
+The following image shows the correct way to do it.
 
 .. image:: /images/Canvas/userguide_31.png
 
-.. note:: Only vertex positions can be modified at this point.
+**A (get)** get the mesh from the array meshes and its point positions as an array of Vec3.
+
+**B (do the magic)** perform the actual deformation by modifying the values of the Vec3 array. You can do whatever you want with the array just as long as you do *not modify its size, ie. the amount of elements in the array should not be changed*.
+
+**C (set)** set the new vertex positions on the mesh and put the changes back into the array meshes.
+
  
 Adding ports / attributes
 ----------------------------
@@ -79,6 +92,11 @@ Port metadata
 To drive some of the user interface features you can set metadata on the port. This will be picked up by Maya when creating attribute. Open the meta data section of the dialog when creating a port. Right now Maya supports only the :dfn:`range` settings.
 
 .. image:: /images/Canvas/userguide_32.jpg
+
+Maya evaluation of Canvas graphs
+----------------------------------------
+
+One important aspect to mention is that a Canvas Node is a Maya dependency graph node that is not connected to the Maya DAG. This means that the Canvas graph is going to be evaluated **only** when there is an output in the Canvas Node that is connected to the Maya DAG (i.e: a Vec3 output port connected to the Translate of a locator).
 
 Loading / saving of Canvas graphs
 ----------------------------------------

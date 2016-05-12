@@ -328,7 +328,7 @@ FabricCanvasDisconnect
     
     **Description**
 
-    Removes the connection between two ports.
+    Removes connections between two ports.
     
     **Scripting Syntax**
 
@@ -346,11 +346,15 @@ FabricCanvasDisconnect
 
       - ``srcPortPath``
 
-        The path of the source port.
+        The path(s) of the source port(s). If you have more than one path then you must separate them using ``|`` (vertical bar).
 
       - ``dstPortPath``
 
-        The path of the destination port.
+        The path(s) of the destination port(s). If you have more than one path then you must separate them using ``|`` (vertical bar).
+
+    **Note**
+
+    The amount of source and destination paths should be the same!
 
 FabricCanvasCreatePreset
 -----------------------------------
@@ -507,7 +511,7 @@ FabricCanvasGetBindingID
 
     The following VBScript gets the FabricCore DFGBinding ID of a null and logs it.
 
-    .. code-block:: aspx-vb
+    .. code-block:: none
 
       Option Explicit
 
@@ -530,7 +534,7 @@ FabricCanvasGetContextID
 
     The following VBScript gets the FabricCore client contextID and logs it.
 
-    .. code-block:: aspx-vb
+    .. code-block:: none
 
       Option Explicit
 
@@ -842,7 +846,7 @@ FabricCanvasOpPortMapDefine
 
     The following VBScript creates a null with a Canvas graph (the graph draws a red torus into the viewport using the inline drawing) and exposes the RGB channels as XSI parameters.
 
-    .. code-block:: aspx-vb
+    .. code-block:: none
 
       Option Explicit
 
@@ -916,7 +920,7 @@ FabricCanvasOpPortMapQuery
 
     The following VBScript logs the entire port mapping of a Canvas operator.
 
-    .. code-block:: aspx-vb
+    .. code-block:: none
 
       Option Explicit
 
@@ -1170,31 +1174,6 @@ FabricCanvasSelectConnected
 
         Default is true.
     
-FabricCanvasSetArgType
------------------------------------
-    
-    **Description**
-
-    Sets the data type of one of the graph's ports (a.k.a. *arguments*). Note: these are the ports that can be exposed to Softimage and that are displayed in the tab "Ports and Tools" of the operator's property page.
-    
-    **Scripting Syntax**
-
-    ``FabricCanvasSetArgType( binding, argName, typeName )``
-    
-    **Parameters**
-
-      - ``binding``
-
-        The name of a CanvasOp operator (i.e. the graph).
-
-      - ``argName``
-
-        The name of the port / argument.
-
-      - ``typeName``
-
-        The new data type of the port, e.g. "Scalar", "Mat44", "PolygonMesh".
-    
 FabricCanvasSetArgValue
 -----------------------------------
     
@@ -1302,31 +1281,6 @@ FabricCanvasSetNodeComment
       - ``comment``
 
         The comment.
-    
-FabricCanvasSetTitle
------------------------------------
-    
-    **Description**
-
-    Sets the title of an executable.
-    
-    **Scripting Syntax**
-
-    ``FabricCanvasSetTitle( binding, execPath, title )``
-    
-    **Parameters**
-
-      - ``binding``
-
-        The name of a CanvasOp operator (i.e. the graph).
-
-      - ``execPath``
-
-        The path of the executable in the Canvas operator.
-
-      - ``title``
-
-        The new title for the node.
     
 FabricCanvasEditNode
 -----------------------------------

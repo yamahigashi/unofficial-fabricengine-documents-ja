@@ -3,5 +3,5 @@
 Aero Example
 ====================================================================================
 
-.. kl-fileexample:: ${FABRIC_SCENE_GRAPH_DIR}/Tests/Bullet/SoftBodies_Aero.kl
+.. kl-fileexample:: ${FABRIC_SCENE_GRAPH_DIR}/Test/Exts/Bullet/SoftBodies_Aero.kl
 

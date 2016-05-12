@@ -60,6 +60,9 @@ Canvas
 **F**
   Frame selected nodes.
 
+**D**
+  Disconnect all ports of the selected node(s) or, if hovering over a connection, removes the connection (same as middle mouse button).
+
 **F2**
   Node properties dialog.
  

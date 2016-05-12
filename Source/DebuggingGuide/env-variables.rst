@@ -159,6 +159,26 @@ FABRIC_NO_EXPIRY_DIALOG
 
 Normally when canvas loads it will pop a warning window if the user's license expires in less than a month. Setting this variable to 1 will cause Canvas to skip this window and instead print the warning to the command line.
 
+Fabric for Maya
+--------------------
+
+FABRIC_DISABLE_CLIENT_PERSISTENCE
++++++++++++++++++++++++++++++++++++++
+
+Setting this variable will disable the persistence of the Fabric client.
+
+Note: by default the Fabric client is persisted between scenes.
+
+Fabric for Modo
+--------------------
+
+FABRIC_DISABLE_CLIENT_PERSISTENCE
++++++++++++++++++++++++++++++++++++++
+
+Setting this variable will disable the persistence of the Fabric client.
+
+Note: by default the Fabric client is persisted between scenes.
+
 SPLICE API
 ---------------
 

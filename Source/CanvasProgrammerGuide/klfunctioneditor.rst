@@ -57,6 +57,23 @@ Of course you can also implement operators directly within the KL function edito
 
 To compile the KL function click on the :dfn:`Save` button on the top left. You can also reload the KL code for KL functions referencing an external preset file using the :dfn:`Reload` button. When leaving the KL function editor the UI will warn you in case you have unsaved changes.
 
+The code window also offers basic code completion of objects and methods. Typing Ctrl-spacebar brings up the code completion menu (i.e: If you're on a new line and type "V" it will bring up a list with objects that start with "V" like Vec2, Vec3, etc). The code completion will also list the methods of an object and their signature.
+
 For more information on KL's features, please see the :ref:`KLPG`.
 
 .. note:: Even though it's possible to define data types within a KL function node, we highly recommend to implement KL types in a KL extension instead. This makes it much easier to track changes within the type for the Canvas compiler. You can ensure that the KL function loads the extension by adding the extension to the :dfn:`Required extensions` text field on the top left of the window.
+
+Special Constructs in Canvas KL Code
+""""""""""""""""""""""""""""""""""""
+
+There are several constructs that are specific to KL code that is used within Canvas.  They are:
+
+``dfgEntry``
+  Entry point for the Canvas node, as explained above.
+
+``dfgExecute(portName)``
+  Force the execution of an explicit execute port; see :ref:`canvas-programmer-guide-execute-ports-explicit` for more information.
+
+``dfgNodePath``
+  A string constant representing the path to the node being executed.
+

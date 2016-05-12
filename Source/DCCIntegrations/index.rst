@@ -16,7 +16,7 @@ With 2.0 of Fabric Engine the main integration in all DCCs is Canvas. Prior to 2
 
 Canvas
 --------------------------------
-Fabric is integrated in a series of DCCs (Digital Content Creation Tools). 
+Fabric is integrated in a series of DCCs (Digital Content Creation Tools).
 
 If you are not familiar with Canvas in general please see:
 
@@ -27,6 +27,7 @@ If you are not familiar with Canvas in general please see:
 Find the documentation for several DCC integrations below:
 
 - :ref:`MAYA`
+- :ref:`MODO`
 - :ref:`SOFTIMAGE`
 
 Pre 2.0 Documentation
@@ -51,6 +52,7 @@ The guides and references provide in-depth information on various aspects of Spl
 
 - :ref:`WORKSHOPS`
 - :ref:`MAYA`
+- :ref:`MODO`
 - :ref:`SOFTIMAGE`
 - :ref:`OFX`
 - :ref:`ARNOLD`
@@ -63,11 +65,12 @@ All Guides and References (Alphabetical)
 
 .. toctree::
   :maxdepth: 1
-  
+
   troubleshooting
   Arnold/index
   KLTips/index
   Maya/index
+  Modo/index
   OFX/index
   Softimage/index
   SpliceAPI/index

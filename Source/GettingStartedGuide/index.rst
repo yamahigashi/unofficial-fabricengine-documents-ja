@@ -21,7 +21,7 @@ This is a step by step guide on how to get into |FABRIC_PRODUCT_NAME| and how yo
 
 |FABRIC_PRODUCT_NAME| is an accessible and portable development framework that helps visual effects and games studios reduce the cost and risk of building high-performance custom tools. |FABRIC_PRODUCT_NAME| allows users to easily create standalone applications or extend their content creation applications without needing a deep understanding multi-threading or GPU coding, or technical languages like C++.
 
-Included with Fabric 2 is a standalone utility called :dfn:`Fabric Standalone` as well as a series of integrations into existing DCC (Digital Content Creation) applications, such as Autodesk Maya or Softimage. 
+Included with Fabric 2 is a standalone utility called :dfn:`Fabric Standalone` as well as a series of integrations into existing DCC (Digital Content Creation) applications, such as Autodesk Maya, The Foundry MODO or Autodesk Softimage. 
 
 You can use the :dfn:`Fabric Standalone` to get familiar with the |FABRIC_PRODUCT_NAME| visual programming paradigm, and also to write your very first KL node directly within the application (see :ref:`CANVASUSERGUIDE` for more information).
 
@@ -41,5 +41,6 @@ Table of Contents
   firststeps
   canvastutorials
   mayatutorials
+  modotutorials
   softimagetutorials
 

@@ -114,10 +114,15 @@ When doing :dfn:`Create port` or :dfn:`Edit port`, additional port options can b
 
 .. note:: Port dialogs for the top level graph may offer additional features in a specific host application, such as Maya, for example.
 
+Reordering Ports
+--------------------
+
+Within a graph ports can be reodered simply by dragging them to their new position.  It is also possible to move all the input or output ports to the end of the port list through the right-click context menu.
+
 Execute ports
 ----------------------
 
-Some nodes may offer a special port, called the :dfn:`Execute` port. It doesn't carry any data, it purely exist to allow daisy chaining of certain nodes. You can use it with the :dfn:`Execute.Merge` nodes, to describe a data flow. Please see :ref:`canvas-programmer-guide-kl2dfg` in the programmer guide for more information.
+Some nodes may offer a special port, called the :dfn:`Execute` port. It doesn't carry any data, it purely exist to allow daisy chaining of nodes and to control execution flow.  Please see :ref:`canvas-programmer-guide-execute-ports` in the programmer guide for more information.
 
 Subgraphs
 ----------------------

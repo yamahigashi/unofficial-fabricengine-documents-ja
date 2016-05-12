@@ -3,6 +3,6 @@
 Ragdoll Example
 ====================================================================================
 
-.. kl-fileexample:: ${FABRIC_SCENE_GRAPH_DIR}/Tests/Bullet/Ragdoll.kl
+.. kl-fileexample:: ${FABRIC_SCENE_GRAPH_DIR}/Test/Exts/Bullet/Ragdoll.kl
 
 

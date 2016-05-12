@@ -10,7 +10,7 @@ Event Creation
 
 To create an Event, call the ``fabricClient.DG.createEvent`` function.  Like Nodes, Events must have a unique name that is not the same as that of a Node, Operator or EventHandler.  To get an existing event's name, call its ``getName`` method.
 
-.. code-block:: pycon
+.. code-block:: none
   
   >>> event = fabricClient.DG.createEvent("anEvent")
   >>> event.getName()
@@ -22,7 +22,7 @@ EventHandler Creation
 
 Event event has a list of EventHandlers attached so it.  When an Event is fired, each attached EventHandler is fired in sequence.  To create an EventHandler, call ``fabricClient.DG.createEventHandler``.  To append the EventHandler to an Event, call the Event's ``appendEventHandler`` method.
 
-.. code-block:: pycon
+.. code-block:: none
   
   >>> eventHandler = fabricClient.DG.createEventHandler("trivialEventHandler")
   >>> event.appendEventHandler(eventHandler)
@@ -35,7 +35,7 @@ Operators and EventHandlers
 
 Each EventHandler has two lists of Operators (or, rather, Bindings) called ``preDescendBindings`` and ``postDescendBindings``, as well as a list of child EventHandlers.  When an Event is fired, each of its EventHandlers is visited.  For each EventHandler, Bindings in ``preDescendBindings`` are executed in sequence, then its child EventHandlers are visited in the same way, then Bindings in ``postDescendBindings`` are executed in sequence.
 
-.. code-block:: pycon
+.. code-block:: none
   
   >>> op = fabricClient.DG.createOperator("trivialOperator")
   >>> op.setSourceCode("operator entry() { report('Ran trivialOperator'); }")
@@ -60,7 +60,7 @@ Each EventHandler has two lists of Operators (or, rather, Bindings) called ``pre
 
 EventHandlers in turn can have child EventHandlers.  The child EventHandlers of a given EventHandler are fired, in order, after the pre-descend operators are executed and before the post-descend operators are executed.  Child EventHandlers are added by calling the EventHandler's ``appendChildEventHandler`` method:
 
-.. code-block:: pycon
+.. code-block:: none
   
   >>> binding = fabricClient.DG.createBinding()
   >>> binding.setOperator(op)
@@ -76,7 +76,7 @@ EventHandlers in turn can have child EventHandlers.  The child EventHandlers of 
 
 EventHandlers can access data stored in Nodes by using their ``setScope`` method.  Once a Node is bound to an EventHandler, that Node is guaranteed to be evaluated (if it is dirty) before any Event that could fire the EventHandler is fired.  The name given in the ``setScope`` method is also available to child EventHandlers, their children, and so on, for binding.  If a child EventHandler binds a scope with the same name, it overrides the parent's scope.
 
-.. code-block:: pycon
+.. code-block:: none
   
   >>> node = fabricClient.DG.createNode("someNode")
   >>> node.addMember( "x", "Scalar" )
@@ -114,7 +114,7 @@ EventHandler Data
 
 EventHandlers themselves can also have data, and they set the name of their own scope, as seen by child EventHandlers, through ``setScopeName``:
 
-.. code-block:: pycon
+.. code-block:: none
   
   >>> eventHandler.setScopeName("childEventHandler")
   >>> eventHandler.addMember("x","Scalar")

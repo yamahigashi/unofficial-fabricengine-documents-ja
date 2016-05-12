@@ -32,6 +32,46 @@ Once in Maya, go to Window > Settings/Preferences > Plug-in Manager window to lo
 
 To make use of the python client the :envvar:`PYTHONPATH` is automatically extended with the :dfn:`Python/PYTHON_VERSION` subfolder of the Maya module. 
 
+Installing Fabric for MODO
+---------------------------------------------------------------
+
+The Fabric for MODO plugin is shipped as a kit and is located in the folder ``<FABRIC-LOCATION>/DCC_Integrations``.
+To install the Fabric for MODO kit:
+
+#. start MODO.
+
+#. in the main menu choose "System -> Run Script ...".
+
+#. use the file dialog to open the file called ``setup_script.py``. It can be found in the folder ``<FABRIC-LOCATION>/DCC_Integrations/FabricModo``.
+
+#. a second file dialog will appear. Use it to open the same file (i.e. ``setup_script.py``) again.
+
+#. now a message box appears informing you that Fabric has been set up.
+
+#. close the message box and re-start MODO.
+
+#. test the installation by loading the sample scene ``<FABRIC-LOCATION>/Samples/Modo/PolygonMesh_Push_plus_Cubes.lxo``. Once the scene is loaded select the locator called 'move_me_around' and move it around. You should see a push effect on the torus.
+
+.. note::
+  The first time the plugin is launched, all the provided extensions will be built for the target platform on multiple CPUs. This may take a few minutes.
+
+The 'FABRIC' environment variables (optional):
+
+If the 'FABRIC' environment variables are not set on your system then the plugin will automatically set them temporarily for you.
+You might however wish to set them manually, in which case you need to define them as following;
+
+.. code-block:: bash
+
+    export FABRIC_EXTS_PATH=$FABRIC_DIR/Exts
+    export FABRIC_DFG_PATH=$FABRIC_DIR/Presets
+
+Most importantly this will also allow you to specify more than one path for extensions and presets, separated by semicolons (Windows) or colons (unix). For example you might have some own Fabric extension that you wish to use as well as some own preset folders to save presets into. Example (Windows):
+
+.. code-block:: bash
+
+    export FABRIC_EXTS_PATH=$FABRIC_DIR/Exts;D:/StudioXYFabric/Exts;C:/Temp/Tests/
+    export FABRIC_DFG_PATH=$FABRIC_DIR/Presets;D:/StudioXYFabric/Presets;C:/RnDPresets
+
 Installing Fabric for Softimage
 ---------------------------------------------------------------
 

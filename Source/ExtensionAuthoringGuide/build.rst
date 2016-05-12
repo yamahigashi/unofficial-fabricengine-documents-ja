@@ -26,7 +26,7 @@ Installing the :command:`scons` tool also varies by platform.
 
 You can verify that :command:`scons` is installed by opening a command prompt, going to an empty directory and running :command:`scons`.  You should see output similar to the following:
 
-.. code-block:: console
+.. code-block:: none
 
   scons: *** No SConstruct file found.
   File "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/scons-2.2.0/SCons/Script/Main.py", line 905, in _main
@@ -41,7 +41,7 @@ Build the Sample
 
 From a command prompt in the directory containing your copy of the sample, simply run :command:`scons`.  You should see output similar to the following:
 
-.. code-block:: console
+.. code-block:: none
 
   scons: Reading SConscript files ...
   Running SCons with -j8
@@ -57,7 +57,7 @@ Test the Sample
 
 In the same directory, run :command:`python test.py`.  You should see output similar to the following:
 
-.. code-block:: console
+.. code-block:: none
   
   [FABRIC:MT] |FABRIC_PRODUCT_NAME| version |FABRIC_VERSION|
   [FABRIC:MT] Registered extension {HelloWorld} in directory: .
