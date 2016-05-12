@@ -1,0 +1,186 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2010-2016 Fabric Software Inc
+# This file is distributed under the same license as the Fabric Engine
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-05-12 15:40+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.3.3\n"
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:4
+msgid "Execute Ports"
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:6
+msgid ""
+"Execute ports are a special type of port used to control execution of the"
+" graph.  For the most part execute ports and their connections appear "
+"like regular ports and connections in Canvas, but their behavior is "
+"somewhat different, as described below."
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:8
+msgid ""
+"An execute port is a port whose type is the built-in type `Execute`.  The"
+" type `Execute` is an empty type and carries no data; however, the core "
+"of Fabric Engine looks for ports of type `Execute` and uses them to "
+"control how Canvas graphs are executed."
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:11
+msgid "The Implicit Execute Port"
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:13
+msgid ""
+"Every instance node automatically has a port of type `Execute` called "
+"`exec`.  This is referred to as the :dfn:`implicit execute port`.  The "
+"implicit execute port does not appear alongside regular ports on nodes "
+"but rather is accessible through the node header:"
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:17
+msgid ""
+"Once connected, the connection will also originate from or connect to the"
+" node header:"
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:21
+msgid ""
+"The implicit execute port is automatically \"pulled\" by a node before "
+"the node is executed.  This allows Canvas programmers to ensure that "
+"other nodes that are connected to it will be executed before the node is "
+"executed."
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:26
+msgid "Explicit Execute Ports"
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:28
+msgid ""
+"In addition to the implicit execute port, you can add explicit execute "
+"ports to a node by simply adding ports of type `Execute`:"
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:32
+msgid ""
+"In the above example, which is a Canvas function that implements a for "
+"loop, the `body` port has type `Execute`."
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:34
+msgid ""
+"In order to cause an implicit execute port to be executed, you simply "
+"wrap the name of of the port in the `dfgExecute(...)` construct as shown "
+"above."
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:38
+msgid ""
+"Note that the `dfgExecute(...)` construct is optional; simply inserting "
+"the name of the implicit execute port as an expression will cause it to "
+"be executed.  The purpose of this is to allow certain polymorphic nodes "
+"such as `Fabric.Core.Control.If` to operate equally well when their ports"
+" have execute and non-execute types."
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:41
+msgid "Connections To and From Execute Ports"
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:43
+msgid ""
+"In addition to connections between ports that both have type `Execute`, "
+"it is possible to connect from a port that has a type other than "
+"`Execute` to a port of type `Execute`:"
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:47
+msgid ""
+"Such a connection simply pulls the port in question and discards the "
+"result."
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:50
+msgid "Multiple Connections to Execute Ports"
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:52
+msgid ""
+"Unlike regular ports, it is possible to have multiple connections to a "
+"single execute port:"
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:56
+msgid ""
+"In the case of multiple connections, the order in which Canvas \"pulls\" "
+"the connected ports is not guaranteed; this is to enable (eventually) "
+"parallel evaluation of multiple branches.  If you wish to guarantee "
+"sequential evaluation, use one of the Execute.Merge presets."
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:60
+msgid ""
+"It is not currently possible in the Canvas interface to see the order of "
+"the connections; therefore it is recommended to lay out the nodes "
+"manually in the order of the connections so that it is obvious for "
+"someone reading the graph.  This will be fixed in a future version of "
+"Fabric."
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:63
+msgid "Multiple Executions of Execute Ports"
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:65
+msgid ""
+"Unlike regular ports, if an implicit execute port is \"pulled\" multiple "
+"times, then it will be evaluated multiple times.  This allows you to "
+"create looping-type constructs using execute ports."
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:67
+msgid ""
+"Furthermore, whenever an execute port is pulled it will re-evaluate all "
+"the (execute and non-execute) ports behind the execute port.  In "
+"contrast, when a regular port is pulled it will only evaluate the ports "
+"behind it if they haven't already been evaluated."
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:69
+msgid ""
+"It is possible to ensure that (execute and non-execute) ports are only "
+"pulled a single time by using a explicit `Cache` node.  Simply put the "
+"cache node in front of the nodes that you only want to have evaluated a "
+"single time."
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:71
+msgid ""
+"All of this is illustrated in the ForLoop.canvas example that ships with "
+"Fabric, located at "
+":file:`$FABRIC_DIR/Samples/Canvas/ExecutePorts/ForLoop.canvas`.  In this "
+"example we use execute ports to execute a collection of nodes as the body"
+" of a loop, using a Canvas variable to track the iteration of the loop."
+msgstr ""
+
+#: ../../source/CanvasProgrammerGuide/execute-ports.rst:75
+msgid ""
+"This example is meant to serve primarily as an example of how execute "
+"ports work; a future version of Fabric will introduce a feature called "
+"\"blocks\" that will provide a more natural way of looping over groups of"
+" nodes."
+msgstr ""
+
