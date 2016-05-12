@@ -85,15 +85,15 @@ SpliceSoftimage
 -          When multiple output ports exist on a node, the node will only evaluate once. Previously the node would evaluate for every connected output port. This was obvious in  scenes because you would see a huge dump of reports for every single report statement in your KL code.
 -          Now only data that has changed in Softimage is transferred into Splice. In some cases, this will provide significant performance improvements.
 
--          If ÅeAlwaysEvaluateÅf is off, then the node will not evaluate unless something changes. That means that nodes might stop playback when you turn off ÅeWlways Evaluate where they would have evaluated before. You now need a way to force the node to be dirty when time changes. The easiest way is to add a Scalar port and attach an expression operator pulling in the time value.
+-          If ‚ÄòAlwaysEvaluate‚Äô is off, then the node will not evaluate unless something changes. That means that nodes might stop playback when you turn off ‚ÄòWlways Evaluate where they would have evaluated before. You now need a way to force the node to be dirty when time changes. The easiest way is to add a Scalar port and attach an expression operator pulling in the time value.
 
 -          The EvalContext value now accurately reflects the data that has changed in Softimage. You can use this value to determine if code must execute in KL. One example is checking if a filepath parameter has changed to see if the file must be re-loaded. Another is to check if a geometry has changed to know if the acceleration structures must be re-built.
  
 .. note::
 
-  -          ÅeAlways EvaluateÅf: This toggle on the Splice operator will revert the operator to its previous behavior. In the past this was defaulted to ÅetrueÅf but now it defaults to ÅefalseÅf. To upgrade existing scenes, turn ÅeAlwaysEvaluateÅf off.
+  -          ‚ÄòAlways Evaluate‚Äô: This toggle on the Splice operator will revert the operator to its previous behavior. In the past this was defaulted to ‚Äòtrue‚Äô but now it defaults to ‚Äòfalse‚Äô. To upgrade existing scenes, turn ‚ÄòAlwaysEvaluate‚Äô off.
 
-  -          IO Mesh connections: If a port is connected to a mesh with an IO connection, then it will force the operator to evaluate. This is because when the operator evaluates, it modifies the mesh, meaning that on the next evaluation, the mesh will have changed, and so the operator must re-evaluate. Always connect to Meshes as ÅeInÅf or ÅeOutÅf if possible, except when writing a deformer operator.
+  -          IO Mesh connections: If a port is connected to a mesh with an IO connection, then it will force the operator to evaluate. This is because when the operator evaluates, it modifies the mesh, meaning that on the next evaluation, the mesh will have changed, and so the operator must re-evaluate. Always connect to Meshes as ‚ÄòIn‚Äô or ‚ÄòOut‚Äô if possible, except when writing a deformer operator.
 
   -          All ICE data is flagged as changed when the ICE node changes. The finer level filtering of ICE data is possible if you see that as critical.
 
