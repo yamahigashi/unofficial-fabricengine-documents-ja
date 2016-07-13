@@ -505,6 +505,26 @@ Canvas Core API Classes
 
 
 
+    .. cpp:function:: bool hasVar(char const *name )
+
+      Returns true if a variable with a given name exists.
+      
+      :param name: The name of the variable within the graph
+      :returns: True if the variable exists
+
+
+
+
+    .. cpp:function:: char const * getVarType(char const *name )
+
+      Get the current KL type name of a variable within the graph.
+      
+      :param name: The name of the variable within the graph
+      :returns: The current KL type name of the variable
+
+
+
+
     .. cpp:function:: RTVal getVarValue(char const *name )
 
       Get the current value of a variable within the graph.
@@ -1276,7 +1296,7 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: void addPriorPortName()
+    .. cpp:function:: void addPriorPortName(
 
       Split the executable from the preset it is an instance of if it is
       an instance of a preset; otherwise, has no effect.
@@ -1423,6 +1443,14 @@ Canvas Core API Classes
     .. cpp:function:: void dismissLoadDiag(unsigned diagIndex) const
 
       Dismisses the given load diagnostic.
+
+
+
+
+    .. cpp:function:: void setDirty()
+
+      Force the binding into the dirty state.  A dirty notification for this
+      binding will be emitted.
 
 
 

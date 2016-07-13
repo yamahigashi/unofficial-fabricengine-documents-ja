@@ -2,18 +2,12 @@
 
 FbxHelpers Extension
 ====================================================================================
-
 .. image:: /images/FE_logo_345_60.*
    :width: 345px
    :height: 60px
 
 | |FABRIC_PRODUCT_NAME| version |FABRIC_VERSION|
 | |FABRIC_COPYRIGHT|
-
-The FbxHelpers extension provides some helper functions for the :ref:`fbx_extension` . 
-Fbx is often used to load character definitions, and so the FbxHelpers extension
-provides some higher level objects for managing the loading of character definitions
-from Fbx files.
 
 Table of Contents
 -----------------
@@ -22,8 +16,8 @@ Table of Contents
   :maxdepth: 2
   
   files
+  interfaces
   types
-  functions
 
 Indices and Tables
 ------------------

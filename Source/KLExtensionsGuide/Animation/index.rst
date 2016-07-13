@@ -16,7 +16,7 @@ The Keyframe type evaluation uses the same piecewize bezier interpolation found 
 Maya, Softimage, and 3dsmax. In Maya, when a KeyframeTrack is added and connected to a Curve type, the KL Track type
 evaluates the the same results at the connected Maya FCurve node. 
 
-The Animation classes are used by the :ref:`characters_extension` to drive the animation of characters. The :ref:`fbxhelpers_extension` generates a :kl-ref:`Clip` data type when loading animation data from an Fbx file.
+The Animation classes are used by the :ref:`characters_extension` to drive the animation of characters. The :ref:`fbxwrapper_extension` generates a :kl-ref:`Clip` data type when loading animation data from an Fbx file.
 
 Table of Contents
 -----------------

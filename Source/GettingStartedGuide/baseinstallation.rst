@@ -37,11 +37,13 @@ As of 2.2.0 the Fabric Standalone has been converted to Python. ``canvas.py`` is
 
   On OSX it is currently necessary to use the default system Python. If you've installed a newer version via homebrew or another package manager you will need to ensure that you're using the system version found in ``/usr/bin/python`` when you run the Fabric Standalone.
 
-|FABRIC_PRODUCT_NAME| relies on several environment variables. To make this easy for you a shell script / batch file for each supported operating system are provided.
+|FABRIC_PRODUCT_NAME| relies on several environment variables. For convenience, a :dfn:`canvas.bat` (Windows) and :dfn:`canvas.sh` (Linux / OSX) files are provided to run canvas.py automatically. Double clicking these files will internally call the :dfn:`environment.bat` (Windows) or :dfn:`environment.sh` (Linux / OSX) to set up the environment variables and then launch ``python bin/canvas.py``. A shortcut to the :dfn:`canvas.bat` or :dfn:`canvas.sh` file can also be made to make launching the application more accessible for users.
+
+Alternatively, you can define these environment variables manually following the procedures described below.
 
 On Windows:
 
-  Opening the :dfn:`prompt.bat` file will set up all the environment variables for you. Alternatively, if you are using `mingw <http://www.mingw.org>`_ / `Git Bash <https://msysgit.github.io/>`_ you can source the :dfn:`environment.sh` file instead.
+  Open the :dfn:`prompt.bat` file to set up all the environment variables for you. If you are using `mingw <http://www.mingw.org>`_ / `Git Bash <https://msysgit.github.io/>`_ you can also source the :dfn:`environment.sh` file instead.
 
   .. code-block:: bash
 
@@ -51,7 +53,7 @@ On Windows all further steps in the documentation that involve setting and expor
 
 On Linux / OSX:
 
-  To setup all required environment variables simply source the :dfn:`environment.sh` file.
+  To setup all required environment variables simply source the :dfn:`environment.sh` file within a terminal session.
 
   .. code-block:: bash
 

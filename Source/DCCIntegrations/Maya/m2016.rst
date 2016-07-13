@@ -22,7 +22,7 @@ node-by-node basis.  There are two different behaviors:
   execution enabled.
 
   .. note::
-    
+
     Canvas nodes and Splice nodes that have shared execution enabled
     may potentially run in parallel with one another.
 
@@ -33,7 +33,7 @@ node-by-node basis.  There are two different behaviors:
 .. note::
 
   Shared execution of Canvas and Splice nodes is distinct
-  from parallel evaluation within Canvas and Splice nodes.  Even if Fabric 
+  from parallel evaluation within Canvas and Splice nodes.  Even if Fabric
   nodes do not have shared execution enabled they can perform internal
   parallel operations such as PEX calls.
 
@@ -42,11 +42,18 @@ a script command for each of Fabric Canvas and Fabric Splice to enable
 shared execution.
 
 .. note:
-  
+
   The script commands to enable shared execution can be run in pre-2016
   versions of Maya, but they have no effect as Maya will never execute the
   nodes in parallel.
 
+Follow these steps to see an example showing the difference between shared and unshared execution of Canvas nodes:
+
+  1. The samples folder "Maya/Canvas/ParallelEvaluation" contains a scene called "four_outlines_with_parallel_evaluation". It comes in two versions, with the suffix "_OFF" (no shared execution) and with "_ON" (shared execution).
+
+  2. Load the "four_outlines_with_parallel_evaluation_OFF" sample and press playback. After one hundred frames stop playback and take a look at the script log. You will see the time, in milliseconds, it took to evaluate all the Canvas nodes. Keep that number in mind.
+
+  3. Now load the "four_outlines_with_parallel_evaluation_ON" sample and press playback. Depending on your CPU you will probably already notice that it plays back faster. Stop playback and take a look at the script log again. This time the evaluation time should be noticeable smaller.
 
 Enabling Parallel Evaluation for Canvas Nodes
 -------------------------------------------------
@@ -59,9 +66,17 @@ The MEL command to enable parallel evaluation of a Canvas node is:
 
 The command takes immediate effect.
 
+The MEL command to get the current parallel evaluation mode of a Canvas node is:
+
+.. parsed-literal::
+
+  FabricCanvasGetExecuteShared -mayaNode :samp:`{canvasMayaNodeName}`;
+
+It returns 1 (true) if parallel evaluation is enabled for the node and 0 (false) if it is disabled.
+
 An example MEL script showing parallel computation for Canvas nodes:
 
-.. code-block::
+.. code-block:: MEL
 
   $count = 16;
   loadPlugin "FabricMaya";
@@ -150,7 +165,7 @@ The command takes immediate effect.
 
 An example MEL script showing parallel computation for Splice nodes:
 
-.. code-block::
+.. code-block:: MEL
 
   $count = 16;
   loadPlugin "FabricMaya";
@@ -221,5 +236,3 @@ integer.
   they will cause all user-created Fabric nodes to run in parallel with each
   other.  If these nodes, even indirectly, write to a common shared resource,
   the result can be a crash.
-
-

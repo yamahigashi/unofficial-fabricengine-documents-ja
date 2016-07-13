@@ -82,6 +82,8 @@ FabricCanvasAddPort
 
 Adds a new port to a given node.
 
+  - -m, -mayaNode: The name of the Canvas maya node
+  - -e, -execPath: The path of the node inside of Canvas to operate on
   - -d, -desiredPortName: The desired name of the new port
   - -p, -portType: The type, can be "In", "Out" or "IO"
   - -t, -typeSpec: The data type for the new port

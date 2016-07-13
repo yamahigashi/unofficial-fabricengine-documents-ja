@@ -70,7 +70,7 @@ The :kl-ref:`Singleton_set`, :kl-ref:`Singleton_has` and :kl-ref:`Singleton_get`
 
 One of the Singletons unittests:
 
-.. kl-fileexample:: ${FABRIC_SCENE_GRAPH_DIR}/Tests/Singletons/Singletons_Test1.kl
+.. kl-fileexample:: ${FABRIC_SCENE_GRAPH_DIR}/Test/Exts/Singletons/Singletons_Test1.kl
 
 Table of Contents
 -----------------

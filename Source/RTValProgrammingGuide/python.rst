@@ -67,8 +67,8 @@ For the purposes of these examples, we will register a custom structure MyType w
   {'uuid': '8E8A7F4C', 'name': 'MyType', 'members': [{'type': 'String', 'name': 'string'}, {'type': 'UInt32', 'name': 'uint32'}], 'size': 32}
   >>>
 
-Creating an RTVal
-------------------
+Creating an RTVal for KL basic types or Structures
+---------------------------------------------------
 
 To create a type, call the method ``client.RT.types.<TypeName>(<constructor parameters>)``:
 
@@ -95,6 +95,110 @@ If you try to construct with a non-existing constructor, you'll get an exception
     function MyType()
     function MyType(String, UInt32)
   >>>
+
+
+Creating an RTVal for KL Objects
+---------------------------------
+
+.. warning::
+
+  As with objects in KL, a newly-created RTVal of an object type is always null.  
+  To create a non-null object RTVal, call ``client.RT.types.<MyObjType>.create(<create args>)``.
+  However, if a KL object implements a constructor WITH PARAMETERS, a non-null object RTVal can be constucted by calling directly ``client.RT.types.<MyObjType>(<create args>)``.
+
+Here is a example of structures (or basic types) and object RTVals constrution in Python.
+KL object and structure declaration defined in MyExt extension :
+
+.. code-block:: kl
+
+  object MyObj {
+    Float32 value;
+  };
+
+  MyObj() {
+    this.value = 0.0f;
+  }
+
+  MyObj(Float32 value) {
+    this.value = value;
+  }
+
+  struct MyStruct {
+    Float32 value;
+  };
+
+  MyStruct() {
+    this.value = 0.0f;
+  }
+
+  MyStruct(Float32 value) {
+    this.value = value;
+  }
+
+Construction in Python :
+ 
+.. code-block:: none
+  
+  client.loadExtension('MyExt')
+
+  # 1. Objects
+  # 1.1 Direct call from RTVal
+  myObj = self.client.RT.types.MyObj()
+  str(myObj.type('String').getSimpleType()) >>> None
+  str(myObj) >>> Obj <RTVal:null>
+
+  myObj = self.client.RT.types.MyObj(1)
+  str(myObj.type('String').getSimpleType()) >>> MyObj
+  str(myObj) >>> <RTVal:{value:+1.0}>
+
+  myObj = self.client.RT.types.MyObj.create()
+  str(myObj.type('String').getSimpleType()) >>> MyObj
+  str(myObj) >>> <RTVal:{value:+0.0}>
+
+  myObj = self.client.RT.types.MyObj.create(1)
+  str(myObj.type('String').getSimpleType()) >>> MyObj
+  str(myObj) >>> <RTVal:{value:+1.0}>
+
+  # 1.2 Call from RTVal type
+  myObjType = getattr(self.client.RT.types, "MyObj")
+
+  myObj = myObjType()
+  str(myObj.type('String').getSimpleType()) >>> None
+  str(myObj) >>> <RTVal:null>
+
+  myObj = myObjType(1)
+  str(myObj.type('String').getSimpleType()) >>> MyObj
+  str(myObj) >>> <RTVal:{value:+1.0}>
+
+  myObj = myObjType.create()
+  str(myObj.type('String').getSimpleType()) >>> MyObj
+  str(myObj) >>> <RTVal:{value:+0.0}>
+
+  myObj = myObjType.create(1)
+  str(myObj.type('String').getSimpleType()) >>> MyObj
+  str(myObj) >>> <RTVal:{value:+1.0}>
+
+
+  # 2. Structures (same for basic types)
+  # 2.1 Direct call from RTVal
+  myStruct = self.client.RT.types.MyStruct()
+  str(myStruct.type('String').getSimpleType()) >>> MyStruct 
+  str(myStruct) >>> <RTVal:{value:+0.0}>
+
+  myStruct = self.client.RT.types.MyStruct(1)
+  str(myStruct.type('String').getSimpleType()) >>> MyStruct
+  str(myStruct) >>> <RTVal:{value:+1.0}>
+
+  # 2.2 Call from RTVal type
+  myStructType = getattr(self.client.RT.types, "MyStruct")
+  myStruct = myStructType()
+  str(myStruct.type('String').getSimpleType()) >>> MyStruct
+  str(myStruct) >>> <RTVal:{value:+0.0}>
+
+  myStruct = myStructType(1)
+  str(myStruct.type('String').getSimpleType()) >>> MyStruct
+  str(myStruct) >>> <RTVal:{value:+1.0}>
+
 
 Creating RTVal Arrays
 ---------------------
@@ -216,11 +320,6 @@ There are several special method names defined by the Python interface to the Fa
   [FABRIC:MT] Tweet tweet!  string='Hello, there' uint32=113
   >>>
 
-Creating Objects
-----------------
-
-As with objects in KL, a newly-created RTVal of an object type is always null.  To create a non-null object RTVal, call ``client.RT.types.<MyObjType>.create(<create args>)``.
-
 Copying RTVal References
 ------------------------
 
@@ -258,3 +357,26 @@ The same methods can also be used to work with events and event handlers.
 .. warning::
 
   When you call ``getValue`` on a dependency graph node, the returned RTVal is a copy, and not a reference, of the value.  Thus, if you change the returned RTVal you will not change the value in the node from which it came.
+
+Working with KL :kl-ref:`RTVal`
+-------------------------------
+
+| You can use Python RTVals of type KL :kl-ref:`RTVal` to pass generic data in and out of the application. 
+| Python RTVals are not the Python equivalent of a KL :kl-ref:`RTVal`, there is no one to one correspondance.
+| Like other KL types, KL :kl-ref:`RTVal`s are contained within a Python RTVals when accessed from Python.
+
+| Here is an example of how retrieve the wrapped value of a KL :kl-ref:`RTVal` into a Python RTVal:
+ 
+.. code-block:: none
+
+  # Access the KL :kl-ref:`RTVal` containing the KL data we want. 
+  klRTVal = getRTVal(....);
+  
+  # Now, get the type of the KL data wrapped in the KL :kl-ref:`RTVal`. 
+  valType = str(klRTVal.type('String').getSimpleType())
+  
+  # Then, construct a new Python RTVal containing the KL data.
+  rtValType = getattr(self.client.RT.types, valType)
+  pythonRTVal = rtValType(klRTVal)
+
+ 

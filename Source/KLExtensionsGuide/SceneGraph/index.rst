@@ -1,7 +1,7 @@
 .. _scenegraph_extension:
 
 SceneGraph Extension
-====================================================================================
+=======================
 
 .. image:: /images/FE_logo_345_60.*
    :width: 345px
@@ -11,54 +11,29 @@ SceneGraph Extension
 | |FABRIC_COPYRIGHT|
 
 The :kl-ref:`SceneGraph` is a generic container of scene objects (:kl-ref:`SGObject`), their 
-properties (:kl-ref:`SGObjectProperties`) and the relationships between these objects.
+properties (:kl-ref:`SGObjectProperty`) and the object references (hierarchy). 
 
-The :kl-ref:`SceneGraph` provides the following functionality:
+See :ref:`scenegraph_overview` for more details.
 
-- Providing various type of object references which can be used in a flexible
-  way such as defining hierarchies, shared assets or object groups
-
-- Supporting property propagation over hierarchies, with both default
-  and overriden values, and allowing instance-specific property storage
-
-- Allowing for higher-level wrapping of :kl-ref:`SGObjects` by specialized :kl-ref:`SGObjectWrapper`
-  such as :kl-ref:`SGInstance` or :kl-ref:`SGCamera`
-
-- Supporting :kl-ref:`SGObject` or :kl-ref:`SGObjectProperty` generators that can compute
-  the requested values for a given context (:kl-ref:`SGContext`), with support
-  of dependencies between generators (dependency graph). For example, the :kl-ref:`SGInstanceGroup`
-  computes its `localBBox` from the children objects.
-  
-- Caching and management of contextual (animated) data [to be implemented]
-
-- Allowing asynchronous updates by providing services such as the
-  :kl-ref:`SGObjectPropertyWatch`, the :kl-ref:`SGIncrementalObserver`, the :kl-ref:`SGInstanceQuery`
-  and by supporting the SceneInterface wrappers such as :kl-ref:`SWElementReference`
-
-- Allowing for fast, runtime creation or deletion of scene objects
-  and properties
-
-- Minimizing memory allocations and fragmentation by grouping 
-  objects and property sets in a few contiguous arrays
-
-See the :kl-ref:`SceneGraph`, :kl-ref:`SGObject` and :kl-ref:`SGObjectProperty` for more details
-about the SceneGraph API.
+See :ref:`SceneHub<scenehub>` for a global picture of the
+:ref:`SceneGraph<scenegraph_overview>`, the :ref:`sceneassembly` and the :ref:`rtr2`.
 
 Related extensions
 -----------------
 
 The SceneGraph extensions is closely related to these other extensions:
 
-- The SceneInterfaces extension define implementation-independant
-  scene wrapper interfaces that are supported by the :kl-ref:`SceneGraph`
-  or specialized wrapper objects (such as :kl-ref:`SceneGraphWrapper` or :kl-ref:`SGElementReferenceData`)
+- The :ref:`sceneassembly_extension` defines interfaces for abstracting the scene
+  along with nodes for filtering or processing scene graph elements.
 
-- The :kl-ref:`SceneGraphWrappers` extensions defines various higher-level wrappers
-  such as the :kl-ref:`SGDirectionalLight` or :kl-ref:`SGCamera`
+- The :ref:`scenegraphwrappers_extension` extension defines common higher-level wrappers
+  that define common scene types, such as :kl-ref:`SGDirectionalLight` or :kl-ref:`SGCamera`.
 
-- The SceneGraphToRTR extension provides specialized adaptors from
-  the :kl-ref:`SceneGraph` to RTR objects (eg: :kl-ref:`SceneGraphToRTR`,
-  :kl-ref:`SGCameraToRTR`)
+- The :ref:`scenegraph_to_rtr_extension` extension provides specialized adaptors from
+  the :kl-ref:`SceneGraph` to :ref:`rtr2` objects, such as the :kl-ref:`SGCameraToRTR`.
+
+- The :ref:`alembic_to_scenegraph` extension provides specialized generators 
+  mapping AlembicWrapper readers to :kl-ref:`SceneGraph` objects, such as the :kl-ref:`SGAlembicGeometry`.
 
 Table of Contents
 -----------------
@@ -66,6 +41,7 @@ Table of Contents
 .. toctree::
   :maxdepth: 2
   
+  scenegraph_overview
   files
   interfaces
   types

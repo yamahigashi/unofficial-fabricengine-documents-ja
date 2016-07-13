@@ -45,7 +45,7 @@ Canvas
 **CTRL+R**
   Rearranges with an automatic layout will be applied to all the nodes at the left of the current selected node.
 
-**Alt + left/middle mouse button or Space + left mouse button**
+**Middle mouse button or Alt + left mouse button or Space + left mouse button**
   Pan graph.
 
 **Alt + right mouse button**
@@ -63,13 +63,16 @@ Canvas
 **D**
   Disconnect all ports of the selected node(s) or, if hovering over a connection, removes the connection (same as middle mouse button).
 
+**U**
+  Go up one level when inside a preset or node.
+
 **F2**
   Node properties dialog.
  
 **Double click**
   Inspect selected node.
   
-**Shift double click**
+**I or Shift double click**
   Edit selected node.
 
 **Backspace/Del**
@@ -99,25 +102,28 @@ Fabric Standalone
 
 **CTRL+0**
   Reset the Canvas zoom to 100%
-  
-**CTRL+4**
+
+**CTRL+1**
   Show/hide the Canvas Graph.
 
-**CTRL+5**
+**CTRL+2**
   Show/hide the Explorer.
 
-**CTRL+6**
+**CTRL+3**
   Show/hide the Value Editor.
 
-**CTRL+7**
+**CTRL+4**
+  Show/hide the TimeLine.
+
+**CTRL+5**
   Show/hide the undo/redo History.
 
-**CTRL+8**
+**CTRL+6**
   Show/hide the Log Messages.
 
-**CTRL+9**
-  Show/hide the TimeLine.
-  
+**CTRL+7**
+  Show/hide the Script Editor.
+
 **Alt + left mouse button**
   Orbit camera.
 
@@ -132,5 +138,3 @@ Fabric Standalone
 
 **R**
   Reset Camera.
-
-
