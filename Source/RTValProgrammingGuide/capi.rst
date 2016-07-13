@@ -91,6 +91,26 @@ You can use RTVals of type :code:`Data` to pass opaque data pointers in and out 
   - :cpp:func:`RTVal::getData`
   - :cpp:func:`RTVal::setData`
 
+Working with KL :kl-ref:`RTVal`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| You can use cpp RTVals of type KL :kl-ref:`RTVal` to pass generic data in and out of the application. 
+| cpp RTVals are not the cpp equivalent of a KL :kl-ref:`RTVal`, there is no one to one correspondance.
+| Like other KL types, KL :kl-ref:`RTVal`s are contained within a cpp RTVals when accessed from C++.
+
+| Here is an example of how retrieve the wrapped value of a KL :kl-ref:`RTVal` into a cpp RTVal:
+ 
+.. code-block:: cpp
+
+  //Access the KL :kl-ref:`RTVal` containing the KL data we want. 
+  RTVal klRTVal = getRTVal(....);
+
+  //Now, get the type of the KL data wrapped in the KL :kl-ref:`RTVal`. 
+  const char * valType = klRTVal.callMethod("String", "type", 0, 0).getStringCString();
+
+  //Then, construct a new cpp RTVal containing the KL data.
+  RTVal cppRTVal = RTVal::Construct(client, valType, 1, &klRTVal);
+ 
 
 API Reference
 ---------------------------

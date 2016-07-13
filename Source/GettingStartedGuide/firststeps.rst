@@ -3,27 +3,14 @@
 First steps with Fabric Canvas
 ================================================
 
-|FABRIC_PRODUCT_NAME| provides a standalone application, called :dfn:`Fabric Standalone`, as well as integrations 
-into various DCCs. Once you have installed |FABRIC_PRODUCT_NAME| successfully, 
+|FABRIC_PRODUCT_NAME| provides a standalone application, called :dfn:`Fabric Standalone`, as well as integrations
+into various DCCs. Once you have installed |FABRIC_PRODUCT_NAME| successfully,
 we recommend to make yourself familiar with :dfn:`Fabric Standalone` first before diving into the DCC integrations.
 
 Test-Driving Fabric Standalone
 ----------------------------------------
 
-To launch :dfn:`Fabric Standalone` double click on prompt.bat on Windows, or open up a shell, source the environment script and run `canvas`.
-
-.. code-block:: bash
-
-    source environment.sh
-    canvas
-
-Using `Git Bash <https://msysgit.github.io/>`_ on Windows it looks like this:
-
-.. image:: /images/GettingStarted/03_bash_launch_canvas.png
-
-.. note:: The look of the application may vary depending on the operating system. On Windows it looks like this:
-
-.. image:: /images/GettingStarted/04_canvas_standalone.png
+Launch Fabric Standalone as described in the :ref:`GETTINGSTARTED_STANDALONE`
 
 |FABRIC_PRODUCT_NAME| ships with a series of examples for the :dfn:`Fabric Standalone`. You can find them in the :dfn:`Samples/Canvas` folder below the root folder of the |FABRIC_PRODUCT_NAME| archive extraction location.
 
@@ -47,17 +34,17 @@ The :dfn:`Fabric Standalone` is divided into five areas in its default layout:
 
 * The :dfn:`Canvas Graph` (center)
 
-  This view is the heart of the visual programming system. It follows the Autodesk Maya interaction model as well. A few highlights and things to try:
+  This view is the heart of the visual programming system. It follows the Autodesk Maya interaction model. A few highlights and things to try:
 
   * Right click the side panels to add or remove ports
   * Hit tab in the view to start a quick search, hit enter to insert nodes
   * Copy and paste nodes and connected graph sections
-  * Right click the canvas to create new subgraphs or KL functions  
+  * Right click the canvas to create new subgraphs or KL functions
   * Double click to inspect a selected node
   * Shift double click to edit a selected node
   * Press 1,2 and 3 to cycle from the different collapse states of nodes.
   * Press A to frame all the nodes in the graph
-  * Right click on nodes for further actions  
+  * Right click on nodes for further actions
 
 * The :dfn:`Timeline` (bottom)
 

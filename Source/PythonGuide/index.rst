@@ -20,6 +20,8 @@ Fabric has offered Python bindings for the Core C++ API for some time but new to
 
 The Canvas standalone has been rebuilt in Python using the Canvas module and provides a good example of how another standalone application may be built using Python. The Canvas standalone can be found in `FABRIC_DIR/bin/canvas.py`.
 
+Additionally, a sample Alembic Viewer application is also shipped with each release and is located `FABRIC_DIR/Samples/Python/AlembicViewer/alembic_viewer.py`. A short tutorial has been written outlining the steps taken to create the Alembic Viewer sample application. See the :ref:`ALEMBICVIEWERTUTORIAL` for more information.
+
 The Canvas module and the FabricUI Python bindings are still a work in progress. Over the next few releases we will be working on cleaning up and stabilizing the API as well as providing more detailed documentation. In the meantime we welcome users to begin experimenting with it to build applications, though the API may be changing from release to release as we make improvements to both functionality and ease of use.
 
 Currently we are only providing the bindings for Python 2.7 with Qt 4.8.x and PySide 1.2.4. Users can however visit the `FabricUI repository <http://github.com/fabric-engine/FabricUI>`_ to check out and build the bindings against any version of Python or Qt that's required. In a future release we will also add FabricUI Python support for supported DCCs.
@@ -67,7 +69,7 @@ LogWidget
   :private-members:
 
 RTValEncoderDecoder
-+++++++++++++++
+++++++++++++++++++++
 
 .. automodule:: FabricEngine.Canvas.RTValEncoderDecoder
   :members:

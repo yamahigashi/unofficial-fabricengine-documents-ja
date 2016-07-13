@@ -177,6 +177,22 @@ There is also an :ref:`CAPI.clients.api-reference-cpp`.
 
 
 
+.. c:function:: FEC_ClientRef FEC_ClientGetSingleton(FEC_ClientReportCallback reportCallback, void *reportUserdata)
+
+  The Fabric Core can maintain a singleton instance of a Client for sharing between multiple Fabric Core users. The first time this function is called a Client instance will be created and any subsequent calls will return a handle to this same instance. The CreateOptions are only used if this is the first call to GetSingleton(), if the singleton already exists then this parameter is ignored.
+
+  :returns: A new reference to the singleton client object.
+
+
+
+
+.. c:function:: FEC_ClientRef FEC_ClientInvalidateSingleton()
+
+  This function will invalidate the Core's reference to the singleton Client so that the next call to GetSingleton() will return a new Client object. Any outstanding references to the previous singleton Client will continue to work and it will only be destroyed when there are no references left.
+
+
+
+
 .. c:function:: void FEC_ClientSetReportCallback(FEC_ClientRef clientRef, FEC_ClientReportCallback reportCallback, void *reportUserdata)
 
   Set the report callback for the client.  This will replace whatever report callback was already there.  Passing NULL for reportCallback will cause no report callbacks to be fired back to the client.

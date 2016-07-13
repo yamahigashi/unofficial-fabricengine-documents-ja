@@ -13,6 +13,11 @@ FABRIC_CUDA_LOG
 
 If set, the Core will output verbose logging info whenever a KL operator is passed into the CUDA codegen. In addition it will output cuda.ll and cuda.ptx files containing the IR and PTX of the last KL operator into the current directory. In order to ensure that the CUDA operator is actually compiled this flag also causes the Core to bypass the cache for GPU operators only.
 
+FABRIC_COUNT_HEAP_USE
++++++++++++++++++++++
+
+If non-zero this will enable use of the KL function 'klHeapInUse()' to retrieve the number of bytes of memory currently allocated on the heap in KL.
+
 FABRIC_DEBUG
 ++++++++++++
 

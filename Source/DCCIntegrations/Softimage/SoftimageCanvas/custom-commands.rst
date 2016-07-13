@@ -852,6 +852,9 @@ FabricCanvasOpPortMapDefine
 
       Dim opRef
       Dim portmapDefinition
+      Dim nodeNameGetTorus
+      Dim nodeNameDrawMesh
+      Dim nodeNameColor
 
       ' create a null with a Canvas operator.
       NewScene
@@ -859,26 +862,26 @@ FabricCanvasOpPortMapDefine
       set opRef = FabricCanvasOpApply("null", "", False)
 
       ' create a small graph.
-      FabricCanvasInstPreset opRef.FullName, , "Fabric.Compounds.PolygonMesh.Create.GetTorus", "100", "50"
-      FabricCanvasInstPreset opRef.FullName, , "Fabric.Compounds.PolygonMesh.Display.DrawMesh", "330", "160"
-      FabricCanvasInstPreset opRef.FullName, , "Fabric.Exts.Math.Color.ComposeColor", "100", "200"
-      FabricCanvasConnect opRef.FullName, , "GetTorus.mesh", "DrawMesh.mesh"
-      FabricCanvasConnect opRef.FullName, , "Color.result", "DrawMesh.color"
+      nodeNameGetTorus = FabricCanvasInstPreset( opRef.FullName, , "Fabric.Compounds.PolygonMesh.Create.GetTorus", "100", "50" )
+      nodeNameDrawMesh = FabricCanvasInstPreset( opRef.FullName, , "Fabric.Compounds.PolygonMesh.Display.DrawMesh", "330", "160" )
+      nodeNameColor    = FabricCanvasInstPreset( opRef.FullName, , "Fabric.Exts.Math.Color.ComposeColor", "100", "200" )
+      FabricCanvasConnect opRef.FullName, , nodeNameGetTorus & ".mesh", nodeNameDrawMesh & ".mesh"
+      FabricCanvasConnect opRef.FullName, , nodeNameColor & ".result", nodeNameDrawMesh & ".color"
 
       ' create ports for "drawThis", "r", "g" and "b".
-      FabricCanvasAddPort opRef.FullName, , "drawThis", "Out", "DrawingHandle", "DrawMesh.drawThis"
-      FabricCanvasAddPort opRef.FullName, , "r", "In", "Scalar", "Color.r"
-      FabricCanvasAddPort opRef.FullName, , "g", "In", "Scalar", "Color.g"
-      FabricCanvasAddPort opRef.FullName, , "b", "In", "Scalar", "Color.b"
+      FabricCanvasAddPort opRef.FullName, , "drawThis", "Out", "DrawingHandle", nodeNameDrawMesh & ".drawThis"
+      FabricCanvasAddPort opRef.FullName, , "r", "In", "Scalar", nodeNameColor & ".r"
+      FabricCanvasAddPort opRef.FullName, , "g", "In", "Scalar", nodeNameColor & ".g"
+      FabricCanvasAddPort opRef.FullName, , "b", "In", "Scalar", nodeNameColor & ".b"
 
       ' define the port mapping so that "r", "g" and "b" are exposed as XSI parameters.
       portmapDefinition = "r|XSI Parameter" & "<<->>" & "g|XSI Parameter" & "<<->>" & "b|XSI Parameter"
-      set opRef = FabricCanvasOpPortMapDefine("null.kine.global.CanvasOp", portmapDefinition)
+      set opRef = FabricCanvasOpPortMapDefine(opRef.FullName, portmapDefinition)
 
       ' set the color to red.
-      SetValue "null.kine.global.CanvasOp.r", 1
-      SetValue "null.kine.global.CanvasOp.g", 0
-      SetValue "null.kine.global.CanvasOp.b", 0
+      SetValue opRef.FullName & ".r", 1
+      SetValue opRef.FullName & ".g", 0
+      SetValue opRef.FullName & ".b", 0
 
       ' open the property page.
       InspectObj opRef.FullName

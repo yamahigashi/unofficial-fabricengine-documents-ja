@@ -1,0 +1,10 @@
+.. _alembicimaterialschema:
+
+AlembicIMaterialSchema (object)
+===========================================================================
+
+.. kl-type:: AlembicIMaterialSchema
+  createrefs=1;
+  methods=1;
+  params=1;
+  members=1;

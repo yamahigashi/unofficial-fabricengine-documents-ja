@@ -1,4 +1,4 @@
-.. _polygonmeshstructure:
+﻿.. _polygonmeshstructure:
 
 Utilizing GPU commpute with Geometries
 ======================================

@@ -1,0 +1,10 @@
+.. _basescalarattributepainttool:
+
+BaseScalarAttributePaintTool (object)
+===========================================================================
+
+.. kl-type:: BaseScalarAttributePaintTool
+  createrefs=1;
+  methods=1;
+  params=1;
+  members=1;
