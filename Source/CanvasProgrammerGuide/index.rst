@@ -24,6 +24,7 @@ Table of Contents
 
   klfunctioneditor
   polymorphism
+  cpg-blocks
   variables
   caches
   referencetypes

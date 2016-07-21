@@ -7,23 +7,24 @@ Within Canvas you can directly create custom KL function nodes. These nodes run 
 
 To create custom KL functions, right click the empty space in a graph view and choose :dfn:`New empty function`. This will create the function node and open the KL function editor. To open the KL function editor in an existing function node, double shift-click the node or open the context menu by right-clicking the node and choose :dfn:`Edit`.
 
-.. image:: /images/Canvas/userguide_19.jpg
+.. image:: /images/Canvas/cpg-function-editor.png
 
 The KL function editor essentially contains two sections: The port list and the code window. 
 
 KL function ports
 ---------------------
-You can add and remove ports by defining their port type, name as well as data type. By default port types are polymorphic, but you can pick fixed types. If you want to know more about KL function polymorphism, please see :ref:`canvas-programmer-guide-polymorphism`. Alternatively you can also add a port by right clicking any entry in the port list and choose :dfn:`Add new port`.
 
-To remove a port, right click it and choose :dfn:`Delete port` in the context menu.
+You can add ports by providing their name, port type, and data type, and clicking "Add Port". By default port types are polymorphic, but you can pick fixed types. If you want to know more about KL function polymorphism, please see :ref:`canvas-programmer-guide-polymorphism`.
 
-.. note:: The KL function editor port list also supports the Ctrl-Enter (Add new port) and Ctrl-Backspace (Delete port) keyboard shortcuts.
+To remove a port, click the red minus icon to the left of the port.  You can also select multiple ports using shift-click and control-click (command-click on macOS), right clicking and selecting "Remove Selected".
+
+You can edit the details of a port, such as UI metadata, by clicking the edit ("pencil") icon to the left of the port.
+
+You can reorder ports using drag-and-drop.  This also works for selected ranges of ports using shift/control-click.
 
 Ports can be referenced by name in the KL code below.
 
-.. note:: If you add a port with a data type which is implemented in a KL extension you have to add that extension to the :dfn:`Required Extensions` field on the top left.
-
-.. note:: Reordering of ports in the KL function editor is not yet supported, but will be added in a future version.
+.. note:: If you add a port with a data type which is implemented in a KL extension you have to add that extension to the :dfn:`Required Extensions` field on the top right.
 
 Requirements field
 ----------------------
@@ -77,3 +78,5 @@ There are several constructs that are specific to KL code that is used within Ca
 ``dfgNodePath``
   A string constant representing the path to the node being executed.
 
+``dfgPullBlockPort``
+  Pull a block port.  For more information, see :ref:`canvas-programming-guide-blocks`.

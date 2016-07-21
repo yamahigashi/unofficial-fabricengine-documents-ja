@@ -24,15 +24,16 @@ Table of Contents
   :maxdepth: 3
   
   graphview
-  timeline
   valueeditor
+  cug-blocks
+  timeline
   history
   variables
   caches
   polymorphism
   shortcuts
 
-.. image:: /images/Canvas/userguide_01.jpg
+.. image:: /images/Canvas/userguide_01.png
 
 Indices and Tables
 ------------------

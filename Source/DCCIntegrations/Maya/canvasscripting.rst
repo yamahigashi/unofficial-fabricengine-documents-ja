@@ -30,6 +30,33 @@ Adds a new backdrop node to the Canvas graph.
 
     FabricCanvasAddBackDrop -m "canvasNode1" -e "" -t "MathNodes" -x "265" -y "132";
 
+FabricCanvasAddBlock
+-------------------------------------
+
+Adds a new block node to the Canvas graph.
+
+  - -m, -mayaNode: The name of the Canvas maya node
+  - -e, -execPath: The path of the node inside of Canvas to operate on
+  - -x, -xPos: The x coordinate for placing the new node
+  - -y, -yPos: The y coordinate for placing the new node
+  - -d, -desiredName: The name of the new node
+
+FabricCanvasAddBlockPort
+-------------------------------------
+
+Adds a new port to a given block node.
+
+  - -m, -mayaNode: The name of the Canvas maya node
+  - -e, -execPath: The path of the node inside of Canvas to operate on
+  - -b, -blockName: The name of the block
+  - -d, -desiredPortName: The desired name of the new port
+  - -p, -portType: The type, can be "In", "Out" or "IO"
+  - -t, -typeSpec: The data type for the new port
+  - -c, -pathToConnect: An optional argument to describe it's initial connection
+  - -ct, -connectType: The type, can be "In", "Out" or "IO"
+  - -xd, -extDep: An optional extension dependency for the port
+  - -md, -metaData: Additional metadata, for example UI ranges or combo lists
+
 FabricCanvasAddFunc
 -------------------------------------
 
@@ -76,6 +103,37 @@ Adds a new sub graph node to the Canvas graph.
 .. code-block:: KL
 
     FabricCanvasAddGraph -m "canvasNode1" -e "" -t "MySubGraph" -x "265" -y "132";
+
+FabricCanvasAddInstBlockPort
+-------------------------------------
+
+Adds a new port to a block instance.
+
+  - -m, -mayaNode: The name of the Canvas maya node
+  - -e, -execPath: The path of the node inside of Canvas to operate on
+  - -n, -instName: The name of the instance
+  - -b, -blockName: The name of the block
+  - -d, -desiredPortName: The desired name of the new port
+  - -t, -typeSpec: The data type for the new port
+  - -c, -pathToConnect: An optional argument to describe it's initial connection
+  - -xd, -extDep: An optional extension dependency for the port
+  - -md, -metaData: Additional metadata, for example UI ranges or combo lists
+
+FabricCanvasAddInstPort
+-------------------------------------
+
+Adds a new port to an instance node.
+
+  - -m, -mayaNode: The name of the Canvas maya node
+  - -e, -execPath: The path of the node inside of Canvas to operate on
+  - -n, -instName: The name of the instance
+  - -d, -desiredPortName: The desired name of the new port
+  - -p, -portType: The type, can be "In", "Out" or "IO"
+  - -t, -typeSpec: The data type for the new port
+  - -c, -pathToConnect: An optional argument to describe it's initial connection
+  - -ct, -connectType: The type, can be "In", "Out" or "IO"
+  - -xd, -extDep: An optional extension dependency for the port
+  - -md, -metaData: Additional metadata, for example UI ranges or combo lists
 
 FabricCanvasAddPort
 -------------------------------------
@@ -183,13 +241,14 @@ Edits an existing port. Use this to rename a port, change its data type, etc.
 
   - -n, -oldPortName: The old name of the port
   - -d, -desiredNewPortName: The desired new name of the port
+  - -p, -portType: The type, can be "In", "Out" or "IO"
   - -t, -typeSpec: The wanted datatype of the port
   - -xd, -extDep: An additional extension dependency of the port
   - -ui, -uiMetadata: Additional metadata, such as UI ranges and combos.
 
 .. code-block:: KL
 
-    FabricCanvasEditPort -m "canvasNode1" -e "" -n "x" -d "factor" -t "Scalar" -ui "";
+    FabricCanvasEditPort -m "canvasNode1" -e "" -n "x" -d "factor" -p "In" -t "Scalar" -ui "";
 
 FabricCanvasExplodeNode
 -------------------------------------
@@ -334,11 +393,12 @@ Reorders the ports of a Canvas graph or sub graph
 
   - -m, -mayaNode: The name of the Canvas maya node
   - -e, -execPath: The path of the node inside of Canvas to operate on
+  - -p, -itemPath: The path to the item
   - -i, -indices: The new index order for the ports
 
 .. code-block:: KL
 
-  FabricCanvasReorderPorts -m "canvasNode1" -e "" -i "[1, 0, 2]";
+  FabricCanvasReorderPorts -m "canvasNode1" -e "" -p "" -i "[1, 0, 2]";
 
 FabricCanvasResizeBackDrop
 -------------------------------------

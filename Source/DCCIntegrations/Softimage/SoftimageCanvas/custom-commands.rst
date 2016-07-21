@@ -9,15 +9,15 @@ The Custom Commands
 
 FabricCanvasAddBackDrop
 -----------------------------------
-    
+
     **Description**
 
     Adds a backdrop to a graph.
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasAddBackDrop( binding, execPath, title, xPos, yPos )``
-    
+
     **Parameters**
 
       - ``binding``
@@ -39,22 +39,116 @@ FabricCanvasAddBackDrop
       - ``yPos``
 
         The y position for the new backdrop.
-    
-FabricCanvasAddFunc
+
+FabricCanvasAddBlock
 -----------------------------------
-    
+
     **Description**
 
-    Adds a function node to a graph.
-    
+    Adds a block node to a graph.
+
     **Scripting Syntax**
 
-    ``name = FabricCanvasAddFunc( binding, execPath, title, initialCode, xPos, yPos )``
-    
+    ``name = FabricCanvasAddBlock( binding, execPath, desiredName, xPos, yPos )``
+
     **Return value**
 
     The name of the new node.
-    
+
+    **Parameters**
+
+      - ``binding``
+
+        The name of a CanvasOp operator (i.e. the graph).
+
+      - ``execPath``
+
+        The path for the new node.
+
+      - ``desiredName``
+
+        The title of the new node.
+
+      - ``xPos``
+
+        The x position for the new node.
+
+      - ``yPos``
+
+        The y position for the new node.
+
+FabricCanvasAddBlockPort
+-----------------------------------
+
+    **Description**
+
+    Adds a port to a block node.
+
+    **Scripting Syntax**
+
+    ``name = FabricCanvasAddBlockPort( binding, execPath, blockName, desiredPortName, portType, typeSpec, pathToConnect, connectType, extDep, metaData )``
+
+    **Return value**
+
+    The name of the new port. Note that the name returned by the command might be different from the name specified via ``desiredPortName`` due to the internal naming rules used by Fabric Core.
+
+    **Parameters**
+
+      - ``binding``
+
+        The name of a CanvasOp operator (i.e. the graph).
+
+      - ``execPath``
+
+        The path of the block to which the port will be added to.
+
+      - ``blockName``
+
+        The name of the block.
+
+      - ``desiredPortName``
+
+        The desired name for the port. If a port with the same name already exists then the name of the new port will be suffixed with a number, e.g. "2", appended to its name.
+
+      - ``portType``
+
+        The port type: "In", "Out" or "IO".
+
+      - ``typeSpec``
+
+        The data type of the port, for example "Scalar", "Vec3", "PolygonMesh".
+
+      - ``pathToConnect``
+
+        An optional path to an existing port. If specified, the new port will be connected to this port.
+
+      - ``connectType``
+
+        The connection type: "In", "Out" or "IO".
+
+      - ``extDep``
+
+        An optional extension dependency for the port.
+
+      - ``metaData``
+
+        Additional metadata, for example UI ranges or combo lists.
+
+FabricCanvasAddFunc
+-----------------------------------
+
+    **Description**
+
+    Adds a function node to a graph.
+
+    **Scripting Syntax**
+
+    ``name = FabricCanvasAddFunc( binding, execPath, title, initialCode, xPos, yPos )``
+
+    **Return value**
+
+    The name of the new node.
+
     **Parameters**
 
       - ``binding``
@@ -80,22 +174,22 @@ FabricCanvasAddFunc
       - ``yPos``
 
         The y position for the new node.
-    
+
 FabricCanvasAddGet
 -----------------------------------
-    
+
     **Description**
 
     Adds a 'get variable' node to a graph.
-    
+
     **Scripting Syntax**
 
     ``name = FabricCanvasAddGet( binding, execPath, desiredNodeName, varPath, xPos, yPos )``
-    
+
     **Return value**
 
     The name of the new node.
-    
+
     **Parameters**
 
       - ``binding``
@@ -121,22 +215,22 @@ FabricCanvasAddGet
       - ``yPos``
 
         The y position for the new node.
-    
+
 FabricCanvasAddGraph
 -----------------------------------
-    
+
     **Description**
 
     Adds a graph node to the graph.
-    
+
     **Scripting Syntax**
 
     ``name = FabricCanvasAddGraph( binding, execPath, title, xPos, yPos )``
-    
+
     **Return value**
 
     The name of the new node.
-    
+
     **Parameters**
 
       - ``binding``
@@ -158,14 +252,124 @@ FabricCanvasAddGraph
       - ``yPos``
 
         The y position for the new node.
-    
+
+FabricCanvasAddInstBlockPort
+-----------------------------------
+
+    **Description**
+
+    Adds a port to a block instance.
+
+    **Scripting Syntax**
+
+    ``name = FabricCanvasAddInstBlockPort( binding, execPath, instName, blockName, desiredPortName, typeSpec, pathToConnect, extDep, metaData )``
+
+    **Return value**
+
+    The name of the new port. Note that the name returned by the command might be different from the name specified via ``desiredPortName`` due to the internal naming rules used by Fabric Core.
+
+    **Parameters**
+
+      - ``binding``
+
+        The name of a CanvasOp operator (i.e. the graph).
+
+      - ``execPath``
+
+        The path of the block to which the port will be added to.
+
+      - ``instName``
+
+        The name of the instance.
+
+      - ``blockName``
+
+        The name of the block.
+
+      - ``desiredPortName``
+
+        The desired name for the port. If a port with the same name already exists then the name of the new port will be suffixed with a number, e.g. "2", appended to its name.
+
+      - ``typeSpec``
+
+        The data type of the port, for example "Scalar", "Vec3", "PolygonMesh".
+
+      - ``pathToConnect``
+
+        An optional path to an existing port. If specified, the new port will be connected to this port.
+
+      - ``extDep``
+
+        An optional extension dependency for the port.
+
+      - ``metaData``
+
+        Additional metadata, for example UI ranges or combo lists.
+
+FabricCanvasAddInstPort
+-----------------------------------
+
+    **Description**
+
+    Adds a port to an instance node.
+
+    **Scripting Syntax**
+
+    ``name = FabricCanvasAddInstPort( binding, execPath, instName, desiredPortName, portType, typeSpec, pathToConnect, connectType, extDep, metaData )``
+
+    **Return value**
+
+    The name of the new port. Note that the name returned by the command might be different from the name specified via ``desiredPortName`` due to the internal naming rules used by Fabric Core.
+
+    **Parameters**
+
+      - ``binding``
+
+        The name of a CanvasOp operator (i.e. the graph).
+
+      - ``execPath``
+
+        The path of the block to which the port will be added to.
+
+      - ``instName``
+
+        The name of the instance.
+
+      - ``desiredPortName``
+
+        The desired name for the port. If a port with the same name already exists then the name of the new port will be suffixed with a number, e.g. "2", appended to its name.
+
+      - ``portType``
+
+        The port type: "In", "Out" or "IO".
+
+      - ``typeSpec``
+
+        The data type of the port, for example "Scalar", "Vec3", "PolygonMesh".
+
+      - ``pathToConnect``
+
+        An optional path to an existing port. If specified, the new port will be connected to this port.
+
+      - ``connectType``
+
+        The connection type: "In", "Out" or "IO".
+
+      - ``extDep``
+
+        An optional extension dependency for the port.
+
+      - ``metaData``
+
+        Additional metadata, for example UI ranges or combo lists.
+
 FabricCanvasAddPort
 -----------------------------------
-    
+
     **Description**
 
     Adds a port to a node.
-    
+
     **Scripting Syntax**
 
     ``name = FabricCanvasAddPort( binding, execPath, desiredPortName, portType, typeSpec, portToConnect, extDep, uiMetadata )``
@@ -173,7 +377,7 @@ FabricCanvasAddPort
     **Return value**
 
     The name of the new port. Note that the name returned by the command might be different from the name specified via ``desiredPortName`` due to the internal naming rules used by Fabric Core.
-    
+
     **Parameters**
 
       - ``binding``
@@ -195,34 +399,34 @@ FabricCanvasAddPort
       - ``typeSpec``
 
         The data type of the port, for example "Scalar", "Vec3", "PolygonMesh".
-    
+
       - ``portToConnect``
 
         An optional path to an existing port. If specified, the new port will be connected to this port.
-        
+
       - ``extDep``
 
-        NOT YET DOCUMENTED
-        
+        An optional extension dependency for the port.
+
       - ``uiMetadata``
 
-        NOT YET DOCUMENTED
-        
+        Additional metadata, for example UI ranges or combo lists.
+
 FabricCanvasAddSet
 -----------------------------------
-    
+
     **Description**
 
     Adds a 'set variable' node to a graph.
-    
+
     **Scripting Syntax**
 
     ``name = FabricCanvasAddSet( binding, execPath, desiredNodeName, varPath, xPos, yPos )``
-    
+
     **Return value**
 
     The name of the new node.
-    
+
     **Parameters**
 
       - ``binding``
@@ -248,22 +452,22 @@ FabricCanvasAddSet
       - ``yPos``
 
         The y position for the new node.
-    
+
 FabricCanvasAddVar
 -----------------------------------
-    
+
     **Description**
 
     Adds a variable node to a graph.
-    
+
     **Scripting Syntax**
 
     ``name = FabricCanvasAddVar( binding, execPath, desiredNodeName, dataType, extDep, xPos, yPos )``
-    
+
     **Return value**
 
     The name of the new node.
-    
+
     **Parameters**
 
       - ``binding``
@@ -293,18 +497,18 @@ FabricCanvasAddVar
       - ``yPos``
 
         The y position for the new node.
-    
+
 FabricCanvasConnect
 -----------------------------------
-    
+
     **Description**
 
     Connects two ports with each other.
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasConnect( binding, execPath, srcPortPath, dstPortPath )``
-    
+
     **Parameters**
 
       - ``binding``
@@ -322,18 +526,18 @@ FabricCanvasConnect
       - ``dstPortPath``
 
         The path of the destination port.
-    
+
 FabricCanvasDisconnect
 -----------------------------------
-    
+
     **Description**
 
     Removes connections between two ports.
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasDisconnect( binding, execPath, srcPortPath, dstPortPath )``
-    
+
     **Parameters**
 
       - ``binding``
@@ -358,11 +562,11 @@ FabricCanvasDisconnect
 
 FabricCanvasCreatePreset
 -----------------------------------
-    
+
     **Description**
 
     Create a new preset from an existing node.
-    
+
     **Scripting Syntax**
 
     ``name = FabricCanvasCreatePreset( binding, execPath, nodeName, presetDirPath, presetName )``
@@ -371,7 +575,7 @@ FabricCanvasCreatePreset
 
     The pathname where the new preset was saved on disk, or the empty
 string if the preset was not saved.
-    
+
     **Parameters**
 
       - ``binding``
@@ -396,19 +600,19 @@ string if the preset was not saved.
 
 FabricCanvasEditPort
 -----------------------------------
-    
+
     **Description**
 
     Edits an existing port. Use this to rename a port, change its data type, etc.
-    
+
     **Scripting Syntax**
 
-    ``name = FabricCanvasEditPort( binding, execPath, oldPortName, desiredNewPortName, typeSpec, extDep, uiMetadata )``
+    ``name = FabricCanvasEditPort( binding, execPath, oldPortName, desiredNewPortName, portType, typeSpec, extDep, uiMetadata )``
 
     **Return value**
 
     The new name of the new port. Note that the name returned by the command might be different from the name specified via ``desiredNewPortName`` due to the internal naming rules used by Fabric Core.
-    
+
     **Parameters**
 
       - ``binding``
@@ -427,34 +631,38 @@ FabricCanvasEditPort
 
         The desired new name for the port. If a port with the same name already exists then the name of the new port will be suffixed with a number, e.g. "2", appended to its name.
 
+      - ``portType``
+
+        The port type: "In", "Out" or "IO".
+
       - ``typeSpec``
 
         The data type of the port, for example "Scalar", "Vec3", "PolygonMesh".
-    
+
       - ``extDep``
 
-        NOT YET DOCUMENTED
-        
+        An optional extension dependency for the port.
+
       - ``uiMetadata``
 
-        NOT YET DOCUMENTED
-    
+        Additional metadata, for example UI ranges or combo lists.
+
 FabricCanvasExplodeNode
 -----------------------------------
-    
+
     **Description**
 
     Explodes a node that contains a subgraph.
     All existing connections between ports are preserved.
-    
+
     **Scripting Syntax**
 
     ``names = FabricCanvasExplodeNode( binding, execPath, nodeName )``
-    
+
     **Return value**
 
     The names of the nodes that were inside of the node that got exploded.
-    
+
     **Parameters**
 
       - ``binding``
@@ -468,18 +676,18 @@ FabricCanvasExplodeNode
       - ``nodeName``
 
         The name of the node to explode.
-    
+
 FabricCanvasExportGraph
 -----------------------------------
-    
+
     **Description**
 
     Exports the graph of an operator as a JSON file.
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasExportGraph( OperatorName, JSONFilePath )``
-    
+
     **Parameters**
 
       - ``OperatorName``
@@ -489,14 +697,14 @@ FabricCanvasExportGraph
       - ``JSONFilePath``
 
         The path + filename + extension of the JSON file, e.g. "D:\Temp\my_graph.canvas"
-    
+
 FabricCanvasGetBindingID
 -----------------------------------
-    
+
     **Description**
 
     Returns the ID of the FabricCore DFGBinding used by a specified Canvas operator. This is useful if you want to create a python FabricCore client, for example, to access the same data.
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasGetBindingID( OperatorName )``
@@ -521,11 +729,11 @@ FabricCanvasGetBindingID
 
 FabricCanvasGetContextID
 -----------------------------------
-    
+
     **Description**
 
     Returns the FabricCore client contextID used by Canvas operators. This is useful if you want to create a python FabricCore client, for example, to access the same data.
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasGetContextID( )``
@@ -544,20 +752,20 @@ FabricCanvasGetContextID
 
 FabricCanvasImplodeNodes
 -----------------------------------
-    
+
     **Description**
 
     Creates a node containing the input nodes as a subgraph.
     All existing connections between ports are preserved.
-    
+
     **Scripting Syntax**
 
     ``name = FabricCanvasImplodeNodes( binding, execPath, nodeNames, desiredImplodedNodeName )``
-    
+
     **Return value**
 
     The name of the new node.
-    
+
     **Parameters**
 
       - ``binding``
@@ -575,22 +783,22 @@ FabricCanvasImplodeNodes
       - ``desiredImplodedNodeName``
 
         The desired name for the new node that contains all the input nodes.
-    
+
 FabricCanvasImportGraph
 -----------------------------------
-    
+
     **Description**
 
     Sets the graph of an operator from the content of a JSON file.
-    
+
     **Scripting Syntax**
 
     ``result = FabricCanvasImportGraph( OperatorName, JSONFilePath )``
-    
+
     **Return value**
 
     'true' if the operator had to be recreated, else 'false'.
-    
+
     **Parameters**
 
       - ``OperatorName``
@@ -600,14 +808,14 @@ FabricCanvasImportGraph
       - ``JSONFilePath``
 
         The path + fielname + extension of the JSON file, e.g. "D:\Temp\my_graph.canvas"
-    
+
 FabricCanvasInspectOp
 -----------------------------------
-    
+
     **Description**
 
     Opens the property page for the currently selected object's Canvas operator, if any.
-    
+
     Note: the menu "Fabric -> Inspect Canvas Op" also calls this command.
 
     **Scripting Syntax**
@@ -616,19 +824,19 @@ FabricCanvasInspectOp
 
 FabricCanvasInstPreset
 -----------------------------------
-    
+
     **Description**
 
     Adds a preset node to the graph.
-    
+
     **Scripting Syntax**
 
     ``name = FabricCanvasInstPreset( binding, execPath, presetPath, xPos, yPos )``
-    
+
     **Return value**
 
     The name of the new node.
-    
+
     **Parameters**
 
       - ``binding``
@@ -650,29 +858,29 @@ FabricCanvasInstPreset
       - ``yPos``
 
         The y position for the new node.
-    
+
 FabricCanvasLogStatus
 -----------------------------------
-    
+
     **Description**
 
     Outputs information about Fabric for Softimage in the History Log.
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasLogStatus( )``
-    
+
 FabricCanvasMoveNodes
 -----------------------------------
-    
+
     **Description**
 
     Moves the input node(s).
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasMoveNodes( binding, execPath, nodeNames, xPoss, yPoss )``
-    
+
     **Parameters**
 
       - ``binding``
@@ -694,22 +902,22 @@ FabricCanvasMoveNodes
       - ``yPoss``
 
         The new y position(s) for the node(s). If you have more than one position you must separate them using ``|`` (vertical bar), e.g. "110|160|246|264".
-    
+
 FabricCanvasOpApply
 -----------------------------------
-    
+
     **Description**
 
     Adds a Canvas operator to an object.
-    
+
     **Scripting Syntax**
 
     ``refOp = FabricCanvasOpApply( ObjectName, [dfgJSON], [OpenPPG], [otherOpName], [CreateSpliceOp] )``
-    
+
     **Return value**
 
     A reference at the new operator.
-    
+
     **Parameters**
 
       - ``ObjectName``
@@ -747,15 +955,15 @@ FabricCanvasOpApply
 
 FabricCanvasOpConnectPort
 -----------------------------------
-    
+
     **Description**
 
     Connects or disconnects an exposed Canvas port that has the type "XSI Port".
-    
+
     **Scripting Syntax**
 
     ``success = FabricCanvasOpConnectPort( OperatorName, portName, [targetNames], [checkIfAlreadyConnected] )``
-    
+
     **Return value**
 
     A boolean indicating whether the operation was successful or not.
@@ -786,15 +994,15 @@ FabricCanvasOpConnectPort
 
 FabricCanvasOpDisconnectPort
 -----------------------------------
-    
+
     **Description**
 
     Disconnects objects from an exposed Canvas port that has the type "XSI Port".
-    
+
     **Scripting Syntax**
 
     ``success = FabricCanvasOpDisconnectPort( OperatorName, portName, [targetNames]``
-    
+
     **Return value**
 
     A boolean indicating whether the operation was successful or not.
@@ -819,15 +1027,15 @@ FabricCanvasOpDisconnectPort
 
 FabricCanvasOpPortMapDefine
 -----------------------------------
-    
+
     **Description**
 
     Defines the port mapping for one or more ports of a Canvas operator.
-    
+
     **Scripting Syntax**
 
     ``refOp = FabricCanvasOpPortMapDefine( OperatorName, portmapDefinition )``
-    
+
     **Return value**
 
     A reference at the new operator.
@@ -885,18 +1093,18 @@ FabricCanvasOpPortMapDefine
 
       ' open the property page.
       InspectObj opRef.FullName
-      
+ 
 FabricCanvasOpPortMapQuery
 -----------------------------------
-    
+
     **Description**
 
     Returns the current port mapping of a Canvas operator.
-    
+
     **Scripting Syntax**
 
     ``portmap = FabricCanvasOpPortMapQuery( OperatorName, [portName] )``
-    
+
     **Return value**
 
     A string containing the result or "" (i.e. empty string) if something went wrong (e.g. operator or port not found).
@@ -953,19 +1161,19 @@ FabricCanvasOpPortMapQuery
 
 FabricCanvasPaste
 -----------------------------------
-    
+
     **Description**
 
     Pastes a text (i.e. a JSON string) into the graph.
-    
+
     **Scripting Syntax**
 
     ``names = FabricCanvasPaste( binding, execPath, text, xPos, yPos )``
-    
+
     **Return value**
 
     The names of the nodes that got pasted.
-    
+
     **Parameters**
 
       - ``binding``
@@ -987,18 +1195,18 @@ FabricCanvasPaste
       - ``yPos``
 
         The y position for the pasted node(s).
-    
+
 FabricCanvasRemoveNodes
 -----------------------------------
-    
+
     **Description**
 
     Removes one or more nodes from the graph.
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasRemoveNodes( binding, execPath, nodeNames )``
-    
+
     **Parameters**
 
       - ``binding``
@@ -1012,18 +1220,18 @@ FabricCanvasRemoveNodes
       - ``nodeNames``
 
         The name(s) of the node(s) to remove. If you have more than one name then you must separate them using ``|`` (vertical bar), e.g. "GetSphere|GetSphere_2|DrawPolygonMesh|Add".
-    
+
 FabricCanvasRemovePort
 -----------------------------------
-    
+
     **Description**
 
     Removes a port from a graph or a node.
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasRemovePort( binding, execPath, portName )``
-    
+
     **Parameters**
 
       - ``binding``
@@ -1037,22 +1245,22 @@ FabricCanvasRemovePort
       - ``portName``
 
         The name of the port to remove.
-    
+
 FabricCanvasRenamePort
 -----------------------------------
-    
+
     **Description**
 
     Renames a port.
-    
+
     **Scripting Syntax**
 
     ``name = FabricCanvasRenamePort( binding, execPath, oldPortName, desiredNewPortName )``
-    
+
     **Return value**
 
     The new name of the port.
-    
+
     **Parameters**
 
       - ``binding``
@@ -1070,18 +1278,18 @@ FabricCanvasRenamePort
       - ``desiredNewPortName``
 
         The desired new name for the port. If a port with the same name already exists then the new name of the port will have a number, e.g. "2", appended to its name.
-    
+
 FabricCanvasReorderPorts
 -----------------------------------
-    
+
     **Description**
 
     Reorders ports.
-    
+
     **Scripting Syntax**
 
-    ``FabricCanvasReorderPorts( binding, execPath, indices )``
-    
+    ``FabricCanvasReorderPorts( binding, execPath, itemPath, indices )``
+
     **Parameters**
 
       - ``binding``
@@ -1092,23 +1300,27 @@ FabricCanvasReorderPorts
 
         The path of the node with the ports that are to be reordered.
 
+      - ``itemPath``
+
+        The path to the item.
+
       - ``indices``
 
         An array of indices that defines the new order for the ports.
 
         Example: say you have three ports. Then their indices are "0", "1" and "2" and the current order of the ports is "[0, 1, 2]". If you now wish to reorder the ports so that port 1 comes before port 0 you would call this command with the following indices: "[1, 0, 2]".
-    
+
 FabricCanvasResizeBackDrop
 -----------------------------------
-    
+
     **Description**
 
     Resizes and repositions a backdrop.
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasResizeBackDrop( binding, execPath, backDropName, xPos, yPos, width, height )``
-    
+
     **Parameters**
 
       - ``binding``
@@ -1138,18 +1350,18 @@ FabricCanvasResizeBackDrop
       - ``height``
 
         The new height of the backdrop.
-    
+
 FabricCanvasSelectConnected
 -----------------------------------
-    
+
     **Description**
 
     Selects all object that are connected to an operator.
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasSelectConnected( OperatorName, [selWhat], [preClearSel], [skipReservedPorts] )``
-    
+
     **Parameters**
 
       - ``OperatorName``
@@ -1176,18 +1388,18 @@ FabricCanvasSelectConnected
         An optional boolean indicating whether to also select objects that are connected to the operator's reserved ports. 
 
         Default is true.
-    
+
 FabricCanvasSetArgValue
 -----------------------------------
-    
+
     **Description**
 
     Sets the value of one of the graph's ports (a.k.a. *arguments*). Note: these are the ports that can be exposed to Softimage and that are displayed in the tab "Ports and Tools" of the operator's property page.
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasSetArgValue( binding, argName, typeName, valueJSON )``
-    
+
     **Parameters**
 
       - ``binding``
@@ -1205,18 +1417,18 @@ FabricCanvasSetArgValue
       - ``valueJSON``
 
         The actual value, as a JSON string.
-    
+
 FabricCanvasSetCode
 -----------------------------------
-    
+
     **Description**
 
     Sets the code of a (function) node.
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasSetCode( binding, execPath, code )``
-    
+
     **Parameters**
 
       - ``binding``
@@ -1233,15 +1445,15 @@ FabricCanvasSetCode
 
 FabricCanvasSetExtDeps
 -----------------------------------
-    
+
     **Description**
 
     Sets the extension dependencies of a node.
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasSetExtDeps( binding, execPath, extDeps )``
-    
+
     **Parameters**
 
       - ``binding``
@@ -1258,15 +1470,15 @@ FabricCanvasSetExtDeps
 
 FabricCanvasSetNodeComment
 -----------------------------------
-    
+
     **Description**
 
     Sets the comment of a node.
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasSetNodeComment( binding, execPath, nodeName, comment )``
-    
+
     **Parameters**
 
       - ``binding``
@@ -1284,18 +1496,18 @@ FabricCanvasSetNodeComment
       - ``comment``
 
         The comment.
-    
+
 FabricCanvasEditNode
 -----------------------------------
-    
+
     **Description**
 
     Renames a node in a Canvas graph
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasEditNode( binding, execPath, currentNodeName, desiredNodeName, uiMetadata )``
-    
+
     **Parameters**
 
       - ``binding``
@@ -1313,11 +1525,11 @@ FabricCanvasEditNode
       - ``desiredNewNodeName``
 
         The desired new name of the node.
-        
+
       - ``nodeMetadata``
 
         NOT YET DOCUMENTED
-        
+
       - ``execMetadata``
 
         NOT YET DOCUMENTED
@@ -1325,18 +1537,18 @@ FabricCanvasEditNode
     **Returns**
 
     The actual new name of the node
-    
+
 FabricCanvasSetPortDefaultValue
 -----------------------------------
-    
+
     **Description**
 
     Sets the default value of a port.
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasSetPortDefaultValue( binding, execPath, portPath, typeName, valueJSON )``
-    
+
     **Parameters**
 
       - ``binding``
@@ -1358,33 +1570,33 @@ FabricCanvasSetPortDefaultValue
       - ``valueJSON``
 
         The new default value, as a JSON string.
-    
+
 FabricCanvasSetRefVarPath
 -----------------------------------
-    
+
     **Description**
 
     NOT YET DOCUMENTED
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasSetRefVarPath( binding, execPath, refName, varPath )``
-    
+
     **Parameters**
 
       NOT YET DOCUMENTED
 
 FabricCanvasSplitFromPreset
 -----------------------------------
-    
+
     **Description**
 
     Splits an executable (graph or function) from the preset it references
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasSplitFromPreset( binding, execPath )``
-    
+
     **Parameters**
 
       - ``binding``
@@ -1394,18 +1606,18 @@ FabricCanvasSplitFromPreset
       - ``execPath``
 
         The path of the node.
-    
+
 FabricCanvasDismissLoadDiags
 -----------------------------------
-    
+
     **Description**
 
     Dismisses load diagnostics.
-    
+
     **Scripting Syntax**
 
     ``FabricCanvasDismissLoadDiags( binding, diagIndices )``
-    
+
     **Parameters**
 
       - ``binding``

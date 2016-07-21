@@ -145,6 +145,14 @@ Canvas Core API Classes
 
 
 
+    .. cpp:function::
+      String getExecPath() const
+
+      Returns the canonical rooted path of the executable.
+
+
+
+
     .. cpp:function:: DFGExec getSubExec(char const *execPath ) const
 
       Returns the sub-executable of an executable path. A sub-executable is
@@ -244,9 +252,27 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: char const *getExecPortName(unsigned index ) const
+    .. cpp:function:: unsigned getExecFixedPortCount() const
 
-      Get the name of the executable port at the given index.
+      Get the number of ExecFixedPorts on the executable.
+      
+      :returns: The number of ExecFixedPorts on the executable
+
+
+
+
+    .. cpp:function:: unsigned getExecBlockCount() const
+
+      Get the number of blocks on the executable.
+      
+      :returns: The number of ports on the executable
+
+
+
+
+    .. cpp:function:: char const *getExecBlockName(unsigned index ) const
+
+      Get the name of the executable block at the given index.
       
       :param index: The index of the port
       :returns: The name of the port
@@ -373,27 +399,9 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: char const *getExecPortResolvedType(char const *execPortName )
+    .. cpp:function:: char const *getPortResolvedType( char const *path )
 
-      Get the resolved type of a port of the executable with a given name.
-
-      .. note::
-
-        This will return the type alias for the resolved type, so it
-        shouldn't generally be used for type checking; for example, this function
-        could return :code:`Integer` or :code:`SInt32`, depending on how the
-        graph was created.
-      
-      :param execPortName: The name of the port of the executable
-      :returns: The resolved type of the port
-
-
-
-
-    .. cpp:function:: char const *getNodePortResolvedType(char const *nodePortPath )
-
-      Get the resolved type of a port of a node of the graph with a given path.
-      The path should be of the form "nodeName.portName".
+      Get the resolved type of the port in the executable with a given path.
 
       .. note::
 
@@ -402,8 +410,22 @@ Canvas Core API Classes
         could return :code:`Integer` or :code:`SInt32`, depending on how the
         graph was created.
       
-      :param nodePortPath: The path to a port of a node in the graph
+      :param path: The path to a port in the executable
       :returns: The resolved type of the port
+
+
+
+
+    .. cpp:function:: char const *getExecPortResolvedType( char const *path )
+
+      An alias for getPortResolvedType for backwards compatibility.
+
+
+
+
+    .. cpp:function:: char const *getNodePortResolvedType( char const *path )
+
+      An alias for getPortResolvedType for backwards compatibility.
 
 
 
@@ -619,9 +641,118 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: void reorderExecPorts(unsigned newIndCount, unsigned const *newInds )
+    .. cpp:function:: char const *addExecBlock(char const *desiredName)
 
-      Reorder the ports of the executable.  Takes an array of integers for which the element
+      Add a new block to the executable.
+      
+      :param desiredName: The desired name for the new block
+      :returns: The actual name of the new block
+
+
+
+
+    .. cpp:function:: bool isInstExec()
+
+      Returns whether the exec is the implementation of an inst.
+
+
+
+
+    .. cpp:function:: unsigned getInstBlockCount( char const *instName )
+
+      Returns the number of InstBlocks below an Inst.
+
+
+
+
+    .. cpp:function:: bool isInstBlock( char const *path )
+
+      Returns whether the item is an inst block.
+
+
+
+
+    .. cpp:function:: bool isInstBlock( char const *instName, char const *childName )
+
+      Returns whether the the child below the Inst is an InstBlock (as opposed to a port).
+
+
+
+
+    .. cpp:function:: bool isInstBlockExec()
+
+      Returns whether the exec is the implementation of an inst block.
+
+
+
+
+    .. cpp:function:: bool isExecBlock(char const *name)
+
+      Returns whether the given name in an exec is an exec block.
+
+
+
+
+    .. cpp:function:: char const *addExecBlockPort(char const *blockName, char const *desiredPortName, FEC_DFGPortType portType, char const *typeSpec = 0 )
+
+      Add a new port to the executable block.
+      
+      :param blockName: The name of the executable block
+      :param desiredPortName: The desired name for the new port
+      :param portType: The type of the port, one of :cpp:enum:`DFGPortType`
+      :param typeSpec: The type specification of the port (eg. :code:`Float32` or :code:`$TYPE$`).  Note that type specifications only work with functions, and not with graphs.
+      :returns: The actual name of the new port
+
+
+
+
+    .. cpp:function:: DFGExec getInstBlockExec(char const *instName, char const *blockName) const
+
+      Returns the sub-executable associated with an instance block.
+      
+      :param instName: The name of the instance
+      :param blockName: The name of the block within the instance
+      :returns: The sub-executable
+
+
+
+
+    .. cpp:function:: unsigned getInstBlockPortCount(char const *instName, char const *blockName) const
+
+      Returns the number of ports on an inst block.
+      
+      :param instName: The name of the instance
+      :param blockName: The name of the block within the instance
+
+
+
+
+    .. cpp:function:: char const *getInstBlockPortName(char const *instName, char const *blockName, unsigned portIndex) const
+
+      Returns the name of the give inst block port.
+      
+      :param instName: The name of the instance
+      :param blockName: The name of the block within the instance
+      :param portIndex: The index of the port withing the inst block
+
+
+
+
+    .. cpp:function:: void reorderPorts( char const *itemPath, unsigned newIndCount, unsigned const *newInds )
+
+      Reorder the ports of the item (Exec or ExecBlock).  Takes an array of integers for which the element
+      at index oldIndex is the newIndex for the existing port.
+      
+      :param itemPath: The path to the item.
+      :param newIndCount: The number of elements in the index map.  Must be equal to the number of ports.
+      :param newInds: The elements of the index map.
+
+
+
+
+    .. cpp:function:: void reorderExecPorts( unsigned newIndCount, unsigned const *newInds )
+
+      Reorder the ExecPorts of the Exec.  Takes an array of integers for which the element
       at index oldIndex is the newIndex for the existing port.
       
       :param newIndCount: The number of elements in the index map.  Must be equal to the number of ports.
@@ -716,24 +847,38 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: char const *renameExecPort(char const *oldName, char const *desiredNewName )
+    .. cpp:function:: char const *renamePort( char const *portPath, char const *desiredNewPortName )
 
       Rename a port of the executable.
       
-      :param oldName: The old name of the port
-      :param desiredNewName: The desired new name of the port
+      :param portPath: The current path to the port (exec, node, exec block or instance block)
+      :param desiredNewPortName: The desired new name of the port
       :returns: The actual new name of the port
+
+
+
+
+    .. cpp:function:: char const *renameExecPort(char const *oldName, char const *desiredNewName )
+
+      An alias for renamePort.
+
+
+
+
+    .. cpp:function:: char const *renameItem(char const *oldName, char const *desiredNewName )
+
+      Rename an item of the executable.
+      
+      :param oldName: The old name of the node
+      :param desiredNewName: The desired new name of the node
+      :returns: The actual new name of the node
 
 
 
 
     .. cpp:function:: char const *renameNode(char const *oldName, char const *desiredNewName )
 
-      Rename a node of the executable.
-      
-      :param oldName: The old name of the node
-      :param desiredNewName: The desired new name of the node
-      :returns: The actual new name of the node
+      An alias for renameItem
 
 
 
@@ -810,20 +955,43 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: DFGPortType getNodePortType(char const *portPath )
+    .. cpp:function:: DFGPortType getPortType( char const *path )
 
-      Get the node port type of a port in the graph.  The portPath should be
-      of the form "nodeName.portName" for node ports and "portName" for
-      executable ports.
+      Get the port type of a port in the executable.
 
-      The node port type is the type of the port for connection within the
+      The port type is the type of the port for connection within the
       graph.  This is the inverse of the executable port type for an 
       executable port; for example, if you have an 'In' executable port on a
       graph, this has a node port type of 'Out' because it acts like an 'Out'
       port within the graph, ie. it connects to other 'In' and 'IO' ports.
 
-      :param portPath: The port path
+      :param path: The port path
       :returns: The node port type of the port
+
+
+
+
+    .. cpp:function:: DFGPortType getNodePortType( char const *path )
+
+      An alias of getPortType for backwards compatibility.
+
+
+
+
+    .. cpp:function:: DFGPortType getOutsidePortType( char const *portPath )
+
+      Returns the outside port type for an ExecPort, ExecBlockPort or ExecFixedPort.  This is the inverse of the port type;
+      see comments in getPortType.
+
+      :param portPath: The path to the port.
+      :returns: The outside port type of the port.
+
+
+
+
+    .. cpp:function:: DFGPortType getExecPortType( char const *name )
+
+      An alias for getOutsidePortType().
 
 
 
@@ -831,7 +999,7 @@ Canvas Core API Classes
     .. cpp:function:: DFGPortType getExecPortType(unsigned index )
 
       Get the executable port type of the port of the executable at the given
-      index.
+      index.  This is the inverse of the port type; see comments in getPortType.
 
       :param index: The index of the executable port
       :returns: The executable port type of the port
@@ -839,24 +1007,30 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: DFGPortType getExecPortType(char const *portName )
+    .. cpp:function:: DFGPortType getExecFixedPortType(unsigned index )
 
-      Get the executable port type of the port of the executable with the given
-      name.
+      Get the executable port type of the ExecFixedPort of the executable at the given
+      index.  This is the inverse of the port type; see comments in getPortType.
 
-      :param portName: The name of the executable port
+      :param index: The index of the ExecFixedPort
       :returns: The executable port type of the port
 
 
 
 
-    .. cpp:function:: void setExecPortType(char const *portName, DFGPortType portType )
+    .. cpp:function:: void setOutsidePortType( char const *portPath, DFGPortType portType )
 
-      Set the executable port type of the port of the executable with the given
-      name.
+      Set the outside port type of an ExecPort or ExecBlockPort.
 
-      :param portName: The name of the executable port
-      :param portType: The new executable port type for the port
+      :param portPath: The path to the ExecPort or ExecBlockPort.
+      :param portType: The new outside port type for the port.
+
+
+
+
+    .. cpp:function:: void setExecPortType( char const *portName, DFGPortType portType )
+
+      An alias for setOutsidePortType(portName, portType).
 
 
 
@@ -891,35 +1065,56 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: char const *getExecPortMetadata(char const *execPortPath, char const *key )
+    .. cpp:function:: char const *getPortMetadata( char const *portPath, char const *key )
 
       Gets the metadata for a port for the given key.
 
-      :param portName: The name of the port
+      :param portPath: The portPath to the port
       :param key: The key for the metadata
       :returns: The metadata for that key, or the empty string if there is no metadata for that key
 
 
 
 
-    .. cpp:function:: char const *getNodeMetadata(char const *nodeName, char const *key )
+    .. cpp:function:: char const *getExecPortMetadata( char const *path, char const *key )
 
-      Gets the metadata for a node for the given key.
+      An alias for getPortMetadata for backwards compatibility.
 
-      :param nodeName: The name of the node
+
+
+
+    .. cpp:function:: char const *getPortModelMetadata( char const *portPath, char const *key )
+
+      For a port that is an instance of another port, get the metadata associated with that other port.
+
+      :param portPath: The portPath to the port
       :param key: The key for the metadata
       :returns: The metadata for that key, or the empty string if there is no metadata for that key
 
 
 
 
-    .. cpp:function:: char const *getNodePortMetadata(char const *nodePortPath, char const *key )
+    .. cpp:function:: char const *getItemMetadata( char const *itemName, char const *key )
 
-      Gets the metadata for a node port for the given key.
+      Gets the metadata for an item (node, exec block, exec port) for the given key.
 
-      :param nodePortPath: The node port path of the form "nodeName.portName"
+      :param itemName: The name of the node
       :param key: The key for the metadata
       :returns: The metadata for that key, or the empty string if there is no metadata for that key
+
+
+
+
+    .. cpp:function:: char const *getNodeMetadata( char const *nodeName, char const *key )
+
+      An alias for getItemMetadata.
+
+
+
+
+    .. cpp:function:: char const *getNodePortMetadata( char const *path, char const *key )
+
+      An alias for getPortMetadata for backwards compatibility.
 
 
 
@@ -936,11 +1131,12 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: void setExecPortMetadata(char const *name, char const *key, char const *value, bool canUndo = true, bool shouldSplitFromPreset = true )
+    .. cpp:function:: void setExecBlockPortMetadata(char const *blockName, char const *portName, char const *key, char const *value, bool canUndo = true, bool shouldSplitFromPreset = true )
 
       Sets the metadata for an executable port for the given key.
       
-      :param name: The name of the executable port
+      :param blockName: The name of the block
+      :param portName: The name of the block port
       :param key: The key for the metadata
       :param value: The value for the metadata
       :param canUndo: Whether the action should be undoable
@@ -962,28 +1158,72 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: void setNodeMetadata(char const *nodeName, char const *key, char const *value, bool canUndo = true, bool shouldSplitFromPreset = true )
+    .. cpp:function:: void setItemMetadata(char const *name, char const *key, char const *value, bool canUndo = true, bool shouldSplitFromPreset = true )
 
-      Sets the metadata for a node for the given key.
+      Sets the metadata for an item (port, node or block, as appropriate) for the given key.
       
-      :param nodeName: The name of the node
+      :param name: The name of the node
       :param key: The key for the metadata
       :param value: The value for the metadata
       :param canUndo: Whether the action should be undoable
       :param shouldSplitFromPreset: Whether the metadata change should split from the preset, if the executable is an instance of a preset
+
+
+
+
+    .. cpp:function:: void setNodeMetadata( char const *nodeName, char const *key, char const *value, bool canUndo = true, bool shouldSplitFromPreset = true )
+
+      An alias for setItemMetadata.
+
+
+
+
+    .. cpp:function:: void setPortMetadata( char const *portPath, char const *key, char const *value, bool canUndo = true, bool shouldSplitFromPreset = true )
+
+      Sets the metadata for a port (exec, node, exec block or inst block) for the given key.
+      
+      :param portPath: The path to the port
+      :param key: The key for the metadata
+      :param value: The value for the metadata
+      :param canUndo: Whether the action should be undoable
+      :param shouldSplitFromPreset: Whether the metadata change should split from the preset, if the executable is an instance of a preset
+
+
+
+
+    .. cpp:function:: void setExecPortMetadata( char const *portPath, char const *key, char const *value, bool canUndo = true, bool shouldSplitFromPreset = true )
+
+      An alias for setPortMetadata.
 
 
 
 
     .. cpp:function:: void setNodePortMetadata(char const *nodePortPath, char const *key, char const *value, bool canUndo = true, bool shouldSplitFromPreset = true )
 
-      Sets the metadata for a node port for the given key.
+      An alias for setPortMetadata.
+
+
+
+
+    .. cpp:function:: bool isDepsPort( char const *portPath )
+
+      Returns true iff the port is a deps (built in exec) port.
       
-      :param nodeName: The path to the node port, of the form "nodeName.portName"
-      :param key: The key for the metadata
-      :param value: The value for the metadata
-      :param canUndo: Whether the action should be undoable
-      :param shouldSplitFromPreset: Whether the metadata change should split from the preset, if the executable is an instance of a preset
+      :param portPath: The path the port (node, exec, exec block or inst block)
+
+
+
+
+    .. cpp:function:: bool isDepsExecPort( unsigned portIndex )
+
+      Returns true iff the exec port is a deps (built in exec) port.
+
+
+
+
+    .. cpp:function:: bool isDepsExecBlockPort( char const *blockName, unsigned portIndex )
+
+      Returns true iff the exec block port is a deps (built in exec) port.
 
 
 
@@ -998,6 +1238,28 @@ Canvas Core API Classes
       :param portPath: The path the node port or executable port
       :param typeName: The name of type for which to return the current default value
       :returns: The current default value for the port for the given type
+
+
+
+
+    .. cpp:function:: RTVal getPortResolvedDefaultValue(char const *path, char const *typeName )
+
+      Gets the current resolved default value for a port for a given type.  The default
+      value is the value the port has when it is disconnected but resolved to
+      that type.  The resolved default value differs from the default value in that it will
+      fall back on the executable port that backs an instance port if there is no default value for
+      the resolved type on the instance port.
+      
+      :param path: The path to the port
+      :param typeName: The name of type for which to return the current default value
+      :returns: The current default value for the port for the given type
+
+
+
+
+    .. cpp:function:: RTVal getInstPortResolvedDefaultValue(char const *path, char const *typeName )
+
+      An alias for getPortResolvedDefaultValue for backwards compatibility.
 
 
 
@@ -1048,9 +1310,16 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: void removeExecPort(char const *portName )
+    .. cpp:function:: void removePort( char const *portPath )
 
-      Remove the executable port with the given name
+      Remove the ExecPort or ExecBlockPort with the given path.
+
+
+
+
+    .. cpp:function:: void removeExecPort( char const *portName )
+
+      An alias for removePort().
 
       :param portName: The name of the port
 
@@ -1066,11 +1335,20 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: void removeNode(char const *nodeName )
+    .. cpp:function:: void removeNode(char const *nodeName)
 
       Remove the node with the given name
 
       :param nodeName: The name of the node
+
+
+
+
+    .. cpp:function:: void removeElement(char const *name)
+
+      Remove the element (port, node or block) with the given name
+
+      :param name: The name of the node
 
 
 
@@ -1092,6 +1370,13 @@ Canvas Core API Classes
 
 
 
+    .. cpp:function:: char const *getItemPortTypeSpec( char const *itemPath, unsigned portIndex )
+
+      Get the current typeSpec for an item port.
+
+
+
+
     .. cpp:function:: char const *getExecPortTypeSpec(unsigned execPortIndex )
 
       Get the current typeSpec for the executable port with the given index.
@@ -1102,12 +1387,16 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: char const *getExecPortTypeSpec(char const *execPortName )
+    .. cpp:function:: char const *getPortTypeSpec(char const *portPath )
 
-      Get the current typeSpec for the executable port with the given name.
+      Get the current typeSpec for the ExecPort or ExecBlockPort with the given path.
 
-      :param execPortName: The name of the executable port
-      :returns: The current typeSpec for the port
+
+
+
+    .. cpp:function:: char const *getExecPortTypeSpec( char const *execPortName )
+
+      An alias for getPortTypeSpec().
 
 
 
@@ -1122,12 +1411,16 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: void setExecPortTypeSpec(char const *execPortName, char const *typeSpec )
+    .. cpp:function:: void setPortTypeSpec( char const *portPath, char const *typeSpec )
 
-      Set the current typeSpec for the executable port with the given name.
+      Set the current typeSpec for the ExecPort or ExecBlockPort with the given path.
 
-      :param execPortName: The name of the executable port
-      :param typeSpec: The new typeSpec to set
+
+
+
+    .. cpp:function:: void setExecPortTypeSpec( char const *execPortName, char const *typeSpec )
+
+      An alias for setPortTypeSpec().
 
 
 
@@ -1141,11 +1434,27 @@ Canvas Core API Classes
 
 
 
+    .. cpp:function:: char const *getExecFixedPortName(unsigned execPortIndex )
+
+      Get the name of the ExecFixedPort at the given index.
+
+      :param execPortIndex: The index of the ExecFixedPort
+
+
+
+
+    .. cpp:function:: unsigned getItemPortCount( char const *itemName )
+
+      Get the number of ports on the given item (node or exec block).
+
+      :param itemName: The name of the node
+
+
+
+
     .. cpp:function:: unsigned getNodePortCount(char const *nodeName )
 
-      Get the number of node ports on the given node.
-
-      :param nodeName: The name of the node
+      An alias for getItemPortCount.
 
 
 
@@ -1160,36 +1469,69 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: char const *getNodePortName(char const *nodeName, unsigned nodePortIndex )
+    .. cpp:function:: char const *getInstBlockName( char const *instName, unsigned instBlockIndex )
 
-      Get the name of a node port.
+      Get the name of an inst block.
 
-      :param nodeName: The name of the node
-      :param nodePortIndex: The index of the node port
-
-
+      :param instName: The name of the item
+      :param instBlockIndex: The index of the item block
 
 
-    .. cpp:function:: String exportNodesJSON(uint32_t nodeCount, char const * const *nodeNames )
 
-      Export a collection of nodes as JSON that can later be used by
-      :cpp:func:`FabricCore::DFGExec::importNodesJSON` to recreate the nodes
+
+    .. cpp:function:: char const *getItemPortName( char const *itemName, unsigned itemPortIndex )
+
+      Get the name of an item (node or exec block) port.
+
+      :param itemName: The name of the item
+      :param itemPortIndex: The index of the item port
+
+
+
+
+    .. cpp:function:: char const *getNodePortName( char const *nodeName, unsigned nodePortIndex )
+
+      An alias for getItemPortName.
+
+
+
+
+    .. cpp:function:: String exportItemsJSON(uint32_t itemCount, char const * const *itemNames )
+
+      Export a collection of items (nodes, blocks or ports) as JSON that can later be used by
+      :cpp:func:`FabricCore::DFGExec::importItemsJSON` to recreate the items
       elsewhere.
 
-      :param nodeCount: The number of nodes to export
-      :param nodeNames: The names of the nodes to export
-      :returns: The nodes encoded as JSON
+      :param itemCount: The number of items to export
+      :param itemNames: The names of the items to export
+      :returns: The items encoded as JSON
 
 
 
 
-    .. cpp:function:: String importNodesJSON(char const *nodesJSON )
+    .. cpp:function:: String exportNodesJSON( uint32_t nodeCount, char const * const *nodeNames )
+
+      An alias for
+      :cpp:func:`FabricCore::DFGExec::exportItemsJSON`.
+
+
+
+
+    .. cpp:function:: String importItemsJSON( char const *itemsJSON )
 
       Import a collection of nodes from JSON that were exported using
-      :cpp:func:`FabricCore::DFGExec::exportNodesJSON`.
+      :cpp:func:`FabricCore::DFGExec::exportItemsJSON`.
 
-      :param nodesJSON: The nodes, encoded as JSON
+      :param itemsJSON: The nodes, encoded as JSON
       :returns: The names of the newly created nodes as a JSON array of strings
+
+
+
+
+    .. cpp:function:: String importNodesJSON( char const *nodesJSON )
+
+      An alias for 
+      :cpp:func:`FabricCore::DFGExec::importItemsJSON`.
 
 
 
@@ -1296,10 +1638,25 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: void addPriorPortName()
+    .. cpp:function:: void addPriorPortName(char const *oldName, char const *newName) const
 
-      Split the executable from the preset it is an instance of if it is
-      an instance of a preset; otherwise, has no effect.
+      Add a prior port name for a port, so that persisted versions of executable
+      will be able to resolve the old port name.
+
+
+
+
+    .. cpp:function:: bool allowsBlocks() const
+
+      Returns whether the executable allows blocks to be created within it
+
+
+
+
+    .. cpp:function:: void promoteInstBlockExecsToDefault( char const *instPath )
+
+      Makes the current implementation of the inst blocks the defaults for their
+      associated exec blocks.
 
 
 

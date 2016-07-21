@@ -5,7 +5,7 @@ Value Editor
 
 The Value Editor provides input widgets to drive values on Canvas nodes or the main graph.
 
-.. image:: /images/Canvas/userguide_12.jpg
+.. image:: /images/Canvas/userguide_12.png
 
 Each editable port of a node is shown as an entry in the widget list. Ports currently connected are not shown.
 

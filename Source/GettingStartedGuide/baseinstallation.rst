@@ -37,8 +37,7 @@ As of 2.2.0 the Fabric Standalone has been converted to Python. ``canvas.py`` is
 
   On OSX it is currently necessary to use the default system Python. If you've installed a newer version via homebrew or another package manager you will need to ensure that you're using the system version found in ``/usr/bin/python`` when you run the Fabric Standalone.
 
-|FABRIC_PRODUCT_NAME| relies on several environment variables. For convenience, a :dfn:`canvas.bat` (Windows) and :dfn:`canvas.sh` (Linux / OSX) files are provided to run canvas.py automatically. Double clicking these files will internally call the :dfn:`environment.bat` (Windows) or :dfn:`environment.sh` (Linux / OSX) to set up the environment variables and then launch ``python bin/canvas.py``. A shortcut to the :dfn:`canvas.bat` or :dfn:`canvas.sh` file can also be made to make launching the application more accessible for users.
-
+|FABRIC_PRODUCT_NAME| relies on several environment variables. For convenience, a :dfn:`canvas.bat` (Windows) and :dfn:`canvas.sh` (Linux / OSX) files are provided to run canvas.py automatically. Double clicking these files will internally call the :dfn:`environment.bat` (Windows) or :dfn:`environment.sh` (Linux / OSX) to set up the environment variables and then launch ``python bin/canvas.py``.
 Alternatively, you can define these environment variables manually following the procedures described below.
 
 On Windows:
@@ -59,7 +58,7 @@ On Linux / OSX:
 
       source environment.sh
 
-``canvas.py`` can be launched from the terminal/command prompt after sourcing the ``environment.sh`` or running the ``prompt.bat`` by just typing ``canvas.py`` in the command-line:
+``canvas.py`` can be launched from the terminal/command prompt by just typing ``canvas.py``:
 
   .. code-block:: bash
 

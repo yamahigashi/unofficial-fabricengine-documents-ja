@@ -3,18 +3,20 @@
 Canvas Graph View
 ===============================
 
-The Fabric Canvas Graph View interface is Fabric's node based editor. It lets you build graphs by adding and removing nodes, defining connections between them and creating new, custom nodes that contain either a sub-graph, KL code or a combination of both.
+The Fabric Canvas Graph View interface is Fabric's node based editor. It lets you build graphs by adding and removing nodes, defining connections between them and creating new, custom nodes that contain either a subgraph, KL code or a combination of both.
 
-Canvas is available in all Fabric integrations, including Fabric Standalone, and the way you work with it is the same no matter which host application you use.
+Canvas is available in all Fabric integrations, including tne Fabric Standalone (:file:`canvas.py`), and the way you work with it is the same no matter which host application you use.
 
-Creating nodes
+Creating Nodes
 ----------------------
 
-Nodes can be created in several ways.
+Canvas nodes can be created in several ways:
 
   * Preset Tree: Look for the node you want to create in the preset tree. It provides access to all Fabric factory presets, as well as any presets found in the "Fabric/Presets/User" location from the user home folder and in the directories defined on the :envvar:`FABRIC_DFG_PATH` environment variable. Drag the preset you want to instantiate as a node into the graph view to create a node.
+
   * Tab Search: When focusing the graph view, hit the :dfn:`TAB` key to bring up the smart search. Then type the name of a part of the name of the preset you want to instantiate. For example try :dfn:`Math.Vec3.ComposeVec3` or :dfn:`MaVComp`.
-  * Context menu: Special nodes, such as backdrops, empty graph nodes and function nodes can be created by right-clicking into Canvas and then choosing the respective entry of the context menu.
+
+  * Context menu: Special nodes, such as backdrops, empty graph and function nodes, and blocks, can be created by right-clicking on the Canvas background and then choosing the respective entry of the context menu.
 
 .. image:: /images/Canvas/userguide_02.jpg
 
@@ -25,24 +27,23 @@ Nodes can be created in several ways.
 Node UI features
 ----------------------
 
-.. image:: /images/Canvas/userguide_04.jpg
+.. image:: /images/Canvas/userguide_04.png
 
 Nodes in Canvas provide a series of features through the UI:
 
   - Collapse Button
 
-    Each node can be collapsed by clicking on the small icon on the right of the header of the node. 
-    You can cycle through three states
+    Each node can be collapsed by clicking on the small icon on the right of the header of the node. You can cycle through three states:
 
       - Show all ports
       - Show only connected ports
       - Show no ports
       
-    You can also collapse all the selected nodes at a specific state by respectively pressing 1, 2 or 3.
+    You can also collapse all the selected nodes at a specific state by respectively pressing the keyboard shortcuts 1, 2 or 3.
 
   - Header Ports
 
-    All ports of a node can be accessed by clicking on the header ports next to the node label. This is especially useful when the node is currently collapsed.
+    All ports of a node can be accessed by clicking on the header ports next to the node label. This is especially useful when the node is currently collapsed.  From this menu you can also expose a new port on non-preset nodes.
 
   - Relaxation
 
@@ -58,9 +59,7 @@ Nodes in Canvas provide a series of features through the UI:
 
   - Editing
 
-    If you shift and double click over a node you will jump inside it. This will either
-    show you the subgraph contained in the node, or the KL function defining the node. For more information on
-    subgraphs and custom KL nodes see the sections further down on this page.
+    If you shift and double click over a node you will jump inside it. Depending on the type of node, this will either show you the definition of the node (a subgraph or KL function), or the definition of one of the block instance of the node. For more information on subgraphs and custom KL nodes see the sections further down on this page.
 
   - You can daisy chain inputs as well. To get to the daisy chain port of an input, just hover the right side of a node and it will show up.
 
@@ -88,6 +87,8 @@ To make ports available to either the host application or the node hosting a sub
   - Right click on the side panel and choose :dfn:`Create port`. In the dialog you can then choose the respective name and, if you are creating the port on the top level graph, the data type of the port. If the data type is part of a specific extension, you should add the name of that extension in the :dfn:`advanced -> extension` field.
 
   - Connect the black :dfn:`Expose` port from either side panel to a port on a node. This will create the right exposed port and also connect it as well.
+
+  - Click on the node header port button and select "Expose Port".  You can also drag an existing port over the node header port button and select "Expose Port" to expose a new port and connect it to an existing port at the same time.  In either case, you will be presented with a dialog in which you can fill in the details of the new port.
 
 .. _canvas-user-guide-port-options:
 
@@ -127,9 +128,9 @@ Some nodes may offer a special port, called the :dfn:`Execute` port. It doesn't 
 Subgraphs
 ----------------------
 
-You can create subgraphs by right clicking on the empty space in a graph view and choosing :dfn:`New empty graph`. This will create a new node which contains a subgraph. To edit the subgraph, shift-double click the node or use its context menu and choose :dfn:`Edit`. You can leave the subgraph again by clicking on the :dfn:`Go up` button on the top right.  
+You can create subgraphs by right clicking on the empty space in a graph view and choosing :dfn:`New empty graph`. This will create a new node which contains a subgraph. To edit the subgraph, shift-double click the node or use its context menu and choose :dfn:`Edit`. You can leave the subgraph again by clicking on the :dfn:`Back` button on the top right.  
 
-.. image:: /images/Canvas/userguide_08.jpg
+.. image:: /images/Canvas/userguide_08.png
 
 Imploding / exploding subgraphs
 ----------------------------------
