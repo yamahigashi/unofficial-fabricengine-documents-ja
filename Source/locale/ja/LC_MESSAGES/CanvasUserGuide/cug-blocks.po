@@ -1,0 +1,233 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2010-2016 Fabric Software Inc
+# This file is distributed under the same license as the Fabric Engine
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-07-21 11:49+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.3.3\n"
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:6
+msgid "Blocks"
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:8
+msgid ""
+"Blocks are containers for user-provided code.  Using blocks, users can "
+"customize the execution of complex nodes, and more advanced users can "
+"create new presets whose functionality is driven by user-provided blocks."
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:10
+msgid ""
+"Blocks can be used to perform operations similar to for loops in "
+"traditional programming languages, but they are much more powerful that "
+"just that.  Blocks can also be used to check conditions, or multiple "
+"blocks can be used to do different things based on state."
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:12
+msgid ""
+"As an example, the "
+"``Fabric.Compounds.Blocks.Geometry.PolygonMesh.Deform`` preset (usually "
+"accessed via the tab menu through ``PolygonMesh.Deform``), takes both a "
+"``mesh`` port that is to be deformed and a ``deform`` block that is the "
+"deformation itself:"
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:16
+msgid ""
+"By shift-double-clicking the node we enter into the definition of the "
+"block, more precisely referred to as the :dfn:`block instance`:"
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:20
+msgid ""
+"Inside the block instance we see its default definition; in this case, it"
+" simply sets the value of the ``newPosition`` port to the value of the "
+"``originalPosition`` port, i.e. doesn't actually deform anything.  "
+"However, we can edit this definition to produce the deformation effect "
+"that we want."
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:22
+msgid ""
+"The block instance definition is unique to each Deform node; each Deform "
+"node can potentially specify a different deformation."
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:25
+msgid "\"Fixed\" Block Ports"
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:27
+msgid ""
+"The ports in the block instance shown with lock icons are called the "
+":dfn:`fixed block ports`.  These ports are defined by the preset (in this"
+" case, the ``Deform`` preset) and not by the block instance; as such, "
+"they cannot be renamed, removed or reordered.  However, when the block "
+"instance is executed, the preset will provide input and IO fixed ports "
+"with a value to use and the preset will receive the values of IO and "
+"output ports to continue its work..  In the ``Deform`` case, the "
+"``originalPosition`` and ``originalNormal`` values are provided to the "
+"block instance, and the block instance provides the resulting value "
+"``newPosition`` back to the ``Deform`` preset."
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:30
+msgid "Exposing Block Ports"
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:32
+msgid ""
+"In order to drive the functioning of the graph inside the block instance,"
+" you can expose ports outside to outside of the block.  For example, we "
+"might define our deformation as a simple push deformation driven by a "
+"single port ``amount``:"
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:36
+msgid ""
+"Notice the non-fixed port ``amount``; this is the exposed block port.  "
+"Exposed block ports work just like regular block ports; for instance, "
+"they use the same polymorphism rules (see :ref:`canvas-user-guide-"
+"polymorphism`).  However, only input port can be exposed on blocks; it is"
+" not possible to expose IO or output ports."
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:38
+msgid ""
+"If you use the \"Back\" button to go back to the previous graph, you see "
+"the exposed port:"
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:42
+msgid ""
+"Notice that the ``amount`` port is now available to connect to.  You can "
+"also expose new block instance ports using the block instance's header "
+"menu, just as for regular node ports."
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:45
+msgid "Looking Inside Nodes with Blocks"
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:47
+msgid ""
+"By default, shift-double-clicking on a preset that has one or more block "
+"instance will edit the block instance under the mouse (or the first block"
+" instance if the top part of the node is under the mouse); this is "
+"because you usually want to edit the block when you're using a preset "
+"that uses blocks.  However, it is still possible to look inside the node "
+"itself to see how it works; to do so, right-click on the node to see the "
+"context menu, where you will find an \"Edit Node\" menu option."
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:50
+msgid "Blocks Samples"
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:52
+msgid ""
+"Fabric ships with several examples that highlight the use of blocks; they"
+" can be found in the directory :file:`$FABRIC_DIR/Samples/Canvas/Blocks`."
+"  It is recommended to examine how these sample scene works to better "
+"understand how blocks work."
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:55
+msgid "Blocks Presets"
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:57
+msgid ""
+"There are several new presets that ship with Fabric that are specifically"
+" for use with blocks; many of them can be found under "
+"``Fabric.Compounds.Blocks`` in the Canvas Explorer window.  In addition "
+"to the ``PolygonMesh.Deform`` preset mentioned above, a few other that "
+"bear specific mention include:"
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:60
+msgid "``Fabric.Core.Control.ForLoop``"
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:60
+msgid ""
+"A simple serial for loop that pulls its ``exec`` port for each iteration "
+"of the loop."
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:63
+msgid "``Fabric.Compounds.Blocks.Array.Filter``"
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:63
+msgid ""
+"Filters out elements of an array based on a condition that is exposed as "
+"a block."
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:66
+msgid "``Fabric.Compounds.Blocks.Array.Modify``"
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:66
+msgid ""
+"Creates a new array in a one-to-one fashion from an existing array.  In "
+"other programming systems this operation is often referred to as \"Map\"."
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:69
+msgid "``Fabric.Compounds.Blocks.Math.Accumulate``"
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:69
+msgid ""
+"Replaces a value with a new value for a given number of iterations.  This"
+" is a very general purpose operation that can be used to create arrays, "
+"sum values, etc.  In some programming systems this operation is referred "
+"to as \"Fold\"."
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:72
+msgid "``Fabric.Compounds.Blocks.Math.AccumulateWhile``"
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:72
+msgid ""
+"Like ``Fabric.Compounds.Blocks.Math.Accumulate`` except that it continues"
+" only while a certain condition (exposed by a block) is true."
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:75
+msgid "``Fabric.Compounds.Blocks.Array.AnyElementMatches``"
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:75
+msgid "Tests whether any element of an array matches the test in a block."
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:78
+msgid "Using Blocks in Custom Graphs and Functions"
+msgstr ""
+
+#: ../../source/CanvasUserGuide/cug-blocks.rst:80
+msgid ""
+"You can use blocks in your own custom graphs and functions, either inline"
+" or exposed as presets.  For more information, see :ref:`the blocks "
+"section of the Canvas Programming Guide <canvas-programming-guide-"
+"blocks>`"
+msgstr ""
+
