@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fabric Engine 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-12 15:40+0900\n"
+"POT-Creation-Date: 2016-07-14 11:32+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -247,6 +247,30 @@ msgstr "与えられたコンテクストIDの既存クライアントへの新�
 
 #: ../../source/CAPIProgrammingGuide/clients.rst:182
 msgid ""
+"The Fabric Core can maintain a singleton instance of a Client for sharing"
+" between multiple Fabric Core users. The first time this function is "
+"called a Client instance will be created and any subsequent calls will "
+"return a handle to this same instance. The CreateOptions are only used if"
+" this is the first call to GetSingleton(), if the singleton already "
+"exists then this parameter is ignored."
+msgstr ""
+
+#: ../../source/CAPIProgrammingGuide/clients.rst:184
+#, fuzzy
+msgid "A new reference to the singleton client object."
+msgstr "新しいクライアントへの参照, ただしエラー時には FEC_NULL_REF"
+
+#: ../../source/CAPIProgrammingGuide/clients.rst:191
+msgid ""
+"This function will invalidate the Core's reference to the singleton "
+"Client so that the next call to GetSingleton() will return a new Client "
+"object. Any outstanding references to the previous singleton Client will "
+"continue to work and it will only be destroyed when there are no "
+"references left."
+msgstr ""
+
+#: ../../source/CAPIProgrammingGuide/clients.rst:198
+msgid ""
 "Set the report callback for the client.  This will replace whatever "
 "report callback was already there.  Passing NULL for reportCallback will "
 "cause no report callbacks to be fired back to the client."
@@ -254,38 +278,38 @@ msgstr ""
 "クライアントの reportコールバックを設定. 既存コールバックが存在しても上書き. reportCallback へ NULL "
 "を渡してもクライアントへの reportコールバックは発火しない."
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:184
-#: ../../source/CAPIProgrammingGuide/clients.rst:195
-#: ../../source/CAPIProgrammingGuide/clients.rst:204
-#: ../../source/CAPIProgrammingGuide/clients.rst:241
-#: ../../source/CAPIProgrammingGuide/clients.rst:251
-#: ../../source/CAPIProgrammingGuide/clients.rst:260
-#: ../../source/CAPIProgrammingGuide/clients.rst:271
-#: ../../source/CAPIProgrammingGuide/clients.rst:282
-#: ../../source/CAPIProgrammingGuide/clients.rst:292
-#: ../../source/CAPIProgrammingGuide/clients.rst:304
-#: ../../source/CAPIProgrammingGuide/clients.rst:327
-#: ../../source/CAPIProgrammingGuide/clients.rst:338
-#: ../../source/CAPIProgrammingGuide/clients.rst:348
-#: ../../source/CAPIProgrammingGuide/clients.rst:359
-#: ../../source/CAPIProgrammingGuide/clients.rst:368
-#: ../../source/CAPIProgrammingGuide/clients.rst:393
-#: ../../source/CAPIProgrammingGuide/clients.rst:402
-#: ../../source/CAPIProgrammingGuide/clients.rst:412
-#: ../../source/CAPIProgrammingGuide/clients.rst:421
-#: ../../source/CAPIProgrammingGuide/clients.rst:430
+#: ../../source/CAPIProgrammingGuide/clients.rst:200
+#: ../../source/CAPIProgrammingGuide/clients.rst:211
+#: ../../source/CAPIProgrammingGuide/clients.rst:220
+#: ../../source/CAPIProgrammingGuide/clients.rst:257
+#: ../../source/CAPIProgrammingGuide/clients.rst:267
+#: ../../source/CAPIProgrammingGuide/clients.rst:276
+#: ../../source/CAPIProgrammingGuide/clients.rst:287
+#: ../../source/CAPIProgrammingGuide/clients.rst:298
+#: ../../source/CAPIProgrammingGuide/clients.rst:308
+#: ../../source/CAPIProgrammingGuide/clients.rst:320
+#: ../../source/CAPIProgrammingGuide/clients.rst:343
+#: ../../source/CAPIProgrammingGuide/clients.rst:354
+#: ../../source/CAPIProgrammingGuide/clients.rst:364
+#: ../../source/CAPIProgrammingGuide/clients.rst:375
+#: ../../source/CAPIProgrammingGuide/clients.rst:384
+#: ../../source/CAPIProgrammingGuide/clients.rst:409
+#: ../../source/CAPIProgrammingGuide/clients.rst:418
+#: ../../source/CAPIProgrammingGuide/clients.rst:428
+#: ../../source/CAPIProgrammingGuide/clients.rst:437
+#: ../../source/CAPIProgrammingGuide/clients.rst:446
 msgid "The client"
 msgstr "クライアントを示す"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:185
+#: ../../source/CAPIProgrammingGuide/clients.rst:201
 msgid "The new report callback"
 msgstr "新しい reportコールバック"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:186
+#: ../../source/CAPIProgrammingGuide/clients.rst:202
 msgid "The userdata to pass to the report callback when fired"
 msgstr "コールバック発火時そのコールバックへと渡すユーザデータ"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:193
+#: ../../source/CAPIProgrammingGuide/clients.rst:209
 msgid ""
 "Enable runtime logging for the client.  Runtime logging is what causes "
 "the report statements from KL programs to be fired as report callbacks to"
@@ -294,7 +318,7 @@ msgstr ""
 "そのクライアントでの実行時のロギングを有効にする. 実行時ロギングとは, KLプログラムのreport文によりひき起こされ, "
 "クライアントへの「reportコールバック」として発火する. ディフォルトでこの実行時ロギングは有効."
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:202
+#: ../../source/CAPIProgrammingGuide/clients.rst:218
 msgid ""
 "Disable runtime logging for the client.  Runtime logging is what causes "
 "the report statements from KL programs to be fired as report callbacks to"
@@ -303,20 +327,20 @@ msgstr ""
 "そのクラアントでの実行時ロギングを無効にする. 実行時ロギングとは, KLプログラムのreport文によりひき起こされ, "
 "クライアントへの「reportコールバック」として発火する. ディフォルトでこの実行時ロギングは有効."
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:214
+#: ../../source/CAPIProgrammingGuide/clients.rst:230
 msgid ""
 "Set the source mask for report lines coming from the Core.  This allows "
 "you, for instance, to only receive user report statements."
 msgstr "Coreより来る report行にソースマスクを設定. つまり「ユーザreport文」のみ受け取ることが可能になる."
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:218
-#: ../../source/CAPIProgrammingGuide/clients.rst:232
+#: ../../source/CAPIProgrammingGuide/clients.rst:234
+#: ../../source/CAPIProgrammingGuide/clients.rst:248
 msgid ""
 "Report line filtering could also happen at the client end, but it is "
 "generally more performant to allow the Core to perform the filtering."
 msgstr "クライアント終了と共にreport行のフィルタも発生しえます。終了とはいえ通常 Core がこのフィルタを行う余地はあります。"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:228
+#: ../../source/CAPIProgrammingGuide/clients.rst:244
 msgid ""
 "Set the maximum severity level for report lines coming from the Core.  "
 "This allows you, for instance, to only receive report lines that are "
@@ -325,7 +349,7 @@ msgstr ""
 "Coreより来る report行に最大重大度レベルを設定, これにより特定のレベルのみ ―errorとwarningのみ受け取り info と "
 "debug をreport行からフィルタしてしまうといったことが可能."
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:239
+#: ../../source/CAPIProgrammingGuide/clients.rst:255
 msgid ""
 "Get the context ID (a C string) associated with the client.  This string "
 "can be used in a call to :c:func:`FEC_ClientBind` to get a new reference "
@@ -334,17 +358,17 @@ msgstr ""
 "クライアントに紐付いたコンテクストIDをC文字列として取得. :c:func:`FEC_ClientBind` の呼び出しの際に使用し, "
 "そのクライアントへの新規の参照を得る."
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:242
+#: ../../source/CAPIProgrammingGuide/clients.rst:258
 msgid "The client ID as a C string"
 msgstr "クライアントID（C文字列）"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:249
+#: ../../source/CAPIProgrammingGuide/clients.rst:265
 msgid ""
 "Start instrumentation of the client.  If instrumentation has already "
 "started, this function restarts it."
 msgstr "クライアントの計測（instrumentation）を開始. 既に計測セッションを開始している場合, この関数により計測を再始動."
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:258
+#: ../../source/CAPIProgrammingGuide/clients.rst:274
 msgid ""
 "Stop instrumentation of the client and return the instrumentation "
 "results.  The format of the results depends on the value of the string "
@@ -355,53 +379,53 @@ msgstr ""
 "`\"timing\"`, `\"simpleTiming\"`, `\"simpleTimingNoExternal\"`, "
 "`\"raw\"`."
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:261
+#: ../../source/CAPIProgrammingGuide/clients.rst:277
 msgid "The result format to use"
 msgstr "結果のフォーマット"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:262
+#: ../../source/CAPIProgrammingGuide/clients.rst:278
 msgid "The instrumentation data as a variant"
 msgstr "計測データ（variant型）"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:269
+#: ../../source/CAPIProgrammingGuide/clients.rst:285
 msgid "Load an extension if it hasn't already been loaded."
 msgstr "エクステンションを読み込む（ただし未読み込みの場合）"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:272
+#: ../../source/CAPIProgrammingGuide/clients.rst:288
 msgid "The name of the extension to load (a C string)"
 msgstr "読み込むエクステンションの名前（C文字列）"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:273
+#: ../../source/CAPIProgrammingGuide/clients.rst:289
 msgid "If set to true to extension's KL code will be reloaded from disk."
 msgstr "true に設定した場合, KLコードをディスクから再読み込み掛ける."
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:280
-#: ../../source/CAPIProgrammingGuide/clients.rst:465
+#: ../../source/CAPIProgrammingGuide/clients.rst:296
+#: ../../source/CAPIProgrammingGuide/clients.rst:481
 msgid "Register extensions below the specified directory"
 msgstr "指定したディレクトリ以下のエクステンションを登録"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:283
-#: ../../source/CAPIProgrammingGuide/clients.rst:467
+#: ../../source/CAPIProgrammingGuide/clients.rst:299
+#: ../../source/CAPIProgrammingGuide/clients.rst:483
 msgid "The pathname in which to search for extensions"
 msgstr "エクステンションを検索するパス名"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:290
+#: ../../source/CAPIProgrammingGuide/clients.rst:306
 msgid "Export an extension in obfuscated format to the specified file."
 msgstr "エクステンションを難読化した形式で指定のファイルへとエクスポート"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:293
+#: ../../source/CAPIProgrammingGuide/clients.rst:309
 msgid "The name of the extension to export."
 msgstr "エクスポートするエクステンション名"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:294
+#: ../../source/CAPIProgrammingGuide/clients.rst:310
 msgid "The name of file to create."
 msgstr "作成するファイル名"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:295
+#: ../../source/CAPIProgrammingGuide/clients.rst:311
 msgid "Compress the output file or leave it in plain text"
 msgstr "出力ファイルを圧縮するか, 平テキストのママか"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:302
+#: ../../source/CAPIProgrammingGuide/clients.rst:318
 msgid ""
 "Tell the core whether to log warnings produced by the client.  Warnings "
 "are for deprecated behaviors on which the client is depending.  By "
@@ -410,11 +434,11 @@ msgstr ""
 "クライアントで生起する警告をログするかどうか Core に伝達. クライアントによって警告が非推奨な挙動となっている場合がある. "
 "ディフォルトで警告は『ログされない』"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:305
+#: ../../source/CAPIProgrammingGuide/clients.rst:321
 msgid "Whether to log warnings"
 msgstr "警告をログするか"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:312
+#: ../../source/CAPIProgrammingGuide/clients.rst:328
 msgid ""
 "The type of a status callback function associated with a client; see "
 ":c:func:`FEC_ClientSetStatusCallback`.  Such a function must have the "
@@ -423,7 +447,7 @@ msgstr ""
 "クライアントに紐づくステータスコールバック関数の型;  :c:func:`FEC_ClientSetStatusCallback` 参照. "
 "このような関数は以下のプロトタイプを持つ::"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:325
+#: ../../source/CAPIProgrammingGuide/clients.rst:341
 msgid ""
 "Set the status callback associated with the client.  Status callbacks are"
 " used for KL code to communicate status messages back to the client."
@@ -431,15 +455,15 @@ msgstr ""
 "クライアントに紐づくステータスコールバックを設定. KLコードがクライアントへとステータスメッセージを戻すやりとりを行う際に, "
 "このステータスコールバックを使用する。"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:328
+#: ../../source/CAPIProgrammingGuide/clients.rst:344
 msgid "The status callback to set"
 msgstr "設定するステータスコールバック"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:329
+#: ../../source/CAPIProgrammingGuide/clients.rst:345
 msgid "The userdata to pass to the status callback when called"
 msgstr "ステータスコールバックが呼ばれる際, 渡すユーザデータ"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:336
+#: ../../source/CAPIProgrammingGuide/clients.rst:352
 msgid ""
 "Returns the status userdata associated with the client, specifically the "
 "last value set by :c:func:`FEC_ClientSetStatusCallback`."
@@ -447,11 +471,11 @@ msgstr ""
 "クライアントに紐づく, ステータスユーザデータを戻す。 :c:func:`FEC_ClientSetStatusCallback` "
 "によって指定する最後の値"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:339
+#: ../../source/CAPIProgrammingGuide/clients.rst:355
 msgid "The status userdata associated with the client"
 msgstr "クライアントに紐づくステータスユーザデータ"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:346
+#: ../../source/CAPIProgrammingGuide/clients.rst:362
 msgid ""
 "Queue a status message to be sent to all the clients with the current "
 "client ID (including the given client).  This allows a simple "
@@ -462,15 +486,15 @@ msgstr ""
 "カレントクライアントIDをもつ全クライアント（与えられるクライアントも含む）へ送られる。これにより, ごく簡単な非同期通信機構 "
 "――<同じクライアントを示す参照を複数持った, 同じプロセス> 上の複数のパート間での非同期通信を達成できる。"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:349
+#: ../../source/CAPIProgrammingGuide/clients.rst:365
 msgid "The destination string passed to the status callbacks; a C string"
 msgstr "ステータスコールバックに渡す宛先（C文字列）"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:350
+#: ../../source/CAPIProgrammingGuide/clients.rst:366
 msgid "the payload string passed to the status callbacks; a C string"
 msgstr "ステータスコールバックへ渡す「荷物」（文字列）"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:357
+#: ../../source/CAPIProgrammingGuide/clients.rst:373
 msgid ""
 "Force license evaluation to happen immediately.  This can be used to re-"
 "evaluate the license after it has been saved to disk. Results of license "
@@ -480,25 +504,25 @@ msgstr ""
 "即時にライセンスの評価を強制。ライセンスをディスクに保存した後のライセンスの再評価等に使用する。ライセンスの確認結果をクライアントのロガーへ送り,"
 " ステータスコールバックヘライセンスデータを送る。"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:366
+#: ../../source/CAPIProgrammingGuide/clients.rst:382
 msgid ""
 "Returns true if the license currently in use is a paid commercial "
 "license. Always returns false if the license is not valid."
 msgstr "現在使用しているライセンスが支払い済の商用ライセンスであれば true を戻す。ライセンスが無効であれば常に false を戻す"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:375
+#: ../../source/CAPIProgrammingGuide/clients.rst:391
 msgid "Set the local license."
 msgstr "ローカルライセンスを設定"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:377
+#: ../../source/CAPIProgrammingGuide/clients.rst:393
 msgid "The license in RLM format"
 msgstr "RLMフォーマットのライセンス"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:384
+#: ../../source/CAPIProgrammingGuide/clients.rst:400
 msgid "Notify the Core of user activity."
 msgstr ""
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:391
+#: ../../source/CAPIProgrammingGuide/clients.rst:407
 msgid ""
 "Enable background task execution for the client.  This should be called "
 "once the application has finished loading.  If this function is never "
@@ -510,19 +534,19 @@ msgstr ""
 "バックグラウンドタスクは実行『されない』。（バックグラウンドでのKL最適化など）クライアント作成後に即呼ぶことも可能だが, "
 "起動し操作可能になるまでの時間が長くなる"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:400
+#: ../../source/CAPIProgrammingGuide/clients.rst:416
 msgid "Check whether background optimization of KL code is currently in progress."
 msgstr "KLコードの最適化の現在の進捗をチェック"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:403
+#: ../../source/CAPIProgrammingGuide/clients.rst:419
 msgid "Non-zero if background optimization is in progress, zero otherwise"
 msgstr "最適化進行中であれば非ゼロ, それ以外はゼロ"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:410
+#: ../../source/CAPIProgrammingGuide/clients.rst:426
 msgid "***FIXME***."
 msgstr ""
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:419
+#: ../../source/CAPIProgrammingGuide/clients.rst:435
 msgid ""
 "Tell the |FABRIC_PRODUCT_NAME| core that the main thread of the client is"
 " idle. Calling this function periodically gives the Core a chance to "
@@ -533,7 +557,7 @@ msgstr ""
 "に問い合わせる。定期的にこれを呼び出すことで, Coreにコールバックの対応機会を与える。さもなければ次に Core "
 "を呼び出す時までコールバックが放置される"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:428
+#: ../../source/CAPIProgrammingGuide/clients.rst:444
 msgid ""
 "Returns true if the |FABRIC_PRODUCT_NAME| core has found hardware support"
 " for GPU compute."
@@ -541,44 +565,44 @@ msgstr ""
 "|FABRIC_PRODUCT_NAME| core から見たハードウェアがGPUコンピュートをサポートするかどうか, サポートしていれば "
 "true を戻す"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:440
+#: ../../source/CAPIProgrammingGuide/clients.rst:456
 msgid "API Reference - C++"
 msgstr "APIレファレンス - C++"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:442
+#: ../../source/CAPIProgrammingGuide/clients.rst:458
 msgid "There is also an :ref:`CAPI.clients.api-reference-c`."
 msgstr ":ref:`CAPI.clients.api-reference-c` もあります。"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:446
+#: ../../source/CAPIProgrammingGuide/clients.rst:462
 msgid ""
 "A type used to indicate which KL background optimization mode to use when"
 " creating the client using the Client constructor.  It can have one of "
 "three values:"
 msgstr "KLのバックグラウンド最適化のモードを示すタイプ, Clientコンストラクタによりクライアントを作成する際に指定する。以下の3つのうちのどれか:"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:448
+#: ../../source/CAPIProgrammingGuide/clients.rst:464
 msgid "FabricCore::ClientOptimizationType_Background"
 msgstr ""
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:450
+#: ../../source/CAPIProgrammingGuide/clients.rst:466
 msgid "Optimize in the background (the default)"
 msgstr "バックグラウンドでの最適化 (ディフォルト)"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:452
+#: ../../source/CAPIProgrammingGuide/clients.rst:468
 msgid "FabricCore::ClientOptimizationType_Synchronous"
 msgstr ""
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:454
+#: ../../source/CAPIProgrammingGuide/clients.rst:470
 msgid ""
 "Optimize KL code synchronously.  Slows program startup but optimized code"
 " is used immediately."
 msgstr "KLコードの同期最適化。 プログラムの立ち上がりが遅くなるが, 最適化されたコードを即つかえる"
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:456
+#: ../../source/CAPIProgrammingGuide/clients.rst:472
 msgid "FabricCore::ClientOptimizationType_None"
 msgstr ""
 
-#: ../../source/CAPIProgrammingGuide/clients.rst:458
+#: ../../source/CAPIProgrammingGuide/clients.rst:474
 msgid "Do not optimize KL code"
 msgstr "KLコードの最適化を行わない"
 

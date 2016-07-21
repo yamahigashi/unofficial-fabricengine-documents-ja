@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fabric Engine 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-12 15:40+0900\n"
+"POT-Creation-Date: 2016-07-14 11:32+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,8 +89,8 @@ msgid ""
 msgstr "以下の用例では、カスタム構造体 <MyType> を登録しカスタムコンストラクタといくつかのメソッドと共に使用します。"
 
 #: ../../source/RTValProgrammingGuide/python.rst:71
-msgid "Creating an RTVal"
-msgstr "RTVal の作成"
+msgid "Creating an RTVal for KL basic types or Structures"
+msgstr ""
 
 #: ../../source/RTValProgrammingGuide/python.rst:73
 msgid ""
@@ -115,11 +115,36 @@ msgid ""
 "exception:"
 msgstr "存在しないコンストラクタを呼び出してしまうと例外が発生してしまいます。"
 
-#: ../../source/RTValProgrammingGuide/python.rst:100
+#: ../../source/RTValProgrammingGuide/python.rst:101
+msgid "Creating an RTVal for KL Objects"
+msgstr ""
+
+#: ../../source/RTValProgrammingGuide/python.rst:105
+msgid ""
+"As with objects in KL, a newly-created RTVal of an object type is always "
+"null. To create a non-null object RTVal, call "
+"``client.RT.types.<MyObjType>.create(<create args>)``. However, if a KL "
+"object implements a constructor WITH PARAMETERS, a non-null object RTVal "
+"can be constucted by calling directly "
+"``client.RT.types.<MyObjType>(<create args>)``."
+msgstr ""
+
+#: ../../source/RTValProgrammingGuide/python.rst:109
+msgid ""
+"Here is a example of structures (or basic types) and object RTVals "
+"constrution in Python. KL object and structure declaration defined in "
+"MyExt extension :"
+msgstr ""
+
+#: ../../source/RTValProgrammingGuide/python.rst:138
+msgid "Construction in Python :"
+msgstr ""
+
+#: ../../source/RTValProgrammingGuide/python.rst:204
 msgid "Creating RTVal Arrays"
 msgstr ""
 
-#: ../../source/RTValProgrammingGuide/python.rst:102
+#: ../../source/RTValProgrammingGuide/python.rst:206
 #, fuzzy
 msgid ""
 "To create an array of a type, call the method "
@@ -128,22 +153,22 @@ msgstr ""
 "型を作成するには ``client.RT.types.<TypeName>(<constructor parameters>)`` "
 "メソッドを呼びます："
 
-#: ../../source/RTValProgrammingGuide/python.rst:126
+#: ../../source/RTValProgrammingGuide/python.rst:230
 msgid "Creating 2D RTVal Arrays"
 msgstr ""
 
-#: ../../source/RTValProgrammingGuide/python.rst:128
+#: ../../source/RTValProgrammingGuide/python.rst:232
 msgid ""
 "To create a 2D array of a type, users will need to query the registered "
 "types object for an attribute that is named ``<Type>[]`` and call the "
 "``.createArray()`` method on the returned type."
 msgstr ""
 
-#: ../../source/RTValProgrammingGuide/python.rst:155
+#: ../../source/RTValProgrammingGuide/python.rst:259
 msgid "Getting Python values from an RTVal"
 msgstr "RTVal からPythonの値を取得"
 
-#: ../../source/RTValProgrammingGuide/python.rst:157
+#: ../../source/RTValProgrammingGuide/python.rst:261
 msgid ""
 "By default RTVal methods and members are represented in Python by an "
 "'RTVal' type, however in the case of simple types such as integers and "
@@ -156,15 +181,15 @@ msgstr ""
 "Pythonの組み込みの方として扱いたい事が多いでしょう。そこで getSimpleType() メソッドを使用します。RTVal "
 "が単純なPythonの型を返すか、ディフォルトの型に当てはまらない場合は 'None' を返します："
 
-#: ../../source/RTValProgrammingGuide/python.rst:172
+#: ../../source/RTValProgrammingGuide/python.rst:276
 msgid "Calling an RTVal Method"
 msgstr "RTVal のメソッド呼び出し"
 
-#: ../../source/RTValProgrammingGuide/python.rst:174
+#: ../../source/RTValProgrammingGuide/python.rst:278
 msgid "To call a method, simply calling the method, passing arguments."
 msgstr "メソッドの呼び出しには、単純にメソッドを呼び出します。引数もわたします。"
 
-#: ../../source/RTValProgrammingGuide/python.rst:178
+#: ../../source/RTValProgrammingGuide/python.rst:282
 msgid ""
 "Method calls in Python have a quirk where the name of the return type, as"
 " a string, must be passed as a first parameter; if there is no return "
@@ -175,13 +200,13 @@ msgstr ""
 "でのメソッド呼び出しは、<戻り値の型の名前>を文字列で最初の引数に渡さなくてはいけません。戻り値がないメソッドでは、「空の文字列」をわたします。このクセのある挙動は将来の"
 " |FABRIC_PRODUCT_NAME| で修正する予定です。"
 
-#: ../../source/RTValProgrammingGuide/python.rst:199
+#: ../../source/RTValProgrammingGuide/python.rst:303
 msgid ""
 "In addition to plain Python types like integers and strings, you can also"
 " pass other RTVals as arguments:"
 msgstr "素のPython型 ―整数や文字列に加え、他の RTValを引数として渡すこともできます。"
 
-#: ../../source/RTValProgrammingGuide/python.rst:211
+#: ../../source/RTValProgrammingGuide/python.rst:315
 msgid ""
 "There are several special method names defined by the Python interface to"
 " the Fabric Core, such as ``getJSON`` and ``getDesc``.  If the method "
@@ -193,25 +218,11 @@ msgid ""
 "method call, if any."
 msgstr ""
 
-#: ../../source/RTValProgrammingGuide/python.rst:220
-msgid "Creating Objects"
-msgstr "オブジェクトの作成"
-
-#: ../../source/RTValProgrammingGuide/python.rst:222
-msgid ""
-"As with objects in KL, a newly-created RTVal of an object type is always "
-"null.  To create a non-null object RTVal, call "
-"``client.RT.types.<MyObjType>.create(<create args>)``."
-msgstr ""
-"KLでのオブジェクト同様、あらたに作成したオブジェクト型のRTValは常に null になります。非nullオブジェクトの "
-"RTValを作成するには、 ``client.RT.types.<MyObjType>.create(<create args>)`` "
-"を呼びます。"
-
-#: ../../source/RTValProgrammingGuide/python.rst:225
+#: ../../source/RTValProgrammingGuide/python.rst:324
 msgid "Copying RTVal References"
 msgstr "RTVal 参照のコピー"
 
-#: ../../source/RTValProgrammingGuide/python.rst:227
+#: ../../source/RTValProgrammingGuide/python.rst:326
 msgid ""
 "Python variables that point to RTVals are references; as such, when you "
 "assign an RTVal to a variable it just makes another reference, and "
@@ -220,19 +231,19 @@ msgstr ""
 "RTVal "
 "を指すPython変数は参照です。つまり、RTValをある変数に代入するということ参照を他にもう一個設けることと同義です。通底する値のコピーは『行いません』。"
 
-#: ../../source/RTValProgrammingGuide/python.rst:230
+#: ../../source/RTValProgrammingGuide/python.rst:329
 msgid "Destroying an RTVal"
 msgstr "RTVal の破棄"
 
-#: ../../source/RTValProgrammingGuide/python.rst:232
+#: ../../source/RTValProgrammingGuide/python.rst:331
 msgid "In Python, RTVals are automatically destroyed when they go out of scope."
 msgstr "Pythonでは、スコープ外へと外れたRTValを自動で破棄します。"
 
-#: ../../source/RTValProgrammingGuide/python.rst:235
+#: ../../source/RTValProgrammingGuide/python.rst:334
 msgid "Interfacing with the Dependency Graph"
 msgstr "Dependency Graph とのインタフェース"
 
-#: ../../source/RTValProgrammingGuide/python.rst:237
+#: ../../source/RTValProgrammingGuide/python.rst:336
 msgid ""
 "RTVals can be used to interface with the :ref:`dependency graph <DGPG>`."
 "  You can use the ``node.getValue(<member>, <slice>)`` method to get a "
@@ -241,17 +252,17 @@ msgstr ""
 ":ref:`dependency graph <DGPG>` とのインタフェースに RTValを使用することが可能です。 "
 "``node.getValue(<member>, <slice>)`` メソッドにより RTValのメンバの値を取得できます："
 
-#: ../../source/RTValProgrammingGuide/python.rst:247
+#: ../../source/RTValProgrammingGuide/python.rst:346
 msgid ""
 "Similarly, you can use the ``setValue(<member>, <slice>, <value>)`` "
 "method to set the value from an RTVal:"
 msgstr "おなじように、 ``setValue(<member>, <slice>, <value>)`` メソッドによりRTValの値を設定できます："
 
-#: ../../source/RTValProgrammingGuide/python.rst:256
+#: ../../source/RTValProgrammingGuide/python.rst:355
 msgid "The same methods can also be used to work with events and event handlers."
 msgstr "この2つのメソッドは イベント，イベントハンドラと共に使用することができます。"
 
-#: ../../source/RTValProgrammingGuide/python.rst:260
+#: ../../source/RTValProgrammingGuide/python.rst:359
 msgid ""
 "When you call ``getValue`` on a dependency graph node, the returned RTVal"
 " is a copy, and not a reference, of the value.  Thus, if you change the "
@@ -260,4 +271,50 @@ msgid ""
 msgstr ""
 "``getValue`` を dependency graph ノードに対して呼ぶ場合、戻りRTVal "
 "は『コピー』です。参照では『ありません』。したがって戻りRTVal を変更しても元のノードの値は変更されずにおわります。"
+
+#: ../../source/RTValProgrammingGuide/python.rst:362
+msgid "Working with KL :kl-ref:`RTVal`"
+msgstr ""
+
+#: ../../source/RTValProgrammingGuide/python.rst:364
+msgid ""
+"You can use Python RTVals of type KL :kl-ref:`RTVal` to pass generic data"
+" in and out of the application."
+msgstr ""
+
+#: ../../source/RTValProgrammingGuide/python.rst:365
+msgid ""
+"Python RTVals are not the Python equivalent of a KL :kl-ref:`RTVal`, "
+"there is no one to one correspondance."
+msgstr ""
+
+#: ../../source/RTValProgrammingGuide/python.rst:366
+msgid ""
+"Like other KL types, KL :kl-ref:`RTVal`s are contained within a Python "
+"RTVals when accessed from Python."
+msgstr ""
+
+#: ../../source/RTValProgrammingGuide/python.rst:368
+msgid ""
+"Here is an example of how retrieve the wrapped value of a KL :kl-"
+"ref:`RTVal` into a Python RTVal:"
+msgstr ""
+
+#~ msgid "Creating an RTVal"
+#~ msgstr "RTVal の作成"
+
+#~ msgid "Creating Objects"
+#~ msgstr "オブジェクトの作成"
+
+#~ msgid ""
+#~ "As with objects in KL, a newly-"
+#~ "created RTVal of an object type is"
+#~ " always null.  To create a non-"
+#~ "null object RTVal, call "
+#~ "``client.RT.types.<MyObjType>.create(<create args>)``."
+#~ msgstr ""
+#~ "KLでのオブジェクト同様、あらたに作成したオブジェクト型のRTValは常に null "
+#~ "になります。非nullオブジェクトの RTValを作成するには、 "
+#~ "``client.RT.types.<MyObjType>.create(<create args>)`` "
+#~ "を呼びます。"
 

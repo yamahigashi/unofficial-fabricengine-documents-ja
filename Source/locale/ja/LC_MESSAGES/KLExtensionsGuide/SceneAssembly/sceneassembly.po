@@ -1,0 +1,213 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2010-2016 Fabric Software Inc
+# This file is distributed under the same license as the Fabric Engine
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Fabric Engine 2.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-07-14 11:32+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.3.3\n"
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:4
+msgid "Scene Assembly"
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:6
+msgid ""
+"The scene assembly is the procedural scene processing portion of the "
+":ref:`SceneHub<scenehub>`. It consist of a processing graph containing "
+"nodes that query, filter, merge or augment scene element groups. It "
+"includes, too, a set of interfaces for abstracting the scene "
+"implementation while allowing for efficient, asynchronous processing, "
+"which is implemented by the :ref:`SceneGraph<scenegraph_overview>`."
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:14
+msgid ""
+"The SceneAssembly extension is in early development stages and will grow "
+"in the next releases. In particular, there is currently no support for "
+"visual creation of processing graphs (DFG) however this is planned for "
+"future releases."
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:18
+msgid ""
+"The following objects and interfaces constitute the main building blocs "
+"of the scene assembly framework:"
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:20
+msgid ""
+"The :kl-ref:`SceneWrapper` interface is the main interface for "
+"abstracting a source scene (such as the "
+":ref:`SceneGraph<scenegraph_overview>`). It allows to create generic "
+"evaluation contexts (:kl-ref:`SWContext`), queries and reference arrays."
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:24
+msgid ""
+"The :kl-ref:`SWElementReference` refers to a scene element or sub-"
+"property. By implementing support for these, the scene provides an "
+"abstraction of its elements that allows for efficient and generic "
+"processing."
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:28
+msgid ""
+":kl-ref:`SWElementReference`'s methods allow for generic functionality "
+"such as:"
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:30
+msgid "Get its type and value"
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:32
+msgid ""
+"Request :kl-ref:`SWElementReference` for sub-properties (eg: "
+"`globalTransform`)"
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:34
+msgid "Get its full name (mostly for debug purpose)"
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:36
+msgid ""
+"Ability to update or generate its value for a specific scene context "
+"(:kl-ref:`SWContext`, eg: for a specific frame) and provides a value "
+"version which allows clients to asynchronously detect changes."
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:39
+msgid ""
+"Attach an adaptor for a specific target (eg: OpenGL/RealTimeRenderer "
+"adaptor). The adaptor will be attached to scene's source element (share "
+"by all SWElementReference that refer to the same scene element)"
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:45
+msgid ""
+"The :kl-ref:`SWElementReference` is a simple struct that is an accessor "
+"for a specifc indexed :kl-ref:`SWElementReferenceArray` item. It "
+"basically wraps a [elementsArray, index] pair, which simplifies its usage"
+" while maintaining regrouped element allocation for better performance "
+"and memory usage."
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:50
+msgid ""
+"The :kl-ref:`BaseDynamicGroup` is the base class for scene assembly "
+"processing nodes. It allows to collect an indexed set of scene items, "
+"provides information for updating ouput groups asynchronously and "
+"maintains a link to items' source groups (access to their :kl-"
+"ref:`SWElementReference`). The :kl-ref:`BaseDynamicGroup` is optimized "
+"for efficiency and low memory usage."
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:56
+msgid ""
+"The connected scene assembly nodes form a procedural scene processing "
+"graph. All nodes implement an `update` method which takes a :kl-"
+"ref:`SWContext`. The nodes recursively call `update` on their input group"
+" before updating their state and data. Nodes themselve have a version "
+"(:kl-ref:`Versioned` interface), which allows connected groups to detect "
+"if their data changed."
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:63
+msgid "The provided nodes and data include the following:"
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:65
+msgid ""
+":kl-ref:`SWDynamicGroup`: an initial group providing a set of source :kl-"
+"ref:`SWElementReference`. The :kl-ref:`SceneWrapper.createInstanceQuery` "
+"method allows to create :kl-ref:`SWDynamicGroup` containing the result of"
+" a scene query."
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:69
+msgid ""
+"The :kl-ref:`BaseDynamicGroupFilter` base object provides services for "
+"creating a filtered subset of an input :kl-ref:`BaseDynamicGroup`."
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:72
+msgid ""
+"The :kl-ref:`DynamicGroupVolumeFilter` filter node will select scene "
+"elements based on their bounding box (`globalBBox` property) and a "
+"specified volume query. For a better performance, it uses a :kl-"
+"ref:`DynamicGroupOctree` which can incrementally updates an :kl-"
+"ref:`Octree` of the input scene elements. The :kl-"
+"ref:`RTRCullFromVolumeTask` is a specialization of the :kl-"
+"ref:`DynamicGroupVolumeFilter` for culling scene elements based on "
+"camera's volume."
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:81
+msgid ""
+"The set of provided processing or filtering nodes at this point is pretty"
+" limited, for example these don't include nodes to \"merge\" multiple "
+"scenes together. Additionally, DFG support for the assembly graph is "
+"planned but hasn't been realized at this point."
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:88
+msgid "SceneAssembly example: SceneGraph to RTR"
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:90
+msgid ""
+"Below is illustrated a simple scene processing graph for providing culled"
+" geometries and lights to the :ref:`rtr2`:"
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:94
+msgid "In the diagram above:"
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:96
+msgid ""
+"The \"Query geometry\" and \"Query lights\" nodes are :kl-"
+"ref:`SceneGraph` specific implementations of :kl-ref:`SWDynamicGroup` "
+"element queries (:kl-ref:`SGInstanceQuery`) which are embedding different"
+" specialized scene element filters (:kl-ref:`SGGeometryInstanceFilter` "
+"and :kl-ref:`SGBaseLightInstanceFilter`)."
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:100
+msgid ""
+"The geometry group is then filtered based on a \"visible\" property using"
+" the :kl-ref:`VisiblePropertyGroupFilter`"
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:102
+msgid ""
+"The light and geometry groups are filtered based on the :kl-"
+"ref:`RTRCamera` volume, which is a :kl-ref:`DynamicGroupVolumeFilter` "
+"specialized for the :ref:`rtr2`. A SceneGraph to RTR adaptor allows to "
+"adapt SceneGraph's :kl-ref:`SGCamera` to the RTR-specialized :kl-"
+"ref:`RTRCamera`."
+msgstr ""
+
+#: ../../source/KLExtensionsGuide/SceneAssembly/sceneassembly.rst:106
+msgid ""
+"Finally, RTR-specific adaptors are created for the resulting scene "
+"geometry instances and lights. These adaptors allow to map scene-specific"
+" types, such as :kl-ref:`SGDirectionalLight` and :kl-ref:`SGInstance`, to"
+" corresponding RTR objects, such as :kl-ref:`RTRDirectionalLight` and "
+":kl-ref:`RTRSWInstance`. See :ref:`scenehub_adaptors` for more details "
+"about the adaptor mechanism."
+msgstr ""
+
