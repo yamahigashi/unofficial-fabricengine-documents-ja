@@ -38,9 +38,6 @@ Canvas
 
 **CTRL+V**
   Paste
-
-**CTRL+Tab**
-  Show/hide the node explorer and the value editor.
   
 **CTRL+R**
   Rearranges with an automatic layout will be applied to all the nodes at the left of the current selected node.

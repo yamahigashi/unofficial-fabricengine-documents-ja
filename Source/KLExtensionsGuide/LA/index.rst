@@ -1,0 +1,30 @@
+.. _la_extension:
+
+Math Extension
+====================================================================================
+
+.. image:: /images/FE_logo_345_60.*
+   :width: 345px
+   :height: 60px
+
+| |FABRIC_PRODUCT_NAME| version |FABRIC_VERSION|
+| |FABRIC_COPYRIGHT|
+
+
+The LA extension provides linear algebra functions for Cholesky Decomposition (https://en.wikipedia.org/wiki/Cholesky_decomposition) and Quadratic Programming (https://sourceforge.net/p/quadprog/code/HEAD/tree/src/QuadProg%2B%2B.cc).
+
+Table of Contents
+-----------------
+
+.. toctree::
+  :maxdepth: 2
+  
+  files
+  types
+  functions
+
+Indices and Tables
+------------------
+
+* :ref:`genindex`
+* :ref:`search`
