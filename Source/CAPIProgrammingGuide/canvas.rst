@@ -1296,7 +1296,7 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: void addPriorPortName(
+    .. cpp:function:: void addPriorPortName()
 
       Split the executable from the preset it is an instance of if it is
       an instance of a preset; otherwise, has no effect.
