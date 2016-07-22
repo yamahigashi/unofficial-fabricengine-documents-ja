@@ -28,6 +28,8 @@ msgid ""
 "customize the execution of complex nodes, and more advanced users can "
 "create new presets whose functionality is driven by user-provided blocks."
 msgstr ""
+"Blocksとは、ユーザの用意したコードを、入れる器です。Blocksを使うことで、複雑なノードの実行様態をカスタマイズすることが可能です。さらには一歩踏み"
+"込み、自前のblockを組み込み動作するあたらしいプリセットを作成することもできます。"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:10
 msgid ""
@@ -36,6 +38,8 @@ msgid ""
 "just that.  Blocks can also be used to check conditions, or multiple "
 "blocks can be used to do different things based on state."
 msgstr ""
+"Blocks を伝統的なプログラミング言語でのループと同様な操作に使用することができます。とはいえBlocksにはより強力な点があります。Blocksでは条"
+"件判定に使用したり、複数のblockを状態に応じて異なる振舞をさせることができます。"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:12
 msgid ""
@@ -45,12 +49,15 @@ msgid ""
 "``mesh`` port that is to be deformed and a ``deform`` block that is the "
 "deformation itself:"
 msgstr ""
+"参考として ``Fabric.Compounds.Blocks.Geometry.PolygonMesh.Deform`` プリセット(タブメニューから  "
+"``PolygonMesh.Deform`` としてアクセス)では、 ``mesh`` ポートと ``deform`` block の2つをとります。 "
+"``deform`` ブロックは deformation そのものです:"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:16
 msgid ""
 "By shift-double-clicking the node we enter into the definition of the "
 "block, more precisely referred to as the :dfn:`block instance`:"
-msgstr ""
+msgstr "ノードをシフト+ダブルクリックし、blockの定義に入ります。より詳しくは以下を参照  :dfn:`block instance`:"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:20
 msgid ""
@@ -60,16 +67,20 @@ msgid ""
 "However, we can edit this definition to produce the deformation effect "
 "that we want."
 msgstr ""
+"中を見ると blockインスタンスには、既定の定義があることがわかります。この場合、単に ``newPosition`` のポート値を "
+"``originalPosition`` ポートへと設定しています。実際には何もデフォーム行いません。しかしここから定義に変更を加えていき、望みのデフォーム"
+"効果を形作っていくことができます。"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:22
 msgid ""
 "The block instance definition is unique to each Deform node; each Deform "
 "node can potentially specify a different deformation."
 msgstr ""
+"blockインスタンスの定義とは、それぞれのデフォームノードに固有のものになります。つまり各デフォームノードに異なる変型を指定することができます。"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:25
 msgid "\"Fixed\" Block Ports"
-msgstr ""
+msgstr "「固定」Blockポート"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:27
 msgid ""
@@ -84,10 +95,16 @@ msgid ""
 "block instance, and the block instance provides the resulting value "
 "``newPosition`` back to the ``Deform`` preset."
 msgstr ""
+"blockインスタンスの中のポートで鍵アイコン付きのものを :dfn:`fixed block ports` "
+"と呼びます。これらのポートはプリセットにより定義され（例の場合では ``Deforme`` "
+"プリセット）ています。インスタンスで定義するものではありません。つまり名前の変更や追加、削除をインスタンスで行うことはできません。インスタンスが実行される時"
+"、プリセットから 固定inputポート, 固定IOポートが提供されそれらのポート値を受け取り、インスタンスの仕事を続行します。 ``Deform`` "
+"プリセットの例では、 ``originalPosition`` と ``originalNormal`` "
+"の値がblockインスタンスに提供され、インスタンスは実行結果である ``newPosition`` を ``Deform`` プリセットに提供します。"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:30
 msgid "Exposing Block Ports"
-msgstr ""
+msgstr "公開Blockポート"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:32
 msgid ""
@@ -96,6 +113,8 @@ msgid ""
 "might define our deformation as a simple push deformation driven by a "
 "single port ``amount``:"
 msgstr ""
+"Blockインスタン中において、グラフを機能させるため blockの外部へとポートを外部公開することができます。たとえば、デフォメーションを  "
+"``amount`` ポート一個で単純な押出変型を定義します:"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:36
 msgid ""
@@ -105,12 +124,15 @@ msgid ""
 "polymorphism`).  However, only input port can be exposed on blocks; it is"
 " not possible to expose IO or output ports."
 msgstr ""
+"固定ポートで「ない」 ``amount`` ポートに注目してください。これが公開blockポートです。公開Blockポートは通常のblockポート同様動作し"
+"ます。つまり同じ多態性についての規則 (see :ref:`canvas-user-guide-polymorphism`)"
+"に従います。ただしblockでは inputポートのみを外部公開とすることができます。 IOポートやoutputポートではできません。"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:38
 msgid ""
 "If you use the \"Back\" button to go back to the previous graph, you see "
 "the exposed port:"
-msgstr ""
+msgstr "\"Back\" ボタンを押し直前のグラフへと戻ると先ほど公開したポートを確認できます。"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:42
 msgid ""
@@ -118,10 +140,12 @@ msgid ""
 "also expose new block instance ports using the block instance's header "
 "menu, just as for regular node ports."
 msgstr ""
+"``amount`` が接続可能になっていることに着目ください。あたらしいblockインスタンスのヘッダーメニューからそのポートを作ることもできます。通常の"
+"ノードのポートと一緒ですね。"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:45
 msgid "Looking Inside Nodes with Blocks"
-msgstr ""
+msgstr "Blockのあるノードの見方"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:47
 msgid ""
@@ -133,10 +157,14 @@ msgid ""
 "itself to see how it works; to do so, right-click on the node to see the "
 "context menu, where you will find an \"Edit Node\" menu option."
 msgstr ""
+"素の状態では、blockインスタンスを一つ以上もつプリセットであれば、シフトを押しながらダブルクリックすることで "
+"blockインスタンスを編集できます。複数ある場合はマウス直下のインスタンスの編集になり、ノードの上方であれば、はじめのインスタンスを編集します。この挙動は"
+"、通常blockを用いたプリセットを使用している場合blockを編集したいであろうからです。ただし、ノード自身を見る(編集)"
+"ことも可能で、右クリックからコンテキストメニューを開き \"Edit Node\" を選びます。"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:50
 msgid "Blocks Samples"
-msgstr ""
+msgstr "Blocksのサンプル"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:52
 msgid ""
@@ -145,10 +173,12 @@ msgid ""
 "  It is recommended to examine how these sample scene works to better "
 "understand how blocks work."
 msgstr ""
+"Fabric は blocksの使用法に主眼おいた多数の用例を揃えています。 :file:`$FABRIC_DIR/Samples/Canvas/Block"
+"s` を御覧ください。blockがどのようなものであるかの理解するにはこれらのサンプルシーンがどのようにして機能するかを調べることをお薦めします。"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:55
 msgid "Blocks Presets"
-msgstr ""
+msgstr "Blockプリセット"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:57
 msgid ""
@@ -158,6 +188,8 @@ msgid ""
 "to the ``PolygonMesh.Deform`` preset mentioned above, a few other that "
 "bear specific mention include:"
 msgstr ""
+"Fabric に同梱したプリセットには blockの利用に特化したものが多数あります。多くは ``Fabric.Compounds.Blocks`` "
+"以下にあります。さらに、例に使用した ``PolygonMesh.Deform`` プリセットなど、幾つかは以下の場所にあります:"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:60
 msgid "``Fabric.Core.Control.ForLoop``"
@@ -167,7 +199,7 @@ msgstr ""
 msgid ""
 "A simple serial for loop that pulls its ``exec`` port for each iteration "
 "of the loop."
-msgstr ""
+msgstr "単純な直列（serial）ループです。各ループの繰り返し処理に  ``exec`` ポートを引いてきます。"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:63
 msgid "``Fabric.Compounds.Blocks.Array.Filter``"
@@ -177,7 +209,7 @@ msgstr ""
 msgid ""
 "Filters out elements of an array based on a condition that is exposed as "
 "a block."
-msgstr ""
+msgstr "ある配列の要素を条件に応じて除去します。条件は block として公開されます。"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:66
 msgid "``Fabric.Compounds.Blocks.Array.Modify``"
@@ -187,7 +219,7 @@ msgstr ""
 msgid ""
 "Creates a new array in a one-to-one fashion from an existing array.  In "
 "other programming systems this operation is often referred to as \"Map\"."
-msgstr ""
+msgstr "既存の配列から1対1対応したあたらしい配列を作成します。他のプログラミングシステムではこの種の操作を \"Map\" と呼ぶことがあります。"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:69
 msgid "``Fabric.Compounds.Blocks.Math.Accumulate``"
@@ -200,6 +232,8 @@ msgid ""
 "sum values, etc.  In some programming systems this operation is referred "
 "to as \"Fold\"."
 msgstr ""
+"与えた繰り返し番号に基づき、値を新しい値に置き換えます。これは配列の作成や値の集計によく用いる操作です。他のプログラミングシステムではこの種の操作を "
+"\"Fold\" と呼ぶことがあります。"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:72
 msgid "``Fabric.Compounds.Blocks.Math.AccumulateWhile``"
@@ -210,6 +244,8 @@ msgid ""
 "Like ``Fabric.Compounds.Blocks.Math.Accumulate`` except that it continues"
 " only while a certain condition (exposed by a block) is true."
 msgstr ""
+"``Fabric.Compounds.Blocks.Math.Accumulate`` "
+"とほぼ同じす。特定の条件（blockに公開）が真の間でのみ動作する点が違います。"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:75
 msgid "``Fabric.Compounds.Blocks.Array.AnyElementMatches``"
@@ -217,11 +253,11 @@ msgstr ""
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:75
 msgid "Tests whether any element of an array matches the test in a block."
-msgstr ""
+msgstr "配列要素の中に、blockのテストにマッチするものがあるかどうかをテストします。"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:78
 msgid "Using Blocks in Custom Graphs and Functions"
-msgstr ""
+msgstr "Blockのカスタムグラフ・関数での使用"
 
 #: ../../source/CanvasUserGuide/cug-blocks.rst:80
 msgid ""
@@ -230,4 +266,7 @@ msgid ""
 "section of the Canvas Programming Guide <canvas-programming-guide-"
 "blocks>`"
 msgstr ""
+"Blockはインラインもしくは公開プリセットであろうと、ユーザ独自のカスタムグラフ・関数において使用できます。詳しくは "
+":ref:`Canvasプログラミングガイドの Block についての章 <canvas-programming-guide-blocks>` "
+"を参照してください。"
 
