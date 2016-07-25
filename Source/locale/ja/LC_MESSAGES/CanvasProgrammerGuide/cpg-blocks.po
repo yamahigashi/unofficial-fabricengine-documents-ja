@@ -29,6 +29,8 @@ msgid ""
 ":ref:`the blocks section of the Canvas User Guide first <canvas-user-"
 "guide-blocks>`."
 msgstr ""
+"この章では Canvasにおける block の利用の仔細について記述します。もし Block について馴染みがないのであれば、  "
+":ref:`Canvasユーザガイドの blockについての章 <canvas-user-guide-blocks>` をまずはじめに参照してください。"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:10
 msgid ""
@@ -41,10 +43,15 @@ msgid ""
 "  There can also be additional block instance exposed through \"nested "
 "blocks\", which are described further below."
 msgstr ""
+"Blockについて理解を深めるため、まずは用語について詳しくみていきましょう。「Blocks」"
+"とはグラフまたは、関数の中に存在します。グラフまたは関数（一般に「ノード」として呼ばれるものです）"
+"のインスタンスにより提供されることで、グラフの代替として振舞ます。このようにインスタンスによって提供されるグラフを「Blockインスタンス」"
+"と呼称します。ノードには、グラフあるいは関数（つまりそのノードを定義するもの）の各blockへ、このblockインスタンスを一つ含めることができます。さらに"
+"以下に述べるように、入れ子blockにすることで追加の blockインスタンスを公開することもできます。"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:13
 msgid "Parallel Execution and Blocks"
-msgstr ""
+msgstr "並列実行（PEX）とBlock"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:15
 msgid ""
@@ -52,10 +59,12 @@ msgid ""
 "However, future support for parallel evaluation is part of the design, "
 "and this will be addressed in the near future."
 msgstr ""
+"現時点の Canvas では Blockの並列実行は安全ではありません。しかし、並列実行の将来的なサポートは計画に組み込まれています。近い将来にお知らせでき"
+"ると思います。"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:18
 msgid "Using Blocks in Custom Graphs and Functions"
-msgstr ""
+msgstr "独自のグラフや関数での Block の使用"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:20
 msgid ""
@@ -63,10 +72,12 @@ msgid ""
 "in your graph or that you save as presets; however, the way in which you "
 "do so is quite different in each case."
 msgstr ""
+"グラフの中で、独自のグラフや関数をインラインとして使用したものや、プリセットとして保存した場合に、Block "
+"の公開が可能です。ただしグラフあるいは関数どちらであるかに応じて少々異なるやりかたになります。"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:23
 msgid "Exposing Blocks in Graphs"
-msgstr ""
+msgstr "グラフノードでの Block の公開"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:25
 msgid ""
@@ -75,6 +86,8 @@ msgid ""
 "choose a name for the block.  The block will appear with a block-like "
 "shape so it is easily distinguished in the graph."
 msgstr ""
+"block をグラフ中で公開するには、グラフの背景何もない場所を右クリックし、コンテキストメニューの \"New Block\" "
+"を選択、blockを命名します。blockがブロックのような見た目の形状でグラフに登場します。容易に判別つくことでしょう。"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:27
 msgid ""
@@ -83,6 +96,8 @@ msgid ""
 " or of a block instance graph.  This is because it would not be possible "
 "to provide a definition for the resulting block!"
 msgstr ""
+"ルートグラフに対しての block作成はできません。できあがった block に定義を与えることができないためです。ルートグラフあるいは "
+"blockインスタンスグラフのサブグラフに対してのみ作成することができます。"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:31
 msgid ""
@@ -91,10 +106,12 @@ msgid ""
 " shift-double-clicking the block, where you will see the block port "
 "editor for the block."
 msgstr ""
+"block の作成ができたのであれば、他のノード同様その blockへとポートを追加、編集、再配置、削除することができます。シフトを押しながらダブルクリック"
+"で blockポートエディタが開きます。"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:34
 msgid "Exposing Blocks in Functions"
-msgstr ""
+msgstr "関数ノードでの Block の公開"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:36
 msgid ""
@@ -107,6 +124,11 @@ msgid ""
 " tab will appear for the block where you can add ports to the block; "
 "these ports will appear as fixed ports in the block instances."
 msgstr ""
+"独自関数において Block を公開するには、まずはいつもどおり関数エディタを開きます。エディタの上部付近のタブがいくつかあります。\"Ports\" "
+"タブでポートの追加、編集、削除、再配置ができます。 \"Blocks\" タブで block "
+"の追加と削除ができます。blockの追加には\"Blocks\" タブに遷移し名前を入力、 \"Add Block\" をクリックします。新しい "
+"block が追加されたら、さらに新しいタブが出現します。新しいタブで blockへのポートの追加が行えます。これらのポートはblockインスタンスの固定ポ"
+"ートとなります。"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:40
 msgid ""
@@ -114,6 +136,8 @@ msgid ""
 "function code using the ``dfgPullBlockPort`` construct.  The syntax of "
 "``dfgPullBlockPort`` is very specific:"
 msgstr ""
+"Block が追加されたら、その KL関数コードから blockのポートを引いてくる事ができます。 ``dfgPullBlockPort`` "
+"コンストラクタを使用します。 ``dfgPullBlockPort`` の文法は以下のようになります:"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:42
 msgid ""
@@ -121,6 +145,8 @@ msgid ""
 "``\"blockName.portName\"``.  This is the name of the block port to be "
 "pulled."
 msgstr ""
+"``dfgPullBlockPort`` の１番目のパラメータは ``\"blockName.portName\"`` "
+"形式の文字列で、引いてくるblockポートの名前です。"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:44
 msgid ""
@@ -128,6 +154,8 @@ msgid ""
 "type*.  These are the values that are provided to the input and IO fixed "
 "ports when the block instances are executed."
 msgstr ""
+"input/IOパラメータにはそれぞれ追加パラメータ *of non-Execute type* があり、この値は blockインスタンスが実行される際に "
+"input/IO固定ポートへと提供される値となります。"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:46
 msgid ""
@@ -135,10 +163,12 @@ msgid ""
 "block ``body`` which has a single input port ``index`` and a single "
 "output port ``exec``.  The KL function code that defines it is:"
 msgstr ""
+"例として  ``Fabric.Core.Control.ForLoop`` プリセットを見てみましょう。まず block ``body`` "
+"が一つあり、入力ポート ``index`` を一つ持ち、出力ポート ``exec`` も一つ持ちます。KL関数コードではこれを以下のように定義しています。"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:56
 msgid "Nested Blocks"
-msgstr ""
+msgstr "入れ子Block"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:58
 msgid ""
@@ -153,16 +183,23 @@ msgid ""
 " the process of creating a graph that prints a series of values produced "
 "by a nested block inside a ``ForLoop`` preset:"
 msgstr ""
+"あるノードでは、そのノードを定義するグラフあるいは関数中に、blockにblockインスタンスを一つ付ける事ができます。ノードをグラフにより定義している場合"
+"、そのノードでは、blockインスタンスの中にさらに blockにblockインスタンスを一つ作ることができます。これをすんなり理解することは難しいでしょう"
+"。まずは簡単なもので練習してみましょう。まずは ``ForLoop``  をグラフに挿入します。このループの本体の中にさらに block "
+"を作成します。追加のblock は ノード（グラフ）上のblockインスタンスとなります。GIFアニメ画像に、 ``ForLoop`` "
+"プリセット内の入れ子のblockによる、連続した値を生成するグラフの作成過程を示します。"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:62
 msgid ""
 "For an example of how this is used in one of the presets, look at the "
 "definition of the ``Fabric.Compounds.Blocks.Image.Modify`` preset."
 msgstr ""
+"どのように入れ子を活用するかについて ``Fabric.Compounds.Blocks.Image.Modify`` "
+"プリセットの定義を参考にしてください。"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:65
 msgid "Polymorphism and Blocks"
-msgstr ""
+msgstr "多態性とBlock"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:67
 msgid ""
@@ -172,10 +209,13 @@ msgid ""
 " example above is a case where the ``count`` input port and the ``index``"
 " input port for the block have the same polymorphic type ``$TYPE``."
 msgstr ""
+"Block のポートの多態性についての規則は、通常のグラフや関数のポートについての規則と同様です。型の polymorphism matching "
+"操作は、ノードとノードの Blockインスタンスどちらにも作用します。上述の ``ForLoop`` の例では、 ``count`` 入力ポートと内部 "
+"blockの ``index`` 入力ポートがどちらも同じ多態な型 ``$TYPE`` を持ちます。"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:70
 msgid "Variables Inside of Blocks"
-msgstr ""
+msgstr "Blockの中での変数"
 
 #: ../../source/CanvasProgrammerGuide/cpg-blocks.rst:72
 msgid ""
@@ -183,4 +223,6 @@ msgid ""
 "declared inside the block instances will be reinitialized each time the "
 "block instance executes."
 msgstr ""
+"blockインスタンスの中であっても変数を使用することができます。ただし、blockインスタンスの中で変数の宣言を行うと、blockインスタンスの実行毎に、"
+"毎度再初期化が走ってしまいます。"
 
