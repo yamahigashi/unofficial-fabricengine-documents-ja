@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: Fabric Engine 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-21 11:49+0900\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2016-07-26 15:24Tokyo Standard Time\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -110,9 +110,8 @@ msgstr ""
 "|FABRIC_PRODUCT_NAME| を別名の場所におくことで複数のバージョンをインストールすることもできます。"
 
 #: ../../source/GettingStartedGuide/baseinstallation.rst:30
-#, fuzzy
 msgid "Launching the Fabric Standalone (canvas.py)"
-msgstr "Fabricスタンドアロン版の起動"
+msgstr "Fabricスタンドアロン版の起動(canvas.py)"
 
 #: ../../source/GettingStartedGuide/baseinstallation.rst:34
 msgid ""
@@ -130,6 +129,16 @@ msgid ""
 "2.7 and make sure your PATH enviroment variable includes the directory of"
 " your Python distribution."
 msgstr ""
+"2.2.0 になり、Fabricスタンドアロン版は Python に書き換えられました。 ``canvas.py`` はシステムに 64 bit版 "
+"Python 2.7 (the VFX Reference Platform に定義されるように)（訳注： "
+"http://www.vfxplatform.com/ 参照）のインストールを必要とします。OS "
+"Xと最近のLinuxディストリビューションでは最初から組み込まれているでしょう。（かりに Python 2.7.x "
+"をインストールしていないあるいは古いのであれば、インストールしてください。パッケージマネージャを使用してもよいですし、手動でもよいです）"
+"注意点として、システムの  Python のディフォルトバージョンが 2.7 である必要があります。さもないとシェルスクリプト "
+"environment.sh が正常に動作しない可能性があります。 Python 2.7がディフォルトバージョンでない場合、 environment.sh "
+"もしくは prompt.bat を編集し ``PYTHONPATH`` を正してください。システムのディフォルトバージョンを正すには "
+"Windowsの場合単純に、Python 2.7 のインストールを行うだけです。PATH環境変数にその Python "
+"ディストリビューションのディレクトリが含まれたことをかくにんします。"
 
 #: ../../source/GettingStartedGuide/baseinstallation.rst:38
 msgid ""
@@ -138,6 +147,8 @@ msgid ""
 "you will need to ensure that you're using the system version found in "
 "``/usr/bin/python`` when you run the Fabric Standalone."
 msgstr ""
+"OSXでは現在、ディフォルトのPythonの利用が必要です。homebrew やたのパッケージマネージャ由来の新しいバージョンのものをインストールしている場"
+"合は、Fabricスタンドアロンを実行する際、 ``/usr/bin/python`` 以下のシステムバージョンを利用していることを確認してください。"
 
 #: ../../source/GettingStartedGuide/baseinstallation.rst:40
 msgid ""
@@ -150,6 +161,11 @@ msgid ""
 "these environment variables manually following the procedures described "
 "below."
 msgstr ""
+"|FABRIC_PRODUCT_NAME| は多くの環境変数に依存し動作します。そのため利便性向上のため canvas.py を起動する "
+":dfn:`canvas.bat` (Windows) と :dfn:`canvas.sh` (Linux / OSX) "
+"ファイルを提供しています。これらのファイルをダブルクリックすると、内部で :dfn:`environment.bat` (Windows) あるいは "
+":dfn:`environment.sh` (Linux / OSX) を呼び出し環境変数を設定、 ``python bin/canvas.py`` "
+"を起動します。この方法以外にも、環境変数を手動で設定することも可能です。いかに述べます。"
 
 #: ../../source/GettingStartedGuide/baseinstallation.rst:43
 msgid "On Windows:"
@@ -162,6 +178,9 @@ msgid ""
 "<https://msysgit.github.io/>`_ you can also source the "
 ":dfn:`environment.sh` file instead."
 msgstr ""
+":dfn:`prompt.bat` ファイルを開き全環境変数を設定します。 `mingw <http://www.mingw.org>`_ / `Git "
+"Bash <https://msysgit.github.io/>`_ を使用している場合はかわりに :dfn:`environment.sh` "
+"を用います。"
 
 #: ../../source/GettingStartedGuide/baseinstallation.rst:51
 msgid ""
@@ -175,21 +194,20 @@ msgid "On Linux / OSX:"
 msgstr "Linux / OSX:"
 
 #: ../../source/GettingStartedGuide/baseinstallation.rst:55
-#, fuzzy
 msgid ""
 "To setup all required environment variables simply source the "
 ":dfn:`environment.sh` file within a terminal session."
-msgstr "環境変数を適切に設定するには :dfn:`environment.sh` を読み込みます。"
+msgstr "環境変数を適切に設定するにはターミナルセッションに :dfn:`environment.sh` を読み込みます。"
 
 #: ../../source/GettingStartedGuide/baseinstallation.rst:61
 msgid ""
 "``canvas.py`` can be launched from the terminal/command prompt by just "
 "typing ``canvas.py``:"
-msgstr ""
+msgstr "ターミナル/コマンドプロンプトから ``canvas.py`` と打鍵し ``canvas.py`` を実行します:"
 
 #: ../../source/GettingStartedGuide/baseinstallation.rst:67
 msgid "Or by invoking it with python: ``python bin/canvas.py``:"
-msgstr ""
+msgstr "あるいは python と一緒に呼び出します: ``python bin/canvas.py``:"
 
 #: ../../source/GettingStartedGuide/baseinstallation.rst:73
 msgid ""
@@ -201,9 +219,6 @@ msgid ""
 msgstr ""
 "|FABRIC_PRODUCT_NAME| "
 "初回起動時には、KLコンパイラによりすべてのKL拡張が動作環境に応じて最適化とコンパイルされます。これには数分を要します。また、起動後にライセンスダイアログが出るかもしれません。次のセクションへと進み、基本的操作と、ライセンスのインストールについて確認しましょう。"
-
-#~ msgid ""
-#~ msgstr ""
 
 #~ msgid ""
 #~ "|FABRIC_PRODUCT_NAME| relies on several "
