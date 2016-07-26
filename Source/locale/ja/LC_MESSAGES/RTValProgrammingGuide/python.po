@@ -90,7 +90,7 @@ msgstr "以下の用例では、カスタム構造体 <MyType> を登録しカ�
 
 #: ../../source/RTValProgrammingGuide/python.rst:71
 msgid "Creating an RTVal for KL basic types or Structures"
-msgstr ""
+msgstr "KLでの基本型、構造体 の RTVal の作成"
 
 #: ../../source/RTValProgrammingGuide/python.rst:73
 msgid ""
@@ -117,7 +117,7 @@ msgstr "存在しないコンストラクタを呼び出してしまうと例外
 
 #: ../../source/RTValProgrammingGuide/python.rst:101
 msgid "Creating an RTVal for KL Objects"
-msgstr ""
+msgstr "KLでのオブジェクト の RTVal の作成"
 
 #: ../../source/RTValProgrammingGuide/python.rst:105
 msgid ""
@@ -128,6 +128,11 @@ msgid ""
 "can be constucted by calling directly "
 "``client.RT.types.<MyObjType>(<create args>)``."
 msgstr ""
+"KL中のオブジェクト同様、新規に作成したあるオブジェクト型な RTVal は、常にnullになります。非nullなオブジェクトRTValの作成には、 "
+"``client.RT.types.<MyObjType>.create(<create args>)`` "
+"を呼びます。ただし、このKLオブジェクトが『複数のパラメタ付』のコンストラクタを実装している場合については、 "
+"``client.RT.types.<MyObjType>(<create args>)`` を呼ぶことにより非nullの "
+"オブジェクトRTValを直接コンストラクトすることができます。"
 
 #: ../../source/RTValProgrammingGuide/python.rst:109
 msgid ""
@@ -135,27 +140,28 @@ msgid ""
 "constrution in Python. KL object and structure declaration defined in "
 "MyExt extension :"
 msgstr ""
+"Pythonでの構造体（もしくは基本型）とオブジェクトRTValのコンストラクト例を示します。KL オブジェクトと構造体宣言定義は "
+"MyExtエクステンションにあり："
 
 #: ../../source/RTValProgrammingGuide/python.rst:138
 msgid "Construction in Python :"
-msgstr ""
+msgstr "Pythonでコンストラクト："
 
 #: ../../source/RTValProgrammingGuide/python.rst:204
 msgid "Creating RTVal Arrays"
-msgstr ""
+msgstr "RTVal配列の作成"
 
 #: ../../source/RTValProgrammingGuide/python.rst:206
-#, fuzzy
 msgid ""
 "To create an array of a type, call the method "
 "``client.RT.types.<TypeName>.createArray(<OptionalListOfRTVals>)``:"
 msgstr ""
-"型を作成するには ``client.RT.types.<TypeName>(<constructor parameters>)`` "
-"メソッドを呼びます："
+"型の配列を作成するには ``client.RT.types.<TypeName>.createArray(<OptionalListOfRTVals>)"
+"`` メソッドを呼びます："
 
 #: ../../source/RTValProgrammingGuide/python.rst:230
 msgid "Creating 2D RTVal Arrays"
-msgstr ""
+msgstr "2次RTVal配列"
 
 #: ../../source/RTValProgrammingGuide/python.rst:232
 msgid ""
@@ -163,6 +169,8 @@ msgid ""
 "types object for an attribute that is named ``<Type>[]`` and call the "
 "``.createArray()`` method on the returned type."
 msgstr ""
+"ある型の2次元配列を作成するには、 ``<Type>[]`` の名前を持つ属性を、登録された型（registered "
+"types）オブジェクトの中から検索し、戻ってきた型に対し ``.createArray()`` メソッドを実行する必要があります。"
 
 #: ../../source/RTValProgrammingGuide/python.rst:259
 msgid "Getting Python values from an RTVal"
@@ -217,6 +225,10 @@ msgid ""
 "method name as a second parameter, followed by the arguments to the "
 "method call, if any."
 msgstr ""
+"Fabric Core への Python インタフェースには、いくつかの特別なメソッド名が定義されています。たとえば、``getJSON`` and "
+"``getDesc`` です。もし呼び出したいメソッド名が、これらの特別なメソッド名と一致している場合、以上のように直接呼ぶ出すことが可能ですし、特別なメソ"
+"ッド  ``callMethod`` に名前を与え、望みのメソッドを呼ぶ出すことができます。 ``callMethod`` "
+"は（もしあるのならば）戻り値の型名を一番目のパラメータにとり、二番目のパラメータにはメソッド名をとりメソッド呼び出しの引数とします。"
 
 #: ../../source/RTValProgrammingGuide/python.rst:324
 msgid "Copying RTVal References"
@@ -274,31 +286,33 @@ msgstr ""
 
 #: ../../source/RTValProgrammingGuide/python.rst:362
 msgid "Working with KL :kl-ref:`RTVal`"
-msgstr ""
+msgstr "KL :kl-ref:`RTVal` の活用"
 
 #: ../../source/RTValProgrammingGuide/python.rst:364
 msgid ""
 "You can use Python RTVals of type KL :kl-ref:`RTVal` to pass generic data"
 " in and out of the application."
 msgstr ""
+"KL :kl-ref:`RTVal` 型の Python RTValを、アプリケーション内外の一般的なデータ受け渡しのために利用することができます。"
 
 #: ../../source/RTValProgrammingGuide/python.rst:365
 msgid ""
 "Python RTVals are not the Python equivalent of a KL :kl-ref:`RTVal`, "
 "there is no one to one correspondance."
-msgstr ""
+msgstr "Python RTVal は KL での :kl-ref:`RTVal` と1対1対応するような同等なものではありません。"
 
 #: ../../source/RTValProgrammingGuide/python.rst:366
 msgid ""
 "Like other KL types, KL :kl-ref:`RTVal`s are contained within a Python "
 "RTVals when accessed from Python."
 msgstr ""
+"Pythonからアクセするする際は、他の KLの型と同じく、 KL :kl-ref:`RTVal`s は Python RTVal に内包されます。"
 
 #: ../../source/RTValProgrammingGuide/python.rst:368
 msgid ""
 "Here is an example of how retrieve the wrapped value of a KL :kl-"
 "ref:`RTVal` into a Python RTVal:"
-msgstr ""
+msgstr "KL :kl-ref:`RTVal` をラップした値を Python RTVal へ置き換えるにはどうするかを示す例です："
 
 #~ msgid "Creating an RTVal"
 #~ msgstr "RTVal の作成"
