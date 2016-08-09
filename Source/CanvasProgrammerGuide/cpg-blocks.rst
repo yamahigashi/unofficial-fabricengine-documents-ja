@@ -1,4 +1,4 @@
-.. _canvas-programming-guide-blocks:
+.. _canvas-programmer-guide-blocks:
 
 .. versionadded:: 2.3.0
 
