@@ -1,0 +1,441 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ClipPose (object) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Characters Extension’s Types" href="types.html" />
+    <link rel="next" title="Pose (object)" href="Pose.html" />
+    <link rel="prev" title="Character (object)" href="Character.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Pose.html" title="Pose (object)"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="Character.html" title="Character (object)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Characters エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" accesskey="U">Characters Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="clippose-object">
+<span id="clippose"></span><h1>ClipPose (object)<a class="headerlink" href="#clippose-object" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><p class="klbrief">A pose driven by a clip.</p>
+<p class="plaintext">The ClipPose, based on the regular <a class="reference internal" href="Pose.html#pose"><span class="std std-ref">Pose</span></a>, computes the bone transforms by retrieving
+animation data from a references <a class="reference internal" href="../Animation/Clip.html#clip"><span class="std std-ref">Clip</span></a>. The <a class="reference internal" href="../Animation/Clip.html#clip"><span class="std std-ref">Clip</span></a> is evaluated, giving a <a class="reference internal" href="../Animation/ClipValues.html#clipvalues"><span class="std std-ref">ClipValues</span></a> data
+structure, that can then be queried by the pose as it lazily builds the global space transforms.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="../Animation/Clip.html#clip"><span class="std std-ref">Clip</span></a>, <a class="reference internal" href="Pose.html#pose"><span class="std std-ref">Pose</span></a></p>
+</div>
+<p><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: clipPose.kl</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Characters</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">(){</span>
+
+
+
+  <span class="c1">//////////////////////////////////</span>
+  <span class="c1">// Generate a skeleton made of a single bone chain.</span>
+  <span class="nx">Bone</span> <span class="nx">bones</span><span class="p">[];</span>
+  <span class="nx">bones</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+  <span class="nx">Xfo</span> <span class="nx">parentXfo</span><span class="p">();</span>
+  <span class="kr">UInt32</span> <span class="nx">seed</span> <span class="o">=</span> <span class="mi">9876</span><span class="p">;</span>
+  <span class="kr">UInt32</span> <span class="nx">offset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">bones</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="nx">Bone</span> <span class="nx">bone</span><span class="p">;</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;Bone&quot;</span><span class="o">+</span><span class="nx">i</span><span class="p">;</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">parentIndex</span> <span class="o">=</span> <span class="nx">i</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+
+    <span class="c1">// compute the angles</span>
+    <span class="nx">Scalar</span> <span class="nx">random</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="nx">mathRandomScalar</span><span class="p">(</span><span class="nx">seed</span><span class="p">,</span> <span class="o">++</span><span class="nx">offset</span><span class="p">);</span>
+    <span class="nx">Scalar</span> <span class="nx">xAngle</span> <span class="o">=</span> <span class="nx">sin</span><span class="p">(</span><span class="nx">random</span> <span class="o">*</span> <span class="mf">0.4</span> <span class="o">+</span> <span class="nx">Scalar</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.03</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">;</span>
+    <span class="nx">Scalar</span> <span class="nx">zAngle</span> <span class="o">=</span> <span class="nx">cos</span><span class="p">(</span><span class="mf">0.11</span> <span class="o">+</span> <span class="nx">Scalar</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">;</span>
+
+    <span class="nx">Scalar</span> <span class="nx">boneLength</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">;</span>
+    <span class="nx">Xfo</span> <span class="nx">xfo</span><span class="p">;</span>
+    <span class="nx">xfo</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="nx">boneLength</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">xfo</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEulerAngles</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="nx">xAngle</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="nx">zAngle</span><span class="p">));</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">referencePose</span> <span class="o">=</span> <span class="nx">parentXfo</span> <span class="o">*</span> <span class="nx">xfo</span><span class="p">;</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="nx">boneLength</span><span class="p">;</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">radius</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">setFlag</span><span class="p">(</span><span class="nx">BONEFLAG_DEFORMER</span><span class="p">);</span>
+    <span class="nx">bones</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">bone</span><span class="p">;</span>
+    <span class="nx">parentXfo</span> <span class="o">=</span> <span class="nx">bone</span><span class="p">.</span><span class="nx">referencePose</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">Skeleton</span> <span class="nx">skeleton</span> <span class="o">=</span> <span class="nx">Skeleton</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nx">bones</span><span class="p">);</span>
+  <span class="nx">Character</span> <span class="nx">character</span><span class="p">(</span><span class="s1">&#39;Clip&#39;</span><span class="p">);</span>
+  <span class="nx">character</span><span class="p">.</span><span class="nx">setSkeleton</span><span class="p">(</span><span class="nx">skeleton</span><span class="p">);</span>
+
+  <span class="c1">//////////////////////////////////</span>
+  <span class="c1">// Generate a clip for the skeleton.</span>
+  <span class="nx">Clip</span> <span class="nx">clip</span><span class="p">(</span><span class="s1">&#39;MyClip&#39;</span><span class="p">);</span>
+
+  <span class="nx">seed</span> <span class="o">=</span> <span class="mi">5467</span><span class="p">;</span>
+  <span class="nx">offset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">bones</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">Xfo</span> <span class="nx">localXfo</span> <span class="o">=</span> <span class="nx">skeleton</span><span class="p">.</span><span class="nx">getReferenceLocalPose</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+    <span class="nx">KeyframeTrackSet</span> <span class="nx">trackSet</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">i</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+      <span class="nx">trackSet</span> <span class="o">=</span> <span class="nx">KeyframeTrackSet</span><span class="p">(</span><span class="nx">skeleton</span><span class="p">.</span><span class="nx">getBone</span><span class="p">(</span><span class="nx">i</span><span class="p">).</span><span class="nx">name</span><span class="p">,</span> <span class="nx">localXfo</span><span class="p">,</span> <span class="nx">TRACKSETFLAG_TR_TRACKS</span><span class="o">|</span><span class="nx">TRACKSETFLAG_ORI_TRACKS</span><span class="o">|</span><span class="nx">TRACKSETFLAG_EULERANGLES_TRACKS</span><span class="p">);</span>
+    <span class="k">else</span>
+      <span class="nx">trackSet</span> <span class="o">=</span> <span class="nx">KeyframeTrackSet</span><span class="p">(</span><span class="nx">skeleton</span><span class="p">.</span><span class="nx">getBone</span><span class="p">(</span><span class="nx">i</span><span class="p">).</span><span class="nx">name</span><span class="p">,</span> <span class="nx">localXfo</span><span class="p">.</span><span class="nx">ori</span><span class="p">,</span> <span class="nx">TRACKSETFLAG_EULERANGLES_TRACKS</span><span class="p">);</span>
+
+    <span class="kr">String</span> <span class="nx">trackNames</span><span class="p">[]</span> <span class="o">=</span> <span class="nx">trackSet</span><span class="p">.</span><span class="nx">getTrackNames</span><span class="p">();</span>
+    <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">j</span><span class="o">&lt;</span><span class="nx">trackNames</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">KeyframeTrack</span> <span class="nx">track</span> <span class="o">=</span> <span class="nx">trackSet</span><span class="p">.</span><span class="nx">getTrack</span><span class="p">(</span><span class="nx">trackNames</span><span class="p">[</span><span class="nx">j</span><span class="p">]);</span>
+
+      <span class="nx">track</span><span class="p">.</span><span class="nx">addKey</span><span class="p">(</span><span class="nx">Keyframe</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nx">Vec2</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="nx">Vec2</span><span class="p">(</span><span class="mf">0.333</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)));</span>
+      <span class="nx">track</span><span class="p">.</span><span class="nx">addKey</span><span class="p">(</span><span class="nx">Keyframe</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="nx">mathRandomScalar</span><span class="p">(</span><span class="nx">seed</span><span class="p">,</span> <span class="o">++</span><span class="nx">offset</span><span class="p">),</span> <span class="nx">Vec2</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">),</span> <span class="nx">Vec2</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">)));</span>
+      <span class="nx">track</span><span class="p">.</span><span class="nx">addKey</span><span class="p">(</span><span class="nx">Keyframe</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nx">Vec2</span><span class="p">(</span><span class="o">-</span><span class="mf">0.333</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="nx">Vec2</span><span class="p">(</span><span class="mf">0.333</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)));</span>
+    <span class="p">}</span>
+
+    <span class="nx">clip</span><span class="p">.</span><span class="nx">addTrackSet</span><span class="p">(</span><span class="nx">trackSet</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">//////////////////////////////////</span>
+  <span class="c1">// /create a pose for the skeleton based on the clip</span>
+  <span class="nx">ClipPose</span> <span class="nx">clipPose</span><span class="p">(</span><span class="nx">skeleton</span><span class="p">,</span> <span class="nx">clip</span><span class="p">);</span>
+  <span class="nx">character</span><span class="p">.</span><span class="nx">setPose</span><span class="p">(</span><span class="nx">clipPose</span><span class="p">);</span>
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">bones</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;Pose:&quot;</span> <span class="o">+</span> <span class="nx">skeleton</span><span class="p">.</span><span class="nx">getBone</span><span class="p">(</span><span class="nx">i</span><span class="p">).</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot; :&quot;</span> <span class="o">+</span> <span class="nx">clipPose</span><span class="p">.</span><span class="nx">getBoneXfo</span><span class="p">(</span><span class="nx">i</span><span class="p">));</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">Pose:Bone0 :{ori:{v:{x:+2.568705e-2,y:-1.277642e-3,z:+0.04966},w:+0.998435},tr:{x:+5.0,y:+0.0,z:+0.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">Pose:Bone1 :{ori:{v:{x:+2.442186e-2,y:-2.550726e-3,z:+0.099142},w:+0.99477},tr:{x:+9.975325,y:+0.495504,z:+2.551286e-2},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">Pose:Bone2 :{ori:{v:{x:+0.077133,y:-1.118197e-3,z:+0.148181},w:+0.985947},tr:{x:+14.87697,y:+1.481117,z:+0.075099},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">Pose:Bone3 :{ori:{v:{x:+0.120761,y:-0.544071e-3,z:+0.196483},w:+0.973041},tr:{x:+19.65738,y:+2.941245,z:+0.20042},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">Pose:Bone4 :{ori:{v:{x:+0.137246,y:-0.399326e-2,z:+0.244201},w:+0.959954},tr:{x:+24.27132,y:+4.852451,z:+0.442991},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</p>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+ -->
+<!-- Title: ClipPose Pages: 1 -->
+<svg width="244pt" height="44pt"
+ viewBox="0.00 0.00 244.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>ClipPose</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-40 241,-40 241,5 -4,5"/>
+<!-- ClipPose -->
+<g id="node1" class="node"><title>ClipPose</title>
+<a xlink:href="../Characters/ClipPose.html" xlink:title="ClipPose">
+<polygon fill="#3fabd3" stroke="#3f3f3f" points="236,-36 180,-36 180,-0 236,-0 236,-36"/>
+<text text-anchor="middle" x="208" y="-15.5" font-family="Arial" font-size="10.00">ClipPose</text>
+</a>
+</g>
+<!-- Pose -->
+<g id="node3" class="node"><title>Pose</title>
+<a xlink:href="../Characters/Pose.html" xlink:title="Pose">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="144,-36 90,-36 90,-0 144,-0 144,-36"/>
+<text text-anchor="middle" x="117" y="-15.5" font-family="Arial" font-size="10.00">Pose</text>
+</a>
+</g>
+<!-- ClipPose&#45;&gt;Pose -->
+<g id="edge2" class="edge"><title>ClipPose&#45;&gt;Pose</title>
+<path fill="none" stroke="#3f3f3f" d="M179.813,-18C171.745,-18 162.778,-18 154.232,-18"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="154.105,-14.5001 144.105,-18 154.105,-21.5001 154.105,-14.5001"/>
+</g>
+<!-- IPose -->
+<g id="node5" class="node"><title>IPose</title>
+<a xlink:href="../Characters/IPose.html" xlink:title="IPose">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="54,-36 0,-36 0,-0 54,-0 54,-36"/>
+<text text-anchor="middle" x="27" y="-15.5" font-family="Arial" font-size="10.00">IPose</text>
+</a>
+</g>
+<!-- Pose&#45;&gt;IPose -->
+<g id="edge4" class="edge"><title>Pose&#45;&gt;IPose</title>
+<path fill="none" stroke="#3f3f3f" d="M89.5971,-18C81.6068,-18 72.6894,-18 64.1759,-18"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="64.081,-14.5001 54.081,-18 64.081,-21.5001 64.081,-14.5001"/>
+</g>
+</g>
+</svg></p>
+<div class="section" id="members">
+<h2>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="24%" />
+<col width="9%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="Skeleton.html#skeleton"><span class="std std-ref">Skeleton</span></a></td>
+<td>skeleton</td>
+<td>The skeleton that this pose is based on.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a>[]</td>
+<td>xfos</td>
+<td>The model space transforms for each bone in the skeleton</td>
+</tr>
+<tr class="row-odd"><td>Boolean[]</td>
+<td>valid</td>
+<td>A flag for each item in the array above indicating that the <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> has been computed.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a></td>
+<td>version</td>
+<td>The intenral version counter</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Animation/IClip.html#iclip"><span class="std std-ref">IClip</span></a></td>
+<td>clip</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Integer[][]</td>
+<td>keyIndices</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>timeCache</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td>initialized</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Animation/IClipValues.html#iclipvalues"><span class="std std-ref">IClipValues</span></a></td>
+<td>clipValues</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a></td>
+<td>scaleFactor</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="16%" />
+<col width="84%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id111266"><span class="std std-ref">ClipPose</span></a>  ( in <a class="reference internal" href="#clippose"><span class="std std-ref">ClipPose</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id38826"><span class="std std-ref">ClipPose</span></a>  ( in <a class="reference internal" href="Skeleton.html#skeleton"><span class="std std-ref">Skeleton</span></a> skeleton, in <a class="reference internal" href="../Animation/IClip.html#iclip"><span class="std std-ref">IClip</span></a> clip )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id38815"><span class="std std-ref">ClipPose</span></a>  ( in <a class="reference internal" href="Skeleton.html#skeleton"><span class="std std-ref">Skeleton</span></a> skeleton, in <a class="reference internal" href="../Animation/IClip.html#iclip"><span class="std std-ref">IClip</span></a> clip, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> scaleFactor )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id111263"><span class="std std-ref">ClipPose</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#clippose"><span class="std std-ref">ClipPose</span></a></td>
+<td><a class="reference internal" href="#id111270"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id38841"><span class="std std-ref">evaluate</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a></td>
+<td><a class="reference internal" href="#id38849"><span class="std std-ref">getBoneXfo</span></a> ! ( in Index index )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Animation/IClip.html#iclip"><span class="std std-ref">IClip</span></a></td>
+<td><a class="reference internal" href="#id38834"><span class="std std-ref">getClip</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id38853"><span class="std std-ref">getDesc</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> indent, in Boolean includeClip )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id38858"><span class="std std-ref">getDesc</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id38831"><span class="std std-ref">reset</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id38837"><span class="std std-ref">setClip</span></a> ! ( in <a class="reference internal" href="../Animation/IClip.html#iclip"><span class="std std-ref">IClip</span></a> clip )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="methods-in-detail">
+<h2>Methods in detail<a class="headerlink" href="#methods-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><span class="target" id="id111266"></span><p><p class="klcode"><a class="reference internal" href="#clippose"><span class="std std-ref">ClipPose</span></a> ( in <a class="reference internal" href="#clippose"><span class="std std-ref">ClipPose</span></a> other )</p>
+<p class="plaintext">copy constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38826"></span><p><p class="klcode"><a class="reference internal" href="#clippose"><span class="std std-ref">ClipPose</span></a> ( in <a class="reference internal" href="Skeleton.html#skeleton"><span class="std std-ref">Skeleton</span></a> skeleton, in <a class="reference internal" href="../Animation/IClip.html#iclip"><span class="std std-ref">IClip</span></a> clip )</p>
+<p class="plaintext">standard constructor taking a skeleton and a clip.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38815"></span><p><p class="klcode"><a class="reference internal" href="#clippose"><span class="std std-ref">ClipPose</span></a> ( in <a class="reference internal" href="Skeleton.html#skeleton"><span class="std std-ref">Skeleton</span></a> skeleton, in <a class="reference internal" href="../Animation/IClip.html#iclip"><span class="std std-ref">IClip</span></a> clip, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> scaleFactor )</p>
+<p class="plaintext">standard constructor taking a skeleton and a clip.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id111263"></span><p><p class="klcode"><a class="reference internal" href="#clippose"><span class="std std-ref">ClipPose</span></a> ()</p>
+<p class="plaintext">default constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id111270"></span><p><p class="klcode"><a class="reference internal" href="#clippose"><span class="std std-ref">ClipPose</span></a> <a class="reference internal" href="#clippose"><span class="std std-ref">ClipPose</span></a>.clone? ()</p>
+<p class="plaintext">clone method</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38841"></span><p><p class="klcode"><a class="reference internal" href="#clippose"><span class="std std-ref">ClipPose</span></a>.evaluate! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time )</p>
+<p class="plaintext">Evaluates the stored clip at the given time.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38849"></span><p><p class="klcode"><a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> <a class="reference internal" href="#clippose"><span class="std std-ref">ClipPose</span></a>.getBoneXfo! ( in Index index )</p>
+<p class="plaintext">Get the pose of a bone in the skeleton using its index.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Lazily computes the pose if the cache is not valid.</p>
+</div>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38834"></span><p><p class="klcode"><a class="reference internal" href="../Animation/IClip.html#iclip"><span class="std std-ref">IClip</span></a> <a class="reference internal" href="#clippose"><span class="std std-ref">ClipPose</span></a>.getClip? ()</p>
+<p class="plaintext">Returns the clip to used to drive the animation of this pose.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38853"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#clippose"><span class="std std-ref">ClipPose</span></a>.getDesc? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> indent, in Boolean includeClip )</p>
+<p class="plaintext">Generates a Description string of this pose.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>indent</td>
+<td>The indentation to use when generating the string.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38858"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#clippose"><span class="std std-ref">ClipPose</span></a>.getDesc? ()</p>
+<p class="plaintext">Generates a Description string of this <a class="reference internal" href="Pose.html#pose"><span class="std std-ref">Pose</span></a>.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38831"></span><p><p class="klcode"><a class="reference internal" href="#clippose"><span class="std std-ref">ClipPose</span></a>.reset! ()</p>
+<p class="plaintext">Reset the pose to be recomputed.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38837"></span><p><p class="klcode"><a class="reference internal" href="#clippose"><span class="std std-ref">ClipPose</span></a>.setClip! ( in <a class="reference internal" href="../Animation/IClip.html#iclip"><span class="std std-ref">IClip</span></a> clip )</p>
+<p class="plaintext">Sets the clip to be used to drive the animation of this pose.</p>
+</p>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="Character.html"
+                        title="前の章へ">Character (object)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="Pose.html"
+                        title="次の章へ">Pose (object)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Characters/ClipPose.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Characters/ClipPose.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Pose.html" title="Pose (object)"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="Character.html" title="Character (object)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Characters エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" >Characters Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>KL スタイルガイド &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="next" title="KL エクステンションガイド" href="../KLExtensionsGuide/index.html" />
+    <link rel="prev" title="Map-Reduce" href="../KLProgrammingGuide/map-reduce.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../KLExtensionsGuide/index.html" title="KL エクステンションガイド"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="../KLProgrammingGuide/map-reduce.html" title="Map-Reduce"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="kl-style-guide">
+<span id="klstyleguide"></span><h1>KL スタイルガイド<a class="headerlink" href="#kl-style-guide" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../_images/FE_logo_345_60.png"><img alt="../_images/FE_logo_345_60.png" src="../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 2.3.0</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+</div>
+<p>以下の用例を KLコードのスタイル標準手引としてご利用ください。</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">中括弧を行末尾に開きます</p>
+</li>
+<li><p class="first">コンマの後ろにスペースを入れる, ただし括弧の前後には入れない.</p>
+</li>
+<li><p class="first">メンバや関数のプライバシーの説明のためにアンダースコアを用いては <strong>いけない</strong>. かわりに doxygen 修飾子を使用しましょう. ドキュメンテーションやコード補間など全てのシステムは  <code class="docutils literal"><span class="pre">internal</span></code> 修飾子を尊重します。古い KLエクステンションには、頭にアンダースコアを入れたものが存在するかもしれませんが、そのようなものは <code class="docutils literal"><span class="pre">internal</span></code> 修飾子を使用するようにアップグレードするようにします。</p>
+</li>
+<li><p class="first">doxygen記法を使用し、ドキュメンテーションをKL中に埋め込みます</p>
+</li>
+<li><p class="first">メンバのドキュメンテーションはそのメンバの <strong>前</strong> に記します</p>
+</li>
+<li><p class="first">関数のパラメータのドキュメンテーションは、関数ドキュメンテーションに  param修飾子を用い記載します。</p>
+</li>
+<li><p class="first">用法を example と endexample 修飾子を使いコードに埋め込むことができます。</p>
+</li>
+<li><p class="first">カスタム restructured テキストのブロックを rst, endrst 修飾子を使いドキュメンテーション中に記載可能です。</p>
+</li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">ドキュメンテーションに使用する3連続スラッシュ（///）は、Fabricのドキュメンテーションシステム ――バージョン 1.13 から含まれる― に準じます。また、将来のリリースにはドキュメンテーションシステムをどのように活用し、独自のKLベースのドキュメントページを生成するかについてのガイドが含まれる予定です。</p>
+</div>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: StyleGuide</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Math</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm">  A datastructure to be used in the Style Guide. MyDataStructure inherits from Vec3.</span>
+<span class="cm">  \brief Some data structure</span>
+<span class="cm">  \seealso MyObject</span>
+<span class="cm">  \note This data structure has internal members which aren&#39;t shown here.</span>
+<span class="cm">*/</span>
+<span class="kr">struct</span> <span class="nx">MyDataStructure</span> <span class="o">:</span> <span class="nx">Vec3</span> <span class="p">{</span>
+  <span class="c1">/// The name of the struct</span>
+  <span class="kr">String</span> <span class="nx">name</span><span class="p">;</span>
+  <span class="c1">/// An internal version counter.</span>
+  <span class="c1">/// \internal</span>
+  <span class="kr">Integer</span> <span class="nx">version</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">/// Standard constructor taking a name</span>
+<span class="c1">/// \param name The initial of the struct</span>
+<span class="kd">function</span> <span class="nx">MyDataStructure</span><span class="p">(</span><span class="kr">String</span> <span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">incrementVersion</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">/// setter for the name of the MyDataStructure</span>
+<span class="c1">/// \param name The new name of the struct</span>
+<span class="kd">function</span> <span class="nx">MyDataStructure</span><span class="p">.</span><span class="nx">setName</span><span class="o">!</span><span class="p">(</span><span class="kr">String</span> <span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">incrementVersion</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="cm">/** getter for the name of the MyDataStructure</span>
+<span class="cm">    \example</span>
+<span class="cm">    MyDataStructure m(&#39;test&#39;);</span>
+<span class="cm">    report(m.getName());</span>
+<span class="cm">    \endexample</span>
+<span class="cm">*/</span>
+<span class="kd">function</span> <span class="kr">String</span> <span class="nx">MyDataStructure</span><span class="p">.</span><span class="nx">getName</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">/// A internal method to increment the version everytime something changes.</span>
+<span class="c1">/// \internal</span>
+<span class="kd">function</span> <span class="nx">MyDataStructure</span><span class="p">.</span><span class="nx">incrementVersion</span><span class="o">!</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">version</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">/// A getter for the internal version of the MyDataStructure</span>
+<span class="kd">function</span> <span class="kr">Integer</span> <span class="nx">MyDataStructure</span><span class="p">.</span><span class="nx">getVersion</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">version</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">/// An operator to test the data structures in this example</span>
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">MyDataStructure</span> <span class="nx">m</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">m</span><span class="p">);</span>
+  <span class="nx">m</span><span class="p">.</span><span class="nx">setName</span><span class="p">(</span><span class="s1">&#39;another test&#39;</span><span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">m</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">{x:+0.0,y:+0.0,z:+0.0,name:&quot;test&quot;,version:1}</span>
+<span class="cm">{x:+0.0,y:+0.0,z:+0.0,name:&quot;another test&quot;,version:2}</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<p>バージョン 1.13.0 のKLから継承が導入されました。これからはカプセル化ではなくコンポジションのために継承を使用しましょう。多重継承が必要な場面ではKLのインターフェイスを活用できます。</p>
+<div class="section" id="kl-doxygen-support">
+<span id="kldoxygenqualifiers"></span><h2>KL での Doxygen サポート<a class="headerlink" href="#kl-doxygen-support" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>KL AST（抽象構文木, abstract syntax tree）埋め込みドキュメントの作成は以下のdoxygen記法に従います。頭を /// もしくは /** で始めます。標準的な doxygen 修飾子と、いくつかの特別な修飾子を付け加えます。</p>
+<ul class="simple">
+<li><p class="first"><em>brief</em> : 簡単な説明</p>
+</li>
+<li><p class="first"><em>param</em> : 単一パラメータの説明</p>
+</li>
+<li><p class="first"><em>category</em> : メソッド, 関数のカテゴリ</p>
+</li>
+<li><p class="first"><em>internal</em> : この関数, メソッド, 型を internal としてマークします。Internal な要素はドキュメントに表示されません。</p>
+</li>
+<li><p class="first"><em>versionadded</em> : sphinx のversionadded ディレクティブを生成します。</p>
+</li>
+<li><p class="first"><em>note</em> : 以下のテキストから sphinx の適切な noteディレクティブを作成します。</p>
+</li>
+<li><p class="first"><em>seealso</em> : コンマ区切りされた値それぞれから sphinx の適切な see-also ディレクティブを作成します。</p>
+</li>
+<li><p class="first"><em>example</em>, <em>endexample</em> : KLの用例を含める2対の修飾子。ここにはオペレータのエントリーコードを含める必要はありません。また、エクステンションの require 文も自動的に追加されます。</p>
+</li>
+<li><p class="first"><em>rst</em>, <em>endrst</em> : 追加のカスタム rstコードを含む2対の修飾子。</p>
+</li>
+</ul>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">require</span> <span class="nx">Math</span><span class="p">;</span>
+
+<span class="c1">/// The maximum number of characters for a name.</span>
+<span class="c1">/// The MyStruct type will obey this length for its name.</span>
+<span class="cm">/** \example</span>
+<span class="cm">    String s;</span>
+<span class="cm">    if(s.length() &gt; MAX_NAME_LENGTH)</span>
+<span class="cm">      setError(&quot;Invalid String Length&quot;);</span>
+<span class="cm">    report(MAX_NAME_LENGTH);</span>
+<span class="cm">    \endexample</span>
+<span class="cm">*/</span>
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">MAX_NAME_LENGTH</span> <span class="o">=</span> <span class="mi">256</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm">  Converts radian angles to degree angles.</span>
+<span class="cm">  \param rad The radian value to convert.</span>
+<span class="cm">  \example</span>
+<span class="cm">    report(PI);</span>
+<span class="cm">    report(radToDeg(PI));</span>
+<span class="cm">  \endexample</span>
+<span class="cm">*/</span>
+<span class="kd">function</span> <span class="nx">Scalar</span> <span class="nx">radToDeg</span><span class="p">(</span><span class="nx">Scalar</span> <span class="nx">rad</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">rad</span> <span class="o">*</span> <span class="mf">180.0</span> <span class="o">/</span> <span class="nx">PI</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/** An internal struct, it won&#39;t show up in the doc</span>
+<span class="cm">  \internal</span>
+<span class="cm">*/</span>
+<span class="kr">struct</span> <span class="nx">MyStructWorkData</span> <span class="p">{</span>
+  <span class="kr">Integer</span> <span class="nx">numbers</span><span class="p">[];</span>
+<span class="p">};</span>
+
+<span class="cm">/** \brief A custom data structure.</span>
+<span class="cm">  The MyStruct datastructure can be used to express a named structure. The name member stores the string data of that name.</span>
+<span class="cm">*/</span>
+<span class="kr">struct</span> <span class="nx">MyStruct</span> <span class="o">:</span> <span class="nx">Vec3</span>
+<span class="p">{</span>
+  <span class="c1">/// The name of the struct</span>
+  <span class="kr">String</span> <span class="nx">name</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">/// A constructor taking a preset value for the name.</span>
+<span class="c1">/// \param name The initial name of the MyStruct</span>
+<span class="kd">function</span> <span class="nx">MyStruct</span><span class="p">(</span><span class="kr">String</span> <span class="nx">name</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">/// The new value for the name.</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">/// A comparison op, useful for checking strings</span>
+<span class="kd">function</span> <span class="kr">Boolean</span> <span class="o">==</span> <span class="p">(</span><span class="nx">MyStruct</span> <span class="nx">a</span><span class="p">,</span> <span class="kr">String</span> <span class="nx">b</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">return</span> <span class="nx">a</span><span class="p">.</span><span class="nx">name</span> <span class="o">==</span> <span class="nx">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">/// An assignment from string</span>
+<span class="kd">function</span> <span class="nx">MyStruct</span><span class="p">.</span><span class="o">=</span><span class="p">(</span><span class="kr">String</span> <span class="nx">other</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">other</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">/// A concentation op</span>
+<span class="kd">function</span> <span class="nx">MyStruct</span> <span class="o">+</span> <span class="p">(</span><span class="nx">MyStruct</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">MyStruct</span> <span class="nx">b</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">return</span> <span class="nx">MyStruct</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nx">b</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">/// An interface ensuring the protocol required to get and set a MyStruct</span>
+<span class="kr">interface</span> <span class="nx">MyInterface</span>
+<span class="p">{</span>
+  <span class="cm">/** \brief A getter for the MyStruct data</span>
+<span class="cm">    \category getter</span>
+<span class="cm">  */</span>
+  <span class="nx">MyStruct</span> <span class="nx">getS</span><span class="p">();</span>
+
+  <span class="c1">/// The MyStruct setter</span>
+  <span class="c1">/// \category setter</span>
+  <span class="c1">/// \param s The new value for the MyStruct</span>
+  <span class="c1">/// \example</span>
+  <span class="c1">/// MyInterface i = MyObject();</span>
+  <span class="c1">/// i.setS(MyStruct(&quot;test&quot;));</span>
+  <span class="c1">/// report(i);</span>
+  <span class="c1">/// \endexample</span>
+  <span class="nx">setS</span><span class="o">!</span><span class="p">(</span><span class="nx">MyStruct</span> <span class="nx">s</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="c1">/// An object implementing the MyInterface interface</span>
+<span class="kr">object</span> <span class="nx">MyObject</span> <span class="o">:</span> <span class="nx">MyInterface</span>
+<span class="p">{</span>
+  <span class="c1">/// The current version of the MyObject</span>
+  <span class="kr">Integer</span> <span class="nx">version</span><span class="p">;</span>
+  <span class="cm">/**</span>
+<span class="cm">    The (private) MyStruct content.</span>
+<span class="cm">    \internal</span>
+<span class="cm">  */</span>
+  <span class="nx">MyStruct</span> <span class="nx">s</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// The documentation of the method will be inherited from the interface</span>
+<span class="kd">function</span> <span class="nx">MyStruct</span> <span class="nx">MyObject</span><span class="p">.</span><span class="nx">getS</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">s</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// The documentation of the method will be inherited from the interface</span>
+<span class="kd">function</span> <span class="nx">MyObject</span><span class="p">.</span><span class="nx">setS</span><span class="o">!</span><span class="p">(</span><span class="nx">MyStruct</span> <span class="nx">s</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">s</span> <span class="o">=</span> <span class="nx">s</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">/// A specialized object of MyObject, which returns a MyStruct with the &quot;dummy&quot; content</span>
+<span class="kr">object</span> <span class="nx">MySpecializedObject</span> <span class="o">:</span> <span class="nx">MyObject</span>
+<span class="p">{</span>
+<span class="p">};</span>
+
+<span class="cm">/** Overload of the getS method, which always returns &quot;dummy&quot; as the MyStruct&#39;s name.</span>
+<span class="cm">  \category getter</span>
+<span class="cm">  \rst</span>
+<span class="cm">  .. note::</span>
+
+<span class="cm">        This is just an example of how to overload a method.</span>
+<span class="cm">  \endrst</span>
+<span class="cm">*/</span>
+<span class="kd">function</span> <span class="nx">MyStruct</span> <span class="nx">MySpecializedObject</span><span class="p">.</span><span class="nx">getS</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">return</span> <span class="nx">MyStruct</span><span class="p">(</span><span class="s2">&quot;dummy&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>索引<a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../genindex.html"><span class="std std-ref">索引</span></a></li>
+<li><a class="reference internal" href="../search.html"><span class="std std-ref">検索ページ</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">KL スタイルガイド</a><ul>
+<li><a class="reference internal" href="#kl-doxygen-support">KL での Doxygen サポート</a></li>
+<li><a class="reference internal" href="#indices-and-tables">索引</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="../KLProgrammingGuide/map-reduce.html"
+                        title="前の章へ">Map-Reduce</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="../KLExtensionsGuide/index.html"
+                        title="次の章へ">KL エクステンションガイド</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/KLStyleGuide/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLStyleGuide/index.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../KLExtensionsGuide/index.html" title="KL エクステンションガイド"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="../KLProgrammingGuide/map-reduce.html" title="Map-Reduce"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

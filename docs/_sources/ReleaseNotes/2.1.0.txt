@@ -1,0 +1,428 @@
+.. _RELNOTES-2.1.0:
+
+Fabric Engine 2.1.0 Release Notes
+=================================================
+
+.. image:: /images/FE_logo_345_60.*
+   :width: 345px
+   :height: 60px
+
+| Fabric Engine version 2.1.0
+| Released February 2016
+| Copyright (c) 2010-2016, Fabric Software Inc. All rights reserved.
+
+About This Release
+------------------
+
+Fabric Engine 2.1.0 is the first feature release since the introduction of Canvas in Fabric Engine 2.  We’ve been carefully listening feedback and have focused on making your Fabric Engine experience -- whether you are just learning or are building complex tools -- more intuitive and productive. Here are some highlights:
+ 
+- The Value Editor has been completely rewritten and in doing so we’ve added some pretty convenient things like spin boxes and the ability to skin it using QSS.
+- A section has been added to the documentation specifically focused on what programmers new to Fabric need to know. Please see http://fabricengine.com/fabric-101-for-programmers/
+- Dozens of presets and samples have been added. See below for a complete list. 
+- A new CanvasDeformer node is available in Fabric for Maya that is 4-5x faster than using CanvasNode.
+- A new diagnostic window has been added to streamline troubleshooting when a graph fails or has a broken connection.
+- A number of issues in the Core have been addressed.
+- DFGBindings: You can now execute Canvas bindings through KL (graphs flowing through the data graph). See http://fabricengine.com/graphs-flowing-through-graphs/ for an explanation.
+- There are over 200 bug fixes, a fair number of which are enhancements and conveniences such as the ability to drag and drop a .canvas file into Canvas.
+
+Supported Operating Systems, Integrations and GPUs
+--------------------------------------------------
+
+- Fabric 2 is supported on Windows and Linux. OS X builds are provided but are not officially supported; official support on OS X will arrive in a subsequent release.
+- Fabric for Maya integration is supported for Autodesk Maya 2014, 2015 and 2016 and their corresponding service packs and extensions on Windows and Linux. OS X support will follow in a subsequent release. There is a known issue where certain sample scenes fail when Maya 2016 is in Parallel Evaluation mode. This problem was resolved by Autodesk in Maya 2016 SP4.
+- Fabric for Softimage integration is supported for Autodesk Softimage 2014 and 2015 and their corresponding service packs on Windows. 
+- Fabric 2 GPU support is available on NVIDIA hardware. See the GPU Compute Guide in the documentation for more details.
+
+Documentation
+-------------
+
+To learn more about Fabric Canvas, please see:
+
+- :ref:`CANVASUSERGUIDE`
+- :ref:`CANVASPROGRAMMERGUIDE`
+- :ref:`GETTINGSTARTED_INDEX`
+
+Also be sure to check out http://fabricengine.com/blog/ for articles and introductory how-to videos.
+
+Downloads
+---------
+
+All downloads for Fabric Engine 2 can be obtained at http://dist.fabric-engine.com/FabricEngine/2.1.0/.  For information on installation please refer to :ref:`GETTINGSTARTED_INDEX`.
+
+Support
+-------
+
+Fabric Engine 2.1 is available for free use under Evaluation, Studio or Educational licenses and is also available under commercial terms. Commercial customers are entitled to contact Fabric directly for Support. Non-commercial customers are encouraged to use the following options:
+
+- http://forums.fabricengine.com : Ask & answer questions within the Fabric community. This is where you should post your support issues.
+- mailto://bugs@fabricengine.com : If you have found a bug you can email us with clear steps to reproduce the issue (be sure to include details on what operating system and DCC application and their respective versions that you are using). Please note that we will respond only if additional information is required to resolve an issue with the Fabric platform.
+
+.. changes-2.1.0:
+
+Changes
+-------
+
+.. Note:: Please note that the EDK function isValid() has been renamed klObjectIsValid(); you will need to change occurrences of isValid() accordingly and recompile.
+
+.. Note:: The presets below Compounds/PolygonMesh/Queries, including the Conversion presets as well as the Query presets should use the new Attribute presets in their subgraphs in order to promote understandability and follow our general style guidelines. This will be addressed in a future release.
+
+**New Value Editor**
+
+Includes the following improvements and enhancements:
+
+- Focus issues with widgets
+- Support for Array Widgets
+- Reset to Default port value
+- Spinbox controller
+- Improved sliders UX (the value will be set based on where you click on the slider)
+- Improved color widget (RGB <--> HSV)
+- Renaming nodes and ports is now possible
+- Deep inspection of complex types (Mat, XFO)
+- Skinned through QSS
+
+
+**DFGBindings**
+
+The ability to execute Canvas bindings through KL has been added, allowing you to pass Canvas graphs as objects around your graphs, thereby dramatically increasing the flexibility and reuse of large scale systems. A DFGBinding contains a graph and its data, the inputs it needs in order to do useful work, and the results of that work. So, as far as Fabric is concerned, a DFGBinding is a piece of data, and can flow through a graph like any other data. This means you can now construct graphs within graphs, have graphs load other graphs from disk or put graphs in an array or dictionary. See http://fabricengine.com/graphs-flowing-through-graphs/ for more details and an explanatory video.
+
+**canvasDeformer node**
+
+A new canvasDeformer node has been added to Fabric for Maya. It leverages Maya's deformation tools and commands to modify positions of a PolygonMesh Array without changing its topology. It is 4-5x faster than CanvasNode for deformations since it avoids creating a new full mesh.
+
+**New Presets**
+
+Fabric Engine 2.1.0 includes the following new presets. See http://fabricengine.com/blog/ for an entry and video explaining them in more detail.
+
+Primitives
+
+- GetCone
+- GetCylinder
+- GetTeapot
+- GetPlatonic
+- GetDodecahedron
+- CrissCross
+- OElement
+- UElement
+
+File IO
+
+- LoadFBX
+- Complete Alembic support (http://fabricengine.com/high-level-alembic-presets/)
+
+Geometry Attributes
+
+- Getters and Setters
+- Math operators
+- Raycasting
+- Transfer attributes between objects
+- (http://fabricengine.com/new-attribute-presets/)
+
+Deformers
+
+- Smooth
+
+InlineDrawing and Debug
+
+- DrawXfo
+- DrawXfoArray
+- DrawMeshInstances
+
+Core & System
+
+- FilePathCompose
+- XfoBezier4
+- Array.Concatenate
+- Array.ConcatenateInPlace
+
+Utilities
+
+- String.Concat
+- Math.ResizeVector
+
+
+**New Samples**
+
+The Canvas Samples have been re-organized to be similar to those for the DCC Integrations. They can be found in the Samples/Canvas  folder. They include:
+
+- Geometry Attributes and queries samples
+- GPU noise
+- Point buncher, showcasing points manipulation
+- Sample scene for the new Xfo array input ports
+- Samples for the new Alembic presets 
+- Samples for the new DFGBinding capabiility
+
+
+.. _knownissues-2.1.0:
+
+Known Issues, Limitations and Workarounds
+-----------------------------------------
+
+- **Limitation**: Saving Presets won’t include the attached comment (FE-4900)
+
+    Workaround: Use the node tooltip property instead 
+
+.. _fixes-2.1.0:
+
+List of Issues Addressed
+------------------------
+
+
+**General**
+
+[FE-5818] Include the proper FabricEngine2.0 _CAPI.pyd for Python 2.6
+
+[FE-5893] Removed MAYA_MODULE_PATH setup in environment.sh
+
+[FE-5777] libFabricSplice and libFabricSplice_s symlinks are now properly set on Linux and OS X
+
+
+**Canvas**
+
+[FE-5649] Proper Framerate metering
+
+[FE-5564] Better error handling in case of nodes without executables or definition
+
+[FE-5651] Doing a File New always removes the ext field
+
+[FE-5671] Added  25 fps to the list of selectable fps
+
+[FE-5702] Removed annoying "can't find path 'exts' …" when loading Canvas
+
+[FE-5716] Undoing correctly updates port reordering 
+
+[FE-5738] Renaming a port to "timeline" now hooks it properly to the timeline
+
+[FE-5746] Loop Once and Oscillate Play back modes now work as expected 
+
+[FE-5748] Fixed undo stack corruption when creating a variable with no data type
+
+[FE-5750] Removed rename port redundant action 
+
+[FE-5768] Creating an empty function node automatically shows up the KL editor 
+
+[FE-5856] Fixed a crash when editing a function node that ends without an EOL
+
+[FE-5870] EvalContext.GetTime() returns now the time in seconds rather than in frames in the Standalone
+
+[FE-5959] Exploding a subgraph now maintain values on ports on the outside if they were connected to several in ports in the graph
+
+[FE-4788] Pressing the CTRL key when creating a new graph, function or backdrop will execute the action without the need to enter a name for the node. Same goes for imploding nodes
+
+[FE-5321] Canvas standalone now saves the playback frame rate with the graph
+
+[FE-5536] Going up in the graph hierarchy maintains the original selection of the node
+
+[FE-5922] The 'Create Preset' dialog now only shows existing folders with write permission
+
+[FE-6081] QApplication::notify() catches all exceptions thrown from event handlers
+
+[FE-6124] Canvas now supports the use of user-defined conversions for implicit casting for connections in Canvas graphs.  NOTE: there is a change in the type resolution in Canvas to make in ports of function nodes retain their types.  It is possible that this will change type resolution in existing graphs, which could change graph results.  However, these cases should be extremely isolated
+
+
+
+**Canvas UX**
+
+[FE-5705] Canvas now supports drag and drop for .canvas files
+
+[FE-5708] Empty graph nodes are now selected after creation
+
+[FE-5711] Tab search is forbidden inside a preset
+
+[FE-5712] Nodes added via the TAB search are now selected after creation
+
+[FE-5782] Adding a preset instance within the node explorer deselects everything and select the new node
+
+[FE-5805] Port creation context menu inside a Preset has been disabled
+
+[FE-5845] Any size for the canvas window is allowed now
+
+
+
+**Diagnostic window**
+
+[FE-5794] Implemented a diagnostic window that summarizes what went wrong when loading a broken graph
+
+[FE-5795] Add info of broken connection in broken graphs to the diagnostic window
+
+[FE-5837] Improved error Reporting & Highlighting of nodes
+
+[FE-5967] Added more verbosity to compilation error messages
+
+[FE-6020] Crash on implicit bool casting fixed
+
+
+**Core**
+
+[FE-5798] Core no longer ignores “default values” (ie. port values) on IO ports
+
+[FE-5844] Added RTVal::getContext()
+
+[FE-6052] exec ports no longer change their type in certain circunstances
+
+[FE-6084] Better compiler time handling of illegal object casts
+
+[FE-6097] Extensions that give compile errors due to casting between unrelated objects do not cause a crash anymore
+
+
+**DFGBindings**
+
+[FE-5846] Implemented KL Introspection: use RTVals API directly from KL
+
+[FE-6039] Ability to query a description of the args from a DFGBinding (name, typespec, porttype)
+
+[FE-6040] Added a way to check for errors in the DFGBinding
+
+[FE-6041] Getting and setting arg values based on the names of a DFGBinding is now possible
+
+
+
+**Value Editor**
+
+[FE-5645] Value Editor has been rewritten
+
+[FE-4787] The color widget in the Value Editor now clamps values out of the 0-1 range
+
+[FE-4708] Array types are supported
+
+[FE5945/FE-5404] Improved focus order to follow standardized conventions
+
+[FE-5433] Value Editor of a subgraph node does no longer persist if the graph has been removed
+
+[FE-5580] We allow renaming of nodes within the Value Editor
+
+[FE-5725] Mouse clicking on any slider widget should set the slider to the clicked position
+
+[FE-5781] Right clicking a parameter will allow to reset port values to preset defaults
+
+[FE-5875] More widget types implemented (Quat,Xfo,Color,Array, spinbox...)
+
+[FE-5876] Added metadata to for additional UI context
+
+
+**Presets**
+
+[FE-5807] Matrix node elements in several ports were wrong
+
+[FE-5858] JSONDictValue preset was taking incorrectly a color as input
+
+[FE-5859] The Dict.Has preset had the wrong title (Clear)
+
+[FE-5898] FilePathCompose preset has the same trailing slash behavior in all the situations
+
+[FE-5924] The “Only Polygons in polygonIndices[]” mode now works properly
+
+
+**Extensions**
+
+[FE-3136] Bones were drawn with inverted normals
+
+[FE-5568] Alembic presets now detect all mesh types
+
+[FE-5687] String.count() method from the Utils extension had a bug
+
+[FE-5691] String.split() method from the Utils.extension had a bug
+
+[FE-5888] The swap method in IntegerUtils.kl had a bug
+
+[FE-5913] Changed glVertexAttribPointer 'pointer' argument to 'Size' value instead of a 'Data' value.
+
+[FE-5914] Added glBufferStorage support in the OGL Extension.
+
+[FE-5915] Made glMapBufferRange return a pointer to the data.
+
+[FE-6062] Added support to ARB_bindless_texture support in OGL Extension
+
+[FE-6110] TransformManipulator was broken
+
+[FE-6111] PositionAxisGizmoManager had drawing errors
+
+
+
+**DCC Integrations General**
+
+[FE-5695] New variables were not appearing in the node explorer
+
+[FE-5675] The proper license is grab when running a DCC in batch and interactive
+
+[FE-5894] Canvas will always add the Presets/User location from the user home folder to the list of presets paths found in FABRIC_DFG_PATH
+
+
+**Fabric for Maya**
+
+[FE-5508] We now persist the same Fabric client between Maya scenes
+
+[FE-5538] Maya was crashing when loading stubbed canvas graph
+
+[FE-5728] Potential Infinite recursion listing the selected maya nodes removed
+
+[FE-5758] Fix manipulation_surfacesculpting.ma sample in Maya 2016
+
+[FE-5808] Launching Maya and then opening a sample scene was previously hanging Maya
+
+[FE-5926] The manipulation system was still using the old attribute names (e.g. "pos_x") whereas Fabric 2.0.1 used the new attribute names (e.g. "posX"). "manipulation_drivingports" sample has been updated to follow this convention
+
+[FE-5811] A canvasDeformer node has been added to Fabric for Maya. It leverages Maya's deformation tools and commands to modify positions of a PolygonMesh Array without changing its topology. It is 4-5x faster than CanvasNode for deformations since it avoids creating a new full mesh
+
+[FE-6049] Crashes in Maya due to strange port data type casting fixed
+
+[FE-6056] We were missing headers for libFabricMaya.so
+
+[FE-5598] Referenced Maya Canvas Nodes are now read only
+
+[FE-5810] Support to the node state 'HasNoEffect', used it to mute the execution of the Canvas graph
+
+[FE-5815] A problem with DrawPolygonMesh refresh in Maya 2015 has been fixed
+
+[FE-5983] We properly name now the Fabric menu in Maya
+
+[FE-6017] Duplicating a Canvas node now correctly duplicates its content, i.e. its graph
+
+[FE-6053] Added support for all the basic data types that previously wouldn’t sow in the AE Template
+
+[FE-5869] A problem where inline drawing meshes were inverted in Maya 2016's ViewPort 2.0 has been resolved. However, there is still a small drawing glitch in Maya 2014 and Maya 2015 when clicking in the viewport that we continue to investigate
+
+[FE-6065] Under some circumstances, Inline drawing was drawing twice an object after saving
+
+[FE-6193] Maya doesn't crash anymore when reloading extensions
+
+[FE-6216] Removed QString::toStdString calls that could crash Maya 2014 when changing color nodes
+
+
+
+**Fabric for Softimage**
+
+[FE-5533] Missing next button in Fabric for Softimage and Maya docs
+
+[FE-5677] Errors when creating empty PolygonMesh have been removed
+
+[FE-5734] Whenever the plugin rebuilds the Canvas Operator, a new one is no longer created
+
+[FE-5088] Support of input Mat44 and Xfo arrays and the new command FabricCanvasOpDisconnectPort
+
+[FE-5670] New menu entry ‘Inspect Canvas Op’ and command FabricCanvasInspectO added, to open the canvas op property of a selected object
+
+[FE-5678] ``FABRIC_*`` environment variables are now set automatically if they are not present (or empty)
+
+[FE-5690] Xfo ports can now be exposed as XSI ports
+
+[FE-5735] CanvasOp are read only in ref models
+
+
+**Documentation**
+
+[FE-5539] Updated the ExtensionAuthoringGuide build instruction
+
+[FE-5540] Fixed the .. code-block:: python not rendering properly in ExtensionAuthoringGuide sample
+
+[FE-5541] KL Code object B was not defining a block in ExtensionAuthoringGuide c++ Api
+
+[FE-5553] Documented the Use Server mode that RLM has in .lic files
+
+[FE-5692] Fixed Doxygen comment error for String.upper()
+
+[FE-5899] Logic on Math_BadDivisor documentation was wrong
+
+[FE-1974] Added a note about crash handler and Softimage to docs
+
+
+

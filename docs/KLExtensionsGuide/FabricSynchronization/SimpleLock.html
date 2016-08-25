@@ -1,0 +1,416 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SimpleLock (object) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="FabricSynchronization Extension’s Types" href="types.html" />
+    <link rel="next" title="ThreadReadersWriterLockBracket (struct)" href="ThreadReadersWriterLockBracket.html" />
+    <link rel="prev" title="ReadersWriterLock_writeLock (struct)" href="ReadersWriterLock_writeLock.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="ThreadReadersWriterLockBracket.html" title="ThreadReadersWriterLockBracket (struct)"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="ReadersWriterLock_writeLock.html" title="ReadersWriterLock_writeLock (struct)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >FabricSynchronization エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" accesskey="U">FabricSynchronization Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="simplelock-object">
+<span id="simplelock"></span><h1>SimpleLock (object)<a class="headerlink" href="#simplelock-object" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><p class="plaintext">The <a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a> is a simple, reentrant, active-wait mutex designed for protecting access to resources that are locked for a
+relatively small time. The waiting thread will not return to the scheduler, and wait actively.
+There is no queue, so starvation is possible under sustained access competition.</p>
+<p class="plaintext">The <a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a> is reentrant, and can be acquired by the same thread multiple times. Acquiring a lock
+multiple times does incur some overhead, so care should be taken to avoid locking when possible
+if execution speed is important.</p>
+<p class="plaintext">Locking is done by passing a <a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a> to the following functions:
+<a class="reference internal" href="functions.html#id48508"><span class="std std-ref">Acquire</span></a>, <a class="reference internal" href="functions.html#id48517"><span class="std std-ref">Release</span></a> and <a class="reference internal" href="functions.html#id48499"><span class="std std-ref">TryAcquire</span></a>. The <a class="reference internal" href="AutoLock.html#autolock"><span class="std std-ref">AutoLock</span></a>
+wrapper encapsulates the <a class="reference internal" href="functions.html#id48508"><span class="std std-ref">Acquire</span></a> and <a class="reference internal" href="functions.html#id48517"><span class="std std-ref">Release</span></a> of a <a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a>, which can
+reduce coding the errors (eg: forgetting to release the lock).</p>
+<p class="plaintext">The following facilities might be useful for debugging locking problems:</p>
+<ul class="simple">
+<li>A <cite>.label</cite> member (construction parameter) is used to identify the lock when logging errors or tracing.</li>
+<li>A <cite>.maxWaitSeconds</cite> member (construction parameter) specifies a maximum delay to get the lock. If that delay is passed:<ul>
+<li>If <cite>.throwAtMaxWait</cite> (construction parameter), an exception will be thrown (default)</li>
+<li>Else, an error statement will get printed</li>
+</ul>
+</li>
+<li>If the <cite>Boolean SimpleLock_trace</cite> constant is set to true, each lock and unlock actions will be logged</li>
+</ul>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">If an exception is thrown by the thread that locked a lock, the lock will remain in a locked 
+state forever. This applies for AutoLock helper since KL won&#8217;t cleanup the stack upon exceptions.</p>
+</div>
+<p>The following example shows using locks to ensure that multiple theads can safely write to the same objectin parallel.</p>
+<p><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: SimpleLock_simpleTest.kl</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">FabricSynchronization</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">Math</span><span class="p">,</span> <span class="nx">Util</span><span class="p">;</span>
+
+
+<span class="kr">object</span> <span class="nx">MyThreadsafeObject</span> <span class="p">{</span>
+  <span class="k">private</span> <span class="nx">SimpleLock</span> <span class="nx">lock</span><span class="p">;</span>
+  <span class="k">private</span> <span class="kr">Integer</span> <span class="nx">data</span><span class="p">[];</span>
+<span class="p">};</span>
+
+<span class="kd">function</span> <span class="nx">MyThreadsafeObject</span> <span class="p">(){</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">lock</span> <span class="o">=</span> <span class="nx">SimpleLock</span><span class="p">(</span><span class="s2">&quot;MyThreadsafeObject&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">MyThreadsafeObject</span><span class="p">.</span><span class="nx">setData</span><span class="o">!</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">index</span><span class="p">,</span> <span class="kr">Integer</span> <span class="nx">value</span><span class="p">){</span>
+  <span class="c1">// Lock in case data is being modified on a different thread. </span>
+  <span class="nx">AutoLock</span> <span class="nx">AL</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">lock</span><span class="p">);</span>
+  <span class="kr">Count</span> <span class="nx">oldSize</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">index</span> <span class="o">&gt;=</span> <span class="nx">oldSize</span><span class="p">)</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="kr">Integer</span><span class="p">[]</span> <span class="nx">MyThreadsafeObject</span><span class="p">.</span><span class="nx">getData</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">data</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Add date to the object from multiple threads in parallel.</span>
+<span class="kd">operator</span> <span class="nx">dataData</span><span class="o">&lt;&lt;&lt;</span><span class="nx">index</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="k">io</span> <span class="nx">MyThreadsafeObject</span> <span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">obj</span><span class="p">.</span><span class="nx">setData</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">mathRandomInteger</span><span class="p">(</span><span class="mi">675435</span><span class="p">,</span> <span class="nx">index</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">MyThreadsafeObject</span> <span class="nx">obj</span><span class="p">();</span>
+  <span class="nx">dataData</span><span class="o">&lt;&lt;&lt;</span><span class="mi">300</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">obj</span><span class="p">.</span><span class="nx">getData</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">[198180864,286336441,123095606,142945287,386507260,142128165,505149650,370787731,354354232,35175377,225549742,264185439,267788980,173254845,78238922,29547115,150288752,415573737,147683878,234466743,50250860,112075349,188197314,223063107,212697000,513853185,376553374,411050511,114321188,292323565,223303610,71932699,52868832,474610713,407522838,479322983,391899868,205988997,488554162,184944371,4439832,183707185,480707982,350376383,290860948,4877597,318226090,469651403,208369744,367174985,364627462,253283607,498603340,123124405,214972322,358864291,403227272,200464737,18902910,22066543,222198788,94399821,499255706,379320443,520781248,17965689,525394422,261712583,65684412,321905893,227218578,230692947,476285432,532865169,455933294,24530207,343952500,358711677,135084170,354260267,227198768,177959849,24682982,123649143,201946668,140878613,483284354,11915011,100341096,231095233,140226398,272505039,223518948,415279533,242764666,465446363,313742496,8493273,115475926,250855975,476884124,214627653,307821170,371194291,230057176,379579121,477857102,265492607,439122260,506521053,534921834,33073803,25896464,34050569,142347718,505641943,262858508,57858933,271188834,18454627,482113608,70446625,295403326,429935663,163894724,157627917,225058138,42476347,358169472,263216953,494254518,469297543,77276540,481318309,310407250,268282643,477384632,430064977,403348782,240169951,118666804,55614013,443472970,191336427,27563248,457113705,188615078,247401271,240412652,102130645,534462786,476524995,109374248,55636097,106422046,97472399,156048036,170267245,210730810,231862427,36975200,397833625,360971670,201384167,70102620,444073477,419001906,456207475,349522584,115470257,156386574,524754751,65733396,22584989,464193066,239224139,185537488,156876489,238458246,143223447,297662668,300432437,148508450,209099555,294415880,322454241,336121598,287515375,379809668,26951373,31486234,343117307,410794304,363584505,92590454,140748871,115099452,297404005,347868178,194149843,118576504,276228625,264928494,420371103,493707252,148959997,193904650,459328171,520266416,326094121,433959270,249207287,127900076,478176405,203320578,522179715,269156584,268494145,203837150,200525391,8377444,173849389,123007738,21298011,459886624,447255129,133182806,242827175,475983900,34494149,415248882,150576947,123760728,477705329,250299598,100558335,72469716,511809373,370280938,396042251,45564304,345582473,447438150,420125015,28396172,259448053,245390050,372956643,406365128,163764129,69754558,446249391,429541700,318932877,451216602,320747707,305362688,197433529,457058614,261728007,409839868,520943397,469624786,255758483,234527544,83939025,237804718,74400095,223365556,450005949,187491274,466175339,526708848,468572649,18323750,309422263,363531116,140748117,425187522,127907651,72177320,76945921,361168542,359365903,413847076,505717741,512272058,483870235,135441888,35122969,31894806,287104615,314601948,273540997,426585522,238637555,387438104,405125425,419857550,112782527]</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</p>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+ -->
+<!-- Title: SimpleLock Pages: 1 -->
+<svg width="76pt" height="44pt"
+ viewBox="0.00 0.00 76.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>SimpleLock</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-40 73,-40 73,5 -4,5"/>
+<!-- SimpleLock -->
+<g id="node1" class="node"><title>SimpleLock</title>
+<a xlink:href="../FabricSynchronization/SimpleLock.html" xlink:title="SimpleLock">
+<polygon fill="#3fabd3" stroke="#3f3f3f" points="68,-36 0,-36 0,-0 68,-0 68,-36"/>
+<text text-anchor="middle" x="34" y="-15.5" font-family="Arial" font-size="10.00">SimpleLock</text>
+</a>
+</g>
+</g>
+</svg></p>
+<div class="section" id="members">
+<h2>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="18%" />
+<col width="17%" />
+<col width="65%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>state</td>
+<td>internal</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>secondsBetweenChecks</td>
+<td>wait time before checking again, to reduce lock competition (constructor argument)</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>maxWaitSeconds</td>
+<td>wait time before an error is triggered (constructor argument)</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td>throwAtMaxWait</td>
+<td>if true, errors will be thrown, else printed (constructor argument)</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>debugName</td>
+<td>Label used for traces or error messages</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id113519"><span class="std std-ref">SimpleLock</span></a>  ( in <a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id48476"><span class="std std-ref">SimpleLock</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> debugName )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id48467"><span class="std std-ref">SimpleLock</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> debugName, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> maxWaitSeconds )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id48456"><span class="std std-ref">SimpleLock</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> debugName, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> maxWaitSeconds, in Boolean throwAtMaxWait )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id48443"><span class="std std-ref">SimpleLock</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> debugName, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> maxWaitSeconds, in Boolean throwAtMaxWait, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> secondsBetweenChecks )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id48483"><span class="std std-ref">SimpleLock</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a></td>
+<td><a class="reference internal" href="#id113523"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id48486"><span class="std std-ref">cloneMembersTo</span></a> ? ( io <a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a> that )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="#id48496"><span class="std std-ref">locked</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id48493"><span class="std std-ref">~SimpleLock</span></a>  ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="methods-in-detail">
+<h2>Methods in detail<a class="headerlink" href="#methods-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><span class="target" id="id113519"></span><p><p class="klcode"><a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a> ( in <a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a> other )</p>
+<p class="plaintext">copy constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id48476"></span><p><p class="klcode"><a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> debugName )</p>
+<p class="plaintext">Constructs a <a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a>.
+The default delay between lock checks is <cite>1.0e-6</cite> second. An error will be thrown if a lock can&#8217;t be acquired after 5 seconds.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>debugName</td>
+<td>This name will identify the lock if acquiring fails (<cite>maxWaitSeconds</cite>) or if logging is enabled (<cite>SimpleLock_trace</cite>)</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id48467"></span><p><p class="klcode"><a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> debugName, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> maxWaitSeconds )</p>
+<p class="plaintext">Constructs a <a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a>.
+The default delay between lock checks is <cite>1.0e-6</cite> second. An error will be thrown if a lock can&#8217;t be acquired after <cite>maxWaitSeconds</cite>.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>debugName</td>
+<td>This name will identify the lock if acquiring fails (<cite>maxWaitSeconds</cite>) or if logging is enabled (<cite>SimpleLock_trace</cite>)</td>
+</tr>
+<tr class="row-even"><td>maxWaitSeconds</td>
+<td>Acquiring delay time in seconds before printing or throwing an error (use <cite>SCALAR_INFINITE</cite>, or <cite>1e100</cite>, for no error reporting).</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id48456"></span><p><p class="klcode"><a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> debugName, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> maxWaitSeconds, in Boolean throwAtMaxWait )</p>
+<p class="plaintext">Constructs a <a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a>.
+The default delay between lock checks is <cite>1.0e-6</cite> second.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>debugName</td>
+<td>This name will identify the lock if acquiring fails (<cite>maxWaitSeconds</cite>) or if logging is enabled (<cite>SimpleLock_trace</cite>)</td>
+</tr>
+<tr class="row-even"><td>maxWaitSeconds</td>
+<td>Acquiring delay time in seconds before printing or throwing an error (use <cite>SCALAR_INFINITE</cite>, or <cite>1e100</cite>, for no error reporting).</td>
+</tr>
+<tr class="row-odd"><td>throwAtMaxWait</td>
+<td>If true, an error will be thrown if a lock can&#8217;t be acquired after <cite>maxWaitSeconds</cite>. Else, the error will only be logged.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id48443"></span><p><p class="klcode"><a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> debugName, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> maxWaitSeconds, in Boolean throwAtMaxWait, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> secondsBetweenChecks )</p>
+<p class="plaintext">Constructs a <a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a>.
+Acquiring delay errors will be thrown, else an error will be set and logged (using KL&#8217;s <cite>setError</cite>)</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>debugName</td>
+<td>This name will identify the lock if acquiring fails (<cite>maxWaitSeconds</cite>) or if logging is enabled (<cite>SimpleLock_trace</cite>)</td>
+</tr>
+<tr class="row-even"><td>maxWaitSeconds</td>
+<td>Acquiring delay time in seconds before printing or throwing an error (use <cite>SCALAR_INFINITE</cite>, or <cite>1e100</cite>, for no error reporting).</td>
+</tr>
+<tr class="row-odd"><td>throwAtMaxWait</td>
+<td>If true, an error will be thrown if a lock can&#8217;t be acquired after <cite>maxWaitSeconds</cite>. Else, the error will only be logged.</td>
+</tr>
+<tr class="row-even"><td>secondsBetweenChecks</td>
+<td>Small delay before the lock is tested again (to minimize lock competition: memory cache flushes and CPU synchronization). This number should be smaller if the lock is expected to be held for a small amount of time (eg: <cite>1e-6</cite>).</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id48483"></span><p><p class="klcode"><a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a> ()</p>
+<p class="plaintext">Constructs a <a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a>.
+The default delay between lock checks is <cite>1.0e-6</cite> second. An error will be thrown if a lock can&#8217;t be acquired after 5 seconds.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">It is recommended to use constructors that provides a <cite>debugName</cite> to the lock.</p>
+</div>
+</p>
+<hr class="docutils" />
+<span class="target" id="id113523"></span><p><p class="klcode"><a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a> <a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a>.clone? ()</p>
+<p class="plaintext">clone method</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id48486"></span><p><p class="klcode"><a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a>.cloneMembersTo? ( io <a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a> that )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id48496"></span><p><p class="klcode">Boolean <a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a>.locked? ()</p>
+<p class="plaintext">Returns &#8216;true&#8217; if currently locked.
+However, by the time it returns, another thread might already have changed that state,
+so it should only be used for heuristic purposes.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id48493"></span><p><p class="klcode">~ <a class="reference internal" href="#simplelock"><span class="std std-ref">SimpleLock</span></a> ()</p>
+<p class="plaintext">Destructor. An error will be logged if locked at the moment of destruction.</p>
+</p>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="ReadersWriterLock_writeLock.html"
+                        title="前の章へ">ReadersWriterLock_writeLock (struct)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="ThreadReadersWriterLockBracket.html"
+                        title="次の章へ">ThreadReadersWriterLockBracket (struct)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/FabricSynchronization/SimpleLock.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/FabricSynchronization/SimpleLock.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="ThreadReadersWriterLockBracket.html" title="ThreadReadersWriterLockBracket (struct)"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="ReadersWriterLock_writeLock.html" title="ReadersWriterLock_writeLock (struct)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >FabricSynchronization エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" >FabricSynchronization Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

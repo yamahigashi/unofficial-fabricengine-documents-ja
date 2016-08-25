@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Blocks &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="Canvas プログラマーガイド" href="index.html" />
+    <link rel="next" title="変数（Variable）" href="variables.html" />
+    <link rel="prev" title="多態性を持つノード（Polymorphic nodes）" href="polymorphism.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="variables.html" title="変数（Variable）"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="polymorphism.html" title="多態性を持つノード（Polymorphic nodes）"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Canvas プログラマーガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="versionadded" id="canvas-programmer-guide-blocks">
+<p><span class="versionmodified">バージョン 2.3.0 で追加.</span></p>
+</div>
+<div class="section" id="blocks">
+<h1>Blocks<a class="headerlink" href="#blocks" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>この章では Canvasにおける block の利用の仔細について記述します。もし Block について馴染みがないのであれば、  <a class="reference internal" href="../CanvasUserGuide/cug-blocks.html#canvas-user-guide-blocks"><span class="std std-ref">Canvasユーザガイドの blockについての章</span></a> をまずはじめに参照してください。</p>
+<p>Blockについて理解を深めるため、まずは用語について詳しくみていきましょう。「Blocks」とはグラフまたは、関数の中に存在します。グラフまたは関数（一般に「ノード」として呼ばれるものです）のインスタンスにより提供されることで、グラフの代替として振舞ます。このようにインスタンスによって提供されるグラフを「Blockインスタンス」と呼称します。ノードには、グラフあるいは関数（つまりそのノードを定義するもの）の各blockへ、このblockインスタンスを一つ含めることができます。さらに以下に述べるように、入れ子blockにすることで追加の blockインスタンスを公開することもできます。</p>
+<div class="section" id="parallel-execution-and-blocks">
+<h2>並列実行（PEX）とBlock<a class="headerlink" href="#parallel-execution-and-blocks" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>現時点の Canvas では Blockの並列実行は安全ではありません。しかし、並列実行の将来的なサポートは計画に組み込まれています。近い将来にお知らせできると思います。</p>
+</div>
+<div class="section" id="using-blocks-in-custom-graphs-and-functions">
+<h2>独自のグラフや関数での Block の使用<a class="headerlink" href="#using-blocks-in-custom-graphs-and-functions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>グラフの中で、独自のグラフや関数をインラインとして使用したものや、プリセットとして保存した場合に、Block の公開が可能です。ただしグラフあるいは関数どちらであるかに応じて少々異なるやりかたになります。</p>
+</div>
+<div class="section" id="exposing-blocks-in-graphs">
+<h2>グラフノードでの Block の公開<a class="headerlink" href="#exposing-blocks-in-graphs" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>block をグラフ中で公開するには、グラフの背景何もない場所を右クリックし、コンテキストメニューの &#8220;New Block&#8221; を選択、blockを命名します。blockがブロックのような見た目の形状でグラフに登場します。容易に判別つくことでしょう。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">ルートグラフに対しての block作成はできません。できあがった block に定義を与えることができないためです。ルートグラフあるいは blockインスタンスグラフのサブグラフに対してのみ作成することができます。</p>
+</div>
+<img alt="../_images/cpg-blocks-graph.gif" src="../_images/cpg-blocks-graph.gif" />
+<p>block の作成ができたのであれば、他のノード同様その blockへとポートを追加、編集、再配置、削除することができます。シフトを押しながらダブルクリックで blockポートエディタが開きます。</p>
+</div>
+<div class="section" id="exposing-blocks-in-functions">
+<h2>関数ノードでの Block の公開<a class="headerlink" href="#exposing-blocks-in-functions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>独自関数において Block を公開するには、まずはいつもどおり関数エディタを開きます。エディタの上部付近のタブがいくつかあります。&#8221;Ports&#8221; タブでポートの追加、編集、削除、再配置ができます。 &#8220;Blocks&#8221; タブで block の追加と削除ができます。blockの追加には&#8221;Blocks&#8221; タブに遷移し名前を入力、 &#8220;Add Block&#8221; をクリックします。新しい block が追加されたら、さらに新しいタブが出現します。新しいタブで blockへのポートの追加が行えます。これらのポートはblockインスタンスの固定ポートとなります。</p>
+<img alt="../_images/cpg-blocks-func.gif" src="../_images/cpg-blocks-func.gif" />
+<p>Block が追加されたら、その KL関数コードから blockのポートを引いてくる事ができます。 <code class="docutils literal"><span class="pre">dfgPullBlockPort</span></code> コンストラクタを使用します。 <code class="docutils literal"><span class="pre">dfgPullBlockPort</span></code> の文法は以下のようになります:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first"><code class="docutils literal"><span class="pre">dfgPullBlockPort</span></code> の１番目のパラメータは <code class="docutils literal"><span class="pre">&quot;blockName.portName&quot;</span></code> 形式の文字列で、引いてくるblockポートの名前です。</p>
+</li>
+<li><p class="first">input/IOパラメータにはそれぞれ追加パラメータ <em>of non-Execute type</em> があり、この値は blockインスタンスが実行される際に input/IO固定ポートへと提供される値となります。</p>
+</li>
+</ul>
+</div></blockquote>
+<p>例として  <code class="docutils literal"><span class="pre">Fabric.Core.Control.ForLoop</span></code> プリセットを見てみましょう。まず block <code class="docutils literal"><span class="pre">body</span></code> が一つあり、入力ポート <code class="docutils literal"><span class="pre">index</span></code> を一つ持ち、出力ポート <code class="docutils literal"><span class="pre">exec</span></code> も一つ持ちます。KL関数コードではこれを以下のように定義しています。</p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span>dfgEntry {
+  for ($TYPE$ index = 0; index &lt; count; ++index)
+    dfgPullBlockPort(&#39;body.exec&#39;, index);
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="nested-blocks">
+<h2>入れ子Block<a class="headerlink" href="#nested-blocks" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>あるノードでは、そのノードを定義するグラフあるいは関数中に、blockにblockインスタンスを一つ付ける事ができます。ノードをグラフにより定義している場合、そのノードでは、blockインスタンスの中にさらに blockにblockインスタンスを一つ作ることができます。これをすんなり理解することは難しいでしょう。まずは簡単なもので練習してみましょう。まずは <code class="docutils literal"><span class="pre">ForLoop</span></code>  をグラフに挿入します。このループの本体の中にさらに block を作成します。追加のblock は ノード（グラフ）上のblockインスタンスとなります。GIFアニメ画像に、 <code class="docutils literal"><span class="pre">ForLoop</span></code> プリセット内の入れ子のblockによる、連続した値を生成するグラフの作成過程を示します。</p>
+<img alt="../_images/cpg-blocks-nested.gif" src="../_images/cpg-blocks-nested.gif" />
+<p>どのように入れ子を活用するかについて <code class="docutils literal"><span class="pre">Fabric.Compounds.Blocks.Image.Modify</span></code> プリセットの定義を参考にしてください。</p>
+</div>
+<div class="section" id="polymorphism-and-blocks">
+<h2>多態性とBlock<a class="headerlink" href="#polymorphism-and-blocks" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Block のポートの多態性についての規則は、通常のグラフや関数のポートについての規則と同様です。型の polymorphism matching 操作は、ノードとノードの Blockインスタンスどちらにも作用します。上述の <code class="docutils literal"><span class="pre">ForLoop</span></code> の例では、 <code class="docutils literal"><span class="pre">count</span></code> 入力ポートと内部 blockの <code class="docutils literal"><span class="pre">index</span></code> 入力ポートがどちらも同じ多態な型 <code class="docutils literal"><span class="pre">$TYPE</span></code> を持ちます。</p>
+</div>
+<div class="section" id="variables-inside-of-blocks">
+<h2>Blockの中での変数<a class="headerlink" href="#variables-inside-of-blocks" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>blockインスタンスの中であっても変数を使用することができます。ただし、blockインスタンスの中で変数の宣言を行うと、blockインスタンスの実行毎に、毎度再初期化が走ってしまいます。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Blocks</a><ul>
+<li><a class="reference internal" href="#parallel-execution-and-blocks">並列実行（PEX）とBlock</a></li>
+<li><a class="reference internal" href="#using-blocks-in-custom-graphs-and-functions">独自のグラフや関数での Block の使用</a></li>
+<li><a class="reference internal" href="#exposing-blocks-in-graphs">グラフノードでの Block の公開</a></li>
+<li><a class="reference internal" href="#exposing-blocks-in-functions">関数ノードでの Block の公開</a></li>
+<li><a class="reference internal" href="#nested-blocks">入れ子Block</a></li>
+<li><a class="reference internal" href="#polymorphism-and-blocks">多態性とBlock</a></li>
+<li><a class="reference internal" href="#variables-inside-of-blocks">Blockの中での変数</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="polymorphism.html"
+                        title="前の章へ">多態性を持つノード（Polymorphic nodes）</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="variables.html"
+                        title="次の章へ">変数（Variable）</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/CanvasProgrammerGuide/cpg-blocks.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/CanvasProgrammerGuide/cpg-blocks.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="variables.html" title="変数（Variable）"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="polymorphism.html" title="多態性を持つノード（Polymorphic nodes）"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Canvas プログラマーガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

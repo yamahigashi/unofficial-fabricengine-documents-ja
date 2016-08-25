@@ -1,0 +1,538 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Alembic エクステンション &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="KL エクステンションガイド" href="../index.html" />
+    <link rel="next" title="Alembic Extension’s Files" href="files.html" />
+    <link rel="prev" title="KL エクステンションガイド" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="Alembic Extension’s Files"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="KL エクステンションガイド"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">KL エクステンションガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="alembic-extension">
+<span id="id1"></span><h1>Alembic エクステンション<a class="headerlink" href="#alembic-extension" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../../_images/FE_logo_345_60.png"><img alt="../../_images/FE_logo_345_60.png" src="../../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 2.3.0</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+</div>
+<p><code class="docutils literal"><span class="pre">Alembic</span></code> エクステンションは、Alembicの C/C++ライブラリの完全なラッパを提供します。</p>
+<p><a class="reference external" href="http://www.alembic.io/">http://www.alembic.io/</a></p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Alembic エクステンションのソース コードは、こちらから見つけることができます: <a class="reference external" href="http://github.com/fabric-engine/Alembic">http://github.com/fabric-engine/Alembic</a></p>
+</div>
+<p>C++バインディングだけでなくAlembic エクステンションのKLコードも自動生成されるので、各型またはメソッドに付随するドキュメントはありません。詳細については Alembic.io のマニュアルを参照してください。</p>
+<p><a class="reference external" href="http://docs.alembic.io/">http://docs.alembic.io/</a></p>
+<p><a class="reference internal" href="#alembic-extension"><span class="std std-ref">Alembic エクステンション</span></a> Fabric Engine とは別に、簡単に扱えるようにするため高レベルのエクステンションとして <a class="reference internal" href="../AlembicWrapper/index.html#alembicwrapper-extension"><span class="std std-ref">AlembicWrapper エクステンション</span></a> を実装しています。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">require</span> <span class="nx">Alembic</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">FileIO</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">FilePath</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">FilePath</span><span class="p">(</span><span class="s1">&#39;${FABRIC_SCENE_GRAPH_DIR}/Python/Apps/Resources/Alembic/loreipsum.abc&#39;</span><span class="p">).</span><span class="nx">expandEnvVars</span><span class="p">();</span>
+
+  <span class="nx">AlembicIArchive</span> <span class="nx">archive</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">string</span><span class="p">());</span>
+  <span class="nx">AlembicIObject</span> <span class="nx">objs</span><span class="p">[];</span>
+  <span class="nx">objs</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">archive</span><span class="p">.</span><span class="nx">getTop</span><span class="p">());</span>
+
+  <span class="k">for</span><span class="p">(</span><span class="nx">Size</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">objs</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">report</span><span class="p">(</span><span class="nx">objs</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">getFullName</span><span class="p">());</span>
+    <span class="k">for</span><span class="p">(</span><span class="nx">Size</span> <span class="nx">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">j</span><span class="o">&lt;</span><span class="nx">objs</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">getNumChildren</span><span class="p">();</span><span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">objs</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">objs</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">getChild</span><span class="p">(</span><span class="nx">j</span><span class="p">));</span>
+    <span class="p">}</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">i</span> <span class="o">==</span> <span class="mi">24</span><span class="p">)</span>
+      <span class="k">break</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+<span class="cm">HDF5-DIAG: Error detected in HDF5 (1.8.13) thread 0:</span>
+<span class="cm">  #000: c:\Users\Andrew\Fabric\SceneGraph\ThirdParty\scripts\src\hdf5-1.8.13\src\H5F.c line 861 in H5Fis_hdf5(): unable to open file</span>
+<span class="cm">    major: Low-level I/O</span>
+<span class="cm">    minor: Unable to initialize object</span>
+<span class="cm">  #001: c:\Users\Andrew\Fabric\SceneGraph\ThirdParty\scripts\src\hdf5-1.8.13\src\H5FD.c line 985 in H5FD_open(): open failed</span>
+<span class="cm">    major: Virtual File Layer</span>
+<span class="cm">    minor: Unable to initialize object</span>
+<span class="cm">  #002: c:\Users\Andrew\Fabric\SceneGraph\ThirdParty\scripts\src\hdf5-1.8.13\src\H5FDsec2.c line 343 in H5FD_sec2_open(): unable to open file: name = &#39;D:\fabric\release/Python/Apps/Resources/Alembic/loreipsum.abc&#39;, errno = 2, error message = &#39;No such file or directory&#39;, flags = 0, o_flags = 0</span>
+<span class="cm">    major: File accessibilty</span>
+<span class="cm">    minor: Unable to open file</span>
+
+<span class="cm">Error: Alembic: AlembicIArchive_constructFromString: Unknown core type / file not found.</span>
+<span class="cm">KL stack trace:</span>
+<span class="cm">[ST] 1 operator.entry() (stdin):7</span>
+<span class="cm">[ST] 2 kl.internal.entry.stub.cpu()</span>
+<span class="cm">Error: Alembic: Error in AlembicIArchive_getTop. unable to convert: this_</span>
+<span class="cm">KL stack trace:</span>
+<span class="cm">[ST] 1 operator.entry() (stdin):9</span>
+<span class="cm">[ST] 2 kl.internal.entry.stub.cpu()</span>
+<span class="cm">Error: Alembic: Error in AlembicIObject_getFullName. unable to convert: this_</span>
+<span class="cm">KL stack trace:</span>
+<span class="cm">[ST] 1 operator.entry() (stdin):12</span>
+<span class="cm">[ST] 2 kl.internal.entry.stub.cpu()</span>
+
+<span class="cm">Error: Alembic: Error in AlembicIObject_getNumChildren. unable to convert: this_</span>
+<span class="cm">KL stack trace:</span>
+<span class="cm">[ST] 1 operator.entry() (stdin):13</span>
+<span class="cm">[ST] 2 kl.internal.entry.stub.cpu()</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<div class="section" id="table-of-contents">
+<h2>目次<a class="headerlink" href="#table-of-contents" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="files.html">Alembic Extension&#8217;s Files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Alembic.kl.html">Alembic.kl</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="types.html">Alembic Extension&#8217;s Types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="AlembicCameraSample.html">AlembicCameraSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicDataType.html">AlembicDataType (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicDigest.html">AlembicDigest (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIArchive.html">AlembicIArchive (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIArrayProperty.html">AlembicIArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBooleanArrayProperty.html">AlembicIBooleanArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBooleanGeomParam.html">AlembicIBooleanGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBooleanGeomParamSample.html">AlembicIBooleanGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBooleanProperty.html">AlembicIBooleanProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox2ArrayProperty.html">AlembicIBox2ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox2Property.html">AlembicIBox2Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox2dGeomParam.html">AlembicIBox2dGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox2dGeomParamSample.html">AlembicIBox2dGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox2fGeomParam.html">AlembicIBox2fGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox2fGeomParamSample.html">AlembicIBox2fGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox2iGeomParam.html">AlembicIBox2iGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox2iGeomParamSample.html">AlembicIBox2iGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox2sGeomParam.html">AlembicIBox2sGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox2sGeomParamSample.html">AlembicIBox2sGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox3ArrayProperty.html">AlembicIBox3ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox3Property.html">AlembicIBox3Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox3dGeomParam.html">AlembicIBox3dGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox3dGeomParamSample.html">AlembicIBox3dGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox3fGeomParam.html">AlembicIBox3fGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox3fGeomParamSample.html">AlembicIBox3fGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox3iGeomParam.html">AlembicIBox3iGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox3iGeomParamSample.html">AlembicIBox3iGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox3sGeomParam.html">AlembicIBox3sGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIBox3sGeomParamSample.html">AlembicIBox3sGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicICamera.html">AlembicICamera (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicICameraSchema.html">AlembicICameraSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIColorArrayProperty.html">AlembicIColorArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIColorProperty.html">AlembicIColorProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIColorfGeomParam.html">AlembicIColorfGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIColorfGeomParamSample.html">AlembicIColorfGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIColorhGeomParam.html">AlembicIColorhGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIColorhGeomParamSample.html">AlembicIColorhGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicICompoundProperty.html">AlembicICompoundProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicICurves.html">AlembicICurves (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicICurvesSample.html">AlembicICurvesSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicICurvesSchema.html">AlembicICurvesSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIFaceSet.html">AlembicIFaceSet (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIFaceSetSample.html">AlembicIFaceSetSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIFaceSetSchema.html">AlembicIFaceSetSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIFloat16ArrayProperty.html">AlembicIFloat16ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIFloat16Property.html">AlembicIFloat16Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIFloat32ArrayProperty.html">AlembicIFloat32ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIFloat32GeomParam.html">AlembicIFloat32GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIFloat32GeomParamSample.html">AlembicIFloat32GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIFloat32Property.html">AlembicIFloat32Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIFloat64ArrayProperty.html">AlembicIFloat64ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIFloat64GeomParam.html">AlembicIFloat64GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIFloat64GeomParamSample.html">AlembicIFloat64GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIFloat64Property.html">AlembicIFloat64Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicILight.html">AlembicILight (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicILightSchema.html">AlembicILightSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIMat33ArrayProperty.html">AlembicIMat33ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIMat33Property.html">AlembicIMat33Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIMat33dGeomParam.html">AlembicIMat33dGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIMat33dGeomParamSample.html">AlembicIMat33dGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIMat33fGeomParam.html">AlembicIMat33fGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIMat33fGeomParamSample.html">AlembicIMat33fGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIMat44ArrayProperty.html">AlembicIMat44ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIMat44Property.html">AlembicIMat44Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIMat44dGeomParam.html">AlembicIMat44dGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIMat44dGeomParamSample.html">AlembicIMat44dGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIMat44fGeomParam.html">AlembicIMat44fGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIMat44fGeomParamSample.html">AlembicIMat44fGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIMaterial.html">AlembicIMaterial (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIMaterialSchema.html">AlembicIMaterialSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicINuPatch.html">AlembicINuPatch (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicINuPatchSample.html">AlembicINuPatchSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicINuPatchSchema.html">AlembicINuPatchSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIObject.html">AlembicIObject (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIPoints.html">AlembicIPoints (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIPointsSample.html">AlembicIPointsSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIPointsSchema.html">AlembicIPointsSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIPolyMesh.html">AlembicIPolyMesh (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIPolyMeshSample.html">AlembicIPolyMeshSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIPolyMeshSchema.html">AlembicIPolyMeshSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIQuatArrayProperty.html">AlembicIQuatArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIQuatProperty.html">AlembicIQuatProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIQuatdGeomParam.html">AlembicIQuatdGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIQuatdGeomParamSample.html">AlembicIQuatdGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIQuatfGeomParam.html">AlembicIQuatfGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIQuatfGeomParamSample.html">AlembicIQuatfGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISInt16ArrayProperty.html">AlembicISInt16ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISInt16GeomParam.html">AlembicISInt16GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISInt16GeomParamSample.html">AlembicISInt16GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISInt16Property.html">AlembicISInt16Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISInt32ArrayProperty.html">AlembicISInt32ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISInt32GeomParam.html">AlembicISInt32GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISInt32GeomParamSample.html">AlembicISInt32GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISInt32Property.html">AlembicISInt32Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISInt64ArrayProperty.html">AlembicISInt64ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISInt64GeomParam.html">AlembicISInt64GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISInt64GeomParamSample.html">AlembicISInt64GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISInt64Property.html">AlembicISInt64Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISInt8ArrayProperty.html">AlembicISInt8ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISInt8GeomParam.html">AlembicISInt8GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISInt8GeomParamSample.html">AlembicISInt8GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISInt8Property.html">AlembicISInt8Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISampleSelector.html">AlembicISampleSelector (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIScalarProperty.html">AlembicIScalarProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIStringArrayProperty.html">AlembicIStringArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIStringProperty.html">AlembicIStringProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISubD.html">AlembicISubD (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISubDSample.html">AlembicISubDSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicISubDSchema.html">AlembicISubDSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIUInt16ArrayProperty.html">AlembicIUInt16ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIUInt16GeomParam.html">AlembicIUInt16GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIUInt16GeomParamSample.html">AlembicIUInt16GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIUInt16Property.html">AlembicIUInt16Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIUInt32ArrayProperty.html">AlembicIUInt32ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIUInt32GeomParam.html">AlembicIUInt32GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIUInt32GeomParamSample.html">AlembicIUInt32GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIUInt32Property.html">AlembicIUInt32Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIUInt64ArrayProperty.html">AlembicIUInt64ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIUInt64GeomParam.html">AlembicIUInt64GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIUInt64GeomParamSample.html">AlembicIUInt64GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIUInt64Property.html">AlembicIUInt64Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIUInt8ArrayProperty.html">AlembicIUInt8ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIUInt8GeomParam.html">AlembicIUInt8GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIUInt8GeomParamSample.html">AlembicIUInt8GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIUInt8Property.html">AlembicIUInt8Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec2ArrayProperty.html">AlembicIVec2ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec2NdGeomParam.html">AlembicIVec2NdGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec2NdGeomParamSample.html">AlembicIVec2NdGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec2NfGeomParam.html">AlembicIVec2NfGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec2NfGeomParamSample.html">AlembicIVec2NfGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec2Property.html">AlembicIVec2Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec2VdGeomParam.html">AlembicIVec2VdGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec2VdGeomParamSample.html">AlembicIVec2VdGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec2VfGeomParam.html">AlembicIVec2VfGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec2VfGeomParamSample.html">AlembicIVec2VfGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec2ViGeomParam.html">AlembicIVec2ViGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec2ViGeomParamSample.html">AlembicIVec2ViGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec2VsGeomParam.html">AlembicIVec2VsGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec2VsGeomParamSample.html">AlembicIVec2VsGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec3ArrayProperty.html">AlembicIVec3ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec3NdGeomParam.html">AlembicIVec3NdGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec3NdGeomParamSample.html">AlembicIVec3NdGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec3NfGeomParam.html">AlembicIVec3NfGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec3NfGeomParamSample.html">AlembicIVec3NfGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec3Property.html">AlembicIVec3Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec3VdGeomParam.html">AlembicIVec3VdGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec3VdGeomParamSample.html">AlembicIVec3VdGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec3VfGeomParam.html">AlembicIVec3VfGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec3VfGeomParamSample.html">AlembicIVec3VfGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec3ViGeomParam.html">AlembicIVec3ViGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec3ViGeomParamSample.html">AlembicIVec3ViGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec3VsGeomParam.html">AlembicIVec3VsGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIVec3VsGeomParamSample.html">AlembicIVec3VsGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIXform.html">AlembicIXform (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicIXformSchema.html">AlembicIXformSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicMaterialFlatten.html">AlembicMaterialFlatten (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicMetaData.html">AlembicMetaData (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOArchive.html">AlembicOArchive (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOArrayProperty.html">AlembicOArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBooleanArrayProperty.html">AlembicOBooleanArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBooleanGeomParam.html">AlembicOBooleanGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBooleanGeomParamSample.html">AlembicOBooleanGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBooleanProperty.html">AlembicOBooleanProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox2ArrayProperty.html">AlembicOBox2ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox2Property.html">AlembicOBox2Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox2dGeomParam.html">AlembicOBox2dGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox2dGeomParamSample.html">AlembicOBox2dGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox2fGeomParam.html">AlembicOBox2fGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox2fGeomParamSample.html">AlembicOBox2fGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox2iGeomParam.html">AlembicOBox2iGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox2iGeomParamSample.html">AlembicOBox2iGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox2sGeomParam.html">AlembicOBox2sGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox2sGeomParamSample.html">AlembicOBox2sGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox3ArrayProperty.html">AlembicOBox3ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox3Property.html">AlembicOBox3Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox3dGeomParam.html">AlembicOBox3dGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox3dGeomParamSample.html">AlembicOBox3dGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox3fGeomParam.html">AlembicOBox3fGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox3fGeomParamSample.html">AlembicOBox3fGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox3iGeomParam.html">AlembicOBox3iGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox3iGeomParamSample.html">AlembicOBox3iGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox3sGeomParam.html">AlembicOBox3sGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOBox3sGeomParamSample.html">AlembicOBox3sGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOCamera.html">AlembicOCamera (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOCameraSchema.html">AlembicOCameraSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOColorArrayProperty.html">AlembicOColorArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOColorProperty.html">AlembicOColorProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOColorfGeomParam.html">AlembicOColorfGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOColorfGeomParamSample.html">AlembicOColorfGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOColorhGeomParam.html">AlembicOColorhGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOColorhGeomParamSample.html">AlembicOColorhGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOCompoundProperty.html">AlembicOCompoundProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOCurves.html">AlembicOCurves (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOCurvesSample.html">AlembicOCurvesSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOCurvesSchema.html">AlembicOCurvesSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOFaceSet.html">AlembicOFaceSet (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOFaceSetSample.html">AlembicOFaceSetSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOFaceSetSchema.html">AlembicOFaceSetSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOFloat16ArrayProperty.html">AlembicOFloat16ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOFloat16Property.html">AlembicOFloat16Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOFloat32ArrayProperty.html">AlembicOFloat32ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOFloat32GeomParam.html">AlembicOFloat32GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOFloat32GeomParamSample.html">AlembicOFloat32GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOFloat32Property.html">AlembicOFloat32Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOFloat64ArrayProperty.html">AlembicOFloat64ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOFloat64GeomParam.html">AlembicOFloat64GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOFloat64GeomParamSample.html">AlembicOFloat64GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOFloat64Property.html">AlembicOFloat64Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOLight.html">AlembicOLight (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOLightSchema.html">AlembicOLightSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOMat33ArrayProperty.html">AlembicOMat33ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOMat33Property.html">AlembicOMat33Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOMat33dGeomParam.html">AlembicOMat33dGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOMat33dGeomParamSample.html">AlembicOMat33dGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOMat33fGeomParam.html">AlembicOMat33fGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOMat33fGeomParamSample.html">AlembicOMat33fGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOMat44ArrayProperty.html">AlembicOMat44ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOMat44Property.html">AlembicOMat44Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOMat44dGeomParam.html">AlembicOMat44dGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOMat44dGeomParamSample.html">AlembicOMat44dGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOMat44fGeomParam.html">AlembicOMat44fGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOMat44fGeomParamSample.html">AlembicOMat44fGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOMaterial.html">AlembicOMaterial (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOMaterialSchema.html">AlembicOMaterialSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicONuPatch.html">AlembicONuPatch (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicONuPatchSample.html">AlembicONuPatchSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicONuPatchSchema.html">AlembicONuPatchSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOObject.html">AlembicOObject (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOPoints.html">AlembicOPoints (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOPointsSample.html">AlembicOPointsSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOPointsSchema.html">AlembicOPointsSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOPolyMesh.html">AlembicOPolyMesh (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOPolyMeshSample.html">AlembicOPolyMeshSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOPolyMeshSchema.html">AlembicOPolyMeshSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOQuatArrayProperty.html">AlembicOQuatArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOQuatProperty.html">AlembicOQuatProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOQuatdGeomParam.html">AlembicOQuatdGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOQuatdGeomParamSample.html">AlembicOQuatdGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOQuatfGeomParam.html">AlembicOQuatfGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOQuatfGeomParamSample.html">AlembicOQuatfGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOSInt16ArrayProperty.html">AlembicOSInt16ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOSInt16GeomParam.html">AlembicOSInt16GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOSInt16GeomParamSample.html">AlembicOSInt16GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOSInt16Property.html">AlembicOSInt16Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOSInt32ArrayProperty.html">AlembicOSInt32ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOSInt32GeomParam.html">AlembicOSInt32GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOSInt32GeomParamSample.html">AlembicOSInt32GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOSInt32Property.html">AlembicOSInt32Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOSInt64ArrayProperty.html">AlembicOSInt64ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOSInt64GeomParam.html">AlembicOSInt64GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOSInt64GeomParamSample.html">AlembicOSInt64GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOSInt64Property.html">AlembicOSInt64Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOSInt8ArrayProperty.html">AlembicOSInt8ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOSInt8GeomParam.html">AlembicOSInt8GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOSInt8GeomParamSample.html">AlembicOSInt8GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOSInt8Property.html">AlembicOSInt8Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOScalarProperty.html">AlembicOScalarProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOStringArrayProperty.html">AlembicOStringArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOStringProperty.html">AlembicOStringProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOSubD.html">AlembicOSubD (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOSubDSample.html">AlembicOSubDSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOSubDSchema.html">AlembicOSubDSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOUInt16ArrayProperty.html">AlembicOUInt16ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOUInt16GeomParam.html">AlembicOUInt16GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOUInt16GeomParamSample.html">AlembicOUInt16GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOUInt16Property.html">AlembicOUInt16Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOUInt32ArrayProperty.html">AlembicOUInt32ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOUInt32GeomParam.html">AlembicOUInt32GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOUInt32GeomParamSample.html">AlembicOUInt32GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOUInt32Property.html">AlembicOUInt32Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOUInt64ArrayProperty.html">AlembicOUInt64ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOUInt64GeomParam.html">AlembicOUInt64GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOUInt64GeomParamSample.html">AlembicOUInt64GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOUInt64Property.html">AlembicOUInt64Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOUInt8ArrayProperty.html">AlembicOUInt8ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOUInt8GeomParam.html">AlembicOUInt8GeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOUInt8GeomParamSample.html">AlembicOUInt8GeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOUInt8Property.html">AlembicOUInt8Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec2ArrayProperty.html">AlembicOVec2ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec2NdGeomParam.html">AlembicOVec2NdGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec2NdGeomParamSample.html">AlembicOVec2NdGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec2NfGeomParam.html">AlembicOVec2NfGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec2NfGeomParamSample.html">AlembicOVec2NfGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec2Property.html">AlembicOVec2Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec2VdGeomParam.html">AlembicOVec2VdGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec2VdGeomParamSample.html">AlembicOVec2VdGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec2VfGeomParam.html">AlembicOVec2VfGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec2VfGeomParamSample.html">AlembicOVec2VfGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec2ViGeomParam.html">AlembicOVec2ViGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec2ViGeomParamSample.html">AlembicOVec2ViGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec2VsGeomParam.html">AlembicOVec2VsGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec2VsGeomParamSample.html">AlembicOVec2VsGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec3ArrayProperty.html">AlembicOVec3ArrayProperty (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec3NdGeomParam.html">AlembicOVec3NdGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec3NdGeomParamSample.html">AlembicOVec3NdGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec3NfGeomParam.html">AlembicOVec3NfGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec3NfGeomParamSample.html">AlembicOVec3NfGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec3Property.html">AlembicOVec3Property (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec3VdGeomParam.html">AlembicOVec3VdGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec3VdGeomParamSample.html">AlembicOVec3VdGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec3VfGeomParam.html">AlembicOVec3VfGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec3VfGeomParamSample.html">AlembicOVec3VfGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec3ViGeomParam.html">AlembicOVec3ViGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec3ViGeomParamSample.html">AlembicOVec3ViGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec3VsGeomParam.html">AlembicOVec3VsGeomParam (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOVec3VsGeomParamSample.html">AlembicOVec3VsGeomParamSample (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOXform.html">AlembicOXform (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicOXformSchema.html">AlembicOXformSchema (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicPropertyHeader.html">AlembicPropertyHeader (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicTimeSampling.html">AlembicTimeSampling (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicTimeSamplingPair.html">AlembicTimeSamplingPair (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicTimeSamplingType.html">AlembicTimeSamplingType (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AlembicXformSample.html">AlembicXformSample (object)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">Alembic Extension&#8217;s Free Functions</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>索引と検索<a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../../genindex.html"><span class="std std-ref">索引</span></a></li>
+<li><a class="reference internal" href="../../search.html"><span class="std std-ref">検索ページ</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Alembic エクステンション</a><ul>
+<li><a class="reference internal" href="#table-of-contents">目次</a></li>
+<li><a class="reference internal" href="#indices-and-tables">索引と検索</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="../index.html"
+                        title="前の章へ">KL エクステンションガイド</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="files.html"
+                        title="次の章へ">Alembic Extension&#8217;s Files</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Alembic/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Alembic/index.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="Alembic Extension’s Files"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="KL エクステンションガイド"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

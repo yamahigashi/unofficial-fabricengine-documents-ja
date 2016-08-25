@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SceneGraph Extension &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="scenegraph-extension">
+<span id="id1"></span><h1>SceneGraph Extension<a class="headerlink" href="#scenegraph-extension" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../../_images/FE_logo_345_60.png"><img alt="../../_images/FE_logo_345_60.png" src="../../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 2.3.0</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+</div>
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> is a generic container of scene objects (<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code>), their
+properties (<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code>) and the object references (hierarchy).</p>
+<p>See <a class="reference internal" href="scenegraphoverview.html#scenegraph-overview"><span class="std std-ref">SceneGraph Overview</span></a> for more details.</p>
+<p>See <a class="reference internal" href="../SceneAssembly/scenehub.html#scenehub"><span class="std std-ref">SceneHub</span></a> for a global picture of the
+<a class="reference internal" href="scenegraphoverview.html#scenegraph-overview"><span class="std std-ref">SceneGraph</span></a>, the <a class="reference internal" href="../SceneAssembly/sceneassembly.html#sceneassembly"><span class="std std-ref">Scene Assembly</span></a> and the <a class="reference internal" href="../RTR2/rtr2.html#rtr2"><span class="std std-ref">RealTime Renderer</span></a>.</p>
+<div class="section" id="related-extensions">
+<h2>Related extensions<a class="headerlink" href="#related-extensions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The SceneGraph extensions is closely related to these other extensions:</p>
+<ul class="simple">
+<li>The <a class="reference internal" href="../SceneAssembly/index.html#sceneassembly-extension"><span class="std std-ref">SceneAssembly Extension</span></a> defines interfaces for abstracting the scene
+along with nodes for filtering or processing scene graph elements.</li>
+<li>The <a class="reference internal" href="../SceneGraphWrappers/index.html#scenegraphwrappers-extension"><span class="std std-ref">SceneGraphWrappers Extension</span></a> extension defines common higher-level wrappers
+that define common scene types, such as <code class="xref std std-kl-ref docutils literal"><span class="pre">SGDirectionalLight</span></code> or <code class="xref std std-kl-ref docutils literal"><span class="pre">SGCamera</span></code>.</li>
+<li>The <a class="reference internal" href="../SceneGraphToRTR/index.html#scenegraph-to-rtr-extension"><span class="std std-ref">SceneGraphToRTR Extension</span></a> extension provides specialized adaptors from
+the <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> to <a class="reference internal" href="../RTR2/rtr2.html#rtr2"><span class="std std-ref">RealTime Renderer</span></a> objects, such as the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGCameraToRTR</span></code>.</li>
+<li>The <a class="reference internal" href="../AlembicToSceneGraph/index.html#alembic-to-scenegraph"><span class="std std-ref">AlembicToSceneGraph Extension</span></a> extension provides specialized generators
+mapping AlembicWrapper readers to <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> objects, such as the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGAlembicGeometry</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and Tables<a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../../genindex.html"><span class="std std-ref">索引</span></a></li>
+<li><a class="reference internal" href="../../search.html"><span class="std std-ref">検索ページ</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">SceneGraph Extension</a><ul>
+<li><a class="reference internal" href="#related-extensions">Related extensions</a></li>
+<li><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and Tables</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/SceneGraph/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/SceneGraph/index.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

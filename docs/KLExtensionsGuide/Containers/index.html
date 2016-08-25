@@ -1,0 +1,359 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Containers エクステンション &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="KL エクステンションガイド" href="../index.html" />
+    <link rel="next" title="Containers Extension’s Files" href="files.html" />
+    <link rel="prev" title="Characters Extension’s Free Functions" href="../Characters/functions.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="Containers Extension’s Files"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="../Characters/functions.html" title="Characters Extension’s Free Functions"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">KL エクステンションガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="containers-extension">
+<span id="id1"></span><h1>Containers エクステンション<a class="headerlink" href="#containers-extension" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../../_images/FE_logo_345_60.png"><img alt="../../_images/FE_logo_345_60.png" src="../../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 2.3.0</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+</div>
+<p><a class="reference internal" href="#containers-extension"><span class="std std-ref">Containers エクステンション</span></a> はビットマスク(bitmasks)やメモリ、異なるデータ型の数へローカライズされた配列と同様のハイパフォーマンスなインデックスセットを管理するローレベルデータコンテナ群の一連を提供します。</p>
+<div class="section" id="table-of-contents">
+<h2>目次<a class="headerlink" href="#table-of-contents" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="files.html">Containers Extension&#8217;s Files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="BitVector.kl.html">BitVector.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ChunksAllocator.kl.html">ChunksAllocator.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericValue.kl.html">GenericValue.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericValueContainer.kl.html">GenericValueContainer.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IndexPool.kl.html">IndexPool.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IndexSet.kl.html">IndexSet.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalArrays.kl.html">LocalArrays.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PackedIndexLists.kl.html">PackedIndexLists.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ThreadsafeMetaDataContainer.kl.html">ThreadsafeMetaDataContainer.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UInt32ArrayAllocator.kl.html">UInt32ArrayAllocator.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UInt32ArrayNoFree.kl.html">UInt32ArrayNoFree.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UInt32PackingUtils.kl.html">UInt32PackingUtils.kl</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="interfaces.html">Containers Extension&#8217;s Interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="GenericArrayValue.html">GenericArrayValue (interface)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericValue.html">GenericValue (interface)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ThreadsafeMetaDataOwner.html">ThreadsafeMetaDataOwner (interface)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="types.html">Containers Extension&#8217;s Types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="BitVector.html">BitVector (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BitVectorIterator.html">BitVectorIterator (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ChA_ID.html">ChA_ID (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ChunkAllocatorBase.html">ChunkAllocatorBase (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericARGBArrayValue.html">GenericARGBArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericARGBValue.html">GenericARGBValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericBooleanArrayValue.html">GenericBooleanArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericBooleanValue.html">GenericBooleanValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericBox2ArrayValue.html">GenericBox2ArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericBox2Value.html">GenericBox2Value (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericBox3ArrayValue.html">GenericBox3ArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericBox3Value.html">GenericBox3Value (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericColorArrayValue.html">GenericColorArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericColorValue.html">GenericColorValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericComplexArrayValue.html">GenericComplexArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericComplexValue.html">GenericComplexValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericComplex_dArrayValue.html">GenericComplex_dArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericComplex_dValue.html">GenericComplex_dValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericDataArrayValue.html">GenericDataArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericDataValue.html">GenericDataValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericEulerArrayValue.html">GenericEulerArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericEulerValue.html">GenericEulerValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericEuler_dArrayValue.html">GenericEuler_dArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericEuler_dValue.html">GenericEuler_dValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericEuler_iArrayValue.html">GenericEuler_iArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericEuler_iValue.html">GenericEuler_iValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericFloat32ArrayValue.html">GenericFloat32ArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericFloat32Value.html">GenericFloat32Value (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericFloat64ArrayValue.html">GenericFloat64ArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericFloat64Value.html">GenericFloat64Value (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat22ArrayValue.html">GenericMat22ArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat22Value.html">GenericMat22Value (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat22_cArrayValue.html">GenericMat22_cArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat22_cValue.html">GenericMat22_cValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat22_cdArrayValue.html">GenericMat22_cdArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat22_cdValue.html">GenericMat22_cdValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat22_dArrayValue.html">GenericMat22_dArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat22_dValue.html">GenericMat22_dValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat22_iArrayValue.html">GenericMat22_iArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat22_iValue.html">GenericMat22_iValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat33ArrayValue.html">GenericMat33ArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat33Value.html">GenericMat33Value (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat33_cArrayValue.html">GenericMat33_cArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat33_cValue.html">GenericMat33_cValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat33_cdArrayValue.html">GenericMat33_cdArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat33_cdValue.html">GenericMat33_cdValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat33_dArrayValue.html">GenericMat33_dArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat33_dValue.html">GenericMat33_dValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat33_iArrayValue.html">GenericMat33_iArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat33_iValue.html">GenericMat33_iValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat44ArrayValue.html">GenericMat44ArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat44Value.html">GenericMat44Value (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat44_cArrayValue.html">GenericMat44_cArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat44_cValue.html">GenericMat44_cValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat44_cdArrayValue.html">GenericMat44_cdArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat44_cdValue.html">GenericMat44_cdValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat44_dArrayValue.html">GenericMat44_dArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat44_dValue.html">GenericMat44_dValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat44_iArrayValue.html">GenericMat44_iArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat44_iValue.html">GenericMat44_iValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMatArrayValue.html">GenericMatArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMatValue.html">GenericMatValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat_cArrayValue.html">GenericMat_cArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat_cValue.html">GenericMat_cValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat_cdArrayValue.html">GenericMat_cdArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat_cdValue.html">GenericMat_cdValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat_dArrayValue.html">GenericMat_dArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat_dValue.html">GenericMat_dValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat_iArrayValue.html">GenericMat_iArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericMat_iValue.html">GenericMat_iValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericObjectArrayValue.html">GenericObjectArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericObjectValue.html">GenericObjectValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericQuatArrayValue.html">GenericQuatArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericQuatValue.html">GenericQuatValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericQuat_dArrayValue.html">GenericQuat_dArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericQuat_dValue.html">GenericQuat_dValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericQuat_iArrayValue.html">GenericQuat_iArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericQuat_iValue.html">GenericQuat_iValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericRGBAArrayValue.html">GenericRGBAArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericRGBAValue.html">GenericRGBAValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericRGBArrayValue.html">GenericRGBArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericRGBValue.html">GenericRGBValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericRayArrayValue.html">GenericRayArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericRayValue.html">GenericRayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericRotationOrderArrayValue.html">GenericRotationOrderArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericRotationOrderValue.html">GenericRotationOrderValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericSInt16ArrayValue.html">GenericSInt16ArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericSInt16Value.html">GenericSInt16Value (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericSInt32ArrayValue.html">GenericSInt32ArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericSInt32Value.html">GenericSInt32Value (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericSInt64ArrayValue.html">GenericSInt64ArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericSInt64Value.html">GenericSInt64Value (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericSInt8ArrayValue.html">GenericSInt8ArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericSInt8Value.html">GenericSInt8Value (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericStringArrayValue.html">GenericStringArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericStringValue.html">GenericStringValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericUInt16ArrayValue.html">GenericUInt16ArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericUInt16Value.html">GenericUInt16Value (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericUInt32ArrayValue.html">GenericUInt32ArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericUInt32Value.html">GenericUInt32Value (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericUInt64ArrayValue.html">GenericUInt64ArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericUInt64Value.html">GenericUInt64Value (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericUInt8ArrayValue.html">GenericUInt8ArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericUInt8Value.html">GenericUInt8Value (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericValueContainer.html">GenericValueContainer (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec2ArrayValue.html">GenericVec2ArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec2Value.html">GenericVec2Value (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec2_cArrayValue.html">GenericVec2_cArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec2_cValue.html">GenericVec2_cValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec2_cdArrayValue.html">GenericVec2_cdArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec2_cdValue.html">GenericVec2_cdValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec2_dArrayValue.html">GenericVec2_dArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec2_dValue.html">GenericVec2_dValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec2_iArrayValue.html">GenericVec2_iArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec2_iValue.html">GenericVec2_iValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec3ArrayValue.html">GenericVec3ArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec3Value.html">GenericVec3Value (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec3_cArrayValue.html">GenericVec3_cArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec3_cValue.html">GenericVec3_cValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec3_cdArrayValue.html">GenericVec3_cdArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec3_cdValue.html">GenericVec3_cdValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec3_dArrayValue.html">GenericVec3_dArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec3_dValue.html">GenericVec3_dValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec3_iArrayValue.html">GenericVec3_iArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec3_iValue.html">GenericVec3_iValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec4ArrayValue.html">GenericVec4ArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec4Value.html">GenericVec4Value (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec4_cArrayValue.html">GenericVec4_cArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec4_cValue.html">GenericVec4_cValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec4_cdArrayValue.html">GenericVec4_cdArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec4_cdValue.html">GenericVec4_cdValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec4_dArrayValue.html">GenericVec4_dArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec4_dValue.html">GenericVec4_dValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec4_iArrayValue.html">GenericVec4_iArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec4_iValue.html">GenericVec4_iValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVecArrayValue.html">GenericVecArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVecValue.html">GenericVecValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec_cArrayValue.html">GenericVec_cArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec_cValue.html">GenericVec_cValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec_cdArrayValue.html">GenericVec_cdArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec_cdValue.html">GenericVec_cdValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec_dArrayValue.html">GenericVec_dArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec_dValue.html">GenericVec_dValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec_iArrayValue.html">GenericVec_iArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericVec_iValue.html">GenericVec_iValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericXfoArrayValue.html">GenericXfoArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenericXfoValue.html">GenericXfoValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IndexPool.html">IndexPool (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IndexSet.html">IndexSet (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL16ScalarArray.html">LocalL16ScalarArray (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL16UInt16Array.html">LocalL16UInt16Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL16UInt32Array.html">LocalL16UInt32Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL16UInt64Array.html">LocalL16UInt64Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL16UInt8Array.html">LocalL16UInt8Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL256BitVector.html">LocalL256BitVector (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL32ScalarArray.html">LocalL32ScalarArray (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL32UInt16Array.html">LocalL32UInt16Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL32UInt32Array.html">LocalL32UInt32Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL32UInt64Array.html">LocalL32UInt64Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL32UInt8Array.html">LocalL32UInt8Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL4ScalarArray.html">LocalL4ScalarArray (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL4UInt16Array.html">LocalL4UInt16Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL4UInt32Array.html">LocalL4UInt32Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL4UInt64Array.html">LocalL4UInt64Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL4UInt8Array.html">LocalL4UInt8Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL64ScalarArray.html">LocalL64ScalarArray (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL64UInt16Array.html">LocalL64UInt16Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL64UInt32Array.html">LocalL64UInt32Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL64UInt64Array.html">LocalL64UInt64Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL64UInt8Array.html">LocalL64UInt8Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL8ScalarArray.html">LocalL8ScalarArray (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL8UInt16Array.html">LocalL8UInt16Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL8UInt32Array.html">LocalL8UInt32Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL8UInt64Array.html">LocalL8UInt64Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocalL8UInt8Array.html">LocalL8UInt8Array (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PackedIndexLists.html">PackedIndexLists (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ThreadsafeMetaDataContainer.html">ThreadsafeMetaDataContainer (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UInt32ArrayAllocator.html">UInt32ArrayAllocator (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UInt32ArrayNoFree.html">UInt32ArrayNoFree (struct)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">Containers Extension&#8217;s Free Functions</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>索引と検索<a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../../genindex.html"><span class="std std-ref">索引</span></a></li>
+<li><a class="reference internal" href="../../search.html"><span class="std std-ref">検索ページ</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Containers エクステンション</a><ul>
+<li><a class="reference internal" href="#table-of-contents">目次</a></li>
+<li><a class="reference internal" href="#indices-and-tables">索引と検索</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="../Characters/functions.html"
+                        title="前の章へ">Characters Extension&#8217;s Free Functions</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="files.html"
+                        title="次の章へ">Containers Extension&#8217;s Files</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Containers/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Containers/index.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="Containers Extension’s Files"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="../Characters/functions.html" title="Characters Extension’s Free Functions"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

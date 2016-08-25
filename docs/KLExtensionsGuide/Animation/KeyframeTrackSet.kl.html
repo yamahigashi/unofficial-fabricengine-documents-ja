@@ -1,0 +1,369 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>KeyframeTrackSet.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Animation Extension’s Files" href="files.html" />
+    <link rel="next" title="Animation Extension’s Types" href="types.html" />
+    <link rel="prev" title="KeyframeTrack.kl" href="KeyframeTrack.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="types.html" title="Animation Extension’s Types"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="KeyframeTrack.kl.html" title="KeyframeTrack.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Animation エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Animation Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="animation-keyframetrackset-kl">
+<span id="keyframetrackset-kl"></span><span id="id1"></span><h1>KeyframeTrackSet.kl<a class="headerlink" href="#animation-keyframetrackset-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="keyframetrackset-object">
+<h3>KeyframeTrackSet (object)<a class="headerlink" href="#keyframetrackset-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klbrief">A collection of tracks driving a single value.</p>
+<p class="plaintext">The <a class="reference internal" href="KeyframeTrackSet.html#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> groups a collection of tracks together to drive the value of
+a <code class="xref std std-kl-ref docutils literal"><span class="pre">Math</span></code> type, such as Scalar, <code class="xref std std-kl-ref docutils literal"><span class="pre">Vec2,</span> <span class="pre">:kl-ref:`Vec3</span></code>, <a class="reference internal" href="../Math/Vec4.html#vec4"><span class="std std-ref">Vec4</span></a>, <a class="reference internal" href="../Math/Quat.html#quat"><span class="std std-ref">Quat</span></a>, <a class="reference internal" href="../Math/Euler.html#euler"><span class="std std-ref">Euler</span></a> or <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a>. A KeyframeTrackSet can
+contain zero or many tracks, each generated based on the specified Math type.</p>
+<p class="plaintext">KeyframeTrackSets are often bundled into Clips, which group together many values into
+a container that can drive the animation of a character.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="Clip.html#clip"><span class="std std-ref">Clip</span></a>, <a class="reference internal" href="KeyframeTrack.html#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a></p>
+</div>
+<p><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: keyframeTrackSet.kl</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Animation</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">(){</span>
+
+    <span class="nx">KeyframeTrackSet</span> <span class="nx">vec3TrackSet</span> <span class="o">=</span> <span class="nx">KeyframeTrackSet</span><span class="p">(</span><span class="s1">&#39;Vec3TrackSet&#39;</span><span class="p">,</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="nx">vec3TrackSet</span><span class="p">.</span><span class="nx">setTrackValues</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">));</span>
+    <span class="nx">vec3TrackSet</span><span class="p">.</span><span class="nx">setTrackValues</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">));</span>
+    <span class="nx">vec3TrackSet</span><span class="p">.</span><span class="nx">setTrackValues</span><span class="p">(</span><span class="mf">7.0</span><span class="p">,</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">));</span>
+
+    <span class="kr">Integer</span> <span class="nx">keyIndices</span><span class="p">[];</span>
+    <span class="nx">Vec3</span> <span class="nx">value</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span><span class="mi">20</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="nx">Scalar</span> <span class="nx">time</span> <span class="o">=</span> <span class="nx">Math_linearInterpolate</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="nx">Scalar</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="o">/</span><span class="mf">20.0</span><span class="p">);</span>
+        <span class="nx">vec3TrackSet</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="nx">time</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">keyIndices</span><span class="p">);</span>
+        <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;time:&quot;</span> <span class="o">+</span> <span class="nx">time</span> <span class="o">+</span> <span class="s2">&quot; value:&quot;</span> <span class="o">+</span> <span class="nx">value</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">time:+0.0 value:{x:+0.0,y:+0.0,z:+0.0}</span>
+<span class="cm">time:+0.2 value:{x:+0.066666,y:+0.133333,z:+0.0}</span>
+<span class="cm">time:+0.4 value:{x:+0.133333,y:+0.266666,z:+0.0}</span>
+<span class="cm">time:+0.6 value:{x:+0.2,y:+0.4,z:+0.0}</span>
+<span class="cm">time:+0.8 value:{x:+0.266666,y:+0.533333,z:+0.0}</span>
+<span class="cm">time:+1.0 value:{x:+0.333333,y:+0.666666,z:+0.0}</span>
+<span class="cm">time:+1.2 value:{x:+0.4,y:+0.8,z:+0.0}</span>
+<span class="cm">time:+1.4 value:{x:+0.466666,y:+0.933333,z:+0.0}</span>
+<span class="cm">time:+1.6 value:{x:+0.533333,y:+1.066666,z:+0.0}</span>
+<span class="cm">time:+1.8 value:{x:+0.599999,y:+1.199999,z:+0.0}</span>
+<span class="cm">time:+2.0 value:{x:+0.666666,y:+1.333333,z:+0.0}</span>
+<span class="cm">time:+2.2 value:{x:+0.733333,y:+1.466666,z:+0.0}</span>
+<span class="cm">time:+2.4 value:{x:+0.8,y:+1.6,z:+0.0}</span>
+<span class="cm">time:+2.6 value:{x:+0.866666,y:+1.733333,z:+0.0}</span>
+<span class="cm">time:+2.8 value:{x:+0.933333,y:+1.866666,z:+0.0}</span>
+<span class="cm">time:+3.0 value:{x:+1.0,y:+2.0,z:+0.0}</span>
+<span class="cm">time:+3.2 value:{x:+0.95,y:+2.0,z:+0.15}</span>
+<span class="cm">time:+3.4 value:{x:+0.9,y:+2.0,z:+0.3}</span>
+<span class="cm">time:+3.6 value:{x:+0.85,y:+2.0,z:+0.449999}</span>
+<span class="cm">time:+3.8 value:{x:+0.8,y:+2.0,z:+0.599999}</span>
+<span class="cm">time:+4.0 value:{x:+0.75,y:+2.0,z:+0.75}</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</p>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="75%" />
+<col width="20%" />
+<col width="5%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>name</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>valueType</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>flags</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="KeyframeTrack.html#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>[]</td>
+<td>tracks</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id110643"><span class="std std-ref">KeyframeTrackSet</span></a>  ( in <a class="reference internal" href="KeyframeTrackSet.html#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24202"><span class="std std-ref">KeyframeTrackSet</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24263"><span class="std std-ref">KeyframeTrackSet</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Euler.html#euler"><span class="std std-ref">Euler</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24251"><span class="std std-ref">KeyframeTrackSet</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Quat.html#quat"><span class="std std-ref">Quat</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24190"><span class="std std-ref">KeyframeTrackSet</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24215"><span class="std std-ref">KeyframeTrackSet</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24227"><span class="std std-ref">KeyframeTrackSet</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24239"><span class="std std-ref">KeyframeTrackSet</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24275"><span class="std std-ref">KeyframeTrackSet</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id110640"><span class="std std-ref">KeyframeTrackSet</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24301"><span class="std std-ref">addTrack</span></a> ! ( in <a class="reference internal" href="IKeyframeTrack.html#ikeyframetrack"><span class="std std-ref">IKeyframeTrack</span></a> track )</td>
+</tr>
+<tr class="row-even"><td>Integer</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24331"><span class="std std-ref">addTrack</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> defaultValue )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24298"><span class="std std-ref">clear</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24328"><span class="std std-ref">clearTracks</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="KeyframeTrackSet.html#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a></td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id110647"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24373"><span class="std std-ref">evaluate</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Euler.html#euler"><span class="std std-ref">Euler</span></a> value, out Integer keyIndices[] )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24367"><span class="std std-ref">evaluate</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Quat.html#quat"><span class="std std-ref">Quat</span></a> value, out Integer keyIndices[] )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24337"><span class="std std-ref">evaluate</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value, out Integer keyIndices[] )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24343"><span class="std std-ref">evaluate</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> values[], out Integer keyIndices[] )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24349"><span class="std std-ref">evaluate</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> value, out Integer keyIndices[] )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24355"><span class="std std-ref">evaluate</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> value, out Integer keyIndices[] )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24361"><span class="std std-ref">evaluate</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> value, out Integer keyIndices[] )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24379"><span class="std std-ref">evaluate</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> value, out Integer keyIndices[] )</td>
+</tr>
+<tr class="row-even"><td>Integer</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24305"><span class="std std-ref">findTrack</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24418"><span class="std std-ref">getDesc</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> indent, in Boolean includeTracks )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24423"><span class="std std-ref">getDesc</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24295"><span class="std std-ref">getFlags</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24281"><span class="std std-ref">getName</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24309"><span class="std std-ref">getNumTracks</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a></td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24325"><span class="std std-ref">getTimeRange</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="IKeyframeTrack.html#ikeyframetrack"><span class="std std-ref">IKeyframeTrack</span></a></td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24312"><span class="std std-ref">getTrack</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="IKeyframeTrack.html#ikeyframetrack"><span class="std std-ref">IKeyframeTrack</span></a></td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24316"><span class="std std-ref">getTrack</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a>[]</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24415"><span class="std std-ref">getTrackNames</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24284"><span class="std std-ref">getValueType</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24287"><span class="std std-ref">setFlag</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flag )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24320"><span class="std std-ref">setTrack</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="IKeyframeTrack.html#ikeyframetrack"><span class="std std-ref">IKeyframeTrack</span></a> track )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24405"><span class="std std-ref">setTrackValues</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Quat.html#quat"><span class="std std-ref">Quat</span></a> value )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24385"><span class="std std-ref">setTrackValues</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24390"><span class="std std-ref">setTrackValues</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> value )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24395"><span class="std std-ref">setTrackValues</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24400"><span class="std std-ref">setTrackValues</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> value )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24410"><span class="std std-ref">setTrackValues</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="KeyframeTrackSet.html#id24291"><span class="std std-ref">testFlag</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flag )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="KeyframeTrack.kl.html"
+                        title="前の章へ">KeyframeTrack.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="types.html"
+                        title="次の章へ">Animation Extension&#8217;s Types</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Animation/KeyframeTrackSet.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Animation/KeyframeTrackSet.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="types.html" title="Animation Extension’s Types"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="KeyframeTrack.kl.html" title="KeyframeTrack.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Animation エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >Animation Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

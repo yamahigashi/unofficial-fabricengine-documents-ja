@@ -1,0 +1,561 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>GeometryAttribute (interface) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Geometry Extension’s Interfaces" href="interfaces.html" />
+    <link rel="next" title="RaycastResult (interface)" href="RaycastResult.html" />
+    <link rel="prev" title="Geometry (interface)" href="Geometry.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="RaycastResult.html" title="RaycastResult (interface)"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="Geometry.html" title="Geometry (interface)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Geometry エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="interfaces.html" accesskey="U">Geometry Extension&#8217;s Interfaces</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="geometryattribute-interface">
+<span id="geometryattribute"></span><h1>GeometryAttribute (interface)<a class="headerlink" href="#geometryattribute-interface" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><p class="klbrief">Interface required on an attribute in order to be contained in a <a class="reference internal" href="GeometryAttributes.html#geometryattributes"><span class="std std-ref">GeometryAttributes</span></a> container.</p>
+<p class="plaintext">The <a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a> interface contains the methods required by the <a class="reference internal" href="GeometryAttributes.html#geometryattributes"><span class="std std-ref">GeometryAttributes</span></a> container for
+managing the attribute values. By abstracting the attribute content, <a class="reference internal" href="Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> types can resize, duplicate or
+compare values without having a specific knowledge of the various attribute types. For example, this allows
+the PolygonMesh to manage attribute sharing, and it allows the <a class="reference internal" href="functions.html#id53166"><span class="std std-ref">GetAttributeAtLocation</span></a> helper function to
+interpolate surface attribute values.</p>
+<p class="plaintext">While various type implementations are provided, such as <a class="reference internal" href="Vec3Attribute.html#vec3attribute"><span class="std std-ref">Vec3Attribute</span></a> and <a class="reference internal" href="ColorAttribute.html#colorattribute"><span class="std std-ref">ColorAttribute</span></a>, this interface
+allows to add other custom attribute types to a <a class="reference internal" href="GeometryAttributes.html#geometryattributes"><span class="std std-ref">GeometryAttributes</span></a> container.</p>
+<p class="plaintext">The <a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a> requires specific data to be stored along the attribute values, such as a name, version and
+containerIndex.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">The attribute version has to be incremented after any modification(s) to the attribute values. See <a class="reference internal" href="Vec4Attribute.kl.html#attributeversioning"><span class="std std-ref">Attribute versioning</span></a> for more information.</p>
+</div>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+ -->
+<!-- Title: GeometryAttribute Pages: 1 -->
+<svg width="396pt" height="854pt"
+ viewBox="0.00 0.00 396.00 854.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 850)">
+<title>GeometryAttribute</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-850 393,-850 393,5 -4,5"/>
+<!-- GeometryAttribute -->
+<g id="node1" class="node"><title>GeometryAttribute</title>
+<a xlink:href="../Geometry/GeometryAttribute.html" xlink:title="GeometryAttribute">
+<polygon fill="#3fabd3" stroke="#3f3f3f" points="96,-441 0,-441 0,-405 96,-405 96,-441"/>
+<text text-anchor="middle" x="48" y="-420.5" font-family="Arial" font-size="10.00">GeometryAttribute</text>
+</a>
+</g>
+<!-- BaseAttribute -->
+<g id="node2" class="node"><title>BaseAttribute</title>
+<a xlink:href="../Geometry/BaseAttribute.html" xlink:title="BaseAttribute">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="208,-441 132,-441 132,-405 208,-405 208,-441"/>
+<text text-anchor="middle" x="170" y="-420.5" font-family="Arial" font-size="10.00">BaseAttribute</text>
+</a>
+</g>
+<!-- BaseAttribute&#45;&gt;GeometryAttribute -->
+<g id="edge2" class="edge"><title>BaseAttribute&#45;&gt;GeometryAttribute</title>
+<path fill="none" stroke="#3f3f3f" d="M131.689,-423C123.579,-423 114.821,-423 106.142,-423"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="106.034,-419.5 96.0344,-423 106.034,-426.5 106.034,-419.5"/>
+</g>
+<!-- ColorAttribute -->
+<g id="node4" class="node"><title>ColorAttribute</title>
+<a xlink:href="../Geometry/ColorAttribute.html" xlink:title="ColorAttribute">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="354,-846 278,-846 278,-810 354,-810 354,-846"/>
+<text text-anchor="middle" x="316" y="-825.5" font-family="Arial" font-size="10.00">ColorAttribute</text>
+</a>
+</g>
+<!-- ColorAttribute&#45;&gt;BaseAttribute -->
+<g id="edge4" class="edge"><title>ColorAttribute&#45;&gt;BaseAttribute</title>
+<path fill="none" stroke="#3f3f3f" d="M277.861,-821.504C265.431,-817.548 252.571,-811.195 244,-801 199.121,-747.619 178.901,-530.083 172.96,-451.494"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="176.439,-451.075 172.215,-441.359 169.458,-451.588 176.439,-451.075"/>
+</g>
+<!-- IntegerAttribute -->
+<g id="node6" class="node"><title>IntegerAttribute</title>
+<a xlink:href="../Geometry/IntegerAttribute.html" xlink:title="IntegerAttribute">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="357.5,-792 274.5,-792 274.5,-756 357.5,-756 357.5,-792"/>
+<text text-anchor="middle" x="316" y="-771.5" font-family="Arial" font-size="10.00">IntegerAttribute</text>
+</a>
+</g>
+<!-- IntegerAttribute&#45;&gt;BaseAttribute -->
+<g id="edge6" class="edge"><title>IntegerAttribute&#45;&gt;BaseAttribute</title>
+<path fill="none" stroke="#3f3f3f" d="M274.336,-766.108C263.108,-762.098 251.863,-756.066 244,-747 205.358,-702.45 181.861,-522.228 173.977,-451.595"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="177.411,-450.799 172.846,-441.238 170.453,-451.559 177.411,-450.799"/>
+</g>
+<!-- Mat33Attribute -->
+<g id="node8" class="node"><title>Mat33Attribute</title>
+<a xlink:href="../Geometry/Mat33Attribute.html" xlink:title="Mat33Attribute">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="356,-738 276,-738 276,-702 356,-702 356,-738"/>
+<text text-anchor="middle" x="316" y="-717.5" font-family="Arial" font-size="10.00">Mat33Attribute</text>
+</a>
+</g>
+<!-- Mat33Attribute&#45;&gt;BaseAttribute -->
+<g id="edge8" class="edge"><title>Mat33Attribute&#45;&gt;BaseAttribute</title>
+<path fill="none" stroke="#3f3f3f" d="M275.683,-712.288C264.102,-708.271 252.32,-702.19 244,-693 181.042,-623.455 171.533,-505.11 170.657,-451.225"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="174.156,-451.017 170.584,-441.043 167.156,-451.067 174.156,-451.017"/>
+</g>
+<!-- Mat44Attribute -->
+<g id="node10" class="node"><title>Mat44Attribute</title>
+<a xlink:href="../Geometry/Mat44Attribute.html" xlink:title="Mat44Attribute">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="356,-684 276,-684 276,-648 356,-648 356,-684"/>
+<text text-anchor="middle" x="316" y="-663.5" font-family="Arial" font-size="10.00">Mat44Attribute</text>
+</a>
+</g>
+<!-- Mat44Attribute&#45;&gt;BaseAttribute -->
+<g id="edge10" class="edge"><title>Mat44Attribute&#45;&gt;BaseAttribute</title>
+<path fill="none" stroke="#3f3f3f" d="M275.65,-657.844C264.205,-653.812 252.508,-647.833 244,-639 193.155,-586.213 177.672,-496.791 172.996,-451.342"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="176.473,-450.936 172.067,-441.3 169.503,-451.58 176.473,-450.936"/>
+</g>
+<!-- QuatAttribute -->
+<g id="node12" class="node"><title>QuatAttribute</title>
+<a xlink:href="../Geometry/QuatAttribute.html" xlink:title="QuatAttribute">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="353,-630 279,-630 279,-594 353,-594 353,-630"/>
+<text text-anchor="middle" x="316" y="-609.5" font-family="Arial" font-size="10.00">QuatAttribute</text>
+</a>
+</g>
+<!-- QuatAttribute&#45;&gt;BaseAttribute -->
+<g id="edge12" class="edge"><title>QuatAttribute&#45;&gt;BaseAttribute</title>
+<path fill="none" stroke="#3f3f3f" d="M278.732,-604.213C266.534,-600.139 253.6,-594.041 244,-585 204.96,-548.234 185.279,-486.698 176.667,-450.987"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="180.074,-450.184 174.433,-441.215 173.25,-451.744 180.074,-450.184"/>
+</g>
+<!-- RGBAAttribute -->
+<g id="node14" class="node"><title>RGBAAttribute</title>
+<a xlink:href="../Geometry/RGBAAttribute.html" xlink:title="RGBAAttribute">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="356.5,-576 275.5,-576 275.5,-540 356.5,-540 356.5,-576"/>
+<text text-anchor="middle" x="316" y="-555.5" font-family="Arial" font-size="10.00">RGBAAttribute</text>
+</a>
+</g>
+<!-- RGBAAttribute&#45;&gt;BaseAttribute -->
+<g id="edge14" class="edge"><title>RGBAAttribute&#45;&gt;BaseAttribute</title>
+<path fill="none" stroke="#3f3f3f" d="M275.154,-547.688C264.329,-543.648 253.097,-538.206 244,-531 216.592,-509.291 195.679,-474.451 183.403,-450.235"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="186.522,-448.646 178.976,-441.209 180.237,-451.728 186.522,-448.646"/>
+</g>
+<!-- RGBAttribute -->
+<g id="node16" class="node"><title>RGBAttribute</title>
+<a xlink:href="../Geometry/RGBAttribute.html" xlink:title="RGBAttribute">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="353,-522 279,-522 279,-486 353,-486 353,-522"/>
+<text text-anchor="middle" x="316" y="-501.5" font-family="Arial" font-size="10.00">RGBAttribute</text>
+</a>
+</g>
+<!-- RGBAttribute&#45;&gt;BaseAttribute -->
+<g id="edge16" class="edge"><title>RGBAttribute&#45;&gt;BaseAttribute</title>
+<path fill="none" stroke="#3f3f3f" d="M278.756,-492.389C267.34,-488.164 254.878,-482.945 244,-477 228.794,-468.69 213.188,-457.561 200.328,-447.565"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="202.315,-444.674 192.306,-441.201 197.965,-450.158 202.315,-444.674"/>
+</g>
+<!-- ScalarAttribute -->
+<g id="node18" class="node"><title>ScalarAttribute</title>
+<a xlink:href="../Geometry/ScalarAttribute.html" xlink:title="ScalarAttribute">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="356.5,-468 275.5,-468 275.5,-432 356.5,-432 356.5,-468"/>
+<text text-anchor="middle" x="316" y="-447.5" font-family="Arial" font-size="10.00">ScalarAttribute</text>
+</a>
+</g>
+<!-- ScalarAttribute&#45;&gt;BaseAttribute -->
+<g id="edge18" class="edge"><title>ScalarAttribute&#45;&gt;BaseAttribute</title>
+<path fill="none" stroke="#3f3f3f" d="M275.27,-442.551C257.57,-439.232 236.588,-435.298 218.103,-431.832"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="218.601,-428.364 208.127,-429.961 217.311,-435.244 218.601,-428.364"/>
+</g>
+<!-- ScalarConstantArrayAttribute -->
+<g id="node20" class="node"><title>ScalarConstantArrayAttribute</title>
+<a xlink:href="../Geometry/ScalarConstantArrayAttribute.html" xlink:title="ScalarConstantArrayAttribute">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="387.5,-414 244.5,-414 244.5,-378 387.5,-378 387.5,-414"/>
+<text text-anchor="middle" x="316" y="-393.5" font-family="Arial" font-size="10.00">ScalarConstantArrayAttribute</text>
+</a>
+</g>
+<!-- ScalarConstantArrayAttribute&#45;&gt;BaseAttribute -->
+<g id="edge20" class="edge"><title>ScalarConstantArrayAttribute&#45;&gt;BaseAttribute</title>
+<path fill="none" stroke="#3f3f3f" d="M244.266,-409.263C235.366,-410.931 226.44,-412.605 218.033,-414.181"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="217.256,-410.766 208.072,-416.049 218.546,-417.646 217.256,-410.766"/>
+</g>
+<!-- SkinningAttribute -->
+<g id="node22" class="node"><title>SkinningAttribute</title>
+<a xlink:href="../Geometry/SkinningAttribute.html" xlink:title="SkinningAttribute">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="361.5,-360 270.5,-360 270.5,-324 361.5,-324 361.5,-360"/>
+<text text-anchor="middle" x="316" y="-339.5" font-family="Arial" font-size="10.00">SkinningAttribute</text>
+</a>
+</g>
+<!-- SkinningAttribute&#45;&gt;BaseAttribute -->
+<g id="edge22" class="edge"><title>SkinningAttribute&#45;&gt;BaseAttribute</title>
+<path fill="none" stroke="#3f3f3f" d="M270.227,-356.887C261.336,-360.434 252.216,-364.51 244,-369 228.794,-377.31 213.188,-388.439 200.328,-398.435"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="197.965,-395.842 192.306,-404.799 202.315,-401.326 197.965,-395.842"/>
+</g>
+<!-- UInt16ConstantArrayAttribute -->
+<g id="node24" class="node"><title>UInt16ConstantArrayAttribute</title>
+<a xlink:href="../Geometry/UInt16ConstantArrayAttribute.html" xlink:title="UInt16ConstantArrayAttribute">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="387.5,-306 244.5,-306 244.5,-270 387.5,-270 387.5,-306"/>
+<text text-anchor="middle" x="316" y="-285.5" font-family="Arial" font-size="10.00">UInt16ConstantArrayAttribute</text>
+</a>
+</g>
+<!-- UInt16ConstantArrayAttribute&#45;&gt;BaseAttribute -->
+<g id="edge24" class="edge"><title>UInt16ConstantArrayAttribute&#45;&gt;BaseAttribute</title>
+<path fill="none" stroke="#3f3f3f" d="M257.849,-306.04C252.94,-308.668 248.238,-311.643 244,-315 216.592,-336.709 195.679,-371.549 183.403,-395.765"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="180.237,-394.272 178.976,-404.791 186.522,-397.354 180.237,-394.272"/>
+</g>
+<!-- UInt32Attribute -->
+<g id="node26" class="node"><title>UInt32Attribute</title>
+<a xlink:href="../Geometry/UInt32Attribute.html" xlink:title="UInt32Attribute">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="356.5,-252 275.5,-252 275.5,-216 356.5,-216 356.5,-252"/>
+<text text-anchor="middle" x="316" y="-231.5" font-family="Arial" font-size="10.00">UInt32Attribute</text>
+</a>
+</g>
+<!-- UInt32Attribute&#45;&gt;BaseAttribute -->
+<g id="edge26" class="edge"><title>UInt32Attribute&#45;&gt;BaseAttribute</title>
+<path fill="none" stroke="#3f3f3f" d="M275.424,-242.937C264.233,-246.983 252.736,-252.772 244,-261 204.96,-297.766 185.279,-359.302 176.667,-395.013"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="173.25,-394.256 174.433,-404.785 180.074,-395.816 173.25,-394.256"/>
+</g>
+<!-- Vec2Attribute -->
+<g id="node28" class="node"><title>Vec2Attribute</title>
+<a xlink:href="../Geometry/Vec2Attribute.html" xlink:title="Vec2Attribute">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="354,-198 278,-198 278,-162 354,-162 354,-198"/>
+<text text-anchor="middle" x="316" y="-177.5" font-family="Arial" font-size="10.00">Vec2Attribute</text>
+</a>
+</g>
+<!-- Vec2Attribute&#45;&gt;BaseAttribute -->
+<g id="edge28" class="edge"><title>Vec2Attribute&#45;&gt;BaseAttribute</title>
+<path fill="none" stroke="#3f3f3f" d="M277.862,-187.399C265.727,-191.429 253.057,-197.597 244,-207 193.155,-259.787 177.672,-349.209 172.996,-394.658"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="169.503,-394.42 172.067,-404.7 176.473,-395.064 169.503,-394.42"/>
+</g>
+<!-- Vec3Attribute -->
+<g id="node30" class="node"><title>Vec3Attribute</title>
+<a xlink:href="../Geometry/Vec3Attribute.html" xlink:title="Vec3Attribute">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="354,-144 278,-144 278,-108 354,-108 354,-144"/>
+<text text-anchor="middle" x="316" y="-123.5" font-family="Arial" font-size="10.00">Vec3Attribute</text>
+</a>
+</g>
+<!-- Vec3Attribute&#45;&gt;BaseAttribute -->
+<g id="edge30" class="edge"><title>Vec3Attribute&#45;&gt;BaseAttribute</title>
+<path fill="none" stroke="#3f3f3f" d="M277.897,-132.968C265.62,-136.965 252.851,-143.223 244,-153 181.042,-222.545 171.533,-340.89 170.657,-394.775"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="167.156,-394.933 170.584,-404.957 174.156,-394.983 167.156,-394.933"/>
+</g>
+<!-- Vec3_dAttribute -->
+<g id="node32" class="node"><title>Vec3_dAttribute</title>
+<a xlink:href="../Geometry/Vec3_dAttribute.html" xlink:title="Vec3_dAttribute">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="359,-90 273,-90 273,-54 359,-54 359,-90"/>
+<text text-anchor="middle" x="316" y="-69.5" font-family="Arial" font-size="10.00">Vec3_dAttribute</text>
+</a>
+</g>
+<!-- Vec3_dAttribute&#45;&gt;BaseAttribute -->
+<g id="edge32" class="edge"><title>Vec3_dAttribute&#45;&gt;BaseAttribute</title>
+<path fill="none" stroke="#3f3f3f" d="M272.856,-80.433C262.126,-84.4384 251.518,-90.3329 244,-99 205.358,-143.55 181.861,-323.772 173.977,-394.405"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="170.453,-394.441 172.846,-404.762 177.411,-395.201 170.453,-394.441"/>
+</g>
+<!-- Vec4Attribute -->
+<g id="node34" class="node"><title>Vec4Attribute</title>
+<a xlink:href="../Geometry/Vec4Attribute.html" xlink:title="Vec4Attribute">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="354,-36 278,-36 278,-0 354,-0 354,-36"/>
+<text text-anchor="middle" x="316" y="-15.5" font-family="Arial" font-size="10.00">Vec4Attribute</text>
+</a>
+</g>
+<!-- Vec4Attribute&#45;&gt;BaseAttribute -->
+<g id="edge34" class="edge"><title>Vec4Attribute&#45;&gt;BaseAttribute</title>
+<path fill="none" stroke="#3f3f3f" d="M277.861,-24.4958C265.431,-28.4517 252.571,-34.8049 244,-45 199.121,-98.3809 178.901,-315.917 172.96,-394.506"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="169.458,-394.412 172.215,-404.641 176.439,-394.925 169.458,-394.412"/>
+</g>
+</g>
+</svg></p>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id50517"><span class="std std-ref">convertToCPU</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id50514"><span class="std std-ref">convertToGPU</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id50536"><span class="std std-ref">copyFrom</span></a> ! ( in Ref&lt;Object&gt; otherAttr )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id50530"><span class="std std-ref">copyValue</span></a> ! ( in Ref&lt;Object&gt; sourceAttr, in Size sourceIndex, in Size targetIndex )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id50525"><span class="std std-ref">copyValue</span></a> ! ( in Size sourceIndex, in Size targetIndex )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a></td>
+<td><a class="reference internal" href="#id50508"><span class="std std-ref">data</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="#id50520"><span class="std std-ref">equalValues</span></a> ? ( in Size index1, in Size index2 )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id50583"><span class="std std-ref">getDesc</span></a> ? ( in Boolean useUnitTestPrint )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id50587"><span class="std std-ref">getDesc</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="#id50511"><span class="std std-ref">getElementsMemType</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id50555"><span class="std std-ref">getName</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Size</td>
+<td><a class="reference internal" href="#id50547"><span class="std std-ref">getScalarValueSize</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="#id50558"><span class="std std-ref">getVersion</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id50561"><span class="std std-ref">incrementVersion</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id50540"><span class="std std-ref">linearCombine</span></a> ! ( in Ref&lt;Object&gt; sourceAttr, in <a class="reference internal" href="../Containers/LocalL16UInt32Array.html#locall16uint32array"><span class="std std-ref">LocalL16UInt32Array</span></a> sourceIndices, in <a class="reference internal" href="../Containers/LocalL16ScalarArray.html#locall16scalararray"><span class="std std-ref">LocalL16ScalarArray</span></a> sourceWeights, in Size targetIndex )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id50504"><span class="std std-ref">resize</span></a> ! ( in Size count )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id50550"><span class="std std-ref">setFromScalar</span></a> ! ( in Size index, in <a class="reference internal" href="../Containers/LocalL16ScalarArray.html#locall16scalararray"><span class="std std-ref">LocalL16ScalarArray</span></a> value )</td>
+</tr>
+<tr class="row-even"><td>Size</td>
+<td><a class="reference internal" href="#id50501"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id50579"><span class="std std-ref">unitTestPrint</span></a> ? ( in Size index )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id50575"><span class="std std-ref">valueDesc</span></a> ? ( in Size index )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="functions-in-detail">
+<h2>Functions in detail<a class="headerlink" href="#functions-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><span class="target" id="id50517"></span><p><p class="klcode"><a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.convertToCPU! ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id50514"></span><p><p class="klcode"><a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.convertToGPU! ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id50536"></span><p><p class="klcode"><a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.copyFrom! ( in Ref&lt;Object&gt; otherAttr )</p>
+<p class="plaintext">Sets the whole content of the attribute from the other attribute.
+The other attribute will be of the same type.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id50530"></span><p><p class="klcode"><a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.copyValue! ( in Ref&lt;Object&gt; sourceAttr, in Size sourceIndex, in Size targetIndex )</p>
+<p class="plaintext">Replaces the value located at targetIndex with source attribute&#8217;s value located at sourceIndex.
+The source attribute will be of the same type.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id50525"></span><p><p class="klcode"><a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.copyValue! ( in Size sourceIndex, in Size targetIndex )</p>
+<p class="plaintext">Replaces the value located at targetIndex with the value located at sourceIndex</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id50508"></span><p><p class="klcode"><a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a> <a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.data? ()</p>
+<p class="plaintext">Returns a raw pointer to contiguous attribute data, if applicable, and an uninitialized <a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a> otherwise.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id50520"></span><p><p class="klcode">Boolean <a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.equalValues? ( in Size index1, in Size index2 )</p>
+<p class="plaintext">Return true if two values are logically equal.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id50583"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.getDesc? ( in Boolean useUnitTestPrint )</p>
+<p class="plaintext">Returns a description of the attribute, including all values.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>useUnitTestPrint</td>
+<td>If true, returns a numerically stable version which is unit test output friendly.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id50587"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.getDesc? ()</p>
+<p class="plaintext">Returns a description of the attribute, including all values.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id50511"></span><p><p class="klcode"><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> <a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.getElementsMemType? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id50555"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.getName? ()</p>
+<p class="plaintext">Returns the name of the attribute.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id50547"></span><p><p class="klcode">Size <a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.getScalarValueSize? ()</p>
+<p class="plaintext">If all attribute values can be expressed as a constant <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> array, returns the constant number of elements, 0 otherwise.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="#id50550"><span class="std std-ref">GeometryAttribute.setFromScalar</span></a></p>
+</div>
+</p>
+<hr class="docutils" />
+<span class="target" id="id50558"></span><p><p class="klcode"><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> <a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.getVersion? ()</p>
+<p class="plaintext">Returns the attribute values version. See <a class="reference internal" href="Vec4Attribute.kl.html#attributeversioning"><span class="std std-ref">Attribute versioning</span></a> for more information.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id50561"></span><p><p class="klcode"><a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.incrementVersion! ()</p>
+<p class="klbrief">Increment attribute values&#8217; version.</p>
+<p class="plaintext">This must be called after value(s) have been modified. For
+better performance, it can be called only after all changes are finished.
+See <a class="reference internal" href="Vec4Attribute.kl.html#attributeversioning"><span class="std std-ref">Attribute versioning</span></a> for more information.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id50540"></span><p><p class="klcode"><a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.linearCombine! ( in Ref&lt;Object&gt; sourceAttr, in <a class="reference internal" href="../Containers/LocalL16UInt32Array.html#locall16uint32array"><span class="std std-ref">LocalL16UInt32Array</span></a> sourceIndices, in <a class="reference internal" href="../Containers/LocalL16ScalarArray.html#locall16scalararray"><span class="std std-ref">LocalL16ScalarArray</span></a> sourceWeights, in Size targetIndex )</p>
+<p class="plaintext">Sets the value located at targetIndex as a linear combination of other values.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>source</td>
+<td>The attribute for source values</td>
+</tr>
+<tr class="row-even"><td>sourceIndices</td>
+<td>The array of source indices, relatively to the source attribute.</td>
+</tr>
+<tr class="row-odd"><td>sourceWeights</td>
+<td>The array of source weights, which need to correspond to each sourceIndices. Normally the sum of the weights should be 1.0.</td>
+</tr>
+<tr class="row-even"><td>targetIndex</td>
+<td>The target value index.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id50504"></span><p><p class="klcode"><a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.resize! ( in Size count )</p>
+<p class="plaintext">Resizes the attribute array.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id50550"></span><p><p class="klcode"><a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.setFromScalar! ( in Size index, in <a class="reference internal" href="../Containers/LocalL16ScalarArray.html#locall16scalararray"><span class="std std-ref">LocalL16ScalarArray</span></a> value )</p>
+<p class="plaintext">If applicable, sets an attribute value from an array of Scalars. This array must have a size of <a class="reference internal" href="#id50547"><span class="std std-ref">GeometryAttribute.getScalarValueSize</span></a> .</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id50501"></span><p><p class="klcode">Size <a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.size? ()</p>
+<p class="plaintext">Returns the size of the attribute array.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id50579"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.unitTestPrint? ( in Size index )</p>
+<p class="plaintext">Returns a numerically stable description of the value</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id50575"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.valueDesc? ( in Size index )</p>
+<p class="plaintext">Returns a description of the value</p>
+</p>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="Geometry.html"
+                        title="前の章へ">Geometry (interface)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="RaycastResult.html"
+                        title="次の章へ">RaycastResult (interface)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Geometry/GeometryAttribute.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Geometry/GeometryAttribute.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="RaycastResult.html" title="RaycastResult (interface)"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="Geometry.html" title="Geometry (interface)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Geometry エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="interfaces.html" >Geometry Extension&#8217;s Interfaces</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

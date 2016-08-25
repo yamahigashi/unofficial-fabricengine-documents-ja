@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SceneHub overview &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="scenehub-overview">
+<span id="scenehub"></span><h1>SceneHub overview<a class="headerlink" href="#scenehub-overview" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>The SceneHub is the name for a set of components allowing to create, process and render a scene. The SceneHub includes the following components:</p>
+<ul class="simple">
+<li>The <a class="reference internal" href="../SceneGraph/scenegraphoverview.html#scenegraph-overview"><span class="std std-ref">SceneGraph</span></a> is a generic KL-based scene graph which allows to define a hierarchy
+of objects and properties. The <a class="reference internal" href="../SceneGraph/scenegraphoverview.html#scenegraph-overview"><span class="std std-ref">SceneGraph</span></a> implements the <a class="reference internal" href="sceneassembly.html#sceneassembly"><span class="std std-ref">Scene Assembly</span></a>
+interfaces, allowing it to be queried and processed by a generic procedural graph. The <a class="reference internal" href="../SceneGraph/scenegraphoverview.html#scenegraph-overview"><span class="std std-ref">SceneGraph</span></a>
+can be populated by generators such as Alembic readers (<a class="reference internal" href="../AlembicToSceneGraph/index.html#alembic-to-scenegraph"><span class="std std-ref">AlembicToSceneGraph Extension</span></a>).</li>
+<li>The <a class="reference internal" href="sceneassembly.html#sceneassembly"><span class="std std-ref">Scene Assembly</span></a> defines a set of interfaces to abstract a scene and allow generic processing of its elements.
+It defines, too, a set of scene element queries and filter nodes which can define a scene processing procedural graph. The components that define or work with these abstracted scene interfaces are labeled with <code class="docutils literal"><span class="pre">SW</span></code>, which stands for &#8220;Scene Wrapper&#8221;.</li>
+<li>The <a class="reference internal" href="../RTR2/rtr2.html#rtr2"><span class="std std-ref">RealTime Renderer</span></a> defines a realtime renderer framework which is fast and flexible. It includes, too, components
+allowing to render scenes that are defining the <a class="reference internal" href="sceneassembly.html#sceneassembly"><span class="std std-ref">Scene Assembly</span></a> interfaces. The <a class="reference internal" href="../SceneGraphToRTR/index.html#scenegraph-to-rtr-extension"><span class="std std-ref">SceneGraphToRTR Extension</span></a>
+defines specialized adaptors for mapping higher-level scene graph types (wrappers) to <a class="reference internal" href="../RTR2/rtr2.html#rtr2"><span class="std std-ref">RealTime Renderer</span></a> objects.</li>
+</ul>
+<p>All these define KL runtime components of the SceneHub, but don&#8217;t include specific UI or tools. The <code class="docutils literal"><span class="pre">sceneHub</span></code> application provides a
+simple base application for exploring SceneHub, and provides a basic implementation of tools such as selection and transform.
+Additionally, it can be used to launch samples, for example <code class="docutils literal"><span class="pre">sceneHub</span> <span class="pre">/Samples/RTR2/GeneratedInstances.kl</span></code>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">The SceneHub and its components is a work in progress, and is still missing various functionality, examples, documentation.
+Although its general design should not change, it will continue to evolve.</p>
+</div>
+<div class="section" id="from-scenegraph-to-rtr">
+<span id="scenehub-scene-to-rtr"></span><h2>From SceneGraph to RTR<a class="headerlink" href="#from-scenegraph-to-rtr" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The following image illustrates an overview of the data flow from the <span class="xref std std-ref">scenegraph</span> to the <a class="reference internal" href="../RTR2/rtr2.html#rtr2"><span class="std std-ref">RealTime Renderer</span></a>. The SceneGraph data is being filtered and processed by <a class="reference internal" href="sceneassembly.html#sceneassembly"><span class="std std-ref">Scene Assembly</span></a> components:</p>
+<img alt="../../_images/SceneHub.png" src="../../_images/SceneHub.png" />
+<p>The following steps are illustrated:</p>
+<ul>
+<li><p class="first">A <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> structure is defined, which includes multiple scene graph objects (<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code>) and their relationships.
+The scene graph objects are associated with higher-level wrappers which define concrete behavior and features for the scene graph
+object. In this example, &#8220;My Wrapper&#8221; defines an intermediate between a the &#8220;My Asset&#8221; custom asset object and the scene graph. A generator is associated with the scene graph object so that the data can be fetched only when requested by the <a class="reference internal" href="sceneassembly.html#sceneassembly"><span class="std std-ref">Scene Assembly</span></a> or <a class="reference internal" href="../RTR2/rtr2.html#rtr2"><span class="std std-ref">RealTime Renderer</span></a>.</p>
+</li>
+<li><p class="first">SceneGraph objects are extracted by a <a class="reference internal" href="sceneassembly.html#sceneassembly"><span class="std std-ref">Scene Assembly</span></a> query. The resulting elements are returned as an array of
+scene element references (<code class="xref std std-kl-ref docutils literal"><span class="pre">SWElementReference</span></code>). These scene element references are lightweight and link directly
+to the related SceneGraph object or property. They provide a generic functionality such as getting a sub-property or getting
+the underlying value or interface.</p>
+</li>
+<li><p class="first">Various filters and processing <a class="reference internal" href="sceneassembly.html#sceneassembly"><span class="std std-ref">Scene Assembly</span></a> nodes will further refine the selected data. These processing nodes
+support incremental and asynchronous changes, which is a functionaity provided by their base class (<code class="xref std std-kl-ref docutils literal"><span class="pre">BaseDynamicGroup</span></code>).
+The provided generic nodes are using the abstracted <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneWrapper</span></code> interfaces, however they can be specialized to provide
+a specific behavior (eg: RTR2 defines <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRCullFromCameraTask</span></code> which culls based on the volume of an <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRCamera</span></code>).</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">The set of provided processing or filtering nodes at this point is pretty limited, for example these don&#8217;t
+include nodes to &#8220;merge&#8221; multiple scenes together. Additionally, DFG support for the assembly graph is planned but
+hasn&#8217;t been realized at this point.</p>
+</div>
+</li>
+<li><p class="first">Finally, the <a class="reference internal" href="../RTR2/rtr2.html#rtr2"><span class="std std-ref">RealTime Renderer</span></a> will create rendering objects (such as instances or lights) corresponding to the provided
+set of scene element references. Specific render object adaptors will be created depending on the type of the referenced
+scene elements, using an adaptor registry mechanism (see <a class="reference internal" href="#scenehub-adaptors"><span class="std std-ref">Scene element adaptors</span></a>). The <a class="reference internal" href="../RTR2/rtr2.html#rtr2"><span class="std std-ref">RealTime Renderer</span></a> will further process
+the scene elements with its own task graph (<code class="xref std std-kl-ref docutils literal"><span class="pre">RTRTask</span></code>) in order to generate the required drawing data and effects.</p>
+</li>
+</ul>
+<p>See <a class="reference internal" href="sceneassembly.html#sceneassembly"><span class="std std-ref">Scene Assembly</span></a> for more details about procedural scene processing.</p>
+</div>
+<div class="section" id="scene-element-adaptors">
+<span id="scenehub-adaptors"></span><h2>Scene element adaptors<a class="headerlink" href="#scene-element-adaptors" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>A fundamental concept of the SceneHub is the usage of adaptors. An adaptor is a KL Object
+(usually an <code class="xref std std-kl-ref docutils literal"><span class="pre">ObjectAdaptor</span></code>) which provides a data cache and functionality bridge
+between a specific source scene element type and a specific target (eg: OpenGL RealTime Renderer
+or a specific offline renderer).</p>
+<p>The goal of adaptors is to provide specialized functionality and data cache
+for mapping a source specialized type to a required target, which allows to have
+custom objects properly translated by generic processing tasks. For example,
+a source <code class="xref std std-kl-ref docutils literal"><span class="pre">Vec3AttributeToRTR</span></code> adaptor will associate a <a class="reference internal" href="../Geometry/Vec3Attribute.html#vec3attribute"><span class="std std-ref">Vec3Attribute</span></a>
+with an <a class="reference internal" href="../OGLWrappers/OGLBuffer_.html#oglbuffer"><span class="std std-ref">OGLBuffer_</span></a> shared cache. Similarly, the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGDirectionalLightToRTR</span></code>
+adapts a SceneGraph-specific <code class="xref std std-kl-ref docutils literal"><span class="pre">SGDirectionalLight</span></code> to a RTR-specific
+<code class="xref std std-kl-ref docutils literal"><span class="pre">RTRDirectionalLight</span></code>.</p>
+<p>Adaptors are registered with the <code class="xref std std-kl-ref docutils literal"><span class="pre">RegisterAdaptor</span></code> global function, and
+can be created by the <code class="xref std std-kl-ref docutils literal"><span class="pre">CreateAdaptor</span></code> global function (these internally use a global
+factory object: <code class="xref std std-kl-ref docutils literal"><span class="pre">AdaptorRegistry</span></code>). Adaptors must be registered
+before they can be created.</p>
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SWElementReference</span></code> allows to create and attach adaptors to source scene items
+(<code class="xref std std-kl-ref docutils literal"><span class="pre">SWElementReference.getAdaptor</span></code>) and updates them. The adaptors remain attached
+to the scene element itself, so different <code class="xref std std-kl-ref docutils literal"><span class="pre">SWElementReference</span></code> referring the same
+scene element will share a same adaptor. It is possible, however, that a different adaptor
+is returned for different evaluation contexts (animated value).</p>
+<div class="section" id="scenegraph-to-rtr-adaptors-example">
+<span id="scenehub-adaptors-example"></span><h3>SceneGraph to RTR adaptors example<a class="headerlink" href="#scenegraph-to-rtr-adaptors-example" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The example below illustrates the components involved in creating adaptors from the SceneGraph
+to the RTR:</p>
+<img alt="../../_images/SGtoRTRAdaptors.png" src="../../_images/SGtoRTRAdaptors.png" />
+<p>In the diagram above, the following steps are shown:</p>
+<ul class="simple">
+<li>The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRSWGroupToInstanceTask</span></code> requests adaptors for mapping SceneGaph objects to RTR objects.
+More precisely, it needs to creates a <cite>RTRInstance</cite> for each input
+<code class="xref std std-kl-ref docutils literal"><span class="pre">SWElementReference</span></code> (stored in a <code class="xref std std-kl-ref docutils literal"><span class="pre">SWElementReferenceArray</span></code>), and
+gets an adaptor for the &#8220;RTROGL&#8221; target.</li>
+<li>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SWElementReferenceArray</span></code> asks the <code class="xref std std-kl-ref docutils literal"><span class="pre">AdaptorRegistry</span></code> for an adaptor
+from a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGGeometry</span></code> to an &#8220;RTROGL&#8221; target, and gets a <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRSWInstance</span></code>. It stores a reference
+of this adaptor in the SceneGraph, associated with the source <code class="xref std std-kl-ref docutils literal"><span class="pre">SGGeometry</span></code> object so it is shared for all references.</li>
+<li>The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRSWGroupToInstanceTask</span></code> updates the <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRSWInstance</span></code>, which recursively
+creates an adaptor for the underlying geometry (<code class="xref std std-kl-ref docutils literal"><span class="pre">PolygonMeshToRTR</span></code>) and for the
+postions attribute (<code class="xref std std-kl-ref docutils literal"><span class="pre">Vec3AttributeToRTR</span></code>).</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">SceneHub overview</a><ul>
+<li><a class="reference internal" href="#from-scenegraph-to-rtr">From SceneGraph to RTR</a></li>
+<li><a class="reference internal" href="#scene-element-adaptors">Scene element adaptors</a><ul>
+<li><a class="reference internal" href="#scenegraph-to-rtr-adaptors-example">SceneGraph to RTR adaptors example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/SceneAssembly/scenehub.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/SceneAssembly/scenehub.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

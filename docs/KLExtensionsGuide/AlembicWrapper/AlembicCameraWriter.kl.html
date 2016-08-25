@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>AlembicCameraWriter.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="AlembicWrapper Extension’s Files" href="files.html" />
+    <link rel="next" title="AlembicCurvesReader.kl" href="AlembicCurvesReader.kl.html" />
+    <link rel="prev" title="AlembicCameraReader.kl" href="AlembicCameraReader.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="AlembicCurvesReader.kl.html" title="AlembicCurvesReader.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="AlembicCameraReader.kl.html" title="AlembicCameraReader.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >AlembicWrapper エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">AlembicWrapper Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="alembicwrapper-alembiccamerawriter-kl">
+<span id="alembiccamerawriter-kl"></span><span id="id1"></span><h1>AlembicCameraWriter.kl<a class="headerlink" href="#alembicwrapper-alembiccamerawriter-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="alembiccamerawriter-object">
+<h3>AlembicCameraWriter (object)<a class="headerlink" href="#alembiccamerawriter-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="AlembicCameraWriter.html#alembiccamerawriter"><span class="std std-ref">AlembicCameraWriter</span></a> specializes the <a class="reference internal" href="AlembicObjectWriter.html#alembicobjectwriter"><span class="std std-ref">AlembicObjectWriter</span></a> interface for writing <a class="reference internal" href="../Alembic/AlembicOCamera.html#alembicocamera"><span class="std std-ref">AlembicOCamera</span></a> data.
+It can be created using the <a class="reference internal" href="AlembicArchiveWriter.html#id22998"><span class="std std-ref">AlembicArchiveWriter.addCamera</span></a> methods.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="AlembicCameraReader.html#alembiccamerareader"><span class="std std-ref">AlembicCameraReader</span></a></p>
+</div>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: AlembicCameraWriter</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">AlembicWrapper</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">FileIO</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  
+  <span class="nx">FilePath</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">FilePath</span><span class="p">(</span><span class="s1">&#39;${TEMP}/camera.abc&#39;</span><span class="p">).</span><span class="nx">expandEnvVars</span><span class="p">();</span>
+
+  <span class="nx">AlembicArchiveWriter</span> <span class="nx">archive</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">string</span><span class="p">());</span>
+  <span class="nx">AlembicXformWriter</span> <span class="nx">xfo</span> <span class="o">=</span> <span class="nx">archive</span><span class="p">.</span><span class="nx">addXform</span><span class="p">(</span><span class="s1">&#39;/xfo&#39;</span><span class="p">,</span> <span class="nx">Alembic_kConstantTimeSampling</span><span class="p">);</span>
+  <span class="nx">AlembicCameraWriter</span> <span class="nx">cam</span> <span class="o">=</span> <span class="nx">archive</span><span class="p">.</span><span class="nx">addCamera</span><span class="p">(</span><span class="s1">&#39;/xfo/cam&#39;</span><span class="p">,</span> <span class="nx">Alembic_kConstantTimeSampling</span><span class="p">);</span>
+
+  <span class="nx">xfo</span><span class="p">.</span><span class="nx">writeSample</span><span class="p">(</span><span class="nx">Mat44</span><span class="p">());</span>
+
+  <span class="nx">cam</span><span class="p">.</span><span class="nx">setFocalLength</span><span class="p">(</span><span class="mf">5.4</span><span class="p">);</span>
+  <span class="nx">cam</span><span class="p">.</span><span class="nx">setNearClippingPlane</span><span class="p">(</span><span class="mf">0.1</span><span class="p">);</span>
+  <span class="nx">cam</span><span class="p">.</span><span class="nx">setFarClippingPlane</span><span class="p">(</span><span class="mf">10.0</span><span class="p">);</span>
+  <span class="nx">cam</span><span class="p">.</span><span class="nx">writeSample</span><span class="p">();</span>
+
+  <span class="nx">archive</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span>
+
+  <span class="nb">report</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">exists</span><span class="p">());</span>
+  <span class="nb">report</span><span class="p">(</span><span class="s1">&#39;Alembic file created: &#39;</span><span class="o">+</span><span class="nx">path</span><span class="p">.</span><span class="nx">string</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">true</span>
+<span class="cm">Alembic file created: R:/Temp/camera.abc</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id110356"><span class="std std-ref">AlembicCameraWriter</span></a>  ( in <a class="reference internal" href="AlembicCameraWriter.html#alembiccamerawriter"><span class="std std-ref">AlembicCameraWriter</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id110353"><span class="std std-ref">AlembicCameraWriter</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="AlembicCameraWriter.html#alembiccamerawriter"><span class="std std-ref">AlembicCameraWriter</span></a></td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id110360"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a></td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21850"><span class="std std-ref">getFStop</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a></td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21865"><span class="std std-ref">getFarClippingPlane</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a></td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21820"><span class="std std-ref">getFocalLength</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a></td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21853"><span class="std std-ref">getFocusDistance</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a></td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21823"><span class="std std-ref">getHorizontalAperture</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a></td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21826"><span class="std std-ref">getHorizontalFilmOffset</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a></td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21835"><span class="std std-ref">getLensSqueezeRatio</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a></td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21862"><span class="std std-ref">getNearClippingPlane</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Alembic/AlembicOObject.html#alembicoobject"><span class="std std-ref">AlembicOObject</span></a></td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21817"><span class="std std-ref">getOObject</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a></td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21847"><span class="std std-ref">getOverScanBottom</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a></td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21838"><span class="std std-ref">getOverScanLeft</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a></td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21841"><span class="std std-ref">getOverScanRight</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a></td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21844"><span class="std std-ref">getOverScanTop</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21808"><span class="std std-ref">getPath</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a></td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21859"><span class="std std-ref">getShutterClose</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a></td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21856"><span class="std std-ref">getShutterOpen</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a></td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21829"><span class="std std-ref">getVerticalAperture</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a></td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21832"><span class="std std-ref">getVerticalFilmOffset</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21814"><span class="std std-ref">reset</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21908"><span class="std std-ref">setFStop</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> value )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21928"><span class="std std-ref">setFarClippingPlane</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21868"><span class="std std-ref">setFocalLength</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> value )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21912"><span class="std std-ref">setFocusDistance</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21872"><span class="std std-ref">setHorizontalAperture</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> value )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21876"><span class="std std-ref">setHorizontalFilmOffset</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21888"><span class="std std-ref">setLensSqueezeRatio</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> value )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21924"><span class="std std-ref">setNearClippingPlane</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21904"><span class="std std-ref">setOverScanBottom</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> value )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21892"><span class="std std-ref">setOverScanLeft</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21896"><span class="std std-ref">setOverScanRight</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> value )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21900"><span class="std std-ref">setOverScanTop</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21920"><span class="std std-ref">setShutterClose</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> value )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21916"><span class="std std-ref">setShutterOpen</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21880"><span class="std std-ref">setVerticalAperture</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> value )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21884"><span class="std std-ref">setVerticalFilmOffset</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21811"><span class="std std-ref">valid</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="AlembicCameraWriter.html#id21932"><span class="std std-ref">writeSample</span></a> ! ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="AlembicCameraReader.kl.html"
+                        title="前の章へ">AlembicCameraReader.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="AlembicCurvesReader.kl.html"
+                        title="次の章へ">AlembicCurvesReader.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/AlembicWrapper/AlembicCameraWriter.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/AlembicWrapper/AlembicCameraWriter.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="AlembicCurvesReader.kl.html" title="AlembicCurvesReader.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="AlembicCameraReader.kl.html" title="AlembicCameraReader.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >AlembicWrapper エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >AlembicWrapper Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

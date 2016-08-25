@@ -1,0 +1,345 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fabric Engine 2.2.0 リリースノート &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fabric-engine-2-2-0-release-notes">
+<span id="relnotes-2-2-0"></span><h1>Fabric Engine 2.2.0 リリースノート<a class="headerlink" href="#fabric-engine-2-2-0-release-notes" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../_images/FE_logo_345_60.png"><img alt="../_images/FE_logo_345_60.png" src="../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 2.2.0</div>
+<div class="line">2016年5月吉日リリース</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc. All rights reserved.</div>
+</div>
+<div class="section" id="about-this-release">
+<h2>このリリースについて<a class="headerlink" href="#about-this-release" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric Engine 2.2.0 では多数の微妙な挙動とバグの修正と同時に、アクセシビリティ向上とよく聞かれる機能への要望の実現を目指しました。どれも Fabric体験をよりよくするものです。以下にハイライトを記します。  <a class="reference external" href="https://vimeo.com/166058984">What&#8217;s New In Fabric Engine 2.2 video</a>  クイックチュートリアルもご覧ください。</p>
+<ul class="simple">
+<li><p class="first">Python! Canvas をわかりやすい専用アプリとして Python版として作り直しました。この新しい Python版Canvas のソースコードを用いることで、Canvas グラフの作成と編集を C++抜きに自動化することができます。</p>
+</li>
+<li><p class="first">ごく簡単な Alembicアセットのビューアアプリケーションをの参考として <code class="docutils literal"><span class="pre">canvas.py</span></code>  へ変更を加えたり新しいアプリの作成をどのように行うかのサンプルを同梱しています。以下に詳細をご覧ください。</p>
+</li>
+<li><p class="first">Script Editor を統合、Pythonのシンタックスハイライトが搭載され、スタンドアロン版  <code class="docutils literal"><span class="pre">canvas.py</span></code> でのスクリプトの編集に大変便利です。</p>
+</li>
+<li><p class="first">KLプログラマの皆さんのため、Canvas内でのコードコンプリーションも加えました。これからさらにどのように改善をするかのアイデアがまだまだたくさんあります。有用であると判断したらすぐにでも組み込みます。</p>
+</li>
+<li><p class="first">Fabric Engine 2.2 の起動が2倍速くなりました。</p>
+</li>
+<li><p class="first">ドラッグアンドドロップによるポートの順序入れ替えを、要望にお応えして追加しました。気に入っていただけますように。</p>
+</li>
+<li><p class="first">Execute Ports により Canvasグラフにおけるポートの実行を制御できます。例示すると、 &#8220;If&#8221; ノードの  &#8220;then&#8221;  &#8220;else&#8221; に execute port を接続し、グラフにおける2つの部品どちらを実行するか分岐、決定することができます。単純なループもサポートしました。Canvas でのより完全なループ制御ソリューションは鋭意作成中です。</p>
+</li>
+<li><p class="first">Fabric for MODO! ここに MODO統合版が Betaから公式にサポートへと昇格し、Fabric Engine 2.2のディストリビューションに含まれることを喜んでお伝えします。Fabric for MODO プラグインは MODO 901 から MODO 10.0と互換性があり、Windows, Linux, OS Xで利用可能です。もちろん Fabricでビルドしたあなたのツールは Mayaでも Softimageでも MODOでも動きます。</p>
+</li>
+<li><p class="first">250以上の障害を修正しました（特記事項は以下に掲載）</p>
+</li>
+</ul>
+</div>
+<div class="section" id="supported-operating-systems-integrations-and-gpus">
+<h2>サポートするOS, DCC統合, GPU<a class="headerlink" href="#supported-operating-systems-integrations-and-gpus" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p class="first">Fabric 2.2 は Windows, Linux をサポートします。OS X はバイナリビルドが提供されますが公式にはサポートされません。ただしこれからのリリースでサポート予定です。</p>
+</li>
+<li><p class="first">Fabric for Maya 統合では Windows/Linux 版 Autodesk Maya 2014, 2015, 2016 （とそれぞれのサービスパック）をサポートします。Maya 2016 Extenios 2 はサポートのための期間が取れなかったため含まれていません。デイリービルドにて対応予定です。OS X はバイナリビルドが提供されますが公式にはサポートされません。ただしこれからのリリースでサポート予定です。サンプルシーンを Maya 2016 上で使用する際、Parallel Evaluation を有効にしているといくつかの不具合が起きます。この問題は Maya 2016 SP4 で解決されています。</p>
+</li>
+<li><p class="first">Fabric for Softimage 統合版は Autodesk Softimage 2014、2015（SP版含むWindows版）をサポートします。</p>
+</li>
+<li><p class="first">Fabric for MODO 統合版は MODO 901 から MODO 10.0 まで Windows, Linux, OS X版を利用可能です。</p>
+</li>
+<li><p class="first">Fabric 2 GPU supportは NVIDIAハードウェアのみ利用可能です。詳細はGPUコンピューティングガイドを御覧ください。</p>
+</li>
+</ul>
+</div>
+<div class="section" id="documentation">
+<h2>ドキュメント<a class="headerlink" href="#documentation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric Canvas について学びたいのであれば、こちらをどうぞ:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../CanvasUserGuide/index.html#canvasuserguide"><span class="std std-ref">Canvas ユーザガイド</span></a></li>
+<li><a class="reference internal" href="../CanvasProgrammerGuide/index.html#canvasprogrammerguide"><span class="std std-ref">Canvas プログラマーガイド</span></a></li>
+<li><a class="reference internal" href="../GettingStartedGuide/index.html#gettingstarted-index"><span class="std std-ref">Fabric Engine 入門</span></a></li>
+</ul>
+<p><a class="reference external" href="http://fabricengine.com/blog/">http://fabricengine.com/blog/</a> に記事と、how-to ビデオの紹介がありますのでチェックしてみてください。</p>
+</div>
+<div class="section" id="downloads">
+<h2>ダウンロード<a class="headerlink" href="#downloads" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric Engine 2 を取得するには <a class="reference external" href="http://dist.fabric-engine.com/FabricEngine/2.2.0/">http://dist.fabric-engine.com/FabricEngine/2.2.0/</a> から行えます。インストールについては <a class="reference internal" href="../GettingStartedGuide/index.html#gettingstarted-index"><span class="std std-ref">Fabric Engine 入門</span></a> を参照してください。</p>
+</div>
+<div class="section" id="support">
+<h2>サポート<a class="headerlink" href="#support" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric 2.2 は評価版、スタジオ版、教育版が無償で利用可能です。また商用契約に基づく利用も可能です。商用ライセンスをご利用の顧客の皆様は、私達Fabricへ直接連絡いただけます。非商用のお客様はサポートについて以下のオプションをとることをお勧めいたします。</p>
+<ul class="simple">
+<li><p class="first"><a class="reference external" href="http://forums.fabricengine.com">http://forums.fabricengine.com</a> :Fabric コミュニティによる Ask &amp; answer questions。サポートに関する問題を投稿する場です。</p>
+</li>
+<li><p class="first"><a class="reference external" href="mailto://bugs&#37;&#52;&#48;fabricengine&#46;com">mailto://bugs<span>&#64;</span>fabricengine<span>&#46;</span>com</a> : もしバグを発見したら、明快な再現手段を付しEメールをください。(使用OSとDCCアプリ、それぞれのバージョンについての詳細も)Fabricからの返答は、Fabricプラットフォームの問題の解決にあたって追加情報を必要とする場合のみですので、ご了承ください。</p>
+</li>
+</ul>
+</div>
+<div class="section" id="changes">
+<span id="changes-2-2-0"></span><h2>変更点<a class="headerlink" href="#changes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><strong>Python</strong></p>
+<p>新規機能の <code class="docutils literal"><span class="pre">canvas.py</span></code> のセットアップと動作についてのより詳細な情報は <a class="reference internal" href="../GettingStartedGuide/baseinstallation.html#gettingstarted-standalone"><span class="std std-ref">Launching the Fabric Standalone (canvas.py)</span></a> をご覧ください。</p>
+<p>ごく簡単な Alembicアセットビューアのアプリケーションを用例として付属しています。 <code class="docutils literal"><span class="pre">canvas.py</span></code> のソースファイルをどのように編集し独自のアプリケーションを最小限の手間で作成するかの参考になるでしょう。  <a class="reference external" href="https://vimeo.com/165860125">Fabric Apps With Python video</a> のビデオがこの手順の演習となります。</p>
+<p><strong>Script Editor</strong></p>
+<p>新しい Script Editor にはシンタックスハイライトが搭載され Python コードを実行することができます。 Script Editor には Canvasでのグラフ操作を python コードとして反映しログに書き出すこともできます。 <code class="docutils literal"><span class="pre">canvas.py</span></code> に <code class="docutils literal"><span class="pre">-s</span></code> フラグを渡し実行することで有効になります。</p>
+<p><strong>KL Code Completion</strong></p>
+<p>KL エディタのコードウィンドではオブジェクトとメソッドについての基本的なコードコンプリートを提供します。Ctrl+スペースキー押下によりコンプリートメニューが出現します。（例：新規行で”V”を入力した時の場合、Vec2, Vec3, などの”V”から始まるオブジェクトがやってきます）このコードコンプリートはオブジェクトのメソッドやあるいはそれらのシグネチャもリストアップします。</p>
+<p><strong>ドラッグアンドドロップによる ポート順再配置</strong></p>
+<p>外部公開ポートを直接ドラッグアンドドロップしそれらを並び替えることがついに可能になりました。コンテキストメニューを呼び出す必要ありません。</p>
+<p><strong>Execute Ports</strong></p>
+<p>execute portsの使用法についてのサンプルショウケースを２つ同梱しています：</p>
+<ul class="simple">
+<li><p class="first"><code class="docutils literal"><span class="pre">ForLoop.canvas</span></code> では Execute.Merge4 ノードを Forノードで駆動し、異なる２つのサブグラフを実行します。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">ForLoop_KochCurve.canvas</span></code> ではコッホ雪片を描画、コッホ曲線の構築ルールにのっとり線分の反復再分割（と各ステップでの中間結果のvarへの保存）を行っています。Execute Ports についてのより詳しい情報は  <a class="reference internal" href="../CanvasProgrammerGuide/execute-ports.html#canvas-programmer-guide-execute-ports-explicit"><span class="std std-ref">Explicit Execute Ports</span></a> を参照してください。</p>
+</li>
+</ul>
+<p><strong>Fabric for MODO</strong></p>
+<p>Fabric Engine 2.2 現在、MODO 統合版をついに公式サポートしインストールに含まれる形で配布します。Fabric for MODO プラグインは MODO 901 から MODO 10.0 まで互換性があり、 Windows, Linux and OS X で動作します。より詳しくは <a class="reference internal" href="../DCCIntegrations/Modo/index.html#modo"><span class="std std-ref">Fabric for MODO</span></a> の文書および  <a class="reference external" href="https://vimeo.com/155506576">Fabric for MODO introductory video</a> の紹介ビデオをご覧ください。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p><code class="docutils literal"><span class="pre">canvas.exe</span></code> は <code class="docutils literal"><span class="pre">canvas.py</span></code> に <strong>置き換わります</strong></p>
+<p class="last">今後Canvasの起動には <code class="docutils literal"><span class="pre">canvas.py</span></code> ( <a class="reference internal" href="../GettingStartedGuide/baseinstallation.html#gettingstarted-standalone"><span class="std std-ref">Launching the Fabric Standalone (canvas.py)</span></a> に詳述)を使用するようにしてください。C++版の Canvas実行ファイルは非推奨となったためごく短い移行期間提供いたします。将来のバージョン、おそらく次のフィーチャーリリース版では削除します。Python版もC++も機能は同一です。(例外は新しい機能の Script Editor は <code class="docutils literal"><span class="pre">canvas.py</span></code> )</p>
+</div>
+</div>
+<div class="section" id="known-issues-limitations-and-workarounds">
+<span id="knownissues-2-2-0"></span><h2>既知の不具合、制限事項、回避策<a class="headerlink" href="#known-issues-limitations-and-workarounds" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul>
+<li><p class="first"><strong>制限</strong>: プリセットの保存にアタッチされたコメントが含まれない。 (FE-4900)</p>
+<blockquote>
+<div><p>回避策: 替わりにノードのツールチッププロパティを使用する</p>
+</div></blockquote>
+</li>
+</ul>
+<p><strong>Fabric for MODO Limitations</strong></p>
+<ul class="simple">
+<li><p class="first">Fabric の Inline Drawing をサポートするには MODOへの変更を必要とします。そのため私たちは Foundry とともに協同し、将来のMODO, Fabric for MODOのリリースで MODO のビューポートへ Fabric から描画可能な手段を提供を目指しています。</p>
+</li>
+<li><p class="first">プロシージャルメッシュアイテム（CanvasPI）は、まだ入力メッシュとしてサポートしていません。（ただし出力は可能です）Fabric for MODO の将来のリリースにおいて、Input Mesh Port をサポートする予定です[FABMODO-29]</p>
+</li>
+<li><p class="first">Per-polygon normal 未実装 [FABMODO-17]</p>
+</li>
+<li><p class="first">評価コンテキスト（evaluation context）のデータ、関連するプリセット（&#8221;EvalContext&#8221;）は Fabric for Modo には現時点で設定されていません。空の値を戻します。[FABMODO-15]</p>
+</li>
+</ul>
+</div>
+<div class="section" id="list-of-notable-issues-addressed">
+<span id="fixes-2-2-0"></span><h2>修正された不具合<a class="headerlink" href="#list-of-notable-issues-addressed" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><strong>一般</strong></p>
+<p>[FE-6204] - 全プラットフォームで Qt 4.8 へアップグレード</p>
+<p>[FE-6497] - AlembicViewer 用例サンプル</p>
+<p><strong>Canvas</strong></p>
+<p>[FE-5896] - ポートの接続が priorPortNameMap を考慮するように</p>
+<p>[FE-6034] - Canvas ports と Casting に関する問題を修正</p>
+<p>[FE-6278] - PolygonMesh 配列を変数として使用可能に</p>
+<p>[FE-6404] - ヒストリスタックからポート接続を redo した際の重複評価を修正</p>
+<p>[FE-6410] - グラフの展開後にポート名を変更した際のクラッシュを修正</p>
+<p>[FE-6443] - ファイルを開いた直後の重複評価を修正</p>
+<p>[FE-6451] - ポート順序入れ替えをドラッグアンドドロップで行えるように</p>
+<p>[FE-6457] - Fabric Client を閉じ終わる前のクラッシュを修正 (Singleton extension)</p>
+<p>[FE-6475] - Execute Ports と custom ports の出力を接続することができなかった問題を修正</p>
+<p>[FE-6494] - execute ports に不備があった</p>
+<p><strong>Canvas UI</strong></p>
+<p>[FE-6485] - 切断の Undo で ポートを正しい順で再接続するように</p>
+<p>[FE-6493] - ホバーしているノードの畳み込み、展開した際の描画乱れを修正</p>
+<p>[FE-6128] - ノードのポートを畳み込む際の描画乱れを修正</p>
+<p>[FE-6574] - port のリネームで直前のものより長い名前に変更した場合、合わせてサイドパネルの幅をリサイズ</p>
+<p><strong>Canvas UX</strong></p>
+<p>[FE-5228] - move コマンドの Undo でズームを考慮</p>
+<p>[FE-5835] - ノードポートの接続解除をショートカットキー “D” で簡単に行えるように</p>
+<p><strong>Core</strong></p>
+<p>[FE-5586] - getKLJSONAST がデコード不可能なデータを戻す</p>
+<p>[FE-5849] - C++で作成したDFG パラメータがグラフロードでリセットかかるように</p>
+<p>[FE-6188] - Canvas Maya での操作ラグ(DFGBinding の再コンパイル)</p>
+<p>[FE-6342] - Cache が異常に破棄された</p>
+<p>[FE-6347] - Extension のリロードをいつでも機能するように</p>
+<p>[FE-6362] - Windos での CUDA 6.5の問題を修正</p>
+<p>[FE-3989] - CUDA 7 フレームワークをサポート</p>
+<p>[FE-6366] - KL RTVal文字列を正しくKL文字列に変換</p>
+<p>[FE-6369] - execute port の公開（expose）が追加の評価を強制しないように</p>
+<p>[FE-6371] - functionノード内での新規ポートの作成をグラフの畳み込みのundo直後に行った際のクラッシュを修正</p>
+<p>[FE-6373] - 新規ポートの作成での利用可能なデータタイプのリスト中に Execute を表示するように</p>
+<p>[FE-6495] - PEX中のMap Reduce でのクラッシュを修正</p>
+<p>[FE-6513] - 出力ポートを Execute Portにつないだノードの畳み込みがエラーを起こしていた</p>
+<p>[FE-6540] - 駄目なパラメータを食わせても Canvas がクラッシュしないように</p>
+<p>[FE-5855] - 全ノードに Execute Port を</p>
+<p>[FE-5714] - Fabric Coreのビルドに関する情報を追加</p>
+<p>[FE-4763] - Code補完を追加</p>
+<p>[FE-5009] - Scriptエディタ 追加</p>
+<p>[FE-6177] - メモリリーク同定のためテスト中のメモリ使用量をログ</p>
+<p>[FE-6422] - Fabric キャッシュのディフォルト容量を4GBへ増量</p>
+<p>[FE-6456] - &#8220;KL heap in use&#8221; メッセージをオプションに</p>
+<p>[FE-6467] - &#8211;noopt 引数を Canvasに追加</p>
+<p>[FE-6482] - 非メインスレッドでの型のCoreインタフェースのコンパイルでクラッシュしていた問題を修正</p>
+<p><strong>Python Bindings</strong></p>
+<p>[FE-6382] - PythonからRTValの値を RTVal辞書へ直接代入した際のクラッシュを修正</p>
+<p>[FE-6396] - C++クラスをラップした RTValをPythonから、取得/設定した際のクラッシュを修正</p>
+<p>[FE-5730] - FabricUI Pyside からの RTValの扱いを改善</p>
+<p>[FE-5864] - FabricUI 用に Python Binding</p>
+<p>[FE-6390] - GetRegisteredTypeIsObject() を Python API に追加</p>
+<p>[FE-6484] - &#8220;空&#8221; の RTVal を python binding からアクセスするとクラッシュする問題を修正</p>
+<p><strong>KL</strong></p>
+<p>[FE-6116] - dfgNodePath 定数文字列を追加。現在のノードのユニークネームの取得に使用する</p>
+<p>[FE-6372] - Ref&lt;&gt; 型に == 演算子を追加</p>
+<p>[FE-6400] - Execute Port にdfgExec() コンストラクトを追加</p>
+<p><strong>Value Editor</strong></p>
+<p>[FE-6269] - Canvasグラフの編集で二重評価が起きた問題を修正</p>
+<p>[FE-6405] - spinboxe を回した場合の二重評価を修正</p>
+<p><strong>Presets</strong></p>
+<p>[FE-6033] - Extension バージョニングが Canvas Presetsでも正しく動作</p>
+<p>[FE-6273] - Pow ノードが不正なポートで機能しなかった</p>
+<p>[FE-6300] - PassIO, PassIn プリセットを削除</p>
+<p><strong>Extensions</strong></p>
+<p>[FE-6102] - Polygon mesh アロケータが、多数の小さいメッシュをマージした場合エラーとなっていた問題を修正</p>
+<p>[FE-6275] - OGLLinesShader が毎描画ごとに正しくカメラ位置へのライトをリセットするように</p>
+<p>[FE-6564] - Alembic が特定のHoudiniポイントクラウドを読み込んだ際クラッシュしていた問題を修正</p>
+<p>[FE-6591] - Alembic で Vec4 型をサポート</p>
+<p>[FE-6192] - PolygonMesh objectのいくつかのシグネチャを修正</p>
+<p>[FE-6221] - RecomputePointNormals() でのクラッシュを修正</p>
+<p>[FE-6299] - FileIO を微調整</p>
+<p>[FE-6305] - manipulation エクステンションでの UndoRedoCommand を修正</p>
+<p>[FE-6359] - Attribute Helper エクステンションで attribute compounds with lines をサポート</p>
+<p>[FE-6350] - Geometry エクステンションの SparseGrid オブジェクトのバグを修正</p>
+<p>[FE-6352] - 法線のトランスフォームの処理で shear サポートするよう修正</p>
+<p><strong>Fabric for Maya</strong></p>
+<p>[FE-6133] - Viewport 2 で法線が反転していた</p>
+<p>[FE-6166] - FabricMaya Manipulation サンプルでのエラーを修正</p>
+<p>[FE-6169] - out ポートの作成で undoスタックを吹き飛ばしていた</p>
+<p>[FE-6220] - Soft and hard ranges are  respected again in exposed ports</p>
+<p>[FE-6231] - 不要な &#8220;Unhandled DataType &#8216;DrawingHandle&#8217;&#8221; エラーを削除</p>
+<p>[FE-6009] - Checkbox の視認性向上のためちょっと暗めに</p>
+<p>[FE-6074] - libFabricMaya*.lib を Fabric本体の lib フォルダへ移動</p>
+<p>[FE-6232] - Split from Preset の文字をより見やすく</p>
+<p>[FE-6312] - 非推奨だった古い dfgMayaNode を削除</p>
+<p>[FE-6409] - Canvas deformer で  setArgValue() ではなく setArgValue_lockType() を使うように</p>
+<p>[FE-6486] - Viewport 2.0 の depth buffer 問題に対応(Fabric Viewport 2.0を新たに作成)</p>
+<p>[FE-6492] - canvas deformer 作成時のWarning メッセージ</p>
+<p><strong>Fabric for Softimage</strong></p>
+<p>[FE-6375] - 頂点UV と頂点Color を正しく計算</p>
+<p>[FE-6515] - Softimage で Core もしくは Compounds プリセットを custom .bat ファイル経由で起動した際に表示</p>
+<p>[FE-6587] - Fabric Python ディレクトリを PYTHONPATH 変数に追加</p>
+<p><strong>Documentation</strong></p>
+<p>[FE-6277] - 長いキーワード名の引数を持つコマンドでもただしくドキュメントされる</p>
+<p>[FE-6244] - FabricCanvasEditPort のドキュメントを修正</p>
+<p>[FE-6272] - RTVal のドキュメントで配列の作成法について記述</p>
+<p>[FE-6276] - canvasNode を評価されるよう canvasNode と maya node の接続する必要性についてよりわかりやすい文書</p>
+<p>[FE-6356] - FabricInterfaces/PersistenceContext.html ページのエラーを修正</p>
+<p>[FE-6306] - 型の比較でのドキュメント中のコードが壊れていた</p>
+<p>[FE-6354] - FABRIC_VERSION が globals.html#fabric-version-pre-defined-constants で解決されていなかった</p>
+<p>[FE-6580] - Quaternion テンプレート文書でのタイポ修正</p>
+<p><strong>Fabric for Modo</strong></p>
+<p>[FE-6401] - 奇妙なクラッシュ (modo) / PolygonMesh エラー (standalone)</p>
+<p><strong>Samples</strong></p>
+<p>[FE-6399] - DNA helix サンプルとプリセットを修正</p>
+<p>[FE-6628] - コッホ雪片のサンプルを execute portショウケースに追加</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Fabric Engine 2.2.0 リリースノート</a><ul>
+<li><a class="reference internal" href="#about-this-release">このリリースについて</a></li>
+<li><a class="reference internal" href="#supported-operating-systems-integrations-and-gpus">サポートするOS, DCC統合, GPU</a></li>
+<li><a class="reference internal" href="#documentation">ドキュメント</a></li>
+<li><a class="reference internal" href="#downloads">ダウンロード</a></li>
+<li><a class="reference internal" href="#support">サポート</a></li>
+<li><a class="reference internal" href="#changes">変更点</a></li>
+<li><a class="reference internal" href="#known-issues-limitations-and-workarounds">既知の不具合、制限事項、回避策</a></li>
+<li><a class="reference internal" href="#list-of-notable-issues-addressed">修正された不具合</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/ReleaseNotes/2.2.0.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/ReleaseNotes/2.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

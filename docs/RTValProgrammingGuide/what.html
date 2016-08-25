@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>RTVal とは何であるか &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="RTVal プログラミングガイド" href="index.html" />
+    <link rel="next" title="RTVal のPythonアプリケーションからの使用" href="python.html" />
+    <link rel="prev" title="前書と背景" href="intro.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="python.html" title="RTVal のPythonアプリケーションからの使用"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="前書と背景"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">RTVal プログラミングガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="what-is-an-rtval">
+<span id="rtvg-what-is"></span><h1>RTVal とは何であるか<a class="headerlink" href="#what-is-an-rtval" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><em class="dfn">RTVal</em> とは、KL言語によって管理されるデータのコンテナです。&#8221;RTVal&#8221; はもともと &#8220;Registered Type Value&#8221; をくっつけた言葉で、もともとは歴史的に Fabric Engine での KLの型を表す名称でした。</p>
+<p>RTVal には３つの重要な特質があります：『型』を持ち, 『値』をもち, 『参照カウント』されます。</p>
+<div class="section" id="rtvals-have-types">
+<h2>RTVal は型を持つ<a class="headerlink" href="#rtvals-have-types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>RTVal はあるKLの型を持ちます。この型は RTVal作成時に指定し、以後不変です。</p>
+<p>RTVal はどのようなKLの型でも &#8220;ほぼ&#8221;  <a class="footnote-reference" href="#almost" id="id1">[1]</a> 取れます。型は internalな型でも事前定義された型でも、ユーザ定義の型 ―構造体あるいはオブジェクトでも可能です。</p>
+<table class="docutils footnote" frame="void" id="almost" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><p class="first last">ただし例外があり、&#8221;internal&#8221; 型のうち他 ―システムのうち非KLなものと相互作用するもの、例えば <code class="docutils literal"><span class="pre">Container</span></code> は不可能です。</p>
+</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="rtvals-have-values">
+<h2>RTVal は値を持つ<a class="headerlink" href="#rtvals-have-values" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>RTVal は値を持ちます。初期値はRTVal作成時に決定されます。</p>
+<p>KL言語内での値であるため、RTVal は他のデータと同様のライフサイクル処理を遂げます。RTVal が作られると、その型の <a class="reference internal" href="../KLProgrammingGuide/globals.html#klpg-constructor"><span class="std std-ref">コンストラクタ</span></a> が呼ばれます。おなじように破棄時にはそれらの型の <a class="reference internal" href="../KLProgrammingGuide/globals.html#klpg-destructor"><span class="std std-ref">デストラクタ</span></a> が呼ばれます。</p>
+<p>RTVal の値は変更可能です。つうじょう以下2つのうちいずれかです：</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">RTVal の型の (<a class="reference internal" href="../KLProgrammingGuide/globals.html#klpg-method-this-type"><span class="std std-ref">read-write</span></a>)メソッドをそのRTValで呼び出す。あるいは</p>
+</li>
+<li><p class="first">RTVal を他のメソッド（もしくは関数）へ <cite>io</cite> 引数として渡す。</p>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="rtvals-are-reference-counted">
+<h2>RTVal は参照カウントされる<a class="headerlink" href="#rtvals-are-reference-counted" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>RTVal は参照カウントされるオブジェクトであり、 Fabric Engine クライアントが所持します。あるRTValへの最後の参照カウントが落ちると、そのRTVal は破棄されます。 Python や C++内であれば、あるRTVal値 から他への代入とは、単純な「オブジェクト」への参照と同様な参照のコピーです。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">RTVal とは何であるか</a><ul>
+<li><a class="reference internal" href="#rtvals-have-types">RTVal は型を持つ</a></li>
+<li><a class="reference internal" href="#rtvals-have-values">RTVal は値を持つ</a></li>
+<li><a class="reference internal" href="#rtvals-are-reference-counted">RTVal は参照カウントされる</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="intro.html"
+                        title="前の章へ">前書と背景</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="python.html"
+                        title="次の章へ">RTVal のPythonアプリケーションからの使用</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/RTValProgrammingGuide/what.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/RTValProgrammingGuide/what.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="python.html" title="RTVal のPythonアプリケーションからの使用"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="前書と背景"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >RTVal プログラミングガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

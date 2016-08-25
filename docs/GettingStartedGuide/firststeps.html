@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fabric Canvas 最初のステップ &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="Fabric Engine 入門" href="index.html" />
+    <link rel="next" title="Fabric Standaloneチュートリアル" href="canvastutorials.html" />
+    <link rel="prev" title="Fabric DCC統合版のインストール" href="dccinstallation.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="canvastutorials.html" title="Fabric Standaloneチュートリアル"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="dccinstallation.html" title="Fabric DCC統合版のインストール"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Fabric Engine 入門</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="first-steps-with-fabric-canvas">
+<span id="gettingstarted-firststeps"></span><h1>Fabric Canvas 最初のステップ<a class="headerlink" href="#first-steps-with-fabric-canvas" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Fabric Engine はDCC統合版同様 <em class="dfn">Fabric Standalone</em> と呼ばれる単体起動可能なアプリケーションを用意しています。 Fabric Engine  のインストールを終えたら、DCC統合版へ飛び込む前にまずはこの <em class="dfn">Fabric Standalone</em> に慣れ親しむことをお奨めします。</p>
+<div class="section" id="test-driving-fabric-standalone">
+<h2>Fabric Standaloneを試す<a class="headerlink" href="#test-driving-fabric-standalone" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabricスタンドアロン版の起動方法は <a class="reference internal" href="baseinstallation.html#gettingstarted-standalone"><span class="std std-ref">Launching the Fabric Standalone (canvas.py)</span></a> に記述されています。</p>
+<p>Fabric Engine は <em class="dfn">Fabric Standalone</em> のためサンプル一式を提供しています。 Fabric Engine アーカイブを展開したフォルダ直下、<em class="dfn">Samples/Canvas</em> 以下にあります。</p>
+<p><em class="dfn">Fabric Standalone</em>  のUIはディフォルトの状態で大まかに5つの要素から成ります:</p>
+<ul>
+<li><p class="first">（左上） <em class="dfn">Preset Tree Explorer</em></p>
+<p>このビューから、現在のセッションで使用可能なプリセットのすべてにアクセスします。このプリセットは、ほとんどの KL拡張 ―Mathライブラリや、Alembicのようなものなど― を反映しています。気軽に探索し、ライブラリの概観に適しています。</p>
+</li>
+<li><p class="first">（右上） <em class="dfn">Value Editor</em></p>
+<p>このビューでは、ユーザー インターフェイスを通し値を編集します。<em class="dfn">Value Editor</em>  内にウィジェットを表示するには任意のノードをダブルクリックします。</p>
+</li>
+<li><p class="first">（中上） <em class="dfn">Real-time 3D Viewport</em></p>
+<p>このビューでは、 <em class="dfn">Fabric Standalone</em> 上のコンテンツをリアルタイムレンダリングします。 <em class="dfn">ALT</em>  キーを押しカメラを操作することができます。マウスの左ボタンを使用して回転、中マウスボタンをパンマウスの右ボタンでドリーです。マウス ホイールからもドリー可能です。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last"><em class="dfn">Fabric Standalone</em> 出のカメラ操作は Autodesk Maya を踏襲しています。</p>
+</div>
+<p><em class="dfn">Fabric Standalone</em>  のトップメニュー &#8220;View&#8221; よりビューポート内の２Dグリッドの表示切り替えが可能です。</p>
+</li>
+<li><p class="first">（中央） <em class="dfn">Canvas Graph</em></p>
+<p>このビューがこのビジュアルプログラミングシステムの心臓部です。ここでもAutodesk Mayaでのインタラクション法を踏襲しています。目立ったものを幾つか:</p>
+<ul class="simple">
+<li><p class="first">サイドパネルの右クリックによるポートの追加と削除</p>
+</li>
+<li><p class="first">タブキーによりノードのその場検索、エンターキーによる挿入</p>
+</li>
+<li><p class="first">選択ノード、グラフのコピーアンドペースト</p>
+</li>
+<li><p class="first">右クリックによるサブグラフ、KL関数の新規作成</p>
+</li>
+<li><p class="first">ダブルクリックによる選択ノードのインスペクト</p>
+</li>
+<li><p class="first">シフトを押しながらダブルクリックで選択ノードの編集</p>
+</li>
+<li><p class="first">１２３キー押下でノード折りたたみ状態を順繰り変更</p>
+</li>
+<li><p class="first">Aキー押下でグラフ中のノード全体をうつす</p>
+</li>
+<li><p class="first">ノード右クリックによりさらにアクションを選択</p>
+</li>
+</ul>
+</li>
+<li><p class="first">（下部） <em class="dfn">Timeline</em></p>
+<p>このビューでは、アプリケーションの時間を制御します。フレームレートの設定や、時間操作のためスライダーを動かしたり、プレイバックモードの指定をします。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">グラフからの時間操作には <em class="dfn">timeline</em>  という Float32か SInt32型の入力ポートを追加します。</p>
+</div>
+</li>
+</ul>
+<p>その他ユーザインターフェースについてのより詳しいの情報は <a class="reference internal" href="../CanvasUserGuide/index.html#canvasuserguide"><span class="std std-ref">Canvas ユーザガイド</span></a> より得られます。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Fabric Engine のアプリケーション起動時よりのログはシェルに出力されます。この出力はアプリケーションビュー <em class="dfn">Window</em> -&gt; <em class="dfn">Log Messages</em> よりも同様に確認できます。</p>
+</div>
+</div>
+<div class="section" id="test-driving-the-fabric-product-name-maya-plugin">
+<h2>Fabric Engine Maya プラグインを試す<a class="headerlink" href="#test-driving-the-fabric-product-name-maya-plugin" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>環境変数を適切に設定した後 (詳しくは <a class="reference internal" href="dccinstallation.html#gettingstarted-dccinstallation"><span class="std std-ref">Fabric DCC統合版のインストール</span></a>  を参照してください) Maya を起動します。 Window &gt; Settings/Preferences &gt; Plug-in Manager ウィンドウをひらき、FabricMayaプラグインを読み込みます。すると以下のようなメニューが表示されます</p>
+<img alt="../_images/05_maya_plugin_manager.png" src="../_images/05_maya_plugin_manager.png" />
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">正常な読み込みを確認したら、Mayaを再起動し、プラグインマネージャの変更が次回以降もMayaの設定に正しく反映されるようにします。</p>
+</div>
+<p><em class="dfn">Fabric for Maya</em> の利用するには、Fabric Canvasノードを作成します。Mayaノードエディタ上でタブキーを押し <em class="dfn">canvasNode</em>  型のノードを選択し作成します。もしくはトップメニューの Fabric より <em class="dfn">Create Graph</em> を選びます。一旦ノードが作成されるとアトリビュートエディタにボタンが表示されます。</p>
+<img alt="../_images/06_maya_ui_a.png" src="../_images/06_maya_ui_a.png" />
+<p>Open Canvas ボタンを押し、Mayaから <em class="dfn">Fabric Standalone</em> インタフェースにアクセスします。このCanvasエディタウィンドは他のMayaウィジェットとおなじようにドック可能です。</p>
+<img alt="../_images/07_maya_ui_b.png" src="../_images/07_maya_ui_b.png" />
+<p><em class="dfn">Canvas Graph</em> インターフェースのもつ機能は <em class="dfn">Fabric Standalone</em> とまったく一緒です。左側の縁を引っ張ることで <em class="dfn">Preset Tree</em> 右側を引っ張り <em class="dfn">Value Editor</em> 、下側で <em class="dfn">Log Messages</em> ウィジェットを表示できます。</p>
+<p>Fabric Engine は <em class="dfn">Fabric for Maya</em> 用のサンプル一式を用意しています。 Fabric Engine アーカイブを展開した直下の <em class="dfn">Samples/FabricMaya/Canvas</em> フォルダにあります。</p>
+<p>Fabric Engine 、Maya上の  <em class="dfn">canvasNode</em>  で作業する際できること</p>
+<ul class="simple">
+<li><p class="first">ポートの暴露により、Mayaアトリビュートが作成されます。現時点でサポートされているデータ型一覧は</p>
+<ul>
+<li>SInt32</li>
+<li>Float32</li>
+<li>String</li>
+<li>Vec3</li>
+<li>Color</li>
+<li>Mat44</li>
+<li>PolygonMesh</li>
+</ul>
+</li>
+<li>You can load and save <em class="dfn">canvasNode</em> graphs through the top Fabric Engine menu.</li>
+</ul>
+</div>
+<div class="section" id="test-driving-the-fabric-product-name-softimage-plugin">
+<h2>Fabric Engine Softimage プラグインを試す<a class="headerlink" href="#test-driving-the-fabric-product-name-softimage-plugin" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>環境変数を適切に設定した後 (詳しくは <a class="reference internal" href="dccinstallation.html#gettingstarted-dccinstallation"><span class="std std-ref">Fabric DCC統合版のインストール</span></a>  を参照してください) Softimage を起動します。 正しくプラグインが読み込まれているかプラグインマネージャを開き、以下のように見えるか確認します。</p>
+<img alt="../_images/20_softimage_plugin_manager.png" src="../_images/20_softimage_plugin_manager.png" />
+<p><em class="dfn">Fabric for Softimage</em> を使用するには、何らかのオブジェクトに CanvasOp オペレータを作成します。一番簡単な方法は、Fabricメニューからのコマンドを利用します。Fabricメニューより&#8221;Create Null with Graph&#8221;:を選びます。CanvasOp オペレータを持つnull が作成され、そのnullのグローバルキネマティクスと、オペレータのプロパティPPGが表示されます。PPG内 &#8220;Open Canvas&#8221;ボタンを押しとこのように表示されます。</p>
+<img alt="../_images/20_softimage_null_with_canvas.png" src="../_images/20_softimage_null_with_canvas.png" />
+<p><em class="dfn">Canvas Graph</em> インターフェースのもつ機能は <em class="dfn">Fabric Standalone</em> とまったく一緒です。左側の縁を引っ張ることで <em class="dfn">Preset Tree</em> 右側を引っ張り <em class="dfn">Value Editor</em> 、下側で <em class="dfn">Log Messages</em> ウィジェットを表示できます。</p>
+<p>Fabric Engine は <em class="dfn">Fabric for Softimage</em> 用のサンプル一式を用意しています。 Fabric Engine アーカイブを展開した直下の <em class="dfn">Samples/FabricSoftimage/Canvas</em> フォルダにあります。</p>
+<p>まずはサンプルシーンを読み込んでみたり試して見たりすることをお奨めします。さらにFabric for Softimageのチュートリアルを進めるには以下の &#8220;What&#8217;s next?&#8221; リンクセクションを読み進めてください。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p>グラフのトップレベルポートに追加や削除がある場合、Softimageにプロパティとポートの変更が正しく反映されるために明示的な&#8221;Sync Op&#8221;操作が必要になることがあります。この操作の必要がある場合、以下に図示するような赤い感嘆符が表示されます。Softimage と Canvas間のポートやり取りについてのより詳しい情報はオペレータPPGの &#8220;Ports and Tools&#8221; タブに表示されています。</p>
+<blockquote class="last">
+<div><img alt="../_images/20_softimage_synchOps.png" src="../_images/20_softimage_synchOps.png" />
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="what-s-next">
+<h2>What&#8217;s next?<a class="headerlink" href="#what-s-next" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><em class="dfn">Fabric Standalone</em> や <em class="dfn">Fabric for Maya</em>、 <em class="dfn">Fabric for Softimage</em> を使い一歩先に進むには</p>
+<ul class="simple">
+<li><a class="reference internal" href="../CanvasUserGuide/index.html#canvasuserguide"><span class="std std-ref">Canvas ユーザガイド</span></a></li>
+</ul>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="canvastutorials.html">Fabric Standaloneチュートリアル</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="canvastutorials.html#simple-hello-world">Simple Hello World</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvastutorials.html#first-math-formula">初めての数値演算</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvastutorials.html#animated-geometry">Geometryに命を与える</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvastutorials.html#custom-kl-function">KL関数の作成</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mayatutorials.html">Fabric for Maya チュートリアル</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mayatutorials.html#driving-a-locator-linear-interpolation">ロケータを線形補完で動かす</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mayatutorials.html#procedural-mesh">プロシージャルメッシュ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mayatutorials.html#debug-realtime-rendering">リアルタイムレンダリングを用いたデバッグ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="softimagetutorials.html">Fabric for Softimage チュートリアル</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="softimagetutorials.html#procedural-mesh">プロシージャルメッシュ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="softimagetutorials.html#mesh-deformer">メッシュデフォーマ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="softimagetutorials.html#driving-a-null-linear-interpolation">Nullを線形補間で動かす</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>技術の詳細についてや、既存のKL拡張ライブラリについて学び、Canvas KL関数を書いたり、素のKL拡張を書く、もしくはもっと突っ込んだGPUコンピューティングなどに興味があれば、こちらから</p>
+<ul class="simple">
+<li><a class="reference internal" href="../CanvasProgrammerGuide/index.html#canvasprogrammerguide"><span class="std std-ref">Canvas プログラマーガイド</span></a></li>
+<li><a class="reference internal" href="../KLProgrammingGuide/index.html#klpg"><span class="std std-ref">KL プログラミングガイド</span></a></li>
+<li><a class="reference internal" href="../KLExtensionsGuide/index.html#klextensionsguide"><span class="std std-ref">KL エクステンションガイド</span></a></li>
+<li><a class="reference internal" href="../ExtensionAuthoringGuide/index.html#extrg"><span class="std std-ref">エクステンション・オーサリングガイド</span></a></li>
+</ul>
+<p>に全リンクはこのドキュメントのトップレベルページより辿れます <a class="reference internal" href="../index.html#top"><span class="std std-ref">Fabric Engine Unofficial Documentation 日本語版</span></a></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Fabric Canvas 最初のステップ</a><ul>
+<li><a class="reference internal" href="#test-driving-fabric-standalone">Fabric Standaloneを試す</a></li>
+<li><a class="reference internal" href="#test-driving-the-fabric-product-name-maya-plugin">Fabric Engine Maya プラグインを試す</a></li>
+<li><a class="reference internal" href="#test-driving-the-fabric-product-name-softimage-plugin">Fabric Engine Softimage プラグインを試す</a></li>
+<li><a class="reference internal" href="#what-s-next">What&#8217;s next?</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="dccinstallation.html"
+                        title="前の章へ">Fabric DCC統合版のインストール</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="canvastutorials.html"
+                        title="次の章へ">Fabric Standaloneチュートリアル</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/GettingStartedGuide/firststeps.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/GettingStartedGuide/firststeps.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="canvastutorials.html" title="Fabric Standaloneチュートリアル"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="dccinstallation.html" title="Fabric DCC統合版のインストール"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Fabric Engine 入門</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

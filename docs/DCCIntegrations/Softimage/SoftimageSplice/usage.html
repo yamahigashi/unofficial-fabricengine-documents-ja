@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Using the Splice Softimage plugin &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../../index.html" />
+    <link rel="up" title="Splice (legacy)" href="index.html" />
+    <link rel="next" title="Splice ICE nodes" href="ice.html" />
+    <link rel="prev" title="Splice (legacy)" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="ice.html" title="Splice ICE nodes"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Splice (legacy)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../index.html" >Fabric for Softimage</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="index.html" accesskey="U">Splice (legacy)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="using-the-splice-softimage-plugin">
+<h1>Using the Splice Softimage plugin<a class="headerlink" href="#using-the-splice-softimage-plugin" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>In order to start using the Splice Editor UI, click on the Fabric Menu and choose <em class="dfn">Splice Editor</em></p>
+<p>To create a new Splice operator you need to first pick the element in the scene to output to. Currently allowed elements are kinematic states and polygon mesh primitives. You may select multiple kinematic states / objects and right click to end the picking session.</p>
+<p>Once the SpliceOp is created you can re-open the Splice Editor UI by selecting the operator and clicking the <em class="dfn">Splice Editor</em> menu entry from the Fabric menu again.</p>
+<p>With the Splice Editor UI open you can add <em class="dfn">parameters</em> to the SpliceOp (standard Softimage parameters which are stored on the custom operator), additional <em class="dfn">XSI ports</em> (port connections to kinematic states or polygon mesh primitives) or so called <em class="dfn">Cache Ports</em> (internal ports which don&#8217;t communicate with Softimage). When performing a picking session please follow the instructions stated in the status bar, and hit right click to end a picking session.</p>
+<p>Furthermore, Splice supports accessing values off the ICE system. For that use the <em class="dfn">Add ICE Port</em> button, pick a name for the Splice port and define the name of the ICEAttribute you want to read. Then choose the right geometry storing the attribute during the picking session.</p>
+<p>Aside from interacting with Ports you can also edit the KL operator stack on each SpliceOp. You may add, remove or edit KL operators. New KL operators will receive some auto generated KL code which makes accessing previously defined ports easier. Hitting the &#8216;Edit&#8217; button will set the edited KL operator on the <em class="dfn">KL</em> tab.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">KL Operators are global to the scope of Splice, they don&#8217;t belong exclusively to the node they&#8217;ve been created for and they can be applied to every SpliceOp that has a compatible interface. This means you should choose the name fo the KL operators consciously. If all KL operators are called &#8216;testOp&#8217;, this will create conflicts.</p>
+</div>
+<p>That&#8217;s it for the SpliceOp overview. If you are new to the KL language please refer to the <a class="reference internal" href="../../../KLProgrammingGuide/index.html#klpg"><span class="std std-ref">KL プログラミングガイド</span></a>.</p>
+<div class="section" id="scripting-a-spliceop-and-referencing-kl-files">
+<h2>Scripting a SpliceOp and Referencing KL Files<a class="headerlink" href="#scripting-a-spliceop-and-referencing-kl-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Anything done with the Splice Editor graphical interface can also be automated through scripting via the fabricSplice command, thus offering the possibility to include SpliceOp in scripted procedural rigs or other kind of automated scene setups. Referencing external KL files is also possible via the fabricSplice command, this could be useful to have KL operators under source control or share them with other people or simply to take advantage of external code editors. Once a scene is saved the code of eachKL operator is also stored along with the path to the KL file, on scene loading the code of the operator will be used if the specified KL file is not found anymore.</p>
+<p>For a full list of scripting actions and parameters, please see the <a class="reference internal" href="../../Scripting/index.html#splicescriptingactions"><span class="std std-ref">Splice Scripting Interface</span></a> section.</p>
+<p>The following examples show how to interact with the fabricSplice command with JScript syntax:</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="c1">// creating the operator</span>
+<span class="nx">var</span> <span class="nx">op</span> <span class="o">=</span> <span class="nx">fabricSplice</span><span class="p">(</span><span class="s2">&quot;newSplice&quot;</span><span class="p">,</span> <span class="s1">&#39;{&quot;targets&quot;:&quot;null.kine.global&quot;,&quot;portName&quot;:&quot;output&quot;}&#39;</span><span class="p">);</span>
+
+<span class="c1">// creating a standard port, a parameter and an internal port</span>
+<span class="nx">fabricSplice</span><span class="p">(</span><span class="s2">&quot;addInputPort&quot;</span><span class="p">,</span> <span class="nx">op</span><span class="p">,</span> <span class="s1">&#39;{&quot;targets&quot;:&quot;null1.kine.global,null2.kine.global&quot;,&quot;portName&quot;:&quot;matrices&quot;,&quot;dataType&quot;:&quot;Mat44[]&quot;}&#39;</span><span class="p">);</span>
+<span class="nx">fabricSplice</span><span class="p">(</span><span class="s2">&quot;addParameter&quot;</span><span class="p">,</span> <span class="nx">op</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;blend&quot;,&quot;dataType&quot;:&quot;Scalar&quot;}&#39;</span><span class="p">);</span>
+<span class="nx">fabricSplice</span><span class="p">(</span><span class="s2">&quot;addInternalPort&quot;</span><span class="p">,</span> <span class="nx">op</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;debugGeo&quot;,&quot;dataType&quot;:&quot;InlineGeometryType&quot;,&quot;portMode&quot;:&quot;io&quot;}&#39;</span><span class="p">);</span>
+
+<span class="c1">// creating a KL operator</span>
+<span class="nx">fabricSplice</span><span class="p">(</span><span class="s2">&quot;createKLOperator&quot;</span><span class="p">,</span> <span class="nx">op</span><span class="p">,</span> <span class="s1">&#39;{&quot;opName&quot;:&quot;myCustomConstraint&quot;}&#39;</span><span class="p">);</span>
+<span class="nx">var</span> <span class="nx">klCode</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s2">&quot;require Xfo, Mat44;&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;operator myCustomConstraint(Scalar blend, Mat44 matrices[], io Mat44 output) {&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;  Xfo a(matrices[0]);&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;  Xfo b(matrices[1]);&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;  output = a.linearInterpolate(b, blend).toMat44();&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;}&quot;</span>
+<span class="p">];</span>
+<span class="nx">fabricSplice</span><span class="p">(</span><span class="s2">&quot;setKLOperatorCode&quot;</span><span class="p">,</span> <span class="nx">op</span><span class="p">,</span> <span class="s1">&#39;{&quot;opName&quot;:&quot;myCustomConstraint&quot;}&#39;</span><span class="p">,</span> <span class="nx">klCode</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">&quot;\n&quot;</span><span class="p">));</span>
+
+<span class="c1">// changing the blend value</span>
+<span class="nx">SetValue</span><span class="p">(</span><span class="nx">op</span><span class="o">+</span><span class="s2">&quot;.blend&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
+
+<span class="c1">// referencing an external KL operator file</span>
+<span class="c1">// fabricSplice(&quot;setKLOperatorFile&quot;, op, &#39;{&quot;opName&quot;:&quot;myCustomConstraint&quot;, &quot;fileName&quot;:&quot;C:/temp/myCustomConstraint.kl&quot;}&#39;);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="generative-procedural-geometry">
+<h2>Generative Procedural Geometry<a class="headerlink" href="#generative-procedural-geometry" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Splice operators can also generate procedural geometry by adding a PolygonMesh output port which will allow Splice to build the polygon mesh with optimal performance.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">require</span> <span class="nx">Math</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">PolygonMesh</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">geomGen</span><span class="p">(</span><span class="nx">Scalar</span> <span class="nx">factor</span><span class="p">,</span> <span class="k">io</span> <span class="nx">PolygonMesh</span> <span class="nx">geo</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">geo</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
+
+  <span class="nx">Vec3</span> <span class="nx">profile</span><span class="p">[];</span>
+  <span class="nx">profile</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">));</span>
+  <span class="nx">profile</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">));</span>
+  <span class="nx">profile</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">));</span>
+  <span class="nx">profile</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">));</span>
+
+  <span class="nx">Xfo</span> <span class="nx">xfos</span><span class="p">[];</span>
+  <span class="nx">xfos</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">Xfo</span><span class="p">());</span>
+  <span class="nx">Xfo</span> <span class="nx">inc</span><span class="p">;</span>
+  <span class="nx">inc</span><span class="p">.</span><span class="nx">tr</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+  <span class="nx">inc</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEulerAngles</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.2</span> <span class="o">*</span> <span class="nx">factor</span><span class="p">,</span> <span class="mf">0.4</span> <span class="o">*</span> <span class="nx">factor</span><span class="p">,</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="nx">factor</span><span class="p">));</span>
+  <span class="k">for</span><span class="p">(</span><span class="nx">Size</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="mi">30</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="nx">xfos</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">xfos</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">*</span> <span class="nx">inc</span><span class="p">);</span>
+
+  <span class="nx">geo</span><span class="p">.</span><span class="nx">addExtrusion</span><span class="p">(</span><span class="nx">xfos</span><span class="p">,</span> <span class="nx">profile</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+  <span class="nx">geo</span><span class="p">.</span><span class="nx">recomputePointNormals</span><span class="p">(</span><span class="mf">0.4</span><span class="p">);</span>
+
+  <span class="nx">geo</span><span class="p">.</span><span class="nx">addShell</span><span class="p">(</span><span class="mf">0.25</span><span class="p">);</span>
+  <span class="nx">geo</span><span class="p">.</span><span class="nx">recomputePointNormals</span><span class="p">(</span><span class="mf">0.4</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gaining-access-to-the-information-about-the-internal-ports">
+<h2>Gaining access to the information about the internal ports<a class="headerlink" href="#gaining-access-to-the-information-about-the-internal-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Since a SpliceOp in Softimage can contain more ports than mapped attributes, a scripting facility is provided to gain access to that information. The portInfo string is JSON encoded and provides the same information which is also used during persistence of a splice file.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="nx">var</span> <span class="nx">op</span> <span class="o">=</span> <span class="s2">&quot;null.kine.global.SpliceOp&quot;</span><span class="p">;</span>
+<span class="nx">var</span> <span class="nx">portInfo</span> <span class="o">=</span> <span class="nx">fabricSplice</span><span class="p">(</span><span class="s2">&quot;getPortInfo&quot;</span><span class="p">,</span> <span class="nx">op</span><span class="p">);</span>
+<span class="nx">LogMessage</span><span class="p">(</span><span class="nx">portInfo</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="manipulating-internal-port-data">
+<h2>Manipulating internal port data<a class="headerlink" href="#manipulating-internal-port-data" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>You can use ports inside a splice node as caches for internal data structures. This is extremely useful when certain parts of the computation are not driven by splice, but by some external script. The data is provided as JSON strings, and can therefore reflect any data structure accessible within splice (excluding opaque data). Given the example of a &#8216;Vec3&#8217; port called &#8216;myVec&#8217;, this is how you can set the data. Setting the data also enables the persistence of that port, so the set data will be saved alongside the maya scene.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="nx">var</span> <span class="nx">op</span> <span class="o">=</span> <span class="s2">&quot;null.kine.global.SpliceOp&quot;</span><span class="p">;</span>
+<span class="nx">fabricSplice</span><span class="p">(</span><span class="s1">&#39;setPortData&#39;</span><span class="p">,</span> <span class="nx">op</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;myVec&quot;}&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;x&quot;:1,&quot;y&quot;:2,&quot;z&quot;:3}&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>To gain access to the data again, you can use another action of the fabricSplice command like below. Not that getting of data works on all ports, while setting of data only works for IN and IO ports.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="nx">var</span> <span class="nx">op</span> <span class="o">=</span> <span class="s2">&quot;null.kine.global.SpliceOp&quot;</span><span class="p">;</span>
+<span class="nx">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">fabricSplice</span><span class="p">(</span><span class="s1">&#39;getPortData&#39;</span><span class="p">,</span> <span class="nx">op</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;myVec&quot;}&#39;</span><span class="p">);</span>
+<span class="nx">LogMessage</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="accessing-port-values-as-rtvals">
+<h2>Accessing Port values as RTVals<a class="headerlink" href="#accessing-port-values-as-rtvals" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>One especially useful facility is getting access to RTVals stored within Splice nodes. This is even more efficient with KL object RTVals, since they are just referenced and never copied into python. This allows you to build custom UIs, for example, which can interact with members within a RTVal inside a Splice port, and even call methods on them.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">op</span> <span class="o">=</span> <span class="s2">&quot;null.kine.global.SpliceOp&quot;</span><span class="p">;</span>
+
+<span class="c1">#create a client - will be ignored if it already exists</span>
+<span class="n">Application</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;constructClient&#39;</span><span class="p">)</span>
+
+<span class="c1"># get the client id from splice</span>
+<span class="n">contextID</span> <span class="o">=</span> <span class="n">Application</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;getClientContextID&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create a shared client that enabled us to access all the Splice data.</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">FabricEngine</span><span class="o">.</span><span class="n">Core</span><span class="o">.</span><span class="n">createClient</span><span class="p">({</span><span class="s1">&#39;contextID&#39;</span><span class="p">:</span><span class="n">contextID</span><span class="p">})</span>
+
+<span class="c1"># Get the json description of all the ports.</span>
+<span class="n">portInfo</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">Application</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s2">&quot;getPortInfo&quot;</span><span class="p">,</span> <span class="n">op</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">portIndex</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">portInfo</span><span class="p">)):</span>
+  <span class="n">dgnodeName</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">portInfo</span><span class="p">[</span><span class="n">portIndex</span><span class="p">][</span><span class="s1">&#39;graph&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">portInfo</span><span class="p">[</span><span class="n">portIndex</span><span class="p">][</span><span class="s1">&#39;node&#39;</span><span class="p">])</span>
+  <span class="n">dgnode</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">DG</span><span class="o">.</span><span class="n">getNodeByName</span><span class="p">(</span><span class="n">dgnodeName</span><span class="p">)</span>
+  <span class="c1"># Pull out the port value. From here we can quiry its value/members and call methods on it.</span>
+  <span class="n">portValue</span> <span class="o">=</span> <span class="n">dgnode</span><span class="o">.</span><span class="n">getValue</span><span class="p">(</span><span class="n">portInfo</span><span class="p">[</span><span class="n">portIndex</span><span class="p">][</span><span class="s1">&#39;member&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="k">print</span> <span class="s2">&quot;PortValue:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">portValue</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="forcing-nodes-to-store-a-port-on-disk">
+<h2>Forcing nodes to store a port on disk:<a class="headerlink" href="#forcing-nodes-to-store-a-port-on-disk" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>By default splice in maya will only store those ports that have simple types and are not arrays.
+This behavior can be overridden with a special command if a complex port needs to be persisted in the scene:</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="nx">var</span> <span class="nx">op</span> <span class="o">=</span> <span class="s2">&quot;null.kine.global.SpliceOp&quot;</span><span class="p">;</span>
+<span class="nx">fabricSplice</span><span class="p">(</span><span class="s1">&#39;setPortPersistence&#39;</span><span class="p">,</span> <span class="nx">op</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;myVec&quot;,&quot;persistence&quot;:true}&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="exporting-splice-files">
+<h2>Exporting Splice files<a class="headerlink" href="#exporting-splice-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>To export the ASCII representation of a SpliceOp, open the Splice Editor with the output target selected and hit <em class="dfn">Save Splice</em>. This will save a text file containing the full description of a Splice node, including it&#8217;s ports and KL operators.</p>
+</div>
+<div class="section" id="importing-splice-files">
+<h2>Importing Splice files<a class="headerlink" href="#importing-splice-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>To load a previously saved Splice file, go the Fabric menu and choose <em class="dfn">Load Splice</em>.This will open a user interface to pick the targets for each port. You can pick each element by selecting a cell in the grid view and hitting &#8216;Pick Target&#8217;. You may also create the default objects for particular ports through this UI.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Using the Splice Softimage plugin</a><ul>
+<li><a class="reference internal" href="#scripting-a-spliceop-and-referencing-kl-files">Scripting a SpliceOp and Referencing KL Files</a></li>
+<li><a class="reference internal" href="#generative-procedural-geometry">Generative Procedural Geometry</a></li>
+<li><a class="reference internal" href="#gaining-access-to-the-information-about-the-internal-ports">Gaining access to the information about the internal ports</a></li>
+<li><a class="reference internal" href="#manipulating-internal-port-data">Manipulating internal port data</a></li>
+<li><a class="reference internal" href="#accessing-port-values-as-rtvals">Accessing Port values as RTVals</a></li>
+<li><a class="reference internal" href="#forcing-nodes-to-store-a-port-on-disk">Forcing nodes to store a port on disk:</a></li>
+<li><a class="reference internal" href="#exporting-splice-files">Exporting Splice files</a></li>
+<li><a class="reference internal" href="#importing-splice-files">Importing Splice files</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="index.html"
+                        title="前の章へ">Splice (legacy)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="ice.html"
+                        title="次の章へ">Splice ICE nodes</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/DCCIntegrations/Softimage/SoftimageSplice/usage.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DCCIntegrations/Softimage/SoftimageSplice/usage.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="ice.html" title="Splice ICE nodes"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Splice (legacy)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../index.html" >Fabric for Softimage</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="index.html" >Splice (legacy)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

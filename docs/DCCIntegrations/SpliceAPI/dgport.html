@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>FabricSplice::DGPort &mdash; Fabric Engine 2.2.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.2.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Classes" href="classes.html" />
+    <link rel="next" title="FabricSplice::SceneManagement" href="scenemanagement.html" />
+    <link rel="prev" title="FabricSplice::DGGraph" href="dggraph.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="scenemanagement.html" title="FabricSplice::SceneManagement"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="dggraph.html" title="FabricSplice::DGGraph"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.2.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Fabric Engine Splice C/C++ API Documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="classes.html" accesskey="U">Classes</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fabricsplice-dgport">
+<span id="dgport"></span><h1>FabricSplice::DGPort<a class="headerlink" href="#fabricsplice-dgport" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>The DGPort class allows to get or set <a class="reference internal" href="dggraph.html#dggraph"><span class="std std-ref">FabricSplice::DGGraph</span></a> data. DGPorts can communicate with the FabricCore layer in various ways.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">When accessing data on instances of FabricSplice::DGPort, eg. through
+<code class="code docutils literal"><span class="pre">DGPort::getRTVal()</span></code>, it is the responsibility of the client to ensure
+that accesses to data on the same port are synchronized, ie. that two threads
+don&#8217;t try to change the value at the same time.  However, it is safe to access
+data on different instances of FabricSplice::DFGPort without locking.</p>
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The sample below shows how to use ports. The class outline can be found at the end of this page.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;FabricSplice.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">FabricSplice</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span> <span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[]</span> <span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">Initialize</span><span class="p">();</span>
+
+  <span class="c1">// create a graph</span>
+  <span class="n">DGGraph</span> <span class="n">graph</span> <span class="o">=</span> <span class="n">DGGraph</span><span class="p">(</span><span class="s">&quot;myGraph&quot;</span><span class="p">);</span>
+
+  <span class="c1">// create a DG node</span>
+  <span class="n">graph</span><span class="p">.</span><span class="n">constructDGNode</span><span class="p">();</span>
+
+  <span class="c1">// create a member</span>
+  <span class="n">graph</span><span class="p">.</span><span class="n">addDGNodeMember</span><span class="p">(</span><span class="s">&quot;myScalar&quot;</span><span class="p">,</span> <span class="s">&quot;Scalar&quot;</span><span class="p">);</span>
+
+  <span class="c1">// create a port</span>
+  <span class="c1">// the mode defines if a port can be read from,</span>
+  <span class="c1">// written to or both (like in this case)</span>
+  <span class="n">DGPort</span> <span class="n">port</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">addDGPort</span><span class="p">(</span><span class="s">&quot;myPortName&quot;</span><span class="p">,</span> <span class="s">&quot;myScalar&quot;</span><span class="p">,</span> <span class="n">Port_Mode_IO</span><span class="p">);</span>
+
+  <span class="c1">// set some data on the port using JSON</span>
+  <span class="n">port</span><span class="p">.</span><span class="n">setJSON</span><span class="p">(</span><span class="s">&quot;1.3&quot;</span><span class="p">);</span>
+
+  <span class="c1">// print the data</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">port</span><span class="p">.</span><span class="n">getJSON</span><span class="p">().</span><span class="n">getStringData</span><span class="p">());</span>
+
+  <span class="c1">// set some data on the port using a variant</span>
+  <span class="n">port</span><span class="p">.</span><span class="n">setVariant</span><span class="p">(</span><span class="n">FabricCore</span><span class="o">::</span><span class="n">Variant</span><span class="o">::</span><span class="n">CreateFloat64</span><span class="p">(</span><span class="mf">2.6</span><span class="p">));</span>
+
+  <span class="c1">// print the data</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">port</span><span class="p">.</span><span class="n">getJSON</span><span class="p">().</span><span class="n">getStringData</span><span class="p">());</span>
+
+  <span class="c1">// nodes can store any number of values. the count of the values</span>
+  <span class="c1">// is referred to as &#39;slice count&#39;</span>
+  <span class="n">port</span><span class="p">.</span><span class="n">setSliceCount</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+  <span class="n">port</span><span class="p">.</span><span class="n">setVariant</span><span class="p">(</span><span class="n">FabricCore</span><span class="o">::</span><span class="n">Variant</span><span class="o">::</span><span class="n">CreateFloat64</span><span class="p">(</span><span class="mf">1.6</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">port</span><span class="p">.</span><span class="n">setVariant</span><span class="p">(</span><span class="n">FabricCore</span><span class="o">::</span><span class="n">Variant</span><span class="o">::</span><span class="n">CreateFloat64</span><span class="p">(</span><span class="mf">2.6</span><span class="p">),</span> <span class="mi">1</span><span class="p">);</span>
+  <span class="n">port</span><span class="p">.</span><span class="n">setVariant</span><span class="p">(</span><span class="n">FabricCore</span><span class="o">::</span><span class="n">Variant</span><span class="o">::</span><span class="n">CreateFloat64</span><span class="p">(</span><span class="mf">3.6</span><span class="p">),</span> <span class="mi">2</span><span class="p">);</span>
+
+  <span class="c1">// print the data</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">port</span><span class="p">.</span><span class="n">getSliceCount</span><span class="p">();</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%x: %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">port</span><span class="p">.</span><span class="n">getJSON</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">getStringData</span><span class="p">());</span>
+
+  <span class="c1">// aside from json and variants you can also use the</span>
+  <span class="c1">// high performance IO on a port.</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">values</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+  <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">3.4</span><span class="p">;</span>
+  <span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">4.5</span><span class="p">;</span>
+  <span class="n">values</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5.6</span><span class="p">;</span>
+  <span class="n">values</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">6.7</span><span class="p">;</span>
+  <span class="n">values</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mf">7.8</span><span class="p">;</span>
+  <span class="n">port</span><span class="p">.</span><span class="n">setSliceCount</span><span class="p">(</span><span class="n">values</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+  <span class="n">port</span><span class="p">.</span><span class="n">setAllSlicesData</span><span class="p">(</span><span class="o">&amp;</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">values</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+
+  <span class="c1">// clear the values</span>
+  <span class="n">values</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+  <span class="n">values</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">port</span><span class="p">.</span><span class="n">getSliceCount</span><span class="p">());</span>
+
+  <span class="c1">// get the data again using the high performance IO</span>
+  <span class="n">port</span><span class="p">.</span><span class="n">getAllSlicesData</span><span class="p">(</span><span class="o">&amp;</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">values</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+
+  <span class="c1">// print the retured data</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">values</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%x: %f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+
+  <span class="n">Finalize</span><span class="p">();</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="class-outline">
+<h2>Class Outline<a class="headerlink" href="#class-outline" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="n">FabricSplice</span>
+<span class="p">{</span>
+  <span class="k">enum</span> <span class="n">Port_Mode</span>
+  <span class="p">{</span>
+    <span class="n">Port_Mode_IN</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">Port_Mode_OUT</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">Port_Mode_IO</span> <span class="o">=</span> <span class="mi">2</span>
+  <span class="p">};</span>
+
+  <span class="k">class</span> <span class="nc">DGPort</span>
+  <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+
+    <span class="c1">// default constructor</span>
+    <span class="n">DGPort</span><span class="p">();</span>
+
+    <span class="c1">// copy constructor</span>
+    <span class="n">DGPort</span><span class="p">(</span><span class="n">DGPort</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">other</span><span class="p">);</span>
+
+    <span class="c1">// copy operator</span>
+    <span class="n">DGPort</span> <span class="o">&amp;</span> <span class="k">operator</span> <span class="o">=</span><span class="p">(</span> <span class="n">DGPort</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">other</span> <span class="p">);</span>
+
+    <span class="c1">// returns true if the object is valid</span>
+    <span class="kt">bool</span> <span class="nf">isValid</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// bool conversion operator</span>
+    <span class="k">operator</span> <span class="nf">bool</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// resets the port and detaches it</span>
+    <span class="kt">void</span> <span class="nf">clear</span><span class="p">();</span>
+
+    <span class="c1">// returns the name of this DGPort</span>
+    <span class="kt">char</span> <span class="k">const</span> <span class="o">*</span> <span class="nf">getName</span><span class="p">();</span>
+
+    <span class="c1">// returns the name of the member this DGPort is connected to</span>
+    <span class="kt">char</span> <span class="k">const</span> <span class="o">*</span> <span class="nf">getMember</span><span class="p">();</span>
+
+    <span class="c1">// returns the name of the DGNode this DGPort is connected to</span>
+    <span class="kt">char</span> <span class="k">const</span> <span class="o">*</span> <span class="nf">getDGNodeName</span><span class="p">();</span>
+
+    <span class="c1">// returns a unique key descripting the DGPort</span>
+    <span class="kt">char</span> <span class="k">const</span> <span class="o">*</span> <span class="nf">getKey</span><span class="p">();</span>
+
+    <span class="c1">// returns the mode of this DGPort</span>
+    <span class="n">DGPort_Mode</span> <span class="nf">getMode</span><span class="p">();</span>
+
+    <span class="c1">// sets the mode of this DGPort</span>
+    <span class="kt">void</span> <span class="nf">setMode</span><span class="p">(</span><span class="n">DGPort_Mode</span> <span class="n">mode</span><span class="p">);</span>
+
+    <span class="c1">// returns the data type of the member this DGPort is connected to</span>
+    <span class="kt">char</span> <span class="k">const</span> <span class="o">*</span> <span class="nf">getDataType</span><span class="p">();</span>
+
+    <span class="c1">// returns the data size of a single element of the member this DGPort is connected to.</span>
+    <span class="c1">// So for example, both for a &#39;Vec3&#39; and &#39;Vec3[]&#39; this will return sizeof(Vec3) == 12</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">getDataSize</span><span class="p">();</span>
+
+    <span class="c1">// returns true if the data type of this DGPort is shallow.</span>
+    <span class="c1">// only shallow data types can be used with the high performance IO</span>
+    <span class="kt">bool</span> <span class="nf">isShallow</span><span class="p">();</span>
+
+    <span class="c1">// returns true if the data type of this DGPort is an array (Vec3[] for example)</span>
+    <span class="kt">bool</span> <span class="nf">isArray</span><span class="p">();</span>
+
+    <span class="c1">// returns true if the data type of this DGPort is a struct</span>
+    <span class="kt">bool</span> <span class="nf">isStruct</span><span class="p">();</span>
+
+    <span class="c1">// returns true if the data type of this DGPort is an object</span>
+    <span class="kt">bool</span> <span class="nf">isObject</span><span class="p">();</span>
+
+    <span class="c1">// returns true if the data type of this DGPort is an interface</span>
+    <span class="kt">bool</span> <span class="nf">isInterface</span><span class="p">();</span>
+
+    <span class="c1">// returns true if this port auto initializes KL objects</span>
+    <span class="kt">bool</span> <span class="nf">doesAutoInitObjects</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">mAutoInitObjects</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="c1">// returns the slice count of the FabricCore::DGNode this DGPort is connected to</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">getSliceCount</span><span class="p">();</span>
+
+    <span class="c1">// sets the slice count of the FabricCore::DGNode this DGPort is connected to</span>
+    <span class="kt">bool</span> <span class="nf">setSliceCount</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">count</span><span class="p">);</span>
+
+    <span class="c1">// returns the value of a specific slice of this DGPort as a FabricCore::Variant</span>
+    <span class="n">FabricCore</span><span class="o">::</span><span class="n">Variant</span> <span class="n">getVariant</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">slice</span> <span class="o">=</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="c1">// sets the value of a specific slice of this DGPort from a FabricCore::Variant</span>
+    <span class="kt">bool</span> <span class="nf">setVariant</span><span class="p">(</span><span class="n">FabricCore</span><span class="o">::</span><span class="n">Variant</span> <span class="n">value</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">slice</span> <span class="o">=</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="c1">// returns the value of a specific slice of this DGPort as a JSON string</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">getJSON</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">slice</span> <span class="o">=</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="c1">// sets the value of a specific slice of this DGPort from a JSON string</span>
+    <span class="kt">bool</span> <span class="nf">setJSON</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">json</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">slice</span> <span class="o">=</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="c1">// returns the default value of this DGPort as a FabricCore::Variant</span>
+    <span class="n">FabricCore</span><span class="o">::</span><span class="n">Variant</span> <span class="n">getDefault</span><span class="p">();</span>
+
+    <span class="c1">// returns the value of a specific slice of this DGPort as a FabricCore::RTVal</span>
+    <span class="n">FabricCore</span><span class="o">::</span><span class="n">RTVal</span> <span class="n">getRTVal</span><span class="p">(</span><span class="kt">bool</span> <span class="n">evaluate</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">slice</span> <span class="o">=</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="c1">// sets the value of a specific slice of this DGPort from a FabricCore::RTVal</span>
+    <span class="kt">bool</span> <span class="nf">setRTVal</span><span class="p">(</span><span class="n">FabricCore</span><span class="o">::</span><span class="n">RTVal</span> <span class="n">value</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">slice</span> <span class="o">=</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="c1">// returns the size of an array member this DGPort is connected to</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">getArrayCount</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">slice</span> <span class="o">=</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="c1">// returns the void* array data of this DGPort.</span>
+    <span class="c1">// this only works for array DGPorts (isArray() == true)</span>
+    <span class="c1">// the bufferSize has to match getArrayCount() * getDataSize()</span>
+    <span class="kt">bool</span> <span class="nf">getArrayData</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span> <span class="n">buffer</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">bufferSize</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">slice</span> <span class="o">=</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="c1">// sets the void* array data of this DGPort.</span>
+    <span class="c1">// this only works for array DGPorts (isArray() == true)</span>
+    <span class="c1">// this also sets the array count determined by bufferSize / getDataSize()</span>
+    <span class="kt">bool</span> <span class="nf">setArrayData</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span> <span class="n">buffer</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">bufferSize</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">slice</span> <span class="o">=</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="c1">// gets the void* slice array data of this DGPort.</span>
+    <span class="c1">// this only works for non-array DGPorts (isArray() == false)</span>
+    <span class="c1">// the bufferSize has to match getSliceCount() * getDataSize()</span>
+    <span class="kt">bool</span> <span class="nf">getAllSlicesData</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span> <span class="n">buffer</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">bufferSize</span><span class="p">);</span>
+
+    <span class="c1">// sets the void* slice array data of this DGPort.</span>
+    <span class="c1">// this only works for non-array DGPorts (isArray() == false)</span>
+    <span class="c1">// the bufferSize has to match getSliceCount() * getDataSize()</span>
+    <span class="kt">bool</span> <span class="nf">setAllSlicesData</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span> <span class="n">buffer</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">bufferSize</span><span class="p">);</span>
+
+    <span class="c1">// set the array data based on another port</span>
+    <span class="c1">// this performs data replication, and only works on shallow array data ports.</span>
+    <span class="c1">// the data type has to match as well (so only Vec3 to Vec3 for example).</span>
+    <span class="kt">bool</span> <span class="nf">copyArrayDataFromDGPort</span><span class="p">(</span><span class="n">DGPort</span> <span class="n">other</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">slice</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">otherSlice</span> <span class="o">=</span> <span class="n">UINT_MAX</span><span class="p">);</span>
+
+    <span class="c1">// set the slices data based on another port</span>
+    <span class="c1">// this performs data replication, and only works on shallow non array data ports.</span>
+    <span class="c1">// the data type has to match as well (so only Vec3 to Vec3 for example).</span>
+    <span class="kt">bool</span> <span class="nf">copyAllSlicesDataFromDGPort</span><span class="p">(</span><span class="n">DGPort</span> <span class="n">other</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">resizeTarget</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
+
+    <span class="c1">// sets an auxiliary option</span>
+    <span class="kt">void</span> <span class="nf">setOption</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">name</span><span class="p">,</span> <span class="k">const</span> <span class="n">FabricCore</span><span class="o">::</span><span class="n">Variant</span> <span class="o">&amp;</span> <span class="n">value</span><span class="p">);</span>
+
+    <span class="c1">// gets an auxiliary option (empty variant if not defined)</span>
+    <span class="n">FabricCore</span><span class="o">::</span><span class="n">Variant</span> <span class="n">getOption</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">name</span><span class="p">);</span>
+
+    <span class="c1">// returns true if an auxiliary option exists</span>
+    <span class="kt">bool</span> <span class="nf">hasOption</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">name</span><span class="p">);</span>
+
+    <span class="c1">// gets an auxiliary option as boolean</span>
+    <span class="kt">bool</span> <span class="nf">getBooleanOption</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">name</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">defaultValue</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
+
+    <span class="c1">// gets an auxiliary option as int</span>
+    <span class="kt">int</span> <span class="nf">getIntegerOption</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">name</span><span class="p">,</span> <span class="kt">int</span> <span class="n">defaultValue</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="c1">// gets an auxiliary option as float</span>
+    <span class="kt">float</span> <span class="nf">getScalarOption</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">name</span><span class="p">,</span> <span class="kt">float</span> <span class="n">defaultValue</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">);</span>
+
+    <span class="c1">// gets an auxiliary option as string</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">getStringOption</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">name</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">defaultValue</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">);</span>
+
+    <span class="c1">// returns true if this port can be manipulated</span>
+    <span class="kt">bool</span> <span class="nf">isManipulatable</span><span class="p">();</span>
+
+    <span class="c1">// returns all animation channels of this port</span>
+    <span class="n">FabricCore</span><span class="o">::</span><span class="n">RTVal</span> <span class="n">getAnimationChannels</span><span class="p">();</span>
+
+    <span class="c1">// sets the values of all animation channels</span>
+    <span class="kt">void</span> <span class="nf">setAnimationChannelValues</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">nbChannels</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span> <span class="n">values</span><span class="p">);</span>
+
+    <span class="c1">// perform a manipulation and returns the event</span>
+    <span class="c1">// int codes from ManipulationContext.kl</span>
+    <span class="kt">int</span> <span class="nf">manipulate</span><span class="p">(</span><span class="n">FabricCore</span><span class="o">::</span><span class="n">RTVal</span> <span class="o">&amp;</span> <span class="n">manipulationContext</span><span class="p">);</span>
+  <span class="p">};</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">FabricSplice::DGPort</a><ul>
+<li><a class="reference internal" href="#example">Example</a></li>
+<li><a class="reference internal" href="#class-outline">Class Outline</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="dggraph.html"
+                        title="前の章へ">FabricSplice::DGGraph</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="scenemanagement.html"
+                        title="次の章へ">FabricSplice::SceneManagement</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/DCCIntegrations/SpliceAPI/dgport.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DCCIntegrations/SpliceAPI/dgport.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="scenemanagement.html" title="FabricSplice::SceneManagement"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="dggraph.html" title="FabricSplice::DGGraph"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.2.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Fabric Engine Splice C/C++ API Documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="classes.html" >Classes</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

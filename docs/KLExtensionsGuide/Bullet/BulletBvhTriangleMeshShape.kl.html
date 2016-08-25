@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>BulletBvhTriangleMeshShape.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Bullet Extension’s Files" href="files.html" />
+    <link rel="next" title="BulletCapsuleShape.kl" href="BulletCapsuleShape.kl.html" />
+    <link rel="prev" title="BulletBroadphaseProxy.kl" href="BulletBroadphaseProxy.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="BulletCapsuleShape.kl.html" title="BulletCapsuleShape.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="BulletBroadphaseProxy.kl.html" title="BulletBroadphaseProxy.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Bullet エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Bullet Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="bullet-bulletbvhtrianglemeshshape-kl">
+<span id="bulletbvhtrianglemeshshape-kl"></span><span id="id1"></span><h1>BulletBvhTriangleMeshShape.kl<a class="headerlink" href="#bullet-bulletbvhtrianglemeshshape-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="bulletbvhtrianglemeshshape-object">
+<h3>BulletBvhTriangleMeshShape (object)<a class="headerlink" href="#bulletbvhtrianglemeshshape-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="BulletBvhTriangleMeshShape.html#bulletbvhtrianglemeshshape"><span class="std std-ref">BulletBvhTriangleMeshShape</span></a> is a static-triangle mesh shape with several optimizations, such as bounding volume hierarchy and cache friendly traversal for PlayStation 3 Cell CPU. It is recommended to enable useQuantizedAabbCompression for better memory usage.
+It takes a triangle mesh as input, for example a BulletTriangleMesh or <a class="reference internal" href="BulletTriangleIndexVertexArray.html#bullettriangleindexvertexarray"><span class="std std-ref">BulletTriangleIndexVertexArray</span></a>. The <a class="reference internal" href="BulletBvhTriangleMeshShape.html#bulletbvhtrianglemeshshape"><span class="std std-ref">BulletBvhTriangleMeshShape</span></a> class allows for triangle mesh deformations by a refit or partialRefit method.
+Instead of building the bounding volume hierarchy acceleration structure, it is also possible to serialize (save) and deserialize (load) the structure from disk.
+See DemosConcaveDemoConcavePhysicsDemo.cpp for an example.</p>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="77%" />
+<col width="20%" />
+<col width="3%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a></td>
+<td>pointer</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="BulletStridingMeshInterface.html#bulletstridingmeshinterface"><span class="std std-ref">BulletStridingMeshInterface</span></a></td>
+<td>__meshInterface</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletBvhTriangleMeshShape.html#id110727"><span class="std std-ref">BulletBvhTriangleMeshShape</span></a>  ( in <a class="reference internal" href="BulletBvhTriangleMeshShape.html#bulletbvhtrianglemeshshape"><span class="std std-ref">BulletBvhTriangleMeshShape</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletBvhTriangleMeshShape.html#id32057"><span class="std std-ref">BulletBvhTriangleMeshShape</span></a>  ( in <a class="reference internal" href="BulletStridingMeshInterface.html#bulletstridingmeshinterface"><span class="std std-ref">BulletStridingMeshInterface</span></a> meshInterface, in Boolean useQuantizedAabbCompression )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletBvhTriangleMeshShape.html#id32068"><span class="std std-ref">BulletBvhTriangleMeshShape</span></a>  ( in <a class="reference internal" href="BulletStridingMeshInterface.html#bulletstridingmeshinterface"><span class="std std-ref">BulletStridingMeshInterface</span></a> meshInterface, in Boolean useQuantizedAabbCompression, in Boolean buildBvh )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletBvhTriangleMeshShape.html#id32087"><span class="std std-ref">BulletBvhTriangleMeshShape</span></a>  ( in <a class="reference internal" href="BulletStridingMeshInterface.html#bulletstridingmeshinterface"><span class="std std-ref">BulletStridingMeshInterface</span></a> meshInterface, in Boolean useQuantizedAabbCompression, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> bvhAabbMin, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> bvhAabbMax )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletBvhTriangleMeshShape.html#id32102"><span class="std std-ref">BulletBvhTriangleMeshShape</span></a>  ( in <a class="reference internal" href="BulletStridingMeshInterface.html#bulletstridingmeshinterface"><span class="std std-ref">BulletStridingMeshInterface</span></a> meshInterface, in Boolean useQuantizedAabbCompression, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> bvhAabbMin, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> bvhAabbMax, in Boolean buildBvh )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletBvhTriangleMeshShape.html#id110724"><span class="std std-ref">BulletBvhTriangleMeshShape</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletBvhTriangleMeshShape.html#id32074"><span class="std std-ref">__construct</span></a> ! ( in <a class="reference internal" href="BulletStridingMeshInterface.html#bulletstridingmeshinterface"><span class="std std-ref">BulletStridingMeshInterface</span></a> meshInterface, in Boolean useQuantizedAabbCompression, in Boolean buildBvh )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletBvhTriangleMeshShape.html#id32110"><span class="std std-ref">__construct</span></a> ! ( in <a class="reference internal" href="BulletStridingMeshInterface.html#bulletstridingmeshinterface"><span class="std std-ref">BulletStridingMeshInterface</span></a> meshInterface, in Boolean useQuantizedAabbCompression, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> bvhAabbMin, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> bvhAabbMax, in Boolean buildBvh )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletBvhTriangleMeshShape.html#id32124"><span class="std std-ref">__destroy</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletBvhTriangleMeshShape.html#id32133"><span class="std std-ref">calculateLocalInertia</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> mass, io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> inertia )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="BulletBvhTriangleMeshShape.html#bulletbvhtrianglemeshshape"><span class="std std-ref">BulletBvhTriangleMeshShape</span></a></td>
+<td><a class="reference internal" href="BulletBvhTriangleMeshShape.html#id110731"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletBvhTriangleMeshShape.html#id32127"><span class="std std-ref">getAabb</span></a> ? ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> t, io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> aabbMin, io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> aabbMax )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="BulletBvhTriangleMeshShape.html#id32142"><span class="std std-ref">getMargin</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a></td>
+<td><a class="reference internal" href="BulletBvhTriangleMeshShape.html#id32049"><span class="std std-ref">getPointer</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletBvhTriangleMeshShape.html#id32138"><span class="std std-ref">setMargin</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> margin )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletBvhTriangleMeshShape.html#id32121"><span class="std std-ref">~BulletBvhTriangleMeshShape</span></a>  ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="BulletBroadphaseProxy.kl.html"
+                        title="前の章へ">BulletBroadphaseProxy.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="BulletCapsuleShape.kl.html"
+                        title="次の章へ">BulletCapsuleShape.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Bullet/BulletBvhTriangleMeshShape.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Bullet/BulletBvhTriangleMeshShape.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="BulletCapsuleShape.kl.html" title="BulletCapsuleShape.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="BulletBroadphaseProxy.kl.html" title="BulletBroadphaseProxy.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Bullet エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >Bullet Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

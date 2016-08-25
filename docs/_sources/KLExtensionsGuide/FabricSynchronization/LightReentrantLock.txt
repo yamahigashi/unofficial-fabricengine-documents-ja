@@ -1,0 +1,10 @@
+.. _lightreentrantlock:
+
+LightReentrantLock (struct)
+===========================================================================
+
+.. kl-type:: LightReentrantLock
+  createrefs=1;
+  methods=1;
+  params=1;
+  members=1;

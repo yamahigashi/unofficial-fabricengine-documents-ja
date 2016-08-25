@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Maya内部のCanvas &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Fabric for Maya" href="index.html" />
+    <link rel="next" title="Canvasスクリプティング・インターフェース" href="canvasscripting.html" />
+    <link rel="prev" title="はじめに" href="intro.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="canvasscripting.html" title="Canvasスクリプティング・インターフェース"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="はじめに"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Fabric for Maya</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="canvas-inside-of-maya">
+<span id="fabricformaya-canvas"></span><h1>Maya内部のCanvas<a class="headerlink" href="#canvas-inside-of-maya" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<img alt="../../_images/userguide_29.png" src="../../_images/userguide_29.png" />
+<div class="section" id="canvas-node-types">
+<h2>Canvas Node Types<a class="headerlink" href="#canvas-node-types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric for Maya comes with two node types:</p>
+<p>The CanvasNode is a generic MPxNode where you can attach almost every kind of maya attribute type, it is suited for any generic computation such as rigging or simulation solvers.</p>
+<p>The CanvasDeformer is a deformer node that seamlessly works with Maya&#8217;s deformation tools and commands and works with a PolygonMesh Array, allowing to modify the positions of a mesh without changing its topology. It is faster than CanvasNode for deformations since it avoids creating a new full mesh.</p>
+</div>
+<div class="section" id="canvasnode">
+<h2>CanvasNode<a class="headerlink" href="#canvasnode" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>This is the main Canvas node and the one you will typically be using in your scenes.</p>
+<p>You can instantiate the canvasNode in the node editor hitting <em class="dfn">TAB</em> and typing <em class="dfn">canvas</em> or through the Fabric top level menu and choosing <em class="dfn">Create graph (Node)</em>. You can then open up the Canvas graph through the <em class="dfn">Open Canvas</em> button on the Maya Attribute editor.</p>
+<img alt="../../_images/userguide_30.jpg" src="../../_images/userguide_30.jpg" />
+</div>
+<div class="section" id="canvasdeformer">
+<h2>CanvasDeformer<a class="headerlink" href="#canvasdeformer" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>This node is a variant of the Canvas node and it is specialized / optimized for deformations, taking advantage of Maya&#8217;s deformation features. The benefit of using this node for deformations rather than the &#8216;regular&#8217; Canvas node is a gain in speed of around 3x - 5x.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">The gain in speed comes at a price: the node is not as flexible as the &#8216;regular&#8217; Canvas node and, more importantly, one must respect a certain way of building the Canvas graph. See following section for more detailed information.</p>
+</div>
+<p>You can instantiate the canvasDeformer in the node editor hitting <em class="dfn">TAB</em> and typing <em class="dfn">canvasDeformer</em> or through the Fabric top level menu and choosing <em class="dfn">Create graph (Deformer)</em> with an object selection. You can then open up the Canvas graph through the <em class="dfn">Open Canvas</em> button on the Maya Attribute editor.</p>
+<p>When opening the Canvas graph you will notice there is a default an IO port called <strong>meshes</strong>.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This port must not be removed nor renamed or else the deformer node will not work properly!.</p>
+</div>
+<p>The correct and safe way to apply a deformation consists of getting the array of vertex positions of a PolygonMesh element from the meshes PolygonMesh array (using Array.Get and GetAllPointPositions), modify the values of the array and finally setting the vertex positions on the output PolygonMesh to the meshes array with Array.Set.</p>
+<p>The following image shows the correct way to do it.</p>
+<img alt="../../_images/userguide_31.png" src="../../_images/userguide_31.png" />
+<p><strong>A (get)</strong> get the mesh from the array meshes and its point positions as an array of Vec3.</p>
+<p><strong>B (do the magic)</strong> perform the actual deformation by modifying the values of the Vec3 array. You can do whatever you want with the array just as long as you do <em>not modify its size, ie. the amount of elements in the array should not be changed</em>.</p>
+<p><strong>C (set)</strong> set the new vertex positions on the mesh and put the changes back into the array meshes.</p>
+</div>
+<div class="section" id="adding-ports-attributes">
+<h2>ポートまたはアトリビュートの追加<a class="headerlink" href="#adding-ports-attributes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Maya内部のCanvasNodeは標準では何のアトリビュートも持ちません。そのため、任意の目的のための汎用的なノードといえるのです。Canvasユーザーインターフェースを開いた後で、あなたは通常の方法でポートを解放することができます。そうすることは、Mayaノードに対応するアトリビュートを加えることにもなります。それによって、あなたは２つの世界の間とデータをつなぐことができるのです。サポートされているデータ型は;</p>
+<blockquote>
+<div><ul class="simple">
+<li>Boolean</li>
+<li>Integer / SInt32 / UInt32</li>
+<li>Scalar / Float32 / Float64</li>
+<li>String</li>
+<li>Vec3</li>
+<li>Euler</li>
+<li>Color</li>
+<li>Mat44</li>
+<li>Lines</li>
+<li>PolygonMesh</li>
+</ul>
+</div></blockquote>
+<p>ポートを作成するためのダイアログを使っているとき、Mayaにおいてはいくつかの拡張機能があります。</p>
+<img alt="../../_images/userguide_31.jpg" src="../../_images/userguide_31.jpg" />
+</div>
+<div class="section" id="native-vs-multi-arrays">
+<h2>ネイティブ対マルチ配列(multi arrays)<a class="headerlink" href="#native-vs-multi-arrays" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Mayaは２つのタイプの配列をサポートしています。</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">ネイティブ：MayaはIntArray, DoubleArray, またはVectorArrayを単一のアトリビュートとして表現する手段を持っています。これは大きな配列を扱う際は非常に効率的で、マルチ配列を使うよりもずっと高速です。</p>
+</li>
+<li><p class="first">マルチ：配列の各要素が各々の単一のプラグを持っています。あなたはそれらをハイパーグラフの異なるものに繋げることができ、配列を対話的に構築することができます。これはとても柔軟性がありますが、ネイティブ配列よりもずっと低速です。</p>
+</li>
+</ul>
+</div></blockquote>
+<p>Canvas内部では、（あなたが何を必要とするかによりますが）あなたが望む型の配列を選ぶことができます。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">ネイティブ配列は次の型のみサポートしています： <code class="code docutils literal"><span class="pre">Scalar[]</span></code>、 <code class="code docutils literal"><span class="pre">Float32[]</span></code>、 <code class="code docutils literal"><span class="pre">Integer[]</span></code>、 <code class="code docutils literal"><span class="pre">SInt32[]</span></code>、 <code class="code docutils literal"><span class="pre">Vec3[]</span></code>。</p>
+</div>
+</div>
+<div class="section" id="opaque-data">
+<h2>不透明なデータ<a class="headerlink" href="#opaque-data" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><em class="dfn">opaque in DCC</em> チェックボックスをオンにすることにより、Mayaは特別なデータ型を、（ネイティブ型として表現することなく）Mayaアトリビュートとして使うことができるようになります。これらのアトリビュートはお互いに接続することができます（例えば、あるMayaノードから隣のMayaノードへ）。Mayaはその接続間のデータを解釈することはしません。これは、あなたがCanvasの外ではアクセスする必要を感じていないものの、しかしそのデータをMayaノード間で渡したいと思っている場合にとても便利です。また、これは、（例えばカスタムのKLデータ構造など）Mayaがまったく表現できないCanvas Mayaノード間でデータを渡すためにも、とても便利なのです。</p>
+</div>
+<div class="section" id="port-metadata">
+<h2>ポートのメタデータ<a class="headerlink" href="#port-metadata" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ユーザーインターフェース機能のいくつかを使うために、あなたはポートに対してメタデータを設定できます。このメタデータは、アトリビュートを作成するときに、Mayaによって取得されます。ポートを作成するときのダイアログのメタデータセクションを開いてください。現時点では、Mayaは <em class="dfn">range</em> 設定のみサポートしています。</p>
+<img alt="../../_images/userguide_32.jpg" src="../../_images/userguide_32.jpg" />
+</div>
+<div class="section" id="maya-evaluation-of-canvas-graphs">
+<h2>Maya evaluation of Canvas graphs<a class="headerlink" href="#maya-evaluation-of-canvas-graphs" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>One important aspect to mention is that a Canvas Node is a Maya dependency graph node that is not connected to the Maya DAG. This means that the Canvas graph is going to be evaluated <strong>only</strong> when there is an output in the Canvas Node that is connected to the Maya DAG (i.e: a Vec3 output port connected to the Translate of a locator).</p>
+</div>
+<div class="section" id="loading-saving-of-canvas-graphs">
+<h2>Canvasグラフのロードとセーブ<a class="headerlink" href="#loading-saving-of-canvas-graphs" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>あなたはCanvasグラフをMayaからディスクにセーブし、またそれらをロードし直すことができます。これをするためには、Canvas Mayaノードを選択し、 <em class="dfn">Load graph</em> または <em class="dfn">Save graph</em> を実行します。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">あなたがグラフをロードできるのは、空のCanvas Mayaノードに対してだけです。</p>
+</div>
+</div>
+<div class="section" id="realtime-rendering">
+<h2>リアルタイムレンダリング<a class="headerlink" href="#realtime-rendering" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>あなたはCanvasから直接Mayaのビューポートに描画することができます。そのためには、 <em class="dfn">EmptyDrawingHandle</em> と、それに連続させることのできる ―例え <em class="dfn">DrawingHandle.DrawPolygonMesh のような― ノード群を使用します。これの例として、 :code:`InlineDrawing</em> Canvasサンプルシーンを見てください。</p>
+<img alt="../../_images/userguide_33.jpg" src="../../_images/userguide_33.jpg" />
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">複数のノードを連続して（カスケードして）使うときには、各描画ノードに対して、（ <cite>name</cite> ポートに）適切な名前を設定する必要があります。</p>
+</div>
+</div>
+<div class="section" id="keyboard-shortcuts">
+<h2>キーボードショートカット<a class="headerlink" href="#keyboard-shortcuts" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Maya向けのCanvasでは、全ての標準的な <a class="reference internal" href="../../CanvasUserGuide/shortcuts.html#canvas-user-guide-shortcuts"><span class="std std-ref">キーボードショートカット</span></a> を実装しています。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Maya内部のCanvas</a><ul>
+<li><a class="reference internal" href="#canvas-node-types">Canvas Node Types</a></li>
+<li><a class="reference internal" href="#canvasnode">CanvasNode</a></li>
+<li><a class="reference internal" href="#canvasdeformer">CanvasDeformer</a></li>
+<li><a class="reference internal" href="#adding-ports-attributes">ポートまたはアトリビュートの追加</a></li>
+<li><a class="reference internal" href="#native-vs-multi-arrays">ネイティブ対マルチ配列(multi arrays)</a></li>
+<li><a class="reference internal" href="#opaque-data">不透明なデータ</a></li>
+<li><a class="reference internal" href="#port-metadata">ポートのメタデータ</a></li>
+<li><a class="reference internal" href="#maya-evaluation-of-canvas-graphs">Maya evaluation of Canvas graphs</a></li>
+<li><a class="reference internal" href="#loading-saving-of-canvas-graphs">Canvasグラフのロードとセーブ</a></li>
+<li><a class="reference internal" href="#realtime-rendering">リアルタイムレンダリング</a></li>
+<li><a class="reference internal" href="#keyboard-shortcuts">キーボードショートカット</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="intro.html"
+                        title="前の章へ">はじめに</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="canvasscripting.html"
+                        title="次の章へ">Canvasスクリプティング・インターフェース</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/DCCIntegrations/Maya/canvas.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DCCIntegrations/Maya/canvas.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="canvasscripting.html" title="Canvasスクリプティング・インターフェース"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="はじめに"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Fabric for Maya</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

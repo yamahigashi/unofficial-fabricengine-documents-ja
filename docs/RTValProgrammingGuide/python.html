@@ -1,0 +1,475 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>RTVal のPythonアプリケーションからの使用 &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="RTVal プログラミングガイド" href="index.html" />
+    <link rel="next" title="RTVals のC++アプリからの利用" href="capi.html" />
+    <link rel="prev" title="RTVal とは何であるか" href="what.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="capi.html" title="RTVals のC++アプリからの利用"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="what.html" title="RTVal とは何であるか"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">RTVal プログラミングガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="using-rtvals-from-python-applications">
+<h1>RTVal のPythonアプリケーションからの使用<a class="headerlink" href="#using-rtvals-from-python-applications" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>この節では RTVal を Pythonで書かれた Fabric Engine クライアントアプリからどのように扱うかについて説明します。</p>
+<div class="section" id="obtain-a-fabric-product-name-client-handle">
+<h2>Fabric Engine クライアントハンドルを得る<a class="headerlink" href="#obtain-a-fabric-product-name-client-handle" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ここでは Fabric Engine クライアントハンドルを得たものします。クライアントハンドルの取得については <a class="reference internal" href="../DependencyGraphProgrammingGuide/introduction.html#dgpg-client-create"><span class="std std-ref">The fabricClient Object</span></a> を参照してください。</p>
+<p>以後この節ではクライアントハンドルを Python変数名『 <cite>client</cite> 』で参照することとします。</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>$ python
+&gt;&gt;&gt; import FabricEngine.Core
+&gt;&gt;&gt; client = FabricEngine.Core.createClient()
+[FABRIC:MT] Fabric Core version 1.10.0
+[FABRIC:MT] Registered extensions {BadVersion,UnitTest,FabricALEMBIC,FabricBULLET,FabricCIMG,FabricEXR,FabricFBX,FabricFILESTREAM,Geometry,FabricHDR,FabricLIDAR,Math,FabricOBJ,FabricOPENCV,FabricOGL,FabricPNG,FabricStringTools,FabricTEEM,FabricTGA,FabricVIDEO} in directory: /Users/pzion/Fabric/CreationPlatform/stage/Darwin/x86_64/Release/Exts
+&gt;&gt;&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-derived-types">
+<h2>派生型の使用<a class="headerlink" href="#using-derived-types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>KLの基本型 ―例えば <code class="docutils literal"><span class="pre">String</span></code> や <code class="docutils literal"><span class="pre">UInt32</span></code> であればRTValで常につかえます。これらはビルトインであり常に使用可能です。</p>
+<p>RTVal で  <a class="reference internal" href="../KLProgrammingGuide/types.html#klpg-types-derived"><span class="std std-ref">派生型</span></a> を使用するのであれば、まずその型を登録（register)します。</p>
+<p>多くのカスタム型は <a class="reference internal" href="../KLExtensionsGuide/index.html#extr"><span class="std std-ref">built-in extensions</span></a> により提供されています。これらの型はエクステンションをロードすることによりRTValで使用可能になりあｍす。エクステンションは KLコードから読み込まれる（例えば DG operators として）か、明示的にエクステンションを読み込むこともできます。明示的な読み込みには <code class="docutils literal"><span class="pre">client.loadExtension(&lt;extension</span> <span class="pre">name&gt;)</span></code> メソッドを使用します。</p>
+<p>カスタム型を登録することもできます。 <a class="reference internal" href="../DependencyGraphProgrammingGuide/registered-types.html#dgpg-registered-types"><span class="std std-ref">Registered Types</span></a> を参照してください。</p>
+<p>以下の用例では、カスタム構造体 &lt;MyType&gt; を登録しカスタムコンストラクタといくつかのメソッドと共に使用します。</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; myTypeSource = &quot;&quot;&quot;
+... function MyType(String string, UInt32 uint32) {
+...   this.string = string;
+...   this.uint32 = uint32;
+... }
+...
+... function MyType.tweet() {
+...   report(&quot;Tweet tweet!  string=&#39;&quot; + this.string + &quot;&#39; uint32=&quot; + this.uint32);
+... }
+...
+... function MyType.append!(MyType that) {
+...   this.string += that.string;
+...   this.uint32 += that.uint32;
+... }
+... &quot;&quot;&quot;
+&gt;&gt;&gt;
+&gt;&gt;&gt; myTypeDesc = {
+...   &#39;members&#39;: [{&#39;string&#39;: &#39;String&#39;}, {&#39;uint32&#39;: &#39;UInt32&#39;}],
+...   &#39;klBindings&#39;: {
+...     &#39;filename&#39;: &quot;(inline)&quot;,
+...     &#39;sourceCode&#39;: myTypeSource
+...    }
+... }
+&gt;&gt;&gt;
+&gt;&gt;&gt; client.RT.registerType(&#39;MyType&#39;, myTypeDesc)
+[FABRIC:MT] Compiled extension MyType in 0.961ms
+[FABRIC:ID] Optimized extension MyType in 29.553ms
+&gt;&gt;&gt; print client.RT.getRegisteredTypes()[&#39;MyType&#39;]
+{&#39;uuid&#39;: &#39;8E8A7F4C&#39;, &#39;name&#39;: &#39;MyType&#39;, &#39;members&#39;: [{&#39;type&#39;: &#39;String&#39;, &#39;name&#39;: &#39;string&#39;}, {&#39;type&#39;: &#39;UInt32&#39;, &#39;name&#39;: &#39;uint32&#39;}], &#39;size&#39;: 32}
+&gt;&gt;&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-an-rtval-for-kl-basic-types-or-structures">
+<h2>KLでの基本型、構造体 の RTVal の作成<a class="headerlink" href="#creating-an-rtval-for-kl-basic-types-or-structures" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>型を作成するには <code class="docutils literal"><span class="pre">client.RT.types.&lt;TypeName&gt;(&lt;constructor</span> <span class="pre">parameters&gt;)</span></code> メソッドを呼びます：</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; myRTVal = client.RT.types.MyType(&quot;Hello&quot;, 42)
+&gt;&gt;&gt; print myRTVal
+&lt;RTVal:{string:&quot;Hello&quot;,uint32:42}&gt;
+&gt;&gt;&gt;
+</pre></div>
+</div>
+<p>RTVal のコンストラクタへパラメータが渡されているのがわかりますね。RTVal が自動で値を表す文字列へと変換しているところもわかります。デバッグの際にとても有用です。</p>
+<p>存在しないコンストラクタを呼び出してしまうと例外が発生してしまいます。</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; client.RT.types.MyType(&quot;foo&quot;)
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+AttributeError: KL compile failed: constructArgs__ST.kl:2:106: error: no resolution for constructor MyType(io _CN&lt;ST&gt;)
+candidates are:
+  function MyType(MyType)
+  function MyType()
+  function MyType(String, UInt32)
+&gt;&gt;&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-an-rtval-for-kl-objects">
+<h2>KLでのオブジェクト の RTVal の作成<a class="headerlink" href="#creating-an-rtval-for-kl-objects" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">KL中のオブジェクト同様、新規に作成したあるオブジェクト型な RTVal は、常にnullになります。非nullなオブジェクトRTValの作成には、 <code class="docutils literal"><span class="pre">client.RT.types.&lt;MyObjType&gt;.create(&lt;create</span> <span class="pre">args&gt;)</span></code> を呼びます。ただし、このKLオブジェクトが『複数のパラメタ付』のコンストラクタを実装している場合については、 <code class="docutils literal"><span class="pre">client.RT.types.&lt;MyObjType&gt;(&lt;create</span> <span class="pre">args&gt;)</span></code> を呼ぶことにより非nullの オブジェクトRTValを直接コンストラクトすることができます。</p>
+</div>
+<p>Pythonでの構造体（もしくは基本型）とオブジェクトRTValのコンストラクト例を示します。KL オブジェクトと構造体宣言定義は MyExtエクステンションにあり：</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">object</span> <span class="nx">MyObj</span> <span class="p">{</span>
+  <span class="kr">Float32</span> <span class="nx">value</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="nx">MyObj</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">MyObj</span><span class="p">(</span><span class="kr">Float32</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">struct</span> <span class="nx">MyStruct</span> <span class="p">{</span>
+  <span class="kr">Float32</span> <span class="nx">value</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="nx">MyStruct</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">MyStruct</span><span class="p">(</span><span class="kr">Float32</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Pythonでコンストラクト：</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>client.loadExtension(&#39;MyExt&#39;)
+
+# 1. Objects
+# 1.1 Direct call from RTVal
+myObj = self.client.RT.types.MyObj()
+str(myObj.type(&#39;String&#39;).getSimpleType()) &gt;&gt;&gt; None
+str(myObj) &gt;&gt;&gt; Obj &lt;RTVal:null&gt;
+
+myObj = self.client.RT.types.MyObj(1)
+str(myObj.type(&#39;String&#39;).getSimpleType()) &gt;&gt;&gt; MyObj
+str(myObj) &gt;&gt;&gt; &lt;RTVal:{value:+1.0}&gt;
+
+myObj = self.client.RT.types.MyObj.create()
+str(myObj.type(&#39;String&#39;).getSimpleType()) &gt;&gt;&gt; MyObj
+str(myObj) &gt;&gt;&gt; &lt;RTVal:{value:+0.0}&gt;
+
+myObj = self.client.RT.types.MyObj.create(1)
+str(myObj.type(&#39;String&#39;).getSimpleType()) &gt;&gt;&gt; MyObj
+str(myObj) &gt;&gt;&gt; &lt;RTVal:{value:+1.0}&gt;
+
+# 1.2 Call from RTVal type
+myObjType = getattr(self.client.RT.types, &quot;MyObj&quot;)
+
+myObj = myObjType()
+str(myObj.type(&#39;String&#39;).getSimpleType()) &gt;&gt;&gt; None
+str(myObj) &gt;&gt;&gt; &lt;RTVal:null&gt;
+
+myObj = myObjType(1)
+str(myObj.type(&#39;String&#39;).getSimpleType()) &gt;&gt;&gt; MyObj
+str(myObj) &gt;&gt;&gt; &lt;RTVal:{value:+1.0}&gt;
+
+myObj = myObjType.create()
+str(myObj.type(&#39;String&#39;).getSimpleType()) &gt;&gt;&gt; MyObj
+str(myObj) &gt;&gt;&gt; &lt;RTVal:{value:+0.0}&gt;
+
+myObj = myObjType.create(1)
+str(myObj.type(&#39;String&#39;).getSimpleType()) &gt;&gt;&gt; MyObj
+str(myObj) &gt;&gt;&gt; &lt;RTVal:{value:+1.0}&gt;
+
+
+# 2. Structures (same for basic types)
+# 2.1 Direct call from RTVal
+myStruct = self.client.RT.types.MyStruct()
+str(myStruct.type(&#39;String&#39;).getSimpleType()) &gt;&gt;&gt; MyStruct
+str(myStruct) &gt;&gt;&gt; &lt;RTVal:{value:+0.0}&gt;
+
+myStruct = self.client.RT.types.MyStruct(1)
+str(myStruct.type(&#39;String&#39;).getSimpleType()) &gt;&gt;&gt; MyStruct
+str(myStruct) &gt;&gt;&gt; &lt;RTVal:{value:+1.0}&gt;
+
+# 2.2 Call from RTVal type
+myStructType = getattr(self.client.RT.types, &quot;MyStruct&quot;)
+myStruct = myStructType()
+str(myStruct.type(&#39;String&#39;).getSimpleType()) &gt;&gt;&gt; MyStruct
+str(myStruct) &gt;&gt;&gt; &lt;RTVal:{value:+0.0}&gt;
+
+myStruct = myStructType(1)
+str(myStruct.type(&#39;String&#39;).getSimpleType()) &gt;&gt;&gt; MyStruct
+str(myStruct) &gt;&gt;&gt; &lt;RTVal:{value:+1.0}&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-rtval-arrays">
+<h2>RTVal配列の作成<a class="headerlink" href="#creating-rtval-arrays" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>型の配列を作成するには <code class="docutils literal"><span class="pre">client.RT.types.&lt;TypeName&gt;.createArray(&lt;OptionalListOfRTVals&gt;)</span></code> メソッドを呼びます：</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; // Create an empty Vec3 Array
+&gt;&gt;&gt; myRTValArray = client.RT.types.Vec3.createArray()
+&gt;&gt;&gt; print myRTValArray
+&lt;RTVal:[]&gt;
+&gt;&gt;&gt;
+&gt;&gt;&gt; // Create a Vec3 Array with two Vec3 items
+&gt;&gt;&gt; vec1 = client.RT.types.Vec3(0, 1, 0)
+&gt;&gt;&gt; vec2 = client.RT.types.Vec3(0, 2, 0)
+&gt;&gt;&gt; myRTValArray = client.RT.types.Vec3.createArray([vec1, vec2])
+&gt;&gt;&gt;
+&gt;&gt;&gt; print myRTValArray
+&lt;RTVal:[{x:+0.0,y:+1.0,z:+0.0},{x:+0.0,y:+2.0,z:+0.0}]&gt;
+&gt;&gt;&gt;
+&gt;&gt;&gt; // Create a Scalar Array with two items from Python built in float types
+&gt;&gt;&gt; myRTValArray = client.RT.types.Scalar.createArray([1.5, 2.5])
+&gt;&gt;&gt;
+&gt;&gt;&gt; print myRTValArray
+&lt;RTVal:[+1.5,+2.5]&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-2d-rtval-arrays">
+<h2>2次RTVal配列<a class="headerlink" href="#creating-2d-rtval-arrays" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ある型の2次元配列を作成するには、 <code class="docutils literal"><span class="pre">&lt;Type&gt;[]</span></code> の名前を持つ属性を、登録された型（registered types）オブジェクトの中から検索し、戻ってきた型に対し <code class="docutils literal"><span class="pre">.createArray()</span></code> メソッドを実行する必要があります。</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; matrixA = client.RT.types.Mat44()
+&gt;&gt;&gt; matrixB = client.RT.types.Mat44()
+&gt;&gt;&gt;
+&gt;&gt;&gt; matrixC = client.RT.types.Mat44()
+&gt;&gt;&gt; matrixD = client.RT.types.Mat44()
+&gt;&gt;&gt; matrixE = client.RT.types.Mat44()
+&gt;&gt;&gt;
+&gt;&gt;&gt; subArray1 = client.RT.types.Mat44.createArray([matrixA, matrixB])
+&gt;&gt;&gt; subArray2 = client.RT.types.Mat44.createArray([matrixC, matrixD, matrixE])
+&gt;&gt;&gt;
+&gt;&gt;&gt; registeredTypes = client.RT.types
+&gt;&gt;&gt; mat44ArrayType = getattr(registeredTypes, &#39;Mat44[]&#39;)
+&gt;&gt;&gt; matrix2DArray = mat44ArrayType.createArray([subArray1, subArray2])
+&gt;&gt;&gt;
+&gt;&gt;&gt; print &quot;Matrix 2D Array Size: &quot; + str(len(matrix2DArray))
+&gt;&gt;&gt; print &quot;SubArray 1 Array Size: &quot; + str(len(matrix2DArray[0]))
+&gt;&gt;&gt; print &quot;SubArray 2 Array Size: &quot; + str(len(matrix2DArray[1]))
+Matrix 2D Array Size: 2
+SubArray 1 Array Size: 2
+SubArray 2 Array Size: 3
+</pre></div>
+</div>
+</div>
+<div class="section" id="getting-python-values-from-an-rtval">
+<h2>RTVal からPythonの値を取得<a class="headerlink" href="#getting-python-values-from-an-rtval" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>RTVal メソッド，メンバはディフォルトでPYthonでは &#8216;RTVal&#8217; として表現されます。しかし単純な型 ―整数や文字列などは Pythonの組み込みの方として扱いたい事が多いでしょう。そこで getSimpleType() メソッドを使用します。RTVal が単純なPythonの型を返すか、ディフォルトの型に当てはまらない場合は &#8216;None&#8217; を返します：</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; print myRTVal
+&lt;RTVal:{string:&quot;Hello&quot;,uint32:42}&gt;
+&gt;&gt;&gt; print myRTVal.getSimpleType()
+None
+&gt;&gt;&gt; print myRTVal.uint32
+&lt;RTVal:42&gt;
+&gt;&gt;&gt; print myRTVal.uint32.getSimpleType()
+42
+</pre></div>
+</div>
+</div>
+<div class="section" id="calling-an-rtval-method">
+<h2>RTVal のメソッド呼び出し<a class="headerlink" href="#calling-an-rtval-method" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>メソッドの呼び出しには、単純にメソッドを呼び出します。引数もわたします。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Python でのメソッド呼び出しは、&lt;戻り値の型の名前&gt;を文字列で最初の引数に渡さなくてはいけません。戻り値がないメソッドでは、「空の文字列」をわたします。このクセのある挙動は将来の Fabric Engine で修正する予定です。</p>
+</div>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; quat = client.RT.types.Quat()
+&gt;&gt;&gt; upVec = client.RT.types.Vec3(0, 1, 0)
+&gt;&gt;&gt; dirVec = client.RT.types.Vec3(1, 0, 0)
+&gt;&gt;&gt;
+&gt;&gt;&gt; // You have to pass an emtpy string when calling methods that don&#39;t return a type.
+&gt;&gt;&gt; quat.setFromDirectionAndUpvector(&#39;&#39;, dirVec, upVec)
+&gt;&gt;&gt;
+&gt;&gt;&gt; print quat
+&lt;RTVal:{v:{x:+0.0,y:+0.707106,z:+0.0},w:+0.707106}&gt;
+&gt;&gt;&gt;
+</pre></div>
+</div>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; myRTVal.tweet(&#39;&#39;)
+[FABRIC:MT] Tweet tweet!  string=&#39;Hello&#39; uint32=42
+&gt;&gt;&gt;
+</pre></div>
+</div>
+<p>素のPython型 ―整数や文字列に加え、他の RTValを引数として渡すこともできます。</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; myRTVal2 = client.RT.types.MyType(&quot;, there&quot;, 71)
+&gt;&gt;&gt; print(myRTVal2)
+&lt;RTVal:{string:&quot;, there&quot;,uint32:71}&gt;
+&gt;&gt;&gt; myRTVal.append(&#39;&#39;, myRTVal2)
+&gt;&gt;&gt; myRTVal.tweet(&#39;&#39;)
+[FABRIC:MT] Tweet tweet!  string=&#39;Hello, there&#39; uint32=113
+&gt;&gt;&gt;
+</pre></div>
+</div>
+<p>Fabric Core への Python インタフェースには、いくつかの特別なメソッド名が定義されています。たとえば、<code class="docutils literal"><span class="pre">getJSON</span></code> and <code class="docutils literal"><span class="pre">getDesc</span></code> です。もし呼び出したいメソッド名が、これらの特別なメソッド名と一致している場合、以上のように直接呼ぶ出すことが可能ですし、特別なメソッド  <code class="docutils literal"><span class="pre">callMethod</span></code> に名前を与え、望みのメソッドを呼ぶ出すことができます。 <code class="docutils literal"><span class="pre">callMethod</span></code> は（もしあるのならば）戻り値の型名を一番目のパラメータにとり、二番目のパラメータにはメソッド名をとりメソッド呼び出しの引数とします。</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; myRTVal.callMethod(&#39;&#39;, &#39;tweet&#39;)
+[FABRIC:MT] Tweet tweet!  string=&#39;Hello, there&#39; uint32=113
+&gt;&gt;&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="copying-rtval-references">
+<h2>RTVal 参照のコピー<a class="headerlink" href="#copying-rtval-references" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>RTVal を指すPython変数は参照です。つまり、RTValをある変数に代入するということ参照を他にもう一個設けることと同義です。通底する値のコピーは『行いません』。</p>
+</div>
+<div class="section" id="destroying-an-rtval">
+<h2>RTVal の破棄<a class="headerlink" href="#destroying-an-rtval" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Pythonでは、スコープ外へと外れたRTValを自動で破棄します。</p>
+</div>
+<div class="section" id="interfacing-with-the-dependency-graph">
+<h2>Dependency Graph とのインタフェース<a class="headerlink" href="#interfacing-with-the-dependency-graph" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><a class="reference internal" href="../DependencyGraphProgrammingGuide/index.html#dgpg"><span class="std std-ref">dependency graph</span></a> とのインタフェースに RTValを使用することが可能です。 <code class="docutils literal"><span class="pre">node.getValue(&lt;member&gt;,</span> <span class="pre">&lt;slice&gt;)</span></code> メソッドにより RTValのメンバの値を取得できます：</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; node = client.DG.createNode(&quot;node&quot;)
+&gt;&gt;&gt; node.addMember(&quot;myType&quot;, &quot;MyType&quot;)
+&gt;&gt;&gt; print node.getValue(&quot;myType&quot;, 0)
+&lt;RTVal:{string:&quot;&quot;,uint32:0}&gt;
+&gt;&gt;&gt;
+</pre></div>
+</div>
+<p>おなじように、 <code class="docutils literal"><span class="pre">setValue(&lt;member&gt;,</span> <span class="pre">&lt;slice&gt;,</span> <span class="pre">&lt;value&gt;)</span></code> メソッドによりRTValの値を設定できます：</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; node.setValue(&quot;myType&quot;, 0, myRTVal)
+&gt;&gt;&gt; print node.getValue(&quot;myType&quot;, 0)
+&lt;RTVal:{string:&quot;Hello, there&quot;,uint32:113}&gt;
+&gt;&gt;&gt;
+</pre></div>
+</div>
+<p>この2つのメソッドは イベント，イベントハンドラと共に使用することができます。</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last"><code class="docutils literal"><span class="pre">getValue</span></code> を dependency graph ノードに対して呼ぶ場合、戻りRTVal は『コピー』です。参照では『ありません』。したがって戻りRTVal を変更しても元のノードの値は変更されずにおわります。</p>
+</div>
+</div>
+<div class="section" id="working-with-kl-rtval">
+<h2>KL <code class="xref std std-kl-ref docutils literal"><span class="pre">RTVal</span></code> の活用<a class="headerlink" href="#working-with-kl-rtval" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="line-block">
+<div class="line">KL <code class="xref std std-kl-ref docutils literal"><span class="pre">RTVal</span></code> 型の Python RTValを、アプリケーション内外の一般的なデータ受け渡しのために利用することができます。</div>
+<div class="line">Python RTVal は KL での <code class="xref std std-kl-ref docutils literal"><span class="pre">RTVal</span></code> と1対1対応するような同等なものではありません。</div>
+<div class="line">Pythonからアクセするする際は、他の KLの型と同じく、 KL :kl-ref:<a href="#id1"><span class="problematic" id="id2">`</span></a>RTVal`s は Python RTVal に内包されます。</div>
+</div>
+<div class="line-block">
+<div class="line">KL <code class="xref std std-kl-ref docutils literal"><span class="pre">RTVal</span></code> をラップした値を Python RTVal へ置き換えるにはどうするかを示す例です：</div>
+</div>
+<div class="highlight-none"><div class="highlight"><pre><span></span># Access the KL :kl-ref:`RTVal` containing the KL data we want.
+klRTVal = getRTVal(....);
+
+# Now, get the type of the KL data wrapped in the KL :kl-ref:`RTVal`.
+valType = str(klRTVal.type(&#39;String&#39;).getSimpleType())
+
+# Then, construct a new Python RTVal containing the KL data.
+rtValType = getattr(self.client.RT.types, valType)
+pythonRTVal = rtValType(klRTVal)
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">RTVal のPythonアプリケーションからの使用</a><ul>
+<li><a class="reference internal" href="#obtain-a-fabric-product-name-client-handle">Fabric Engine クライアントハンドルを得る</a></li>
+<li><a class="reference internal" href="#using-derived-types">派生型の使用</a></li>
+<li><a class="reference internal" href="#creating-an-rtval-for-kl-basic-types-or-structures">KLでの基本型、構造体 の RTVal の作成</a></li>
+<li><a class="reference internal" href="#creating-an-rtval-for-kl-objects">KLでのオブジェクト の RTVal の作成</a></li>
+<li><a class="reference internal" href="#creating-rtval-arrays">RTVal配列の作成</a></li>
+<li><a class="reference internal" href="#creating-2d-rtval-arrays">2次RTVal配列</a></li>
+<li><a class="reference internal" href="#getting-python-values-from-an-rtval">RTVal からPythonの値を取得</a></li>
+<li><a class="reference internal" href="#calling-an-rtval-method">RTVal のメソッド呼び出し</a></li>
+<li><a class="reference internal" href="#copying-rtval-references">RTVal 参照のコピー</a></li>
+<li><a class="reference internal" href="#destroying-an-rtval">RTVal の破棄</a></li>
+<li><a class="reference internal" href="#interfacing-with-the-dependency-graph">Dependency Graph とのインタフェース</a></li>
+<li><a class="reference internal" href="#working-with-kl-rtval">KL <code class="docutils literal"><span class="pre">RTVal</span></code> の活用</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="what.html"
+                        title="前の章へ">RTVal とは何であるか</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="capi.html"
+                        title="次の章へ">RTVals のC++アプリからの利用</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/RTValProgrammingGuide/python.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/RTValProgrammingGuide/python.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="capi.html" title="RTVals のC++アプリからの利用"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="what.html" title="RTVal とは何であるか"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >RTVal プログラミングガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

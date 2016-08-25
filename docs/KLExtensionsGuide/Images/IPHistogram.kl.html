@@ -1,0 +1,626 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>IPHistogram.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Images Extension’s Files" href="files.html" />
+    <link rel="next" title="IPInterpolation.kl" href="IPInterpolation.kl.html" />
+    <link rel="prev" title="IPGaussianFilter.kl" href="IPGaussianFilter.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="IPInterpolation.kl.html" title="IPInterpolation.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="IPGaussianFilter.kl.html" title="IPGaussianFilter.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Images エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Images Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="images-iphistogram-kl">
+<span id="iphistogram-kl"></span><span id="id1"></span><h1>IPHistogram.kl<a class="headerlink" href="#images-iphistogram-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="integralhistogram-struct">
+<h3>IntegralHistogram (struct)<a class="headerlink" href="#integralhistogram-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="40%" />
+<col width="14%" />
+<col width="47%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>width</td>
+<td>Image width</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>height</td>
+<td>Image height</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>nbBuckets</td>
+<td>Number of historam buckets</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>nbChannels</td>
+<td>Number of image channels</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Histogram.html#histogram"><span class="std std-ref">Histogram</span></a>[]</td>
+<td>hists</td>
+<td>Histograms array : one for each pixels</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="27%" />
+<col width="73%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="IntegralHistogram.html#id114715"><span class="std std-ref">IntegralHistogram</span></a>  ( in <a class="reference internal" href="IntegralHistogram.html#integralhistogram"><span class="std std-ref">IntegralHistogram</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="IntegralHistogram.html#id62642"><span class="std std-ref">IntegralHistogram</span></a>  ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> nbBuckets, in Ref&lt;<a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a>&gt; image )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="IntegralHistogram.html#id114712"><span class="std std-ref">IntegralHistogram</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="IntegralHistogram.html#integralhistogram"><span class="std std-ref">IntegralHistogram</span></a></td>
+<td><a class="reference internal" href="IntegralHistogram.html#id114719"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Histogram.html#histogram"><span class="std std-ref">Histogram</span></a></td>
+<td><a class="reference internal" href="IntegralHistogram.html#id62647"><span class="std std-ref">interpolate</span></a> ? ( in Index p, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="histogram-struct">
+<h3>Histogram (struct)<a class="headerlink" href="#histogram-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">バージョン 2.0 で追加.</span></p>
+</div>
+<p class="plaintext">This file contains all the methods needed to compute image histograms.
+It supports simple histograms, joint histograms and integral histograms.</p>
+<p class="plaintext">Please read :
+&#8211; <a class="reference external" href="https://doc.qt.io/archives/qq/qq17-compositionmodes.html">https://doc.qt.io/archives/qq/qq17-compositionmodes.html</a></p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a>, <code class="xref std std-kl-ref docutils literal"><span class="pre">ImageStochastic</span></code>, <code class="xref std std-kl-ref docutils literal"><span class="pre">ImageFiltering</span></code></p>
+</div>
+<div class="section" id="id2">
+<h4>Members<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="41%" />
+<col width="18%" />
+<col width="41%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>nbBuckets</td>
+<td>Number of historam buckets</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>nbChannels</td>
+<td>Number of image channels</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a>[]</td>
+<td>buckets</td>
+<td>Buckets buffer</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id3">
+<h4>Methods<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="22%" />
+<col width="78%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Histogram.html#id114698"><span class="std std-ref">Histogram</span></a>  ( in <a class="reference internal" href="Histogram.html#histogram"><span class="std std-ref">Histogram</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Histogram.html#id62611"><span class="std std-ref">Histogram</span></a>  ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> nbBuckets, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> nbChannels )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Histogram.html#id114695"><span class="std std-ref">Histogram</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Histogram.html#histogram"><span class="std std-ref">Histogram</span></a></td>
+<td><a class="reference internal" href="Histogram.html#id114702"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="imagepasses-object">
+<h3>ImagePasses (object)<a class="headerlink" href="#imagepasses-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">バージョン 2.0 で追加.</span></p>
+</div>
+<p class="plaintext">The <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> class derived from <a class="reference internal" href="BaseImagePasses.html#baseimagepasses"><span class="std std-ref">BaseImagePasses</span></a> class and manages the pixels buffer.
+It allows to create new images from an exsiting images using the <code class="xref std std-kl-ref docutils literal"><span class="pre">ChannelPasses</span></code> system.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="BaseImagePasses.html#baseimagepasses"><span class="std std-ref">BaseImagePasses</span></a></p>
+</div>
+<div class="section" id="id4">
+<h4>Members<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="69%" />
+<col width="10%" />
+<col width="21%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Util/Versions.html#versions"><span class="std std-ref">Versions</span></a></td>
+<td>version</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>width</td>
+<td>Width</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>height</td>
+<td>Height</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>depth</td>
+<td>Depth (3D image)</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a>[]</td>
+<td>channels</td>
+<td>Channels&#8217; name</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Containers/ThreadsafeMetaDataContainer.html#threadsafemetadatacontainer"><span class="std std-ref">ThreadsafeMetaDataContainer</span></a></td>
+<td>metaData</td>
+<td>MetaData container</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ChannelsPasses.html#channelspasses"><span class="std std-ref">ChannelsPasses</span></a>[]</td>
+<td>passes</td>
+<td>Array of passes</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a>[]</td>
+<td>pixels</td>
+<td>Array of pixels</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id5">
+<h4>Methods<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id114705"><span class="std std-ref">ImagePasses</span></a>  ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62083"><span class="std std-ref">ImagePasses</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62418"><span class="std std-ref">absDiff</span></a> ? ( in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> val )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62404"><span class="std std-ref">absDiff</span></a> ? ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62414"><span class="std std-ref">absDiffIp</span></a> ! ( in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> val )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62400"><span class="std std-ref">absDiffIp</span></a> ! ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62359"><span class="std std-ref">add</span></a> ? ( in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> alpha, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> beta, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> gamma, in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62339"><span class="std std-ref">add</span></a> ? ( in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> val )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62325"><span class="std std-ref">add</span></a> ? ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62352"><span class="std std-ref">addIp</span></a> ! ( in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> alpha, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> beta, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> gamma, in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62335"><span class="std std-ref">addIp</span></a> ! ( in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> val )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62321"><span class="std std-ref">addIp</span></a> ! ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62150"><span class="std std-ref">appendAsPass</span></a> ! ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62516"><span class="std std-ref">avg</span></a> ? ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62512"><span class="std std-ref">avgIp</span></a> ! ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62253"><span class="std std-ref">bcInter</span></a> ? ( in Index width, in Index height )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62248"><span class="std std-ref">bcInterIp</span></a> ! ( in Index width, in Index height )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62910"><span class="std std-ref">bilateral</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> kSize, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> nbBuckets, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> mean, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> sigma, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> sigmaColor )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62902"><span class="std std-ref">bilateralIp</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> kSize, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> nbBuckets, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> mean, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> sigma, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> sigmaColor )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62205"><span class="std std-ref">blInter</span></a> ? ( in Index width, in Index height )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62200"><span class="std std-ref">blInterIp</span></a> ! ( in Index width, in Index height )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62229"><span class="std std-ref">bqInter</span></a> ? ( in Index width, in Index height )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62224"><span class="std std-ref">bqInterIp</span></a> ! ( in Index width, in Index height )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id114709"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62181"><span class="std std-ref">cnInter</span></a> ? ( in Index width, in Index height )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62176"><span class="std std-ref">cnInterIp</span></a> ! ( in Index width, in Index height )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a>[]</td>
+<td><a class="reference internal" href="ImagePasses.html#id62701"><span class="std std-ref">covar</span></a> ? ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62390"><span class="std std-ref">diff</span></a> ? ( in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> val )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62376"><span class="std std-ref">diff</span></a> ? ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62386"><span class="std std-ref">diffIp</span></a> ! ( in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> val )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62372"><span class="std std-ref">diffIp</span></a> ! ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62474"><span class="std std-ref">div</span></a> ? ( in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> val )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62460"><span class="std std-ref">div</span></a> ? ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62470"><span class="std std-ref">divIp</span></a> ! ( in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> val )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62456"><span class="std std-ref">divIp</span></a> ! ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a>[]</td>
+<td><a class="reference internal" href="ImagePasses.html#id62685"><span class="std std-ref">ecc</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> nbBuckets, in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a>[]</td>
+<td><a class="reference internal" href="ImagePasses.html#id62690"><span class="std std-ref">ed</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> nbBuckets, in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a>[]</td>
+<td><a class="reference internal" href="ImagePasses.html#id62666"><span class="std std-ref">entropy</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> nbBuckets )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62550"><span class="std std-ref">exp</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62547"><span class="std std-ref">expIp</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62890"><span class="std std-ref">gaussian</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> kSize, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> mean, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> sigma )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62884"><span class="std std-ref">gaussianIp</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> kSize, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> mean, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> sigma )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62115"><span class="std std-ref">getAtChannels</span></a> ? ( in Index indexes[] )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a>[]</td>
+<td><a class="reference internal" href="ImagePasses.html#id62154"><span class="std std-ref">getAtChannelsAsRGBA</span></a> ? ( in Index indexes[] )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62119"><span class="std std-ref">getAtPass</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a>[]</td>
+<td><a class="reference internal" href="ImagePasses.html#id62158"><span class="std std-ref">getAtPassAsRGBA</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a>[]</td>
+<td><a class="reference internal" href="ImagePasses.html#id62103"><span class="std std-ref">getPixels</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62099"><span class="std std-ref">getRawPixelData</span></a> ! ( io <a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a> data )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Histogram.html#histogram"><span class="std std-ref">Histogram</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62616"><span class="std std-ref">hist</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> nbBuckets )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62766"><span class="std std-ref">inBlend</span></a> ! ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62762"><span class="std std-ref">inBlendIp</span></a> ! ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62949"><span class="std std-ref">intHisBilateral</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> kSize, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> nbBuckets, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> sigmaColor )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62943"><span class="std std-ref">intHisBilateralIp</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> kSize, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> nbBuckets, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> sigmaColor )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="IntegralHistogram.html#integralhistogram"><span class="std std-ref">IntegralHistogram</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62652"><span class="std std-ref">intHist</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> nbBuckets )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62528"><span class="std std-ref">inv</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62525"><span class="std std-ref">invIp</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a>[]</td>
+<td><a class="reference internal" href="ImagePasses.html#id62670"><span class="std std-ref">jointEntropy</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> nbBuckets, in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Histogram.html#histogram"><span class="std std-ref">Histogram</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62620"><span class="std std-ref">jointHist</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> nbBuckets, in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62561"><span class="std std-ref">log</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62558"><span class="std std-ref">logIp</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62488"><span class="std std-ref">max</span></a> ? ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a>[]</td>
+<td><a class="reference internal" href="ImagePasses.html#id62312"><span class="std std-ref">max</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62484"><span class="std std-ref">maxIp</span></a> ! ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a>[]</td>
+<td><a class="reference internal" href="ImagePasses.html#id62695"><span class="std std-ref">mean</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a>[]</td>
+<td><a class="reference internal" href="ImagePasses.html#id62675"><span class="std std-ref">mi</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> nbBuckets, in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62502"><span class="std std-ref">min</span></a> ? ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a>[]</td>
+<td><a class="reference internal" href="ImagePasses.html#id62309"><span class="std std-ref">min</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62498"><span class="std std-ref">minIp</span></a> ! ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62446"><span class="std std-ref">mul</span></a> ? ( in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> val )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62432"><span class="std std-ref">mul</span></a> ? ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62442"><span class="std std-ref">mulIp</span></a> ! ( in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> val )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62428"><span class="std std-ref">mulIp</span></a> ! ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a>[]</td>
+<td><a class="reference internal" href="ImagePasses.html#id62705"><span class="std std-ref">ncc</span></a> ? ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62539"><span class="std std-ref">neg</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62536"><span class="std std-ref">negIp</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a>[]</td>
+<td><a class="reference internal" href="ImagePasses.html#id62680"><span class="std std-ref">nmi</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> nbBuckets, in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62593"><span class="std std-ref">norm</span></a> ? ( in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> min, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> max )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62588"><span class="std std-ref">normIp</span></a> ! ( in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> min, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> max )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62748"><span class="std std-ref">outBlend</span></a> ! ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62744"><span class="std std-ref">outBlendIp</span></a> ! ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62730"><span class="std std-ref">overBlend</span></a> ! ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62726"><span class="std std-ref">overBlendIp</span></a> ! ( in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62574"><span class="std std-ref">pow</span></a> ? ( in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> power )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62570"><span class="std std-ref">powIp</span></a> ! ( in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> power )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62093"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> width, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> height, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> channels[] )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62086"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> width, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> height, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> depth, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> channels[] )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="BaseImage.html#baseimage"><span class="std std-ref">BaseImage</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62286"><span class="std std-ref">roi</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> i, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> j, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> width, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> height )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="BaseImage.html#baseimage"><span class="std std-ref">BaseImage</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62297"><span class="std std-ref">rotateHalfPi</span></a> ? ( in Boolean ccv )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62293"><span class="std std-ref">rotateHalfPiIp</span></a> ! ( in Boolean ccv )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62926"><span class="std std-ref">sepBilateral</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> kSize, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> nbBuckets, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> mean, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> sigma, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> sigmaColor )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62918"><span class="std std-ref">sepBilateralIp</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> kSize, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> nbBuckets, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> mean, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> sigma, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> sigmaColor )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62131"><span class="std std-ref">setAtChannels</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> indexes[], in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62136"><span class="std std-ref">setAtPass</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> image )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a>[]</td>
+<td><a class="reference internal" href="ImagePasses.html#id62306"><span class="std std-ref">sum</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="BaseImage.html#baseimage"><span class="std std-ref">BaseImage</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62282"><span class="std std-ref">swap</span></a> ? ( in Boolean vertically )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62278"><span class="std std-ref">swapIp</span></a> ! ( in Boolean vertically )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="BaseImage.html#baseimage"><span class="std std-ref">BaseImage</span></a></td>
+<td><a class="reference internal" href="ImagePasses.html#id62275"><span class="std std-ref">transpose</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ImagePasses.html#id62272"><span class="std std-ref">transposeIp</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a>[]</td>
+<td><a class="reference internal" href="ImagePasses.html#id62698"><span class="std std-ref">variance</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="IPGaussianFilter.kl.html"
+                        title="前の章へ">IPGaussianFilter.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="IPInterpolation.kl.html"
+                        title="次の章へ">IPInterpolation.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Images/IPHistogram.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Images/IPHistogram.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="IPInterpolation.kl.html" title="IPInterpolation.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="IPGaussianFilter.kl.html" title="IPGaussianFilter.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Images エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >Images Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

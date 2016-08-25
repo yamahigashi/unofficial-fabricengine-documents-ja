@@ -1,0 +1,494 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ドキュメンテーションシステム Sphinx構文 &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="Fabric Engine ドキュメンテーションシステム" href="index.html" />
+    <link rel="next" title="ドキュメンテーションシステム KL Doxygen 修飾子" href="qualifiers.html" />
+    <link rel="prev" title="ドキュメンテーションシステム Hello World" href="example.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="qualifiers.html" title="ドキュメンテーションシステム KL Doxygen 修飾子"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="example.html" title="ドキュメンテーションシステム Hello World"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Fabric Engine ドキュメンテーションシステム</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="documentation-system-sphinx-directives">
+<h1>ドキュメンテーションシステム Sphinx構文<a class="headerlink" href="#documentation-system-sphinx-directives" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../_images/FE_logo_345_60.png"><img alt="../_images/FE_logo_345_60.png" src="../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 2.3.0</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+</div>
+<ul class="simple">
+<li><p class="first"><span class="xref std std-ref">kl_example_directive</span>: klサンプルをsphinxから直接実行します</p>
+</li>
+<li><p class="first"><span class="xref std std-ref">kl_fileexample_directive</span>: sphinxから直接実行できるファイルベースのklサンプル</p>
+</li>
+<li><p class="first"><span class="xref std std-ref">kl_css_directive</span>: ネスト可能なcss構文、自動生成される refs 内で sphinxの見た目を微調整</p>
+</li>
+<li><p class="first"><span class="xref std std-ref">kl_constant_directive</span>: KL定数の文書生成</p>
+</li>
+<li><p class="first"><span class="xref std std-ref">kl_function_directive</span>: KL関数の自由記述文書生成</p>
+</li>
+<li><p class="first"><span class="xref std std-ref">kl_interface_directive</span>: KLインタフェースの文書生成</p>
+</li>
+<li><p class="first"><span class="xref std std-ref">kl_inheritance_directive</span>: KL継承ダイアグラム文書生成</p>
+</li>
+<li><p class="first"><span class="xref std std-ref">kl_type_directive</span>: KLの型 (struct, object)文書生成</p>
+</li>
+<li><p class="first"><span class="xref std std-ref">kl_method_directive</span>: KLメソッド（一個）文書生成</p>
+</li>
+<li><p class="first"><span class="xref std std-ref">kl_methodlist_directive</span>: 全KLメソッド (あるタイプもしくはカテゴリに属するもの)の一覧文書生成</p>
+</li>
+<li><p class="first"><span class="xref std std-ref">kl_ext_constantlist_directive</span>: あるエクステンション中の定数一覧文書生成</p>
+</li>
+<li><p class="first"><span class="xref std std-ref">kl_ext_interfacelist_directive</span>: あるエクステンションの全インタフェースの目次（TOC）文書生成</p>
+</li>
+<li><p class="first"><span class="xref std std-ref">kl_ext_typelist_directive</span>: あるエクステンションの全型の目次（TOC）文書生成</p>
+</li>
+<li><p class="first"><span class="xref std std-ref">kl_ext_functionlist_directive</span>: あるエクステンション中の全関数文書生成</p>
+</li>
+</ul>
+<div class="section" id="the-kl-example-directive">
+<h2>kl-example 構文<a class="headerlink" href="#the-kl-example-directive" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>kl-example 構文はページにKLコード（の断片）の埋め込みに使います。一部とはいえコードは実際に呼びだされ出力を収集します。&#8221;nooutput&#8221; オプションにより出力を抑制することもできます。</p>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">kl-example</span><span class="p">::</span> Math-Test
+
+  require Math;
+
+  operator entry() {
+    Vec3 a(1,2,3);
+    Vec3 b(4,5,6);
+    report(a + b);
+  }
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-kl-fileexample-directive">
+<h2>kl-fileexample 構文<a class="headerlink" href="#the-kl-fileexample-directive" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>kl-fileexample は kl-example 構文と同じですが、入力にファイルパスを使用します。${ENVVAR} 記法により環境変数を埋めることもできます。</p>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">kl-fileexample</span><span class="p">::</span> ${FABRIC_SCENE_GRAPH_DIR}/Tests/Singletons/Singletons_Test1.kl
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-kl-css-directive">
+<h2>kl-css 構文<a class="headerlink" href="#the-kl-css-directive" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>kl-css 構文は、ある段落へ &lt;異なる css classを持つブロック&gt; を埋め込むことができます。実装するcssは <em class="dfn">_static/custom.css</em> です。この構文に使用でき必要な引数は、適用するクラスメイトの名前です。 kl-css 構文は kl-ref 構文によって、コンテンツ内の全ての型に対して同時に自動生成されます。これにより KL型 はクリック可能になります。</p>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">kl-css</span><span class="p">::</span> plaintext
+
+  In this example we are mentioning a Vec3 as well as a Mat44.
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-kl-constant-directive">
+<h2>kl-constant 構文<a class="headerlink" href="#the-kl-constant-directive" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>kl-constant 構文は、KL定数ドキュメント生成に使用します。</p>
+<ul class="simple">
+<li><p class="first">title: (0(ディフォルト) to 7): タイトルレベルを定義 (0 == オフ, 1 ファーストレベルタイトル)</p>
+</li>
+<li><p class="first">createrefs: (0(ディフォルト) or 1): この定数への sphinx レファレンスを作成。エクステンションのメインページ内でのみ機能します。</p>
+</li>
+<li><p class="first">userefs: (0 or 1(ディフォルト)): 無効／有効 既知の KL型への参照（Refs）の自動生成切り替え</p>
+</li>
+<li><p class="first">brief: (0 or 1(ディフォルト)): 要素の概要を含めるか</p>
+</li>
+<li><p class="first">plaintext: (0 or 1(ディフォルト)): 要素のプレインテキストな説明を含めるか</p>
+</li>
+<li><p class="first">customrst: (0 or 1(ディフォルト)): カスタムrst を含めるか (rst, endrst により定義)</p>
+</li>
+<li><p class="first">example: (0 or 1(ディフォルト)): KLでの使用例を含めるか (example, endexample により定義)</p>
+</li>
+</ul>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">kl-constant</span><span class="p">::</span> MAX_NAME_LENGTH
+  title=0;
+  createrefs=1;
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-kl-function-directive">
+<h2>kl-function 構文<a class="headerlink" href="#the-kl-function-directive" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>kl-function 構文は KL関数のドキュメント生成に使用します。</p>
+<ul class="simple">
+<li><p class="first">title: (0(ディフォルト) to 7): タイトルレベルを定義 (0 == オフ, 1 ファーストレベルタイトル)</p>
+</li>
+<li><p class="first">createrefs: (0(ディフォルト) or 1): この関数へのsphinx レファレンスを作成。エクステンションのメインページ内でのみ機能します。</p>
+</li>
+<li><p class="first">userefs: (0 or 1(ディフォルト)): 無効／有効 既知の KL型への参照（Refs）の自動生成切り替え</p>
+</li>
+<li><p class="first">params: (0(ディフォルト) or 1): 関数の全パラメータをドキュメントに含めるか</p>
+</li>
+<li><p class="first">brief: (0 or 1(ディフォルト)): 要素の概要を含めるか</p>
+</li>
+<li><p class="first">plaintext: (0 or 1(ディフォルト)): 要素のプレインテキストな説明を含めるか</p>
+</li>
+<li><p class="first">customrst: (0 or 1(ディフォルト)): カスタムrst を含めるか (rst, endrst により定義)</p>
+</li>
+<li><p class="first">example: (0 or 1(ディフォルト)): KLでの使用例を含めるか (example, endexample により定義)</p>
+</li>
+</ul>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">kl-function</span><span class="p">::</span> radToDeg
+  params=1;
+  createrefs=1;
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-kl-interface-directive">
+<h2>kl-interface 構文<a class="headerlink" href="#the-kl-interface-directive" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>kl-interface 構文は KLインタフェースのドキュメント生成に使用します。</p>
+<ul class="simple">
+<li><p class="first">title: (0(ディフォルト) to 7): タイトルレベルを定義 (0 == オフ, 1 ファーストレベルタイトル)</p>
+</li>
+<li><p class="first">createrefs: (0(ディフォルト) or 1): この関数へのsphinx レファレンスを作成。エクステンションのメインページ内でのみ機能します。</p>
+</li>
+<li><p class="first">userefs: (0 or 1(ディフォルト)): 無効／有効 既知の KL型への参照（Refs）の自動生成切り替え</p>
+</li>
+<li><p class="first">methods: (0 or 1(ディフォルト)): インタフェースの全メソッドをドキュメントに含める</p>
+</li>
+<li><p class="first">brief: (0 or 1(ディフォルト)): 要素の概要を含めるか</p>
+</li>
+<li><p class="first">plaintext: (0 or 1(ディフォルト)): 要素のプレインテキストな説明を含めるか</p>
+</li>
+<li><p class="first">customrst: (0 or 1(ディフォルト)): カスタムrst を含めるか (rst, endrst により定義)</p>
+</li>
+<li><p class="first">example: (0 or 1(ディフォルト)): KLでの使用例を含めるか (example, endexample により定義)</p>
+</li>
+</ul>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">kl-interface</span><span class="p">::</span> MyInterface
+  methods=1;
+  createrefs=0;
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-kl-inheritance-directive">
+<h2>kl-inheritance 構文<a class="headerlink" href="#the-kl-inheritance-directive" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>kl-inheritance 構文は継承グラフの生成に使用します。</p>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">kl-inheritance</span><span class="p">::</span> MySpecializedObject
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-kl-method-directive">
+<h2>kl-method 構文<a class="headerlink" href="#the-kl-method-directive" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>kl-method 構文は KLメソッド のドキュメント生成に使用します。</p>
+<ul class="simple">
+<li><p class="first">title: (0(ディフォルト) to 7): タイトルレベルを定義 (0 == オフ, 1 ファーストレベルタイトル)</p>
+</li>
+<li><p class="first">createrefs: (0(ディフォルト) or 1): この関数へのsphinx レファレンスを作成。エクステンションのメインページ内でのみ機能します。</p>
+</li>
+<li><p class="first">userefs: (0 or 1(ディフォルト)): 無効／有効 既知の KL型への参照（Refs）の自動生成切り替え</p>
+</li>
+<li><p class="first">params: (0(ディフォルト) or 1): メソッドの全パラメータをドキュメントに含める</p>
+</li>
+<li><p class="first">brief: (0 or 1(ディフォルト)): 要素の概要を含めるか</p>
+</li>
+<li><p class="first">plaintext: (0 or 1(ディフォルト)): 要素のプレインテキストな説明を含めるか</p>
+</li>
+<li><p class="first">customrst: (0 or 1(ディフォルト)): カスタムrst を含めるか (rst, endrst により定義)</p>
+</li>
+<li><p class="first">example: (0 or 1(ディフォルト)): KLでの使用例を含めるか (example, endexample により定義)</p>
+</li>
+</ul>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">kl-method</span><span class="p">::</span> MyObject.getS
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-kl-methodlist-directive">
+<h2>kl-methodlist 構文<a class="headerlink" href="#the-kl-methodlist-directive" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>kl-methodlist 構文は、KLメソッドのリストのドキュメント生成に使用します。</p>
+<ul class="simple">
+<li><p class="first">title: (0(ディフォルト) to 7): タイトルレベルを定義 (0 == オフ, 1 ファーストレベルタイトル)</p>
+</li>
+<li><p class="first">createrefs: (0(ディフォルト) or 1): それぞれのメソッドへのsphinx レファレンスを作成。エクステンションのメインページ内でのみ機能します。</p>
+</li>
+<li><p class="first">userefs: (0 or 1(ディフォルト)): 無効／有効 既知の KL型への参照（Refs）の自動生成切り替え</p>
+</li>
+<li><p class="first">compact: (0(ディフォルト) or 1): 用例などを省略し、コンパクトなメソッドリストにする</p>
+</li>
+<li><p class="first">includeinherited: (0 or 1(ディフォルト)): 有効の場合、継承されたメソッドも表示する</p>
+</li>
+<li><p class="first">includeprivate: (0(ディフォルト) or 1): 有効の場合、privateメソッドも表示する</p>
+</li>
+<li><p class="first">category: (String): メソッドのカテゴリのリスト (オペレータであれば &#8220;オペレータ&#8221;, 基本的には空文字列)</p>
+</li>
+<li><p class="first">brief: (0 or 1(ディフォルト)): 各メソッドの概要を含める</p>
+</li>
+<li><p class="first">plaintext: (0 or 1(ディフォルト)): 各メソッドのプレインテキストな説明を含める</p>
+</li>
+<li><p class="first">customrst: (0 or 1(ディフォルト)): 各メソッドのカスタム rst (rst, endrst により定義)を含める</p>
+</li>
+<li><p class="first">example: (0 or 1(ディフォルト)): 各メソッドのKLでの使用例を含めるか (example, endexample により定義)</p>
+</li>
+</ul>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">kl-methodlist</span><span class="p">::</span> MyStruct
+  category=operators;
+  example=0;
+  brief=0;
+  plaintext=1;
+</pre></div>
+</div>
+<p>Vec4 メソッド（複数）をコンパクトリスト:</p>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">kl-methodlist</span><span class="p">::</span> Vec4
+  compact=1;
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-kl-type-directive">
+<h2>kl-type 構文<a class="headerlink" href="#the-kl-type-directive" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>kl-type 構文は、KL型（構造体, オブジェクト）のドキュメント生成に使用します</p>
+<ul class="simple">
+<li><p class="first">title: (0(ディフォルト) to 7): タイトルレベルを定義 (0 == オフ, 1 ファーストレベルタイトル)</p>
+</li>
+<li><p class="first">createrefs: (0(ディフォルト) or 1): この型へのsphinx レファレンスを作成。エクステンションのメインページ内でのみ機能します。</p>
+</li>
+<li><p class="first">userefs: (0 or 1(ディフォルト)): 無効／有効 既知の KL型への参照（Refs）の自動生成切り替え</p>
+</li>
+<li><p class="first">inheritancegraph: (0 or 1(ディフォルト)): 継承グラフを表示</p>
+</li>
+<li><p class="first">members: (0 or 1(ディフォルト)): データタイプのメンバを含める</p>
+</li>
+<li><p class="first">methods: (0 or 1(ディフォルト)): インタフェースの全メソッドをドキュメントに含める</p>
+</li>
+<li><p class="first">brief: (0 or 1(ディフォルト)): 要素の概要を含めるか</p>
+</li>
+<li><p class="first">plaintext: (0 or 1(ディフォルト)): 要素のプレインテキストな説明を含めるか</p>
+</li>
+<li><p class="first">customrst: (0 or 1(ディフォルト)): カスタムrst を含めるか (rst, endrst により定義)</p>
+</li>
+<li><p class="first">example: (0 or 1(ディフォルト)): KLでの使用例を含めるか (example, endexample により定義)</p>
+</li>
+</ul>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">kl-type</span><span class="p">::</span> Bone
+  members=1;
+  methods=0;
+  createrefs=0;
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-kl-ext-constantlist-directive">
+<h2>kl-ext-constantlist 構文<a class="headerlink" href="#the-kl-ext-constantlist-directive" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>kl-ext-constantlist 構文はあるエクステンション中の全定数のリストに使用します</p>
+<ul class="simple">
+<li><p class="first">title: (0(ディフォルト) to 7): タイトルレベルを定義 (0 == オフ, 1 ファーストレベルタイトル)</p>
+</li>
+<li><p class="first">includeprivate: (0(ディフォルト) or 1): 有効の場合、privateインタフェースも表示する</p>
+</li>
+<li><p class="first">createrefs: (0(ディフォルト) or 1): それぞれの定数へのsphinx レファレンスを作成。エクステンションのメインページ内でのみ機能します。</p>
+</li>
+<li><p class="first">userefs: (0 or 1(ディフォルト)): 無効／有効 既知の KL型への参照（Refs）の自動生成切り替え</p>
+</li>
+<li><p class="first">brief: (0 or 1(ディフォルト)): 要素の概要を含めるか</p>
+</li>
+<li><p class="first">plaintext: (0 or 1(ディフォルト)): 要素のプレインテキストな説明を含めるか</p>
+</li>
+<li><p class="first">customrst: (0 or 1(ディフォルト)): カスタムrst を含めるか (rst, endrst により定義)</p>
+</li>
+<li><p class="first">example: (0 or 1(ディフォルト)): KLでの使用例を含めるか (example, endexample により定義)</p>
+</li>
+</ul>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">kl-ext-constantlist</span><span class="p">::</span> Alembic
+  includeprivate=1;
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-kl-ext-interfacelist-directive">
+<h2>kl-ext-interfacelist 構文<a class="headerlink" href="#the-kl-ext-interfacelist-directive" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>kl-ext-interfacelist 構文は、あるエクステンション中の全インタフェースの目次ツリーリストに使用します。</p>
+<ul class="simple">
+<li><p class="first">title: (0(ディフォルト) to 7): タイトルレベルを定義 (0 == オフ, 1 ファーストレベルタイトル)</p>
+</li>
+<li><p class="first">includeprivate: (0(ディフォルト) or 1): 有効の場合、privateインタフェースも表示する</p>
+</li>
+</ul>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">kl-ext-interfacelist</span><span class="p">::</span> Geometry
+  includeprivate=1;
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-kl-ext-typelist-directive">
+<h2>kl-ext-typelist 構文<a class="headerlink" href="#the-kl-ext-typelist-directive" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>kl-ext-typelist 構文は、あるエクステンション中の全&#8221;型&#8221;の目次ツリーリストに使用します。（正しいラベルとレファレンスを持つものだけを表示します。全てを実装しているわけではありません）</p>
+<ul class="simple">
+<li><p class="first">title: (0(ディフォルト) to 7): タイトルレベルを定義 (0 == オフ, 1 ファーストレベルタイトル)</p>
+</li>
+<li><p class="first">includeprivate: (0(ディフォルト) or 1): 有効の場合、privateインタフェースも表示する</p>
+</li>
+<li><p class="first">compact: (0(ディフォルト) or 1): 用例などを省略し、コンパクトな関数のリストにする</p>
+</li>
+<li><p class="first">createrefs: (0(ディフォルト) or 1): それぞれの関数へのsphinx レファレンスを作成。エクステンションのメインページ内でのみ機能します。</p>
+</li>
+</ul>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">kl-ext-typelist</span><span class="p">::</span> Math
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-kl-ext-functionlist-directive">
+<h2>kl-ext-functionlist 構文<a class="headerlink" href="#the-kl-ext-functionlist-directive" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>kl-ext-functionlist 構文は、kl-methodlist とほぼ同じですが、関数についてのリストを生成に使用します。</p>
+<ul class="simple">
+<li><p class="first">title: (0(ディフォルト) to 7): タイトルレベルを定義 (0 == オフ, 1 ファーストレベルタイトル)</p>
+</li>
+<li><p class="first">includeprivate: (0(ディフォルト) or 1): 有効の場合、privateインタフェースも表示する</p>
+</li>
+<li><p class="first">compact: (0(ディフォルト) or 1): 用例などを省略し、コンパクトな関数のリストにする</p>
+</li>
+<li><p class="first">createrefs: (0(ディフォルト) or 1): それぞれの関数へのsphinx レファレンスを作成。エクステンションのメインページ内でのみ機能します。</p>
+</li>
+<li><p class="first">category: (String): 関数のカテゴリのリスト (基本的に空文字列)</p>
+</li>
+<li><p class="first">userefs: (0 or 1(ディフォルト)): 無効／有効 既知の KL型への参照（Refs）の自動生成切り替え</p>
+</li>
+<li><p class="first">brief: (0 or 1(ディフォルト)): 各関数の概要を含める</p>
+</li>
+<li><p class="first">plaintext: (0 or 1(ディフォルト)): 各関数のプレインテキストな説明を含める</p>
+</li>
+<li><p class="first">customrst: (0 or 1(ディフォルト)): 各関数のカスタム rst (rst, endrst により定義)を含める</p>
+</li>
+<li><p class="first">example: (0 or 1(ディフォルト)): 各関数のKLでの使用例を含めるか (example, endexample により定義)</p>
+</li>
+</ul>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">kl-ext-functionlist</span><span class="p">::</span> Math
+  compact=1;
+
+<span class="p">..</span> <span class="ow">kl-ext-functionlist</span><span class="p">::</span> FabricTEEM
+  compact=0;
+</pre></div>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>索引<a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../genindex.html"><span class="std std-ref">索引</span></a></li>
+<li><a class="reference internal" href="../search.html"><span class="std std-ref">検索ページ</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ドキュメンテーションシステム Sphinx構文</a><ul>
+<li><a class="reference internal" href="#the-kl-example-directive">kl-example 構文</a></li>
+<li><a class="reference internal" href="#the-kl-fileexample-directive">kl-fileexample 構文</a></li>
+<li><a class="reference internal" href="#the-kl-css-directive">kl-css 構文</a></li>
+<li><a class="reference internal" href="#the-kl-constant-directive">kl-constant 構文</a></li>
+<li><a class="reference internal" href="#the-kl-function-directive">kl-function 構文</a></li>
+<li><a class="reference internal" href="#the-kl-interface-directive">kl-interface 構文</a></li>
+<li><a class="reference internal" href="#the-kl-inheritance-directive">kl-inheritance 構文</a></li>
+<li><a class="reference internal" href="#the-kl-method-directive">kl-method 構文</a></li>
+<li><a class="reference internal" href="#the-kl-methodlist-directive">kl-methodlist 構文</a></li>
+<li><a class="reference internal" href="#the-kl-type-directive">kl-type 構文</a></li>
+<li><a class="reference internal" href="#the-kl-ext-constantlist-directive">kl-ext-constantlist 構文</a></li>
+<li><a class="reference internal" href="#the-kl-ext-interfacelist-directive">kl-ext-interfacelist 構文</a></li>
+<li><a class="reference internal" href="#the-kl-ext-typelist-directive">kl-ext-typelist 構文</a></li>
+<li><a class="reference internal" href="#the-kl-ext-functionlist-directive">kl-ext-functionlist 構文</a></li>
+<li><a class="reference internal" href="#indices-and-tables">索引</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="example.html"
+                        title="前の章へ">ドキュメンテーションシステム Hello World</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="qualifiers.html"
+                        title="次の章へ">ドキュメンテーションシステム KL Doxygen 修飾子</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/DocSystem/directives.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DocSystem/directives.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="qualifiers.html" title="ドキュメンテーションシステム KL Doxygen 修飾子"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="example.html" title="ドキュメンテーションシステム Hello World"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Fabric Engine ドキュメンテーションシステム</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

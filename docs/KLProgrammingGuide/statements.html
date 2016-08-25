@@ -1,0 +1,592 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>文（Statements） &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="KL プログラミングガイド" href="index.html" />
+    <link rel="next" title="Map-Reduce" href="map-reduce.html" />
+    <link rel="prev" title="演算子・式" href="ops-exprs.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="map-reduce.html" title="Map-Reduce"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="ops-exprs.html" title="演算子・式"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">KL プログラミングガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="statements">
+<span id="index-0"></span><span id="id1"></span><h1>文（Statements）<a class="headerlink" href="#statements" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>関数、オペレータ等の本体は文（ <em class="dfn">statements</em> ）により構成されます。文とはKLプログラムの実際に何かをなす際の部品の一部です。文は式の評価を成し、条件により他の文を実行し、さらには他の複文を条件に合致するまで反復処理したりすることができます。</p>
+<p>この章の残りの部分では、KL関数定義の内部に使用することのできる、「文」のいくつかのバリエーションについて記述します。文は以下の２つのカテゴリ分けされます。単純な文と、複雑な文です。</p>
+<div class="section" id="simple-statements">
+<span id="index-1"></span><span id="id2"></span><h2>単純な文<a class="headerlink" href="#simple-statements" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>単純な文とは、条件のチェックをしない、もしくはネストしたスコープを作らない文のことです。単純な文は常に <code class="docutils literal"><span class="pre">;</span></code> (セミコロン)文字で終わります。</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">KLでも、C言語属においても、文末のセミコロン付け忘れは一般的な文法エラーですね。</p>
+</div>
+<div class="section" id="expression-statements">
+<span id="expr-statements"></span><span id="index-2"></span><h3>式文（Expression Statements）<a class="headerlink" href="#expression-statements" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>どの式、<code class="docutils literal"><span class="pre">;</span></code> (セミコロン)で終わるものは全て文です。式を評価しその結果となる値（返り値がある場合）をすべて無視することで、文は動作します。最も一般的な式文は関数呼び出しです。（例えば <code class="docutils literal"><span class="pre">report</span></code>)</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Expression Statements</span>
+<span class="cm">*/</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// A very useless expression statement:</span>
+  <span class="c1">// evaluates 2 + 2 then discards the</span>
+  <span class="c1">// result</span>
+  <span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span>
+
+  <span class="c1">// A more useful expression statement:</span>
+  <span class="c1">// evaluates the report function, which</span>
+  <span class="c1">// causes text to appear</span>
+  <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;Hello!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="parallel-execution-statement">
+<span id="klpg-parallel-execution-statement"></span><span id="index-3"></span><h3>並列実行文（PEX文）<a class="headerlink" href="#parallel-execution-statement" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>並列実行文（ <em class="dfn">parallel execution statement</em>, 略記 <em class="dfn">PEX statement</em>,）により、KLプログラムからオペレータを一般的な手法により複数回呼び出します。どの PEX文も、呼び出しには１つオペレータを必要 (参照 <a class="reference internal" href="globals.html#operators"><span class="std std-ref">演算子</span></a>) とし、呼び出し回数の指定も同様に必要です。さらに任意の数の、オペレータに渡す追加パラメータをとることも可能です。</p>
+<p>PEX文は以下の形式:</p>
+<pre class="literal-block">
+<em>operatorName</em>&lt;&lt;&lt;<em>countExpr</em>&gt;&gt;&gt;(<em>optionalArg1</em>, <em>optionalArg2</em>, ...);
+</pre>
+<p><code class="samp docutils literal"><em><span class="pre">operatorName</span></em></code> は最初のパラメータが <code class="docutils literal"><span class="pre">Index</span></code> 、 <code class="samp docutils literal"><em><span class="pre">countExpr</span></em></code> は <code class="docutils literal"><span class="pre">Size</span></code> 型の式、オペレータが呼び出される回数を表すものであります。</p>
+<p>オペレータを <code class="samp docutils literal"><em><span class="pre">countExpr</span></em></code> 回 呼びだします。可能であれば重奏し並列に呼び出します。この際第一引数を  <code class="docutils literal"><span class="pre">0</span></code> から <code class="samp docutils literal"><em><span class="pre">countExpr</span></em><span class="pre">-1</span></code> まで変化させます。与えられたオプショナルな追加の引数は一個一個渡されます。オペレータは与えられた引数と互換性のあるパラメータ（キャスト含め）リストを持つ必要があります。可読性のため、KLでは特別なシンタックスを用意し、オペレータに初期引数 <code class="docutils literal"><span class="pre">Index</span></code> を追加します。この文法は並列実行の文法に倣います。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="c1">// The following operator definitions are equivalent:</span>
+
+<span class="kd">operator</span> <span class="nx">foo</span><span class="o">&lt;&lt;&lt;</span><span class="nx">index</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="kr">String</span> <span class="nx">string</span><span class="p">,</span> <span class="kr">UInt32</span> <span class="nx">array</span><span class="p">[])</span> <span class="p">{</span> <span class="cm">/*...*/</span> <span class="p">}</span>
+<span class="kd">operator</span> <span class="nx">foo</span><span class="p">(</span><span class="kr">Index</span> <span class="nx">index</span><span class="p">,</span> <span class="kr">String</span> <span class="nx">string</span><span class="p">,</span> <span class="kr">UInt32</span> <span class="nx">array</span><span class="p">[])</span> <span class="p">{</span> <span class="cm">/*...*/</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>KLそして  Fabric Engine は、PEX文におけるオペレータ呼び出しを、実行マシン上の利用可能コアに対し可能な限り均等に割り当てようとします。しかしどの呼び出しにどれだけの時間が掛かるかは事前に不明なため、PEXの効率は各呼び出しが同等の所要時間の場合に最大効率となります。</p>
+<p>プログラムの練習としてPEXの再帰呼び出しを試す価値があります。</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">KLは、追加引数に異なるコアより同時に渡される変数への変更を保護しません。あるPEX文において、特定のオペレータの２つの呼び出しが、同じ値を同時に変更しないように保証するのはプログラマの責任の範疇となります。このような同値同時変更を許してしまうと、追跡困難なバグの温床となり、ひいてはプログラムを破綻させます。</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">PEXには生来オーバーヘッドが存在します。そのため些細なオペレータ呼び出しをPEXで行うよりは、直列実行のほうが効率的な場合があります。並列実行（Parallel executions）は大規模なワークロードにおいて最も効果的です。</p>
+</div>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: PEX Operations</span>
+<span class="cm">*/</span>
+
+<span class="kd">operator</span> <span class="nx">setArrayElementDesc</span><span class="o">&lt;&lt;&lt;</span><span class="nx">index</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="k">io</span> <span class="kr">String</span> <span class="nx">array</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="nx">array</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;index=&quot;</span> <span class="o">+</span> <span class="nx">index</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kr">String</span> <span class="nx">array</span><span class="p">[];</span>
+  <span class="nx">array</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="mi">16</span><span class="p">);</span>
+  <span class="nx">setArrayElementDesc</span><span class="o">&lt;&lt;&lt;</span><span class="nx">array</span><span class="p">.</span><span class="nx">size</span><span class="p">()</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="nx">array</span><span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">array</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-empty-statement">
+<span id="empty-statement"></span><span id="index-4"></span><h3>空文（Empty Statement）<a class="headerlink" href="#the-empty-statement" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">;</span></code> (セミコロン) 単独で、何もしない文となります。文を必要とするが、何もしないで良い場合に使用します。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: The Empty Statement</span>
+<span class="cm">*/</span>
+
+<span class="kd">function</span> <span class="nx">foo</span><span class="p">(</span><span class="k">io</span> <span class="nx">MyType</span> <span class="nx">myType</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(;</span> <span class="nx">returnsFalseWhenDone</span><span class="p">(</span><span class="nx">myType</span><span class="p">);</span> <span class="p">)</span>
+    <span class="p">;</span> <span class="c1">// Do nothing</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="variable-declaration-statements">
+<span id="var-decl-statements"></span><span id="index-5"></span><h3>変数宣言文<a class="headerlink" href="#variable-declaration-statements" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>変数宣言文（ <em class="dfn">variable declaration statement</em> ）とは、その文のある最も内側のスコープに新しい変数を１つ（以上）導入します。これらの変数は、実行が同スコープ内である場合、スコープの残りから可視であり続け、外れると破棄され ―適切であればデストラクタが実行されます。</p>
+<p>変数の宣言には型が必要です。複数の変数の宣言では、同一文内に <code class="docutils literal"><span class="pre">,</span></code> (カンマ)で区切ります。</p>
+<p>変数の名前は、配列や辞書の仕様に従います。 <a class="reference internal" href="types.html#arrays"><span class="std std-ref">配列</span></a> and <a class="reference internal" href="types.html#dictionaries"><span class="std std-ref">辞書（Dictionaries）</span></a> の詳細情報を参照してください。</p>
+<p>変数は、宣言され初期値を設定する際、コンストラクトもしくは代入による割当が可能です。  <a class="reference internal" href="globals.html#klpg-constructor"><span class="std std-ref">コンストラクタ</span></a> 参照。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Variable Declaration Statements</span>
+<span class="cm">*/</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">Scalar</span> <span class="nx">a</span><span class="p">;</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span>
+  <span class="kr">Integer</span> <span class="nx">b</span><span class="p">[],</span> <span class="nx">c</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="nx">d</span><span class="p">;</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">b</span><span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">c</span><span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">d</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">現在KLでは、変数を宣言したその文において、配列を初期化することはできません。</p>
+</div>
+</div>
+<div class="section" id="constant-declaration-statements">
+<span id="klpg-const-decl-statements"></span><span id="index-6"></span><h3>定数宣言文<a class="headerlink" href="#constant-declaration-statements" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>定数宣言文（ <em class="dfn">constant declaration statement</em> ）は <a class="reference internal" href="#var-decl-statements"><span class="std std-ref">variable declaration statement</span></a> と似ていますが、 <cite>const</cite> キーワードを頭に付加します。文法はグローバル定義された名前付き定数と同様です。 <a class="reference internal" href="globals.html#klpg-global-named-constants"><span class="std std-ref">名前付き定数</span></a> 参照</p>
+</div>
+<div class="section" id="the-return-statement">
+<span id="return-statement"></span><span id="index-7"></span><h3><code class="docutils literal"><span class="pre">return</span></code> 文<a class="headerlink" href="#the-return-statement" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">return</span></code> 文には２種の形式があります：</p>
+<ul class="simple">
+<li><p class="first">値を返す関数において、 <code class="docutils literal"><span class="pre">return</span></code> 文は呼び出し元の関数へと、文に与えられた値を即座に返します。返却される値の型は、関数定義に指定された型へと暗黙的なキャストが行われます。</p>
+</li>
+<li><p class="first">値を返さない関数において、 <code class="docutils literal"><span class="pre">return</span></code> 文は値を取らず、呼び出し元関数へと即座に戻ります。</p>
+</li>
+</ul>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: The return Statement</span>
+<span class="cm">*/</span>
+
+<span class="c1">// Function that returns a value</span>
+<span class="kd">function</span> <span class="kr">String</span> <span class="nx">markupName</span><span class="p">(</span><span class="kr">String</span> <span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="s2">&quot;My name is &#39;&quot;</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Function that does not return a value</span>
+<span class="kd">function</span> <span class="nx">suffixIndexDesc</span><span class="p">(</span><span class="k">io</span> <span class="kr">String</span> <span class="nx">strings</span><span class="p">[],</span> <span class="nx">Size</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">index</span> <span class="o">&gt;=</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">size</span><span class="p">())</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="nx">strings</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span> <span class="o">+=</span> <span class="s2">&quot; (was at index &quot;</span> <span class="o">+</span> <span class="nx">index</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-throw-statement">
+<span id="throw-statement"></span><span id="index-8"></span><h3><code class="docutils literal"><span class="pre">throw</span></code> 文<a class="headerlink" href="#the-throw-statement" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">throw</span></code> 文は、例外を投げます。KLコードの実行を即座に中止し、呼びだし元の環境へ(Fabric Engine あるいは the KL tool) 例外を返し、ユーザに表示されます。<code class="docutils literal"><span class="pre">throw</span></code> 文は、パラメータを１つ取ります。このパラメータはどんな値でも構いません。この値は、呼び出し元環境へと渡される前に、自動的に文字列へと変換されます。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">KL内で例外を捕捉（catch exception）することはまだできません。64bit Windows での LLVM に例外ハンドリングが対応していないためです。</p>
+</div>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: The throw Statement</span>
+<span class="cm">*/</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;Before throw&quot;</span><span class="p">);</span>
+  <span class="k">throw</span> <span class="s2">&quot;Exception&quot;</span><span class="p">;</span>
+  <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;After throw&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+<span class="cm">(stdin):9:3: warning: code is unreachable</span>
+
+<span class="cm">Before throw</span>
+<span class="cm">Error: Exception</span>
+<span class="cm">KL stack trace:</span>
+<span class="cm">[ST] 1 kl.internal.String.SetErrorDataPtrAndLength.AS0()</span>
+<span class="cm">[ST] 2 function.setError.R.ST()</span>
+<span class="cm">[ST] 3 operator.entry() (stdin):8</span>
+<span class="cm">[ST] 4 kl.internal.entry.stub.cpu()</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="complex-statements">
+<span id="index-9"></span><span id="id3"></span><h2>複雑な文<a class="headerlink" href="#complex-statements" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>複雑な文（ <em class="dfn">complex statement</em> ）とは、異なる文を一纏めにし条件により異なる文を実行する文です。複雑な分は、単純な文、他の複雑な分、そして複数の式により構成します。</p>
+<div class="section" id="compound-statements">
+<span id="index-10"></span><span id="id4"></span><h3>合成文（Compound Statements）<a class="headerlink" href="#compound-statements" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>KLソースコード中、単文を挿入可能場所であれば、複数の文を挿入可能です。 <code class="docutils literal"><span class="pre">{</span></code> (左中括弧) and <code class="docutils literal"><span class="pre">}</span></code> (右中括弧)で包みます。このような影響があります：</p>
+<ul class="simple">
+<li><p class="first">この文は、１つの文であるかのように実行されます。</p>
+</li>
+<li><p class="first">新しい、ネストされたスコープが導入されます。 <a class="reference internal" href="ops-exprs.html#scope"><span class="std std-ref">スコープ規則</span></a> 参照</p>
+</li>
+</ul>
+</div>
+<div class="section" id="conditional-statements">
+<span id="index-11"></span><span id="id5"></span><h3>条件文<a class="headerlink" href="#conditional-statements" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>KLには２種類の条件文があります。 <code class="docutils literal"><span class="pre">if</span></code> 文と <code class="docutils literal"><span class="pre">switch</span></code> 文です。</p>
+<div class="section" id="the-if-statement">
+<span id="if-statement"></span><span id="index-12"></span><h4><code class="docutils literal"><span class="pre">if</span></code> 文<a class="headerlink" href="#the-if-statement" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">if</span></code> キーワードにより条件文を開始します。必要に応じ <code class="docutils literal"><span class="pre">else</span></code> 句を含めることができます。JavaScript や C言語同様 <code class="docutils literal"><span class="pre">if</span></code> と <code class="docutils literal"><span class="pre">else</span></code> 文は連続できます。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: The if Statement</span>
+<span class="cm">*/</span>
+
+<span class="kd">function</span> <span class="kr">String</span> <span class="nx">desc</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;zero&quot;</span><span class="p">;</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;one&quot;</span><span class="p">;</span>
+  <span class="k">else</span>
+    <span class="k">return</span> <span class="s2">&quot;lots&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-switch-statement">
+<span id="switch-statement"></span><span id="index-13"></span><h4><code class="docutils literal"><span class="pre">switch</span></code> 文<a class="headerlink" href="#the-switch-statement" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">switch...case</span></code> 構文により、一連の <code class="docutils literal"><span class="pre">if...else</span></code> 文をコンパクトにします。これもJavaScript、C言語同様。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: The if Statement</span>
+<span class="cm">*/</span>
+
+<span class="kd">function</span> <span class="kr">String</span> <span class="nx">descNumber</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">switch</span> <span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
+      <span class="k">return</span> <span class="s2">&quot;zero&quot;</span><span class="p">;</span>
+    <span class="k">case</span> <span class="mi">1</span><span class="o">:</span>
+      <span class="k">return</span> <span class="s2">&quot;one&quot;</span><span class="p">;</span>
+    <span class="k">case</span> <span class="mi">2</span><span class="o">:</span>
+    <span class="k">case</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="k">case</span> <span class="mi">4</span><span class="o">:</span>
+      <span class="k">return</span> <span class="s2">&quot;a few&quot;</span><span class="p">;</span>
+    <span class="k">default</span><span class="o">:</span>
+      <span class="k">return</span> <span class="s2">&quot;many&quot;</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="loop-statements">
+<span id="index-14"></span><span id="id6"></span><h3>ループ文<a class="headerlink" href="#loop-statements" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>KLでは４つのループ分があります。 &#8220;C-style&#8221; ループ, while ループ, do-while ループ, dictionary ループです。</p>
+<div class="section" id="c-style-loops">
+<span id="c-style-loop"></span><span id="index-15"></span><h4>&#8220;C-Style&#8221; ループ<a class="headerlink" href="#c-style-loops" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><em class="dfn">C-style loop</em> の形式:</p>
+<pre class="literal-block">
+for (<code class="samp docutils literal"><em><span class="pre">startStmt</span></em></code>; <code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code>; <code class="samp docutils literal"><em><span class="pre">nextExpr</span></em></code>)
+  <code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code>
+</pre>
+<p><code class="samp docutils literal"><em><span class="pre">startStmt</span></em></code> の場には文（空でも可）を, <code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> と <code class="samp docutils literal"><em><span class="pre">nextExpr</span></em></code> は任意に式を置き, <code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code> は文を置きます。ループは以下のように動作します:</p>
+<ul class="simple">
+<li><p class="first">新しいネストされたスコープを作ります。ループ完了で破棄します。</p>
+</li>
+<li><p class="first"><code class="samp docutils literal"><em><span class="pre">startStmt</span></em></code> 文を実行します。</p>
+</li>
+<li><p class="first"><code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> 式があれば評価します。結果の値を <code class="docutils literal"><span class="pre">Boolean</span></code> に変換します。 false であればループを終了します。</p>
+</li>
+<li><p class="first"><code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code> 文を実行します。</p>
+</li>
+<li><p class="first"><code class="samp docutils literal"><em><span class="pre">nextExpr</span></em></code> 式があれば評価します。結果の値は無視します。<code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> 式の評価へと実行ステップが戻されます。</p>
+</li>
+</ul>
+<p><code class="samp docutils literal"><em><span class="pre">startStmt</span></em></code> は文であるため、ここに変数を宣言することが可能です。ループ終了とともにこの変数はスコープからはずれます。ループに束縛されたインデックス変数を <code class="samp docutils literal"><em><span class="pre">startStmt</span></em></code> に宣言することは一般的な慣習です。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: C-Style Loops</span>
+<span class="cm">*/</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kr">Index</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;i is now &quot;</span> <span class="o">+</span> <span class="nx">i</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="while-loops">
+<span id="index-16"></span><span id="id7"></span><h4>While ループ<a class="headerlink" href="#while-loops" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><em class="dfn">while loop</em> の形式：</p>
+<pre class="literal-block">
+while (<code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code>)
+  <code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code>
+</pre>
+<p><code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> の場には式を、 <code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code> 文を置きます。以下のように動作します:</p>
+<ul class="simple">
+<li><p class="first"><code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> 式を評価します。結果の値を <code class="docutils literal"><span class="pre">Boolean</span></code> に変換します。false であればループを終了します。</p>
+</li>
+<li><p class="first"><code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code> 文を実行します。</p>
+</li>
+<li><p class="first">実行ステップを <code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> 式の評価まで戻します。</p>
+</li>
+</ul>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: while Loops</span>
+<span class="cm">*/</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kr">Integer</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;i is now &quot;</span> <span class="o">+</span> <span class="nx">i</span><span class="p">);</span>
+    <span class="o">++</span><span class="nx">i</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">i is now 0</span>
+<span class="cm">i is now 1</span>
+<span class="cm">i is now 2</span>
+<span class="cm">i is now 3</span>
+<span class="cm">i is now 4</span>
+<span class="cm">i is now 5</span>
+<span class="cm">i is now 6</span>
+<span class="cm">i is now 7</span>
+<span class="cm">i is now 8</span>
+<span class="cm">i is now 9</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="do-while-loops">
+<span id="index-17"></span><span id="id8"></span><h4>Do-While ループ<a class="headerlink" href="#do-while-loops" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><em class="dfn">do-while loop</em> の形式</p>
+<pre class="literal-block">
+do
+  <code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code>
+while (<code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code>);
+</pre>
+<p><code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> の場には式を、 <code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code> 文を置きます。以下のように動作します:</p>
+<ul class="simple">
+<li><p class="first"><code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code> 文を実行します。</p>
+</li>
+<li><p class="first"><code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> 式を評価します。結果の値を <code class="docutils literal"><span class="pre">Boolean</span></code> に変換します。false であればループを終了します。</p>
+</li>
+<li><p class="first"><code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code> 文の実行まで、実行ステップを戻します。</p>
+</li>
+</ul>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: do-while Loops</span>
+<span class="cm">*/</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+  <span class="k">do</span> <span class="p">{</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;i is now &quot;</span> <span class="o">+</span> <span class="nx">i</span><span class="p">);</span>
+    <span class="o">++</span><span class="nx">i</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="nx">i</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">i is now 0</span>
+<span class="cm">i is now 1</span>
+<span class="cm">i is now 2</span>
+<span class="cm">i is now 3</span>
+<span class="cm">i is now 4</span>
+<span class="cm">i is now 5</span>
+<span class="cm">i is now 6</span>
+<span class="cm">i is now 7</span>
+<span class="cm">i is now 8</span>
+<span class="cm">i is now 9</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dictionary-loops">
+<span id="index-18"></span><span id="id9"></span><h4>Dictionary ループ<a class="headerlink" href="#dictionary-loops" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>dictionary ループは、その辞書の全てのキーと値 ―もしくはキーか値それぞれ単独で反復処理します。辞書のループについては <a class="reference internal" href="types.html#dictionaries"><span class="std std-ref">辞書（Dictionaries）</span></a> 参照</p>
+</div>
+</div>
+<div class="section" id="loop-control-statements">
+<span id="index-19"></span><h3>ループ制御文<a class="headerlink" href="#loop-control-statements" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ループ本体において、 <code class="docutils literal"><span class="pre">break</span></code> と <code class="docutils literal"><span class="pre">continue</span></code> 文を使用し、現在のループサイクルを途中で終了させることができます。</p>
+<div class="section" id="the-break-statement">
+<span id="break-statement"></span><span id="index-20"></span><h4><code class="docutils literal"><span class="pre">break</span></code> 文<a class="headerlink" href="#the-break-statement" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">break</span></code> 文により、最も内側のループを即座に終了します。 <code class="docutils literal"><span class="pre">break</span></code> 文はループの外で使用するとエラーになります。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: The break Statement</span>
+<span class="cm">*/</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// Only loops 5 times</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;Loop &quot;</span> <span class="o">+</span> <span class="nx">i</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">==</span> <span class="mi">5</span><span class="p">)</span>
+      <span class="k">break</span><span class="p">;</span> <span class="c1">// exit the innermost loop</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">Loop 0</span>
+<span class="cm">Loop 1</span>
+<span class="cm">Loop 2</span>
+<span class="cm">Loop 3</span>
+<span class="cm">Loop 4</span>
+<span class="cm">Loop 5</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-continue-statement">
+<span id="continue-statement"></span><span id="index-21"></span><h4><code class="docutils literal"><span class="pre">continue</span></code> 文<a class="headerlink" href="#the-continue-statement" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">continue</span></code> 文によりループの最も内側の、次の反復へと即座にジャンプします。ループの外で使用するとエラーとなります。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: The continue Statement</span>
+<span class="cm">*/</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// Only prints 7</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">!=</span> <span class="mi">7</span><span class="p">)</span>
+      <span class="k">continue</span><span class="p">;</span> <span class="c1">// continue to next iteration of loop</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;Iteration &quot;</span> <span class="o">+</span> <span class="nx">i</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">Iteration 7</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">文（Statements）</a><ul>
+<li><a class="reference internal" href="#simple-statements">単純な文</a><ul>
+<li><a class="reference internal" href="#expression-statements">式文（Expression Statements）</a></li>
+<li><a class="reference internal" href="#parallel-execution-statement">並列実行文（PEX文）</a></li>
+<li><a class="reference internal" href="#the-empty-statement">空文（Empty Statement）</a></li>
+<li><a class="reference internal" href="#variable-declaration-statements">変数宣言文</a></li>
+<li><a class="reference internal" href="#constant-declaration-statements">定数宣言文</a></li>
+<li><a class="reference internal" href="#the-return-statement"><code class="docutils literal"><span class="pre">return</span></code> 文</a></li>
+<li><a class="reference internal" href="#the-throw-statement"><code class="docutils literal"><span class="pre">throw</span></code> 文</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#complex-statements">複雑な文</a><ul>
+<li><a class="reference internal" href="#compound-statements">合成文（Compound Statements）</a></li>
+<li><a class="reference internal" href="#conditional-statements">条件文</a><ul>
+<li><a class="reference internal" href="#the-if-statement"><code class="docutils literal"><span class="pre">if</span></code> 文</a></li>
+<li><a class="reference internal" href="#the-switch-statement"><code class="docutils literal"><span class="pre">switch</span></code> 文</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#loop-statements">ループ文</a><ul>
+<li><a class="reference internal" href="#c-style-loops">&#8220;C-Style&#8221; ループ</a></li>
+<li><a class="reference internal" href="#while-loops">While ループ</a></li>
+<li><a class="reference internal" href="#do-while-loops">Do-While ループ</a></li>
+<li><a class="reference internal" href="#dictionary-loops">Dictionary ループ</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#loop-control-statements">ループ制御文</a><ul>
+<li><a class="reference internal" href="#the-break-statement"><code class="docutils literal"><span class="pre">break</span></code> 文</a></li>
+<li><a class="reference internal" href="#the-continue-statement"><code class="docutils literal"><span class="pre">continue</span></code> 文</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="ops-exprs.html"
+                        title="前の章へ">演算子・式</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="map-reduce.html"
+                        title="次の章へ">Map-Reduce</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/KLProgrammingGuide/statements.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLProgrammingGuide/statements.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="map-reduce.html" title="Map-Reduce"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="ops-exprs.html" title="演算子・式"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >KL プログラミングガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

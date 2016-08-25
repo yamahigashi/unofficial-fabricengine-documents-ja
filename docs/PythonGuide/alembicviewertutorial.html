@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Alembic Viewer Tutorial &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="alembic-viewer-tutorial">
+<span id="alembicviewertutorial"></span><h1>Alembic Viewer Tutorial<a class="headerlink" href="#alembic-viewer-tutorial" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The new Python Bindings for the FabricUI allows users to work directly in Python and quickly prototype, iterate, and build custom applications around Fabric Engine. Python is the industry standard programming language for Technical Directors and Technical Artists in VFX. Its simple syntax makes it easier for users to pick up, learn and build tools with. In previous release of Fabric Engine, users would have to build custom applications using C++ which greatly increased the entry point for developing custom applications on top of Fabric Engine. Now, users can do this faster and more simply.</p>
+<p>This tutorial will result in users having built a small Alembic Viewer application that lists the Alembic archive files within a selected directory. User can select the Alembic files from the list and review their content in the 3D viewport while scrubbing through the timeline to see them in motion. We&#8217;ll be creating this custom application based on the canvas.py and CanvasWindow.py files that are included with Fabric Engine. Additionally, we&#8217;ll be creating a few custom PySide widgets implementing custom signals to execute commands in the graph and update the application with new data.</p>
+</div>
+<div class="section" id="diving-in">
+<h2>Diving In<a class="headerlink" href="#diving-in" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The first step is to create a custom directory where your application will live. Copy the <code class="docutils literal"><span class="pre">canvas.py</span></code> and <code class="docutils literal"><span class="pre">CanvasWindow.py</span></code> files into your custom directory and rename them to logical names relating to your custom application. In our case we&#8217;ll rename <code class="docutils literal"><span class="pre">canvas.py</span></code> to <code class="docutils literal"><span class="pre">alembic_viewer.py</span></code> and <code class="docutils literal"><span class="pre">CanvasWindow.py</span></code> to <code class="docutils literal"><span class="pre">AlembicViewWindow.py</span></code>.</p>
+<p>It is recommended to create a custom launcher file (similar to the <code class="docutils literal"><span class="pre">prompt.bat</span></code> and <code class="docutils literal"><span class="pre">prompt.sh</span></code> that ship with Fabric) to allow users to easily run your application. This launcher file needs to call the environment.bat or environment.sh file that is shipped in the main directory of the Fabric Engine release folder. This makes sure that the Fabric Engine environment is setup so that the Fabric Engine client that will be running our application graph, can started. The parent directory of the custom application has to be added to the :envar:PYTHONPATH environment variable as well. This will ensure that the custom widgets will be available with Python import calls. Lastly the file should then launch the Python startup file. An example of the launcher script we ship is below.</p>
+<p><strong>alembic_viewer.bat</strong></p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>@ECHO OFF
+<span class="nv">ECHO</span> <span class="o">========================</span>
+ECHO Launching Alembic Viewer
+<span class="nv">ECHO</span> <span class="o">========================</span>
+ECHO.
+<span class="nv">REM</span> <span class="o">==================================</span>
+REM Calls the Fabric Environment .bat
+<span class="nv">REM</span> <span class="o">==================================</span>
+
+CALL %cd%<span class="se">\.</span>.<span class="se">\.</span>.<span class="se">\.</span>.<span class="se">\e</span>nvironment.bat
+
+<span class="nv">REM</span> <span class="o">==================================</span>
+REM Adds the parent directory to the
+REM PYTHONPATH environment variable.
+<span class="nv">REM</span> <span class="o">==================================</span>
+
+<span class="nb">set</span> <span class="nv">PYTHONPATH</span><span class="o">=</span>%PYTHONPATH%<span class="p">;</span>%cd%<span class="se">\.</span>.<span class="p">;</span>
+
+<span class="nv">REM</span> <span class="o">==================================</span>
+REM Launches the Python application.
+<span class="nv">REM</span> <span class="o">==================================</span>
+
+call cmd /k <span class="s2">&quot;python alembic_viewer.py&quot;</span>
+
+PAUSE
+</pre></div>
+</div>
+<p><strong>alembic_viewer.sh</strong></p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span><span class="c1"># alembic_viewer.sh</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;========================&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;Launching Alembic Viewer&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;========================&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;&quot;</span>
+
+<span class="nv">DIR</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span> <span class="nb">cd</span> <span class="s2">&quot;</span><span class="k">$(</span> dirname <span class="s2">&quot;</span><span class="si">${</span><span class="nv">BASH_SOURCE</span><span class="p">[0]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">)</span><span class="s2">&quot;</span> <span class="o">&amp;&amp;</span> <span class="nb">pwd</span> <span class="k">)</span><span class="s2">&quot;</span>
+<span class="nv">FABRIC_DIR</span><span class="o">=</span><span class="nv">$DIR</span>/../../..
+
+<span class="nb">source</span> <span class="nv">$FABRIC_DIR</span>/environment.sh
+
+<span class="nv">PYTHONPATH</span><span class="o">=</span><span class="nv">$DIR</span>/../:<span class="nv">$PYTHONPATH</span>
+<span class="nb">export</span> PYTHONPATH
+
+python alembic_viewer.py
+</pre></div>
+</div>
+</div>
+<div class="section" id="editing-alembic-viewer-py">
+<h2>Editing alembic_viewer.py<a class="headerlink" href="#editing-alembic-viewer-py" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">alembic_viewer.py</span></code> file will set up the QApplication instance, add the main window widget, and then display the UI. A few things need to be customized in this file to change what settings are used when launching the window. Remove the <code class="docutils literal"><span class="pre">FabricStyle()</span></code> class and import it from <strong>&lt;Insert new Python module name here&gt;</strong> in the Fabric Engine Python package. The following code snippet shows how this is done.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># FabricStyle() import</span>
+
+<span class="kn">from</span> <span class="nn">FabricEngine.Canvas.FabricStyle</span> <span class="kn">import</span> <span class="n">FabricStyle</span>
+</pre></div>
+</div>
+<p>The custom window widget will need to be imported here as well. Although it hasn&#8217;t been created yet, we know what it will be be named. The import for that should look like the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># AlembicViewerWindow() import</span>
+<span class="kn">from</span> <span class="nn">AlembicViewer.AlembicViewerWindow</span> <span class="kn">import</span> <span class="n">AlembicViewerWindow</span>
+</pre></div>
+</div>
+<p>Continuing on, edit the <code class="docutils literal"><span class="pre">app.setOrganizationName()</span></code>, <code class="docutils literal"><span class="pre">app.setApplicationName()</span></code> and <code class="docutils literal"><span class="pre">app.setApplicationVersion()</span></code> methods to the appropriate information regarding your application. These values are used to correctly store and retrieve custom settings for the application. It&#8217;s important to set these so that the application has its own set of settings that will be independent from other applications.</p>
+<p>Remove the exec and script arguments from the option parser, as these won&#8217;t be needed since our application is simply a viewer application. We will add an optional argument to the application so users can start the application with a particular directory loaded on start up. We add the <cite>initDir</cite> argument to the option parser with the following code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># initDir option</span>
+<span class="n">opt_parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s1">&#39;-d&#39;</span><span class="p">,</span> <span class="s1">&#39;--initDir&#39;</span><span class="p">,</span>
+                      <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span>
+                      <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;initDir&#39;</span><span class="p">,</span>
+                      <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Initial directory to load alembic files from.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Your application may need other arguments passed to it to launch correctly so add them as needed. The mainWin variable should be set to be an instance of the <code class="docutils literal"><span class="pre">AlembicViewerWindow()</span></code> class. The <code class="docutils literal"><span class="pre">AlembicViewerWindow</span></code> class will sub-class from the <code class="docutils literal"><span class="pre">CanvasWindow()</span></code> class and we&#8217;ll define and pass the <code class="docutils literal"><span class="pre">QSettings</span></code> object in the <code class="docutils literal"><span class="pre">__init__()</span></code> method along with the setting for unguarded mode. We add a keyword argument to pass the initDir option from the OptionParser to the AlembicViewerWindow class as follows.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">mainWin</span> <span class="o">=</span> <span class="n">AlembicViewerWindow</span><span class="p">(</span><span class="n">initDir</span><span class="o">=</span><span class="n">initDir</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Lastly we load our custom <code class="docutils literal"><span class="pre">AlembicViewer.canvas</span></code> graph that our application relies on. The following snippet shows how to do it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># load AlembicViewer.canvas</span>
+<span class="n">alembicViewerGraphPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s1">&#39;AlembicViewer.canvas&#39;</span><span class="p">)</span>
+<span class="n">mainWin</span><span class="o">.</span><span class="n">loadGraph</span><span class="p">(</span><span class="n">alembicViewerGraphPath</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="editing-alembicviewerwindow-py">
+<h2>Editing AlembicViewerWindow.py<a class="headerlink" href="#editing-alembicviewerwindow-py" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>This file defines how the main user inteface (UI) appears to the user. Instances of some of the built-in widgets that are provided in the FabricUI Python Bindings are created and it also creates instances of your custom widgets. We can sub-class <code class="docutils literal"><span class="pre">CanvasWindow</span></code> to easily create our custom window class. We need to import the <code class="docutils literal"><span class="pre">CanvasWindow</span></code> class in the file header as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">FabricEngine.Canvas.CanvasWindow</span> <span class="kn">import</span> <span class="n">CanvasWindow</span>
+</pre></div>
+</div>
+<p>We&#8217;ll change the name of the class to <code class="docutils literal"><span class="pre">AlembicViewerWindow</span></code> and change the base class to <code class="docutils literal"><span class="pre">CanvasWindow</span></code>.</p>
+<p>In the <code class="docutils literal"><span class="pre">__init__()</span></code> method, add the initDir argument and give it a default value of None <code class="docutils literal"><span class="pre">initDir=None</span></code>. Then declare a class attribute <code class="docutils literal"><span class="pre">self.initDir</span> <span class="pre">=</span> <span class="pre">initDir</span></code> so our custom <code class="docutils literal"><span class="pre">AlembicViewerUIWidget</span></code> can look at this attribute and set the initial directory. We also create varaibles for settings, unguarded, and noopt that are passed into the call to the super class&#8217;s <code class="docutils literal"><span class="pre">__init__()</span></code> method as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">settings</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QSettings</span><span class="p">()</span>
+<span class="n">unguarded</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="n">noopt</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="nb">super</span><span class="p">(</span><span class="n">AlembicViewerWindow</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">unguarded</span><span class="p">,</span> <span class="n">noopt</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To customize the look and feel of the application a custom stylesheet is defined in a <code class="docutils literal"><span class="pre">widgetstylesheet</span></code> variable and set using the setStyleSheet() method of the class. Lastly we set the <code class="docutils literal"><span class="pre">windowTitle</span></code> attribute to <code class="docutils literal"><span class="pre">Fabric</span> <span class="pre">Engine</span> <span class="pre">-</span> <span class="pre">Alembic</span> <span class="pre">Viewer</span></code>.</p>
+<p>Remove all the other methods within the class except for the <code class="docutils literal"><span class="pre">onFileNameChanged()</span></code>, <code class="docutils literal"><span class="pre">_initDocks()</span></code>, <code class="docutils literal"><span class="pre">_initMenus()</span></code>, and <code class="docutils literal"><span class="pre">closeEvent</span></code> methods. The rest will be inherited form the <code class="docutils literal"><span class="pre">CanvasWindow</span></code> class and will function as needed from there.</p>
+<p>Since users aren&#8217;t ever going to open or change files, we can re-implement the <code class="docutils literal"><span class="pre">onFileNameChanged()</span></code> method and put a <code class="docutils literal"><span class="pre">pass</span></code> statement in it.</p>
+</div>
+<div class="section" id="custom-docks-and-menus">
+<h2>Custom Docks and Menus<a class="headerlink" href="#custom-docks-and-menus" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Most of the work needed to customize the application is in the <code class="docutils literal"><span class="pre">_initDocks()</span></code> and <code class="docutils literal"><span class="pre">_initMenus()</span></code> methods. We need to do a check if the value of the <code class="docutils literal"><span class="pre">self.initDir</span></code> is none or that path doesn&#8217;t exist. If neither, pass the current working directory or the Resources directory from the Fabric Engine release as the initial directory.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initDir</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initDir</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">initDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+    <span class="n">fabricDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FABRIC_DIR&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">fabricDir</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fabricDir</span><span class="p">,</span> <span class="s1">&#39;Resources&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then create a dockWidget which holds an instance of our <code class="docutils literal"><span class="pre">AlembicViewerUIWidget()</span></code>. The initDir is passed as an argument to the instance of the AlembicViewerUIWidget. You&#8217;ll notice below the creation of the dock widget, the signals from the <code class="docutils literal"><span class="pre">AlembicViewerUIWidget</span></code> are connected to custom methods we&#8217;ve added later on in the file. These connections are triggering the interaction between the custom widgets and the graph driving the application.</p>
+<p>Comment out the unnecessary dockWidgets such as the Canvas Graph, Value Editor, and the Script Editor as we don&#8217;t want the users to have them available. You can uncomment these widgets later to do further development on the application to make it easier to debug.</p>
+<p>The <code class="docutils literal"><span class="pre">_initMenus()</span></code> method which sets up the main windows default menus can be cleared out. This will be customized many times to the application&#8217;s needs and functionality. The menu code within standard <code class="docutils literal"><span class="pre">CanvasWindow.py</span></code> file can be used as a reference for user to build upon which has been done in this example.</p>
+</div>
+<div class="section" id="close-event">
+<h2>Close Event<a class="headerlink" href="#close-event" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Lastly, the <code class="docutils literal"><span class="pre">cloneEvent()</span></code> method will be re-implemented and will do everything that the <code class="docutils literal"><span class="pre">CanvasWindow</span></code> class&#8217;s does except it won&#8217;t prompt the user to save the file. The <code class="docutils literal"><span class="pre">closeEvent()</span></code> method should look as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">viewport</span><span class="o">.</span><span class="n">setManipulationActive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s2">&quot;mainWindow/geometry&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">saveGeometry</span><span class="p">())</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s2">&quot;mainWindow/state&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">saveState</span><span class="p">())</span>
+
+<span class="n">QtGui</span><span class="o">.</span><span class="n">QMainWindow</span><span class="o">.</span><span class="n">closeEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span>
+
+<span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">autosaveFilename</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">autosaveFilename</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="custom-slots">
+<h2>Custom Slots<a class="headerlink" href="#custom-slots" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The last area to cover in this file is the custom slots that were added so that the signals from the custom widget can interact with the graph. You can see that the <code class="docutils literal"><span class="pre">dfguiCommandHandler</span></code> attribute which points to the instanced <code class="docutils literal"><span class="pre">UICmdHandler()</span></code> class is used to fire commands triggered from the signals. The <code class="docutils literal"><span class="pre">UICmdHandler()</span></code> class handles all commands that need to be fired from a UI to the graph and provides many methods for doing so. Review the <code class="docutils literal"><span class="pre">UICmdHandler.py</span></code> file provided within the FabricEngine Python package in the release folder for more details.</p>
+</div>
+<div class="section" id="custom-widgets">
+<h2>Custom Widgets<a class="headerlink" href="#custom-widgets" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>There is nothing special to do in terms of creating custom widgets, other than ensuring that they have signals &amp; slots setup to interact with the rest of the FabricUI widgets as needed This is up to the user to design and define. Users should review the <code class="docutils literal"><span class="pre">AlembicFileListWidget.py</span></code> and the <code class="docutils literal"><span class="pre">AlembicViewerUIWidget.py</span></code> files to see how these were implemented.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Alembic Viewer Tutorial</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#diving-in">Diving In</a></li>
+<li><a class="reference internal" href="#editing-alembic-viewer-py">Editing alembic_viewer.py</a></li>
+<li><a class="reference internal" href="#editing-alembicviewerwindow-py">Editing AlembicViewerWindow.py</a></li>
+<li><a class="reference internal" href="#custom-docks-and-menus">Custom Docks and Menus</a></li>
+<li><a class="reference internal" href="#close-event">Close Event</a></li>
+<li><a class="reference internal" href="#custom-slots">Custom Slots</a></li>
+<li><a class="reference internal" href="#custom-widgets">Custom Widgets</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/PythonGuide/alembicviewertutorial.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/PythonGuide/alembicviewertutorial.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

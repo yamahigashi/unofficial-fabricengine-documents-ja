@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>OGLWireFrameShader.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="InlineDrawing Extension’s Files" href="files.html" />
+    <link rel="next" title="RenderParamSet.kl" href="RenderParamSet.kl.html" />
+    <link rel="prev" title="OGLVertexColorOverlayShader.kl" href="OGLVertexColorOverlayShader.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="RenderParamSet.kl.html" title="RenderParamSet.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="OGLVertexColorOverlayShader.kl.html" title="OGLVertexColorOverlayShader.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >InlineDrawing エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">InlineDrawing Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="inlinedrawing-oglwireframeshader-kl">
+<span id="oglwireframeshader-kl"></span><span id="id1"></span><h1>OGLWireFrameShader.kl<a class="headerlink" href="#inlinedrawing-oglwireframeshader-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="oglwireframeshader-object">
+<h3>OGLWireFrameShader (object)<a class="headerlink" href="#oglwireframeshader-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">バージョン 1.12.0 で追加.</span></p>
+</div>
+<p class="plaintext">The OGLWireFrameShader inherits the OGLInlineShader. It encapsulates any other <a class="reference internal" href="InlineShader.html#inlineshader"><span class="std std-ref">InlineShader (interface)</span></a>, while setting the polygon mode to lines.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: OGLWireFrameShader</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">InlineDrawing</span><span class="p">;</span>
+  
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+      <span class="nx">InlineDrawing</span> <span class="nx">draw</span> <span class="o">=</span> <span class="nx">OGLInlineDrawing</span><span class="p">();</span>
+      <span class="nx">OGLWireFrameShader</span> <span class="nx">shader</span> <span class="o">=</span> <span class="nx">draw</span><span class="p">.</span><span class="nx">registerShader</span><span class="p">(</span><span class="nx">OGLWireFrameShader</span><span class="p">(</span><span class="s1">&#39;wireframe&#39;</span><span class="p">,</span> <span class="nx">OGLSurfaceShader</span><span class="p">()));</span>
+      <span class="nx">shader</span><span class="p">.</span><span class="nx">setPolygonOffset</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">);</span> <span class="c1">// draw as overlay</span>
+      <span class="nx">InlineMaterial</span> <span class="nx">mat</span> <span class="o">=</span> <span class="nx">shader</span><span class="p">.</span><span class="nx">getOrCreateMaterial</span><span class="p">(</span><span class="s1">&#39;blue&#39;</span><span class="p">);</span>
+      <span class="nx">mat</span><span class="p">.</span><span class="nx">setUniform</span><span class="p">(</span><span class="s1">&#39;u_diffuseColor&#39;</span><span class="p">,</span> <span class="nx">Color</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">));</span>
+  
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="23%" />
+<col width="77%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68625"><span class="std std-ref">OGLWireFrameShader</span></a>  ( in <a class="reference internal" href="OGLInlineShader.html#oglinlineshader"><span class="std std-ref">OGLInlineShader</span></a> shader )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id115457"><span class="std std-ref">OGLWireFrameShader</span></a>  ( in <a class="reference internal" href="OGLWireFrameShader.html#oglwireframeshader"><span class="std std-ref">OGLWireFrameShader</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68634"><span class="std std-ref">OGLWireFrameShader</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="OGLInlineShader.html#oglinlineshader"><span class="std std-ref">OGLInlineShader</span></a> shader )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id115454"><span class="std std-ref">OGLWireFrameShader</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68686"><span class="std std-ref">bindUniformToLocation</span></a> ! ( io <a class="reference internal" href="DrawContext.html#drawcontext"><span class="std std-ref">DrawContext</span></a> context, in <a class="reference internal" href="InlineUniform.html#inlineuniform"><span class="std std-ref">InlineUniform</span></a> uniform, in Integer location )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="OGLWireFrameShader.html#oglwireframeshader"><span class="std std-ref">OGLWireFrameShader</span></a></td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id115461"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68705"><span class="std std-ref">defineAttribute</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> attributeType )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68674"><span class="std std-ref">defineUniform</span></a> ! ( in <a class="reference internal" href="InlineUniform.html#inlineuniform"><span class="std std-ref">InlineUniform</span></a> uniform )</td>
+</tr>
+<tr class="row-odd"><td>Size</td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68710"><span class="std std-ref">getAttributeCount</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Integer</td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68721"><span class="std std-ref">getAttributeID</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68713"><span class="std std-ref">getAttributeName</span></a> ? ( in Index index )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68717"><span class="std std-ref">getAttributeType</span></a> ? ( in Index index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="InlineMaterial.html#inlinematerial"><span class="std std-ref">InlineMaterial</span></a></td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68670"><span class="std std-ref">getMaterial</span></a> ? ( in Index index )</td>
+</tr>
+<tr class="row-even"><td>Size</td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68667"><span class="std std-ref">getMaterialCount</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68652"><span class="std std-ref">getName</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="InlineMaterial.html#inlinematerial"><span class="std std-ref">InlineMaterial</span></a></td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68663"><span class="std std-ref">getOrCreateMaterial</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68725"><span class="std std-ref">hasAttribute</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68659"><span class="std std-ref">hasMaterial</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68678"><span class="std std-ref">hasUniform</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68639"><span class="std std-ref">init</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="OGLInlineShader.html#oglinlineshader"><span class="std std-ref">OGLInlineShader</span></a> shader )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68648"><span class="std std-ref">setPolygonOffset</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> offset )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68682"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="InlineUniform.html#inlineuniform"><span class="std std-ref">InlineUniform</span></a> uniform )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OGLWireFrameShader.html#id68644"><span class="std std-ref">setWireFrame</span></a> ! ( in Boolean enabled )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="OGLVertexColorOverlayShader.kl.html"
+                        title="前の章へ">OGLVertexColorOverlayShader.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="RenderParamSet.kl.html"
+                        title="次の章へ">RenderParamSet.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/InlineDrawing/OGLWireFrameShader.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/InlineDrawing/OGLWireFrameShader.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="RenderParamSet.kl.html" title="RenderParamSet.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="OGLVertexColorOverlayShader.kl.html" title="OGLVertexColorOverlayShader.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >InlineDrawing エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >InlineDrawing Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

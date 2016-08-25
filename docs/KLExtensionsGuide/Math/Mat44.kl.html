@@ -1,0 +1,403 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Mat44.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Math Extension’s Files" href="files.html" />
+    <link rel="next" title="Mat44_c.kl" href="Mat44_c.kl.html" />
+    <link rel="prev" title="Mat33_i.kl" href="Mat33_i.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Mat44_c.kl.html" title="Mat44_c.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="Mat33_i.kl.html" title="Mat33_i.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Math エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Math Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="math-mat44-kl">
+<span id="mat44-kl"></span><span id="id1"></span><h1>Mat44.kl<a class="headerlink" href="#math-mat44-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="mat44-struct">
+<h3>Mat44 (struct)<a class="headerlink" href="#mat44-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> represents a 4 by 4 matrix. It uses <a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> types for each of the 4 rows.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="Xfo.html#xfo"><span class="std std-ref">Xfo</span></a>, <a class="reference internal" href="Mat33.html#mat33"><span class="std std-ref">Mat33</span></a></p>
+</div>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Mat44</span>
+<span class="cm">*/</span>
+
+<span class="c1">// create a matrix 4x4</span>
+<span class="nx">Vec4</span> <span class="nx">v0</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+<span class="nx">Vec4</span> <span class="nx">v1</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+<span class="nx">Vec4</span> <span class="nx">v2</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+<span class="nx">Vec4</span> <span class="nx">v3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+<span class="nx">Mat44</span> <span class="nx">mat</span><span class="p">(</span><span class="nx">v0</span><span class="p">,</span> <span class="nx">v1</span><span class="p">,</span> <span class="nx">v2</span><span class="p">,</span> <span class="nx">v3</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="section" id="fabric-engine-matrices-are-column-major-rather-than-row-major">
+<h4>Fabric Engine Matrices are column-major rather than row-major<a class="headerlink" href="#fabric-engine-matrices-are-column-major-rather-than-row-major" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>Most DCCs follow a row-major convention for expressing their matrices which implies that
+multiplication of matrices occurs in the opposite order to those in Fabric Engine.</p>
+<p>In Maya and Softimage, to transform a point (P) by a matrix (WM), you would post-multiply the vector by the matrix 
+by placing it on the left side of the matrix.</p>
+<blockquote>
+<div>(P&#8217; = P x WM)</div></blockquote>
+<p>In Fabric Engine, to transform a point (P) by a matrix (WM), you would post-multiply it by placing it on the right hand side of the matrix.</p>
+<blockquote>
+<div>(P&#8217; = WM x P)</div></blockquote>
+<p>When multiplying matrices together, the order of the matrices is also swapped when compared to Maya/Softimage.</p>
+<p>To Transform a Matrix (M) into the space of a another matrix (WM), you would place the L on the right hand side of WM</p>
+<p>(M&#8217; = WM x M)</p>
+<p>In Maya, Softimage and 3dsmax, the order of the matrices in the multiplication would be swapped.</p>
+<p>(M&#8217; = M x WM)</p>
+</div>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="69%" />
+<col width="21%" />
+<col width="10%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a></td>
+<td>row0</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a></td>
+<td>row1</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a></td>
+<td>row2</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a></td>
+<td>row3</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id116586"><span class="std std-ref">Mat44</span></a>  ( in <a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82250"><span class="std std-ref">Mat44</span></a>  ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _00, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _01, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _02, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _03, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _10, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _11, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _12, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _13, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _20, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _21, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _22, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _23, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _30, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _31, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _32, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _33 )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82276"><span class="std std-ref">Mat44</span></a>  ( in <a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> row0, in <a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> row1, in <a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> row2, in <a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> row3 )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82228"><span class="std std-ref">Mat44</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a></td>
+<td><a class="reference internal" href="Mat44.html#id82461"><span class="std std-ref">add</span></a> ? ( in <a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> other )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a></td>
+<td><a class="reference internal" href="Mat44.html#id82499"><span class="std std-ref">adjoint</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="Mat44.html#id82424"><span class="std std-ref">almostEqual</span></a> ? ( in <a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="Mat44.html#id82419"><span class="std std-ref">almostEqual</span></a> ? ( in <a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> other, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> precision )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a></td>
+<td><a class="reference internal" href="Mat44.html#id116590"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82536"><span class="std std-ref">decompose</span></a> ? ( out <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> scaling, out <a class="reference internal" href="Mat33.html#mat33"><span class="std std-ref">Mat33</span></a> rotation, out <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> translation )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="Mat44.html#id82496"><span class="std std-ref">determinant</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a></td>
+<td><a class="reference internal" href="Mat44.html#id82485"><span class="std std-ref">divideScalar</span></a> ? ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="Mat44.html#id82415"><span class="std std-ref">equal</span></a> ? ( in <a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82344"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> v&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82307"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> v&lt;&gt;, in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> o )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82348"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> v[] )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82312"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> v[], in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> o )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82356"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82322"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v&lt;&gt;, in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> o )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82360"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v[] )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82335"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v[], in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> o )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82327"><span class="std std-ref">getTr</span></a> ? ( io <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Mat44.html#id82432"><span class="std std-ref">hash</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a></td>
+<td><a class="reference internal" href="Mat44.html#id82502"><span class="std std-ref">inverse</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a></td>
+<td><a class="reference internal" href="Mat44.html#id82505"><span class="std std-ref">inverse_safe</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="Mat44.html#id82397"><span class="std std-ref">isNull</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a></td>
+<td><a class="reference internal" href="Mat44.html#id82469"><span class="std std-ref">multiply</span></a> ? ( in <a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> other )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a></td>
+<td><a class="reference internal" href="Mat44.html#id82473"><span class="std std-ref">multiplyScalar</span></a> ? ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Mat44.html#id82477"><span class="std std-ref">multiplyVector3</span></a> ? ( in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> other )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a></td>
+<td><a class="reference internal" href="Mat44.html#id82481"><span class="std std-ref">multiplyVector4</span></a> ? ( in <a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82340"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> v&lt;&gt; )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82302"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> v&lt;&gt;, in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> o )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82352"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v&lt;&gt; )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82317"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v&lt;&gt;, in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> o )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82283"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _00, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _01, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _02, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _03, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _10, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _11, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _12, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _13, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _20, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _21, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _22, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _23, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _30, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _31, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _32, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> _33 )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82364"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> translation, in <a class="reference internal" href="Mat33.html#mat33"><span class="std std-ref">Mat33</span></a> rotation, in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> scaling )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82370"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> translation, in <a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a> rotation, in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> scaling )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82387"><span class="std std-ref">setColumns</span></a> ! ( in <a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> col0, in <a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> col1, in <a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> col2, in <a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> col3 )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82403"><span class="std std-ref">setDiagonal</span></a> ! ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> v )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82407"><span class="std std-ref">setDiagonal</span></a> ! ( in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> v )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82411"><span class="std std-ref">setDiagonal</span></a> ! ( in <a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> v )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82376"><span class="std std-ref">setFromMat33</span></a> ! ( in <a class="reference internal" href="Mat33.html#mat33"><span class="std std-ref">Mat33</span></a> m )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82400"><span class="std std-ref">setIdentity</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82394"><span class="std std-ref">setNull</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82525"><span class="std std-ref">setRotation</span></a> ! ( in <a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a> q )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82380"><span class="std std-ref">setRows</span></a> ! ( in <a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> row0, in <a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> row1, in <a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> row2, in <a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> row3 )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82529"><span class="std std-ref">setScaling</span></a> ! ( in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> v )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82331"><span class="std std-ref">setTr</span></a> ! ( in <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82517"><span class="std std-ref">setTranslation</span></a> ! ( in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> tr )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82521"><span class="std std-ref">setUpperLeft</span></a> ! ( in <a class="reference internal" href="Mat33.html#mat33"><span class="std std-ref">Mat33</span></a> m )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a></td>
+<td><a class="reference internal" href="Mat44.html#id82542"><span class="std std-ref">sphericalLinearInterpolate</span></a> ? ( in <a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> m2, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> t )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a></td>
+<td><a class="reference internal" href="Mat44.html#id82465"><span class="std std-ref">subtract</span></a> ? ( in <a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Mat44.html#id82511"><span class="std std-ref">translation</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a></td>
+<td><a class="reference internal" href="Mat44.html#id82508"><span class="std std-ref">transpose</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Mat33.html#mat33"><span class="std std-ref">Mat33</span></a></td>
+<td><a class="reference internal" href="Mat44.html#id82533"><span class="std std-ref">upperLeft</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Mat44.html#id82514"><span class="std std-ref">zeroTranslation</span></a> ! ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="operators">
+<h4>Operators<a class="headerlink" href="#operators" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a></td>
+<td><a class="reference internal" href="Mat44.html#id82437"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="mathrandommat44">
+<h3>mathRandomMat44<a class="headerlink" href="#mathrandommat44" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> mathRandomMat44 ( in Size seed, in Size index, in <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> min, in <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> max )</p>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="Mat33_i.kl.html"
+                        title="前の章へ">Mat33_i.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="Mat44_c.kl.html"
+                        title="次の章へ">Mat44_c.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Math/Mat44.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Math/Mat44.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Mat44_c.kl.html" title="Mat44_c.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="Mat33_i.kl.html" title="Mat33_i.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Math エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >Math Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

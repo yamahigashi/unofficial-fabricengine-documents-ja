@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>C++言語インタフェース &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="CAPI プログラミングガイド" href="index.html" />
+    <link rel="next" title="クライアントとアプリケーションの生存サイクル" href="clients.html" />
+    <link rel="prev" title="C言語インタフェース" href="c-interface.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="clients.html" title="クライアントとアプリケーションの生存サイクル"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="c-interface.html" title="C言語インタフェース"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">CAPI プログラミングガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="the-c-language-interface">
+<span id="cpp-interface"></span><h1>C++言語インタフェース<a class="headerlink" href="#the-c-language-interface" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>この節では、C++言語インタフェースを通じてCAPIを利用するアプリケーションから必要になる一般的なプラクティスについて深く掘り下げます。C++言語インタフェースの利用予定がないのであればこの節を読む必要はありません。</p>
+<p>C++ にはライフサイクル管理、例外機能両方あるので、CAPIのC++インタフェースを使用する際、プログラマの責務を軽減します。</p>
+<div class="section" id="namespacing">
+<h2>名前空間<a class="headerlink" href="#namespacing" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>全ての C++ インタフェースのオブジェクト（クラス）,関数は、C++名前空間  <code class="docutils literal"><span class="pre">FabricCore</span></code> の中にあります。プログラマは、明示的な名前空間の使用か暗黙の使用どちらか選択できます。明示的な使用であれば、CAPI オブジェクト（関数）を <code class="docutils literal"><span class="pre">FabricCore::...</span></code> プリフィクスを付け使用します。例: <code class="xref cpp cpp-class docutils literal"><span class="pre">FabricCore::DGNode</span></code> 暗黙の名前空間の使用であれば、プリフィクスを省略できます（ただし、コンパイル時、プログラム中、他のシンボルとの名前の衝突を起きさないようにしましょう）</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">namespace</span> <span class="n">FabricCore</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>CAPI C++ インタフェースを使用するソースファイルの最初に記述します。</p>
+</div>
+<div class="section" id="object-lifecycles">
+<h2>オブジェクト生存サイクル<a class="headerlink" href="#object-lifecycles" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>CAPI C++インタフェース使用の際は、参照カウントオブジェクト,variant双方、スコープ外へといった時点で自動で開放されます。CAPI C++オブジェクトのスコープについての規則は、他のC++オブジェクトにならいます。</p>
+</div>
+<div class="section" id="error-handling">
+<h2>エラーハンドリング<a class="headerlink" href="#error-handling" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>C++ インタフェースではエラーハンドリングに C++ 標準の例外ハンドリングを使用しています。CAPI C++インタフェースを使用する際、発生するエラーは <code class="xref cpp cpp-class docutils literal"><span class="pre">FabricCore::Exception</span></code> 型の C++例外として送信します。これを通常の  <code class="docutils literal"><span class="pre">catch</span> <span class="pre">(</span> <span class="pre">FabricCore::Exception</span> <span class="pre">e</span> <span class="pre">)</span> <span class="pre">{</span> <span class="pre">...</span> <span class="pre">}</span></code> ステートメントで補足することができます。より詳しくは <span class="xref std std-ref">exceptions</span> を参照してください。</p>
+</div>
+<div class="section" id="example">
+<h2>用例<a class="headerlink" href="#example" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>以下のサンプルコードで CAPIへの C++言語インタフェースの用例を示します。</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;FabricCore.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span> <span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span> <span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">FabricCore</span><span class="o">::</span><span class="n">Initialize</span><span class="p">();</span>
+
+  <span class="n">FabricCore</span><span class="o">::</span><span class="n">Client</span><span class="o">::</span><span class="n">CreateOptions</span> <span class="n">createOptions</span><span class="p">;</span>
+  <span class="n">memset</span><span class="p">(</span> <span class="o">&amp;</span><span class="n">createOptions</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">createOptions</span><span class="p">)</span> <span class="p">);</span>
+  <span class="n">createOptions</span><span class="p">.</span><span class="n">guarded</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
+  <span class="n">FabricCore</span><span class="o">::</span><span class="n">Client</span> <span class="n">client</span><span class="p">(</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">createOptions</span> <span class="p">);</span>
+
+  <span class="n">FabricCore</span><span class="o">::</span><span class="n">KLSourceFile</span> <span class="n">sourceFiles</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">{</span>
+      <span class="s">&quot;vec3.kl&quot;</span><span class="p">,</span> <span class="s">&quot;\</span>
+<span class="s">struct Vec3 {</span><span class="se">\n</span><span class="s">\</span>
+<span class="s">  Float32 x, y, z;</span><span class="se">\n</span><span class="s">\</span>
+<span class="s">};</span><span class="se">\n</span><span class="s">\</span>
+<span class="s">function Float32 Vec3.normSq() {</span><span class="se">\n</span><span class="s">\</span>
+<span class="s">  return this.x*this.x + this.y*this.y + this.z*this.z;</span><span class="se">\n</span><span class="s">\</span>
+<span class="s">}</span><span class="se">\n</span><span class="s">\</span>
+<span class="s">function Float32 Vec3.norm() {</span><span class="se">\n</span><span class="s">\</span>
+<span class="s">  return sqrt(this.normSq());</span><span class="se">\n</span><span class="s">\</span>
+<span class="s">}</span><span class="se">\n</span><span class="s">\</span>
+<span class="s">&quot;</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+  <span class="n">FabricCore</span><span class="o">::</span><span class="n">RegisterKLExtension</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">,</span>
+    <span class="s">&quot;Vec3&quot;</span><span class="p">,</span>
+    <span class="s">&quot;1.0.0&quot;</span><span class="p">,</span>
+    <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="c1">// override</span>
+    <span class="mi">1</span><span class="p">,</span>
+    <span class="n">sourceFiles</span><span class="p">,</span>
+    <span class="nb">true</span><span class="p">,</span> <span class="c1">// load</span>
+    <span class="nb">false</span> <span class="c1">// reload</span>
+    <span class="p">);</span>
+
+  <span class="n">FabricCore</span><span class="o">::</span><span class="n">DGOperator</span> <span class="n">dgOperator</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">,</span>
+    <span class="s">&quot;testOperator1&quot;</span><span class="p">,</span>
+    <span class="s">&quot;test.kl&quot;</span><span class="p">,</span>
+    <span class="s">&quot;\</span>
+<span class="s">require Vec3;</span><span class="se">\n</span><span class="s">\</span>
+<span class="se">\n</span><span class="s">\</span>
+<span class="s">operator testOp(Vec3 vec3, io Float32 norm) {</span><span class="se">\n</span><span class="s">\</span>
+<span class="s">  norm = vec3.norm();</span><span class="se">\n</span><span class="s">\</span>
+<span class="s">}</span><span class="se">\n</span><span class="s">\</span>
+<span class="s">&quot;</span><span class="p">,</span>
+    <span class="s">&quot;testOp&quot;</span>
+    <span class="p">);</span>
+
+  <span class="kt">char</span> <span class="k">const</span> <span class="o">*</span><span class="n">parameterLayout</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&quot;self.vec3&quot;</span><span class="p">,</span> <span class="s">&quot;self.norm&quot;</span> <span class="p">};</span>
+  <span class="n">FabricCore</span><span class="o">::</span><span class="n">DGBinding</span> <span class="n">dgBinding</span><span class="p">(</span>
+    <span class="n">dgOperator</span><span class="p">,</span>
+    <span class="mi">2</span><span class="p">,</span>
+    <span class="n">parameterLayout</span>
+    <span class="p">);</span>
+
+  <span class="n">FabricCore</span><span class="o">::</span><span class="n">DGNode</span> <span class="n">dgNode</span><span class="p">(</span> <span class="n">client</span><span class="p">,</span> <span class="s">&quot;testNode1&quot;</span> <span class="p">);</span>
+  <span class="n">dgNode</span><span class="p">.</span><span class="n">addMember</span><span class="p">(</span> <span class="s">&quot;vec3&quot;</span><span class="p">,</span> <span class="s">&quot;Vec3&quot;</span> <span class="p">);</span>
+  <span class="n">dgNode</span><span class="p">.</span><span class="n">addMember</span><span class="p">(</span> <span class="s">&quot;norm&quot;</span><span class="p">,</span> <span class="s">&quot;Float32&quot;</span> <span class="p">);</span>
+  <span class="n">dgNode</span><span class="p">.</span><span class="n">setSize</span><span class="p">(</span> <span class="mi">1024</span> <span class="p">);</span>
+  <span class="kt">float</span> <span class="n">vec3Data</span><span class="p">[</span><span class="mi">1024</span><span class="o">*</span><span class="mi">3</span><span class="p">];</span>
+  <span class="k">for</span> <span class="p">(</span> <span class="kt">uint32_t</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">1024</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">vec3Data</span><span class="p">[</span><span class="mi">3</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="kt">float</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">0</span><span class="p">);</span>
+    <span class="n">vec3Data</span><span class="p">[</span><span class="mi">3</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="kt">float</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">vec3Data</span><span class="p">[</span><span class="mi">3</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="kt">float</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">dgNode</span><span class="p">.</span><span class="n">setMemberAllSlicesData</span><span class="p">(</span> <span class="s">&quot;vec3&quot;</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">vec3Data</span><span class="p">),</span> <span class="n">vec3Data</span> <span class="p">);</span>
+  <span class="n">dgNode</span><span class="p">.</span><span class="n">appendBinding</span><span class="p">(</span> <span class="n">dgBinding</span> <span class="p">);</span>
+  <span class="n">dgNode</span><span class="p">.</span><span class="n">evaluate</span><span class="p">();</span>
+  <span class="kt">float</span> <span class="n">normData</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span>
+  <span class="n">dgNode</span><span class="p">.</span><span class="n">getMemberAllSlicesData</span><span class="p">(</span> <span class="s">&quot;norm&quot;</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">normData</span><span class="p">),</span> <span class="n">normData</span> <span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span> <span class="kt">uint32_t</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">8</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span>
+    <span class="n">printf</span><span class="p">(</span> <span class="s">&quot;norm[%u] = %g</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="kt">unsigned</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">normData</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">);</span>
+  <span class="n">printf</span><span class="p">(</span> <span class="s">&quot;...</span><span class="se">\n</span><span class="s">&quot;</span> <span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span> <span class="kt">uint32_t</span> <span class="n">i</span><span class="o">=</span><span class="mi">1016</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">1024</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span>
+    <span class="n">printf</span><span class="p">(</span> <span class="s">&quot;norm[%u] = %g</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="kt">unsigned</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">normData</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">);</span>
+
+  <span class="n">FabricCore</span><span class="o">::</span><span class="n">Finalize</span><span class="p">();</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">C++言語インタフェース</a><ul>
+<li><a class="reference internal" href="#namespacing">名前空間</a></li>
+<li><a class="reference internal" href="#object-lifecycles">オブジェクト生存サイクル</a></li>
+<li><a class="reference internal" href="#error-handling">エラーハンドリング</a></li>
+<li><a class="reference internal" href="#example">用例</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="c-interface.html"
+                        title="前の章へ">C言語インタフェース</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="clients.html"
+                        title="次の章へ">クライアントとアプリケーションの生存サイクル</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/CAPIProgrammingGuide/cpp-interface.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/CAPIProgrammingGuide/cpp-interface.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="clients.html" title="クライアントとアプリケーションの生存サイクル"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="c-interface.html" title="C言語インタフェース"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >CAPI プログラミングガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

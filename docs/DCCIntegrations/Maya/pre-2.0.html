@@ -1,0 +1,487 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Using the Splice Maya plugin (legacy) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Fabric for Maya" href="index.html" />
+    <link rel="next" title="Fabric for MODO" href="../Modo/index.html" />
+    <link rel="prev" title="Using Fabric for Maya with Maya 2016" href="m2016.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../Modo/index.html" title="Fabric for MODO"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="m2016.html" title="Using Fabric for Maya with Maya 2016"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Fabric for Maya</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="using-the-splice-maya-plugin-legacy">
+<span id="fabricformaya-pre-2-0"></span><h1>Using the Splice Maya plugin (legacy)<a class="headerlink" href="#using-the-splice-maya-plugin-legacy" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">The Splice Maya (pre-2.0) feature are still supported in 2.0, but might be deprecated in future release.</p>
+</div>
+<p>Launch Maya and load the Splice plugin, you should see a new entry in the top menus which says <em class="dfn">Splice</em>. In order to start using the Splice Editor UI you need to create a Splice Maya node, to do so just open the Splice top menu and create a spliceMayaNode. Open maya&#8217;s Attribute Editor and click the button Open Splice Editor.</p>
+<p>If the Splice Editor was already open it will simply refresh to point at the currently selected node once you click the button in the Attribute Editor.</p>
+<p>In order to make the node&#8217;s interface compatible with a KL operator you need to add some attributes and ports, to do so you can use the Splice Editor and click on the button Add located under the Contained Ports part of the Editor.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">A Splice Node uses Ports to store and retrieve KL data, Ports can be accessed within KL operators. If a Maya Attribute is added with the same name of a Port then the Port&#8217;s data is automatically synchronized with the Maya attribute&#8217;s data, the KL Port data will transfered in and out of maya depending if the Port was set as input or output. Once the interface of the node is defined in terms of ports and attributes you can add a KL operator from the Splice Editor Add button, under the Contained Operators part of the UI. When the operator is created the KL editor will show it along with the ports interface to interact with it.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">KL Operators are global to the scope of Creation Splice, they don&#8217;t belong exclusively to the node they&#8217;ve been created for and they can be applied to every Splice Maya node that has a compatible interface.</p>
+</div>
+<p>That&#8217;s it for the spliceMayaNode overview, have fun playing inside the body of the KL operator, if new to the KL language please refer to the <a class="reference internal" href="../../KLProgrammingGuide/index.html#klpg"><span class="std std-ref">KL プログラミングガイド</span></a>.</p>
+<div class="section" id="maya-nodes-types">
+<span id="nodetypes"></span><h2>Maya Nodes Types<a class="headerlink" href="#maya-nodes-types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The Splice Maya plugin comes with three node types, the <em class="dfn">spliceMayaNode</em> is a generic MPxNode where you can attach almost every kind of maya attribute type, it will be suited for any generic computation such as rigging or simulation solvers.</p>
+<p>The <em class="dfn">spliceMayaDeformer</em> is a deformer node that seamlessly works with maya&#8217;s deformation tools and commands, it comes with two arrays of points, one as input and another for the output, any other necessary attribute can still be added to this node once instantiated.</p>
+<p>The <em class="dfn">spliceMayaDebugger</em> allows for custom OpenGL drawings generated inside a KL operator to be visualized inside maya&#8217;s 3D viewport. Drawing inside a KL operator is done by using the InlineGeometryType.</p>
+</div>
+<div class="section" id="scripted-splice">
+<span id="mayascripting"></span><h2>Scripted Splice<a class="headerlink" href="#scripted-splice" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Anything done with the Splice Editor graphical interface can also be automated in MEL and Python via the fabricSplice command, thus offering the possibility to include Splice nodes in scripted procedural rigs or other kind of automated scene setups. Referencing external KL files is also possible via the fabricSplice command, this could be useful to have KL operators under source control or share them with other people or simply to take advantage of external code editors. Once a scene is saved the code of eachKL operator is also stored along with the path to the KL file, on scene loading the code of the operator will be used if the specified KL file is not found anymore.</p>
+<p>For a full list of scripting actions and parameters, please see the <a class="reference internal" href="../Scripting/index.html#splicescriptingactions"><span class="std std-ref">Splice Scripting Interface</span></a> section.</p>
+<p>The following examples show how to interact with the fabricSplice command with Python syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">maya</span> <span class="kn">import</span> <span class="n">cmds</span>
+
+<span class="c1"># creating a node and attaching an operator</span>
+<span class="n">node</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">createNode</span><span class="p">(</span><span class="s1">&#39;spliceMayaNode&#39;</span><span class="p">)</span>
+
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addInputPort&#39;</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;in1&quot;, &quot;dataType&quot;:&quot;Scalar&quot;, &quot;addMayaAttr&quot;:true}&#39;</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addInputPort&#39;</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;in2&quot;, &quot;dataType&quot;:&quot;Scalar&quot;, &quot;addMayaAttr&quot;:true}&#39;</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addOutputPort&#39;</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;out&quot;, &quot;dataType&quot;:&quot;Scalar&quot;, &quot;addMayaAttr&quot;:true}&#39;</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addKLOperator&#39;</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;{&quot;opName&quot;:&quot;helloWorldOp&quot;}&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">operator helloWorldOp(Scalar in1, Scalar in2, io Scalar out) {</span>
+<span class="s2">  report(&#39;computing KL in maya!&#39;);</span>
+<span class="s2">  report(in1 + &quot; + &quot; + in2);</span>
+<span class="s2">  out = in1 + in2;</span>
+<span class="s2">}</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="n">cmds</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">node</span> <span class="o">+</span> <span class="s1">&#39;.in1&#39;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">node</span> <span class="o">+</span> <span class="s1">&#39;.in2&#39;</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">cmds</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">node</span> <span class="o">+</span> <span class="s1">&#39;.out&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mf">3.0</span>
+
+<span class="c1"># referencing an external KL operator file</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;setKLOperatorFile&#39;</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;{&quot;opName&quot;:&quot;helloWorldOp&quot;, &quot;fileName&quot;:&quot;/somePath/helloWorldOp.kl&quot;}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="port-ui-limits">
+<h2>Port UI Limits<a class="headerlink" href="#port-ui-limits" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Any unconsumed flag added to the <em class="dfn">addInputPort</em>, <em class="dfn">addOutputPort</em> or <em class="dfn">addIOPort</em> actions will be setup as
+additional flag data on the resulting ports. This data will also be persisted with the maya scene or with exported splice files.</p>
+<p>Some of the optional flags are used for UI hints, for example <em class="dfn">uiMin</em>, <em class="dfn">uiMax</em>, <em class="dfn">uiSoftMin</em> and <em class="dfn">uiSoftMax</em>.
+With these you can define slider ranges for <em class="dfn">Integer</em> or <em class="dfn">Scalar</em> ports.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addInputPort&#39;</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;slider&quot;, &quot;dataType&quot;:&quot;Scalar&quot;, &quot;addMayaAttr&quot;:true, &quot;uiMin&quot;: -10.0, &quot;uiMax&quot;: 10.0}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="compound-attributes">
+<h2>Compound Attributes<a class="headerlink" href="#compound-attributes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified">バージョン 1.12.0 で追加.</span></p>
+</div>
+<p>Using the <a class="reference internal" href="../../KLExtensionsGuide/Parameters/CompoundParam.html#compoundparam"><span class="std std-ref">CompoundParam (object)</span></a> KL type maya compound attributes can now be transfered to and from Splice. <a class="reference internal" href="../../KLExtensionsGuide/Parameters/CompoundParam.html#compoundparam"><span class="std std-ref">CompoundParam (object)</span></a> objects are a way of describing hierarchical parameters. With this version we support all of the basic types, excluding geometries such as MFnMesh etc.</p>
+<p>The actual compound attribute is not created by Splice however, it needs to be created by the maya user (or responsible scripts). The Splice conversion layer will then turn the data into the right nested data structure in KL. Of course <a class="reference internal" href="../../KLExtensionsGuide/Parameters/CompoundParam.html#compoundparam"><span class="std std-ref">CompoundParam (object)</span></a> objects supported hierarchical nesting, so you can put a <a class="reference internal" href="../../KLExtensionsGuide/Parameters/CompoundParam.html#compoundparam"><span class="std std-ref">CompoundParam (object)</span></a> into another <a class="reference internal" href="../../KLExtensionsGuide/Parameters/CompoundParam.html#compoundparam"><span class="std std-ref">CompoundParam (object)</span></a>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">maya.cmds</span> <span class="kn">as</span> <span class="nn">cmds</span>
+<span class="kn">import</span> <span class="nn">maya.OpenMaya</span> <span class="kn">as</span> <span class="nn">OpenMaya</span>
+<span class="kn">import</span> <span class="nn">maya.OpenMayaMPx</span> <span class="kn">as</span> <span class="nn">OpenMayaMPx</span>
+
+<span class="n">node</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">createNode</span><span class="p">(</span><span class="s1">&#39;spliceMayaNode&#39;</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># setup the compound attribute</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">addAttr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ln</span><span class="o">=</span><span class="s1">&#39;values&#39;</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><span class="s1">&#39;compound&#39;</span><span class="p">,</span> <span class="n">nc</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">addAttr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ln</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><span class="s1">&#39;bool&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="s1">&#39;values&#39;</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">addAttr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ln</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><span class="s1">&#39;long&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="s1">&#39;values&#39;</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">addAttr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ln</span><span class="o">=</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="s1">&#39;values&#39;</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">addAttr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ln</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><span class="s1">&#39;double3&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="s1">&#39;values&#39;</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">addAttr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ln</span><span class="o">=</span><span class="s1">&#39;dX&#39;</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><span class="s1">&#39;double&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">addAttr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ln</span><span class="o">=</span><span class="s1">&#39;dY&#39;</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><span class="s1">&#39;double&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">addAttr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ln</span><span class="o">=</span><span class="s1">&#39;dZ&#39;</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><span class="s1">&#39;double&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
+
+<span class="c1"># create a port for the compound</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addIOPort&#39;</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;values&quot;, &quot;dataType&quot;:&quot;CompoundParam&quot;, &quot;addMayaAttr&quot;:false}&#39;</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addOutputPort&#39;</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;result&quot;, &quot;dataType&quot;:&quot;Scalar&quot;, &quot;addMayaAttr&quot;:true}&#39;</span><span class="p">)</span>
+
+<span class="c1"># create a KL operator for it</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addKLOperator&#39;</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;{&quot;opName&quot;: &quot;testCompoundOp&quot;}&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">require Parameters;</span>
+
+<span class="s1">operator testCompoundOp(io CompoundParam values) {</span>
+<span class="s1">  for(Size i=0;i&lt;values.paramCount();i++) {</span>
+<span class="s1">    Param param = values.getParam(i);</span>
+<span class="s1">    report(param.getName()+&#39; is of type &#39;+param.getValueType());</span>
+<span class="s1">  }</span>
+<span class="s1">}</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="c1"># the expected output is as follows:</span>
+<span class="c1"># [KL]: [FABRIC:MT:mayaGraph_DGNode:testCompoundOp] a is of type Boolean //</span>
+<span class="c1"># [KL]: [FABRIC:MT:mayaGraph_DGNode:testCompoundOp] b is of type SInt32 //</span>
+<span class="c1"># [KL]: [FABRIC:MT:mayaGraph_DGNode:testCompoundOp] c is of type Float64 //</span>
+<span class="c1"># [KL]: [FABRIC:MT:mayaGraph_DGNode:testCompoundOp] d is of type Vec3 //</span>
+</pre></div>
+</div>
+<p>Aside from using MEL commands to generate the compound, you can also use json. With this second approach the compound structure will also be persisted as part of the splice file. The json elements for each compound support the very same flags as the port generating commands. Also you can nest compounds as well. Finally with this approach you can also create arrays of compounds by using an array as the data type.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">maya.cmds</span> <span class="kn">as</span> <span class="nn">cmds</span>
+<span class="kn">import</span> <span class="nn">maya.OpenMaya</span> <span class="kn">as</span> <span class="nn">OpenMaya</span>
+<span class="kn">import</span> <span class="nn">maya.OpenMayaMPx</span> <span class="kn">as</span> <span class="nn">OpenMayaMPx</span>
+
+<span class="n">node</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">createNode</span><span class="p">(</span><span class="s1">&#39;spliceMayaNode&#39;</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># setup the compound attribute</span>
+<span class="n">compound</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span>
+  <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;dataType&quot;</span><span class="p">:</span> <span class="s2">&quot;Boolean&quot;</span><span class="p">},</span>
+  <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;dataType&quot;</span><span class="p">:</span> <span class="s2">&quot;Integer&quot;</span><span class="p">,</span> <span class="s2">&quot;uiMin&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s2">&quot;uiMax&quot;</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">},</span>
+  <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;dataType&quot;</span><span class="p">:</span> <span class="s2">&quot;Scalar&quot;</span><span class="p">},</span>
+  <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;dataType&quot;</span><span class="p">:</span> <span class="s2">&quot;Vec3&quot;</span><span class="p">},</span>
+<span class="p">})</span>
+
+<span class="c1"># create a port for the compound</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addIOPort&#39;</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;values&quot;, &quot;dataType&quot;:&quot;CompoundParam&quot;, &quot;addMayaAttr&quot;:true}&#39;</span><span class="p">,</span> <span class="n">compound</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addOutputPort&#39;</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;result&quot;, &quot;dataType&quot;:&quot;Scalar&quot;, &quot;addMayaAttr&quot;:true}&#39;</span><span class="p">)</span>
+
+<span class="c1"># create a KL operator for it</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addKLOperator&#39;</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;{&quot;opName&quot;: &quot;testCompoundOp&quot;}&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">require Parameters;</span>
+
+<span class="s1">operator testCompoundOp(io CompoundParam values) {</span>
+<span class="s1">  for(Size i=0;i&lt;values.paramCount();i++) {</span>
+<span class="s1">    Param param = values.getParam(i);</span>
+<span class="s1">    report(param.getName()+&#39; is of type &#39;+param.getValueType());</span>
+<span class="s1">  }</span>
+<span class="s1">}</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="deformers">
+<h2>Deformers<a class="headerlink" href="#deformers" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Use the standard deformer command to create a node of type spliceMayaDeformer:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">deformer</span><span class="p">(</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;spliceMayaDeformer&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A spliceMayaDeformer uses a <a class="reference internal" href="../../KLExtensionsGuide/Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh (object)</span></a> array port, the name has to be &#8220;meshes&#8221;.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addOutputPort&#39;</span><span class="p">,</span> <span class="s1">&#39;spliceMayaDeformer1&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;meshes&quot;, &quot;dataType&quot;:&quot;PolygonMesh[]&quot;}&#39;</span><span class="p">)</span>
+
+<span class="n">operator</span> <span class="n">testDeformer</span><span class="p">(</span><span class="n">io</span> <span class="n">PolygonMesh</span> <span class="n">meshes</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="n">meshes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">setPointPosition</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Vec3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="procedural-geometry">
+<h2>Procedural Geometry<a class="headerlink" href="#procedural-geometry" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Splice Maya Nodes can also generate procedural geometry by adding a PolygonMesh output port and attribute, which will allow Splice to build the Maya mesh with optimal performance.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">require</span> <span class="nx">Math</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">PolygonMesh</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">geomGen</span><span class="p">(</span><span class="nx">Scalar</span> <span class="nx">factor</span><span class="p">,</span> <span class="k">io</span> <span class="nx">PolygonMesh</span> <span class="nx">geo</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">geo</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
+
+  <span class="nx">Vec3</span> <span class="nx">profile</span><span class="p">[];</span>
+  <span class="nx">profile</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">));</span>
+  <span class="nx">profile</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">));</span>
+  <span class="nx">profile</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">));</span>
+  <span class="nx">profile</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">));</span>
+
+  <span class="nx">Xfo</span> <span class="nx">xfos</span><span class="p">[];</span>
+  <span class="nx">xfos</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">Xfo</span><span class="p">());</span>
+  <span class="nx">Xfo</span> <span class="nx">inc</span><span class="p">;</span>
+  <span class="nx">inc</span><span class="p">.</span><span class="nx">tr</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+  <span class="nx">inc</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEulerAngles</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.2</span> <span class="o">*</span> <span class="nx">factor</span><span class="p">,</span> <span class="mf">0.4</span> <span class="o">*</span> <span class="nx">factor</span><span class="p">,</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="nx">factor</span><span class="p">));</span>
+  <span class="k">for</span><span class="p">(</span><span class="nx">Size</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="mi">30</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="nx">xfos</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">xfos</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">*</span> <span class="nx">inc</span><span class="p">);</span>
+
+  <span class="nx">geo</span><span class="p">.</span><span class="nx">addExtrusion</span><span class="p">(</span><span class="nx">xfos</span><span class="p">,</span> <span class="nx">profile</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+  <span class="nx">geo</span><span class="p">.</span><span class="nx">recomputePointNormals</span><span class="p">(</span><span class="mf">0.4</span><span class="p">);</span>
+
+  <span class="nx">geo</span><span class="p">.</span><span class="nx">addShell</span><span class="p">(</span><span class="mf">0.25</span><span class="p">);</span>
+  <span class="nx">geo</span><span class="p">.</span><span class="nx">recomputePointNormals</span><span class="p">(</span><span class="mf">0.4</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="custom-kl-datatypes">
+<h2>Custom KL DataTypes<a class="headerlink" href="#custom-kl-datatypes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>When working with complex networks of Splice Maya Nodes you might want to also pass complex KL data structures from one node to another,
+this is easily achieved by registering a new KL extension. KL extension can contain pure KL code (aside from the ones providing binary libraries). To define a new KL extension, simply implement a series KL files (or just one) and add a fpm.json file to the same folder. The fpm.json file may look like this:</p>
+<div class="highlight-klon"><div class="highlight"><pre><span></span>{
+  &quot;code&quot;: [
+    &quot;myKLFile1.kl&quot;,
+    &quot;myKLFile2.kl&quot;
+  ]
+}
+</pre></div>
+</div>
+<p>To register a new extension location, first set a path to be scanned for KL files using the environment variable <span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal"><span class="pre">FABRIC_EXTS_PATH</span></code>, do that before to launch maya.
+Any fpm.json file in that path containing a struct will be registered and the Kl struct will be made available inside KL operators.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Your KL files will need to be named accordingly to the name of the struct they will contain. Ex. MyStruct.kl defines: struct MyStruct{};</p>
+</div>
+<p>To add a maya attribute capable of holding a Registered Type just use the fabricSplice maya command as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addInputPort&#39;</span><span class="p">,</span> <span class="s2">&quot;mySpliceMayaNodeName&quot;</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;myStructAttrIn&quot;, &quot;dataType&quot;:&quot;MyStruct&quot;, &quot;addMayaAttr&quot;:true, &quot;addSpliceMayaAttr&quot;: true}&#39;</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addOutputPort&#39;</span><span class="p">,</span> <span class="s2">&quot;mySpliceMayaNodeName&quot;</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;myStructAttrOut&quot;, &quot;dataType&quot;:&quot;MyStruct&quot;, &quot;addMayaAttr&quot;:true, &quot;addSpliceMayaAttr&quot;: true}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Custom Registered Types can also be used to just hold some data even if it&#8217;s not intended to be passed to another node.
+To do that just add an output port using the fabricSplice command without specifying to add a maya attribute as well:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addIOPort&#39;</span><span class="p">,</span> <span class="s2">&quot;mySpliceMayaNodeName&quot;</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;myStructAttrIn&quot;, &quot;dataType&quot;:&quot;MyStruct&quot;, &quot;addMayaAttr&quot;:false}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="splicemayadata-opaque-kl-data">
+<h2>SpliceMayaData - Opaque KL Data<a class="headerlink" href="#splicemayadata-opaque-kl-data" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Custom KL types can be setup to be opaque to Maya. This way you can connect several of these attributes using the Maya graph, but Maya
+itself won&#8217;t know what the content of the data is. For this, as seen above, you need to use the <em class="dfn">addSpliceMayaAttr</em> flag when adding a port.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addInputPort&#39;</span><span class="p">,</span> <span class="s2">&quot;mySpliceMayaNodeName&quot;</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;myStructAttrIn&quot;, &quot;dataType&quot;:&quot;MyStruct&quot;, &quot;addMayaAttr&quot;:true, &quot;addSpliceMayaAttr&quot;: true}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This flag will cause the attribute to be of type <em class="dfn">SpliceMayaData</em>.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">One caveat to keep in mind is that all SpliceMayaData ports can be interconnected, even if the data structures they wrap are not compatible.</p>
+</div>
+</div>
+<div class="section" id="accessing-port-layout">
+<h2>Accessing Port Layout<a class="headerlink" href="#accessing-port-layout" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Since a splice node in maya can contain more ports than mapped attributes a scripting facility is provided to gain access to that information. The portInfo string is JSON encoded and provides the same information which is also used during persistence of a splice file.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">portInfo</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;getPortInfo&#39;</span><span class="p">,</span> <span class="s2">&quot;mySpliceMayaNodeName&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="manipulating-port-data">
+<h2>Manipulating Port Data<a class="headerlink" href="#manipulating-port-data" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>You can use ports inside a splice node as caches for internal data structures. This is extremely useful when certain parts of the computation should not be driven by splice itself, but by some external script. The data is provided as JSON strings, and can therefore reflect any data structure accessible within splice (excluding opaque data). Given the example of a &#8216;Vec3&#8217; port called &#8216;myVec&#8217;, this is how you can set the data. Setting the data also enables the persistence of that port, so the set data will be saved alongside the maya scene.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;setPortData&#39;</span><span class="p">,</span> <span class="s1">&#39;mySpliceMayaNodeName&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;myVec&quot;}&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;x&quot;:1,&quot;y&quot;:2,&quot;z&quot;:3}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To gain access to the data again, you can use another action of the fabricSplice command like below. Not that getting of data works on all ports, while setting of data only works for IN and IO ports.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;getPortData&#39;</span><span class="p">,</span> <span class="s1">&#39;mySpliceMayaNodeName&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;myVec&quot;}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="maya-python-fabriccore-client">
+<h2>Maya Python FabricCore Client<a class="headerlink" href="#maya-python-fabriccore-client" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Aside from manipulating data through JSON and making use of getPortData and setPortData, you can also use the new python client which ships with Splice for Maya. You&#8217;ll need to make sure that the python subfolder of the maya module is part of the <span class="target" id="index-1"></span><code class="xref std std-envvar docutils literal"><span class="pre">PYTHONPATH</span></code>. The first Splice node will create the FabricCore client, but you can also manage the creation and destruction of the client manually - for example if there is no splice maya node in the scene yet.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">maya</span> <span class="kn">import</span> <span class="n">cmds</span>
+<span class="kn">import</span> <span class="nn">FabricEngine.Core</span>
+
+<span class="c1">#create a client - will be ignored if it already exists</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s2">&quot;constructClient&quot;</span><span class="p">)</span>
+
+<span class="c1"># get the client id from splice</span>
+<span class="n">contextID</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s2">&quot;getClientContextID&quot;</span><span class="p">)</span>
+
+<span class="c1"># create a python client</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">FabricEngine</span><span class="o">.</span><span class="n">Core</span><span class="o">.</span><span class="n">createClient</span><span class="p">({</span><span class="s1">&#39;contextID&#39;</span><span class="p">:</span><span class="n">contextID</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Once the client exists, you can use it to do anything the core can do, of course. One especially useful facility however is getting access to RTVals stored within Splice nodes. This is even more efficient with KL object RTVals, since they are just referenced and never copied into python. This allows you to build custom UI, for example, which can interact with members within a RTVal inside a Splice port, and even call methods on them.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># create a splice node with a mesh</span>
+<span class="n">spliceNode</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">createNode</span><span class="p">(</span><span class="s2">&quot;spliceMayaNode&quot;</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s2">&quot;addInputPort&quot;</span><span class="p">,</span> <span class="n">spliceNode</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;dummy&quot;, &quot;dataType&quot;: &quot;Integer&quot;, &quot;addMayaAttr&quot;: true}&#39;</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s2">&quot;addOutputPort&quot;</span><span class="p">,</span> <span class="n">spliceNode</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;mesh&quot;, &quot;dataType&quot;: &quot;PolygonMesh&quot;, &quot;addMayaAttr&quot;: true}&#39;</span><span class="p">)</span>
+
+<span class="c1"># create a mesh</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">RT</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">PolygonMesh</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+
+<span class="c1"># create some topology (this calls into KL)</span>
+<span class="c1"># first arg empty string marks return type</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">createPoints</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">setPointPosition</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">client</span><span class="o">.</span><span class="n">RT</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Vec3</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">setPointPosition</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">client</span><span class="o">.</span><span class="n">RT</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Vec3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">setPointPosition</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">client</span><span class="o">.</span><span class="n">RT</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Vec3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">beginStructureChanges</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">addPolygon</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">endStructureChanges</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+<span class="c1"># you could now use this mesh within a splice node</span>
+<span class="n">infos</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;getPortInfo&#39;</span><span class="p">,</span> <span class="n">spliceNode</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;mesh&quot;}&#39;</span><span class="p">)</span>
+<span class="n">infos</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">infos</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">infos</span><span class="p">:</span>
+  <span class="k">if</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;mesh&#39;</span><span class="p">:</span>
+      <span class="k">break</span>
+<span class="n">dgNodeName</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;graph&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;node&#39;</span><span class="p">]</span>
+<span class="n">member</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;member&#39;</span><span class="p">,</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span> <span class="c1"># default to name if member not provided</span>
+<span class="n">dgNode</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">DG</span><span class="o">.</span><span class="n">getNodeByName</span><span class="p">(</span><span class="n">dgNodeName</span><span class="p">)</span>
+
+<span class="c1"># set the RTVal in the splice node&#39;s core member</span>
+<span class="n">dgNode</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">member</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mesh</span><span class="p">)</span>
+<span class="c1"># increment the dummy member to force maya</span>
+<span class="c1"># to evaluate the node again</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">spliceNode</span><span class="o">+</span><span class="s1">&#39;.dummy&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+
+<span class="c1"># pipe the mesh into a maya mesh</span>
+<span class="n">meshNode</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">createNode</span><span class="p">(</span><span class="s1">&#39;mesh&#39;</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">connectAttr</span><span class="p">(</span><span class="n">spliceNode</span><span class="o">+</span><span class="s1">&#39;.mesh&#39;</span><span class="p">,</span> <span class="n">meshNode</span><span class="o">+</span><span class="s1">&#39;.inMesh&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dirty-mechanism">
+<h2>Dirty Mechanism<a class="headerlink" href="#dirty-mechanism" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Do avoid the execution of Splice&#8217;s internal dirty mechanism, you can disable it during an execution of script. This will speed up the performance of scripts since any update will happen at the end of the script only.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s2">&quot;setDirtyMechanism&quot;</span><span class="p">,</span> <span class="n">spliceNode</span><span class="p">,</span> <span class="s1">&#39;{&quot;enabled&quot;: false&quot;}&#39;</span><span class="p">)</span>
+
+<span class="o">...</span> <span class="n">do</span> <span class="n">you</span> <span class="n">stuff</span> <span class="o">...</span>
+
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s2">&quot;setDirtyMechanism&quot;</span><span class="p">,</span> <span class="n">spliceNode</span><span class="p">,</span> <span class="s1">&#39;{&quot;enabled&quot;: true&quot;}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="forcing-port-persistence">
+<h2>Forcing Port Persistence<a class="headerlink" href="#forcing-port-persistence" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>By default splice in maya will only store those ports that have simple types and that are not arrays.
+This behavior can be overridden with a special command if a complex port needs to be persisted in the scene:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addOutputPort&#39;</span><span class="p">,</span> <span class="s1">&#39;mySpliceMayaNodeName&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;myCache&quot;, &quot;dataType&quot;:&quot;Vec3[]&quot;, &quot;addMayaAttr&quot;:false, &quot;arrayType&quot;:&quot;Array (Multi)&quot;}&#39;</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;setPortPersistence&#39;</span><span class="p">,</span> <span class="s1">&#39;mySpliceMayaNodeName&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;:&quot;myCache&quot;, &quot;persistence&quot;:true&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="exporting-splice-files">
+<h2>Exporting Splice files<a class="headerlink" href="#exporting-splice-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>To export the ascii representation of a Maya Splice node, simply select the node in the hypergraph or in the node editor and hit <em class="dfn">Export Splice Node</em> in the <em class="dfn">Fabric:Splice</em> top menu. This will save a text file containing the full description of a splice node, including it&#8217;s ports and KL operators.</p>
+</div>
+<div class="section" id="importing-splice-files">
+<h2>Importing Splice files<a class="headerlink" href="#importing-splice-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>To load a previously saved Fabric:Splice file, simply select a new spliceMayaNode node in the hypergraph or in the node editor and hit <em class="dfn">Import Splice Node</em> in the <em class="dfn">Fabric:Splice</em> top menu. This will load the splice file and create all of the ports, KL operators and Maya attributes.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Using the Splice Maya plugin (legacy)</a><ul>
+<li><a class="reference internal" href="#maya-nodes-types">Maya Nodes Types</a></li>
+<li><a class="reference internal" href="#scripted-splice">Scripted Splice</a></li>
+<li><a class="reference internal" href="#port-ui-limits">Port UI Limits</a></li>
+<li><a class="reference internal" href="#compound-attributes">Compound Attributes</a></li>
+<li><a class="reference internal" href="#deformers">Deformers</a></li>
+<li><a class="reference internal" href="#procedural-geometry">Procedural Geometry</a></li>
+<li><a class="reference internal" href="#custom-kl-datatypes">Custom KL DataTypes</a></li>
+<li><a class="reference internal" href="#splicemayadata-opaque-kl-data">SpliceMayaData - Opaque KL Data</a></li>
+<li><a class="reference internal" href="#accessing-port-layout">Accessing Port Layout</a></li>
+<li><a class="reference internal" href="#manipulating-port-data">Manipulating Port Data</a></li>
+<li><a class="reference internal" href="#maya-python-fabriccore-client">Maya Python FabricCore Client</a></li>
+<li><a class="reference internal" href="#dirty-mechanism">Dirty Mechanism</a></li>
+<li><a class="reference internal" href="#forcing-port-persistence">Forcing Port Persistence</a></li>
+<li><a class="reference internal" href="#exporting-splice-files">Exporting Splice files</a></li>
+<li><a class="reference internal" href="#importing-splice-files">Importing Splice files</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="m2016.html"
+                        title="前の章へ">Using Fabric for Maya with Maya 2016</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="../Modo/index.html"
+                        title="次の章へ">Fabric for MODO</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/DCCIntegrations/Maya/pre-2.0.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DCCIntegrations/Maya/pre-2.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../Modo/index.html" title="Fabric for MODO"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="m2016.html" title="Using Fabric for Maya with Maya 2016"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Fabric for Maya</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Clip.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Animation Extension’s Files" href="files.html" />
+    <link rel="next" title="ClipValues.kl" href="ClipValues.kl.html" />
+    <link rel="prev" title="AnimationInterfaces.kl" href="AnimationInterfaces.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="ClipValues.kl.html" title="ClipValues.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="AnimationInterfaces.kl.html" title="AnimationInterfaces.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Animation エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Animation Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="animation-clip-kl">
+<span id="clip-kl"></span><span id="id1"></span><h1>Clip.kl<a class="headerlink" href="#animation-clip-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="clip-object">
+<h3>Clip (object)<a class="headerlink" href="#clip-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="Clip.html#clip"><span class="std std-ref">clip</span></a> stores a collection of track sets, each one representing a complex values such as a Vec3 or Xfo.</p>
+<p class="plaintext">A <a class="reference internal" href="Clip.html#clip"><span class="std std-ref">Clip</span></a> is typically used to store all the animation for a character action. Multiple clips can then store a library
+of animation data. The Clips can be evaluated, to generate <a class="reference internal" href="ClipValues.html#clipvalues"><span class="std std-ref">ClipValues</span></a> which can be blended together and used to drive
+the pose of a character.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><code class="xref std std-kl-ref docutils literal"><span class="pre">TrackSet</span></code></p>
+</div>
+<p><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: clip.kl</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Animation</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">(){</span>
+
+  <span class="c1">//////////////////////////////////</span>
+  <span class="c1">// Generate a clip using each type of track set. </span>
+  <span class="nx">Clip</span> <span class="nx">clip</span><span class="p">(</span><span class="s1">&#39;MyClip&#39;</span><span class="p">);</span>
+  <span class="nx">clip</span><span class="p">.</span><span class="nx">addTrackSet</span><span class="p">(</span><span class="s1">&#39;ScalarTrackSet&#39;</span><span class="p">,</span> <span class="nx">Color</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">),</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="nx">clip</span><span class="p">.</span><span class="nx">addTrackSet</span><span class="p">(</span><span class="s1">&#39;Vec2TrackSet&#39;</span><span class="p">,</span> <span class="nx">Vec2</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="nx">clip</span><span class="p">.</span><span class="nx">addTrackSet</span><span class="p">(</span><span class="s1">&#39;Vec3TrackSet&#39;</span><span class="p">,</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="nx">clip</span><span class="p">.</span><span class="nx">addTrackSet</span><span class="p">(</span><span class="s1">&#39;Vec4TrackSet&#39;</span><span class="p">,</span> <span class="nx">Vec4</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">5.7</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="nx">clip</span><span class="p">.</span><span class="nx">addTrackSet</span><span class="p">(</span><span class="s1">&#39;QuatTrackSet&#39;</span><span class="p">,</span> <span class="nx">Quat</span><span class="p">(),</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="nx">clip</span><span class="p">.</span><span class="nx">addTrackSet</span><span class="p">(</span><span class="s1">&#39;EulerTrackSet&#39;</span><span class="p">,</span> <span class="nx">Euler</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">6.8</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;xyz&#39;</span><span class="p">)),</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="nx">clip</span><span class="p">.</span><span class="nx">addTrackSet</span><span class="p">(</span><span class="s1">&#39;XfoTrackSet&#39;</span><span class="p">,</span> <span class="nx">Xfo</span><span class="p">(),</span> <span class="mi">0</span><span class="p">);</span>
+
+  <span class="kr">UInt32</span> <span class="nx">seed</span> <span class="o">=</span> <span class="mi">5467</span><span class="p">;</span>
+  <span class="kr">UInt32</span> <span class="nx">offset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kr">String</span> <span class="nx">trackSetNames</span><span class="p">[]</span> <span class="o">=</span> <span class="nx">clip</span><span class="p">.</span><span class="nx">getTrackSetNames</span><span class="p">();</span>
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">trackSetNames</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>  
+    <span class="nb">report</span><span class="p">(</span><span class="s1">&#39;trackSet:&#39;</span><span class="o">+</span><span class="nx">trackSetNames</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+    <span class="nx">KeyframeTrackSet</span> <span class="nx">trackSet</span> <span class="o">=</span> <span class="nx">clip</span><span class="p">.</span><span class="nx">getTrackSet</span><span class="p">(</span><span class="nx">trackSetNames</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+    <span class="kr">String</span> <span class="nx">trackNames</span><span class="p">[]</span> <span class="o">=</span> <span class="nx">trackSet</span><span class="p">.</span><span class="nx">getTrackNames</span><span class="p">();</span>
+    <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">j</span><span class="o">&lt;</span><span class="nx">trackNames</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nb">report</span><span class="p">(</span><span class="s1">&#39;  track:&#39;</span><span class="o">+</span><span class="nx">trackNames</span><span class="p">[</span><span class="nx">j</span><span class="p">]);</span>
+      <span class="nx">KeyframeTrack</span> <span class="nx">track</span> <span class="o">=</span> <span class="nx">trackSet</span><span class="p">.</span><span class="nx">getTrack</span><span class="p">(</span><span class="nx">trackNames</span><span class="p">[</span><span class="nx">j</span><span class="p">]);</span>
+      <span class="nx">track</span><span class="p">.</span><span class="nx">addKey</span><span class="p">(</span><span class="nx">Keyframe</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nx">mathRandomScalar</span><span class="p">(</span><span class="nx">seed</span><span class="p">,</span> <span class="o">++</span><span class="nx">offset</span><span class="p">),</span> <span class="nx">Vec2</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="nx">Vec2</span><span class="p">(</span><span class="mf">0.333</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)));</span>
+      <span class="nx">track</span><span class="p">.</span><span class="nx">addKey</span><span class="p">(</span><span class="nx">Keyframe</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="nx">mathRandomScalar</span><span class="p">(</span><span class="nx">seed</span><span class="p">,</span> <span class="o">++</span><span class="nx">offset</span><span class="p">),</span> <span class="nx">Vec2</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">),</span> <span class="nx">Vec2</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">)));</span>
+      <span class="nx">track</span><span class="p">.</span><span class="nx">addKey</span><span class="p">(</span><span class="nx">Keyframe</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="nx">mathRandomScalar</span><span class="p">(</span><span class="nx">seed</span><span class="p">,</span> <span class="o">++</span><span class="nx">offset</span><span class="p">),</span> <span class="nx">Vec2</span><span class="p">(</span><span class="o">-</span><span class="mf">0.333</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="nx">Vec2</span><span class="p">(</span><span class="mf">0.333</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)));</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="c1">//////////////////////////////////</span>
+  <span class="c1">// Evalaute the clip over time to get the clipValues. </span>
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">t</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">t</span><span class="o">&lt;</span><span class="mi">5</span><span class="p">;</span> <span class="nx">t</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>  
+    <span class="nx">ClipValues</span> <span class="nx">clipValues</span> <span class="o">=</span> <span class="nx">clip</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">((</span><span class="nx">Scalar</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span><span class="o">/</span><span class="mf">5.0</span><span class="p">));</span>
+    <span class="nb">report</span><span class="p">(</span><span class="nx">clipValues</span><span class="p">.</span><span class="nx">getDesc</span><span class="p">());</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">trackSet:ScalarTrackSet</span>
+<span class="cm">  track:ScalarTrackSet</span>
+<span class="cm">trackSet:Vec2TrackSet</span>
+<span class="cm">  track:x</span>
+<span class="cm">  track:y</span>
+<span class="cm">trackSet:Vec3TrackSet</span>
+<span class="cm">  track:x</span>
+<span class="cm">  track:y</span>
+<span class="cm">  track:z</span>
+<span class="cm">trackSet:Vec4TrackSet</span>
+<span class="cm">  track:x</span>
+<span class="cm">  track:y</span>
+<span class="cm">  track:z</span>
+<span class="cm">  track:t</span>
+<span class="cm">trackSet:QuatTrackSet</span>
+<span class="cm">  track:v.x</span>
+<span class="cm">  track:v.y</span>
+<span class="cm">  track:v.z</span>
+<span class="cm">  track:w</span>
+<span class="cm">trackSet:EulerTrackSet</span>
+<span class="cm">  track:euler.x</span>
+<span class="cm">  track:euler.y</span>
+<span class="cm">  track:euler.z</span>
+<span class="cm">trackSet:XfoTrackSet</span>
+<span class="cm">ClipValues:{ </span>
+<span class="cm">  ScalarTrackSet=+0.439575 </span>
+<span class="cm">  Vec2TrackSet={x:+1.17588e-3,y:+0.846923} </span>
+<span class="cm">  Vec3TrackSet={x:+0.951416,y:+0.729003,z:+0.061187} </span>
+<span class="cm">  Vec4TrackSet={x:+0.092971,y:+0.381774,z:+0.863403,t:+0.494201} </span>
+<span class="cm">  QuatTrackSet={v:{x:+0.243927,y:+0.243988,z:+0.663818},w:+0.663574} </span>
+<span class="cm">  EulerTrackSet={v:{x:+0.051864,y:+0.332763,z:+0.228302},w:+0.913452} </span>
+<span class="cm">  XfoTrackSet={tr:{x:+0.0,y:+0.0,z:+0.0},ori:{v:{x:+0.0,y:+0.0,z:+0.0},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}} </span>
+<span class="cm">}</span>
+<span class="cm">ClipValues:{ </span>
+<span class="cm">  ScalarTrackSet=-0.290832 </span>
+<span class="cm">  Vec2TrackSet={x:-0.718505,y:+0.0941} </span>
+<span class="cm">  Vec3TrackSet={x:+0.18634,y:-2.833557e-2,z:-0.660034} </span>
+<span class="cm">  Vec4TrackSet={x:-0.638671,y:-0.352661,z:+0.103652,t:-0.232086} </span>
+<span class="cm">  QuatTrackSet={v:{x:-0.695312,y:-0.711547,z:+0.087371},w:+0.052406} </span>
+<span class="cm">  EulerTrackSet={v:{x:-0.210479,y:-0.048934,z:-0.092727},w:+0.971923} </span>
+<span class="cm">  XfoTrackSet={tr:{x:+0.0,y:+0.0,z:+0.0},ori:{v:{x:+0.0,y:+0.0,z:+0.0},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}} </span>
+<span class="cm">}</span>
+<span class="cm">ClipValues:{ </span>
+<span class="cm">  ScalarTrackSet=-2.32666 </span>
+<span class="cm">  Vec2TrackSet={x:-2.722168,y:-2.008789} </span>
+<span class="cm">  Vec3TrackSet={x:-1.95288,y:-2.144531,z:-2.668457} </span>
+<span class="cm">  Vec4TrackSet={x:-2.678222,y:-2.400879,z:-2.020019,t:-2.255371} </span>
+<span class="cm">  QuatTrackSet={v:{x:-0.540039,y:-0.549072,z:-0.441528},w:-0.460388} </span>
+<span class="cm">  EulerTrackSet={v:{x:-0.454589,y:+0.230987,z:-0.495239},w:-0.703369} </span>
+<span class="cm">  XfoTrackSet={tr:{x:+0.0,y:+0.0,z:+0.0},ori:{v:{x:+0.0,y:+0.0,z:+0.0},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}} </span>
+<span class="cm">}</span>
+<span class="cm">ClipValues:{ </span>
+<span class="cm">  ScalarTrackSet=-5.146484 </span>
+<span class="cm">  Vec2TrackSet={x:-5.492187,y:-4.93164} </span>
+<span class="cm">  Vec3TrackSet={x:-4.932617,y:-5.088867,z:-5.445312} </span>
+<span class="cm">  Vec4TrackSet={x:-5.502929,y:-5.239258,z:-4.975586,t:-5.055664} </span>
+<span class="cm">  QuatTrackSet={v:{x:-0.51184,y:-0.520385,z:-0.474243},w:-0.492309} </span>
+<span class="cm">  EulerTrackSet={v:{x:-0.136779,y:-0.60437,z:-0.166961},w:-0.766967} </span>
+<span class="cm">  XfoTrackSet={tr:{x:+0.0,y:+0.0,z:+0.0},ori:{v:{x:+0.0,y:+0.0,z:+0.0},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}} </span>
+<span class="cm">}</span>
+<span class="cm">ClipValues:{ </span>
+<span class="cm">  ScalarTrackSet=-7.921875 </span>
+<span class="cm">  Vec2TrackSet={x:-8.208984,y:-7.831054} </span>
+<span class="cm">  Vec3TrackSet={x:-7.899414,y:-8.011719,z:-8.169922} </span>
+<span class="cm">  Vec4TrackSet={x:-8.285156,y:-8.037109,z:-7.912109,t:-7.808594} </span>
+<span class="cm">  QuatTrackSet={v:{x:-0.502563,y:-0.511718,z:-0.483093},w:-0.502197} </span>
+<span class="cm">  EulerTrackSet={v:{x:+0.695556,y:-1.838684e-2,z:+0.684814},w:+0.216461} </span>
+<span class="cm">  XfoTrackSet={tr:{x:+0.0,y:+0.0,z:+0.0},ori:{v:{x:+0.0,y:+0.0,z:+0.0},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}} </span>
+<span class="cm">}</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</p>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="79%" />
+<col width="17%" />
+<col width="4%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>name</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ITrackSet.html#itrackset"><span class="std std-ref">ITrackSet</span></a>[<a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a>]</td>
+<td>trackSets</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>Integer[][]</td>
+<td>keyIndices</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Clip.html#id110549"><span class="std std-ref">Clip</span></a>  ( in <a class="reference internal" href="Clip.html#clip"><span class="std std-ref">Clip</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Clip.html#id24731"><span class="std std-ref">Clip</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Clip.html#id110546"><span class="std std-ref">Clip</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Clip.html#id24741"><span class="std std-ref">addTrackSet</span></a> ! ( in <a class="reference internal" href="ITrackSet.html#itrackset"><span class="std std-ref">ITrackSet</span></a> trackSet )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ITrackSet.html#itrackset"><span class="std std-ref">ITrackSet</span></a></td>
+<td><a class="reference internal" href="Clip.html#id24750"><span class="std std-ref">addTrackSet</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ITrackSet.html#itrackset"><span class="std std-ref">ITrackSet</span></a></td>
+<td><a class="reference internal" href="Clip.html#id24781"><span class="std std-ref">addTrackSet</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Euler.html#euler"><span class="std std-ref">Euler</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Clip.html#id24745"><span class="std std-ref">addTrackSet</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="ITrackSet.html#itrackset"><span class="std std-ref">ITrackSet</span></a> trackSet )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ITrackSet.html#itrackset"><span class="std std-ref">ITrackSet</span></a></td>
+<td><a class="reference internal" href="Clip.html#id24775"><span class="std std-ref">addTrackSet</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Quat.html#quat"><span class="std std-ref">Quat</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ITrackSet.html#itrackset"><span class="std std-ref">ITrackSet</span></a></td>
+<td><a class="reference internal" href="Clip.html#id24757"><span class="std std-ref">addTrackSet</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ITrackSet.html#itrackset"><span class="std std-ref">ITrackSet</span></a></td>
+<td><a class="reference internal" href="Clip.html#id24763"><span class="std std-ref">addTrackSet</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ITrackSet.html#itrackset"><span class="std std-ref">ITrackSet</span></a></td>
+<td><a class="reference internal" href="Clip.html#id24769"><span class="std std-ref">addTrackSet</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ITrackSet.html#itrackset"><span class="std std-ref">ITrackSet</span></a></td>
+<td><a class="reference internal" href="Clip.html#id24787"><span class="std std-ref">addTrackSet</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Clip.html#clip"><span class="std std-ref">Clip</span></a></td>
+<td><a class="reference internal" href="Clip.html#id110553"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="IClipValues.html#iclipvalues"><span class="std std-ref">IClipValues</span></a></td>
+<td><a class="reference internal" href="Clip.html#id24817"><span class="std std-ref">evaluate</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="IClipValues.html#iclipvalues"><span class="std std-ref">IClipValues</span></a></td>
+<td><a class="reference internal" href="Clip.html#id24812"><span class="std std-ref">evaluate</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, io Integer keyIndices[][] )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="Clip.html#id24821"><span class="std std-ref">getDesc</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> indent )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="Clip.html#id24825"><span class="std std-ref">getDesc</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="Clip.html#id24735"><span class="std std-ref">getName</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Clip.html#id24738"><span class="std std-ref">getNumTrackSets</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a></td>
+<td><a class="reference internal" href="Clip.html#id24809"><span class="std std-ref">getTimeRange</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ITrackSet.html#itrackset"><span class="std std-ref">ITrackSet</span></a></td>
+<td><a class="reference internal" href="Clip.html#id24797"><span class="std std-ref">getTrackSet</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a>[]</td>
+<td><a class="reference internal" href="Clip.html#id24806"><span class="std std-ref">getTrackSetNames</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="Clip.html#id24793"><span class="std std-ref">hasTrackSet</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Clip.html#id24801"><span class="std std-ref">setTrackSet</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="ITrackSet.html#itrackset"><span class="std std-ref">ITrackSet</span></a> trackSet )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="AnimationInterfaces.kl.html"
+                        title="前の章へ">AnimationInterfaces.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="ClipValues.kl.html"
+                        title="次の章へ">ClipValues.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Animation/Clip.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Animation/Clip.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="ClipValues.kl.html" title="ClipValues.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="AnimationInterfaces.kl.html" title="AnimationInterfaces.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Animation エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >Animation Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

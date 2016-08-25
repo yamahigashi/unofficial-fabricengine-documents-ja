@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>DFG Concepts &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="dfg-concepts">
+<h1>DFG Concepts<a class="headerlink" href="#dfg-concepts" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>The DFG has some important underlying concepts that are the basis for its design.</p>
+<p>Note that we will often refer to &#8220;a DFG&#8221;; we will use this to mean a DFG executable bound to argument values that can therefore be executed.</p>
+<div class="section" id="the-dfg-is-a-kl-generator">
+<h2>The DFG is a KL Generator<a class="headerlink" href="#the-dfg-is-a-kl-generator" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The Fabric DFG is a visual programming language that generates KL code from data flow graphs.  This process is mostly hidden from the user. This is important for several reasons:</p>
+<ul class="simple">
+<li>DFG graphs are always JIT compiled and never interpreted.  There will be little if any performance difference between a DFG and hand-written KL code.</li>
+<li>Visual programming and KL code can be intermixed within a DFG.  If there are parts of a DFG that would be easier to write in KL then it is easy to do so.  In fact, all of the lowest-level DFG presets are all written in KL.</li>
+<li>A DFG has access to the full range of KL features; for instance, a DFG can access all of the Fabric Extensions.</li>
+<li>Values flowing through a DFG are simply KL types.  If you need to add a new type to the DFG it is just a matter of adding it in a Fabric extension.</li>
+</ul>
+<p>Note that while the DFG internally generates KL code the API used to run DFG programs takes care of this for you automatically; there is no need to manually compile the KL code to execute it.</p>
+</div>
+<div class="section" id="instancing">
+<h2>Instancing<a class="headerlink" href="#instancing" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The DFG makes a strong distinction between entities and instances of those entities.  For example, one type of entity is called an Executable, and instances of those executables are called Nodes.  Nodes are contained within Graphs, which themselves are a type of Executable.</p>
+<p>Another example is Ports, which belong to Executables, and Pins, which belong to Nodes: for each Port of the Executable there is one Pin on each Node that is an instance of the executable.  When connections are made between Nodes in a Graph they are made between the Pins; therefore, the connections are not shared between the instances (which would make no sense).</p>
+<p>The distinction between entities and instances is important because it encapsulates the sharing of functionality in the DFG.  When edits are made to an Executable those edits effect each Node instance of the executable.  If a Port of an Executable is renamed then ever Pin instance of the Port is also renamed.</p>
+<p>This sharing is important for performance reasons.  If we were to make a copy of each preset each time it was instanced then we would potentially have to compile the same preset code many times in order to compile the graph.</p>
+<p>It is possible to clone executables to make independent copies by simply exporting the executable as JSON and then reimporting it.  This will eventually be implmented in the UI as a &#8220;Clone&#8221; command.</p>
+</div>
+<div class="section" id="port-types">
+<h2>Port Types<a class="headerlink" href="#port-types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>There are three port types in the DFG: In, Out and IO.  In and Out work exactly as expected.  The IO port type refers to a value that is modified in place, similar to an &#8216;io&#8217; parameter in KL.  The IO port has important use in the DFG because it allows you to reduce temporary copies of data; for example, a MeshMerge operation is more efficient if the second mesh is merged into the first.</p>
+<p>We envision that IO ports will be a natural fit for building simulations using the DFG: the simulation &#8220;context&#8221; would be passed through the graph as an IO port.</p>
+</div>
+<div class="section" id="addressing">
+<h2>Addressing<a class="headerlink" href="#addressing" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>In the DFG API we use string addressing to access everything.  A Binding is an Executable that is bound to a set of RTVals that are passed to the Executable&#8217;s Ports; a Binding also provides a root for addressing the elements below it.</p>
+<p>For example, a Binding may be to a Graph which contains a Node called &#8220;Add&#8221;.  The &#8220;Add&#8221; Node has a Pin called &#8220;lhs&#8221; since the Node is an instance of an Executable with a Port called &#8220;lhs&#8221;.  Then, within the context of the binding, the Pin is addressed by &#8220;Add.lhs&#8221;.</p>
+<p>When creating new entities and instance we automatically ensure that there names are unique.  For example, if you try to create a new Port called &#8220;value&#8221; on an Executable and there is already a Port with this name the new Port will be renamed to &#8220;value2&#8221;.  Note that while names need to be unique Executables have a title which does not need to be unique; however, these titles are purely cosmetic and not used for addressing.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">DFG Concepts</a><ul>
+<li><a class="reference internal" href="#the-dfg-is-a-kl-generator">The DFG is a KL Generator</a></li>
+<li><a class="reference internal" href="#instancing">Instancing</a></li>
+<li><a class="reference internal" href="#port-types">Port Types</a></li>
+<li><a class="reference internal" href="#addressing">Addressing</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/DFGProgrammingGuide/concepts.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DFGProgrammingGuide/concepts.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

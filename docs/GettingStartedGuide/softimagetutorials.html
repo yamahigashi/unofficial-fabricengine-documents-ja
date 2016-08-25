@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fabric for Softimage チュートリアル &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="Fabric Canvas 最初のステップ" href="firststeps.html" />
+    <link rel="next" title="Fabric for MODO Tutorials" href="modotutorials.html" />
+    <link rel="prev" title="Fabric for Maya チュートリアル" href="mayatutorials.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="modotutorials.html" title="Fabric for MODO Tutorials"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="mayatutorials.html" title="Fabric for Maya チュートリアル"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Fabric Engine 入門</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="firststeps.html" accesskey="U">Fabric Canvas 最初のステップ</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fabric-for-softimage-tutorials">
+<span id="gettingstarted-softimagetutorials"></span><h1>Fabric for Softimage チュートリアル<a class="headerlink" href="#fabric-for-softimage-tutorials" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="procedural-mesh">
+<h2>プロシージャルメッシュ<a class="headerlink" href="#procedural-mesh" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>このチュートリアルでは、Softimage内にプロシージャルメッシュを生成する手法を学びます。これは非常に強力な概念であり、KL拡張により記述された再利用性の高い、またAlembicや、Bulletのソフトボディシミュレーションを組み合わせたようなアセットの作成を可能とします。まずはこのチュートリアルでそれらの基本からはじめましょう。</p>
+<ul class="simple">
+<li><p class="first">新規シーンを開きます。</p>
+</li>
+<li><p class="first">Fabricメニューより『Create Polymesh with Graph』を選び、Canvasオペレータ適用済のポリゴンメッシュを作成します。しばらく待つと、PPGパネルが表示されます。</p>
+</li>
+<li><p class="first">PPGパネルの『Open Canvas』ボタンをクリックしCanvas UIを表示します。</p>
+</li>
+<li><p class="first">UIのメインエリア ―&#8221;Press Tab to insert nodes&#8221;と表示されている箇所― をクリックしてみましょう。TABキーを押し、tab検索をしてみましょう。&#8221;gettor&#8221; と入力しエンターを押します。&#8221;GetTorus&#8221; ノードがグラフに挿入されていることでしょう。</p>
+</li>
+<li><p class="first">それでは &#8220;GetTorus&#8221; ノードの出力ポートを外部公開しましょう。シーン上のオブジェクトのジオメトリを乗っ取ります。&#8221;mesh&#8221; ポートを左クリックし、右サイドパネルの&#8221;Expose&#8221;ポートへドラッグします。ここまでの操作で以下のようになっているはずです。</p>
+</li>
+</ul>
+<img alt="../_images/21_softimage_tut_01.png" src="../_images/21_softimage_tut_01.png" />
+<ul class="simple">
+<li><p class="first">Canvasウィンドを閉じ、PPGパネルを&#8221;Ports and Tools&#8221; タブに切り替えます。ここに先ほど外部公開したポートが表示されています。: &#8220;mesh | PolygonMesh | Out | Internal&#8221;.</p>
+</li>
+<li><p class="first">ポートの型は&#8221;internal&#8221;のままです。オブジェクトとの接続のため、型を変更しましょう。&#8221;Define Type/Target&#8221; ボタンをクリックします。型を&#8221;XSI Port&#8221;に変更しオーケイボタンを押し、PPGパネルを更新します。</p>
+</li>
+<li><p class="first">最後に、ポリゴンメッシュのポートとノードを接続しましょう。PPGパネルより、名前セル ―&#8221;mesh&#8221;と書かれている欄です― をクリックしポートを選択しましょう。選択した状態で &#8220;Connect with Self&#8221; ボタンを押します。</p>
+</li>
+</ul>
+<img alt="../_images/21_softimage_tut_02.png" src="../_images/21_softimage_tut_02.png" />
+<ul class="simple">
+<li><p class="first">ビューポートにトーラスが現れます。</p>
+</li>
+</ul>
+</div>
+<div class="section" id="mesh-deformer">
+<h2>メッシュデフォーマ<a class="headerlink" href="#mesh-deformer" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ここではメッシュデフォーマの作成を一歩ずつ解説していきます。</p>
+<ul class="simple">
+<li><p class="first">新規シーンを開きます。</p>
+</li>
+<li><p class="first">ポリゴンメッシュを作成します。メニューより『Get -&gt; Primitive -&gt; Polygon Mesh -&gt; Torus』などで良いでしょう。UVサブディビジョンをそれぞれ、128、64に設定しておきます。後段でディテールを詰めます。</p>
+</li>
+<li><p class="first">メッシュを選択しCanvasオペレータを追加します。メニューの『Fabric -&gt; Create Graph』を押し、しばらく待つとPPGパネルが表示されます。</p>
+</li>
+<li><p class="first">PPGパネルの『Open Canvas』ボタンをクリックしCanvas UIを表示します。</p>
+</li>
+<li><p class="first">Canvas左パネルを右クリックし Create Portを選びます。タイトルを &#8220;inMesh&#8221;、データ型を&#8221;PolygonMesh&#8221; に設定しOKを押します。</p>
+</li>
+<li><p class="first">右サイドパネルについても同様に右クリックし、&#8221;Create port&#8221;を選び、タイトルを &#8220;outMesh&#8221; データ型を &#8220;PolygonMesh&#8221;に設定しOK。</p>
+</li>
+<li><p class="first">&#8220;Turbulize&#8221; ノードを追加します。TABキーを押し&#8221;turbulize&#8221;と入力し、&#8221;...Deform.Turbulize&#8221;を選択します。</p>
+</li>
+<li><p class="first">&#8220;inMesh&#8221; ポートを &#8220;Turbulize&#8221;ノードに繋ぎます: &#8220;inMesh&#8221; 上で左クリック（押下したまま）し&#8221;mesh&#8221;ポートまでドラッグし、指を離しましょう。</p>
+</li>
+<li><p class="first">&#8220;outMesh&#8221; ポートと&#8221;Turbulize&#8221; を繋ぎます: &#8220;outMesh&#8221;を左クリックし&#8221;result&#8221;ポートまでドラッグし指を離しましょう。</p>
+</li>
+<li><p class="first">&#8220;Turbulize&#8221;ノードの &#8220;time&#8221;ポートを外部公開します: &#8220;time&#8221;ポートをドラッグし 黒色の&#8221;Expose&#8221;ポートまでドラッグし指を離しましょう。ここまでの操作で以下のようになっているはずです。</p>
+</li>
+</ul>
+<img alt="../_images/22_softimage_tut_01.png" src="../_images/22_softimage_tut_01.png" />
+<ul class="simple">
+<li><p class="first">Canvasウィンドを閉じ、PPGパネルに戻ります。“Ports and Tools”タブに切り替えます。先ほど公開した“inMesh”、“outMesh”、“time”ポートが確認できます。</p>
+</li>
+<li><p class="first">そのままではポートは&#8221;internal&#8221;のままなので、オブジェクトとの接続のため型を設定しましょう。&#8221;Define Type/Target&#8221;ボタンを押し、&#8221;inMesh&#8221; と&#8221;outMesh&#8221; を &#8220;XSI Port&#8221;に変更し、&#8221;time&#8221;は&#8221;XSI Parameter&#8221;に変更、OKを押します。PPGパネルが更新されます。</p>
+</li>
+<li><p class="first">最後に、これらCanvasオペレータのポートとポリゴンメッシュを接続します。PPGパネルより、名前セル ―&#8221;inMesh&#8221;と書かれている欄です― をクリックしinMeshポートを選択しましょう。選択した状態で &#8220;Connect with Self&#8221; ボタンを押します。&#8221;outMesh&#8221;についても同様に接続します。結果、以下のようになっているはずです。</p>
+</li>
+</ul>
+<img alt="../_images/22_softimage_tut_02.png" src="../_images/22_softimage_tut_02.png" />
+<ul class="simple">
+<li><p class="first">ついにデフォーマが完成しました！タービュライズかかったトーラスが表示されたはずです。パラメータの変更により形状がかわります。ためしにPPGパネルを &#8220;Main&#8221;タブに切り替え&#8221;time&#8221;パラメータに変化を与えてみましょう。もちろんトーラスの設定 ―径やサブディビジョン粒度など― に変更を加えても良いでしょう。</p>
+</li>
+</ul>
+</div>
+<div class="section" id="driving-a-null-linear-interpolation">
+<h2>Nullを線形補間で動かす<a class="headerlink" href="#driving-a-null-linear-interpolation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ここでは null の kinematic の動かし方を説明します。Canvasを用いてのリギングの第一歩です！</p>
+<ul class="simple">
+<li><p class="first">新規シーンを開きます。</p>
+</li>
+<li><p class="first">まずはシーン上に nullを2つ準備します。</p>
+</li>
+<li><p class="first">Fabricメニューの&#8221;Create Null with Graph&#8221; を選択します。３つ目のnull が作成され、Canvasオペレータが適用されます。しばらく後PPGパネルが表示されます。</p>
+</li>
+<li><p class="first">PPGパネルの『Open Canvas』ボタンをクリックしCanvas UIを表示します。</p>
+</li>
+<li><p class="first">&#8220;Func.LinearInterpolate&#8221;ノードを１つ挿入します。</p>
+</li>
+<li><p class="first">&#8220;Xfo.SetFromMat44&#8221; ノードを２つ挿入します。</p>
+</li>
+<li><p class="first">&#8220;Xfo.ToMat44&#8221; ノードを１つ挿入します。</p>
+</li>
+<li><p class="first">ポートを接続しグラフを作りましょう。&#8221;m&#8221;、 &#8220;t&#8221;、&#8221;result&#8221;を外部公開（Expose）し、このようにします。</p>
+</li>
+</ul>
+<img alt="../_images/23_softimage_tut_01.png" src="../_images/23_softimage_tut_01.png" />
+<ul class="simple">
+<li><p class="first">Canvasを閉じ、PPGパネルに戻ります。&#8221;Ports and Tools&#8221; タブに切り替えます。</p>
+</li>
+<li><p class="first">&#8220;Define Type/Target&#8221;ボタンをクリックし、&#8221;m&#8221;、&#8221;m_2&#8221;、&#8221;result&#8221; ポートの型を&#8221;XSI Port&#8221;にします。&#8221;t&#8221;は&#8221;XSI Parameter&#8221;です。変更できたらOKを押します。PPGパネルが更新されグラフは以下のようになっています:</p>
+</li>
+</ul>
+<img alt="../_images/23_softimage_tut_02.png" src="../_images/23_softimage_tut_02.png" />
+<ul>
+<li><dl class="first docutils">
+<dt>一番初めに作成した２つのヌルを&#8221;m&#8221;と&#8221;m_2&#8221;ポートに接続、&#8221;result&#8221;ポートには現在のヌルを接続し、セットアップを完了しましょう。</dt>
+<dd><ul class="first last simple">
+<li><p class="first">&#8220;m&#8221;欄をクリックし &#8220;Connect (Pick)&#8221;ボタンを押し１個目のヌルをピックします。</p>
+</li>
+<li><p class="first">&#8220;m_2&#8221;欄をクリックし &#8220;Connect (Pick)&#8221;ボタンを押し２個目のヌルをピックします。</p>
+</li>
+<li><p class="first">&#8220;result&#8221; 欄をクリックし &#8220;Connect with Self&#8221;ボタンを押します。</p>
+</li>
+</ul>
+</dd>
+</dl>
+<p>最終的なグラフは以下のうようになります：</p>
+</li>
+</ul>
+<img alt="../_images/23_softimage_tut_03.png" src="../_images/23_softimage_tut_03.png" />
+<ul class="simple">
+<li><p class="first">&#8220;Main&#8221; タブに切り替え、&#8221;t&#8221;パラメータを調整してみましょう。２つのヌルの間をターゲットとなるヌルが移動するはずです。位置や回転、スケールが反映されるさまを観察してみましょう。</p>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Fabric for Softimage チュートリアル</a><ul>
+<li><a class="reference internal" href="#procedural-mesh">プロシージャルメッシュ</a></li>
+<li><a class="reference internal" href="#mesh-deformer">メッシュデフォーマ</a></li>
+<li><a class="reference internal" href="#driving-a-null-linear-interpolation">Nullを線形補間で動かす</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="mayatutorials.html"
+                        title="前の章へ">Fabric for Maya チュートリアル</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="modotutorials.html"
+                        title="次の章へ">Fabric for MODO Tutorials</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/GettingStartedGuide/softimagetutorials.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/GettingStartedGuide/softimagetutorials.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="modotutorials.html" title="Fabric for MODO Tutorials"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="mayatutorials.html" title="Fabric for Maya チュートリアル"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Fabric Engine 入門</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="firststeps.html" >Fabric Canvas 最初のステップ</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

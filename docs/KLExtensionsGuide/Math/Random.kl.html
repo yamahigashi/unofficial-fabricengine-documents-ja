@@ -1,0 +1,441 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Random.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Math Extension’s Files" href="files.html" />
+    <link rel="next" title="Ray.kl" href="Ray.kl.html" />
+    <link rel="prev" title="RGBA.kl" href="RGBA.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Ray.kl.html" title="Ray.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="RGBA.kl.html" title="RGBA.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Math エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Math Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="math-random-kl">
+<span id="random-kl"></span><span id="id1"></span><h1>Random.kl<a class="headerlink" href="#math-random-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="mathrandominteger">
+<h3>mathRandomInteger<a class="headerlink" href="#mathrandominteger" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">Integer mathRandomInteger ( in Size seed, in Size index )</p>
+<p class="klbrief">Generate an element of a sequence of uniformly-distributed random Integers between 0 and 2^29-1 (inclusive)</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Each sequence is periodic with period length of 536,870,912. However, sequence <code class="docutils literal"><span class="pre">seed</span> <span class="pre">+</span> <span class="pre">1</span></code> overlaps with sequence <code class="docutils literal"><span class="pre">seed</span></code> after 1,048,576 elements, so take care using different sequences.</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="functions.html#id73654"><span class="std std-ref">mathRandomFloat32</span></a>, <a class="reference internal" href="functions.html#id73642"><span class="std std-ref">mathRandomFloat64</span></a></p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>seed</td>
+<td>The sequence number</td>
+</tr>
+<tr class="row-even"><td>index</td>
+<td>The index within the sequence</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: mathRandomInteger</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Math</span><span class="p">;</span>
+  
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="c1">// generate 10 random Integers from sequence 18</span>
+  <span class="kr">Integer</span> <span class="nx">values</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kr">Index</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span>
+    <span class="nx">values</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">mathRandomInteger</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="nx">i</span><span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">values</span><span class="p">);</span>
+  
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">[98566144,23143865,518408758,475343879,270115324,331920421,481032402,216647059,489620536,409517009]</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+</p>
+<p><div class="section" id="mathrandomfloat64">
+<h3>mathRandomFloat64<a class="headerlink" href="#mathrandomfloat64" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> mathRandomFloat64 ( in Size seed, in Size index )</p>
+<p class="plaintext">Generate an element of a sequence of uniformly-distributed random Float64s in the interval [0, 1)</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Each sequence is periodic with period length of 536,870,912. However, sequence <code class="docutils literal"><span class="pre">seed</span> <span class="pre">+</span> <span class="pre">1</span></code> overlaps with sequence <code class="docutils literal"><span class="pre">seed</span></code> after 1,048,576 elements, so take care using different sequences.</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="functions.html#id73654"><span class="std std-ref">mathRandomFloat32</span></a>, <a class="reference internal" href="functions.html#id73637"><span class="std std-ref">mathRandomInteger</span></a></p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>seed</td>
+<td>The sequence number</td>
+</tr>
+<tr class="row-even"><td>index</td>
+<td>The index within the sequence</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: mathRandomFloat64</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Math</span><span class="p">;</span>
+  
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="c1">// generate 10 random Float64s from sequence 18</span>
+  <span class="kr">Float64</span> <span class="nx">values</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kr">Index</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span>
+    <span class="nx">values</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">mathRandomFloat64</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="nx">i</span><span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">values</span><span class="p">);</span>
+  
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">[+1.8359375e-1,+4.310880787670612e-2,+0.965611558407545,+0.885396970435977,+0.503128997981548,+0.618249962106347,+0.895992670208215,+4.03536593541503e-1,+0.911989316344261,+0.76278487034142]</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+</p>
+<p><div class="section" id="id2">
+<h3>mathRandomFloat64<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> mathRandomFloat64 ( in Size seed, in Size index )</p>
+<p class="plaintext">Generate an element of a sequence of uniformly-distributed random Float64s in the interval [0, 1)</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Each sequence is periodic with period length of 536,870,912. However, sequence <code class="docutils literal"><span class="pre">seed</span> <span class="pre">+</span> <span class="pre">1</span></code> overlaps with sequence <code class="docutils literal"><span class="pre">seed</span></code> after 1,048,576 elements, so take care using different sequences.</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="functions.html#id73654"><span class="std std-ref">mathRandomFloat32</span></a>, <a class="reference internal" href="functions.html#id73637"><span class="std std-ref">mathRandomInteger</span></a></p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>seed</td>
+<td>The sequence number</td>
+</tr>
+<tr class="row-even"><td>index</td>
+<td>The index within the sequence</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: mathRandomFloat64</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Math</span><span class="p">;</span>
+  
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+      <span class="c1">// generate 10 random Float64s from sequence 18</span>
+      <span class="kr">Float64</span> <span class="nx">values</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kr">Index</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span>
+        <span class="nx">values</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">mathRandomFloat64</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="nx">i</span><span class="p">);</span>
+      <span class="nb">report</span><span class="p">(</span><span class="nx">values</span><span class="p">);</span>
+  
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">[+1.8359375e-1,+4.310880787670612e-2,+0.965611558407545,+0.885396970435977,+0.503128997981548,+0.618249962106347,+0.895992670208215,+4.03536593541503e-1,+0.911989316344261,+0.76278487034142]</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+</p>
+<p><div class="section" id="mathrandomfloat32">
+<h3>mathRandomFloat32<a class="headerlink" href="#mathrandomfloat32" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> mathRandomFloat32 ( in Size seed, in Size index )</p>
+<p class="plaintext">Generate an element of a sequence of uniformly-distributed random Float32s in the interval [0, 1)</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Each sequence is periodic with period length of 536,870,912. However, sequence <code class="docutils literal"><span class="pre">seed</span> <span class="pre">+</span> <span class="pre">1</span></code> overlaps with sequence <code class="docutils literal"><span class="pre">seed</span></code> after 1,048,576 elements, so take care using different sequences.</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="functions.html#id73642"><span class="std std-ref">mathRandomFloat64</span></a>, <a class="reference internal" href="functions.html#id73666"><span class="std std-ref">mathRandomScalar</span></a></p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>seed</td>
+<td>The sequence number</td>
+</tr>
+<tr class="row-even"><td>index</td>
+<td>The index within the sequence</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: mathRandomFloat32</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Math</span><span class="p">;</span>
+  
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="c1">// generate 10 random Float32s from sequence 18</span>
+  <span class="kr">Float32</span> <span class="nx">values</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kr">Index</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span>
+    <span class="nx">values</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">mathRandomFloat32</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="nx">i</span><span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">values</span><span class="p">);</span>
+  
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">[+0.183593,+0.043108,+0.965611,+0.885396,+0.503129,+0.618249,+0.895992,+0.403536,+0.911989,+0.762784]</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+</p>
+<p><div class="section" id="id3">
+<h3>mathRandomFloat32<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> mathRandomFloat32 ( in Size seed, in Size index )</p>
+<p class="plaintext">Generate an element of a sequence of uniformly-distributed random Float32s in the interval [0, 1)</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Each sequence is periodic with period length of 536,870,912. However, sequence <code class="docutils literal"><span class="pre">seed</span> <span class="pre">+</span> <span class="pre">1</span></code> overlaps with sequence <code class="docutils literal"><span class="pre">seed</span></code> after 1,048,576 elements, so take care using different sequences.</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="functions.html#id73642"><span class="std std-ref">mathRandomFloat64</span></a>, <a class="reference internal" href="functions.html#id73666"><span class="std std-ref">mathRandomScalar</span></a></p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>seed</td>
+<td>The sequence number</td>
+</tr>
+<tr class="row-even"><td>index</td>
+<td>The index within the sequence</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: mathRandomFloat32</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Math</span><span class="p">;</span>
+  
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+      <span class="c1">// generate 10 random Float32s from sequence 18</span>
+      <span class="kr">Float32</span> <span class="nx">values</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kr">Index</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span>
+        <span class="nx">values</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">mathRandomFloat32</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="nx">i</span><span class="p">);</span>
+      <span class="nb">report</span><span class="p">(</span><span class="nx">values</span><span class="p">);</span>
+  
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">[+0.183593,+0.043108,+0.965611,+0.885396,+0.503129,+0.618249,+0.895992,+0.403536,+0.911989,+0.762784]</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+</p>
+<p><div class="section" id="mathrandomscalar">
+<h3>mathRandomScalar<a class="headerlink" href="#mathrandomscalar" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> mathRandomScalar ( in Size seed, in Size index )</p>
+<p class="plaintext">An alias for <a class="reference internal" href="functions.html#id73654"><span class="std std-ref">mathRandomFloat32</span></a></p>
+</div>
+</p>
+<p><div class="section" id="mathrandomsint32">
+<h3>mathRandomSInt32<a class="headerlink" href="#mathrandomsint32" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="SInt32.html#sint32"><span class="std std-ref">SInt32</span></a> mathRandomSInt32 ( in Size seed, in Size index, in <a class="reference internal" href="SInt32.html#sint32"><span class="std std-ref">SInt32</span></a> min, in <a class="reference internal" href="SInt32.html#sint32"><span class="std std-ref">SInt32</span></a> max )</p>
+</div>
+</p>
+<p><div class="section" id="mathrandomuint32">
+<h3>mathRandomUInt32<a class="headerlink" href="#mathrandomuint32" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> mathRandomUInt32 ( in Size seed, in Size index, in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> min, in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> max )</p>
+</div>
+</p>
+<p><div class="section" id="id4">
+<h3>mathRandomScalar<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> mathRandomScalar ( in Size seed, in Size index )</p>
+<p class="plaintext">An alias for <a class="reference internal" href="functions.html#id73654"><span class="std std-ref">mathRandomFloat32</span></a></p>
+</div>
+</p>
+<p><div class="section" id="mathrandomintegerarray">
+<h3>mathRandomIntegerArray<a class="headerlink" href="#mathrandomintegerarray" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">Integer[] mathRandomIntegerArray ( in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> count, in Size seed, in Size seedShift, in Size indexShift )</p>
+</div>
+</p>
+<p><div class="section" id="mathrandomfloat64array">
+<h3>mathRandomFloat64Array<a class="headerlink" href="#mathrandomfloat64array" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a>[] mathRandomFloat64Array ( in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> count, in Size seed, in Size seedShift, in Size indexShift, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> min, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> max )</p>
+</div>
+</p>
+<p><div class="section" id="mathrandomfloat32array">
+<h3>mathRandomFloat32Array<a class="headerlink" href="#mathrandomfloat32array" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a>[] mathRandomFloat32Array ( in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> count, in Size seed, in Size seedShift, in Size indexShift, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> min, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> max )</p>
+</div>
+</p>
+<p><div class="section" id="mathrandomfloat32arraybyid">
+<h3>mathRandomFloat32ArrayById<a class="headerlink" href="#mathrandomfloat32arraybyid" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a>[] mathRandomFloat32ArrayById ( in Size seed[], in Size id[], in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> min, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> max )</p>
+</div>
+</p>
+<p><div class="section" id="mathrandomscalararray">
+<h3>mathRandomScalarArray<a class="headerlink" href="#mathrandomscalararray" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a>[] mathRandomScalarArray ( in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> count, in Size seed, in Size seedShift, in Size indexShift, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> min, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> max )</p>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="RGBA.kl.html"
+                        title="前の章へ">RGBA.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="Ray.kl.html"
+                        title="次の章へ">Ray.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Math/Random.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Math/Random.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Ray.kl.html" title="Ray.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="RGBA.kl.html" title="RGBA.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Math エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >Math Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

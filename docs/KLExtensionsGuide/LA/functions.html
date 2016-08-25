@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>LA Extension’s Free Functions &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Math Extension" href="index.html" />
+    <link rel="next" title="Manipulation エクステンション" href="../Manipulation/index.html" />
+    <link rel="prev" title="LA_QuadProg.kl" href="LA_QuadProg.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../Manipulation/index.html" title="Manipulation エクステンション"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="LA_QuadProg.kl.html" title="LA_QuadProg.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Math Extension</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="la-extension-s-free-functions">
+<span id="la-extension-functions"></span><h1>LA Extension&#8217;s Free Functions<a class="headerlink" href="#la-extension-s-free-functions" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><span class="target" id="id70013"></span><p><p class="klcode">LA_Cholesky_Decompose ( io <a class="reference internal" href="../Math/Mat.html#mat"><span class="std std-ref">Mat</span></a> A )</p>
+<p class="plaintext">Compute the Cholesky decomposition of a square positive-definite matrix.
+Upon successful completion, A will store both the lower and upper
+components of the decomposition</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id70017"></span><p><p class="klcode">LA_Cholesky_Solve ( in <a class="reference internal" href="../Math/Mat.html#mat"><span class="std std-ref">Mat</span></a> C, io <a class="reference internal" href="../Math/Vec.html#vec"><span class="std std-ref">Vec</span></a> x, in <a class="reference internal" href="../Math/Vec.html#vec"><span class="std std-ref">Vec</span></a> b )</p>
+<p class="plaintext">Solve the linear equation Ax=b where A has already been decomposed by
+LA_Cholesky_Decompose as C</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id70007"></span><p><p class="klcode">LA_Elimination_Backward ( in <a class="reference internal" href="../Math/Mat.html#mat"><span class="std std-ref">Mat</span></a> U, io <a class="reference internal" href="../Math/Vec.html#vec"><span class="std std-ref">Vec</span></a> x, in <a class="reference internal" href="../Math/Vec.html#vec"><span class="std std-ref">Vec</span></a> y )</p>
+<p class="plaintext">Compute the solution X of Ux=y where U is upper triangular</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id70001"></span><p><p class="klcode">LA_Elimination_Forward ( in <a class="reference internal" href="../Math/Mat.html#mat"><span class="std std-ref">Mat</span></a> L, io <a class="reference internal" href="../Math/Vec.html#vec"><span class="std std-ref">Vec</span></a> y, in <a class="reference internal" href="../Math/Vec.html#vec"><span class="std std-ref">Vec</span></a> b )</p>
+<p class="plaintext">Compute the solution y of the equation Ly=b where L is lower triangular</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id70023"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> LA_QuadProg_Solve ( io <a class="reference internal" href="../Math/Mat.html#mat"><span class="std std-ref">Mat</span></a> G, io <a class="reference internal" href="../Math/Vec.html#vec"><span class="std std-ref">Vec</span></a> g0, in <a class="reference internal" href="../Math/Mat.html#mat"><span class="std std-ref">Mat</span></a> CE, in <a class="reference internal" href="../Math/Vec.html#vec"><span class="std std-ref">Vec</span></a> ce0, in <a class="reference internal" href="../Math/Mat.html#mat"><span class="std std-ref">Mat</span></a> CI, in <a class="reference internal" href="../Math/Vec.html#vec"><span class="std std-ref">Vec</span></a> ci0, io <a class="reference internal" href="../Math/Vec.html#vec"><span class="std std-ref">Vec</span></a> x )</p>
+<p class="plaintext">Quadratic Programming function implementing the Goldfarb-Idnani method</p>
+</p>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="LA_QuadProg.kl.html"
+                        title="前の章へ">LA_QuadProg.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="../Manipulation/index.html"
+                        title="次の章へ">Manipulation エクステンション</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/LA/functions.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/LA/functions.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../Manipulation/index.html" title="Manipulation エクステンション"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="LA_QuadProg.kl.html" title="LA_QuadProg.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Math Extension</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

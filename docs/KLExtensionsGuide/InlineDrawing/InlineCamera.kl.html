@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>InlineCamera.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="InlineDrawing Extension’s Files" href="files.html" />
+    <link rel="next" title="InlineDebugShape.kl" href="InlineDebugShape.kl.html" />
+    <link rel="prev" title="GeometryAttributeRTRAdaptor.kl" href="GeometryAttributeRTRAdaptor.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="InlineDebugShape.kl.html" title="InlineDebugShape.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="GeometryAttributeRTRAdaptor.kl.html" title="GeometryAttributeRTRAdaptor.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >InlineDrawing エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">InlineDrawing Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="inlinedrawing-inlinecamera-kl">
+<span id="inlinecamera-kl"></span><span id="id1"></span><h1>InlineCamera.kl<a class="headerlink" href="#inlinedrawing-inlinecamera-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="inlinecamera-object">
+<h3>InlineCamera (object)<a class="headerlink" href="#inlinecamera-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="InlineCamera.html#inlinecamera"><span class="std std-ref">InlineCamera</span></a> object is used to send <a class="reference internal" href="Camera.html#camera"><span class="std std-ref">Camera</span></a> information from the host application to the <a class="reference internal" href="InlineDrawing.html#inlinedrawing"><span class="std std-ref">InlineDrawing</span></a> system and the Manipulation system.</p>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="12%" />
+<col width="78%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>nearDistance</td>
+<td>near clipping distance</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>farDistance</td>
+<td>far clipping distance</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>focalDistance</td>
+<td>the focal distance, used to compute the center point for orbit operations.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>orthographicFrustumH</td>
+<td>The height of the orthographic frustum in world units.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a></td>
+<td>projection</td>
+<td>A precomputed projection, identity by default</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td>goalLinearVelocity</td>
+<td>The goal linear velocity set by either a callback or a manipulator. It is the cameras responsibility to integrate these values in the update method.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>linearVelocityAcceleration</td>
+<td>The acceleration used to modify the current linear velocity each update. It is the cameras responsibility to integrate these values in the update method.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td>currLinearVelocity</td>
+<td>The current linear velocity computed based on the goalLinearVelocity and linearVelocityAcceleration. It is the cameras responsibility to integrate these values in the update method.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td>goalAngularVelocity</td>
+<td>The goal angular velocity set by either a callback or a manipulator. It is the cameras responsibility to integrate these values in the update method.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>angularVelocityAcceleration</td>
+<td>The acceleration used to modify the current angular velocity each update. It is the cameras responsibility to integrate these values in the update method.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td>currAngularVelocity</td>
+<td>The current angular velocity computed based on the goalAngularVelocity and angularVelocityAcceleration. It is the cameras responsibility to integrate these values in the update method.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="InlineCamera.html#id114914"><span class="std std-ref">InlineCamera</span></a>  ( in <a class="reference internal" href="InlineCamera.html#inlinecamera"><span class="std std-ref">InlineCamera</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="InlineCamera.html#id65872"><span class="std std-ref">InlineCamera</span></a>  ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> fovY, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> nearDistance, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> farDistance, in Boolean isOrthographic )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="InlineCamera.html#id65862"><span class="std std-ref">InlineCamera</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="InlineCamera.html#inlinecamera"><span class="std std-ref">InlineCamera</span></a></td>
+<td><a class="reference internal" href="InlineCamera.html#id114918"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="InlineCamera.html#id65894"><span class="std std-ref">getAxis</span></a> ? ( io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> xAxis, io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> yAxis, io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> zAxis )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="InlineCamera.html#id65914"><span class="std std-ref">getFarDistance</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="InlineCamera.html#id65921"><span class="std std-ref">getFocalDistance</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="InlineCamera.html#id65900"><span class="std std-ref">getFovY</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="InlineCamera.html#id65952"><span class="std std-ref">getGoalAngularVelocity</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="InlineCamera.html#id65945"><span class="std std-ref">getGoalLinearVelocity</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a></td>
+<td><a class="reference internal" href="InlineCamera.html#id65888"><span class="std std-ref">getMat44</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="InlineCamera.html#id65907"><span class="std std-ref">getNearDistance</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="InlineCamera.html#id65935"><span class="std std-ref">getOrthographicFrustumHeight</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a></td>
+<td><a class="reference internal" href="InlineCamera.html#id65891"><span class="std std-ref">getProjection</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="InlineCamera.html#id65928"><span class="std std-ref">isOrthographic</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="InlineCamera.html#id65917"><span class="std std-ref">setFarDistance</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> farDistance )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="InlineCamera.html#id65924"><span class="std std-ref">setFocalDistance</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> focalDistance )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="InlineCamera.html#id65903"><span class="std std-ref">setFovY</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> fovY )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="InlineCamera.html#id65884"><span class="std std-ref">setFromMat44</span></a> ! ( in <a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> mat44 )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="InlineCamera.html#id65879"><span class="std std-ref">setFromPositionAndTarget</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> position, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> target )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="InlineCamera.html#id65955"><span class="std std-ref">setGoalAngularVelocity</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> velocity )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="InlineCamera.html#id65948"><span class="std std-ref">setGoalLinearVelocity</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> velocity )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="InlineCamera.html#id65910"><span class="std std-ref">setNearDistance</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> nearDistance )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="InlineCamera.html#id65931"><span class="std std-ref">setOrthographic</span></a> ! ( in Boolean ortho )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="InlineCamera.html#id65938"><span class="std std-ref">setOrthographicFrustumHeight</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> height )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="InlineCamera.html#id65942"><span class="std std-ref">update</span></a> ! ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="GeometryAttributeRTRAdaptor.kl.html"
+                        title="前の章へ">GeometryAttributeRTRAdaptor.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="InlineDebugShape.kl.html"
+                        title="次の章へ">InlineDebugShape.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/InlineDrawing/InlineCamera.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/InlineDrawing/InlineCamera.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="InlineDebugShape.kl.html" title="InlineDebugShape.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="GeometryAttributeRTRAdaptor.kl.html" title="GeometryAttributeRTRAdaptor.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >InlineDrawing エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >InlineDrawing Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

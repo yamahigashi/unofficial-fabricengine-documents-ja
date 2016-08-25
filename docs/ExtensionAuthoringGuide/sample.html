@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>サンプルエクステンションの解説 &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="エクステンション・オーサリングガイド" href="index.html" />
+    <link rel="next" title="エクステンション・マニフェストファイル" href="fpm.html" />
+    <link rel="prev" title="サンプルエクステンションのビルド" href="build.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="fpm.html" title="エクステンション・マニフェストファイル"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="build.html" title="サンプルエクステンションのビルド"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">エクステンション・オーサリングガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="understanding-the-sample-extension">
+<span id="eag-sample"></span><h1>サンプルエクステンションの解説<a class="headerlink" href="#understanding-the-sample-extension" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>この節では前節でビルドしたサンプルエクステンションに含まれるそれぞれのファイルを一通り見ていきましょう。一連のファイルがお互いどのように機能するかを通し、 Fabric Engine におけるエクステンションがどのように機能するかを理解していきます。</p>
+<div class="section" id="helloworld-fpm-json">
+<h2><code class="file docutils literal"><span class="pre">HelloWorld.fpm.json</span></code><a class="headerlink" href="#helloworld-fpm-json" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>エクステンションに唯一必須であるファイルは、エクステンションマニフェストファイルです；サンプルでは <code class="file docutils literal"><span class="pre">HelloWorld.fpm.json</span></code> が該当、具体的内容は以下</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;libs&quot;</span><span class="p">:</span> <span class="s2">&quot;HelloWorld&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;HelloWorld.kl&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>エクステンションマニフェストは、 <code class="file docutils literal"><span class="pre">.fpm.json</span></code> で終わらせます。 <code class="file docutils literal"><span class="pre">.fpm.json</span></code> の前にくっつくファイル名はすなわち &lt;エクステンション名&gt; を表します。このエクステンション名が、KLにおける <code class="samp docutils literal"><span class="pre">require</span> <em><span class="pre">ExtensionName</span></em><span class="pre">;</span></code> 文によるエクステンションインクルードのエクステンション、あるいは Fabric Engine coreクライアント作成時の <code class="code docutils literal"><span class="pre">exts</span></code> パラメータになります。</p>
+<p>マニフェストファイルの内容は JSON形式で単一JSONオブジェクトとして記述します (see <a class="reference external" href="http://json.org/">http://json.org/</a>)  サンプルにおけるJSONオブジェクトは <code class="code docutils literal"><span class="pre">libs</span></code> and <code class="code docutils literal"><span class="pre">code</span></code>; これら2つはオプショナルです。</p>
+<p><code class="code docutils literal"><span class="pre">libs</span></code> の値は、文字列, 文字列の配列 どちらも許容します。どの文字列も、エクステンションをなす共有ライブラリのベース名です。実際の共有ライブラリのファイル名はプラットフォームに依存します。サンプルの <code class="file docutils literal"><span class="pre">SConstruct</span></code> ファイルが、共有ライブラリのビルドをビルドを実行するプラットフォームに沿う正しいファイル名で扱います。つまりエクステンションがサポートする全プラットフォームに対し、同じ SConstruct ファイルによってビルドを行うことができます。（可能というだけでなく勿論そうすべきです）</p>
+<p><code class="code docutils literal"><span class="pre">code</span></code> の値は KL ソースファイルのファイル名（文字列単体でも配列でも）です( <code class="docutils literal"><span class="pre">.kl</span></code> なエクステンションも含みます)。これらはコンパイルされ KLコードに含まれることになり <code class="samp docutils literal"><span class="pre">require</span> <em><span class="pre">ExtensionName</span></em><span class="pre">;</span></code> 文によりエクステンションインクルードに使用します。</p>
+<p>Fabric Engine ではエクステンションの検出にエクステンションパス中に存在する <code class="file docutils literal"><span class="pre">.fpm.json</span></code> ファイルを用います。エクステンションパスとは、環境変数 <span class="target" id="index-8"></span><code class="xref std std-envvar docutils literal"><span class="pre">FABRIC_EXTS_PATH</span></code> に列挙された全てのディレクトリを含みます。このディレクトリには Fabric Engine をインストールした際のプラットフォームに依存した基本エクステンションが存在する、事前定義されたディレクトリを含みます。 Fabric Engine では、 エクステンションマニフェスト中の <code class="code docutils literal"><span class="pre">libs</span></code> と <code class="code docutils literal"><span class="pre">code</span></code> メンバは同じエクステンションマニフェストと同じディレクトリに存在しなければなりません。</p>
+<p><code class="file docutils literal"><span class="pre">.fpm.json</span></code> についてのより詳細な情報は <a class="reference internal" href="fpm.html#eag-fpm"><span class="std std-ref">エクステンション・マニフェストファイル</span></a> を参照してください</p>
+</div>
+<div class="section" id="helloworld-kl">
+<h2><code class="file docutils literal"><span class="pre">HelloWorld.kl</span></code><a class="headerlink" href="#helloworld-kl" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="file docutils literal"><span class="pre">HelloWorld.kl</span></code> ソースファイルは、 <code class="samp docutils literal"><span class="pre">require</span> <em><span class="pre">ExtensionName</span></em><span class="pre">;</span></code> により、他の KLソースからこのエクステンションを名前で読み込んでくる際にインクルードすることになる、 KL ソースコードです。換言すると <code class="code docutils literal"><span class="pre">HelloWorld</span></code>  エクステンションの提供する機能を、とある KLオペレータで使用したいのであれば、オペレータのコードの一番上に  <code class="docutils literal"><span class="pre">require</span> <span class="pre">HelloWorld;</span></code> とするとインクルードできます。 <code class="file docutils literal"><span class="pre">HelloWorld.kl</span></code> ファイルの内容は単純です:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">String</span> <span class="n">GetHelloWorldString</span><span class="p">()</span> <span class="o">=</span> <span class="s2">&quot;GetHelloWorldString&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>これは KL文であり、ネイティブコードの共有ライブラリで定義された関数を参照しています。一番重要な点は、 <code class="docutils literal"><span class="pre">=</span> <span class="pre">&quot;GetHelloWorldString&quot;</span></code> です：これは KLに、「この関数はネイティブコード共有ライブラリの中で <code class="code docutils literal"><span class="pre">GetHelloWorldString</span></code> として呼ばれるものだ」ということを示しています。これを欠いてしまうと、ライブラリをロードした途端、リンク問題をひきおこします。なぜならディフォルトでは KL関数は複雑な内部名を持つためです。 <code class="docutils literal"><span class="pre">=</span> <span class="pre">&quot;GetHelloWorldString&quot;</span></code> という記法は KLへと共有ライブラリでのシンボル名を単純に伝達しているわけです。</p>
+<p>注意点：KLソースファイルは 型定義（ <cite>struct</cite> キーワードを使用）や、メソッド定義、オペレータ定義、その他 KL で可能なことは全てを含めることができます。先ほど同じ <code class="docutils literal"><span class="pre">=</span> <span class="pre">&quot;...&quot;</span></code> 記法によってメソッドとネイティブコード共有ライブラリでのコードをバインドすることができます。</p>
+</div>
+<div class="section" id="helloworld-cpp">
+<h2><code class="file docutils literal"><span class="pre">HelloWorld.cpp</span></code><a class="headerlink" href="#helloworld-cpp" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="file docutils literal"><span class="pre">HelloWorld.cpp</span></code> ソースファイルには ネイティブコード共有ライブラリの C++ コードが含まれ明日。内容は以下のとおりです:</p>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;HelloWorld.h&quot; // Automatically generated by kl2edk</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="p">;</span>
+<span class="n">IMPLEMENT_FABRIC_EDK_ENTRIES</span><span class="p">(</span> <span class="n">HelloWorld</span> <span class="p">)</span>
+
+<span class="n">FABRIC_EXT_EXPORT</span> <span class="kt">void</span> <span class="n">GetHelloWorldString</span><span class="p">(</span>
+  <span class="n">KL</span><span class="o">::</span><span class="n">String</span><span class="o">::</span><span class="n">Result</span> <span class="n">result</span>
+  <span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">log</span><span class="p">(</span><span class="s">&quot;Extension: Enter GetHelloWorldString&quot;</span><span class="p">);</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="s">&quot;Hello, world!&quot;</span><span class="p">;</span>
+  <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">log</span><span class="p">(</span><span class="s">&quot;Extension: Leave GetHelloWorldString&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="code docutils literal"><span class="pre">#include</span> <span class="pre">&quot;HelloWorld.h&quot;</span></code> の行では C++ヘッダファイル ―  Fabric Engine EDK (Extension Development Kit) のための全定義の詰まったヘッダファイルのインクルードを行います。</p>
+<p>このヘッダファイル <code class="file docutils literal"><span class="pre">HelloWorld.h</span></code> は、<code class="file docutils literal"><span class="pre">HelloWorld.kl</span></code> を元に <strong class="command">kl2edk</strong> ユーティリティにより生成されます; この振舞は <code class="file docutils literal"><span class="pre">SConstruct</span></code> ビルドスクリプトからも自動で行われます。 <strong class="command">kl2edk</strong> コマンドは、KLソールファイルで使用されている全 &lt;カスタム構造体, オブジェクト, インタフェース型&gt;を C++での表現へと生成します。関数プロトタイプについてもどうように C++関数へと変換されます。 <strong class="command">kl2edk</strong> についての詳細は <a class="reference internal" href="kl2edk.html#eag-kl2edk"><span class="std std-ref">The kl2edk Utility</span></a> を参照してください。</p>
+<p><code class="code docutils literal"><span class="pre">using</span> <span class="pre">namespace</span> <span class="pre">Fabric::EDK;</span></code> の行では、EDK関数と型を EDKネームスペース無しに参照できるようにします。これは単に記法を楽にするためです。</p>
+<p><code class="code docutils literal"><span class="pre">IMPLEMENT_FABRIC_EDK_ENTRIES</span></code> の行は、エクステンションの中で１度だけ記述する必要があるものです。h基数を一つとり、エクステンション名をわたします。エクステンションのロードに必要となる内部関数の実装に使用します。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last"><code class="code docutils literal"><span class="pre">IMPLEMENT_FABRIC_EDK_ENTRIES</span></code> 呼び出しにはいくつか種類があり、 <code class="code docutils literal"><span class="pre">IMPLEMENT_FABRIC_EDK_ENTRIES_WITH_SETUP_CALLBACK</span></code> とすると引数を二つとるようになります。初期化処理の最後に呼ばれる関数のアドレスをわたします。エクステンション中、１度限りのセットアップ処理を導入できます。</p>
+</div>
+<p>コードの残りでは、KLで利用可能となる関数定義です。重要な点を幾つか:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">KLでも使用可能な関数にするには、 <code class="docutils literal"><span class="pre">FABRIC_EXT_EXPORT</span></code> キーワードを頭につけます。キーワードを使用する目的は、この関数がアンマネージドなシンボル名を含み、正しく呼び出すための規則を持つということを明示するためです。</p>
+</li>
+<li><p class="first"><code class="code docutils literal"><span class="pre">KL::String</span></code> 型を第一パラメータとして使用する際には注意が必要です。KLの宣言 <code class="code docutils literal"><span class="pre">function</span> <span class="pre">String</span> <span class="pre">GetHelloWorldString()</span></code> 関数による戻り値がこの <code class="code docutils literal"><span class="pre">KL::String</span></code> 型の値を解すことにも注意してください。呼び出し規則についてのセクションでより詳しく記述いたします。</p>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="test-py">
+<h2><code class="file docutils literal"><span class="pre">test.py</span></code><a class="headerlink" href="#test-py" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="file docutils literal"><span class="pre">test.py</span></code> ファイルは Pythonソースファルです。単純な Fabric Engine dependency graph を作成し、その dependency graphから <code class="code docutils literal"><span class="pre">HelloWorld</span></code> エクステンションの <code class="code docutils literal"><span class="pre">GetHelloWorldString</span></code> 関数を呼び出します。</p>
+<p>ファイル最初のほうで明示的に、カレントディレクトリを環境変数 <span class="target" id="index-9"></span><code class="xref std std-envvar docutils literal"><span class="pre">FABRIC_EXTS_PATH</span></code> へ設定します:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="k">if</span> <span class="s1">&#39;FABRIC_EXTS_PATH&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+  <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;FABRIC_EXTS_PATH&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;FABRIC_EXTS_PATH&#39;</span><span class="p">]])</span>
+<span class="k">else</span><span class="p">:</span>
+  <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;FABRIC_EXTS_PATH&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>
+</pre></div>
+</div>
+<p>通常カスタムエクステンションは所定の決められた場所へとインストールします。この場所は環境変数 <span class="target" id="index-10"></span><code class="xref std std-envvar docutils literal"><span class="pre">FABRIC_EXTS_PATH</span></code> により事前に設定した場所です。ただし、上記のように、Coreクライアント作成前であれば、 <span class="target" id="index-11"></span><code class="xref std std-envvar docutils literal"><span class="pre">FABRIC_EXTS_PATH</span></code>  を設定し使用することが可能です。</p>
+<p>次の２行で、 Fabric Engine クライアントを作成します。 Fabric Engine  の Coreと直接やりとりをします。エクステンションの機能デモンストレーションするのに最適ですね。</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">FabricEngine.Core</span> <span class="kn">as</span> <span class="nn">fabric</span>
+<span class="n">fabricClient</span> <span class="o">=</span> <span class="n">fabric</span><span class="o">.</span><span class="n">createClient</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>次の数行では、 KLオペレータを作成します。KLオペレータはエクステンションの <code class="code docutils literal"><span class="pre">GetHelloWorldString</span></code> を呼び、結果を <code class="code docutils literal"><span class="pre">io</span></code> パラメータに保存、後の工程でノードメンバにバインドします:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">opSource</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s2">&quot;require HelloWorld;&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;operator entry(io String string) {&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;  report(&quot;</span><span class="n">KL</span><span class="p">:</span> <span class="n">Enter</span> <span class="n">entry</span><span class="s2">&quot;);&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;  string = GetHelloWorldString();&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;  report(&quot;</span><span class="n">KL</span><span class="p">:</span> <span class="n">GetHelloWorldString</span> <span class="n">returned</span><span class="p">:</span> <span class="s2">&quot; + string);&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;  report(&quot;</span><span class="n">KL</span><span class="p">:</span> <span class="n">Leave</span> <span class="n">entry</span><span class="s2">&quot;);&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;}&quot;</span>
+<span class="p">]</span>
+<span class="n">op</span> <span class="o">=</span> <span class="n">fabricClient</span><span class="o">.</span><span class="n">DG</span><span class="o">.</span><span class="n">createOperator</span><span class="p">(</span><span class="s2">&quot;op&quot;</span><span class="p">)</span>
+<span class="n">op</span><span class="o">.</span><span class="n">setSourceCode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">opSource</span><span class="p">))</span>
+<span class="n">op</span><span class="o">.</span><span class="n">setEntryPoint</span><span class="p">(</span><span class="s2">&quot;entry&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>code:<cite>require HelloWorld;</cite>: この行では注意が必要です。この文は <code class="code docutils literal"><span class="pre">GetHelloWorldString</span></code> 関数の宣言をするために必須です。require文 はエクステンションによって提供されるKLソースコードをまとめてインクルードします。このサンプルの場合、 <code class="file docutils literal"><span class="pre">HelloWorld.kl</span></code> 中のコードです。</p>
+<p>次の数行では、 <code class="code docutils literal"><span class="pre">String</span></code> 型のメンバを持つノードを作成、そのノードにオペレータをバインド、ノードを評価、しています。つまり <code class="code docutils literal"><span class="pre">entry</span></code> オペレータを実行し、エクステンションの <code class="code docutils literal"><span class="pre">GetHelloWorldString</span></code> 関数を呼び出させます。</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">fabricClient</span><span class="o">.</span><span class="n">DG</span><span class="o">.</span><span class="n">createBinding</span><span class="p">()</span>
+<span class="n">b</span><span class="o">.</span><span class="n">setOperator</span><span class="p">(</span><span class="n">op</span><span class="p">)</span>
+<span class="n">b</span><span class="o">.</span><span class="n">setParameterLayout</span><span class="p">([</span><span class="s1">&#39;self.string&#39;</span><span class="p">])</span>
+
+<span class="n">node</span> <span class="o">=</span> <span class="n">fabricClient</span><span class="o">.</span><span class="n">DG</span><span class="o">.</span><span class="n">createNode</span><span class="p">(</span><span class="s2">&quot;node&quot;</span><span class="p">)</span>
+<span class="n">node</span><span class="o">.</span><span class="n">addMember</span><span class="p">(</span><span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;String&quot;</span><span class="p">)</span>
+<span class="n">node</span><span class="o">.</span><span class="n">bindings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="n">node</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>次の行で、オペレータがメンバを正しい値に設定したかどうか検証します。</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">print</span> <span class="s2">&quot;Python got: &quot;</span> <span class="o">+</span> <span class="n">node</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>最後にクライアントを閉じ、スクリプトを終了させます。</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">fabricClient</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sconstruct">
+<h2><code class="file docutils literal"><span class="pre">SConstruct</span></code><a class="headerlink" href="#sconstruct" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="file docutils literal"><span class="pre">SConstruct</span></code> ファイルはエクステンションのビルドに使用します。最重要な箇所は、最後:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">fabricBuildEnv</span><span class="o">.</span><span class="n">Extension</span><span class="p">(</span>
+  <span class="s1">&#39;HelloWorld&#39;</span><span class="p">,</span>
+  <span class="p">[</span><span class="s1">&#39;HelloWorld.cpp&#39;</span><span class="p">,</span> <span class="s1">&#39;HelloWorld.kl&#39;</span><span class="p">]</span>
+  <span class="p">)</span>
+</pre></div>
+</div>
+<p>この行では、 <strong class="command">scons</strong> に「エクステンション名 <code class="code docutils literal"><span class="pre">HelloWorld</span></code> をネイティブコードソースファイル <code class="file docutils literal"><span class="pre">HelloWorld.cpp</span></code> と <code class="file docutils literal"><span class="pre">HelloWorld.kl</span></code> KLソースコードを使用しビルドせよ」と指示しています。このビルドコマンドにより、入力となるKLソースファイルから <strong class="command">kl2edk</strong> を使用しヘッダファイル <code class="file docutils literal"><span class="pre">HelloWorld.h</span></code> が生成されます。結果、 <code class="file docutils literal"><span class="pre">HelloWorld.cpp</span></code> から <code class="file docutils literal"><span class="pre">HelloWorld.h</span></code> がインクルードされます。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">サンプルエクステンションの解説</a><ul>
+<li><a class="reference internal" href="#helloworld-fpm-json"><code class="file docutils literal"><span class="pre">HelloWorld.fpm.json</span></code></a></li>
+<li><a class="reference internal" href="#helloworld-kl"><code class="file docutils literal"><span class="pre">HelloWorld.kl</span></code></a></li>
+<li><a class="reference internal" href="#helloworld-cpp"><code class="file docutils literal"><span class="pre">HelloWorld.cpp</span></code></a></li>
+<li><a class="reference internal" href="#test-py"><code class="file docutils literal"><span class="pre">test.py</span></code></a></li>
+<li><a class="reference internal" href="#sconstruct"><code class="file docutils literal"><span class="pre">SConstruct</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="build.html"
+                        title="前の章へ">サンプルエクステンションのビルド</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="fpm.html"
+                        title="次の章へ">エクステンション・マニフェストファイル</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/ExtensionAuthoringGuide/sample.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/ExtensionAuthoringGuide/sample.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="fpm.html" title="エクステンション・マニフェストファイル"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="build.html" title="サンプルエクステンションのビルド"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >エクステンション・オーサリングガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

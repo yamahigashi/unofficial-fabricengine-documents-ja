@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Constraints Example &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Bullet Helpers エクステンション" href="index.html" />
+    <link rel="next" title="Rope Attach Example" href="RopeAttachExample.html" />
+    <link rel="prev" title="Rigid Body Stack Example" href="RigidBodyStackExample.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="RopeAttachExample.html" title="Rope Attach Example"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="RigidBodyStackExample.html" title="Rigid Body Stack Example"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Bullet Helpers エクステンション</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="constraints-example">
+<span id="id1"></span><h1>Constraints Example<a class="headerlink" href="#constraints-example" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: RigidBodies_Constraints.kl</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Util</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">Math</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">Geometry</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">BulletHelpers</span><span class="p">;</span>
+
+
+<span class="kd">function</span> <span class="nx">Init_Constraints</span><span class="p">(</span><span class="k">io</span> <span class="nx">RigidBodySimulation</span> <span class="nx">sim</span><span class="p">,</span> <span class="kr">Integer</span> <span class="nx">count</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="nx">sim</span><span class="p">.</span><span class="nx">initPhysics</span><span class="p">();</span>
+
+  <span class="nx">sim</span><span class="p">.</span><span class="nx">createGround</span><span class="p">();</span>
+
+  <span class="nx">sim</span><span class="p">.</span><span class="nx">createGround</span><span class="p">();</span>
+  <span class="kr">UInt32</span> <span class="nx">seed</span> <span class="o">=</span> <span class="mi">1243</span><span class="p">;</span>
+  <span class="kr">UInt32</span> <span class="nx">gen</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="nx">Scalar</span> <span class="nx">radius</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+  <span class="nx">BulletCollisionShape</span> <span class="nx">sphereShape</span> <span class="o">=</span> <span class="nx">BulletSphereShape</span><span class="p">(</span><span class="nx">radius</span><span class="p">);</span>
+
+  <span class="nx">PolygonMesh</span> <span class="nx">sphereMesh</span><span class="p">();</span> 
+  <span class="nx">sphereMesh</span><span class="p">.</span><span class="nx">addSphere</span><span class="p">(</span><span class="nx">Xfo</span><span class="p">(),</span> <span class="nx">radius</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+
+  <span class="nx">BulletRigidBody</span> <span class="nx">bodies</span><span class="p">[];</span>
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">count</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="nx">Xfo</span> <span class="nx">xfo</span><span class="p">;</span>
+    <span class="nx">xfo</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="nx">mathRandomScalar</span><span class="p">(</span><span class="nx">seed</span><span class="p">,</span> <span class="nx">gen</span><span class="o">++</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="nx">Scalar</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span> <span class="nx">mathRandomScalar</span><span class="p">(</span><span class="nx">seed</span><span class="p">,</span> <span class="nx">gen</span><span class="o">++</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">);</span>
+    <span class="nx">BulletRigidBody</span> <span class="nx">rbm</span> <span class="o">=</span> <span class="nx">sim</span><span class="p">.</span><span class="nx">addRigidBody</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nx">xfo</span><span class="p">,</span> <span class="nx">Vec3</span><span class="p">(),</span> <span class="nx">Vec3</span><span class="p">(),</span> <span class="nx">sphereShape</span><span class="p">);</span>
+    <span class="nx">bodies</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">rbm</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// add the constraints</span>
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">bodies</span><span class="p">.</span><span class="nx">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="nx">Vec3</span> <span class="nx">pivotA</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="nx">radius</span><span class="p">,</span><span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">Vec3</span> <span class="nx">pivotB</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="o">-</span><span class="nx">radius</span><span class="p">,</span><span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">BulletTypedConstraint</span> <span class="nx">constraint</span> <span class="o">=</span> <span class="nx">BulletPoint2PointConstraint</span><span class="p">(</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">bodies</span><span class="p">[</span><span class="nx">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="nx">pivotA</span><span class="p">,</span> <span class="nx">pivotB</span><span class="p">);</span>
+
+    <span class="nx">sim</span><span class="p">.</span><span class="nx">dynamicsWorld</span><span class="p">.</span><span class="nx">addConstraint</span><span class="p">(</span><span class="nx">constraint</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span> 
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">(){</span>
+
+  <span class="nx">RigidBodySimulation</span> <span class="nx">sim</span><span class="p">();</span>
+  <span class="nx">Init_Constraints</span><span class="p">(</span><span class="nx">sim</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+
+  <span class="kr">String</span> <span class="nx">reportedTransforms</span><span class="p">[];</span>
+  <span class="nx">reportedTransforms</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">sim</span><span class="p">.</span><span class="nx">rigidBodies</span><span class="p">.</span><span class="nx">size</span><span class="p">());</span>
+
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="mi">100</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="nx">sim</span><span class="p">.</span><span class="nx">stepSimulation</span><span class="p">();</span>
+
+    <span class="k">if</span><span class="p">((</span><span class="nx">i</span><span class="o">%</span><span class="mi">60</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">){</span>
+      <span class="c1">// Report X vertex positions;</span>
+      <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">k</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">k</span><span class="o">&lt;</span><span class="nx">sim</span><span class="p">.</span><span class="nx">rigidBodies</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span> <span class="nx">k</span><span class="o">++</span><span class="p">){</span>
+        <span class="nx">BulletRigidBody</span> <span class="nx">rbm</span> <span class="o">=</span> <span class="nx">sim</span><span class="p">.</span><span class="nx">rigidBodies</span><span class="p">[</span><span class="nx">k</span><span class="p">];</span>
+        <span class="nx">reportedTransforms</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span> <span class="o">=</span> <span class="nx">unitTestPrint</span><span class="p">(</span><span class="nx">rbm</span><span class="p">.</span><span class="nx">getWorldTransform</span><span class="p">());</span>
+      <span class="p">}</span>
+      <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;i:&quot;</span><span class="o">+</span><span class="nx">i</span> <span class="o">+</span> <span class="s2">&quot; xfos:&quot;</span> <span class="o">+</span> <span class="nx">reportedTransforms</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Force the destruction of the sim object.</span>
+  <span class="nx">sim</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+
+  <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;entry&lt;&lt;&lt;&lt;&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+<span class="cm">(stdin):37:3: error: must use parentheses to call methods</span>
+
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="RigidBodyStackExample.html"
+                        title="前の章へ">Rigid Body Stack Example</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="RopeAttachExample.html"
+                        title="次の章へ">Rope Attach Example</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/BulletHelpers/ConstraintsExample.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/BulletHelpers/ConstraintsExample.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="RopeAttachExample.html" title="Rope Attach Example"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="RigidBodyStackExample.html" title="Rigid Body Stack Example"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Bullet Helpers エクステンション</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

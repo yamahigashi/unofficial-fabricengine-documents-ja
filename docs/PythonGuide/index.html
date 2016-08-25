@@ -1,0 +1,1047 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Python Programming Guide &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="next" title="エクステンション・オーサリングガイド" href="../ExtensionAuthoringGuide/index.html" />
+    <link rel="prev" title="RTVals のC++アプリからの利用" href="../RTValProgrammingGuide/capi.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../ExtensionAuthoringGuide/index.html" title="エクステンション・オーサリングガイド"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="../RTValProgrammingGuide/capi.html" title="RTVals のC++アプリからの利用"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="python-programming-guide">
+<span id="pythonpg"></span><h1>Python Programming Guide<a class="headerlink" href="#python-programming-guide" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../_images/FE_logo_345_60.png"><img alt="../_images/FE_logo_345_60.png" src="../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 2.3.0</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+</div>
+<div class="contents local topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#introduction" id="id3">Introduction</a></li>
+<li><a class="reference internal" href="#canvas-module" id="id4">Canvas Module</a><ul>
+<li><a class="reference internal" href="#module-FabricEngine.Canvas.CanvasWindow" id="id5">CanvasWindow</a></li>
+<li><a class="reference internal" href="#module-FabricEngine.Canvas.ScriptEditor" id="id6">ScriptEditor</a></li>
+<li><a class="reference internal" href="#module-FabricEngine.Canvas.UICmdHandler" id="id7">UICmdHandler</a></li>
+<li><a class="reference internal" href="#module-FabricEngine.Canvas.BindingWrapper" id="id8">BindingWrapper</a></li>
+<li><a class="reference internal" href="#module-FabricEngine.Canvas.LogWidget" id="id9">LogWidget</a></li>
+<li><a class="reference internal" href="#module-FabricEngine.Canvas.RTValEncoderDecoder" id="id10">RTValEncoderDecoder</a></li>
+<li><a class="reference internal" href="#module-FabricEngine.Canvas.FabricParser" id="id11">FabricParser</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="introduction">
+<h2><a class="toc-backref" href="#id3">Introduction</a><a class="headerlink" href="#introduction" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric has offered Python bindings for the Core C++ API for some time but new to version 2.2.0 is a PySide-compatible wrapping of the FabricUI user-interface library, allowing users to build complete standalone Fabric-based tools in Python. There is also a higher-level Canvas Python module which wraps much of the FabricUI functionality and makes it accessible in a way that&#8217;s easier for building custom Python applications.</p>
+<p>The Canvas standalone has been rebuilt in Python using the Canvas module and provides a good example of how another standalone application may be built using Python. The Canvas standalone can be found in <cite>FABRIC_DIR/bin/canvas.py</cite>.</p>
+<p>Additionally, a sample Alembic Viewer application is also shipped with each release and is located <cite>FABRIC_DIR/Samples/Python/AlembicViewer/alembic_viewer.py</cite>. A short tutorial has been written outlining the steps taken to create the Alembic Viewer sample application. See the <a class="reference internal" href="alembicviewertutorial.html#alembicviewertutorial"><span class="std std-ref">Alembic Viewer Tutorial</span></a> for more information.</p>
+<p>The Canvas module and the FabricUI Python bindings are still a work in progress. Over the next few releases we will be working on cleaning up and stabilizing the API as well as providing more detailed documentation. In the meantime we welcome users to begin experimenting with it to build applications, though the API may be changing from release to release as we make improvements to both functionality and ease of use.</p>
+<p>Currently we are only providing the bindings for Python 2.7 with Qt 4.8.x and PySide 1.2.4. Users can however visit the <a class="reference external" href="http://github.com/fabric-engine/FabricUI">FabricUI repository</a> to check out and build the bindings against any version of Python or Qt that&#8217;s required. In a future release we will also add FabricUI Python support for supported DCCs.</p>
+</div>
+<div class="section" id="canvas-module">
+<h2><a class="toc-backref" href="#id4">Canvas Module</a><a class="headerlink" href="#canvas-module" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Here you can find documentation on the main Canvas module classes and their most relevant methods. Not all classes are documented here and you may still want to look at the Python code itself which can be found under <cite>FABRIC_DIR/Python/2.7/FabricEngine/Canvas</cite>, however this should give you enough of a starting point to begin building your own Python applications.</p>
+<div class="section" id="module-FabricEngine.Canvas.CanvasWindow">
+<span id="canvaswindow"></span><h3><a class="toc-backref" href="#id5">CanvasWindow</a><a class="headerlink" href="#module-FabricEngine.Canvas.CanvasWindow" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>This module adds the CanvasWindow which encompasses most of the UI
+required to build a Python application. Users building their own
+custom apps may want to subclass the CanvasWindow and simply override
+relevant methods to change behavior as needed.</p>
+<dl class="class">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow">
+<em class="property">class </em><code class="descclassname">FabricEngine.Canvas.CanvasWindow.</code><code class="descname">CanvasWindow</code><span class="sig-paren">(</span><em>settings</em>, <em>unguarded</em>, <em>noopt</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>This window encompasses the entire Canvas application.</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd>defaultFrameIn (int): Default in frame.
+defaultFrameOut (int): Default out frame.
+autosaveIntervalSecs (int): Interval at which to autosave the current graph.</dd>
+<dt>Arguments:</dt>
+<dd>settings (QtCore.QSettings): Settings object that is used to store and retrieve settings for the application.
+unguarded (bool): Whether to create the Fabric client in unguarded mode.
+noopt (bool): Whether to create the Fabric client in unoptimized mode.</dd>
+</dl>
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow._init">
+<code class="descname">_init</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow._init" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Initializes the settings and config for the application.</p>
+<p>The autosave directory and file name are established here.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow._initDFG">
+<code class="descname">_initDFG</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow._initDFG" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Initializes the Data Flow Graph.</p>
+<p>An evalContext is created to provide contextual information about the
+evaluation to operators and other objects and systems with Fabric
+Engine.</p>
+<p>A binding to a graph is initialized and is setup so the application can
+interact with it via the DFGWidget and through other scripted methods
+within the application.</p>
+<p>The UICmdHandler handles the interaction between the UI and the client.</p>
+<p>The DFGWidget is the UI that reflects the binding to the graph that is
+created and changed through the application.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow._initDocks">
+<code class="descname">_initDocks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow._initDocks" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Initializes all of dock widgets for the application.</p>
+<p>The dock widgets host the main widgets for the application and are able
+to be toggled on and off via the menu items that are created. Some
+widgets that are hosted in dock widgets are instanced here and some have
+already been created such as the DFGWidget and TimeLineWidget.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow._initGL">
+<code class="descname">_initGL</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow._initGL" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Initializes the Open GL viewport widget.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow._initKL">
+<code class="descname">_initKL</code><span class="sig-paren">(</span><em>unguarded</em>, <em>noopt</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow._initKL" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Initializes the Fabric client.</p>
+<p>The core client is what drives the application and what the user
+interface interacts with to create data types and process the data. The
+client is required in all Fabric based applications.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd>unguarded (bool): Sets the client to run in guarded mode or not.
+noopt (bool): Set the client to skip KL code optimization</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow._initLog">
+<code class="descname">_initLog</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow._initLog" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Initializes the DFGLogWidget and Undo view.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow._initMenus">
+<code class="descname">_initMenus</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow._initMenus" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Initializes all menus for the application.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow._initTimeLine">
+<code class="descname">_initTimeLine</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow._initTimeLine" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Initializes the TimeLineWidget.</p>
+<p>The timeline widget is setup with the class variables for the default in
+and out frames.</p>
+<p>The frameChanged signal is connected to the onFrameChanged method along
+with the Value Editor&#8217;s onFrameChanged method too.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow._initTreeView">
+<code class="descname">_initTreeView</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow._initTreeView" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Initializes the preset TreeView.</p>
+<p>Also connects the DFG Controller&#8217;s dirty signal to the onDirty method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow._initValueEditor">
+<code class="descname">_initValueEditor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow._initValueEditor" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Initializes the value editor.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow._initWindow">
+<code class="descname">_initWindow</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow._initWindow" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Initializes the window attributes, window widgets, actions, and the
+fps timer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow._reportCallback">
+<code class="descname">_reportCallback</code><span class="sig-paren">(</span><em>source</em>, <em>level</em>, <em>line</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow._reportCallback" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Callback method that fires when the client sends output.</p>
+<dl class="docutils">
+<dt>Report sources:</dt>
+<dd>Core.ReportSource.System
+Core.ReportSource.User</dd>
+<dt>Report levels:</dt>
+<dd>Core.ReportLevel.Error
+Core.ReportLevel.Warning
+Core.ReportLevel.Info
+Core.ReportLevel.Debug</dd>
+<dt>Arguments:</dt>
+<dd>source (int): Source of the report call.
+level (int): Level of the report.
+line (int): Text of the output.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow._statusCallback">
+<code class="descname">_statusCallback</code><span class="sig-paren">(</span><em>target</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow._statusCallback" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Status callback used for KL code to communicate status messages back
+to the client.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd>target (str): Target of the callback.
+data: Data to be sent to the target.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.autosave">
+<code class="descname">autosave</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.autosave" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Saves the scene when the auto-save timer triggers.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.checkUnsavedChanges">
+<code class="descname">checkUnsavedChanges</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.checkUnsavedChanges" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Checks for any unsaved changes in the graph.</p>
+<p>If there are changes that haven&#8217;t been saved the user is prompted with a
+dialog asking them if the graph should be saved.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.closeEvent">
+<code class="descname">closeEvent</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.closeEvent" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Standard close event method called when the Window is closed.</p>
+<p>Settings for the application are stored and the window widget is closed.
+The super class&#8217;s closeEvent is then fired and the Fabric client is
+closed.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd>event (QtCore.QEvent): Event that has been triggered.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.enableShortCuts">
+<code class="descname">enableShortCuts</code><span class="sig-paren">(</span><em>enabled</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.enableShortCuts" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Enables or disables shortcuts.</p>
+<p>enabled (bool): Whether or not to enable the shortcuts.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.execNewGraph">
+<code class="descname">execNewGraph</code><span class="sig-paren">(</span><em>skip_save=False</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.execNewGraph" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Callback Executed when a key or menu command has requested a new graph.</p>
+<p>This simply executes the corresponding script command.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd>skip_save (bool): Whether to skip the check for unsaved changes.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.loadGraph">
+<code class="descname">loadGraph</code><span class="sig-paren">(</span><em>filePath</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.loadGraph" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Method to load a graph from disk.</p>
+<p>Files are typically <a href="#id1"><span class="problematic" id="id2">*</span></a>.canvas files.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd>filePath (str): Path to the graph to load.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.onAdditionalMenuActionsRequested">
+<code class="descname">onAdditionalMenuActionsRequested</code><span class="sig-paren">(</span><em>name</em>, <em>menu</em>, <em>prefix</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.onAdditionalMenuActionsRequested" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Callback for when a request to add additional menu actions is called.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>name (str): Name of the menu.
+menu (QMenu): Menu item to add to.
+prefix (str): Whether to add the prefixed menu items or not.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.onDirty">
+<code class="descname">onDirty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.onDirty" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Method called when the graph is dirtied.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.onFileNameChanged">
+<code class="descname">onFileNameChanged</code><span class="sig-paren">(</span><em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.onFileNameChanged" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Callback for when the file name has changed.</p>
+<p>This method updates the window title to reflect the new file path.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.onFrameChanged">
+<code class="descname">onFrameChanged</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.onFrameChanged" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Method called when the user has changed frames.</p>
+<p>The frame change call pushes the new frame into the binding ports which
+map to the timeline.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd>frame (float): The new frame the user has changed to.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.onGraphSet">
+<code class="descname">onGraphSet</code><span class="sig-paren">(</span><em>graph</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.onGraphSet" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Callback when the graph is set.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>graph: The graph that is being set as current.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.onHotkeyPressed">
+<code class="descname">onHotkeyPressed</code><span class="sig-paren">(</span><em>key</em>, <em>modifiers</em>, <em>hotkey</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.onHotkeyPressed" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Callback for when a hot key is pressed.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd>key: Key that is pressed.
+modifiers: Modifiers that were pressed.
+hotkey (str): Hot key constant.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.onLoadGraph">
+<code class="descname">onLoadGraph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.onLoadGraph" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Callback for when users wish to load a graph from the UI.</p>
+<p>A file dialog is opened and users can select the file to load. The last
+directory the user saved or opened a graph from is used.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.onNewGraph">
+<code class="descname">onNewGraph</code><span class="sig-paren">(</span><em>skip_save=False</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.onNewGraph" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Callback Executed when a call to create a new graph has been made.</p>
+<p>This method deallocates the previous binding and creates a new one. It
+also resets the undo stack, clears inline drawing, and sets the
+timeline.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd>skip_save (bool): Whether to skip the check for unsaved changes.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.onNodeEditRequested">
+<code class="descname">onNodeEditRequested</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.onNodeEditRequested" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Method that is called when a request to edit the specified node has
+been emitted.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.onPortManipulationRequested">
+<code class="descname">onPortManipulationRequested</code><span class="sig-paren">(</span><em>portName</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.onPortManipulationRequested" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Method to trigger value changes that are requested form manipulators
+in the viewport.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd>portName (str): Name of the port that is being driven.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.onSaveGraph">
+<code class="descname">onSaveGraph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.onSaveGraph" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Method called when the graph is saved.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.onSaveGraphAs">
+<code class="descname">onSaveGraphAs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.onSaveGraphAs" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Method called when the graph is to be saved under a different file
+name.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.performSave">
+<code class="descname">performSave</code><span class="sig-paren">(</span><em>binding</em>, <em>filePath</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.performSave" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Writes the current graph to disk.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd>binding: The graph binding to save to disk.
+filePath (str): The file path to which the binding is saved.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.saveGraph">
+<code class="descname">saveGraph</code><span class="sig-paren">(</span><em>saveAs</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.saveGraph" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Wraps the performSave method.</p>
+<p>Opens a dialog for user to save the file if the lastFileName attribute
+is not set or if the saveas argument is True. Otherwise it overwrites
+the file which was opened.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd>saveAs (bool): Whether to save the graph to a different file path.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.setBlockCompilations">
+<code class="descname">setBlockCompilations</code><span class="sig-paren">(</span><em>blockCompilations</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.setBlockCompilations" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Sets the graph to block compilations.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd>blockCompilations (bool): Whether to block compilations or not.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.updateFPS">
+<code class="descname">updateFPS</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.updateFPS" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Method for updating the FPS label in the status bar.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-FabricEngine.Canvas.ScriptEditor">
+<span id="scripteditor"></span><h3><a class="toc-backref" href="#id6">ScriptEditor</a><a class="headerlink" href="#module-FabricEngine.Canvas.ScriptEditor" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The ScriptEditor is where Python code may be written and executed in the
+context of the current Canvas scene. All Canvas commands that are
+executed through the UI (e.g. creating a node, moving one, editing a
+port, etc.) will also show up in the ScriptEditor as Python code so that
+users can see exactly what Canvas is doing, and to assist in reproducing
+issues that were initially triggered through the UI.</p>
+</div>
+<div class="section" id="module-FabricEngine.Canvas.UICmdHandler">
+<span id="uicmdhandler"></span><h3><a class="toc-backref" href="#id7">UICmdHandler</a><a class="headerlink" href="#module-FabricEngine.Canvas.UICmdHandler" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The UICmdHandler is responsible for executing DFG commands sent
+from other parts of the UI (for example from the Canvas DFGWidget).</p>
+<p>Each Canvas integration has its own UICmdHandler (for example Maya,
+or Softimage) and this is the implementation for Python. The
+UICmdHandler turns each command into a pure Python command and then
+sends it to the ScriptEditor for execution. This allows logging
+all commands run by the Canvas standalone as simple Python commands
+which can later be used to recreate behaviors that were originally
+generated using the UI.</p>
+<dl class="class">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler">
+<em class="property">class </em><code class="descclassname">FabricEngine.Canvas.UICmdHandler.</code><code class="descname">UICmdHandler</code><span class="sig-paren">(</span><em>client</em>, <em>scriptEditor</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler" title="この定義へのパーマリンク">¶</a></dt>
+<dd><dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddBackDrop">
+<code class="descname">dfgDoAddBackDrop</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>title</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddBackDrop" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddBlock">
+<code class="descname">dfgDoAddBlock</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>desiredName</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddBlock" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddBlockPort">
+<code class="descname">dfgDoAddBlockPort</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>blockName</em>, <em>desiredPortName</em>, <em>portType</em>, <em>typeSpec</em>, <em>pathToConnect</em>, <em>connectType</em>, <em>extDep</em>, <em>metaData</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddBlockPort" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddFunc">
+<code class="descname">dfgDoAddFunc</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>title</em>, <em>initialCode</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddFunc" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddGet">
+<code class="descname">dfgDoAddGet</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>desiredNodeName</em>, <em>varPath</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddGet" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddGraph">
+<code class="descname">dfgDoAddGraph</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>title</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddGraph" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddInstBlockPort">
+<code class="descname">dfgDoAddInstBlockPort</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>instName</em>, <em>blockName</em>, <em>desiredPortName</em>, <em>typeSpec</em>, <em>pathToConnect</em>, <em>extDep</em>, <em>metaData</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddInstBlockPort" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddInstPort">
+<code class="descname">dfgDoAddInstPort</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>instName</em>, <em>desiredPortName</em>, <em>portType</em>, <em>typeSpec</em>, <em>pathToConnect</em>, <em>connectType</em>, <em>extDep</em>, <em>metaData</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddInstPort" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddPort">
+<code class="descname">dfgDoAddPort</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>desiredPortName</em>, <em>portType</em>, <em>typeSpec</em>, <em>portToConnect</em>, <em>extDep</em>, <em>metaData</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddPort" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddSet">
+<code class="descname">dfgDoAddSet</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>desiredNodeName</em>, <em>varPath</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddSet" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddVar">
+<code class="descname">dfgDoAddVar</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>desiredNodeName</em>, <em>dataType</em>, <em>extDep</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoAddVar" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoConnect">
+<code class="descname">dfgDoConnect</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>srcPort</em>, <em>dstPort</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoConnect" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoCreatePreset">
+<code class="descname">dfgDoCreatePreset</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>nodeName</em>, <em>presetDirPath</em>, <em>presetName</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoCreatePreset" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoDisconnect">
+<code class="descname">dfgDoDisconnect</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>srcPorts</em>, <em>dstPorts</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoDisconnect" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoDismissLoadDiags">
+<code class="descname">dfgDoDismissLoadDiags</code><span class="sig-paren">(</span><em>binding</em>, <em>indices</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoDismissLoadDiags" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoEditNode">
+<code class="descname">dfgDoEditNode</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>oldNodeName</em>, <em>desiredNewNodeName</em>, <em>nodeMetadata</em>, <em>execMetadata</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoEditNode" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoEditPort">
+<code class="descname">dfgDoEditPort</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>oldPortName</em>, <em>desiredNewPortName</em>, <em>portType</em>, <em>typeSpec</em>, <em>extDep</em>, <em>metaData</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoEditPort" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoExplodeNode">
+<code class="descname">dfgDoExplodeNode</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>nodeName</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoExplodeNode" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoImplodeNodes">
+<code class="descname">dfgDoImplodeNodes</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>nodeNames</em>, <em>desiredNodeName</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoImplodeNodes" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoInstPreset">
+<code class="descname">dfgDoInstPreset</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>presetPath</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoInstPreset" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoMoveNodes">
+<code class="descname">dfgDoMoveNodes</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>nodeNames</em>, <em>newTopLeftPoss</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoMoveNodes" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoPaste">
+<code class="descname">dfgDoPaste</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>json</em>, <em>cursorPos</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoPaste" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoRemoveNodes">
+<code class="descname">dfgDoRemoveNodes</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>nodeNames</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoRemoveNodes" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoRemovePort">
+<code class="descname">dfgDoRemovePort</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>portName</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoRemovePort" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoRenamePort">
+<code class="descname">dfgDoRenamePort</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>portPath</em>, <em>desiredNewPortName</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoRenamePort" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoReorderPorts">
+<code class="descname">dfgDoReorderPorts</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>itemPath</em>, <em>indices</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoReorderPorts" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoResizeBackDrop">
+<code class="descname">dfgDoResizeBackDrop</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>backDropNodeName</em>, <em>newTopLeftPos</em>, <em>newSize</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoResizeBackDrop" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoSetArgValue">
+<code class="descname">dfgDoSetArgValue</code><span class="sig-paren">(</span><em>binding</em>, <em>argName</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoSetArgValue" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoSetCode">
+<code class="descname">dfgDoSetCode</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoSetCode" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoSetExtDeps">
+<code class="descname">dfgDoSetExtDeps</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>extDeps</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoSetExtDeps" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoSetNodeComment">
+<code class="descname">dfgDoSetNodeComment</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>nodeName</em>, <em>comment</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoSetNodeComment" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoSetPortDefaultValue">
+<code class="descname">dfgDoSetPortDefaultValue</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>portPath</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoSetPortDefaultValue" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoSetRefVarPath">
+<code class="descname">dfgDoSetRefVarPath</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>refName</em>, <em>varPath</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoSetRefVarPath" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoSplitFromPreset">
+<code class="descname">dfgDoSplitFromPreset</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoSplitFromPreset" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.encodeFloat">
+<em class="property">static </em><code class="descname">encodeFloat</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.encodeFloat" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.encodeInt">
+<em class="property">static </em><code class="descname">encodeInt</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.encodeInt" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.encodeInts">
+<em class="property">static </em><code class="descname">encodeInts</code><span class="sig-paren">(</span><em>xs</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.encodeInts" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.encodePortType">
+<code class="descname">encodePortType</code><span class="sig-paren">(</span><em>portType</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.encodePortType" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.encodePosXs">
+<em class="property">static </em><code class="descname">encodePosXs</code><span class="sig-paren">(</span><em>poss</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.encodePosXs" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.encodePosYs">
+<em class="property">static </em><code class="descname">encodePosYs</code><span class="sig-paren">(</span><em>poss</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.encodePosYs" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.encodeString">
+<em class="property">static </em><code class="descname">encodeString</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.encodeString" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.encodeStringChars">
+<em class="property">static </em><code class="descname">encodeStringChars</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.encodeStringChars" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.encodeStrings">
+<em class="property">static </em><code class="descname">encodeStrings</code><span class="sig-paren">(</span><em>strings</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.encodeStrings" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.evalCmdWithArgs">
+<code class="descname">evalCmdWithArgs</code><span class="sig-paren">(</span><em>cmd</em>, <em>encodedArgs</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.evalCmdWithArgs" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-FabricEngine.Canvas.BindingWrapper">
+<span id="bindingwrapper"></span><h3><a class="toc-backref" href="#id8">BindingWrapper</a><a class="headerlink" href="#module-FabricEngine.Canvas.BindingWrapper" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The BindingWrapper wraps a Core DFGBinding in order to provide a simple
+API for the DFG UI commands. Commands sent from the UICmdHandler are
+executed in the ScriptEditor and the ScriptEditor uses the BindingWrapper
+to actually invoke each command.</p>
+<p>There is a 1-to-1 mapping of the methods provided by the UICmdHandler (which
+receives commands from the UI) and the BindingWrapper (which invokes the
+commands in the Fabric Core). The BindingWrapper also takes care of adding
+all commands to a QUndoStack so that undo/redo functionality is properly
+maintained.</p>
+<dl class="class">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper">
+<em class="property">class </em><code class="descclassname">FabricEngine.Canvas.BindingWrapper.</code><code class="descname">BindingWrapper</code><span class="sig-paren">(</span><em>client</em>, <em>binding</em>, <em>qUndoStack</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper" title="この定義へのパーマリンク">¶</a></dt>
+<dd><dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.addBackDrop">
+<code class="descname">addBackDrop</code><span class="sig-paren">(</span><em>execPath</em>, <em>title</em>, <em>posX</em>, <em>posY</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.addBackDrop" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.addBlock">
+<code class="descname">addBlock</code><span class="sig-paren">(</span><em>execPath</em>, <em>desiredName</em>, <em>posX</em>, <em>posY</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.addBlock" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.addBlockPort">
+<code class="descname">addBlockPort</code><span class="sig-paren">(</span><em>execPath</em>, <em>blockName</em>, <em>desiredPortName</em>, <em>portType</em>, <em>typeSpec</em>, <em>pathToConnect</em>, <em>connectType</em>, <em>extDep</em>, <em>metaData</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.addBlockPort" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.addFunc">
+<code class="descname">addFunc</code><span class="sig-paren">(</span><em>execPath</em>, <em>title</em>, <em>initialCode</em>, <em>posX</em>, <em>posY</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.addFunc" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.addGet">
+<code class="descname">addGet</code><span class="sig-paren">(</span><em>execPath</em>, <em>desiredNodeName</em>, <em>varPath</em>, <em>posX</em>, <em>posY</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.addGet" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.addGraph">
+<code class="descname">addGraph</code><span class="sig-paren">(</span><em>execPath</em>, <em>title</em>, <em>posX</em>, <em>posY</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.addGraph" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.addInstBlockPort">
+<code class="descname">addInstBlockPort</code><span class="sig-paren">(</span><em>execPath</em>, <em>instName</em>, <em>blockName</em>, <em>desiredPortName</em>, <em>typeSpec</em>, <em>pathToConnect</em>, <em>extDep</em>, <em>metaData</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.addInstBlockPort" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.addInstPort">
+<code class="descname">addInstPort</code><span class="sig-paren">(</span><em>execPath</em>, <em>instName</em>, <em>desiredPortName</em>, <em>portType</em>, <em>typeSpec</em>, <em>pathToConnect</em>, <em>connectType</em>, <em>extDep</em>, <em>metaData</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.addInstPort" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.addPort">
+<code class="descname">addPort</code><span class="sig-paren">(</span><em>execPath</em>, <em>desiredPortName</em>, <em>portType</em>, <em>typeSpec</em>, <em>pathToConnect</em>, <em>extDep</em>, <em>metaData</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.addPort" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.addSet">
+<code class="descname">addSet</code><span class="sig-paren">(</span><em>execPath</em>, <em>desiredNodeName</em>, <em>varPath</em>, <em>posX</em>, <em>posY</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.addSet" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.addVar">
+<code class="descname">addVar</code><span class="sig-paren">(</span><em>execPath</em>, <em>desiredNodeName</em>, <em>dataType</em>, <em>extDep</em>, <em>posX</em>, <em>posY</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.addVar" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.connect">
+<code class="descname">connect</code><span class="sig-paren">(</span><em>execPath</em>, <em>srcPort</em>, <em>dstPort</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.connect" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.createPreset">
+<code class="descname">createPreset</code><span class="sig-paren">(</span><em>execPath</em>, <em>nodeName</em>, <em>presetDirPath</em>, <em>presetName</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.createPreset" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.decodePortType">
+<code class="descname">decodePortType</code><span class="sig-paren">(</span><em>portType</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.decodePortType" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.disconnect">
+<code class="descname">disconnect</code><span class="sig-paren">(</span><em>execPath</em>, <em>packedSrcPorts</em>, <em>packedDstPorts</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.disconnect" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.dismissLoadDiags">
+<code class="descname">dismissLoadDiags</code><span class="sig-paren">(</span><em>packedIndices</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.dismissLoadDiags" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.editNode">
+<code class="descname">editNode</code><span class="sig-paren">(</span><em>execPath</em>, <em>oldNodeName</em>, <em>desiredNewNodeName</em>, <em>nodeMetadata</em>, <em>execMetadata</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.editNode" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.editPort">
+<code class="descname">editPort</code><span class="sig-paren">(</span><em>execPath</em>, <em>oldPortName</em>, <em>desiredNewPortName</em>, <em>portType</em>, <em>typeSpec</em>, <em>extDep</em>, <em>metaData</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.editPort" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.explodeNode">
+<code class="descname">explodeNode</code><span class="sig-paren">(</span><em>execPath</em>, <em>nodeName</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.explodeNode" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.implodeNodes">
+<code class="descname">implodeNodes</code><span class="sig-paren">(</span><em>execPath</em>, <em>packedNodeNames</em>, <em>desiredNodeName</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.implodeNodes" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.instPreset">
+<code class="descname">instPreset</code><span class="sig-paren">(</span><em>execPath</em>, <em>presetPath</em>, <em>posX</em>, <em>posY</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.instPreset" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.moveNodes">
+<code class="descname">moveNodes</code><span class="sig-paren">(</span><em>execPath</em>, <em>packedNodeNames</em>, <em>packedNewTopLeftPosXs</em>, <em>packedNewTopLeftPosYs</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.moveNodes" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.paste">
+<code class="descname">paste</code><span class="sig-paren">(</span><em>execPath</em>, <em>json</em>, <em>cursorPosX</em>, <em>cursorPosY</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.paste" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.redo">
+<code class="descname">redo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.redo" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.removeNodes">
+<code class="descname">removeNodes</code><span class="sig-paren">(</span><em>execPath</em>, <em>packedNodeNames</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.removeNodes" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.removePort">
+<code class="descname">removePort</code><span class="sig-paren">(</span><em>execPath</em>, <em>portName</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.removePort" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.renamePort">
+<code class="descname">renamePort</code><span class="sig-paren">(</span><em>execPath</em>, <em>portPath</em>, <em>desiredNewPortName</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.renamePort" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.reorderPorts">
+<code class="descname">reorderPorts</code><span class="sig-paren">(</span><em>execPath</em>, <em>itemPath</em>, <em>packedIndices</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.reorderPorts" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.resizeBackDrop">
+<code class="descname">resizeBackDrop</code><span class="sig-paren">(</span><em>execPath</em>, <em>backDropNodeName</em>, <em>newTopLeftPosX</em>, <em>newTopLeftPosY</em>, <em>newSizeW</em>, <em>newSizeH</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.resizeBackDrop" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.setArgValue">
+<code class="descname">setArgValue</code><span class="sig-paren">(</span><em>argName</em>, <em>typeName</em>, <em>valueJSON</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.setArgValue" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.setCode">
+<code class="descname">setCode</code><span class="sig-paren">(</span><em>execPath</em>, <em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.setCode" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.setExtDeps">
+<code class="descname">setExtDeps</code><span class="sig-paren">(</span><em>execPath</em>, <em>packedExtDeps</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.setExtDeps" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.setNodeComment">
+<code class="descname">setNodeComment</code><span class="sig-paren">(</span><em>execPath</em>, <em>nodeName</em>, <em>comment</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.setNodeComment" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.setPortDefaultValue">
+<code class="descname">setPortDefaultValue</code><span class="sig-paren">(</span><em>execPath</em>, <em>portPath</em>, <em>typeName</em>, <em>valueJSON</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.setPortDefaultValue" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.setRefVarPath">
+<code class="descname">setRefVarPath</code><span class="sig-paren">(</span><em>execPath</em>, <em>refName</em>, <em>varPath</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.setRefVarPath" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.splitFromPreset">
+<code class="descname">splitFromPreset</code><span class="sig-paren">(</span><em>execPath</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.splitFromPreset" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.splitInts">
+<em class="property">static </em><code class="descname">splitInts</code><span class="sig-paren">(</span><em>packedIndices</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.splitInts" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.splitNames">
+<em class="property">static </em><code class="descname">splitNames</code><span class="sig-paren">(</span><em>names</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.splitNames" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.splitPoss">
+<em class="property">static </em><code class="descname">splitPoss</code><span class="sig-paren">(</span><em>posXs</em>, <em>posYs</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.splitPoss" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.undo">
+<code class="descname">undo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.undo" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="FabricEngine.Canvas.BindingWrapper.InvokeCmd">
+<code class="descclassname">FabricEngine.Canvas.BindingWrapper.</code><code class="descname">InvokeCmd</code><span class="sig-paren">(</span><em>cmd</em>, <em>qUndoStack</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.InvokeCmd" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="FabricEngine.Canvas.BindingWrapper.UndoCmd">
+<em class="property">class </em><code class="descclassname">FabricEngine.Canvas.BindingWrapper.</code><code class="descname">UndoCmd</code><span class="sig-paren">(</span><em>cmd</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.UndoCmd" title="この定義へのパーマリンク">¶</a></dt>
+<dd><dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.UndoCmd.redo">
+<code class="descname">redo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.UndoCmd.redo" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="FabricEngine.Canvas.BindingWrapper.UndoCmd.undo">
+<code class="descname">undo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.UndoCmd.undo" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-FabricEngine.Canvas.LogWidget">
+<span id="logwidget"></span><h3><a class="toc-backref" href="#id9">LogWidget</a><a class="headerlink" href="#module-FabricEngine.Canvas.LogWidget" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The LogWidget receives and saves logging output from the ScriptEditor.</p>
+</div>
+<div class="section" id="module-FabricEngine.Canvas.RTValEncoderDecoder">
+<span id="rtvalencoderdecoder"></span><h3><a class="toc-backref" href="#id10">RTValEncoderDecoder</a><a class="headerlink" href="#module-FabricEngine.Canvas.RTValEncoderDecoder" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The RTValEncoderDecoder is responsible for encoding and decoding RTVals
+to and from strings. This is used by the ScriptEditor to allow sending
+plain Python commands to the Core that include the contents of RTVals
+and is also used by the Fabric Core for persistence to allow saving
+the contents of a scene to JSON.</p>
+</div>
+<div class="section" id="module-FabricEngine.Canvas.FabricParser">
+<span id="fabricparser"></span><h3><a class="toc-backref" href="#id11">FabricParser</a><a class="headerlink" href="#module-FabricEngine.Canvas.FabricParser" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The FabricParser handles parsing command line options for the Canvas standalone.</p>
+<dl class="function">
+<dt id="FabricEngine.Canvas.FabricParser.CheckExtension">
+<code class="descclassname">FabricEngine.Canvas.FabricParser.</code><code class="descname">CheckExtension</code><span class="sig-paren">(</span><em>choices</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.FabricParser.CheckExtension" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Argparse action to check a file extension at loading.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd>choices (Dictionary): List of allowed extensions {&#8216;ext1, ext2, ...&#8217;}.</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="FabricEngine.Canvas.FabricParser.FabricParser">
+<em class="property">class </em><code class="descclassname">FabricEngine.Canvas.FabricParser.</code><code class="descname">FabricParser</code><span class="sig-paren">(</span><em>prog=None</em>, <em>usage=None</em>, <em>description=None</em>, <em>epilog=None</em>, <em>version=None</em>, <em>parents=[]</em>, <em>formatter_class=&lt;class 'argparse.HelpFormatter'&gt;</em>, <em>prefix_chars='-'</em>, <em>fromfile_prefix_chars=None</em>, <em>argument_default=None</em>, <em>conflict_handler='error'</em>, <em>add_help=True</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.FabricParser.FabricParser" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Specialize the argparse.ArgumentParser class.
+If an error occurs when parsing the arguments, 
+the available options will be diplayed before exiting.</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Python Programming Guide</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#canvas-module">Canvas Module</a><ul>
+<li><a class="reference internal" href="#module-FabricEngine.Canvas.CanvasWindow">CanvasWindow</a></li>
+<li><a class="reference internal" href="#module-FabricEngine.Canvas.ScriptEditor">ScriptEditor</a></li>
+<li><a class="reference internal" href="#module-FabricEngine.Canvas.UICmdHandler">UICmdHandler</a></li>
+<li><a class="reference internal" href="#module-FabricEngine.Canvas.BindingWrapper">BindingWrapper</a></li>
+<li><a class="reference internal" href="#module-FabricEngine.Canvas.LogWidget">LogWidget</a></li>
+<li><a class="reference internal" href="#module-FabricEngine.Canvas.RTValEncoderDecoder">RTValEncoderDecoder</a></li>
+<li><a class="reference internal" href="#module-FabricEngine.Canvas.FabricParser">FabricParser</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="../RTValProgrammingGuide/capi.html"
+                        title="前の章へ">RTVals のC++アプリからの利用</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="../ExtensionAuthoringGuide/index.html"
+                        title="次の章へ">エクステンション・オーサリングガイド</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/PythonGuide/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/PythonGuide/index.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../ExtensionAuthoringGuide/index.html" title="エクステンション・オーサリングガイド"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="../RTValProgrammingGuide/capi.html" title="RTVals のC++アプリからの利用"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

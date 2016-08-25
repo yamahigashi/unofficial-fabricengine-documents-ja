@@ -1,0 +1,592 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>RealTime Renderer &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="realtime-renderer">
+<span id="rtr2"></span><h1>RealTime Renderer<a class="headerlink" href="#realtime-renderer" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>The <cite>RTR</cite> provides multiple components that can be assembled
+for building a customized rendering pipeline. The RTR&#8217;s goal is to provide
+a good balance between performance and flexibility. The RTR is one of the
+main components of the <a class="reference internal" href="../SceneAssembly/scenehub.html#scenehub"><span class="std std-ref">SceneHub</span></a>, and is a client of the
+<a class="reference internal" href="../SceneAssembly/sceneassembly.html#sceneassembly"><span class="std std-ref">Scene Assembly</span></a> graph.</p>
+<div class="section" id="rtr-overview">
+<span id="rtr2-overview"></span><h2>RTR Overview<a class="headerlink" href="#rtr-overview" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>As a framework, the <cite>RTR</cite> provides multiple building blocs that are
+as much independent as possible, and at all levels ranging from
+the higher-level renderer object to low-level tasks and render objects.</p>
+<p>Additionally, the <cite>RTR</cite> separates the OpenGL-specific objects
+from the ones that are not related to a specific drawing API.
+The goal is to share most of the data processing tasks if more
+drawing APIs such as DirectX are eventually supported.</p>
+<p>Below is an illustration of the main components involved in the RTR,
+using as an example the <code class="xref std std-kl-ref docutils literal"><span class="pre">GLStandardRTR</span></code>:</p>
+<img alt="../../_images/RTRMainComponents.png" src="../../_images/RTRMainComponents.png" />
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">The <code class="xref std std-kl-ref docutils literal"><span class="pre">GLStandardRTR</span></code> is a provided implementation
+for a standard (forward) OpenGL renderer, but others will be added
+in future releases, such as a deferred OpenGL renderer. Since
+this is a framework, custom renderer can be built too by reusing
+existing building blocs.</p>
+</div>
+<p>The principal steps that are part of the rendering processing of a scene
+are, as illustrated above:</p>
+<ul>
+<li><p class="first">A <a class="reference internal" href="../SceneGraph/scenegraphoverview.html#scenegraph-overview"><span class="std std-ref">SceneGraph</span></a> creates the scene data, which is filtered
+and processed by a <a class="reference internal" href="../SceneAssembly/sceneassembly.html#sceneassembly"><span class="std std-ref">Scene Assembly</span></a> procedural graph. A portion of that
+graph is RTR-specific, for example to cull the lights and geometries based on the
+camera fustum (volume).</p>
+</li>
+<li><p class="first">An higher-level renderer object, such as <code class="xref std std-kl-ref docutils literal"><span class="pre">GLStandardRTR</span></code>, assembles the basic building blocs required for
+rendering the scene:</p>
+<ul>
+<li><p class="first">It connects to required inputs or <a class="reference internal" href="../SceneAssembly/sceneassembly.html#sceneassembly"><span class="std std-ref">Scene Assembly</span></a> groups, such as
+a <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRCamera</span></code>, and a scene geometries and scene lights <code class="xref std std-kl-ref docutils literal"><span class="pre">BaseDynamicGroup</span></code>.</p>
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraphToGLStandardRTR</span></code> is a higher-level object that creates a
+default <a class="reference internal" href="../SceneAssembly/sceneassembly.html#sceneassembly"><span class="std std-ref">Scene Assembly</span></a> graph providing the required inputs for a <code class="xref std std-kl-ref docutils literal"><span class="pre">GLStandardRTR</span></code>.</p>
+</li>
+<li><p class="first">It creates a viewport object, such as the <code class="xref std std-kl-ref docutils literal"><span class="pre">RTROGLViewport</span></code>, which wraps the main viewport.
+[multiple viewports support is planned in future releases]</p>
+</li>
+<li><p class="first">It creates a RTR evaluation context, such as a <code class="xref std std-kl-ref docutils literal"><span class="pre">RTROGLContext</span></code>, for providing
+the contextual data required by the rendering tasks (<code class="xref std std-kl-ref docutils literal"><span class="pre">RTRCamera</span></code>,
+<code class="xref std std-kl-ref docutils literal"><span class="pre">RTRDrawSurface</span></code>, <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRMaterialLibrary</span></code>, <code class="xref std std-kl-ref docutils literal"><span class="pre">SWContext</span></code>).</p>
+</li>
+<li><p class="first">It creates a <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRTaskScheduler</span></code>, which will collect and execute the various
+tasks for preparing and drawing RTR objects (<code class="xref std std-kl-ref docutils literal"><span class="pre">RTRTask</span></code> and <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRDrawTask</span></code>).</p>
+</li>
+<li><p class="first">It allows to define distinct rendering passes (layers), a which is simple way to
+draw overlays, selection or gizmos (see <code class="xref std std-kl-ref docutils literal"><span class="pre">BaseRTR.insertPass</span></code>)</p>
+</li>
+<li><p class="first">It is the starting point for data requests such as <code class="xref std std-kl-ref docutils literal"><span class="pre">RaycastRequest</span></code>, which
+can traverse back from the RTR, through tasks and groups, to the SceneGraph (eg:
+<code class="xref std std-kl-ref docutils literal"><span class="pre">BaseRTR.raycast</span></code>)</p>
+</li>
+</ul>
+</li>
+<li><p class="first">A <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRTask</span></code> graph is defined for preparing RTR-specific data from the source
+scene data. Various steps might be involved:</p>
+<ul>
+<li><p class="first">Creating adaptors that will map scene objects to <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRInstance</span></code> objects.</p>
+</li>
+<li><p class="first">Creating <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRDrawInstance</span></code> objects that will provide drawing parameters
+that depend on the camera and viewport (<code class="xref std std-kl-ref docutils literal"><span class="pre">DrawSurface</span></code>) context.</p>
+<p>If preparation passes such as shadow map building are needed, a <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRDrawInstance</span></code>
+will be created for preparing the drawing for these tasks.</p>
+</li>
+</ul>
+<p>Note that the created task graph is dynamic since it might change from
+frame to frame, for example if a new shadow-casting light enters
+camera&#8217;s frustum.</p>
+</li>
+<li><p class="first">The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRTask</span></code> will submit their associated <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRDrawTask</span></code> that
+will draw or setup their data for the draw API such as OpenGL.</p>
+</li>
+<li><p class="first">The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRTaskScheduler</span></code> will run these tasks and draw tasks which
+will result in the final viewport image.</p>
+</li>
+</ul>
+<p>For more details about the SceneGraph to RTR translation steps, see
+<a class="reference internal" href="../SceneAssembly/sceneassembly.html#sceneassembly-scenegraph-to-rtr"><span class="std std-ref">SceneAssembly example: SceneGraph to RTR</span></a> and <a class="reference internal" href="../SceneAssembly/scenehub.html#scenehub-adaptors"><span class="std std-ref">Scene element adaptors</span></a>.</p>
+<div class="section" id="rtr-related-extensions">
+<span id="id1"></span><h3>RTR related extensions<a class="headerlink" href="#rtr-related-extensions" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The following extensions work in conjunction with the RTR extension at various levels:</p>
+<ul class="simple">
+<li>The Adaptors extension allows to define target-specific <code class="xref std std-kl-ref docutils literal"><span class="pre">ObjectAdaptor</span></code>
+that can manage and cache the conversion from source objects (such as
+a <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a>) to a specific target (such as OpenGL RTR). These adaptors
+enable custom object types to be mapped to the RTR specific
+types and interfaces. See <a class="reference internal" href="../SceneAssembly/scenehub.html#scenehub-adaptors"><span class="std std-ref">Scene element adaptors</span></a></li>
+<li>The <a class="reference internal" href="../SceneAssembly/sceneassembly.html#sceneassembly"><span class="std std-ref">Scene Assembly</span></a> extension defines generic scene interfaces and objects
+that allow abstraction and processing of scene elements, and the <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code>
+implement these interfaces. The RTR can augment this processing graph with its own
+nodes, for example to perform camera frustum culling.</li>
+<li>The <a class="reference internal" href="../SceneGraphToRTR/index.html#scenegraph-to-rtr-extension"><span class="std std-ref">SceneGraphToRTR Extension</span></a> defines adaptors for some <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectWrapper</span></code>
+objects to RTR objects, such as <code class="xref std std-kl-ref docutils literal"><span class="pre">SGDirectionalLightToRTR</span></code>. It defines, too,
+higher-level wrappings of the <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> for configuring it as an RTR
+input, such as <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraphToRTR</span></code>.</li>
+<li>The OGLWrappers extension defines higher-level wrapping of OpenGL
+objects, such as <a class="reference internal" href="../OGLWrappers/OGLTexture.html#ogltexture"><span class="std std-ref">OGLTexture</span></a> and <a class="reference internal" href="../OGLWrappers/OGLProgram.html#oglprogram"><span class="std std-ref">OGLProgram</span></a>. It provides, too, functionality
+that is more closely related to RTR requirements, such as:<ul>
+<li>a <cite>.glsl</cite> preprocessor that can extract parameter meta-data and
+provide support for <code class="docutils literal"><span class="pre">#include</span></code> directives (see <span class="xref std std-ref">simple_material</span>)</li>
+<li>versioning of GL wrapped objects, and ability to prepare some data
+without a GL draw context</li>
+<li>chaining of <a class="reference internal" href="../OGLWrappers/OGLProgramParamValues.html#oglprogramparamvalues"><span class="std std-ref">OGLProgramParamValues</span></a>: parameter value sets that can
+&#8220;inherit&#8221; from parent ones (see <a class="reference internal" href="#rtr-drawinstance"><span class="std std-ref">rtr_drawinstance</span></a>)</li>
+</ul>
+</li>
+<li>The FabricOGL and OSOGL extensions define low-level wrapping of
+native OpenGL and OS-specific OpenGL extensions.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="rtrdrawinstance-and-material-parameters">
+<span id="rtr-drawinstance"></span><h2>RTRDrawInstance and material parameters<a class="headerlink" href="#rtrdrawinstance-and-material-parameters" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>One of the main purpose of the RTR tasks and draw tasks is to prepare and render a set of <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRDrawInstance</span></code>.
+The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRDrawInstance</span></code> contains the <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRMaterial</span></code> parameters values allowing to draw an object
+such as a geometry.</p>
+<p>For a single frame, a same draw object (<code class="xref std std-kl-ref docutils literal"><span class="pre">RTRInstance</span></code>) might be rendered multiple times, for example:</p>
+<ul class="simple">
+<li>Once for each viewport and camera, if multiple viewports</li>
+<li>Once for additional draw passes, such as shadow map render</li>
+<li>Once for drawing its outline (selected)</li>
+</ul>
+<p>Depending if the current frame, viewport, camera or render target changes, only a portion
+of the material parameters might need to be updated. Different parameters of a draw instace
+often depend on different source objects, such as:</p>
+<ul class="simple">
+<li>The input geometry, for example the triangles and positions buffer.
+Such parameters values are the same for all draw instances of a same geometry.</li>
+<li>The input instance, for example the color and the model transform.
+Such parameters values are the same for all draw instances with the same source
+instance, for example the drawing in each viewports.</li>
+<li>The camera and viewport, for example modelViewMatrix or viewport width.</li>
+<li>No specific input if constant for the material, for example a material default parameter that is not overriden.
+Such parameters values are the same for all draw instances with the same material.</li>
+</ul>
+<p>Since some parameters are more likely to change, and in order to share as much as possible
+the parameter data, the RTR builds a chain of <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRDrawInstance</span></code>. This is made possible
+by the <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRDrawInstance.createSubDrawInstance</span></code> method, which will create another
+<code class="xref std std-kl-ref docutils literal"><span class="pre">RTRDrawInstance</span></code> inheriting the parameter set from its parent (base) draw instance.
+The sub-instance can override parameter values. It is possible, too, to chain draw instances
+that have a different material (with <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRDrawInstance.setBaseDrawInstance</span></code>).</p>
+<p>Below is illustrated a typical chain of draw instances, along with the related tasks
+and <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRInstance</span></code>:</p>
+<img alt="../../_images/RTRDrawInstanceChain.png" src="../../_images/RTRDrawInstanceChain.png" />
+<p>In the diagram above:</p>
+<ul class="simple">
+<li>A <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRSWGroupToInstanceTask</span></code> creates a <cite>Phong</cite> <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRSWGeometryInstance</span></code>
+(specialized <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRInstance</span></code>) for the corresponding scene element (<cite>car1</cite>) using the adaptors mechanism.
+Additionally, it creates a draw instance (<code class="xref std std-kl-ref docutils literal"><span class="pre">RTROGLProgramDrawInstance</span></code>), and sets the
+<cite>color</cite> and <cite>shininess</cite> parameters (shared by all viewports or draw passes).</li>
+<li>The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRSWGeometryInstance</span></code> creates a <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRSWGeometry</span></code> (specialized <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRInstance</span></code>)
+that represents the geometry (<cite>mesh</cite>) shared for all instances.
+The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRSWGeometry</span></code> will create a draw instance (<code class="xref std std-kl-ref docutils literal"><span class="pre">RTROGLProgramDrawInstance</span></code>)
+and set material parameters that are geometry-specific,
+such as the triangles list (from the <code class="xref std std-kl-ref docutils literal"><span class="pre">PolygonMeshToRTR</span></code> adaptor) and
+the positions attribute (from the <code class="xref std std-kl-ref docutils literal"><span class="pre">Vec3AttributeToRTR</span></code> adaptor).</li>
+<li>The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRCreateSubInstanceTask</span></code> then creates a draw instance
+which specifies parameters that depends on the viewport and camera,
+such as the <cite>modelViewProjMatrix</cite> and the <cite>modelViewMatrix</cite>.</li>
+</ul>
+</div>
+<div class="section" id="rtr-materials">
+<span id="id2"></span><h2>RTR materials<a class="headerlink" href="#rtr-materials" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The RTR defines simple materials, generic materials and meta-materials.</p>
+<p>The materials (<code class="xref std std-kl-ref docutils literal"><span class="pre">RTRMaterial</span></code> ) are loaded and cached by a material
+library (<code class="xref std std-kl-ref docutils literal"><span class="pre">RTRMaterialLibrary</span></code>). The material library will search
+material files in a list of specified search paths.</p>
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTROGLContext</span></code> adds the default path
+<code class="docutils literal"><span class="pre">${FABRIC_EXTS_PATH}/Builtin/RTR2/OpenGL/Shaders</span></code> and more can
+be added with the <code class="xref std std-kl-ref docutils literal"><span class="pre">RTROGLContext.addShaderIncludePath</span></code> method.</p>
+<p>The OpenGL RTR built-in material objects support three type or level
+of materials: simple materials, meta materials and generic materials.</p>
+<div class="section" id="simple-material">
+<span id="rtr-simple-material"></span><h3>Simple material<a class="headerlink" href="#simple-material" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTROGLProgram</span></code> object defines a simple GLSL material
+which can be created by the material library from a group of &#8221;.glsl&#8221; files,
+one for each shader type.</p>
+<p>The OpenGL RTR assumes a specific naming convention for the shader files,
+namely <code class="docutils literal"><span class="pre">shadername_{vertex,</span> <span class="pre">fragment,</span> <span class="pre">geometry,</span> <span class="pre">tessControl,</span> <span class="pre">tessEvaluation,</span> <span class="pre">compute}.glsl</span></code>,
+where the second part is the shader type. For example, when invoked with
+<code class="docutils literal"><span class="pre">RTRMaterialLibrary.getOrCreateFromFile(</span> <span class="pre">'Standard',</span> <span class="pre">'phong',</span> <span class="pre">context</span> <span class="pre">)</span></code>,
+the <code class="xref std std-kl-ref docutils literal"><span class="pre">RTROGLMaterialLibrary</span></code> will search for shaders corresponding to
+&#8220;Standard/phong_*.glsl&#8221; in the include paths, and will build a GLSL program
+that links &#8220;Standard/phong_vertex.glsl&#8221; as the GL_VERTEX_SHADER and
+&#8220;Standard/phong_fragment.glsl&#8221; as the GL_FRAGMENT_SHADER.</p>
+<p>The OpenGL RTR has a basic built-in glsl preprocessor which extends the
+GLSL functionality with the following features:</p>
+<ul>
+<li><p class="first">A default value can be associated with uniform parameters, with the following syntax
+added just above the parameter declaration:</p>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span> <span class="c1">/// \default [0.5,1,1,1]</span>
+<span class="k">uniform</span> <span class="k">vec4</span> <span class="n">color</span><span class="p">;</span>
+
+<span class="c1">/// \default 10.0</span>
+<span class="k">uniform</span> <span class="k">float</span> <span class="n">shininess</span><span class="p">;</span>
+
+<span class="c1">/// \default false</span>
+<span class="k">uniform</span> <span class="k">bool</span> <span class="n">modelNegativeScaling</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Supported uniform types are bool, int, vec2, vec3, vec4, mat2, mat3 and mat4.</p>
+</li>
+<li><p class="first">A <code class="docutils literal"><span class="pre">#include</span></code> statement is supported, and the related file will be searched
+in the include paths registered with <code class="xref std std-kl-ref docutils literal"><span class="pre">RTROGLContext.addShaderIncludePath</span></code>.
+For example, the <code class="docutils literal"><span class="pre">#include</span> <span class="pre">&quot;../Lighting/phong.glsl&quot;</span></code> statement found in
+<code class="docutils literal"><span class="pre">Standard/phong_fragment.glsl</span></code> will insert the source code of that relative file.</p>
+<p>If there is a .glsl error, the RTR will properly remap the line numbers of the reported
+shader errors so it is expressed relatively to the right source file, and will additionally
+dump the full preprocessed (merged) code.</p>
+</li>
+<li><p class="first">The following set of special parameters will be automatically set by the <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRDrawInstance</span></code>
+unless they are overriden by explicit values:</p>
+<ul class="simple">
+<li>transform matrices:<ul>
+<li><cite>viewMatrix</cite>: a mat4 parameter providing the World-&gt;Camera matrix</li>
+<li><cite>invViewMatrix</cite>: a mat4 parameter providing the Camera-&gt;World matrix</li>
+<li><cite>projMatrix</cite>: a mat4 parameter providing the Camera-&gt;Viewport matrix</li>
+<li><cite>invProjMatrix</cite>: a mat4 parameter providing the Viewport-&gt;Camera matrix</li>
+<li><cite>viewProjMatrix</cite>: a mat4 parameter providing the World-&gt;Viewport matrix</li>
+<li><cite>invViewProjMatrix</cite>: a mat4 parameter providing the Viewport-&gt;World matrix</li>
+<li><cite>modelMatrix</cite>: a mat4 parameter providing the Model-&gt;World matrix</li>
+<li><cite>invModelMatrix</cite>: a mat4 parameter providing the World-&gt;Model matrix</li>
+<li><cite>modelViewMatrix</cite>: a mat4 parameter providing the Model-&gt;Camera matrix</li>
+<li><cite>invModelViewMatrix</cite>: a mat4 parameter providing the Camera-&gt;Model matrix</li>
+<li><cite>modelViewProjMatrix</cite>: a mat4 parameter providing the Model-&gt;Viewport matrix</li>
+<li><cite>viewProjToModelMatrix</cite>: a mat4 parameter providing the Viewport-&gt;Model matrix</li>
+</ul>
+</li>
+<li>normals transform matrices: a mat3 parameter providing a transform matrix
+for vertex normals (transpose-inversed). These are the same as the
+transform matrices above, but named &#8220;<a href="#id3"><span class="problematic" id="id4">*</span></a>NormalsMatrix&#8221; instead of &#8220;<a href="#id5"><span class="problematic" id="id6">*</span></a>Matrix&#8221;
+(for example: <cite>invModelViewNormalsMatrix</cite>).</li>
+<li><cite>viewportWidth</cite>: an int parameter providing width of the draw surface</li>
+<li><cite>viewportHeight</cite>: an int parameter providing height of the draw surface</li>
+<li><cite>viewportSamples</cite>: an int parameter providing the number of samples of the draw surface (if multisampling)</li>
+<li><cite>modelNegativeScaling</cite>: a bool parameter which is true if the model transform has negative scaling (inverted normals)</li>
+</ul>
+</li>
+</ul>
+<p>Parameter values associated with a drawing object are stored in a <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRDrawInstance</span></code>; see <a class="reference internal" href="#rtr-drawinstance"><span class="std std-ref">RTRDrawInstance and material parameters</span></a>.</p>
+</div>
+<div class="section" id="meta-material">
+<span id="rtr-meta-material"></span><h3>Meta material<a class="headerlink" href="#meta-material" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>A meta material is a set of simple materials that represent a same surface type
+for different contexts. For example, a Phong textured surface might specify
+a different shader to be used for deferred rendering, forward rendering, shadow map pass,
+or for different GLSL versions.</p>
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTROGLMetaMaterial</span></code> sub-materials are specified by a <cite>.json</cite> file, which should be located
+in the include paths of the material library.</p>
+<p>The file must be structured as the following:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span>{
+  &quot;name&quot;: &quot;Phong&quot;,
+  &quot;shaders&quot;: [
+    {
+      &quot;filename&quot;: &quot;phong&quot;,
+      &quot;directory&quot;: &quot;Standard&quot;,
+      &quot;glsl&quot;: 120,
+      &quot;drawType&quot;: &quot;standard&quot;,
+      &quot;default&quot;: true,
+      &quot;KLWrapper&quot;: &quot;RTROGLGenericProgram&quot;
+    },
+    {
+      &quot;filename&quot;: &quot;phong150&quot;,
+      &quot;directory&quot;: &quot;Standard&quot;,
+      &quot;glsl&quot;: 150,
+    ...
+</pre></div>
+</div>
+<ul class="simple">
+<li>The <cite>name</cite> field contains the material name</li>
+<li>The <cite>filename</cite> is the prefix of the shader files (see <a class="reference internal" href="#rtr-simple-material"><span class="std std-ref">Simple material</span></a> for naming conventions)</li>
+<li>The <cite>directory</cite> is the relative path for the shader files</li>
+<li><cite>glsl</cite> is shader&#8217;s supported GLSL version (allows the RTR to choose the highest supported version)</li>
+<li><cite>drawType</cite> is the type of drawing pass for using this shader, such as <cite>standard</cite> (forward), <cite>deferred</cite>, <cite>shadow</cite>...</li>
+<li><cite>default</cite>, when set to <cite>true</cite>, identifies the material to use if multiple choices are possible</li>
+<li><cite>KLWrapper</cite> is the specialized <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRMaterial</span></code> type to be created for wrapping that material in KL.
+This allows to specify custom material types. These types must have been previously registered in a
+global factory by the <code class="xref std std-kl-ref docutils literal"><span class="pre">RegisterRTRMaterialType</span></code> function.</li>
+</ul>
+</div>
+<div class="section" id="generic-material">
+<span id="rtr-generic-material"></span><h3>Generic material<a class="headerlink" href="#generic-material" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>A generic material allows a GLSL material to be extended by specialized data sources.
+It is somewhat similar to C++ templates.</p>
+<p>This is required to avoid a combinatorial explosion of explicit shaders. For example,
+in forward rendering, the combination of all light sources and their types must be specified
+as part of the shader. Similarly, surface types could be textured or not, normal mapped or not,
+vertices might be skinned or not, instanced or not.</p>
+<p>For example, in the provided forward renderer (the <code class="xref std std-kl-ref docutils literal"><span class="pre">GLStandardRTR</span></code>), the <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRStandardLitSubInstanceTask</span></code>
+will assign required light sources to the draw instances.
+Specialized OpenGL light types such as <code class="xref std std-kl-ref docutils literal"><span class="pre">RTROGLAmbientLight_standard</span></code> and <code class="xref std std-kl-ref docutils literal"><span class="pre">RTROGLShadowSpotLightInstance_standard</span></code>
+are generic material sources. The diagram below illustrates the various involved types:</p>
+<img alt="../../_images/RTRGenericMaterial.png" src="../../_images/RTRGenericMaterial.png" />
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTROGLGenericProgram</span></code> implements an OpenGL generic material.
+The material sources must implement the <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRGenericMaterialSource</span></code> interface, which allows
+to insert required code and parameters in the shader. The resulting shader that includes
+the required sources&#8217; code is dynamically added to a shared library of material variations
+(<code class="xref std std-kl-ref docutils literal"><span class="pre">RTROGLProgramVariation</span></code>).</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">To reduce the number of generated shaders, the sources of a same type are regrouped and
+the inserted code must support a specific number of sources of the same type (for example with a loop).</p>
+</div>
+<p>In order to support common lighting code, the generic shaders use some naming conventions.
+These are arbitrary and are only used to make the lighting and surface shading code
+work together. Of course other conventions could be used in custom shaders if desired.</p>
+<ul class="simple">
+<li>The SurfaceParams structure should be defined to contain all the parameters required by the shading model,
+such as diffuse color and specular color.</li>
+<li><cite>vec4 illuminateSurface( in vec3 surfaceNormal, in vec3 surfaceToLight, in vec3 surfaceToEye, in SurfaceParams surface )</cite>
+is assumed to apply the shading model based on the surface normal, light and eye vectors (BRDF + surface colors).</li>
+</ul>
+<p>The generic material defines code insertion points (anchors) that the various data sources
+can use to inject their own specialized code snippets. These insertion points use
+an arbitrary naming convention that must be known by the specialized sources.</p>
+<p>The insertion points are defined with the <code class="docutils literal"><span class="pre">///</span> <span class="pre">\insert</span> <span class="pre">&lt;label&gt;</span></code> syntax, as shown below:</p>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="c1">/// \insert fragmentParameters</span>
+
+<span class="cp">#include &quot;../Lighting/phong.glsl&quot;</span>
+<span class="cp">#include &quot;../Lighting/lighting.glsl&quot;</span>
+<span class="c1">/// \insert fragmentIncludes</span>
+
+
+<span class="k">vec4</span> <span class="n">accumulateIllumination</span><span class="p">(</span> <span class="k">in</span> <span class="k">vec3</span> <span class="n">position</span><span class="p">,</span> <span class="k">in</span> <span class="k">vec3</span> <span class="n">surfaceNormal</span><span class="p">,</span> <span class="k">in</span> <span class="k">vec3</span> <span class="n">surfaceToEye</span><span class="p">,</span> <span class="k">in</span> <span class="n">SurfaceParams</span> <span class="n">surface</span> <span class="p">)</span> <span class="p">{</span>
+  <span class="k">vec4</span> <span class="n">illumination</span> <span class="o">=</span> <span class="k">vec4</span><span class="p">(</span><span class="mf">0.0</span><span class="p">);</span>
+
+  <span class="c1">/// \insert accumulateIllumination</span>
+</pre></div>
+</div>
+<p>Generic source&#8217;s specialized shader code must be inserted in its implementation of
+<code class="xref std std-kl-ref docutils literal"><span class="pre">RTRGenericMaterialSource.mergeToMaterial</span></code>, by calling
+<code class="xref std std-kl-ref docutils literal"><span class="pre">RTROGLProgramVariation.insertGLSL</span></code> . If additional parameters are created,
+the source must provide names that will not collide with other material sources, for example by
+adding a suffix based on source&#8217;s KL type.</p>
+<p>A uniform shader parameter can be <em>generic</em>, in which case its value can be replaced with
+another compatible source value, such as an attribute or a texture. In order to allow such
+replacement, the glsl shader code must indicate where the alternate value has to be defined.
+This is done with the <cite>/// fetch parameterName</cite> syntax as illustrated below, which will declare</p>
+<blockquote>
+<div>an insertion point for source&#8217;s data fetching code.</div></blockquote>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">void</span> <span class="n">main</span><span class="p">(){</span>
+  <span class="c1">// Surface</span>
+  <span class="n">SurfaceParams</span> <span class="n">surface</span><span class="p">;</span>
+
+  <span class="c1">/// \fetch color</span>
+  <span class="n">surface</span><span class="p">.</span><span class="n">diffuse</span> <span class="o">=</span> <span class="n">color</span><span class="p">;</span>
+
+  <span class="c1">/// \fetch specular</span>
+  <span class="n">surface</span><span class="p">.</span><span class="n">specular</span> <span class="o">=</span> <span class="n">specular</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>If a <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRBaseInstance</span></code> binds a generic parameter (<code class="xref std std-kl-ref docutils literal"><span class="pre">RTRGenericMaterialSource</span></code>) to a material,
+the glsl code is transformed in the following way:</p>
+<ul class="simple">
+<li>the original parameter declaration (eg: <cite>uniform vec4 color;</cite>) is commented out</li>
+<li>the <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRGenericMaterialSource</span></code> must insert code (<code class="xref std std-kl-ref docutils literal"><span class="pre">RTROGLProgramVariation.insertGLSL</span></code>) for
+adding the required parameters (eg: UVs attribute and sampler for a texture source), using
+insertion points such as <cite>/// insert vertexDefines</cite> or <cite>/// insert fragmentDefines</cite>.
+It should provide parameter names that will not collide with other material sources, for example by
+adding a suffix based on source&#8217;s KL type.</li>
+<li>the <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRGenericMaterialSource</span></code> must define and set the value of a variable
+of the original parameter&#8217;s name an type (eg: <cite>vec4 color</cite>) and insert the related
+code by calling the <code class="xref std std-kl-ref docutils literal"><span class="pre">RTROGLProgramVariation.insertGenericParameterFetch</span></code>
+method. This code will be inserted at generic parameter <cite>/// fetch</cite> location.</li>
+</ul>
+<p>See <code class="xref std std-kl-ref docutils literal"><span class="pre">BaseGeometryAttributeToRTRGenericSource</span></code>
+and <code class="xref std std-kl-ref docutils literal"><span class="pre">BaseImageToRTRGenericSource</span></code> for examples of generic parameter sources.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">The generic source might require to request to additional RTRInstance data (eg: UV attribute value).
+These can be requested using <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRInstance.getExtraParameterBindingKey</span></code>
+and related functions. The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRMaterialVariationParameterMapping</span></code> helper
+allows to efficiently store per-instance data for a <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRGenericMaterialSource</span></code>
+shared by multiple instances.</p>
+</div>
+</div>
+</div>
+<div class="section" id="environment-maps">
+<span id="id7"></span><h2>Environment Maps<a class="headerlink" href="#environment-maps" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Textures simulating the environment are looked-up with a vec3 direction. The code doing this projection is automatically injected in the following insertion points :</p>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">vec3</span> <span class="n">environmentMapLookUpDirection</span><span class="p">;</span> <span class="c1">// Look-up direction for the environment : must be normalized</span>
+<span class="k">float</span> <span class="n">environmentMapLookUpMipMapLevel</span><span class="p">;</span> <span class="c1">// MipMap level used when fetching the texture : in [0;1]</span>
+
+<span class="c1">/// \fetch&lt;environmentMapLookUp&gt;</span>
+<span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">environmentProbe</span><span class="p">;</span>
+
+<span class="c1">/// \fetch&lt;environmentMapLookUpMipMap&gt;</span>
+<span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">environmentProbe</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>These special tags extend the fetch insertion points, and indicate to the adaptors inserting glsl code that the required look-up vectors have been declared in the current scope. If they were not declared, using these insertion points might lead to glsl compilation errors. The &lt;environmentMapLoopUp&gt; tag requires a vec3 named environmentMapLookUpDirection; the &lt;environmentMapLookUpMipMap&gt; requires both a vec3 named environmentMapLookUpDirection, and a float named environmentMapLookUpMipMapLevel.</p>
+</div>
+<div class="section" id="rtr-lights">
+<span id="id8"></span><h2>RTR lights<a class="headerlink" href="#rtr-lights" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The RTR provides some basic built-in light types, such as:</p>
+<ul class="simple">
+<li>The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRAmbientLight</span></code>, which defines a constant ambient light</li>
+<li>The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRPointLight</span></code>, which defines a positional light, with parameters for defining the attenuation
+type and cutoff distance. The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRShadowPointLight</span></code> is a point light with shadow
+map parameters.</li>
+<li>The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRSpotLight</span></code>, which defines a spot light, with parameters for defining the attenuation
+type and cutoff distance, and the spot angle soft or hard limit. The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRShadowSpotLight</span></code> is a
+spot light with shadow map parameters.</li>
+<li>The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRDirectionalLight</span></code>, which defines a directional light. The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRShadowDirectionalLight</span></code> is a
+directional light with cascaded shadow map parameters.</li>
+</ul>
+<p>The <a class="reference internal" href="../SceneGraphToRTR/index.html#scenegraph-to-rtr-extension"><span class="std std-ref">SceneGraphToRTR Extension</span></a>, which defines adaptor types that adapt the
+SceneGraph light types to RTR light types, such as the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGPointLightToRTR</span></code>.</p>
+</div>
+<div class="section" id="rtr-debugging-and-profiling">
+<span id="rtr-debugging"></span><h2>RTR debugging and profiling<a class="headerlink" href="#rtr-debugging-and-profiling" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Debugging the RTR can be quite challenging because of the various objects, steps and caches
+involved. Of course, the more drawing instances, the harder it is to debug.</p>
+<p>The following functions will activate some tracing functionality which can help to track down issues:</p>
+<ul class="simple">
+<li>The <code class="docutils literal"><span class="pre">SetOGLWrappersTracing</span></code> function will activate tracing at the OGLWrappers level,
+and log state changes such as material parameters being set or vertex buffers being
+activated. This will turn on OpenGL error checking.</li>
+<li>The <code class="docutils literal"><span class="pre">cpglSetDebugTrace</span></code> function will activate low-level OpenGL command logging.</li>
+<li><code class="docutils literal"><span class="pre">BaseRTR.enableProfiling</span></code> will log tasks&#8217; spent time. Tasks are
+responsible for logging their spent time by inserting <a class="reference internal" href="../FabricStatistics/AutoProfilingEvent.html#autoprofilingevent"><span class="std std-ref">AutoProfilingEvent</span></a>
+in their update method (which is a no-op if profiling isn&#8217;t activated).</li>
+</ul>
+</div>
+<div class="section" id="rtr-coding-practices-for-performance">
+<span id="rtr-performance"></span><h2>RTR coding practices for performance<a class="headerlink" href="#rtr-coding-practices-for-performance" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Below are presented various coding practices the RTR uses to improve its
+runtime performance. However, the RTR tries to provide the critical building
+blocks to minimize the requirement for complex optimizations in
+custom or higher-level objects.</p>
+<p>Being a realtime renderer, the RTR tries to deliver good performance while
+being flexible, which can be challenging. The following practices are
+followed by the RTR as much as possible to allow for a better performance:</p>
+<ul class="simple">
+<li>Use versioning (<a class="reference internal" href="../Util/Versioned.html#versioned"><span class="std std-ref">Versioned</span></a> interface) and caches when possible.
+This allows to skip data update if the input data&#8217;s version didn&#8217;t change. This requires
+that input dependencies are carefully taken into account.</li>
+<li>Incremental updates: avoid to fully rebuild and reallocate data structures
+when only a portion changed, so that a small scene change implies a small rendering
+data change.  This increases the complexity of the implementation of the objects but is essential
+for having a good performance.</li>
+<li>Write tasks that require the drawing API (OpenGL) efficiently,
+such that most processing can be done on preparation tasks (which could be multithreaded).
+To help this, the OpenGL wrapper objects, such as <a class="reference internal" href="../OGLWrappers/OGLTexture.html#ogltexture"><span class="std std-ref">OGLTexture</span></a>, can be defined without
+creating the associated OpenGL objects.</li>
+<li>Minimize memory allocations and fragmentation: recycle existing allocated data or array
+items instead of recreating them, regroup structures in contiguous arrays and avoid KL
+dictionaries in performance sensitive situations (high fragmentation)</li>
+<li>Batch-process elements as much as possible.</li>
+<li>[in a future release] Separate drawing from processing tasks, such that the RTR can eventually process
+the next frame while rendering, and so that processing tasks can be evaluated
+by multiple threads</li>
+<li>[in a future release] Minimize thread locking: use spin locks (SimpleLock, LockedInitialize) for situations
+where locking is exceptional or occurs for a short period of time</li>
+<li>Avoid frequent Object type casts (converting from a type or interface to another one) and
+avoid setting Object variables (use Ref&lt;Object&gt; instead when possible to avoid atomic reference count changes)</li>
+<li>Use <cite>inline</cite> for small performance sensitive functions. When applicable, split smaller portions
+that treat the frequent cases as inlined functions, and put the complex treatment of exceptional
+cases in regular functions (non-inlined).</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">RealTime Renderer</a><ul>
+<li><a class="reference internal" href="#rtr-overview">RTR Overview</a><ul>
+<li><a class="reference internal" href="#rtr-related-extensions">RTR related extensions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rtrdrawinstance-and-material-parameters">RTRDrawInstance and material parameters</a></li>
+<li><a class="reference internal" href="#rtr-materials">RTR materials</a><ul>
+<li><a class="reference internal" href="#simple-material">Simple material</a></li>
+<li><a class="reference internal" href="#meta-material">Meta material</a></li>
+<li><a class="reference internal" href="#generic-material">Generic material</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#environment-maps">Environment Maps</a></li>
+<li><a class="reference internal" href="#rtr-lights">RTR lights</a></li>
+<li><a class="reference internal" href="#rtr-debugging-and-profiling">RTR debugging and profiling</a></li>
+<li><a class="reference internal" href="#rtr-coding-practices-for-performance">RTR coding practices for performance</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/RTR2/rtr2.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/RTR2/rtr2.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

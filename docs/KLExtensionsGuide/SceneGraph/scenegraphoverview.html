@@ -1,0 +1,861 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SceneGraph Overview &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="scenegraph-overview">
+<span id="id1"></span><h1>SceneGraph Overview<a class="headerlink" href="#scenegraph-overview" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>The SceneGraph is the scene description component of the <a class="reference internal" href="../SceneAssembly/scenehub.html#scenehub"><span class="std std-ref">SceneHub</span></a>.
+The <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> is a generic container of scene objects (<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code>), their
+properties (<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code>) and object references (hierarchy). The <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code>
+allows for dynamic definition and caching of data, and value generation (generators). Additionally,
+it provides an implementation of interfaces allowing its elements to be processed by the <a class="reference internal" href="../SceneAssembly/sceneassembly.html#sceneassembly"><span class="std std-ref">Scene Assembly</span></a>
+graphs.</p>
+<p>On top of the SceneGraph, the <a class="reference internal" href="../SceneGraphWrappers/index.html#scenegraphwrappers-extension"><span class="std std-ref">SceneGraphWrappers Extension</span></a> implements common higher-level object
+wrappers that define common scene types, such as <code class="xref std std-kl-ref docutils literal"><span class="pre">SGDirectionalLight</span></code> or <code class="xref std std-kl-ref docutils literal"><span class="pre">SGCamera</span></code>.
+The wrappers manage underlying scene graph objects&#8217; property sets, relationships and value generators (operators).</p>
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> includes a minimal set of functionality for building
+common scene graph structures and objects. It provides support for defining objects containers
+(<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code>, their properties (<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code>), their
+metadata, the references to other objects (hierarchy) and value generators (operators).
+It supports, too, property propagation and notifications (observers).</p>
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> includes object and interfaces for defining
+dynamic depencies between objects (operators). This includes a generic operator
+object (SGBaseOperator), a Canvas graph operator that binds to SceneGraph properties
+(SGCanvasOperator) and lower-level generator and observer interfaces.
+See <span class="xref std std-ref">_sgoperators_overview</span> for more details.</p>
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> supports animated storage and value generation, and the user can control how
+it caches the animated frames and property values. See <a class="reference internal" href="#sgcontexts-and-animation"><span class="std std-ref">Contexts and animation</span></a> for more details.</p>
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> contains all the scene data, such as objects, properties and references, and manages
+their storage globally for a more efficiency. Adding objects and properties to the SceneGraph can be
+done dynamically at runtime and its internal structure allows these operations to be very fast.</p>
+<p>For convenience, the SceneGraph pre-creates a &#8216;root&#8217; <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code>. The image below illustrates
+the structure of a SceneGraph example:</p>
+<img alt="../../_images/SceneGraph.png" src="../../_images/SceneGraph.png" />
+<p>The SceneGraph above presents a three-level hierarchy of <a class="reference internal" href="#sgobject-overview"><span class="std std-ref">SGObject</span></a>, where &#8220;root&#8221; is the parent of &#8220;Model1&#8221;
+and &#8220;Model2&#8221;, and these are both parent of &#8220;Geometry1&#8221;.</p>
+<p>Each object defines some <a class="reference internal" href="#sgobjectproperty-overview"><span class="std std-ref">SGObjectProperty</span></a>, with different characteristics:</p>
+<ul class="simple">
+<li>some are local to the owner <a class="reference internal" href="#sgobject-overview"><span class="std std-ref">SGObject</span></a>, such as the &#8220;localTransform&#8221;</li>
+<li>some are propagated to the child objects, such as &#8220;root.color&#8221;</li>
+<li>some are dynamically computed by a generator, such as &#8220;globalTransform&#8221; and &#8220;globalBBox&#8221; (see <a class="reference internal" href="#sggenerators-sgobservers-overview"><span class="std std-ref">Generators and observers</span></a>)</li>
+<li>some contain an <a class="reference internal" href="#sgobjectreference-overview"><span class="std std-ref">Object references</span></a>, such as &#8220;root.Chil1&#8221; and &#8220;Model1.Model&#8221;</li>
+</ul>
+<p>The &#8220;Geometry1&#8221; object is owned by both &#8220;Model1&#8221; and &#8220;Model2&#8221;, which implies the creation of two sub-instances.
+While the &#8220;Geometry1.localBBox&#8221; and &#8220;Geometry1.geometry&#8221; properties are shared by both sub-instances, the values
+of &#8220;Geometry1.globalTransform&#8221; and &#8220;Geometry1.color&#8221; depend on the contextual parent. See <a class="reference internal" href="#sgobject-overview"><span class="std std-ref">SGObject</span></a> for
+more details.</p>
+<p>The SceneGraph objects are associated with higher-level wrappers, which are of type &#8220;MyAlembicGroupWrapper&#8221;,
+&#8220;MyAlembicInstanceWrapper&#8221; and &#8220;MyAlembicGeomWrapper&#8221; in the example above. The example shows, too,
+the object hierarchy (base classes) of these wrappers. See <a class="reference internal" href="#sgobjectwrapper-overview"><span class="std std-ref">SGBaseObjectWrapper</span></a> for more details.</p>
+<p>The example below builds a simplified version of the scene presented above, with only the &#8216;color&#8217; properties
+and without the object wrappers:</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Simple scene hierarchy with property propagation:</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">SceneGraph</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">SceneGraph</span> <span class="nx">sg</span><span class="p">();</span>
+
+  <span class="c1">// Create a color property on the root, and propagate as default value</span>
+  <span class="nx">SGObjectProperty</span> <span class="nx">rootColor</span> <span class="o">=</span> <span class="nx">sg</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getOrAddLocalProperty</span><span class="p">(</span> <span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="nx">SGPropertyPropagation_default</span> <span class="p">);</span>
+  <span class="nx">rootColor</span><span class="p">.</span><span class="nx">setValue</span><span class="p">(</span> <span class="nx">Color</span><span class="p">(</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="p">)</span> <span class="p">);</span>
+
+  <span class="c1">// Add Model1 and Mode2 childs, root is their mainOwner</span>
+  <span class="nx">SGObject</span> <span class="nx">model1</span> <span class="o">=</span> <span class="nx">sg</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">createChild</span><span class="p">(</span> <span class="s2">&quot;Child1&quot;</span> <span class="p">);</span>
+  <span class="nx">SGObject</span> <span class="nx">model2</span> <span class="o">=</span> <span class="nx">sg</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">createChild</span><span class="p">(</span> <span class="s2">&quot;Child2&quot;</span> <span class="p">);</span>
+
+  <span class="c1">// Set a distinct color on model2, and propagate as default value</span>
+  <span class="nx">SGObjectProperty</span> <span class="nx">model2Color</span> <span class="o">=</span> <span class="nx">model2</span><span class="p">.</span><span class="nx">getOrAddLocalProperty</span><span class="p">(</span> <span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="nx">SGPropertyPropagation_default</span> <span class="p">);</span>
+  <span class="nx">model2Color</span><span class="p">.</span><span class="nx">setValue</span><span class="p">(</span> <span class="nx">Color</span><span class="p">(</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="p">)</span> <span class="p">);</span>
+
+  <span class="c1">// Create Geometry1 as an unowned (independant) object that will be shared</span>
+  <span class="nx">SGObject</span> <span class="nx">geom1</span> <span class="o">=</span> <span class="nx">sg</span><span class="p">.</span><span class="nx">addObject</span><span class="p">();</span>
+  <span class="nx">geom1</span><span class="p">.</span><span class="nx">setUserName</span><span class="p">(</span> <span class="s2">&quot;Geometry1&quot;</span> <span class="p">);</span>
+
+  <span class="c1">// Add geom1 as a child of both model1 and model2</span>
+  <span class="nx">model1</span><span class="p">.</span><span class="nx">addChild</span><span class="p">(</span> <span class="nx">geom1</span><span class="p">,</span> <span class="s2">&quot;Model&quot;</span><span class="p">,</span> <span class="kc">false</span> <span class="cm">/*not main owner; shared*/</span> <span class="p">);</span>
+  <span class="nx">model2</span><span class="p">.</span><span class="nx">addChild</span><span class="p">(</span> <span class="nx">geom1</span><span class="p">,</span> <span class="s2">&quot;Model&quot;</span><span class="p">,</span> <span class="kc">false</span> <span class="cm">/*not main owner; shared*/</span> <span class="p">);</span>
+
+  <span class="nb">report</span><span class="p">(</span> <span class="s2">&quot;Scene content, from root.\n&quot;</span> <span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span> <span class="s2">&quot;(Main) = main object instance&quot;</span> <span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span> <span class="s2">&quot;(Shared) = object has multiple owners&quot;</span> <span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span> <span class="s2">&quot;(Base) = property defined on the base object instance&quot;</span> <span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span> <span class="s2">&quot;(Local) = property defined on that object instance&quot;</span> <span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span> <span class="s2">&quot;(Parent) = property inherited from parent\n&quot;</span> <span class="p">);</span>
+  <span class="nx">sg</span><span class="p">.</span><span class="nx">reportContent</span><span class="p">(</span> <span class="nx">SceneGraphDumpOptions</span><span class="p">(),</span> <span class="kc">true</span> <span class="p">);</span>
+
+  <span class="c1">// Access the color values from their absolute path</span>
+  <span class="c1">// Note: using String paths is not recommended for performance critical tasks</span>
+  <span class="nx">SGObject</span> <span class="nx">resolvedInstance</span><span class="p">;</span>
+  <span class="nx">SGObjectProperty</span> <span class="nx">resolvedProperty</span><span class="p">;</span>
+
+  <span class="nx">sg</span><span class="p">.</span><span class="nx">getFromFullPath</span><span class="p">(</span> <span class="s2">&quot;root/Child1/Model/color&quot;</span><span class="p">,</span> <span class="nx">resolvedInstance</span><span class="p">,</span> <span class="nx">resolvedProperty</span> <span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span> <span class="s2">&quot;\nValue for &quot;</span> <span class="o">+</span> <span class="nx">resolvedProperty</span><span class="p">.</span><span class="nx">getFullPath</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="p">);</span>
+  <span class="nx">resolvedProperty</span><span class="p">.</span><span class="nx">reportContent</span><span class="p">(</span> <span class="nx">SceneGraphDumpOptions</span><span class="p">()</span> <span class="p">);</span>
+
+  <span class="nx">sg</span><span class="p">.</span><span class="nx">getFromFullPath</span><span class="p">(</span> <span class="s2">&quot;root/Child2/Model/color&quot;</span><span class="p">,</span> <span class="nx">resolvedInstance</span><span class="p">,</span> <span class="nx">resolvedProperty</span> <span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span> <span class="s2">&quot;\nValue for &quot;</span> <span class="o">+</span> <span class="nx">resolvedProperty</span><span class="p">.</span><span class="nx">getFullPath</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="p">);</span>
+  <span class="nx">resolvedProperty</span><span class="p">.</span><span class="nx">reportContent</span><span class="p">(</span> <span class="nx">SceneGraphDumpOptions</span><span class="p">()</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+<span class="cm">(stdin):6:9: error: no extension or type named &#39;SceneGraph&#39;</span>
+
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<p>The main components of a SceneGraph are presented below.</p>
+<div class="section" id="sgobject">
+<span id="sgobject-overview"></span><h2>SGObject<a class="headerlink" href="#sgobject" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> represents a specific scene graph object (or &#8216;node&#8217;), such as a camera.</p>
+<p>It mainly consists to a set of <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code>, which might either be locally defined (owned) or inherited
+from parents (owner objects). The <cite>SGObject</cite> might be wrapped by a higher-level wrapper object (<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectWrapper</span></code>) which
+manages its properties and exposes them with user-friendly methods (eg: <code class="xref std std-kl-ref docutils literal"><span class="pre">SGPointLight</span></code>).</p>
+<p>The SceneGraph allows that <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> are shared by multiple parents. Because properties might
+be inherited by parent objects, this implies that a same <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> might have different properties or property values
+depending on the contextual parent. The <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> transparently embeds that notion of parent (owner) context.</p>
+<ul class="simple">
+<li>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> that represents the scene object in the context of no
+specific parent (or the unique mainOwner parent) is called the &#8216;main&#8217; instance (<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject.isMainInstance</span></code>).</li>
+<li>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> that represents the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> in the context of a specific parent is called a sub-instance.
+The main instance associated with a sub-instance can be retrieved with the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject.getBaseInstance</span></code> method.</li>
+</ul>
+<p>In the illustration above, &#8220;Geometry1&#8221; is the main object, while &#8220;root/Child1/model&#8221; and &#8220;root/Child2/model&#8221; are its two sub-instances.</p>
+<p>Additionally, the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> transparently embeds the evaluation context, such as the frame at which
+its property values are accessed.</p>
+<p>See <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> for more details.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">The <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> is a lightweight structure that contains a handle to internal data.
+Because it is performance-critical, it allows low memory fragmentation (centralized storage)
+and simple by-value copy.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Although an object might have multiple sub-instances, the SceneGraph works hard to optimize the memory
+usage by sharing as much as possible the data that is common to groups of sub-instances, such as the
+property set and values.</p>
+</div>
+</div>
+<div class="section" id="sgobjectproperty">
+<span id="sgobjectproperty-overview"></span><h2>SGObjectProperty<a class="headerlink" href="#sgobjectproperty" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code> contains a named property value owned by a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code>. Its value can be
+a simple type (such as Float32 and String), a simple structure (such as <a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a>), a KL Object or an
+object reference (see <a class="reference internal" href="#sgobjectreference-overview"><span class="std std-ref">Object references</span></a>).</p>
+<p>The value of a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code> can be dynamically generated by attaching a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGPropertyGenerator</span></code>.
+The value can depend on the context such as the current frame (see <a class="reference internal" href="#sgcontexts-and-animation"><span class="std std-ref">Contexts and animation</span></a>), and that context
+is transparently embedded within the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code> structure in order to reduce the need of
+passing explicit contexts.</p>
+<p>Because of property inheritance, the value storage container of a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code> can be shared by multiple
+objects. In such case, <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.getSGObject()</span></code> will differ from <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.getOwnerInstance</span></code>.
+Additionally, a property might be defined in the context of a specific parent (instance-specific), allowing it to have
+a different value depending on the parent. For example, a different &#8220;globalTransform&#8221; property can be defined for each
+sub-instances, in which case its value will be different depending on its parents (absolute path).</p>
+<p>The following property propagation modes are supported (specified when creating the property):</p>
+<ul class="simple">
+<li><cite>SGPropertyPropagation_none</cite>: the property is local to the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> or its sub-instances</li>
+<li><cite>SGPropertyPropagation_default</cite>: the property is propagated to the owned children recursively.<ul>
+<li>If a child defines a property of the same name with <cite>SGPropertyPropagation_none</cite>, it will override it locally
+but the propagation of the default will continue to its own children.</li>
+<li>A child with its own <cite>SGPropertyPropagation_default</cite> property of the same name will redefine the
+default for its own children.</li>
+</ul>
+</li>
+<li><cite>SGPropertyPropagation_override</cite>: the property is propagated to the owned children recursively,
+even if these are locally defining a property of the same name, with any propagation mode.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">The <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code> is a lightweight structure that contains a handle to internal data.
+Because it is performance-critical, it allows low memory fragmentation (centralized storage)
+and simple by-value copy.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p>Properties are versioned, and any type or value changes will increment the version number. This allows for
+detecting value changes asynchronously. This version is attached to the property data container itself,
+and might not be sufficient for detecting changes in general:</p>
+<ul class="simple">
+<li>If there is a context change (eg: animated value, frame changed), each contextual value
+might have its own version, which could be the same.</li>
+<li>If there is an added or removed property, an object that inherited a property from a parent
+might suddenly inherit from another property (eg: was inheriting value from a parent, but is now
+overridden by a new local property of the same name)</li>
+</ul>
+<p class="last">This is solve by the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectPropertyWatch</span></code> which provides a coherent property version that will
+take into account the context or propagation changes observed from a specific object instance.</p>
+</div>
+<p>See <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code> for more details.</p>
+</div>
+<div class="section" id="object-references">
+<span id="sgobjectreference-overview"></span><h2>Object references<a class="headerlink" href="#object-references" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>A special value type for a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code> is an object reference or an object
+reference array (<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.setReferenceTarget</span></code>, <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.setAsReferenceArray</span></code>).</p>
+<p>A reference stores a link to the target <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code>. This link has a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGReferenceType</span></code>, which
+defines the child is owned and if the properties are propagated. If the child is owned, then a child sub-instance
+will be created for the context of this parent.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">For convenience, the <cite>SceneGraph.childrenReferenceType</cite> member defines an
+owner <code class="xref std std-kl-ref docutils literal"><span class="pre">SGReferenceType</span></code> with property propagation, and the <cite>SceneGraph.simpleReferenceType</cite> member
+defines an non-owner <code class="xref std std-kl-ref docutils literal"><span class="pre">SGReferenceType</span></code> with no property propagation.</p>
+</div>
+<p>When getting the reference target object (<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.getReferenceTarget</span></code> or
+<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.getReferenceArrayTarget</span></code>) referring an owned child,
+the returned <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> will be in the context of this parent object. Calling
+child&#8217;s <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject.getOwnerInstance</span></code> will return this parent object,
+and calling <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject.getOwnerReferenceProperty</span></code> will return this reference property.</p>
+<p>It is possible that an object is primarely owned by a unique parent, which is called
+the &#8220;mainOwner&#8221;. The &#8220;mainOwner&#8221; then directly owns the main instance of the child object,
+which can only have a single &#8220;mainOwner&#8221; parent. The <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.setReferenceTarget</span></code>
+and <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.setAsReferenceArray</span></code> method have a <cite>mainOwner</cite> parameter for
+this purpose. When a child is uniquely owned, the deletion of the parent owner will cause
+the child to be deleted.</p>
+</div>
+<div class="section" id="sgbaseobjectwrapper">
+<span id="sgobjectwrapper-overview"></span><h2>SGBaseObjectWrapper<a class="headerlink" href="#sgbaseobjectwrapper" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>A <code class="xref std std-kl-ref docutils literal"><span class="pre">SGBaseObjectWrapper</span></code> allows to associate a custom KL object to a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code>
+in order to provide higher-level functionality and behavior. For example, the
+<code class="xref std std-kl-ref docutils literal"><span class="pre">SGBaseObjectWrapper</span></code> can create properties with easy accessor methods and associate
+generators with these.</p>
+<p>The <a class="reference internal" href="../SceneGraphWrappers/index.html#scenegraphwrappers-extension"><span class="std std-ref">SceneGraphWrappers Extension</span></a> defines various object wrappers. For example,
+the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGTransformed</span></code> creates a <cite>localTransform</cite> and a <cite>localBBox</cite> property,
+and generates the <cite>globalBBox</cite> based on the <cite>localBBox</cite> and the <cite>globalTransform</cite> upon request.</p>
+</div>
+<div class="section" id="operators">
+<span id="sgoperators-overview"></span><h2>Operators<a class="headerlink" href="#operators" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The SceneGraph provides the ability to compute data only when it is required (pull/lazy evaluation
+of graph dependencies). This is accessible though lower-level interfaces (<a class="reference internal" href="#sggenerators-sgobservers-overview"><span class="std std-ref">Generators and observers</span></a>)
+or higher-level objects (<a class="reference internal" href="#sgbaseoperator-overview"><span class="std std-ref">SGBaseOperator</span></a>, <a class="reference internal" href="#sgcanvasoperator-overview"><span class="std std-ref">SGCanvasOperator</span></a>). Also,
+it is possible to define background computations through <a class="reference internal" href="#sggenerators-async-overview"><span class="std std-ref">Asynchronous evaluation</span></a>.</p>
+<div class="section" id="sgbaseoperator">
+<span id="sgbaseoperator-overview"></span><h3>SGBaseOperator<a class="headerlink" href="#sgbaseoperator" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><code class="xref std std-kl-ref docutils literal"><span class="pre">SGBaseOperator</span></code> provides a high-level operator base object which can define
+a data flow, dynamic relationship from source to target properties.
+Additionally, it provides services for storing operator-owned parameters (arguments),
+which can be stored on its own container or attached to an existing one (SGObject).
+A specialized object can then simply create its parameters (arguments),
+add input and output properties, and implement the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGBaseOperator.execute</span></code>
+method to perform the actual computation.</p>
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SGBaseOperator</span></code> can support multiple output properties and handles automatically
+the contextual (animated) state of these based on inputs and arguments; see
+<code class="xref std std-kl-ref docutils literal"><span class="pre">SGBaseOperator</span></code> for more details.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Simple multiply operator specializing SGBaseOperator:</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">SceneGraph</span><span class="p">;</span>
+
+<span class="c1">// MultiplyOperator: a simple operator that multiplies the source by a multiplier.</span>
+<span class="c1">// This simple implementation assumes a Float32 value.</span>
+<span class="kr">object</span> <span class="nx">MultiplyOperator</span> <span class="o">:</span> <span class="nx">SGBaseOperator</span> <span class="p">{</span>
+  <span class="kr">UInt32</span> <span class="nx">multiplierPropertyKey</span><span class="p">;</span>
+  <span class="kr">UInt32</span> <span class="nx">sourcePropertyKey</span><span class="p">;</span>
+  <span class="kr">UInt32</span> <span class="nx">targetPropertyKey</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="nx">MultiplyOperator</span><span class="p">(</span> <span class="nx">SGObjectProperty</span> <span class="nx">source</span><span class="p">,</span> <span class="nx">SGObjectProperty</span> <span class="nx">target</span> <span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Base constructor</span>
+  <span class="c1">// We create our own parameter container (SGObject) instead of attaching to an existing object</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">initWithOwnedParameterContainer</span><span class="p">(</span> <span class="s2">&quot;Multiply&quot;</span><span class="p">,</span> <span class="nx">source</span><span class="p">.</span><span class="nx">SG</span> <span class="p">);</span>
+
+  <span class="c1">// We cache the property keys for better performance</span>
+  <span class="c1">// Set multiplier default value to 4</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">multiplierPropertyKey</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getOrAddParameter</span><span class="p">(</span> <span class="s2">&quot;multiplier&quot;</span><span class="p">,</span> <span class="mf">4.0f</span> <span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">sourcePropertyKey</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">addInputProperty</span><span class="p">(</span> <span class="nx">source</span> <span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">targetPropertyKey</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">addOutputProperty</span><span class="p">(</span> <span class="nx">target</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// We pass in a context: would be required if the value was animated (varies with time/frame for the context)</span>
+<span class="nx">MultiplyOperator</span><span class="p">.</span><span class="nx">setMultiplier</span><span class="o">!</span><span class="p">(</span> <span class="kr">Float32</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">SGContext</span> <span class="nx">context</span> <span class="p">)</span> <span class="p">{</span>
+  <span class="nx">SGObjectProperty</span> <span class="nx">multiplier</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">multiplierPropertyKey</span><span class="p">,</span> <span class="nx">context</span> <span class="p">);</span>
+  <span class="nx">multiplier</span><span class="p">.</span><span class="nx">setValue</span><span class="p">(</span> <span class="nx">value</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kr">Boolean</span> <span class="nx">MultiplyOperator</span><span class="p">.</span><span class="nx">execute</span><span class="o">!</span><span class="p">(</span> <span class="nx">SGContext</span> <span class="nx">context</span> <span class="p">)</span> <span class="p">{</span>
+
+  <span class="nx">SGObjectProperty</span> <span class="nx">multiplier</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">multiplierPropertyKey</span> <span class="p">);</span>
+  <span class="nx">SGObjectProperty</span> <span class="nx">source</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">sourcePropertyKey</span> <span class="p">);</span>
+  <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">source</span><span class="p">.</span><span class="nx">isFloat32Value</span><span class="p">()</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="nx">setError</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">getPrintName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;: unexpected: source is not a Float32&quot;</span> <span class="p">);</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">SGObjectProperty</span> <span class="nx">target</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">targetPropertyKey</span> <span class="p">);</span>
+  <span class="nx">target</span><span class="p">.</span><span class="nx">setValue</span><span class="p">(</span> <span class="nx">multiplier</span><span class="p">.</span><span class="nx">getFloat32Value</span><span class="p">()</span> <span class="o">*</span> <span class="nx">source</span><span class="p">.</span><span class="nx">getFloat32Value</span><span class="p">()</span> <span class="p">);</span>
+
+  <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">SceneGraph</span> <span class="nx">sg</span><span class="p">();</span>
+
+  <span class="nx">SGObjectProperty</span> <span class="nx">sourceProperty</span> <span class="o">=</span> <span class="nx">sg</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getOrAddLocalProperty</span><span class="p">(</span> <span class="s2">&quot;source&quot;</span> <span class="p">);</span>
+  <span class="nx">sourceProperty</span><span class="p">.</span><span class="nx">setValue</span><span class="p">(</span> <span class="mf">5.0f</span> <span class="p">);</span>
+
+  <span class="nx">SGObjectProperty</span> <span class="nx">targetProperty</span> <span class="o">=</span> <span class="nx">sg</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getOrAddLocalProperty</span><span class="p">(</span> <span class="s2">&quot;target&quot;</span> <span class="p">);</span>
+
+  <span class="nx">MultiplyOperator</span> <span class="nx">multiplyOp</span><span class="p">(</span> <span class="nx">sourceProperty</span><span class="p">,</span> <span class="nx">targetProperty</span> <span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span> <span class="s2">&quot;Initial value: &quot;</span> <span class="o">+</span> <span class="nx">targetProperty</span><span class="p">.</span><span class="nx">getFloat32Value</span><span class="p">()</span> <span class="p">);</span>
+
+  <span class="nx">multiplyOp</span><span class="p">.</span><span class="nx">setMultiplier</span><span class="p">(</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">SGContext</span><span class="p">()</span> <span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span> <span class="s2">&quot;New value: &quot;</span> <span class="o">+</span> <span class="nx">targetProperty</span><span class="p">.</span><span class="nx">getFloat32Value</span><span class="p">()</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+<span class="cm">(stdin):6:9: error: no extension or type named &#39;SceneGraph&#39;</span>
+
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sgcanvasoperator">
+<span id="sgcanvasoperator-overview"></span><h3>SGCanvasOperator<a class="headerlink" href="#sgcanvasoperator" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SGCanvasOperator</span></code> object is a specialization of <code class="xref std std-kl-ref docutils literal"><span class="pre">SGBaseOperator</span></code> that binds
+a Canvas graph to a SGObject, or more precisely, Canvas graph arguments to <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code>.
+The computation of the output properties will trigger Canvas graph&#8217;s execution. Some inputs such as <cite>time</cite> and <cite>frame</cite>
+are mapped by default to the contextual time or frame. In order to choose the scene parameters to be bound, a default
+input and output SGObject can be provided, or properties can be set explicitly for more complex cases.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Using a Canvas graph to drive SGObjectProperty:</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">SceneGraphWrappers</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">SceneGraph</span> <span class="nx">sg</span><span class="p">();</span>
+
+  <span class="nx">SGGeometry</span> <span class="nx">geometry</span> <span class="o">=</span> <span class="nx">sg</span><span class="p">.</span><span class="nx">addGeometry</span><span class="p">(</span> <span class="kc">null</span> <span class="p">);</span>
+  <span class="nx">sg</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">addChild</span><span class="p">(</span> <span class="nx">geometry</span><span class="p">,</span> <span class="s2">&quot;geom&quot;</span><span class="p">,</span> <span class="kc">true</span> <span class="p">);</span>
+
+  <span class="c1">// Create a CanvasGeometry graph. Its &quot;geometry&quot; output parameter matches the existing property on the geometry and will bind to it.</span>
+  <span class="nx">FilePath</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">FilePath</span><span class="p">(</span> <span class="s2">&quot;${FABRIC_SCENE_GRAPH_DIR}/Test/Exts/SceneGraphWrappers/CanvasGeometry.canvas&quot;</span> <span class="p">).</span><span class="nx">expandEnvVars</span><span class="p">();</span>
+  <span class="nx">SGCanvasOperator</span> <span class="nx">sgCanvasOp</span> <span class="o">=</span> <span class="nx">sg</span><span class="p">.</span><span class="nx">addCanvasOperator</span><span class="p">(</span> <span class="nx">path</span><span class="p">.</span><span class="nx">string</span><span class="p">(),</span> <span class="nx">geometry</span><span class="p">.</span><span class="nx">getWrapped</span><span class="p">(),</span> <span class="kc">true</span> <span class="p">);</span>
+  <span class="nx">SGObject</span> <span class="nx">operatorParameters</span> <span class="o">=</span> <span class="nx">sgCanvasOp</span><span class="p">.</span><span class="nx">getParameterContainer</span><span class="p">();</span>
+
+  <span class="nx">SGObjectPropertyIterator</span> <span class="nx">iter</span> <span class="o">=</span> <span class="nx">operatorParameters</span><span class="p">.</span><span class="nx">getPropertyIterator</span><span class="p">();</span>
+  <span class="nx">SGObjectProperty</span> <span class="nx">prop</span><span class="p">;</span>
+  <span class="k">while</span><span class="p">(</span> <span class="nx">iter</span><span class="p">.</span><span class="nx">getNext</span><span class="p">(</span> <span class="nx">prop</span> <span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span> <span class="nx">prop</span><span class="p">.</span><span class="nx">getName</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;graphFilePath&quot;</span> <span class="p">)</span>
+      <span class="k">continue</span><span class="p">;</span><span class="c1">//don&#39;t print an absolute path...</span>
+    <span class="nb">report</span><span class="p">(</span> <span class="s2">&quot;Parameter: &quot;</span> <span class="o">+</span> <span class="nx">prop</span><span class="p">.</span><span class="nx">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; = &quot;</span> <span class="o">+</span> <span class="nx">prop</span><span class="p">.</span><span class="nx">getValueString</span><span class="p">()</span> <span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nx">PolygonMesh</span> <span class="nx">mesh</span> <span class="o">=</span> <span class="nx">geometry</span><span class="p">.</span><span class="nx">getGeometry</span><span class="p">(</span> <span class="nx">SGContext</span><span class="p">()</span> <span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span> <span class="s2">&quot;Mesh poly count (nbSpheres = 5): &quot;</span> <span class="o">+</span> <span class="nx">mesh</span><span class="p">.</span><span class="nx">polygonCount</span><span class="p">()</span> <span class="p">);</span>
+
+  <span class="nx">prop</span> <span class="o">=</span> <span class="nx">operatorParameters</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="s2">&quot;nbSpheres&quot;</span><span class="p">);</span>
+  <span class="nx">prop</span><span class="p">.</span><span class="nx">setValue</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+
+  <span class="nx">mesh</span> <span class="o">=</span> <span class="nx">geometry</span><span class="p">.</span><span class="nx">getGeometry</span><span class="p">(</span> <span class="nx">SGContext</span><span class="p">()</span> <span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span> <span class="s2">&quot;Mesh poly count (nbSpheres = 3): &quot;</span> <span class="o">+</span> <span class="nx">mesh</span><span class="p">.</span><span class="nx">polygonCount</span><span class="p">()</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+<span class="cm">(stdin):6:9: error: no extension or type named &#39;SceneGraphWrappers&#39;</span>
+
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="generators-and-observers">
+<span id="sggenerators-sgobservers-overview"></span><h3>Generators and observers<a class="headerlink" href="#generators-and-observers" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>A <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectGenerator</span></code> or a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectPropertyGenerator</span></code> enables to
+compute the value of a a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> or a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code> when
+requested. The interface provides the target object or property, from contains at
+the same time the evaluation context (eg: for a specific frame if animated).</p>
+<p>This allows to implement data flow dependencies and dynamic computations in the SceneGraph,
+similarly to the <a class="reference internal" href="#sgoperators-overview"><span class="std std-ref">Operators</span></a>, but using lower-level interfaces that allows
+for more optimizations, or defining dynamic behaviors directly within a SGObjectWrapper.</p>
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SGChangeObserver</span></code> interface allows for receiving direct notifications
+upon changes from the object instance or property of interest. The following observers
+are available:</p>
+<ul class="simple">
+<li><code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.addObserver</span></code>: an observer for
+changes to a specific property.</li>
+<li><code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph.getByPropertyNameGlobalVersions</span></code>: a global observer for
+changes related to all property with a given name.</li>
+<li><code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph.addInstancesObserver</span></code>: a global observer for any added object
+instances (or sub-instances) or hierarchy changes.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">The <code class="xref std std-kl-ref docutils literal"><span class="pre">SGIncrementalObserver</span></code> object allows to efficiently cumulate
+scene graph changes as a compact and centralized <cite>changes history</cite>, allowing
+clients (such as <a class="reference internal" href="../SceneAssembly/sceneassembly.html#sceneassembly"><span class="std std-ref">Scene Assembly</span></a>) to update asynchronously. Only the
+required changes are kept (history scanned by all clients is flushed).</p>
+</div>
+<p>The combination of generators and observers allow to implement a data flow graph
+(operators) that can link the various objects or properties, including
+<cite>dirty</cite> propagation. For example, the <code class="xref std std-kl-ref docutils literal"><span class="pre">SWTransformed</span></code> uses these hooks
+to compute its global transform and global bounding box. The example below
+shows a simple operator implementation.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Currently, there is no higher-level operator object that is provided along
+with the SceneGraph, however it will be added in later releases. This will include
+support for visual DFGs (data flow graphs) within the SceneGraph.</p>
+</div>
+<p>The following example builds a 2-level hierarchy where the &#8220;int&#8221; value is
+generated as parent&#8217;s value + 1:</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Property operator using SGPropertyGenerator and SGChangeObserver:</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">SceneGraph</span><span class="p">;</span>
+
+<span class="c1">// Example of an operator written with lower-level services, as opposed</span>
+<span class="c1">// to specializing the SGBaseOperator class.</span>
+<span class="kr">object</span> <span class="nx">AddOneOperator</span> <span class="o">:</span> <span class="nx">SGPropertyGenerator</span><span class="p">,</span> <span class="nx">SGChangeObserver</span> <span class="p">{</span>
+  <span class="nx">SGObjectProperty</span> <span class="nx">inputProperty</span><span class="p">;</span>
+  <span class="nx">SGObjectProperty</span> <span class="nx">outputProperty</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="nx">AddOneOperator</span><span class="p">(</span> <span class="nx">SGObjectProperty</span> <span class="nx">inputProperty</span><span class="p">,</span> <span class="nx">SGObjectProperty</span> <span class="nx">outputProperty</span> <span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">inputProperty</span> <span class="o">=</span> <span class="nx">inputProperty</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">outputProperty</span> <span class="o">=</span> <span class="nx">outputProperty</span><span class="p">;</span>
+
+  <span class="c1">// Register ourselves as a generator observing inputProperty</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">inputProperty</span><span class="p">.</span><span class="nx">addGeneratorObserver</span><span class="p">(</span> <span class="k">this</span><span class="p">,</span> <span class="mi">0</span> <span class="p">);</span>
+
+  <span class="c1">// Set ourselves as the generator of outputProperty</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">outputProperty</span><span class="p">.</span><span class="nx">setGenerator</span><span class="p">(</span> <span class="k">this</span><span class="p">,</span> <span class="mi">0</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// SGPropertyGenerator implementation</span>
+<span class="c1">// Sets the target property as source property + 1</span>
+<span class="kr">UInt8</span> <span class="nx">AddOneOperator</span><span class="p">.</span><span class="nx">_generate</span><span class="o">!</span><span class="p">(</span> <span class="k">io</span> <span class="nx">SGObjectProperty</span> <span class="nx">property</span><span class="p">,</span> <span class="kr">UInt32</span> <span class="nx">userData</span> <span class="p">)</span> <span class="p">{</span>
+  <span class="c1">//NOTE: the property might have been requested for a specific frame, but</span>
+  <span class="c1">//      we want to output a static value: use the non-contextual version to indicate that</span>
+  <span class="nx">SGObjectProperty</span> <span class="nx">staticProperty</span> <span class="o">=</span> <span class="nx">property</span><span class="p">.</span><span class="nx">getContextual</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+  <span class="nx">property</span><span class="p">.</span><span class="nx">setValue</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">inputProperty</span><span class="p">.</span><span class="nx">getUInt32Value</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">);</span>
+  <span class="k">return</span> <span class="nx">SGPropertyGenerator_succeeded</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// SGPropertyGenerator implementation</span>
+<span class="c1">// Debug name used for tracing.</span>
+<span class="kr">String</span> <span class="nx">AddOneOperator</span><span class="p">.</span><span class="nx">_getGeneratorDebugName</span><span class="p">(</span> <span class="nx">SGObjectProperty</span> <span class="nx">property</span><span class="p">,</span> <span class="kr">UInt32</span> <span class="nx">userData</span> <span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="s2">&quot;AddOneOperator&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// default implementation of SGPropertyGenerator</span>
+<span class="kr">Boolean</span> <span class="nx">AddOneOperator</span><span class="p">.</span><span class="nx">_isAsynchronous</span><span class="p">(</span> <span class="k">io</span> <span class="kr">Boolean</span> <span class="nx">asynchPrepareOnly</span><span class="p">,</span> <span class="kr">UInt32</span> <span class="nx">userData</span> <span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="kc">false</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="c1">// default implementation of SGPropertyGenerator</span>
+<span class="kr">UInt8</span> <span class="nx">AddOneOperator</span><span class="p">.</span><span class="nx">_asynchPrepare</span><span class="o">!</span><span class="p">(</span> <span class="nx">SGObjectProperty</span> <span class="nx">property</span><span class="p">,</span> <span class="kr">UInt32</span> <span class="nx">userData</span> <span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">SGPropertyGenerator_succeeded</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="c1">// SGChangeObserver implementation</span>
+<span class="c1">// Triggered when the input property changes</span>
+<span class="nx">AddOneOperator</span><span class="p">.</span><span class="nx">_changed</span><span class="o">!</span><span class="p">(</span><span class="k">io</span> <span class="nx">SGObject</span> <span class="nx">instance</span><span class="p">,</span> <span class="k">io</span> <span class="nx">SGObjectProperty</span> <span class="nx">property</span><span class="p">,</span> <span class="kr">UInt8</span> <span class="nx">changeType</span><span class="p">,</span> <span class="kr">UInt32</span> <span class="nx">userData</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">outputProperty</span><span class="p">.</span><span class="nx">setGeneratorDirty</span><span class="p">(</span> <span class="nx">changeType</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// SGChangeObserver implementation: triggered when the SceneGraph destroys</span>
+<span class="nx">AddOneOperator</span><span class="p">.</span><span class="nx">_SGDestroying</span><span class="o">!</span><span class="p">()</span> <span class="p">{}</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">SceneGraph</span> <span class="nx">sg</span><span class="p">();</span>
+
+  <span class="c1">//Set rootInt initial value to 10</span>
+  <span class="nx">SGObjectProperty</span> <span class="nx">rootInt</span> <span class="o">=</span> <span class="nx">sg</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getOrAddLocalProperty</span><span class="p">(</span> <span class="s2">&quot;int&quot;</span> <span class="p">);</span>
+  <span class="nx">rootInt</span><span class="p">.</span><span class="nx">setValue</span><span class="p">(</span> <span class="kr">UInt32</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="p">);</span>
+
+  <span class="c1">//Create a child, whose int value depends on root&#39;s int value</span>
+  <span class="nx">SGObject</span> <span class="nx">child</span> <span class="o">=</span> <span class="nx">sg</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">createChild</span><span class="p">(</span> <span class="s2">&quot;child&quot;</span> <span class="p">);</span>
+  <span class="nx">SGObjectProperty</span> <span class="nx">childInt</span> <span class="o">=</span> <span class="nx">child</span><span class="p">.</span><span class="nx">getOrAddLocalProperty</span><span class="p">(</span> <span class="s2">&quot;int&quot;</span> <span class="p">);</span>
+  <span class="nx">AddOneOperator</span> <span class="nx">childOp</span><span class="p">(</span> <span class="nx">rootInt</span><span class="p">,</span> <span class="nx">childInt</span> <span class="p">);</span>
+
+  <span class="c1">//Create a grandchild, whose int value depends on child&#39;s int value</span>
+  <span class="nx">SGObject</span> <span class="nx">grandChild</span> <span class="o">=</span> <span class="nx">sg</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">createChild</span><span class="p">(</span> <span class="s2">&quot;grandchild&quot;</span> <span class="p">);</span>
+  <span class="nx">SGObjectProperty</span> <span class="nx">grandChildInt</span> <span class="o">=</span> <span class="nx">grandChild</span><span class="p">.</span><span class="nx">getOrAddLocalProperty</span><span class="p">(</span> <span class="s2">&quot;int&quot;</span> <span class="p">);</span>
+  <span class="nx">AddOneOperator</span> <span class="nx">grandChildOp</span><span class="p">(</span> <span class="nx">childInt</span><span class="p">,</span> <span class="nx">grandChildInt</span> <span class="p">);</span>
+
+  <span class="c1">//Enable debug tracing of generators</span>
+  <span class="nx">sg</span><span class="p">.</span><span class="nx">enableGeneratorsTracing</span><span class="p">();</span>
+
+  <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;Get grandChild value (PIdx = global property index):\n&quot;</span><span class="p">);</span>
+  <span class="nx">grandChildInt</span><span class="p">.</span><span class="nx">getUInt32Value</span><span class="p">();</span>
+
+  <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;\nChanging the root value to 20:\n&quot;</span><span class="p">);</span>
+  <span class="nx">rootInt</span><span class="p">.</span><span class="nx">setValue</span><span class="p">(</span> <span class="kr">UInt32</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="p">);</span>
+
+  <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;\nGet grandChild value:\n&quot;</span><span class="p">);</span>
+  <span class="nx">grandChildInt</span><span class="p">.</span><span class="nx">getUInt32Value</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+<span class="cm">(stdin):6:9: error: no extension or type named &#39;SceneGraph&#39;</span>
+
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="asynchronous-evaluation">
+<span id="sggenerators-async-overview"></span><h3>Asynchronous evaluation<a class="headerlink" href="#asynchronous-evaluation" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Asynchronous evaluation is a <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> feature that allows some computations to be done
+in the background in a multithreaded fashion. However, it must be used with care and will provide performance gains only in
+specific situations. Asynchronous evaluation can be enabled from the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGPropertyGenerator</span></code>
+low-level interface, but can also be enabled for <code class="xref std std-kl-ref docutils literal"><span class="pre">SGBaseOperator</span></code> (<code class="xref std std-kl-ref docutils literal"><span class="pre">SGBaseOperator.isAsynchronous</span></code>)
+and for various higher-level scene wrappers (eg: <code class="xref std std-kl-ref docutils literal"><span class="pre">SGGeometry.enableGeometryGenerator</span></code>).
+Since asynchronous evaluation requires careful implementations for both the generator and
+the SceneGraph client or user, it can be disabled globally at the SceneGraph level with
+<code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph.enableAsynchronousGenerators</span></code> to avoid issues or complexity.</p>
+<p>In order to provide some gains, asynchronous evaluation should be used in the following conditions:</p>
+<ul class="simple">
+<li>The generator execution must be relatively long (not a simple matrix multiplication for example),
+otherwise the overhead will be more important than the gains</li>
+<li>The generator execution should lock the graph only for a minor portion of its time,
+otherwise the UI thread will become unresponsive and other asynchronous generators will be blocked
+(no multithreading)</li>
+<li>The generator should lock the graph if it does many changes to the SceneGraph, such that
+the SceneGraph is unlocked only once it is in a valid semantic state (eg: for drawing).
+Higher level mechanisms can be required for ensure this (eg: <cite>SGObject.loading</cite>).</li>
+</ul>
+<p>A perfect example for potential gains is to generate a Geometry which doesn&#8217;t depend on
+other SceneGraph objects, but only depends on the &#8220;external world&#8221; (eg: Alembic loader).</p>
+<p>All generators can declare to be asynchronous (<code class="xref std std-kl-ref docutils literal"><span class="pre">SGPropertyGenerator._isAsynchronous</span></code>).
+Requesting a value that depends on an asynchronous generator will automatically initiate the
+background computation process. However, the result will not be available immediately. The non-availability
+of the data should be tested with methods such as <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.waitingGenerator</span></code>. Asynchronous generators
+can be attached to the following entities:</p>
+<ul class="simple">
+<li><code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> (<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject.setGenerator</span></code>): when the SGObject is accessed, the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject.waitingGenerator</span></code> indicates that it
+has not finish to evaluate yet (background exection pending).</li>
+<li><code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code> (<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.setGenerator</span></code>): when SGObjectProperty data is requested (value, type, version), the
+<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.waitingGenerator</span></code> method indicates that it has not finish to evaluate yet (background exection pending).
+The <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.forceGenerate</span></code> method will wait for an asynchronous value to be ready, at the cost of performance
+(no gains from computing in backgound at that point).</li>
+<li><code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code> references (<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.setReferenceTargetGenerator</span></code>, <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.setReferenceArrayTargetGenerator</span></code>):
+when the reference target is accessed, the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.isReferenceTargetWaitingGenerator</span></code> or <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.isReferenceArrayTargetWaitingGenerator</span></code>
+methods indicate that it has not finish to evaluate yet (background exection pending). The <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.forceGenerateReferenceTarget</span></code> or
+<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.forceGenerateReferenceArrayTarget</span></code> methods will
+wait for an asynchronous reference target to be ready, at the cost of performance (no gains from computing in backgound at that point).</li>
+</ul>
+<p>The asynchronous evaluation is implemented as one of the core mechanisms in the SceneGraph.
+When a value is in waiting state, it should be pulled again later to check if it is then available.
+One way of doing this is to have a timer in the UI thread which verifies if something changed
+in the SceneGraph (<code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph.getGlobalVersions</span></code>), as implemented by the sceneHub.py standalone.</p>
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SGInstanceTraverser</span></code> allows to traverse a scene&#8217;s hierarchy, and is asynchronous evaluation-aware.
+An option of the SGInstanceTraverser allows it to asynchronously wait for hierarchy children to be
+generated in the background, and will resume its traversal once these are available. Also, it can
+optionally force the values to be generated, in which case it will synchronously block until these
+are finished. The <code class="xref std std-kl-ref docutils literal"><span class="pre">SGLoadTraverser</span></code> specializes SGInstanceTraverser in order to load the scene
+asynchronously.</p>
+<p>The following illustrates how the low-level mechanism works. Note that this complexity is hidden
+if you use higher-level objects, such as <code class="xref std std-kl-ref docutils literal"><span class="pre">SGBaseOperator</span></code> or wrappers such as <code class="xref std std-kl-ref docutils literal"><span class="pre">SGGeometry</span></code>.
+Let say <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code> A&#8217;s generator depends on <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code> B, and SGObjectProperty B&#8217;s generator is
+asynchronous. The following steps are involved:</p>
+<ul class="simple">
+<li>A.getValue() is called, its generator request B&#8217;s value, which triggers a call to B&#8217;s generator (since it depends on it),
+however since B&#8217;s generator is asynchronous, it will be queued and B&#8217;s value will not be up-to-date.</li>
+<li>A&#8217;s generator should actually call B.valuesAreContextual( isWaiting ) to know if the stored value will be contextual (animated)
+and to know at the same time if B is waiting for its generator. If B is waiting, then A&#8217;s generator must return SGPropertyGenerator_waiting
+immediately to indicate that because of A is now also waiting on asynchronous computations.</li>
+<li>Once B&#8217;s generator returns, a SGObserverChange_generatedAsync notification will be triggered, and A&#8217;s generator will receive it
+(since it depends on B, it must be registered as its observer - <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObserverChange._changed</span></code> ).
+A&#8217;s generator must then relay the notification to its generated properties ( <cite>A.setGeneratorDirty( changeType )</cite> ),
+just like it does it anyway to propagate dirty states. This will remove A&#8217;s waiting state.</li>
+<li>Requesting A again will trigger its evaluation, which will now properly compute it since B&#8217;s value is available.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="contexts-and-animation">
+<span id="sgcontexts-and-animation"></span><h2>Contexts and animation<a class="headerlink" href="#contexts-and-animation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> contexts allow to control how the <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> data is accessed and stored, which enables
+to implement animation or simulation evaluation or caching. The context is transparently
+embedded with the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> and <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code>, and the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGContext</span></code> allows to access
+information about that context (accessible with <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject.getContext</span></code> and
+<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.getContext</span></code>, respectively).</p>
+<div class="section" id="sgcontext">
+<span id="sgcontext-overview"></span><h3>SGContext<a class="headerlink" href="#sgcontext" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The context (<code class="xref std std-kl-ref docutils literal"><span class="pre">SGContext</span></code>) is a central notion in the <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> design. When getting or
+setting a property value, the context allows the <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> to access the right data by
+specifying the animation time or frame to be used, and can include the active hierarchy path (for
+<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> instances shared by multiple parents).</p>
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SGContext</span></code> can represent an immutable set of parameters and the contextual instance (active hierarchy parent).
+A <code class="xref std std-kl-ref docutils literal"><span class="pre">SGContext</span></code> associated to a specific set of parameters can be created with <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph.getContext</span></code>.
+The <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph.getFrameContext</span></code> and <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph.getTimeContext</span></code> built-in helpers allow to
+easily create a context for a specific animation &#8220;time&#8221; and &#8220;frame&#8221;. If two <code class="xref std std-kl-ref docutils literal"><span class="pre">SGContext</span></code> are created for
+the same parameters, the same context will be returned (shared).</p>
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> and <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code> transparently embed a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGContext</span></code>,
+which allows to access their values without worrying about the context. For example, the
+<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject.getProperty</span></code> method will return a SGObjectProperty which embeds
+owner SGObject&#8217;s context (contextual instance and parameters).</p>
+<p>When needed, specialized methods allow to get or change the context associated with a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGContext</span></code>
+(eg: <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.getContextual</span></code>). For a specific <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code>
+or <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code>, the associated <code class="xref std std-kl-ref docutils literal"><span class="pre">SGContext</span></code>
+(<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject.getContext</span></code> or <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.getContext</span></code>)
+embeds, too, the &#8220;contextual instance&#8221;, which provides the context of the active parent (hierarchy path) for
+a shared object. The contextual instance is important since depending on the owner parent, a shared
+<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> might have different properties or property values (see <a class="reference internal" href="#sgobjectproperty-overview"><span class="std std-ref">SGObjectProperty</span></a>).</p>
+<p>However, for performance and other reasons, a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectWrapper</span></code> is shared by all instances of a same
+base <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code>, which is why the wrapper methods often require a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGContext</span></code> to be provided in
+order to precise the contextual instance. The <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject.getWrapper</span></code> provides the right <code class="xref std std-kl-ref docutils literal"><span class="pre">SGContext</span></code>
+to be used for preserving the SGObject&#8217;s context.</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">Contexts must be used with care: trying to access properties with a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGContext</span></code> that embeds another <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> instance will trigger an expection because the contextual instances will mismatch.</p>
+</div>
+<p>Various methods exist for accessing or modifying the context of an object or property, for example:</p>
+<ul class="simple">
+<li><code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.valuesAreContextual</span></code>: returns true if property&#8217;s values depend on the frame context
+(see <a class="reference internal" href="#sg-frame-storage"><span class="std std-ref">Per-frame storage or animation</span></a>)</li>
+<li><code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.getContextual</span></code>: returns a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code> representing the same property and
+contextual instance, but with other contextual parameters. In particular, calling <cite>SGObjectProperty.getContextual(false)</cite>
+returns the property with no specific context, in which case setting its value will define a static (non-animated) value.</li>
+</ul>
+</div>
+<div class="section" id="frame-parameters">
+<span id="sg-frame-parameters"></span><h3>Frame parameters<a class="headerlink" href="#frame-parameters" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> can handle and store animated, frame-specific property values.
+A &#8216;frame&#8217; is a general term used by the <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> for referencing an animation-specific
+storage or, more generally, a contextual storage. The frame context can be embedded within a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGContext</span></code>,
+a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> or a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code>, or even within the <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> itself though its
+support of a &#8216;current context&#8217; ( <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph.defineCurrentFrame</span></code> ).</p>
+<p>While a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGContext</span></code> can represent a set of arbitrary parameters, some of these parameters have the special status of
+being &#8220;frame parameters&#8221;. For each combination of frame parameters, a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code> can define and store a different
+value, making it &#8220;animated&#8221; (function of the frame parameters).</p>
+<p>By default, the <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> defines the &#8220;time&#8221; and the &#8220;frame&#8221; context parameters
+as being &#8220;frame parameters&#8221;, and defines built-in helpers for accessing these (<code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph.getCurrentFrame</span></code> ,
+<code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph.getCurrentTime</span></code> , <code class="xref std std-kl-ref docutils literal"><span class="pre">SGContext.getFrame</span></code> , <code class="xref std std-kl-ref docutils literal"><span class="pre">SGContext.getTime</span></code> ).</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">The relationship between the frame and the time can be customized with
+<code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph.setupSimpleFrameToTimeConversion</span></code> or <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph.setupFrameToTimeConversion</span></code> .</p>
+</div>
+<p>If other frame parameters are required, these can be defined with <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph.registerFrameParameter</span></code> .</p>
+<p>If a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGContext</span></code> has frame parameters among other ones, the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGContext.getFrameContext</span></code> method
+allows to efficiently retrieve an associated context which strictly contains these frame parameters.</p>
+</div>
+<div class="section" id="per-frame-storage-or-animation">
+<span id="sg-frame-storage"></span><h3>Per-frame storage or animation<a class="headerlink" href="#per-frame-storage-or-animation" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>In the <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code>, the terms &#8220;animated value&#8221;, &#8220;per-frame value&#8221; or &#8220;contextual value&#8221; usually refer to
+the fact that a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code> value can depend on the contextual frame. Per-frame storage can be
+controlled at a global level (all <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> animated properties) or for individual properties.</p>
+<p>The contextual frame can be specified either by defining it at the SceneGraph level (default current frame), or
+can be embedded within the contexts of the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObject</span></code> and the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code>. The <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph.defineCurrentFrame</span></code> method sets the frame context to be used if none was specified.
+For example, calling <cite>sg.defineCurrentContext( sg.getFrameContext( 2 ) );</cite> will set the default frame to &#8216;2&#8217;.</p>
+<p>There are two ways to provide per-frame values for an <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code>. The first method is to push
+the required per-frame values in advance by using the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.enableAllFramesCaching</span></code> method.
+The <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> will then select the right stored value depending on the frame.</p>
+<p>The other way is to associate a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGPropertyGenerator</span></code> with a property (<code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty.setGenerator</span></code>).
+Generator&#8217;s implementation  of <code class="xref std std-kl-ref docutils literal"><span class="pre">SGPropertyGenerator._generate</span></code> can then return a contextual value when requested.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">In the <code class="xref std std-kl-ref docutils literal"><span class="pre">SGPropertyGenerator._generate</span></code> function, if the value to be stored is always
+the same for all frames (static value), then the <cite>setValue</cite> method must be called on a non-contextual SGObjectProperty
+to tell the SceneGraph that the values is not context dependent. Such a <code class="xref std std-kl-ref docutils literal"><span class="pre">SGObjectProperty</span></code>
+can be retrieved by calling <cite>SGObjectProperty.getContextual( false )</cite>.</p>
+</div>
+<p>The following example demonstrates the definition of contextual property values using both methods:</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Setting per-frame SGObjectProperty values</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">SceneGraph</span><span class="p">;</span>
+
+<span class="c1">// This example shows a simple usage of SceneGraph per-frame (animation)</span>
+<span class="c1">// storage and property generation.</span>
+
+<span class="c1">// A simple generator outputting the current time from the frame index</span>
+<span class="kr">object</span> <span class="nx">TimeGenerator</span> <span class="o">:</span> <span class="nx">SGBaseOperator</span><span class="p">{</span>
+  <span class="kr">UInt32</span> <span class="nx">timePropertyKey</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="nx">TimeGenerator</span><span class="p">(</span> <span class="nx">SGObjectProperty</span> <span class="nx">timeProp</span> <span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Call base object constructor</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">initWithOwnedParameterContainer</span><span class="p">(</span> <span class="s2">&quot;TimeGenerator&quot;</span><span class="p">,</span> <span class="nx">timeProp</span><span class="p">.</span><span class="nx">SG</span> <span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">timePropertyKey</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">addOutputProperty</span><span class="p">(</span> <span class="nx">timeProp</span> <span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setForceContextSpecific</span><span class="p">(</span> <span class="kc">true</span> <span class="p">);</span><span class="c1">//Indicate that we are depending on the context even if no contextual inputs</span>
+<span class="p">}</span>
+
+<span class="kr">Boolean</span> <span class="nx">TimeGenerator</span><span class="p">.</span><span class="nx">execute</span><span class="o">!</span><span class="p">(</span> <span class="nx">SGContext</span> <span class="nx">context</span> <span class="p">)</span> <span class="p">{</span>
+  <span class="nx">SGObjectProperty</span> <span class="nx">timeProperty</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">timePropertyKey</span> <span class="p">);</span>
+  <span class="nx">timeProperty</span><span class="p">.</span><span class="nx">setValue</span><span class="p">(</span> <span class="nx">context</span><span class="p">.</span><span class="nx">getTime</span><span class="p">()</span> <span class="p">);</span>
+  <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">SceneGraph</span> <span class="nx">sg</span><span class="p">();</span>
+
+  <span class="c1">// Define the &quot;frame to time&quot; ratio to 2 frames per second, with no time offset</span>
+  <span class="nx">sg</span><span class="p">.</span><span class="nx">setupSimpleFrameToTimeConversion</span><span class="p">(</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span> <span class="p">);</span>
+
+  <span class="c1">// Add a &quot;time&quot; generated property to &#39;root&#39;</span>
+  <span class="nx">SGObjectProperty</span> <span class="nx">timeProp</span> <span class="o">=</span> <span class="nx">sg</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getOrAddLocalProperty</span><span class="p">(</span> <span class="s2">&quot;time&quot;</span> <span class="p">);</span>
+  <span class="nx">TimeGenerator</span><span class="p">(</span> <span class="nx">timeProp</span> <span class="p">);</span><span class="c1">//Note: the property owns the generator so no need to keep a ref</span>
+
+  <span class="c1">// Create a &quot;weather&quot; property with pre-cached per-frame values</span>
+  <span class="c1">// (instead of being generated like the &#39;time&#39; above)</span>
+  <span class="nx">SGObjectProperty</span> <span class="nx">weatherProp</span> <span class="o">=</span> <span class="nx">sg</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getOrAddLocalProperty</span><span class="p">(</span> <span class="s2">&quot;weather&quot;</span> <span class="p">);</span>
+  <span class="nx">weatherProp</span><span class="p">.</span><span class="nx">enableAllFramesCaching</span><span class="p">(</span> <span class="kc">true</span> <span class="p">);</span>
+
+  <span class="c1">// Pre-create the weather properties for frames 0, 1 and 2</span>
+  <span class="nx">SGObjectProperty</span> <span class="nx">weatherPropAtFrame</span> <span class="o">=</span> <span class="nx">weatherProp</span><span class="p">.</span><span class="nx">getContextual</span><span class="p">(</span> <span class="nx">sg</span><span class="p">.</span><span class="nx">getFrameContext</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">);</span>
+  <span class="nx">weatherPropAtFrame</span><span class="p">.</span><span class="nx">setValue</span><span class="p">(</span> <span class="s2">&quot;sunny&quot;</span> <span class="p">);</span>
+
+  <span class="nx">weatherPropAtFrame</span> <span class="o">=</span> <span class="nx">weatherProp</span><span class="p">.</span><span class="nx">getContextual</span><span class="p">(</span> <span class="nx">sg</span><span class="p">.</span><span class="nx">getFrameContext</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">);</span>
+  <span class="nx">weatherPropAtFrame</span><span class="p">.</span><span class="nx">setValue</span><span class="p">(</span> <span class="s2">&quot;cloudy&quot;</span> <span class="p">);</span>
+
+  <span class="nx">weatherPropAtFrame</span> <span class="o">=</span> <span class="nx">weatherProp</span><span class="p">.</span><span class="nx">getContextual</span><span class="p">(</span> <span class="nx">sg</span><span class="p">.</span><span class="nx">getFrameContext</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">);</span>
+  <span class="nx">weatherPropAtFrame</span><span class="p">.</span><span class="nx">setValue</span><span class="p">(</span> <span class="s2">&quot;raining&quot;</span> <span class="p">);</span>
+
+  <span class="c1">// Print the values for frames 0..2</span>
+  <span class="k">for</span><span class="p">(</span> <span class="nx">Size</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// For simplicity, we will just change the &quot;current frame&quot; of the scene.</span>
+    <span class="nx">sg</span><span class="p">.</span><span class="nx">defineCurrentFrame</span><span class="p">(</span> <span class="nx">sg</span><span class="p">.</span><span class="nx">getFrameContext</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="p">);</span>
+    <span class="nb">report</span><span class="p">(</span> <span class="s2">&quot;Frame &quot;</span> <span class="o">+</span> <span class="nx">i</span> <span class="o">+</span> <span class="s2">&quot;: time = &quot;</span> <span class="o">+</span> <span class="nx">timeProp</span><span class="p">.</span><span class="nx">getFloat64Value</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; weather = &quot;</span> <span class="o">+</span> <span class="nx">weatherProp</span><span class="p">.</span><span class="nx">getStringValue</span><span class="p">()</span> <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+<span class="cm">(stdin):6:9: error: no extension or type named &#39;SceneGraph&#39;</span>
+
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<p>In order to provide a good control and performance relatively to contextual (animation) storage,
+the user must define the required storage at the scene level before requesting animated values.
+By default, the <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> only provides contextual (animation) storage for the defined current context
+( <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph.defineCurrentFrame</span></code> ).
+Trying to set or get the value of an animated property for another frame will cause an exception. If required, it is possible
+to enable parallel storage of multiple frames with the <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph.pinFrameValues</span></code> method. For example,
+this can allow to define a sliding window of multiple frames for implementing effects such as
+simulation or motion blur.</p>
+<p>The following image illustrates the various storage modes available in the SceneGraphs:</p>
+<img alt="../../_images/PropertyStorage.png" src="../../_images/PropertyStorage.png" />
+<p>The figure above shows the storage of the SceneHub (sparse matrix of data). The static properties (non-contextual) have a dedicated storage, shared by all frames. Per-frame property value storage is created for stored frames, or can be pre-cached in advance and kept for all required frames.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">SceneGraph Overview</a><ul>
+<li><a class="reference internal" href="#sgobject">SGObject</a></li>
+<li><a class="reference internal" href="#sgobjectproperty">SGObjectProperty</a></li>
+<li><a class="reference internal" href="#object-references">Object references</a></li>
+<li><a class="reference internal" href="#sgbaseobjectwrapper">SGBaseObjectWrapper</a></li>
+<li><a class="reference internal" href="#operators">Operators</a><ul>
+<li><a class="reference internal" href="#sgbaseoperator">SGBaseOperator</a></li>
+<li><a class="reference internal" href="#sgcanvasoperator">SGCanvasOperator</a></li>
+<li><a class="reference internal" href="#generators-and-observers">Generators and observers</a></li>
+<li><a class="reference internal" href="#asynchronous-evaluation">Asynchronous evaluation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#contexts-and-animation">Contexts and animation</a><ul>
+<li><a class="reference internal" href="#sgcontext">SGContext</a></li>
+<li><a class="reference internal" href="#frame-parameters">Frame parameters</a></li>
+<li><a class="reference internal" href="#per-frame-storage-or-animation">Per-frame storage or animation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/SceneGraph/scenegraphoverview.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/SceneGraph/scenegraphoverview.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

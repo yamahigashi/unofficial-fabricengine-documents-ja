@@ -1,0 +1,406 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Quat.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Math Extension’s Files" href="files.html" />
+    <link rel="next" title="Quat_d.kl" href="Quat_d.kl.html" />
+    <link rel="prev" title="Perlin.kl" href="Perlin.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Quat_d.kl.html" title="Quat_d.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="Perlin.kl.html" title="Perlin.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Math エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Math Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="math-quat-kl">
+<span id="quat-kl"></span><span id="id1"></span><h1>Quat.kl<a class="headerlink" href="#math-quat-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="quat-struct">
+<h3>Quat (struct)<a class="headerlink" href="#quat-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a> represents a 3D rotation as a quaternion. Quaternions are used within the <a class="reference internal" href="Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> type. A <a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a> can be converted to and from <a class="reference internal" href="Mat33.html#mat33"><span class="std std-ref">Mat33</span></a>  as well as <a class="reference internal" href="Euler.html#euler"><span class="std std-ref">Euler</span></a> types.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="Xfo.html#xfo"><span class="std std-ref">Xfo</span></a>, <a class="reference internal" href="Euler.html#euler"><span class="std std-ref">Euler</span></a>, <a class="reference internal" href="Mat33.html#mat33"><span class="std std-ref">Mat33</span></a></p>
+</div>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Quat</span>
+<span class="cm">*/</span>
+
+<span class="c1">// create several quaternions</span>
+<span class="nx">Quat</span> <span class="nx">q0</span><span class="p">,</span> <span class="nx">q1</span><span class="p">,</span> <span class="nx">q2</span><span class="p">,</span> <span class="nx">q3</span><span class="p">,</span> <span class="nx">q4</span><span class="p">;</span>
+<span class="nx">q0</span> <span class="o">=</span> <span class="nx">Quat</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">);</span>
+<span class="nx">q1</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="nx">PI</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">));</span>
+<span class="nx">q2</span><span class="p">.</span><span class="nx">setFromDirectionAndUpvector</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">));</span>
+<span class="nx">q3</span><span class="p">.</span><span class="nx">setFrom2Vectors</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">));</span>
+<span class="nx">q4</span><span class="p">.</span><span class="nx">setFromAxisAndAngle</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="nx">HALF_PI</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="80%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td>v</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>w</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84269"><span class="std std-ref">Quat</span></a>  ( in <a class="reference internal" href="Euler.html#euler"><span class="std std-ref">Euler</span></a> e )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84277"><span class="std std-ref">Quat</span></a>  ( in <a class="reference internal" href="Mat33.html#mat33"><span class="std std-ref">Mat33</span></a> mat )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id116715"><span class="std std-ref">Quat</span></a>  ( in <a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84250"><span class="std std-ref">Quat</span></a>  ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> w, in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> v )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84238"><span class="std std-ref">Quat</span></a>  ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> x, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> y, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> z, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> w )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84260"><span class="std std-ref">Quat</span></a>  ( in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> v, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> w )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84228"><span class="std std-ref">Quat</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84452"><span class="std std-ref">add</span></a> ? ( in <a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84505"><span class="std std-ref">alignWith</span></a> ! ( in <a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="Quat.html#id84415"><span class="std std-ref">almostEqual</span></a> ? ( in <a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="Quat.html#id84410"><span class="std std-ref">almostEqual</span></a> ? ( in <a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a> other, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> precision )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id116719"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84484"><span class="std std-ref">conjugate</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84464"><span class="std std-ref">divide</span></a> ? ( in <a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84472"><span class="std std-ref">divideScalar</span></a> ? ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> other )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84480"><span class="std std-ref">dot</span></a> ? ( in <a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="Quat.html#id84406"><span class="std std-ref">equal</span></a> ? ( in <a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84332"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> v&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84303"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> v&lt;&gt;, in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> o )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84336"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> v[] )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84308"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> v[], in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> o )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84344"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84318"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v&lt;&gt;, in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> o )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84348"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v[] )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84323"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v[], in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> o )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84509"><span class="std std-ref">getAngle</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84512"><span class="std std-ref">getXaxis</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84515"><span class="std std-ref">getYaxis</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84518"><span class="std std-ref">getZaxis</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84423"><span class="std std-ref">hash</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84502"><span class="std std-ref">inverse</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84490"><span class="std std-ref">length</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84487"><span class="std std-ref">lengthSquared</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84544"><span class="std std-ref">linearInterpolate</span></a> ? ( in <a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a> other, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> t )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84521"><span class="std std-ref">mirror</span></a> ! ( in Integer axisIndex )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84460"><span class="std std-ref">multiply</span></a> ? ( in <a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84468"><span class="std std-ref">multiplyScalar</span></a> ? ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> other )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84476"><span class="std std-ref">rotateVector</span></a> ? ( in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> v )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84328"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> v&lt;&gt; )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84298"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> v&lt;&gt;, in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> o )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84340"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v&lt;&gt; )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84313"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v&lt;&gt;, in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> o )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84288"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> w, in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> v )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84281"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> x, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> y, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> z, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> w )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84293"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> v, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> w )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84396"><span class="std std-ref">setFrom2Vectors</span></a> ! ( in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> sourceDirVec, in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> destDirVec )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84390"><span class="std std-ref">setFrom2Vectors</span></a> ! ( in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> sourceDirVec, in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> destDirVec, in Boolean arbitraryIfAmbiguous )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84381"><span class="std std-ref">setFromAxisAndAngle</span></a> ! ( in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> axis, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> angle )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84401"><span class="std std-ref">setFromDirectionAndUpvector</span></a> ! ( in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> direction, in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> upvector )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84355"><span class="std std-ref">setFromEuler</span></a> ! ( in <a class="reference internal" href="Euler.html#euler"><span class="std std-ref">Euler</span></a> e )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84375"><span class="std std-ref">setFromEulerAngles</span></a> ! ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> eulerX, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> eulerY, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> eulerZ )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84368"><span class="std std-ref">setFromEulerAngles</span></a> ! ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> eulerX, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> eulerY, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> eulerZ, in <a class="reference internal" href="RotationOrder.html#rotationorder"><span class="std std-ref">RotationOrder</span></a> ro )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84364"><span class="std std-ref">setFromEulerAngles</span></a> ! ( in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> angles )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84359"><span class="std std-ref">setFromEulerAngles</span></a> ! ( in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> angles, in <a class="reference internal" href="RotationOrder.html#rotationorder"><span class="std std-ref">RotationOrder</span></a> ro )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84386"><span class="std std-ref">setFromMat33</span></a> ! ( in <a class="reference internal" href="Mat33.html#mat33"><span class="std std-ref">Mat33</span></a> mat )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Quat.html#id84352"><span class="std std-ref">setIdentity</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84499"><span class="std std-ref">setUnit</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84539"><span class="std std-ref">sphericalLinearInterpolate</span></a> ? ( in <a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a> q2, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> t )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84456"><span class="std std-ref">subtract</span></a> ? ( in <a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a> other )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Euler.html#euler"><span class="std std-ref">Euler</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84528"><span class="std std-ref">toEuler</span></a> ? ( in <a class="reference internal" href="RotationOrder.html#rotationorder"><span class="std std-ref">RotationOrder</span></a> rotationOrder )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84532"><span class="std std-ref">toEulerAngles</span></a> ? ( in <a class="reference internal" href="RotationOrder.html#rotationorder"><span class="std std-ref">RotationOrder</span></a> order )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84536"><span class="std std-ref">toEulerAngles</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Mat33.html#mat33"><span class="std std-ref">Mat33</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84525"><span class="std std-ref">toMat33</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84493"><span class="std std-ref">unit</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84496"><span class="std std-ref">unit_safe</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="operators">
+<h4>Operators<a class="headerlink" href="#operators" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="28%" />
+<col width="72%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="Quat.html#id84428"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="mathrandomquat">
+<h3>mathRandomQuat<a class="headerlink" href="#mathrandomquat" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a> mathRandomQuat ( in Size seed, in Size index, in <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> min, in <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> max )</p>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="Perlin.kl.html"
+                        title="前の章へ">Perlin.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="Quat_d.kl.html"
+                        title="次の章へ">Quat_d.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Math/Quat.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Math/Quat.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Quat_d.kl.html" title="Quat_d.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="Perlin.kl.html" title="Perlin.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Math エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >Math Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,552 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>JSON エクステンション &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="KL エクステンションガイド" href="../index.html" />
+    <link rel="next" title="JSON Extension’s Files" href="files.html" />
+    <link rel="prev" title="Integrating InlineDrawing in DCCs" href="../InlineDrawing/integration.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="JSON Extension’s Files"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="../InlineDrawing/integration.html" title="Integrating InlineDrawing in DCCs"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">KL エクステンションガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="json-extension">
+<span id="id1"></span><h1>JSON エクステンション<a class="headerlink" href="#json-extension" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../../_images/FE_logo_345_60.png"><img alt="../../_images/FE_logo_345_60.png" src="../../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 2.3.0</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified">バージョン 1.13.0 で追加.</span></p>
+</div>
+<p><a class="reference internal" href="#json-extension"><span class="std std-ref">JSON エクステンション</span></a> は基本的なJSONエンコーダーとパーサをKLで実装します。</p>
+<div class="section" id="parsing-json-text">
+<h2>JSONテキストの構文解析<a class="headerlink" href="#parsing-json-text" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>次のコードでは、構文解析のためにJSON文字列を <a class="reference internal" href="JSONDoc.html#jsondoc"><span class="std std-ref">JSONDoc</span></a> へ受け渡して、その後関連データを抽出するまでを紹介します。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">require</span> <span class="nx">JSON</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="kr">String</span> <span class="nx">json</span> <span class="o">=</span> <span class="s2">&quot;    {\n\</span>
+<span class="s2">    \&quot;firstName\&quot;: \&quot;John\&quot;,</span>
+<span class="s2">    \&quot;lastName\&quot;: \&quot;Smith\&quot;,</span>
+<span class="s2">    \&quot;isAlive\&quot;: true,</span>
+<span class="s2">    \&quot;age\&quot;: 25,</span>
+<span class="s2">    \&quot;height_cm\&quot;: 167.64,</span>
+<span class="s2">    \&quot;address\&quot;: {</span>
+<span class="s2">        \&quot;streetAddress\&quot;: \&quot;21 2nd Street\&quot;,</span>
+<span class="s2">        \&quot;city\&quot;: \&quot;New York\&quot;,</span>
+<span class="s2">        \&quot;state\&quot;: \&quot;NY\&quot;,</span>
+<span class="s2">        \&quot;postalCode\&quot;: \&quot;10021-3100\&quot;</span>
+<span class="s2">    },</span>
+<span class="s2">    \&quot;phoneNumbers\&quot;: [</span>
+<span class="s2">        { \&quot;type\&quot;: \&quot;home\&quot;, \&quot;number\&quot;: \&quot;212 555-1234\&quot; },</span>
+<span class="s2">        { \&quot;type\&quot;: \&quot;fax\&quot;,  \&quot;number\&quot;: \&quot;646 555-4567\&quot; }</span>
+<span class="s2">    ]</span>
+<span class="s2">  }&quot;</span><span class="p">;</span>
+
+  <span class="nx">JSONDoc</span> <span class="nx">doc</span><span class="p">();</span>
+  <span class="nx">doc</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">json</span><span class="p">);</span>
+
+  <span class="p">{</span>
+    <span class="c1">// Now read the data back.</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;firstName:&quot;</span> <span class="o">+</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getString</span><span class="p">(</span><span class="s2">&quot;firstName&quot;</span><span class="p">));</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;lastName:&quot;</span> <span class="o">+</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getString</span><span class="p">(</span><span class="s2">&quot;lastName&quot;</span><span class="p">));</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;isAlive:&quot;</span> <span class="o">+</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getBoolean</span><span class="p">(</span><span class="s2">&quot;isAlive&quot;</span><span class="p">));</span>
+
+    <span class="c1">// Test casting</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;f_age:&quot;</span> <span class="o">+</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getScalar</span><span class="p">(</span><span class="s2">&quot;age&quot;</span><span class="p">));</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;i_age:&quot;</span> <span class="o">+</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getInteger</span><span class="p">(</span><span class="s2">&quot;age&quot;</span><span class="p">));</span>
+
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;f_height_cm:&quot;</span> <span class="o">+</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getScalar</span><span class="p">(</span><span class="s2">&quot;height_cm&quot;</span><span class="p">));</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;i_height_cm:&quot;</span> <span class="o">+</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getInteger</span><span class="p">(</span><span class="s2">&quot;height_cm&quot;</span><span class="p">));</span>
+
+    <span class="nx">JSONDictValue</span> <span class="nx">address</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">);</span>
+
+    <span class="nx">JSONArrayValue</span> <span class="nx">phoneNumbers</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;phoneNumbers&quot;</span><span class="p">);</span>
+    <span class="nx">JSONDictValue</span> <span class="nx">num1</span> <span class="o">=</span> <span class="nx">phoneNumbers</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;number:&quot;</span> <span class="o">+</span> <span class="nx">num1</span><span class="p">.</span><span class="nx">getString</span><span class="p">(</span><span class="s2">&quot;number&quot;</span><span class="p">));</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">firstName:John</span>
+<span class="cm">lastName:Smith</span>
+<span class="cm">isAlive:true</span>
+<span class="cm">f_age:+25.0</span>
+<span class="cm">i_age:25</span>
+<span class="cm">f_height_cm:+167.64</span>
+<span class="cm">i_height_cm:167</span>
+<span class="cm">number:212 555-1234</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="robustness">
+<h2>頑健性、ロバストネス(Robustness)<a class="headerlink" href="#robustness" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><a class="reference internal" href="JSONDoc.html#jsondoc"><span class="std std-ref">JSONDoc</span></a> パーサは可能な限り頑丈に構築されており、少し不正なJSON文字列でも解析処理します。辞書および配列は、辞書または配列定義の終わりに末尾のカンマが残される場合でもイベントを正常に解析します。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">require</span> <span class="nx">JSON</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="kr">String</span> <span class="nx">json</span> <span class="o">=</span> <span class="s2">&quot;    {\n\</span>
+<span class="s2">    \&quot;address\&quot;: {</span>
+<span class="s2">        \&quot;streetAddress\&quot;: \&quot;21 2nd Street\&quot;,</span>
+<span class="s2">        \&quot;city\&quot;: \&quot;New York\&quot;,</span>
+<span class="s2">        \&quot;state\&quot;: \&quot;NY\&quot;,</span>
+<span class="s2">        \&quot;postalCode\&quot;: \&quot;10021-3100\&quot;,</span>
+<span class="s2">    },</span>
+<span class="s2">    \&quot;phoneNumbers\&quot;: [</span>
+<span class="s2">        { \&quot;type\&quot;: \&quot;home\&quot;, \&quot;number\&quot;: \&quot;212 555-1234\&quot; },</span>
+<span class="s2">        { \&quot;type\&quot;: \&quot;fax\&quot;,  \&quot;number\&quot;: \&quot;646 555-4567\&quot; },</span>
+<span class="s2">    ]</span>
+<span class="s2">  }&quot;</span><span class="p">;</span>
+
+  <span class="nx">JSONDoc</span> <span class="nx">doc</span><span class="p">();</span>
+  <span class="nx">doc</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">json</span><span class="p">);</span>
+
+  <span class="p">{</span>
+    <span class="c1">// Now read the data back.</span>
+    <span class="nx">JSONDictValue</span> <span class="nx">address</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">);</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;streetAddress:&quot;</span> <span class="o">+</span> <span class="nx">address</span><span class="p">.</span><span class="nx">getString</span><span class="p">(</span><span class="s2">&quot;streetAddress&quot;</span><span class="p">));</span>
+
+    <span class="nx">JSONArrayValue</span> <span class="nx">phoneNumbers</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;phoneNumbers&quot;</span><span class="p">);</span>
+    <span class="nx">JSONDictValue</span> <span class="nx">num1</span> <span class="o">=</span> <span class="nx">phoneNumbers</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;number:&quot;</span> <span class="o">+</span> <span class="nx">num1</span><span class="p">.</span><span class="nx">getString</span><span class="p">(</span><span class="s2">&quot;number&quot;</span><span class="p">));</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">streetAddress:21 2nd Street</span>
+<span class="cm">number:212 555-1234</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="math-structs">
+<h2>数学構造体<a class="headerlink" href="#math-structs" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><a class="reference internal" href="JSONDoc.html#jsondoc"><span class="std std-ref">JSONDoc</span></a> パーサは、 <a class="reference internal" href="../Math/index.html#math-extension"><span class="std std-ref">Math エクステンション</span></a> で定義したいくつかの一般的に使用する数学型のロードとセーブを扱います。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">require</span> <span class="nx">JSON</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="kr">String</span> <span class="nx">json</span> <span class="o">=</span> <span class="s2">&quot; \n\n   {\n</span>
+<span class="s2">    \&quot;vec3\&quot; \n</span>
+<span class="s2">    : { &#39;x&#39;: 12.3, &#39;y&#39;: 12, &#39;z&#39;: 0 },\n</span>
+<span class="s2">    \&quot;vec2Array\&quot;  : [ \n</span>
+<span class="s2">        { &#39;x&#39;: 12.3,&#39;y&#39;: 12 }, \n</span>
+<span class="s2">        {  \n</span>
+<span class="s2">        &#39;x&#39;: 3, \n</span>
+<span class="s2">        &#39;y&#39;:1.2  \n</span>
+<span class="s2">       } \n</span>
+<span class="s2">    ], \n</span>
+<span class="s2">    \&quot;color\&quot;: { &#39;r&#39;: 12.3, &#39;g&#39;: 12, &#39;b&#39;: 0, &#39;a&#39;: 0 },\n</span>
+<span class="s2">  }&quot;</span><span class="p">;</span>
+
+  <span class="nx">JSONDoc</span> <span class="nx">doc</span><span class="p">();</span>
+  <span class="nx">doc</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">json</span><span class="p">);</span>
+
+  <span class="p">{</span>
+    <span class="c1">// Now read the data back.</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;vec3:&quot;</span> <span class="o">+</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getVec3</span><span class="p">(</span><span class="s2">&quot;vec3&quot;</span><span class="p">));</span>
+
+    <span class="nx">JSONArrayValue</span> <span class="nx">vec2Array</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;vec2Array&quot;</span><span class="p">);</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;vec2_1:&quot;</span> <span class="o">+</span> <span class="nx">vec2Array</span><span class="p">.</span><span class="nx">getVec2</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;vec2_2:&quot;</span> <span class="o">+</span> <span class="nx">vec2Array</span><span class="p">.</span><span class="nx">getVec2</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+
+    <span class="nx">JSONDictValue</span> <span class="nx">dict</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;color&quot;</span><span class="p">);</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;color:&quot;</span> <span class="o">+</span> <span class="nx">dict</span><span class="p">.</span><span class="nx">toColor</span><span class="p">());</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">vec3:{x:+12.3,y:+12.0,z:+0.0}</span>
+<span class="cm">vec2_1:{x:+12.3,y:+12.0}</span>
+<span class="cm">vec2_2:{x:+3.0,y:+1.2}</span>
+<span class="cm">color:{r:+12.3,g:+12.0,b:+0.0,a:+0.0}</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="writing">
+<h2>書き込み<a class="headerlink" href="#writing" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><a class="reference internal" href="JSONDoc.html#jsondoc"><span class="std std-ref">JSONDoc</span></a> はJSONのエンコードにも使用できます。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">require</span> <span class="nx">JSON</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="nx">JSONDoc</span> <span class="nx">doc</span><span class="p">();</span>
+  <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">setString</span><span class="p">(</span><span class="s2">&quot;firstName&quot;</span><span class="p">,</span> <span class="s2">&quot;John&quot;</span><span class="p">);</span>
+  <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">setString</span><span class="p">(</span><span class="s2">&quot;lastName&quot;</span><span class="p">,</span> <span class="s2">&quot;Smith&quot;</span><span class="p">);</span>
+  <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">setBoolean</span><span class="p">(</span><span class="s2">&quot;isAlive&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+  <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">setInteger</span><span class="p">(</span><span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="mi">25</span><span class="p">);</span>
+  <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">setScalar</span><span class="p">(</span><span class="s2">&quot;height_cm&quot;</span><span class="p">,</span> <span class="mf">167.64</span><span class="p">);</span>
+
+  <span class="nx">JSONDictValue</span> <span class="nx">address</span><span class="p">();</span>
+  <span class="nx">address</span><span class="p">.</span><span class="nx">setString</span><span class="p">(</span><span class="s2">&quot;streetAddress&quot;</span><span class="p">,</span> <span class="s2">&quot;21 2nd Street&quot;</span><span class="p">);</span>
+  <span class="nx">address</span><span class="p">.</span><span class="nx">setString</span><span class="p">(</span><span class="s2">&quot;city&quot;</span><span class="p">,</span> <span class="s2">&quot;New York&quot;</span><span class="p">);</span>
+  <span class="nx">address</span><span class="p">.</span><span class="nx">setString</span><span class="p">(</span><span class="s2">&quot;state&quot;</span><span class="p">,</span> <span class="s2">&quot;NY&quot;</span><span class="p">);</span>
+  <span class="nx">address</span><span class="p">.</span><span class="nx">setString</span><span class="p">(</span><span class="s2">&quot;postalCode&quot;</span><span class="p">,</span> <span class="s2">&quot;10021-3100&quot;</span><span class="p">);</span>
+  <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="nx">address</span><span class="p">);</span>
+
+  <span class="nx">JSONDictValue</span> <span class="nx">num1</span><span class="p">();</span>
+  <span class="nx">num1</span><span class="p">.</span><span class="nx">setString</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;home&quot;</span><span class="p">);</span>
+  <span class="nx">num1</span><span class="p">.</span><span class="nx">setString</span><span class="p">(</span><span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="s2">&quot;212 555-1234&quot;</span><span class="p">);</span>
+  <span class="nx">JSONDictValue</span> <span class="nx">num2</span><span class="p">();</span>
+  <span class="nx">num2</span><span class="p">.</span><span class="nx">setString</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;home&quot;</span><span class="p">);</span>
+  <span class="nx">num2</span><span class="p">.</span><span class="nx">setString</span><span class="p">(</span><span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="s2">&quot;212 555-1234&quot;</span><span class="p">);</span>
+
+  <span class="nx">JSONArrayValue</span> <span class="nx">phoneNumbers</span><span class="p">();</span>
+  <span class="nx">phoneNumbers</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">num1</span><span class="p">);</span>
+  <span class="nx">phoneNumbers</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">num2</span><span class="p">);</span>
+  <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;phoneNumbers&quot;</span><span class="p">,</span> <span class="nx">phoneNumbers</span><span class="p">);</span>
+
+  <span class="nx">JSONArrayValue</span> <span class="nx">vec2Array</span><span class="p">();</span>
+  <span class="nx">vec2Array</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">JSONDictValue</span><span class="p">(</span><span class="nx">Vec2</span><span class="p">(</span> <span class="mf">12.3</span><span class="p">,</span> <span class="mi">12</span> <span class="p">)));</span>
+  <span class="nx">vec2Array</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">JSONDictValue</span><span class="p">(</span><span class="nx">Vec2</span><span class="p">(</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">1.2</span> <span class="p">)));</span>
+  <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;vec2Array&quot;</span><span class="p">,</span> <span class="nx">vec2Array</span><span class="p">);</span>
+
+  <span class="nx">JSONArrayValue</span> <span class="nx">numbers1</span><span class="p">();</span>
+  <span class="nx">numbers1</span><span class="p">.</span><span class="nx">addInteger</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="nx">numbers1</span><span class="p">.</span><span class="nx">addInteger</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+  <span class="nx">numbers1</span><span class="p">.</span><span class="nx">addInteger</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+  <span class="nx">numbers1</span><span class="p">.</span><span class="nx">addInteger</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+  <span class="nx">numbers1</span><span class="p">.</span><span class="nx">addInteger</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+  <span class="nx">numbers1</span><span class="p">.</span><span class="nx">addInteger</span><span class="p">(</span><span class="mi">6</span><span class="p">);</span>
+  <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;numbers1&quot;</span><span class="p">,</span> <span class="nx">numbers1</span><span class="p">);</span>
+
+  <span class="nx">JSONArrayValue</span> <span class="nx">numbersAndVec</span><span class="p">();</span>
+  <span class="nx">numbersAndVec</span><span class="p">.</span><span class="nx">addInteger</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="nx">numbersAndVec</span><span class="p">.</span><span class="nx">addInteger</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+  <span class="nx">numbersAndVec</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">JSONDictValue</span><span class="p">(</span><span class="nx">Vec2</span><span class="p">(</span> <span class="mf">12.3</span><span class="p">,</span> <span class="mi">12</span> <span class="p">)));</span>
+  <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;numbersAndVec&quot;</span><span class="p">,</span> <span class="nx">numbersAndVec</span><span class="p">);</span>
+
+  <span class="nx">JSONArrayValue</span> <span class="nx">numbersAndSimpleString</span><span class="p">();</span>
+  <span class="nx">numbersAndSimpleString</span><span class="p">.</span><span class="nx">addInteger</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="nx">numbersAndSimpleString</span><span class="p">.</span><span class="nx">addInteger</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+  <span class="nx">numbersAndSimpleString</span><span class="p">.</span><span class="nx">addInteger</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+  <span class="nx">numbersAndSimpleString</span><span class="p">.</span><span class="nx">addInteger</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+  <span class="nx">numbersAndSimpleString</span><span class="p">.</span><span class="nx">addInteger</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+  <span class="nx">numbersAndSimpleString</span><span class="p">.</span><span class="nx">addInteger</span><span class="p">(</span><span class="mi">6</span><span class="p">);</span>
+  <span class="nx">numbersAndSimpleString</span><span class="p">.</span><span class="nx">addInteger</span><span class="p">(</span><span class="mi">7</span><span class="p">);</span>
+  <span class="nx">numbersAndSimpleString</span><span class="p">.</span><span class="nx">addInteger</span><span class="p">(</span><span class="mi">8</span><span class="p">);</span>
+  <span class="nx">numbersAndSimpleString</span><span class="p">.</span><span class="nx">addString</span><span class="p">(</span><span class="s2">&quot;Foo&quot;</span><span class="p">);</span>
+  <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;numbersAndSimpleString&quot;</span><span class="p">,</span> <span class="nx">numbersAndSimpleString</span><span class="p">);</span>
+
+  <span class="nx">JSONArrayValue</span> <span class="nx">numbersAndBigString</span><span class="p">();</span>
+  <span class="nx">numbersAndBigString</span><span class="p">.</span><span class="nx">addInteger</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="nx">numbersAndBigString</span><span class="p">.</span><span class="nx">addInteger</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+  <span class="nx">numbersAndBigString</span><span class="p">.</span><span class="nx">addString</span><span class="p">(</span>
+    <span class="s2">&quot;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor &quot;</span> <span class="o">+</span>
+    <span class="s2">&quot;incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud &quot;</span> <span class="o">+</span>
+    <span class="s2">&quot;exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute &quot;</span> <span class="o">+</span>
+    <span class="s2">&quot;irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla &quot;</span> <span class="o">+</span>
+    <span class="s2">&quot;pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia &quot;</span> <span class="o">+</span>
+    <span class="s2">&quot;deserunt mollit anim id est laborum.&quot;</span><span class="p">);</span>
+  <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;numbersAndBigString&quot;</span><span class="p">,</span> <span class="nx">numbersAndBigString</span><span class="p">);</span>
+
+  <span class="kr">String</span> <span class="nx">json</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">json</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">{</span>
+<span class="cm">  &quot;firstName&quot;: &quot;John&quot;, </span>
+<span class="cm">  &quot;lastName&quot;: &quot;Smith&quot;, </span>
+<span class="cm">  &quot;isAlive&quot;: true, </span>
+<span class="cm">  &quot;age&quot;: 25, </span>
+<span class="cm">  &quot;height_cm&quot;: 167.64, </span>
+<span class="cm">  &quot;address&quot;: {&quot;streetAddress&quot;: &quot;21 2nd Street&quot;, &quot;city&quot;: &quot;New York&quot;, &quot;state&quot;: &quot;NY&quot;, &quot;postalCode&quot;: &quot;10021-3100&quot;}, </span>
+<span class="cm">  &quot;phoneNumbers&quot;: [</span>
+<span class="cm">    {&quot;type&quot;: &quot;home&quot;, &quot;number&quot;: &quot;212 555-1234&quot;}, </span>
+<span class="cm">    {&quot;type&quot;: &quot;home&quot;, &quot;number&quot;: &quot;212 555-1234&quot;}</span>
+<span class="cm">  ], </span>
+<span class="cm">  &quot;vec2Array&quot;: [</span>
+<span class="cm">    {&quot;x&quot;: 12.3, &quot;y&quot;: 12.0}, </span>
+<span class="cm">    {&quot;x&quot;: 3.0, &quot;y&quot;: 1.2}</span>
+<span class="cm">  ], </span>
+<span class="cm">  &quot;numbers1&quot;: [1, 2, 3, 4, 5, 6], </span>
+<span class="cm">  &quot;numbersAndVec&quot;: [</span>
+<span class="cm">    1, </span>
+<span class="cm">    2, </span>
+<span class="cm">    {&quot;x&quot;: 12.3, &quot;y&quot;: 12.0}</span>
+<span class="cm">  ], </span>
+<span class="cm">  &quot;numbersAndSimpleString&quot;: [</span>
+<span class="cm">    1, </span>
+<span class="cm">    2, </span>
+<span class="cm">    3, </span>
+<span class="cm">    4, </span>
+<span class="cm">    5, </span>
+<span class="cm">    6, </span>
+<span class="cm">    7, </span>
+<span class="cm">    8, </span>
+<span class="cm">    &quot;Foo&quot;</span>
+<span class="cm">  ], </span>
+<span class="cm">  &quot;numbersAndBigString&quot;: [</span>
+<span class="cm">    1, </span>
+<span class="cm">    2, </span>
+<span class="cm">    &quot;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&quot;</span>
+<span class="cm">  ]</span>
+<span class="cm">}</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="merging">
+<h2>マージ<a class="headerlink" href="#merging" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><a class="reference internal" href="JSONDoc.html#jsondoc"><span class="std std-ref">JSONDoc</span></a> は、データのツリーをマージした新しいドキュメントを作るために他のJSONドキュメントをマージできます。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">require</span> <span class="nx">JSON</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="kr">String</span> <span class="nx">json1</span> <span class="o">=</span> <span class="s2">&quot;{</span>
+<span class="s2">    &#39;firstName&#39;: &#39;John&#39;,</span>
+<span class="s2">    &#39;lastName&#39;: &#39;Smith&#39;,</span>
+<span class="s2">    &#39;isAlive&#39;: true,</span>
+<span class="s2">    &#39;age&#39;: 25,</span>
+<span class="s2">    &#39;height_cm&#39;: 167.64,</span>
+<span class="s2">    &#39;address&#39;: {</span>
+<span class="s2">        &#39;streetAddress&#39;: &#39;54 Queen Street&#39;</span>
+<span class="s2">    },</span>
+<span class="s2">    &#39;phoneNumbers&#39;: [</span>
+<span class="s2">        { &#39;type&#39;: &#39;cell&#39;,  &#39;number&#39;: &#39;514 561-6312&#39; }</span>
+<span class="s2">    ]</span>
+<span class="s2">  }&quot;</span><span class="p">;</span>
+
+  <span class="nx">JSONDoc</span> <span class="nx">doc1</span><span class="p">();</span>
+  <span class="nx">doc1</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">json1</span><span class="p">);</span>
+
+  <span class="kr">String</span> <span class="nx">json2</span> <span class="o">=</span> <span class="s2">&quot;{</span>
+<span class="s2">    &#39;firstName&#39;: &#39;Fred&#39;,</span>
+<span class="s2">    &#39;height_cm&#39;: 187.64,</span>
+<span class="s2">    &#39;address&#39;: {</span>
+<span class="s2">        &#39;streetAddress&#39;: &#39;21 2nd Street&#39;,</span>
+<span class="s2">        &#39;city&#39;: &#39;New York&#39;,</span>
+<span class="s2">        &#39;state&#39;: &#39;NY&#39;,</span>
+<span class="s2">        &#39;postalCode&#39;: &#39;10021-3100&#39;</span>
+<span class="s2">    },</span>
+<span class="s2">    &#39;phoneNumbers&#39;: [</span>
+<span class="s2">        { &#39;type&#39;: &#39;home&#39;, &#39;number&#39;: &#39;212 555-1234&#39; },</span>
+<span class="s2">        { &#39;type&#39;: &#39;fax&#39;,  &#39;number&#39;: &#39;646 555-4567&#39; }</span>
+<span class="s2">    ]</span>
+<span class="s2">  }&quot;</span><span class="p">;</span>
+
+
+  <span class="nx">JSONDoc</span> <span class="nx">doc2</span><span class="p">();</span>
+  <span class="nx">doc2</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">json2</span><span class="p">);</span>
+
+  <span class="nx">doc1</span><span class="p">.</span><span class="nx">merge</span><span class="p">(</span><span class="nx">doc2</span><span class="p">);</span>
+
+
+  <span class="p">{</span>
+    <span class="c1">// Now read the data back.</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;firstName:&quot;</span> <span class="o">+</span> <span class="nx">doc1</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getString</span><span class="p">(</span><span class="s2">&quot;firstName&quot;</span><span class="p">));</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;lastName:&quot;</span> <span class="o">+</span> <span class="nx">doc1</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getString</span><span class="p">(</span><span class="s2">&quot;lastName&quot;</span><span class="p">));</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;isAlive:&quot;</span> <span class="o">+</span> <span class="nx">doc1</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getBoolean</span><span class="p">(</span><span class="s2">&quot;isAlive&quot;</span><span class="p">));</span>
+
+    <span class="c1">// Test casting</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;f_age:&quot;</span> <span class="o">+</span> <span class="nx">doc1</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getScalar</span><span class="p">(</span><span class="s2">&quot;age&quot;</span><span class="p">));</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;i_age:&quot;</span> <span class="o">+</span> <span class="nx">doc1</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getInteger</span><span class="p">(</span><span class="s2">&quot;age&quot;</span><span class="p">));</span>
+
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;f_height_cm:&quot;</span> <span class="o">+</span> <span class="nx">doc1</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getScalar</span><span class="p">(</span><span class="s2">&quot;height_cm&quot;</span><span class="p">));</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;i_height_cm:&quot;</span> <span class="o">+</span> <span class="nx">doc1</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getInteger</span><span class="p">(</span><span class="s2">&quot;height_cm&quot;</span><span class="p">));</span>
+
+    <span class="nx">JSONDictValue</span> <span class="nx">address</span> <span class="o">=</span> <span class="nx">doc1</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">);</span>
+
+    <span class="nx">JSONArrayValue</span> <span class="nx">phoneNumbers</span> <span class="o">=</span> <span class="nx">doc1</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;phoneNumbers&quot;</span><span class="p">);</span>
+    <span class="nx">JSONDictValue</span> <span class="nx">num1</span> <span class="o">=</span> <span class="nx">phoneNumbers</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;number type:&quot;</span> <span class="o">+</span> <span class="nx">num1</span><span class="p">.</span><span class="nx">getString</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; number:&quot;</span> <span class="o">+</span> <span class="nx">num1</span><span class="p">.</span><span class="nx">getString</span><span class="p">(</span><span class="s2">&quot;number&quot;</span><span class="p">));</span>
+    <span class="nx">JSONDictValue</span> <span class="nx">num3</span> <span class="o">=</span> <span class="nx">phoneNumbers</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;number type:&quot;</span> <span class="o">+</span> <span class="nx">num3</span><span class="p">.</span><span class="nx">getString</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; number:&quot;</span> <span class="o">+</span> <span class="nx">num3</span><span class="p">.</span><span class="nx">getString</span><span class="p">(</span><span class="s2">&quot;number&quot;</span><span class="p">));</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">firstName:Fred</span>
+<span class="cm">lastName:Smith</span>
+<span class="cm">isAlive:true</span>
+<span class="cm">f_age:+25.0</span>
+<span class="cm">i_age:25</span>
+<span class="cm">f_height_cm:+187.64</span>
+<span class="cm">i_height_cm:187</span>
+<span class="cm">number type:cell number:514 561-6312</span>
+<span class="cm">number type:fax number:646 555-4567</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="table-of-contents">
+<h2>目次<a class="headerlink" href="#table-of-contents" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="files.html">JSON Extension&#8217;s Files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="JSONParser.kl.html">JSONParser.kl</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="interfaces.html">JSON Extension&#8217;s Interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="JSONValue.html">JSONValue (interface)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="types.html">JSON Extension&#8217;s Types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="JSONArrayValue.html">JSONArrayValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="JSONBooleanValue.html">JSONBooleanValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="JSONDictValue.html">JSONDictValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="JSONDoc.html">JSONDoc (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="JSONNumberValue.html">JSONNumberValue (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="JSONStringValue.html">JSONStringValue (object)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>索引と検索<a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../../genindex.html"><span class="std std-ref">索引</span></a></li>
+<li><a class="reference internal" href="../../search.html"><span class="std std-ref">検索ページ</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">JSON エクステンション</a><ul>
+<li><a class="reference internal" href="#parsing-json-text">JSONテキストの構文解析</a></li>
+<li><a class="reference internal" href="#robustness">頑健性、ロバストネス(Robustness)</a></li>
+<li><a class="reference internal" href="#math-structs">数学構造体</a></li>
+<li><a class="reference internal" href="#writing">書き込み</a></li>
+<li><a class="reference internal" href="#merging">マージ</a></li>
+<li><a class="reference internal" href="#table-of-contents">目次</a></li>
+<li><a class="reference internal" href="#indices-and-tables">索引と検索</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="../InlineDrawing/integration.html"
+                        title="前の章へ">Integrating InlineDrawing in DCCs</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="files.html"
+                        title="次の章へ">JSON Extension&#8217;s Files</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/JSON/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/JSON/index.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="JSON Extension’s Files"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="../InlineDrawing/integration.html" title="Integrating InlineDrawing in DCCs"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

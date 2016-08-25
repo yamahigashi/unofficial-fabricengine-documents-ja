@@ -1,0 +1,173 @@
+.. _RELNOTES-1.12.0:
+
+Fabric Engine 1.12.0 Release Notes
+=================================================================================
+
+.. image:: /images/FE_logo_345_60.*
+   :width: 345px
+   :height: 60px
+
+| Fabric Engine version 1.12.0
+| Released Thursday 26 June 2014
+| Copyright (c) 2010-2016, Fabric Software Inc. All rights reserved.
+
+.. contents:: Table of Contents
+  :local:
+
+Important Notes - Read Me First!
+--------------------------------
+
+- There are several changes to the KL language syntax that may require changes to user KL code in order to compile with Fabric Engine 1.12.0. The most important of these is that KL methods now default to read-only :code:`this` regardless of whether the method returns a value.  See :ref:`RELNOTES-1.12.0-Core` for more information.
+ 
+- Fabric Engine requires a video card and driver that support OpenGL 3.2 or later.
+
+- These notes assume you either do not have Fabric Engine installed or have version 1.11.0 or later installed.  If you have an older version installed, you should remove it first before installing 1.12.0; see :ref:`RELNOTES-1.11.0` for more information on how to do this.
+
+.. _downloads-1.12.0:
+
+Downloads
+---------
+
+All downloads for Fabric Engine 1.12.0 can be obtained at http://dist.fabric-engine.com/FabricEngine/1.12.0/.  For information on downloads for specific platforms, see :ref:`installing-1.12.0`.
+
+Major Changes in 1.12.0
+-------------------------------------------------------------
+
+Fabric Engine Installers
++++++++++++++++++++++++++++++++++++++++++++
+
+- There is now a single, integrated installer for both Python 2.7 and Python 2.6 on Windows.
+
+Fabric Engine Scene Graph
++++++++++++++++++++++++++++++++++++++++++++
+
+No changes were made to the SceneGraph for 1.12.
+
+Fabric Engine Extensions
++++++++++++++++++++++++++++++++++++++++++++
+
+- InlineDrawing: The InlineDrawing extension provides the new rendering services in Splice.
+
+- Manipulation: The Manipulation extension provides the new manipulation services in Splice. The Manipulation framework defines interfaces for event propagation and handling in KL. Splice handles propagating events from the DCCs to the Manipulation extension. The Manipulation extension then provides base implementations of Gizmo manipulators, for handling mouse interactions with rendered geometry in the scene and converting those interactions to changes, and Paint manipulators for handling generating paint values from strokes over the scene.
+
+- Singletons: An extension managing singleton KL objects. You can store and restore KL objects from anywhere now.
+
+- FileIO: A new extension adding support for the boost::filesystem (filesystem) and boost::path (filepath).
+
+- Geometry: the SpatialQueryable interface has been modified to allow the choice of Octree (default) or SparseGrid acceleration. The SpatialQuery interface was added, allowing new query methods such as getElementsInBBox and getElementsInBSphere. See GeometryInterfaces.kl for details. MeshRaycast.py and SpatialQueries.py demos have an option to choose SparseGrid acceleration.
+
+- RiggingToolbox: The new RiggingToolbox extension adds generic services for character rigging. Initially the RiggingToolbox includes a few helper functions for clamping and limiting of values, and provides the IK solver currently used in Horde. Over time this extension will include a range of tools useful in rigging. 
+
+- Characters: This new extension adds base classes for high level character tools. It includes new base interfaces and types for characters, including Skeleton, Pose, and Character. The Characters types are intended for building high level character tools such as crowd systems or tools for previsualization. Characters can be easily rendered using the new InlineDrawing system. 
+
+- FbxWrapper: FbxWrapper adds new classes for easily loading and evaluating Fbx characters. Horde has been refactored to be based on top of the new FbxCharacters. 
+
+- BulletHelpers: The BulletDemos extension was renamed to BulletHelpers and has been refactored to be more generic. The extension now defines 2 generic objects that simplify the setup of rigid body and soft body simulations.
+
+- Deprecated Extensions: The Following extensions were deprecated and moved to separate public github repositories. 
+  - Vicon: https://github.com/fabric-engine/kl-vicon
+  - Liblas: https://github.com/fabric-engine/kl-liblas
+  - LSystem: https://github.com/fabric-engine/kl-lsystem
+  - filestream: https://github.com/fabric-engine/kl-filestream
+
+
+.. _RELNOTES-1.12.0-Core:
+
+Fabric Engine Core
++++++++++++++++++++++++++++++++++++++++++++
+
+- KL: Initial GPU compute support has been added. For more information see the :ref:`GPUCompute`.
+
+- KL: methods now always default to read-only :code:`this` regardless of whether the method returns a value.  See :ref:`KLPG.method.this-type` for more information.
+
+- KL: Objects and interfaces can now be forward-declared; this allows objects and interfaces to have members or methods that refer to types that haven't yet been fully defined.  See :ref:`KLPG.forward-declarations` for more information.
+
+- KL: It is now possible to overload the unary ``+``, ``-`` and ``~`` operators.  See :ref:`KLPG.unary-op-overloads` for more information.
+
+- KL: Functions and method calls that return objects or interfaces now return them as l-values so that calls can be chained.
+
+- KL: null object and interface variables must now be explicitly set to :code:`null`.
+
+- KL: assignments of variable-length arrays to other variables now share array contents even if original array is empty.
+
+- KL: Added getCoreCount() and getCoreIndex() calls (see :ref:`globals`).
+
+- KL: Conversion to string can now be overridden in custom types (see :ref:`conversion-funcs`).
+
+- EDK: Main EDK header has been renamed from EDK.h to FabricEDK.h for consistency with other Fabric headers.
+
+- EDK: Fixed extension loading diagnostic messages to include full library paths.
+
+- More Core diagnostic messages are now passed through the CAPI ReportCallback, allowing them to be displayed in Splice.
+
+.. _installing-1.12.0:
+
+Installing Fabric Engine
+---------------------------------------
+
+For help installing Fabric Engine please consult our :ref:`InstallationGuide`.
+
+.. _documentation-1.12.0:
+
+Documentation
+-------------
+
+Complete documentation for Fabric Engine can be :ref:`found here <TOP>`.
+
+After installing Fabric Engine, you can also find the documentation in the Start menu in Windows, the Applications menu in CentOS, and through a link in the '/Applications/FabricEngine/1.12.0' folder in Mac OS X. The documentation can also be accessed from the "Help" menu of Fabric Engine applications.
+
+.. _upgrading-apps-1.12.0:
+
+Upgrading Applications to Version 1.12.0
+----------------------------------------------------
+
+Object methods modifying values
++++++++++++++++++++++++++++++++
+
+Due to changes in the KL compiler, the rules for functions declarations have become more strict. Object methods that modify values on the object now need to explicitly declare using the ! symbol that they are modifying their data. 
+
+In the previous version of FabricEngine the following code would have compiled without errors. The compiler was inferring that the object needed to be writable using the function signature. 
+
+.. kl-example:: Hello World
+
+  function MyObject.setValue(Scalar value) {
+    this.value = value;
+  }
+
+The error that is now generated is the following: error: assignment: expression is read-only
+
+In 1.12 this method would need to have the additional ! symbol added to the method declaration 
+
+.. kl-example:: Hello World
+
+  function MyObject.setValue!(Scalar value) {
+    this.value = value;
+  }
+
+SpatialQueryable.raycast(), SpatialQueryable.getClosest()
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+A maximum distance argument has been added, and to keep previous behavior it should be set to the SCALARINFINITE constant.
+
+Previous Release Notes
+----------------------
+
+- :ref:`RELNOTES-1.11.4`
+
+- :ref:`RELNOTES-1.11.3`
+
+- :ref:`RELNOTES-1.11.2`
+
+- :ref:`RELNOTES-1.11.0`
+
+- :ref:`RELNOTES-1.10.0`
+
+- :ref:`RELNOTES-1.9.0-beta`
+
+- :ref:`RELNOTES-1.8.0-beta`
+
+- :ref:`RELNOTES-1.7.3-beta`
+
+.. _notes-1.12.0:
+
+

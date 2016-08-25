@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>KL プログラミングガイド &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="next" title="はじめに" href="intro.html" />
+    <link rel="prev" title="Testing a graph" href="../CanvasProgrammerGuide/tests.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="はじめに"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="../CanvasProgrammerGuide/tests.html" title="Testing a graph"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="kl-programming-guide">
+<span id="klpg"></span><h1>KL プログラミングガイド<a class="headerlink" href="#kl-programming-guide" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../_images/FE_logo_345_60.png"><img alt="../_images/FE_logo_345_60.png" src="../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 2.3.0</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+</div>
+<div class="section" id="table-of-contents">
+<h2>目次<a class="headerlink" href="#table-of-contents" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">はじめに</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#running-the-examples">サンプルの実行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#hello-world-in-kl">KL でHello World</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#fibonacci-sequence-in-kl">KL でフィボナッチ数列</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#mandelbrot-set-in-kl">KL でマンデルブロ集合</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#how-this-guide-is-organized">このガイドの読み方</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="syntax.html">KLの文法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="syntax.html#encoding">エンコーディング</a></li>
+<li class="toctree-l2"><a class="reference internal" href="syntax.html#line-continuations">行の連続性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="syntax.html#comments">コメント</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="syntax.html#block-comments">ブロックコメント</a></li>
+<li class="toctree-l3"><a class="reference internal" href="syntax.html#line-comments">行コメント</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="syntax.html#tokens">トークン</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="syntax.html#keywords">キーワード</a></li>
+<li class="toctree-l3"><a class="reference internal" href="syntax.html#index-8">識別子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="syntax.html#symbols">シンボル</a></li>
+<li class="toctree-l3"><a class="reference internal" href="syntax.html#constants">定数</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="syntax.html#program-structure">プログラム構造</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="types.html">KLの型システム</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="types.html#base-types">基本型（Base Types）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="types.html#the-boolean-type">論理型（ <code class="code docutils literal"><span class="pre">Boolean</span></code> Type）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#integer-types">整数型（Integer Types）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#floating-point-types">浮動小数点数型（Floating-Point Types）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#the-string-type">文字列型（<code class="docutils literal"><span class="pre">String</span></code> Type）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#the-rtval-type">The <code class="docutils literal"><span class="pre">RTVal</span></code> Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#derived-types">派生型（Derived Types）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="types.html#structures">構造体（Structures）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#objects">オブジェクト（Objects）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#interfaces">インタフェース（Interfaces）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#arrays">配列</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#dictionaries">辞書（Dictionaries）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#map-reduce-types">Map-Reduce 型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#implicit-type-casting-rules-in-kl">KL での型の暗黙的キャスト</a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#type-aliases">型の別名(Type Aliases)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#the-data-type-and-the-data-and-datasize-methods"><code class="docutils literal"><span class="pre">Data</span></code> 型 <code class="docutils literal"><span class="pre">data</span></code>, <code class="docutils literal"><span class="pre">dataSize</span></code> メソッド</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="globals.html">関数と他のグローバルな宣言</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="globals.html#functions">関数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#function-definitions">関数定義</a></li>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#function-invocations">関数呼び出し</a></li>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#function-prototypes">関数プロトタイプ</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="globals.html#polymorphism">ポリモーフィズム</a></li>
+<li class="toctree-l2"><a class="reference internal" href="globals.html#operators">演算子</a></li>
+<li class="toctree-l2"><a class="reference internal" href="globals.html#constructors">コンストラクタ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#constructor-declarations">コンストラクタ宣言</a></li>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#constructor-invocation">コンストラクタ呼び出し</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="globals.html#destructors">デストラクタ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="globals.html#methods">メソッド</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#method-definitions">メソッド定義</a></li>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#method-invocation">メソッド呼び出し</a></li>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#methods-taking-read-only-or-read-write-values-for-this">メソッドにおける <code class="docutils literal"><span class="pre">this</span></code> の Read-Only・Read-Write な値としての扱い</a></li>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#interface-methods-and-inheritance">インターフェイスメソッドと継承</a></li>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#access-to-methods">メソッドへのアクセス</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="globals.html#overloaded-operators">演算子オーバロード</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#binary-operator-overloads">二項演算子のオーバロード</a></li>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#unary-operator-overloads">単項演算子のオーバロード</a></li>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#direct-assignment-overloads">直接代入のオーバロード</a></li>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#compound-assignment-overloads">複合代入演算子のオーバロード</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="globals.html#inline-functions-and-methods">Inline 関数,メソッド</a></li>
+<li class="toctree-l2"><a class="reference internal" href="globals.html#built-in-functions-and-methods">組み込み関数・メソッド</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#debugging-functions">デバッグのための関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#error-status-functions">エラーステータスの関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#integer-numerical-functions">整数の数値演算関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#floating-point-numerical-functions">浮動小数点数の数値演算関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#vector-functions">ベクタ関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#conversion-functions">変換関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#thread-core-related-functions">スレッド,コア関連の関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#performance-counter-functions">パフォーマンス計測関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#memory-usage-functions">Memory Usage Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#fabric-context-functions">Fabric Context 関数</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="globals.html#named-constants">名前付き定数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="globals.html#predefined-constants">事前定義された定数</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="globals.html#importing-functionality-with-require"><code class="docutils literal"><span class="pre">require</span></code> による機能のインポート</a></li>
+<li class="toctree-l2"><a class="reference internal" href="globals.html#using-require-with-version-information">バージョン情報と共に <code class="docutils literal"><span class="pre">require</span></code> を使用する</a></li>
+<li class="toctree-l2"><a class="reference internal" href="globals.html#extension-versioning-environment-variables">エクステンションのバージョニング環境変数</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ops-exprs.html">演算子・式</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ops-exprs.html#operators">演算子</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ops-exprs.html#arithmetic-operators">算術演算子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ops-exprs.html#logical-operators">論理演算子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ops-exprs.html#bitwise-operators">ビット演算子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ops-exprs.html#assignment-operators">代入演算子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ops-exprs.html#operators-and-polymorphism">演算子と多態性（Operators and Polymorphism）</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ops-exprs.html#expressions">式（Expressions）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ops-exprs.html#simple-expressions">単純式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ops-exprs.html#compound-expressions">複雑式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ops-exprs.html#controlling-order-of-operations">操作順の制御</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ops-exprs.html#scoping-rules">スコープ規則</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ops-exprs.html#types-of-scopes">スコープの種類</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ops-exprs.html#nested-scopes-example">ネストしたスコープの例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="statements.html">文（Statements）</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="statements.html#simple-statements">単純な文</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="statements.html#expression-statements">式文（Expression Statements）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statements.html#parallel-execution-statement">並列実行文（PEX文）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statements.html#the-empty-statement">空文（Empty Statement）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statements.html#variable-declaration-statements">変数宣言文</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statements.html#constant-declaration-statements">定数宣言文</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statements.html#the-return-statement"><code class="docutils literal"><span class="pre">return</span></code> 文</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statements.html#the-throw-statement"><code class="docutils literal"><span class="pre">throw</span></code> 文</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="statements.html#complex-statements">複雑な文</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="statements.html#compound-statements">合成文（Compound Statements）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statements.html#conditional-statements">条件文</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statements.html#loop-statements">ループ文</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statements.html#loop-control-statements">ループ制御文</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="map-reduce.html">Map-Reduce</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="map-reduce.html#map-reduce-types">Map-Reduce 型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="map-reduce.html#the-valueproducer-valuetype-type"><code class="samp docutils literal"><span class="pre">ValueProducer&lt;</span><em><span class="pre">ValueType</span></em><span class="pre">&gt;</span></code> 型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="map-reduce.html#the-arrayproducer-elementtype-type"><code class="samp docutils literal"><span class="pre">ArrayProducer&lt;</span><em><span class="pre">ElementType</span></em><span class="pre">&gt;</span></code> 型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="map-reduce.html#map-reduce-functions">Map-Reduce 関数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="map-reduce.html#value-producer-creation-functions">値プロデューサを作成する関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="map-reduce.html#array-producer-creation-functions">配列プロデューサを作成する関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="map-reduce.html#reduce-functions">Reduce 関数</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>索引<a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../genindex.html"><span class="std std-ref">索引</span></a></li>
+<li><a class="reference internal" href="../search.html"><span class="std std-ref">検索ページ</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">KL プログラミングガイド</a><ul>
+<li><a class="reference internal" href="#table-of-contents">目次</a></li>
+<li><a class="reference internal" href="#indices-and-tables">索引</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="../CanvasProgrammerGuide/tests.html"
+                        title="前の章へ">Testing a graph</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="intro.html"
+                        title="次の章へ">はじめに</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/KLProgrammingGuide/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLProgrammingGuide/index.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="はじめに"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="../CanvasProgrammerGuide/tests.html" title="Testing a graph"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

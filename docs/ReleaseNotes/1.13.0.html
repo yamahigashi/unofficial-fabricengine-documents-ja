@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fabric Engine 1.13.0 Release Notes &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fabric-engine-1-13-0-release-notes">
+<span id="relnotes-1-13-0"></span><h1>Fabric Engine 1.13.0 Release Notes<a class="headerlink" href="#fabric-engine-1-13-0-release-notes" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../_images/FE_logo_345_60.png"><img alt="../_images/FE_logo_345_60.png" src="../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 1.13.0</div>
+<div class="line">Released Friday 10 October 2014</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc. All rights reserved.</div>
+</div>
+<div class="contents local topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#important-notes-read-me-first" id="id2">Important Notes - Read Me First!</a></li>
+<li><a class="reference internal" href="#downloads" id="id3">Downloads</a></li>
+<li><a class="reference internal" href="#major-changes-in-fabric-engine-1-13-0" id="id4">Major Changes in Fabric Engine 1.13.0</a><ul>
+<li><a class="reference internal" href="#installers" id="id5">Installers</a></li>
+<li><a class="reference internal" href="#scene-graph" id="id6">Scene Graph</a></li>
+<li><a class="reference internal" href="#licensing" id="id7">Licensing</a></li>
+<li><a class="reference internal" href="#documentation" id="id8">Documentation</a><ul>
+<li><a class="reference internal" href="#klextensionsguide" id="id9">KLExtensionsGuide</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#splice" id="id10">Splice</a></li>
+<li><a class="reference internal" href="#extensions" id="id11">Extensions</a><ul>
+<li><a class="reference internal" href="#geometry-extension" id="id12">Geometry Extension</a></li>
+<li><a class="reference internal" href="#manipulation-extension" id="id13">Manipulation Extension</a></li>
+<li><a class="reference internal" href="#inlinedrawing-extension" id="id14">InlineDrawing Extension</a></li>
+<li><a class="reference internal" href="#characters-extension" id="id15">Characters Extension</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fabric-core" id="id16">Fabric Core</a><ul>
+<li><a class="reference internal" href="#kl-language-and-compiler" id="id17">KL Language and Compiler</a></li>
+<li><a class="reference internal" href="#gpu-compute" id="id18">GPU Compute</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#known-issues" id="id19">Known Issues</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#documentation-1-13-0" id="id20">Documentation</a></li>
+<li><a class="reference internal" href="#upgrading-applications-to-version-1-13-0" id="id21">Upgrading Applications to Version 1.13.0</a></li>
+<li><a class="reference internal" href="#previous-release-notes" id="id22">Previous Release Notes</a></li>
+</ul>
+</div>
+<div class="section" id="important-notes-read-me-first">
+<h2><a class="toc-backref" href="#id2">Important Notes - Read Me First!</a><a class="headerlink" href="#important-notes-read-me-first" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>We have removed PySide from the Fabric Engine distribution.<ul>
+<li>If you are on OS X you should remove the symlink located at <code class="file docutils literal"><span class="pre">/Library/Python/2.7/site-packages/PySide</span></code>, otherwise if you later install PySide from a third-party package manager such as Homebrew it may not be found.</li>
+</ul>
+</li>
+<li>OSX Splice Standalone support requires the latest Qt (4.8.6) which can be downloaded here: <a class="reference external" href="http://www.qt.io/download-open-source/">http://www.qt.io/download-open-source/</a></li>
+<li>Fabric Engine requires a video card and driver that support OpenGL 3.2 or later.</li>
+</ul>
+</div>
+<div class="section" id="downloads">
+<span id="downloads-1-13-0"></span><h2><a class="toc-backref" href="#id3">Downloads</a><a class="headerlink" href="#downloads" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>All downloads for Fabric Engine 1.13.0 can be obtained at <a class="reference external" href="http://dist.fabric-engine.com/FabricEngine/1.13.0/">http://dist.fabric-engine.com/FabricEngine/1.13.0/</a>.  For information on installation please refer to the <span class="xref std std-ref">InstallationGuide</span>.</p>
+</div>
+<div class="section" id="major-changes-in-fabric-engine-1-13-0">
+<h2><a class="toc-backref" href="#id4">Major Changes in Fabric Engine 1.13.0</a><a class="headerlink" href="#major-changes-in-fabric-engine-1-13-0" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="installers">
+<h3><a class="toc-backref" href="#id5">Installers</a><a class="headerlink" href="#installers" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li>Fabric Engine is no longer distributed with installer packages (eg. .msi, .rpm); only installer archives (.zip) are provided. More information on installation can be found in the <span class="xref std std-ref">InstallationGuide</span>.</li>
+</ul>
+</div>
+<div class="section" id="scene-graph">
+<h3><a class="toc-backref" href="#id6">Scene Graph</a><a class="headerlink" href="#scene-graph" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li>The old Python Scene Graph has been removed.</li>
+<li>We are working on a SceneGraph 2.0 for the release of Fabric Engine 2.0.</li>
+</ul>
+</div>
+<div class="section" id="licensing">
+<h3><a class="toc-backref" href="#id7">Licensing</a><a class="headerlink" href="#licensing" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li>Licensing is no longer required for individual use.  If no license information is found, Fabric starts with the message “Licensed for individual use only” and there is no longer a pause when starting up.</li>
+</ul>
+</div>
+<div class="section" id="documentation">
+<h3><a class="toc-backref" href="#id8">Documentation</a><a class="headerlink" href="#documentation" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li>The documentation has been significantly overhauled and expanded. Almost all extensions have much more complete documentation; in particular, the Geometry extension is now much better documented. Additionally all types can be clicked upon, inheritance diagrams have been added and much more. See <a class="reference internal" href="../KLExtensionsGuide/InlineDrawing/InlineEntityBase.html#inlineentitybase"><span class="std std-ref">InlineEntityBase</span></a> for an example.</li>
+</ul>
+<div class="section" id="klextensionsguide">
+<h4><a class="toc-backref" href="#id9">KLExtensionsGuide</a><a class="headerlink" href="#klextensionsguide" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<ul class="simple">
+<li>Most extension documentation now also includes example code for how to use the extension.</li>
+<li>A new <a class="reference internal" href="../KLStyleGuide/index.html#klstyleguide"><span class="std std-ref">KL スタイルガイド</span></a> has been written to provide some guidance on how to format KL code and include documentation within KL code.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="splice">
+<h3><a class="toc-backref" href="#id10">Splice</a><a class="headerlink" href="#splice" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li>A new C++ <span class="xref std std-ref">SPLICESTANDALONE</span> application shell has been provided to make it easier to write standalone C++ Splice applications.</li>
+<li>New <a class="reference internal" href="../KLExtensionsGuide/Util/EvalContext.html#evalcontext"><span class="std std-ref">EvalContext</span></a> KL object. This provides access to host and graph information, as well as dirty flag filtering.</li>
+<li>Maya now supports use of the <a class="reference internal" href="../KLExtensionsGuide/FabricInterfaces/Detachable.html#detachable"><span class="std std-ref">Detachable</span></a> interface, which is invoked when a node in maya is deleted or undo is performed.</li>
+<li><a class="reference internal" href="../KLExtensionsGuide/Manipulation/Manipulator.html#manipulator"><span class="std std-ref">Manipulator</span></a> objects can now call custom commands in the <a class="reference internal" href="../KLExtensionsGuide/Manipulation/Host.html#host"><span class="std std-ref">Host</span></a> application, using the <a class="reference internal" href="../KLExtensionsGuide/Manipulation/Host.html#id70278"><span class="std std-ref">Host.callCustomCommand</span></a> method. This allows to perform script command actions when manipulation occurs, for example to set an attribute value within the DCC.</li>
+<li>The Maya Deformer now uses an array of <a class="reference internal" href="../KLExtensionsGuide/Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> objects instead of mesh0, mesh1 etc ports.</li>
+<li>Customizable persistence support by using the <a class="reference internal" href="../KLExtensionsGuide/FabricInterfaces/Persistable.html#persistable"><span class="std std-ref">Persistable</span></a> interface.</li>
+<li>SpliceNodes in Maya now persist both opaqueness and internal states of ports.</li>
+<li>Compound attribute structure is now persisted in Maya.</li>
+<li>Maya is now supported on OS X.</li>
+<li>Splice is now linked against boost 1.55.</li>
+<li>Construction of the Fabric Core client now happens in the FabricSpliceBaseInterface::constructBaseInterface in Maya Splice. (Custom Splice Nodes will have to be adapted for this). This fixes startup times on Maya 2012 or earlier.</li>
+</ul>
+</div>
+<div class="section" id="extensions">
+<h3><a class="toc-backref" href="#id11">Extensions</a><a class="headerlink" href="#extensions" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li>Extensions now support versioning, allowing users to load specific versions of extensions in their KL code. For more information see <a class="reference internal" href="../ExtensionAuthoringGuide/fpm.html#exts-versioning"><span class="std std-ref">version ：エクステンション・バージョニングの指定（任意）</span></a>.</li>
+<li>New binary stream support in the <a class="reference internal" href="../KLExtensionsGuide/FileIO/index.html#fileio-extension"><span class="std std-ref">FileIO エクステンション</span></a> to support Splice persistence changes.</li>
+<li>New <a class="reference internal" href="../KLExtensionsGuide/JSON/index.html#json-extension"><span class="std std-ref">JSON エクステンション</span></a> to support parsing and writing of json data strings.</li>
+<li>New <span class="xref std std-ref">spliceinterfaces_extension</span>.</li>
+<li>The <a class="reference internal" href="../KLExtensionsGuide/Alembic/index.html#alembic-extension"><span class="std std-ref">Alembic エクステンション</span></a> is now available as a public repository. See <a class="reference external" href="http://github.com/fabric-engine/Alembic">http://github.com/fabric-engine/Alembic</a> for the source code.</li>
+</ul>
+<div class="section" id="geometry-extension">
+<h4><a class="toc-backref" href="#id12">Geometry Extension</a><a class="headerlink" href="#geometry-extension" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<ul class="simple">
+<li>Geometry extension refactored to use KL inheritance.</li>
+<li>Containers/allocator objects moved to a new Containers extension</li>
+<li>New SkinningAttribute for variable count of id-weight pairs per point.</li>
+<li>SpatialQuery: new line and semi-line intersection methods.</li>
+</ul>
+</div>
+<div class="section" id="manipulation-extension">
+<h4><a class="toc-backref" href="#id13">Manipulation Extension</a><a class="headerlink" href="#manipulation-extension" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<ul class="simple">
+<li>Refactored to use KL inheritance which simplified the development of custom manipulators.</li>
+<li>The &#8216;MultiChannelPaintManipulator&#8217; was moved to the &#8216;RiggingToolbox&#8217; found here <a class="reference external" href="https://github.com/fabric-engine/RiggingToolbox">https://github.com/fabric-engine/RiggingToolbox</a></li>
+</ul>
+</div>
+<div class="section" id="inlinedrawing-extension">
+<h4><a class="toc-backref" href="#id14">InlineDrawing Extension</a><a class="headerlink" href="#inlinedrawing-extension" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<ul class="simple">
+<li>The <a class="reference internal" href="../KLExtensionsGuide/InlineDrawing/index.html#inlinedrawing-extension"><span class="std std-ref">InlineDrawing エクステンション</span></a> is now using inheritance. Some interfaces have been converted to objects. Your custom OGL Shaders will need refactoring.</li>
+<li>The new <a class="reference internal" href="../KLExtensionsGuide/InlineDrawing/DrawingHandle.html#drawinghandle"><span class="std std-ref">DrawingHandle</span></a> object for the inline drawing can help manage lifetimes of drawn elements.</li>
+<li>More tools to simplify the generation of visual debugging</li>
+<li>Inline Drawing now works on OS X</li>
+</ul>
+</div>
+<div class="section" id="characters-extension">
+<h4><a class="toc-backref" href="#id15">Characters Extension</a><a class="headerlink" href="#characters-extension" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<ul class="simple">
+<li>The <a class="reference internal" href="../KLExtensionsGuide/Characters/index.html#characters-extension"><span class="std std-ref">Characters エクステンション</span></a> is now using inheritance which simplifies working with the Characters API.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="fabric-core">
+<span id="relnotes-1-13-0-core"></span><h3><a class="toc-backref" href="#id16">Fabric Core</a><a class="headerlink" href="#fabric-core" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li>Better stack traces when a KL exception occurs on Windows and Linux. Also, KL code can dump the current stack frame information as a debugging aid with the dumpstack() call.</li>
+<li>Debug info has been permanently enabled in KL applications, allowing easier debuggability.</li>
+<li>Performance improvements in loading applications, especially when cached.</li>
+<li>Extensions can now be reloaded while Fabric is running.</li>
+<li>Fabric Engine can now be run with no HOME directory set.</li>
+<li>Improvements to background optimization process allowing it to complete more quickly.</li>
+</ul>
+<div class="section" id="kl-language-and-compiler">
+<h4><a class="toc-backref" href="#id17">KL Language and Compiler</a><a class="headerlink" href="#kl-language-and-compiler" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<ul class="simple">
+<li>Support for inheritance in objects and structs (see <a class="reference internal" href="../KLProgrammingGuide/types.html#kplg-structure-inheritance"><span class="std std-ref">構造体の継承</span></a>, <a class="reference internal" href="../KLProgrammingGuide/types.html#kplg-object-inheritance"><span class="std std-ref">オブジェクトの継承</span></a> and <a class="reference internal" href="../KLProgrammingGuide/types.html#klpg-interfaces-inheritance"><span class="std std-ref">インタフェースと継承</span></a>).</li>
+<li>Improved error and warning messages, especially in the case of polymorphic method resolution.</li>
+<li>A variable-length array can now be given an initial size when constructed.</li>
+<li>Structures can now be used as dictionary keys if the user provides an implementation for a .hash() method for the structure.</li>
+<li>A core client can now request a copy of the parsed KL syntax tree for Doxygen-like documentation purposes.</li>
+</ul>
+</div>
+<div class="section" id="gpu-compute">
+<h4><a class="toc-backref" href="#id18">GPU Compute</a><a class="headerlink" href="#gpu-compute" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<ul class="simple">
+<li>More detailed control over memory (CPU/GPU) via KL methods.</li>
+<li>Added <span class="xref std std-ref">cudagl_extension</span> for binding GL buffer data into CUDA KL operators.</li>
+<li>Added <span class="xref std std-ref">cudaglhelpers_extension</span> to provide a higher level buffer manager.</li>
+<li>See the updated <a class="reference internal" href="../GPUCompute/index.html#gpucompute"><span class="std std-ref">GPU Compute ガイド</span></a> for more information on changes to GPU compute.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="known-issues">
+<span id="knownissues-1-13-0"></span><h3><a class="toc-backref" href="#id19">Known Issues</a><a class="headerlink" href="#known-issues" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li>The Splice manipulation tool hotkey does not work in Maya 2015. You can use the Fabric Splice top menu to enable it.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="documentation-1-13-0">
+<span id="id1"></span><h2><a class="toc-backref" href="#id20">Documentation</a><a class="headerlink" href="#documentation-1-13-0" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Complete documentation for Fabric Engine can be <a class="reference internal" href="../index.html#top"><span class="std std-ref">found here</span></a>.</p>
+</div>
+<div class="section" id="upgrading-applications-to-version-1-13-0">
+<span id="upgrading-apps-1-13-0"></span><h2><a class="toc-backref" href="#id21">Upgrading Applications to Version 1.13.0</a><a class="headerlink" href="#upgrading-applications-to-version-1-13-0" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>Previously implemented shaders for the <a class="reference internal" href="../KLExtensionsGuide/InlineDrawing/index.html#inlinedrawing-extension"><span class="std std-ref">InlineDrawing エクステンション</span></a> will have to be upgraded to use KL inheritance. Please see the <a class="reference internal" href="../KLExtensionsGuide/InlineDrawing/OGLSurfaceShader.html#oglsurfaceshader"><span class="std std-ref">OGLSurfaceShader</span></a> for an example.</li>
+<li>Splice deformers for Maya should be rewritten to make use of the new <a class="reference internal" href="../KLExtensionsGuide/Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> array support. The old mesh0, mesh1, etc port list is still supported, but might be dropped in a future version.</li>
+</ul>
+</div>
+<div class="section" id="previous-release-notes">
+<h2><a class="toc-backref" href="#id22">Previous Release Notes</a><a class="headerlink" href="#previous-release-notes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="1.12.0.html#relnotes-1-12-0"><span class="std std-ref">Fabric Engine 1.12.0 Release Notes</span></a></li>
+<li><a class="reference internal" href="1.11.4.html#relnotes-1-11-4"><span class="std std-ref">Fabric Engine 1.11.4 Release Notes</span></a></li>
+<li><a class="reference internal" href="1.11.3.html#relnotes-1-11-3"><span class="std std-ref">Fabric Engine 1.11.3 Release Notes</span></a></li>
+<li><a class="reference internal" href="1.11.2.html#relnotes-1-11-2"><span class="std std-ref">Fabric Engine 1.11.2 Release Notes</span></a></li>
+<li><a class="reference internal" href="1.11.0.html#relnotes-1-11-0"><span class="std std-ref">Fabric Engine 1.11.0 Release Notes</span></a></li>
+<li><a class="reference internal" href="1.10.0.html#relnotes-1-10-0"><span class="std std-ref">Fabric Engine 1.10.0 Release Notes</span></a></li>
+<li><a class="reference internal" href="1.9.0-beta.html#relnotes-1-9-0-beta"><span class="std std-ref">Creation Platform 1.9.0-beta Release Notes</span></a></li>
+<li><a class="reference internal" href="1.8.0-beta.html#relnotes-1-8-0-beta"><span class="std std-ref">Creation Platform 1.8.0-beta Release Notes</span></a></li>
+<li><a class="reference internal" href="1.7.3-beta.html#relnotes-1-7-3-beta"><span class="std std-ref">Creation Platform 1.7.3-beta Release Notes</span></a></li>
+</ul>
+<span class="target" id="notes-1-13-0"></span></div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Fabric Engine 1.13.0 Release Notes</a><ul>
+<li><a class="reference internal" href="#important-notes-read-me-first">Important Notes - Read Me First!</a></li>
+<li><a class="reference internal" href="#downloads">Downloads</a></li>
+<li><a class="reference internal" href="#major-changes-in-fabric-engine-1-13-0">Major Changes in Fabric Engine 1.13.0</a><ul>
+<li><a class="reference internal" href="#installers">Installers</a></li>
+<li><a class="reference internal" href="#scene-graph">Scene Graph</a></li>
+<li><a class="reference internal" href="#licensing">Licensing</a></li>
+<li><a class="reference internal" href="#documentation">Documentation</a><ul>
+<li><a class="reference internal" href="#klextensionsguide">KLExtensionsGuide</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#splice">Splice</a></li>
+<li><a class="reference internal" href="#extensions">Extensions</a><ul>
+<li><a class="reference internal" href="#geometry-extension">Geometry Extension</a></li>
+<li><a class="reference internal" href="#manipulation-extension">Manipulation Extension</a></li>
+<li><a class="reference internal" href="#inlinedrawing-extension">InlineDrawing Extension</a></li>
+<li><a class="reference internal" href="#characters-extension">Characters Extension</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fabric-core">Fabric Core</a><ul>
+<li><a class="reference internal" href="#kl-language-and-compiler">KL Language and Compiler</a></li>
+<li><a class="reference internal" href="#gpu-compute">GPU Compute</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#known-issues">Known Issues</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#documentation-1-13-0">Documentation</a></li>
+<li><a class="reference internal" href="#upgrading-applications-to-version-1-13-0">Upgrading Applications to Version 1.13.0</a></li>
+<li><a class="reference internal" href="#previous-release-notes">Previous Release Notes</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/ReleaseNotes/1.13.0.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/ReleaseNotes/1.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

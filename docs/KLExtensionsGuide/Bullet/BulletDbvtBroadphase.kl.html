@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>BulletDbvtBroadphase.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Bullet Extension’s Files" href="files.html" />
+    <link rel="next" title="BulletDefaultCollisionConfiguration.kl" href="BulletDefaultCollisionConfiguration.kl.html" />
+    <link rel="prev" title="BulletCylinderShape.kl" href="BulletCylinderShape.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="BulletDefaultCollisionConfiguration.kl.html" title="BulletDefaultCollisionConfiguration.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="BulletCylinderShape.kl.html" title="BulletCylinderShape.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Bullet エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Bullet Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="bullet-bulletdbvtbroadphase-kl">
+<span id="bulletdbvtbroadphase-kl"></span><span id="id1"></span><h1>BulletDbvtBroadphase.kl<a class="headerlink" href="#bullet-bulletdbvtbroadphase-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="bulletdbvtbroadphase-object">
+<h3>BulletDbvtBroadphase (object)<a class="headerlink" href="#bulletdbvtbroadphase-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="BulletDbvtBroadphase.html#bulletdbvtbroadphase"><span class="std std-ref">BulletDbvtBroadphase</span></a> implements a broadphase using two dynamic AABB bounding volume hierarchies/trees (see BulletDbvt).
+One tree is used for static/non-moving objects, and another tree is used for dynamic objects. Objects can move from one tree to the other.
+This is a very fast broadphase, especially for very dynamic worlds where many objects are moving. Its insert/add and remove of objects is generally faster than the sweep and prune broadphases <a class="reference internal" href="BulletAxisSweep3.html#bulletaxissweep3"><span class="std std-ref">BulletAxisSweep3</span></a> and <a class="reference internal" href="Bullet32BitAxisSweep3.html#bullet32bitaxissweep3"><span class="std std-ref">Bullet32BitAxisSweep3</span></a>.</p>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="63%" />
+<col width="28%" />
+<col width="9%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a></td>
+<td>pointer</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="26%" />
+<col width="74%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletDbvtBroadphase.html#id110855"><span class="std std-ref">BulletDbvtBroadphase</span></a>  ( in <a class="reference internal" href="BulletDbvtBroadphase.html#bulletdbvtbroadphase"><span class="std std-ref">BulletDbvtBroadphase</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletDbvtBroadphase.html#id32572"><span class="std std-ref">BulletDbvtBroadphase</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletDbvtBroadphase.html#id32599"><span class="std std-ref">__aabbTest</span></a> ? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> aabbMin, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> aabbMax, in <a class="reference internal" href="BulletBroadphaseAabbCallback.html#bulletbroadphaseaabbcallback"><span class="std std-ref">BulletBroadphaseAabbCallback</span></a> callback )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletDbvtBroadphase.html#id32575"><span class="std std-ref">__construct</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletDbvtBroadphase.html#id32593"><span class="std std-ref">__customAabbTest</span></a> ? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> aabbMin, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> aabbMax, in <a class="reference internal" href="BulletBroadphaseAabbCallback.html#bulletbroadphaseaabbcallback"><span class="std std-ref">BulletBroadphaseAabbCallback</span></a> callback )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletDbvtBroadphase.html#id32584"><span class="std std-ref">__destroy</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletDbvtBroadphase.html#id32587"><span class="std std-ref">aabbTest</span></a> ? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> aabbMin, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> aabbMax, in <a class="reference internal" href="BulletBroadphaseAabbCallback.html#bulletbroadphaseaabbcallback"><span class="std std-ref">BulletBroadphaseAabbCallback</span></a> callback )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletDbvtBroadphase.html#id32611"><span class="std std-ref">calculateOverlappingPairs</span></a> ! ( in <a class="reference internal" href="BulletDispatcher.html#bulletdispatcher"><span class="std std-ref">BulletDispatcher</span></a> dispatcher )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="BulletDbvtBroadphase.html#bulletdbvtbroadphase"><span class="std std-ref">BulletDbvtBroadphase</span></a></td>
+<td><a class="reference internal" href="BulletDbvtBroadphase.html#id110859"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletDbvtBroadphase.html#id32605"><span class="std std-ref">getAabb</span></a> ? ( in <a class="reference internal" href="BulletBroadphaseProxy.html#bulletbroadphaseproxy"><span class="std std-ref">BulletBroadphaseProxy</span></a> proxy, io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> aabbMin, io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> aabbMax )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletDbvtBroadphase.html#id32618"><span class="std std-ref">getBroadphaseAabb</span></a> ? ( io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> aabbMin, io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> aabbMax )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="BulletOverlappingPairCache.html#bulletoverlappingpaircache"><span class="std std-ref">BulletOverlappingPairCache</span></a></td>
+<td><a class="reference internal" href="BulletDbvtBroadphase.html#id32615"><span class="std std-ref">getOverlappingPairCache</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a></td>
+<td><a class="reference internal" href="BulletDbvtBroadphase.html#id32566"><span class="std std-ref">getPointer</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="BulletDbvtBroadphase.html#id32635"><span class="std std-ref">getVelocityPrediction</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletDbvtBroadphase.html#id32627"><span class="std std-ref">performDeferredRemoval</span></a> ! ( in <a class="reference internal" href="BulletDispatcher.html#bulletdispatcher"><span class="std std-ref">BulletDispatcher</span></a> dispatcher )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletDbvtBroadphase.html#id32623"><span class="std std-ref">resetPool</span></a> ! ( in <a class="reference internal" href="BulletDispatcher.html#bulletdispatcher"><span class="std std-ref">BulletDispatcher</span></a> dispatcher )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletDbvtBroadphase.html#id32631"><span class="std std-ref">setVelocityPrediction</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> prediction )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="BulletDbvtBroadphase.html#id32581"><span class="std std-ref">~BulletDbvtBroadphase</span></a>  ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="BulletCylinderShape.kl.html"
+                        title="前の章へ">BulletCylinderShape.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="BulletDefaultCollisionConfiguration.kl.html"
+                        title="次の章へ">BulletDefaultCollisionConfiguration.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Bullet/BulletDbvtBroadphase.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Bullet/BulletDbvtBroadphase.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="BulletDefaultCollisionConfiguration.kl.html" title="BulletDefaultCollisionConfiguration.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="BulletCylinderShape.kl.html" title="BulletCylinderShape.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Bullet エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >Bullet Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

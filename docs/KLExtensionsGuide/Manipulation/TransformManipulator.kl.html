@@ -1,0 +1,333 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>TransformManipulator.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Manipulation Extension’s Files" href="files.html" />
+    <link rel="next" title="Weightmap.kl" href="Weightmap.kl.html" />
+    <link rel="prev" title="TransformManipulationCommand.kl" href="TransformManipulationCommand.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Weightmap.kl.html" title="Weightmap.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="TransformManipulationCommand.kl.html" title="TransformManipulationCommand.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Manipulation エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Manipulation Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="manipulation-transformmanipulator-kl">
+<span id="transformmanipulator-kl"></span><span id="id1"></span><h1>TransformManipulator.kl<a class="headerlink" href="#manipulation-transformmanipulator-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="transformmanipulator-object">
+<h3>TransformManipulator (object)<a class="headerlink" href="#transformmanipulator-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">バージョン 1.12.0 で追加.</span></p>
+</div>
+<p class="plaintext">The <a class="reference internal" href="TransformManipulator.html#transformmanipulator"><span class="std std-ref">TransformManipulator</span></a> combines a <a class="reference internal" href="PositionGizmosManager.html#positiongizmosmanager"><span class="std std-ref">PositionGizmosManager</span></a>
+and a <a class="reference internal" href="OrientationGizmosManager.html#orientationgizmosmanager"><span class="std std-ref">OrientationGizmosManager</span></a> to support translation and rotation in 3d.</p>
+<p class="plaintext">The Transform manipulator displays a collection of different gizmos, each for
+manipulating the transforms in a different way.</p>
+<p class="plaintext">When a TransformManipulator is constructed, it automatically constructs the <a class="reference internal" href="PositionGizmosManager.html#positiongizmosmanager"><span class="std std-ref">PositionGizmosManager</span></a>
+and <a class="reference internal" href="OrientationGizmosManager.html#orientationgizmosmanager"><span class="std std-ref">OrientationGizmosManager</span></a>, which in turn construct Gizmo manages for each axis and plane of manipulation.</p>
+<p class="plaintext">The <a class="reference internal" href="TransformManipulator.html#transformmanipulator"><span class="std std-ref">TransformManipulator</span></a> can be used to manipulate a group of transforms via the
+<a class="reference internal" href="GizmoManipulationCallback.html#gizmomanipulationcallback"><span class="std std-ref">GizmoManipulationCallback</span></a>. As the gizmos are manipulated, the computed
+delta transforms that are then sent to the <a class="reference internal" href="GizmoManipulationCallback.html#gizmomanipulationcallback"><span class="std std-ref">GizmoManipulationCallback</span></a> callback for handling.
+It is the callbacks responsibility to apply the delta to the targets and generate
+the undo/redo objects.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="Manipulator.html#manipulator"><span class="std std-ref">Manipulator</span></a>, <a class="reference internal" href="GizmoManipulator.html#gizmomanipulator"><span class="std std-ref">GizmoManipulator</span></a>, <a class="reference internal" href="GizmoManipulationCallback.html#gizmomanipulationcallback"><span class="std std-ref">GizmoManipulationCallback</span></a></p>
+</div>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: TransformManipulator-Example</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">InlineDrawing</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="c1">// this is a singleton</span>
+  <span class="nx">InlineDrawing</span> <span class="nx">drawing</span> <span class="o">=</span> <span class="nx">OGLInlineDrawing_GetInstance</span><span class="p">();</span>
+
+
+  <span class="nx">InlineTransform</span> <span class="nx">groupTransform</span> <span class="o">=</span> <span class="nx">StaticInlineTransform</span><span class="p">(</span><span class="s1">&#39;groupTransform&#39;</span><span class="p">,</span> <span class="nx">Xfo</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)));</span>
+  <span class="nx">drawing</span><span class="p">.</span><span class="nx">getRoot</span><span class="p">().</span><span class="nx">addChild</span><span class="p">(</span><span class="nx">groupTransform</span><span class="p">);</span>
+
+  <span class="c1">// Setup the manipulator</span>
+  <span class="p">{</span>
+      <span class="nx">Ref</span><span class="o">&lt;</span><span class="nx">EventDispatcher</span><span class="o">&gt;</span> <span class="nx">eventDispatcher</span> <span class="o">=</span> <span class="nx">EventDispatcher_GetInstance</span><span class="p">();</span>
+
+      <span class="nx">TransformManipulationCallback</span> <span class="nx">callback</span><span class="p">();</span>
+      <span class="nx">callback</span><span class="p">.</span><span class="nx">addTarget</span><span class="p">(</span><span class="nx">groupTransform</span><span class="p">);</span>
+
+      <span class="nx">TransformManipulator</span> <span class="nx">transformManipulator</span> <span class="o">=</span> <span class="nx">TransformManipulator</span><span class="p">(</span><span class="nx">groupTransform</span><span class="p">,</span> <span class="mf">140.0</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+      <span class="nx">eventDispatcher</span><span class="p">.</span><span class="nx">registerManipulator</span><span class="p">(</span><span class="nx">transformManipulator</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="p">{</span>
+    <span class="nx">InlineShader</span> <span class="nx">surfaceShader</span> <span class="o">=</span> <span class="nx">OGLSurfaceShader</span><span class="p">(</span><span class="s1">&#39;surface&#39;</span><span class="p">);</span>
+    <span class="nx">drawing</span><span class="p">.</span><span class="nx">registerShader</span><span class="p">(</span><span class="nx">surfaceShader</span><span class="p">);</span>
+
+    <span class="nx">InlineMaterial</span> <span class="nx">phongMaterial</span> <span class="o">=</span> <span class="nx">surfaceShader</span><span class="p">.</span><span class="nx">getOrCreateMaterial</span><span class="p">(</span><span class="s2">&quot;phong&quot;</span><span class="p">);</span>
+
+    <span class="nx">Size</span> <span class="nx">offset</span><span class="p">;</span>
+
+    <span class="c1">// create some spheres</span>
+
+    <span class="p">{</span>
+      <span class="nx">PolygonMesh</span> <span class="nx">sphere</span><span class="p">();</span>
+      <span class="nx">Size</span> <span class="nx">detail</span> <span class="o">=</span> <span class="mi">24</span><span class="p">;</span>
+      <span class="nx">Scalar</span> <span class="nx">radius</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+      <span class="nx">sphere</span><span class="p">.</span><span class="nx">addSphere</span><span class="p">(</span><span class="nx">Xfo</span><span class="p">(),</span> <span class="nx">radius</span><span class="p">,</span> <span class="nx">detail</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+
+      <span class="nx">InlineMeshShape</span> <span class="nx">shape</span> <span class="o">=</span> <span class="nx">InlineMeshShape</span><span class="p">(</span><span class="s1">&#39;sphere&#39;</span><span class="p">,</span> <span class="nx">sphere</span><span class="p">);</span>
+      <span class="nx">drawing</span><span class="p">.</span><span class="nx">registerShape</span><span class="p">(</span><span class="nx">shape</span><span class="p">);</span>
+
+      <span class="p">{</span>
+        <span class="nx">InlineTransform</span> <span class="nx">transform</span> <span class="o">=</span> <span class="nx">StaticInlineTransform</span><span class="p">(</span><span class="s1">&#39;sphereTransform&#39;</span><span class="p">,</span> <span class="nx">Xfo</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)));</span>
+        <span class="nx">groupTransform</span><span class="p">.</span><span class="nx">addChild</span><span class="p">(</span><span class="nx">transform</span><span class="p">);</span>
+
+        <span class="nx">InlineInstance</span> <span class="nx">instance</span> <span class="o">=</span> <span class="nx">InlineInstance</span><span class="p">(</span><span class="s1">&#39;sphere1&#39;</span><span class="p">,</span> <span class="nx">transform</span><span class="p">,</span> <span class="nx">shape</span><span class="p">);</span>
+        <span class="nx">instance</span><span class="p">.</span><span class="nx">setInstanceUniform</span><span class="p">(</span><span class="nx">InlineUniform</span><span class="p">(</span><span class="s1">&#39;u_diffuseColor&#39;</span><span class="p">,</span> <span class="nx">Color</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)));</span>
+
+        <span class="nx">instance</span><span class="p">.</span><span class="nx">addMaterial</span><span class="p">(</span><span class="nx">phongMaterial</span><span class="p">);</span>
+      <span class="p">}</span>
+
+      <span class="p">{</span>
+        <span class="nx">InlineTransform</span> <span class="nx">transform</span> <span class="o">=</span> <span class="nx">StaticInlineTransform</span><span class="p">(</span><span class="s1">&#39;sphereTransform&#39;</span><span class="p">,</span> <span class="nx">Xfo</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)));</span>
+        <span class="nx">groupTransform</span><span class="p">.</span><span class="nx">addChild</span><span class="p">(</span><span class="nx">transform</span><span class="p">);</span>
+
+        <span class="nx">InlineInstance</span> <span class="nx">instance</span> <span class="o">=</span> <span class="nx">InlineInstance</span><span class="p">(</span><span class="s1">&#39;sphere2&#39;</span><span class="p">,</span> <span class="nx">transform</span><span class="p">,</span> <span class="nx">shape</span><span class="p">);</span>
+        <span class="nx">instance</span><span class="p">.</span><span class="nx">setInstanceUniform</span><span class="p">(</span><span class="nx">InlineUniform</span><span class="p">(</span><span class="s1">&#39;u_diffuseColor&#39;</span><span class="p">,</span>  <span class="nx">Color</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)));</span>
+
+        <span class="nx">instance</span><span class="p">.</span><span class="nx">addMaterial</span><span class="p">(</span><span class="nx">phongMaterial</span><span class="p">);</span>
+
+      <span class="p">}</span>
+      <span class="p">{</span>
+        <span class="nx">InlineTransform</span> <span class="nx">transform</span> <span class="o">=</span> <span class="nx">StaticInlineTransform</span><span class="p">(</span><span class="s1">&#39;sphereTransform&#39;</span><span class="p">,</span> <span class="nx">Xfo</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)));</span>
+        <span class="nx">groupTransform</span><span class="p">.</span><span class="nx">addChild</span><span class="p">(</span><span class="nx">transform</span><span class="p">);</span>
+
+        <span class="nx">InlineInstance</span> <span class="nx">instance</span> <span class="o">=</span> <span class="nx">InlineInstance</span><span class="p">(</span><span class="s1">&#39;sphere3&#39;</span><span class="p">,</span> <span class="nx">transform</span><span class="p">,</span> <span class="nx">shape</span><span class="p">);</span>
+        <span class="nx">instance</span><span class="p">.</span><span class="nx">setInstanceUniform</span><span class="p">(</span><span class="nx">InlineUniform</span><span class="p">(</span><span class="s1">&#39;u_diffuseColor&#39;</span><span class="p">,</span> <span class="nx">Color</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)));</span>
+
+        <span class="nx">instance</span><span class="p">.</span><span class="nx">addMaterial</span><span class="p">(</span><span class="nx">phongMaterial</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="p">{</span>
+    <span class="c1">// activate the transform manipulator</span>
+    <span class="nx">Ref</span><span class="o">&lt;</span><span class="nx">EventDispatcher</span><span class="o">&gt;</span> <span class="nx">eventDispatcher</span> <span class="o">=</span> <span class="nx">EventDispatcher_GetInstance</span><span class="p">();</span>
+    <span class="nx">eventDispatcher</span><span class="p">.</span><span class="nx">pushManipulator</span><span class="p">(</span><span class="s1">&#39;TransformManipulator&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+<span class="cm">(stdin):19:28: error: &#39;Ref&lt;EventDispatcher&gt;&#39;: type not registered</span>
+<span class="cm">(stdin):21:7: error: &#39;TransformManipulationCallback&#39;: type not registered</span>
+<span class="cm">(stdin):22:7: error: &#39;callback&#39;: symbol not found</span>
+<span class="cm">(stdin):24:28: error: &#39;TransformManipulator&#39;: type not registered</span>
+<span class="cm">(stdin):25:7: error: &#39;eventDispatcher&#39;: symbol not found</span>
+<span class="cm">(stdin):79:26: error: &#39;Ref&lt;EventDispatcher&gt;&#39;: type not registered</span>
+<span class="cm">(stdin):80:5: error: &#39;eventDispatcher&#39;: symbol not found</span>
+
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="42%" />
+<col width="18%" />
+<col width="40%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>coneThreshold</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="GizmoHandler.html#gizmohandler"><span class="std std-ref">GizmoHandler</span></a></td>
+<td>activeGizmoHandler</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="GizmoHandler.html#gizmohandler"><span class="std std-ref">GizmoHandler</span></a></td>
+<td>mouseOverGizmoHandler</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="GizmoCollector.html#gizmocollector"><span class="std std-ref">GizmoCollector</span></a></td>
+<td>collector</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../InlineDrawing/InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a>[]</td>
+<td>gizmos</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="PositionGizmosManager.html#positiongizmosmanager"><span class="std std-ref">PositionGizmosManager</span></a></td>
+<td>positionGizmosManager</td>
+<td>The manager for the position gizmos</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="OrientationGizmosManager.html#orientationgizmosmanager"><span class="std std-ref">OrientationGizmosManager</span></a></td>
+<td>orientationGizmosManager</td>
+<td>The manager for the orientation gizmos</td>
+</tr>
+<tr class="row-even"><td>ManipulationMode</td>
+<td>mode</td>
+<td>The mode determining which gizmos are currently visible.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="21%" />
+<col width="79%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="TransformManipulator.html#id116407"><span class="std std-ref">TransformManipulator</span></a>  ( in <a class="reference internal" href="TransformManipulator.html#transformmanipulator"><span class="std std-ref">TransformManipulator</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="TransformManipulator.html#id73232"><span class="std std-ref">TransformManipulator</span></a>  ( io <a class="reference internal" href="../InlineDrawing/InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> parent, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> size, in <a class="reference internal" href="GizmoManipulationCallback.html#gizmomanipulationcallback"><span class="std std-ref">GizmoManipulationCallback</span></a> callback )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="TransformManipulator.html#id116404"><span class="std std-ref">TransformManipulator</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="TransformManipulator.html#transformmanipulator"><span class="std std-ref">TransformManipulator</span></a></td>
+<td><a class="reference internal" href="TransformManipulator.html#id116411"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="TransformManipulator.html#id73254"><span class="std std-ref">onDisable</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="TransformManipulator.html#id73251"><span class="std std-ref">onEnable</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="TransformManipulator.html#id73257"><span class="std std-ref">onEvent</span></a> ! ( io <a class="reference internal" href="Event.html#event"><span class="std std-ref">Event</span></a> event )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="TransformManipulator.html#id73244"><span class="std std-ref">setManipulationMode</span></a> ! ( in ManipulationMode mode )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="TransformManipulationCommand.kl.html"
+                        title="前の章へ">TransformManipulationCommand.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="Weightmap.kl.html"
+                        title="次の章へ">Weightmap.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Manipulation/TransformManipulator.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Manipulation/TransformManipulator.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Weightmap.kl.html" title="Weightmap.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="TransformManipulationCommand.kl.html" title="TransformManipulationCommand.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Manipulation エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >Manipulation Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

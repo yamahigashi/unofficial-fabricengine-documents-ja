@@ -1,0 +1,624 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>FabricSplice::KLParser &mdash; Fabric Engine 2.2.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.2.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Classes" href="classes.html" />
+    <link rel="next" title="Integrating Fabric:Splice" href="integrations.html" />
+    <link rel="prev" title="FabricSplice::Scripting" href="scripting.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="integrations.html" title="Integrating Fabric:Splice"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="scripting.html" title="FabricSplice::Scripting"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.2.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Fabric Engine Splice C/C++ API Documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="classes.html" accesskey="U">Classes</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fabricsplice-klparser">
+<span id="klparser"></span><h1>FabricSplice::KLParser<a class="headerlink" href="#fabricsplice-klparser" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>The KLParser class provides functionality to parse KL files. It also implements sub-classes for accessing contextual symbols for constants, structs, operators and functions. Using the <a class="reference internal" href="#klparser"><span class="std std-ref">FabricSplice::KLParser</span></a> you can implement code completion tools, analytic tools for KL code, doxygen style documentation generation tools etc.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">The KLParser will be deprecated after 1.13.0 and replaced by a proper AST representation.</p>
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The sample below shows how to use the <a class="reference internal" href="#klparser"><span class="std std-ref">FabricSplice::KLParser</span></a> for iterating over all defined symbols within a KL file.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;FabricSplice.h&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">FabricSplice</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span> <span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[]</span> <span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">klCode</span><span class="p">;</span>
+  <span class="n">klCode</span> <span class="o">+=</span> <span class="s">&quot;struct MyType {</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+  <span class="n">klCode</span> <span class="o">+=</span> <span class="s">&quot;  Float32 x;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+  <span class="n">klCode</span> <span class="o">+=</span> <span class="s">&quot;  Float32 y;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+  <span class="n">klCode</span> <span class="o">+=</span> <span class="s">&quot;}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+  <span class="n">klCode</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+  <span class="n">klCode</span> <span class="o">+=</span> <span class="s">&quot;function MyType(Float64 x, Float64 y) {</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+  <span class="n">klCode</span> <span class="o">+=</span> <span class="s">&quot;  this.x = x;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+  <span class="n">klCode</span> <span class="o">+=</span> <span class="s">&quot;  this.y = y;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+  <span class="n">klCode</span> <span class="o">+=</span> <span class="s">&quot;}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+
+  <span class="n">KLParser</span> <span class="n">parser</span> <span class="o">=</span> <span class="n">KLParser</span><span class="o">::</span><span class="n">getParser</span><span class="p">(</span><span class="s">&quot;MyType&quot;</span><span class="p">,</span> <span class="s">&quot;MyType&quot;</span><span class="p">,</span> <span class="n">klCode</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">parser</span><span class="p">.</span><span class="n">getNbKLSymbols</span><span class="p">();</span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">KLParser</span><span class="o">::</span><span class="n">KLSymbol</span> <span class="n">s</span> <span class="o">=</span> <span class="n">parser</span><span class="p">.</span><span class="n">getKLSymbol</span><span class="p">(</span><span class="n">j</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%03d: &#39;%s&#39; &#39;%s&#39;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="n">typeName</span><span class="p">(),</span> <span class="n">s</span><span class="p">.</span><span class="n">str</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="class-outline">
+<h2>Class Outline<a class="headerlink" href="#class-outline" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="n">FabricSplice</span>
+<span class="p">{</span>
+  <span class="k">class</span> <span class="nc">KLParser</span>
+  <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+
+    <span class="k">class</span> <span class="nc">KLSymbol</span>
+    <span class="p">{</span>
+    <span class="k">public</span><span class="o">:</span>
+
+      <span class="k">enum</span> <span class="n">Type</span> <span class="p">{</span>
+        <span class="n">Type_none</span><span class="p">,</span>
+
+        <span class="n">Type_separator</span><span class="p">,</span>
+        <span class="n">Type_semicolon</span><span class="p">,</span>
+        <span class="n">Type_comma</span><span class="p">,</span>
+        <span class="n">Type_period</span><span class="p">,</span>
+        <span class="n">Type_comment</span><span class="p">,</span>
+
+        <span class="n">Type_firstkeyword</span><span class="p">,</span>
+        <span class="n">Type_in</span><span class="p">,</span>
+        <span class="n">Type_io</span><span class="p">,</span>
+        <span class="n">Type_if</span><span class="p">,</span>
+        <span class="n">Type_else</span><span class="p">,</span>
+        <span class="n">Type_switch</span><span class="p">,</span>
+        <span class="n">Type_case</span><span class="p">,</span>
+        <span class="n">Type_default</span><span class="p">,</span>
+        <span class="n">Type_for</span><span class="p">,</span>
+        <span class="n">Type_while</span><span class="p">,</span>
+        <span class="n">Type_do</span><span class="p">,</span>
+        <span class="n">Type_break</span><span class="p">,</span>
+        <span class="n">Type_continue</span><span class="p">,</span>
+        <span class="n">Type_this</span><span class="p">,</span>
+        <span class="n">Type_alias</span><span class="p">,</span>
+        <span class="n">Type_require</span><span class="p">,</span>
+        <span class="n">Type_return</span><span class="p">,</span>
+        <span class="n">Type_const</span><span class="p">,</span>
+        <span class="n">Type_function</span><span class="p">,</span>
+        <span class="n">Type_operator</span><span class="p">,</span>
+        <span class="n">Type_struct</span><span class="p">,</span>
+        <span class="n">Type_object</span><span class="p">,</span>
+        <span class="n">Type_interface</span><span class="p">,</span>
+        <span class="n">Type_lastkeyword</span><span class="p">,</span>
+
+        <span class="n">Type_rt</span><span class="p">,</span>
+        <span class="n">Type_name</span><span class="p">,</span>
+        <span class="n">Type_number</span><span class="p">,</span>
+        <span class="n">Type_string</span><span class="p">,</span>
+
+        <span class="n">Type_assignment</span><span class="p">,</span>
+        <span class="n">Type_arithmetic</span><span class="p">,</span>
+        <span class="n">Type_brace1</span><span class="p">,</span>
+        <span class="n">Type_brace2</span><span class="p">,</span>
+        <span class="n">Type_bracket1</span><span class="p">,</span>
+        <span class="n">Type_bracket2</span><span class="p">,</span>
+        <span class="n">Type_curly1</span><span class="p">,</span>
+        <span class="n">Type_curly2</span><span class="p">,</span>
+        <span class="n">Type_pex1</span><span class="p">,</span>
+        <span class="n">Type_pex2</span><span class="p">,</span>
+
+        <span class="n">Type_maxtypes</span>
+      <span class="p">};</span>
+
+    <span class="k">public</span><span class="o">:</span>
+
+      <span class="c1">// copy constructor</span>
+      <span class="n">KLSymbol</span><span class="p">(</span><span class="n">KLSymbol</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">other</span><span class="p">);</span>
+
+      <span class="c1">// copy operator</span>
+      <span class="n">KLSymbol</span> <span class="o">&amp;</span> <span class="k">operator</span> <span class="o">=</span><span class="p">(</span> <span class="n">KLSymbol</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">other</span> <span class="p">);</span>
+
+      <span class="c1">// returns true if the object is valid</span>
+      <span class="kt">bool</span> <span class="nf">isValid</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// bool conversion operator</span>
+      <span class="k">operator</span> <span class="nf">bool</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the index of this symbol</span>
+      <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">index</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the char position within the code</span>
+      <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">pos</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the length of this symbol</span>
+      <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">length</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the type of this symbol</span>
+      <span class="n">Type</span> <span class="nf">type</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns true of this symbol is a keyword</span>
+      <span class="kt">bool</span> <span class="nf">isKeyword</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">typeName</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns a char from the front (given an index);</span>
+      <span class="kt">char</span> <span class="nf">front</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns a char from the back (given an index);</span>
+      <span class="kt">char</span> <span class="nf">back</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the contained string</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">str</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns true if this contains a given char</span>
+      <span class="kt">bool</span> <span class="nf">contains</span><span class="p">(</span><span class="kt">char</span> <span class="n">c</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the index of a given char, or UINT_MAX if not found</span>
+      <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">find</span><span class="p">(</span><span class="kt">char</span> <span class="n">c</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the previous symbol before this one, or an invalid one</span>
+      <span class="n">KLSymbol</span> <span class="nf">prev</span><span class="p">(</span><span class="kt">bool</span> <span class="n">skipComments</span> <span class="o">=</span> <span class="nb">true</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">offset</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the next symbol after this one, or an invalid one</span>
+      <span class="n">KLSymbol</span> <span class="nf">next</span><span class="p">(</span><span class="kt">bool</span> <span class="n">skipComments</span> <span class="o">=</span> <span class="nb">true</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">offset</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the name of the parser this symbol belongs to</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">parser</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+    <span class="p">};</span>
+
+    <span class="k">class</span> <span class="nc">KLConstant</span>
+    <span class="p">{</span>
+    <span class="k">public</span><span class="o">:</span>
+      <span class="c1">// copy constructor</span>
+      <span class="n">KLConstant</span><span class="p">(</span><span class="n">KLConstant</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">other</span><span class="p">);</span>
+
+      <span class="c1">// copy operator</span>
+      <span class="n">KLConstant</span> <span class="o">&amp;</span> <span class="k">operator</span> <span class="o">=</span><span class="p">(</span> <span class="n">KLConstant</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">other</span> <span class="p">);</span>
+
+      <span class="c1">// returns true if the object is valid</span>
+      <span class="kt">bool</span> <span class="nf">isValid</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// bool conversion operator</span>
+      <span class="k">operator</span> <span class="nf">bool</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the symbol of this KLConstant</span>
+      <span class="n">KLSymbol</span> <span class="nf">symbol</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the comments of this KLConstant</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">comments</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the type of this KLConstant</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">type</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the name of this KLConstant</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">name</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the value of this KLConstant</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">value</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+    <span class="p">};</span>
+
+    <span class="k">class</span> <span class="nc">KLVariable</span>
+    <span class="p">{</span>
+    <span class="k">public</span><span class="o">:</span>
+      <span class="c1">// copy constructor</span>
+      <span class="n">KLVariable</span><span class="p">(</span><span class="n">KLVariable</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">other</span><span class="p">);</span>
+
+      <span class="c1">// copy operator</span>
+      <span class="n">KLVariable</span> <span class="o">&amp;</span> <span class="k">operator</span> <span class="o">=</span><span class="p">(</span> <span class="n">KLVariable</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">other</span> <span class="p">);</span>
+
+      <span class="c1">// returns true if the object is valid</span>
+      <span class="kt">bool</span> <span class="nf">isValid</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// bool conversion operator</span>
+      <span class="k">operator</span> <span class="nf">bool</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the symbol of this KLVariable</span>
+      <span class="n">KLSymbol</span> <span class="nf">symbol</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the type of this KLVariable</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">type</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the name of this KLVariable</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">name</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+    <span class="p">};</span>
+
+    <span class="k">class</span> <span class="nc">KLStruct</span>
+    <span class="p">{</span>
+    <span class="k">public</span><span class="o">:</span>
+      <span class="c1">// copy constructor</span>
+      <span class="n">KLStruct</span><span class="p">(</span><span class="n">KLStruct</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">other</span><span class="p">);</span>
+
+      <span class="c1">// copy operator</span>
+      <span class="n">KLStruct</span> <span class="o">&amp;</span> <span class="k">operator</span> <span class="o">=</span><span class="p">(</span> <span class="n">KLStruct</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">other</span> <span class="p">);</span>
+
+      <span class="c1">// returns true if the object is valid</span>
+      <span class="kt">bool</span> <span class="nf">isValid</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// bool conversion operator</span>
+      <span class="k">operator</span> <span class="nf">bool</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the symbol of this KLStruct</span>
+      <span class="n">KLSymbol</span> <span class="nf">symbol</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the comments of this KLStruct</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">comments</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the type of this KLStruct</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">type</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the name of this KLStruct</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">name</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns number of interfaces in this KLStruct</span>
+      <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">nbInterfaces</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns name of an interface of a given index</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">getInterface</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns number of members in this KLStruct</span>
+      <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">nbMembers</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the type of a member of this KLStruct with a given index</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">memberType</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the type of a member of this KLStruct with a given index</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">memberName</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+    <span class="p">};</span>
+
+    <span class="k">class</span> <span class="nc">KLArgumentList</span>
+    <span class="p">{</span>
+    <span class="k">public</span><span class="o">:</span>
+      <span class="c1">// copy constructor</span>
+      <span class="n">KLArgumentList</span><span class="p">(</span><span class="n">KLArgumentList</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">other</span><span class="p">);</span>
+
+      <span class="c1">// copy operator</span>
+      <span class="n">KLArgumentList</span> <span class="o">&amp;</span> <span class="k">operator</span> <span class="o">=</span><span class="p">(</span> <span class="n">KLArgumentList</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">other</span> <span class="p">);</span>
+
+      <span class="c1">// returns true if the object is valid</span>
+      <span class="kt">bool</span> <span class="nf">isValid</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// bool conversion operator</span>
+      <span class="k">operator</span> <span class="nf">bool</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns number of arguments in this KLArgumentList</span>
+      <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">nbArgs</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the mode of an argument with a given index</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">mode</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the type of an argument with a given index</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">type</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the name of an argument with a given index</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">name</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+    <span class="p">};</span>
+
+    <span class="k">class</span> <span class="nc">KLOperator</span>
+    <span class="p">{</span>
+    <span class="k">public</span><span class="o">:</span>
+      <span class="c1">// copy constructor</span>
+      <span class="n">KLOperator</span><span class="p">(</span><span class="n">KLOperator</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">other</span><span class="p">);</span>
+
+      <span class="c1">// copy operator</span>
+      <span class="n">KLOperator</span> <span class="o">&amp;</span> <span class="k">operator</span> <span class="o">=</span><span class="p">(</span> <span class="n">KLOperator</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">other</span> <span class="p">);</span>
+
+      <span class="c1">// returns true if the object is valid</span>
+      <span class="kt">bool</span> <span class="nf">isValid</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// bool conversion operator</span>
+      <span class="k">operator</span> <span class="nf">bool</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the symbol of this KLOperator</span>
+      <span class="n">KLSymbol</span> <span class="nf">symbol</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the comments of this KLOperator</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">comments</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the name of this KLOperator</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">name</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns true if this KLOperator uses a PEX notation</span>
+      <span class="kt">bool</span> <span class="nf">isPex</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the pexArgument of this KLOperator</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">pexArgument</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the argument list of this KLOperator</span>
+      <span class="n">KLArgumentList</span> <span class="nf">arguments</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the symbol starting the body of this KLOperator</span>
+      <span class="n">KLSymbol</span> <span class="nf">bodyStart</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the symbol ending the body of this KLOperator</span>
+      <span class="n">KLSymbol</span> <span class="nf">bodyEnd</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+    <span class="p">};</span>
+
+    <span class="k">class</span> <span class="nc">KLFunction</span>
+    <span class="p">{</span>
+    <span class="k">public</span><span class="o">:</span>
+      <span class="c1">// copy constructor</span>
+      <span class="n">KLFunction</span><span class="p">(</span><span class="n">KLFunction</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">other</span><span class="p">);</span>
+
+      <span class="c1">// copy operator</span>
+      <span class="n">KLFunction</span> <span class="o">&amp;</span> <span class="k">operator</span> <span class="o">=</span><span class="p">(</span> <span class="n">KLFunction</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">other</span> <span class="p">);</span>
+
+      <span class="c1">// returns true if the object is valid</span>
+      <span class="kt">bool</span> <span class="nf">isValid</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// bool conversion operator</span>
+      <span class="k">operator</span> <span class="nf">bool</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the symbol of this KLFunction</span>
+      <span class="n">KLSymbol</span> <span class="nf">symbol</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the comments of this KLFunction</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">comments</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the type of this KLFunction (or &quot;&quot; if it is a void);</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">type</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the name of this KLFunction</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">name</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the owner of this KLFunction (or &quot;&quot; if it&#39;s not a method);</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">owner</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the argument list of this KLFunction</span>
+      <span class="n">KLArgumentList</span> <span class="nf">arguments</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the symbol starting the body of this KLFunction</span>
+      <span class="n">KLSymbol</span> <span class="nf">bodyStart</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the symbol ending the body of this KLFunction</span>
+      <span class="n">KLSymbol</span> <span class="nf">bodyEnd</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+    <span class="p">};</span>
+
+    <span class="k">class</span> <span class="nc">KLInterface</span>
+    <span class="p">{</span>
+    <span class="k">public</span><span class="o">:</span>
+      <span class="c1">// returns the symbol of this KLInterface</span>
+      <span class="n">KLSymbol</span> <span class="n">symbol</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the comments of this KLInterface</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">comments</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the name of this KLInterface</span>
+      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">name</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns the number of functions on this KLInterface</span>
+      <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">nbFunctions</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+      <span class="c1">// returns a function of this KLInterface by index</span>
+      <span class="n">KLFunction</span> <span class="nf">function</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+    <span class="p">};</span>
+
+    <span class="c1">// default constructor</span>
+    <span class="n">KLParser</span><span class="p">();</span>
+
+    <span class="c1">// copy constructor</span>
+    <span class="n">KLParser</span><span class="p">(</span><span class="n">KLParser</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">other</span><span class="p">);</span>
+
+    <span class="c1">// copy operator</span>
+    <span class="n">KLParser</span> <span class="o">&amp;</span> <span class="k">operator</span> <span class="o">=</span><span class="p">(</span> <span class="n">KLParser</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">other</span> <span class="p">);</span>
+
+    <span class="c1">// default destructor</span>
+    <span class="o">~</span><span class="n">KLParser</span><span class="p">();</span>
+
+    <span class="c1">// returns true if the object is valid</span>
+    <span class="kt">bool</span> <span class="nf">isValid</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// bool conversion operator</span>
+    <span class="k">operator</span> <span class="nf">bool</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// returns the owner of the parser</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">owner</span><span class="p">()</span> <span class="k">const</span> <span class="p">;</span>
+
+    <span class="c1">// returns the name of the parser</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">name</span><span class="p">()</span> <span class="k">const</span> <span class="p">;</span>
+
+    <span class="c1">// returns the contained sourcecode of the parser</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">code</span><span class="p">()</span> <span class="k">const</span> <span class="p">;</span>
+
+    <span class="c1">// returns the number of current parsers</span>
+    <span class="k">static</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">getNbParsers</span><span class="p">();</span>
+
+    <span class="c1">// returns a parser given an index</span>
+    <span class="k">static</span> <span class="n">KLParser</span> <span class="nf">getParser</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span><span class="p">);</span>
+
+    <span class="c1">// returns a parser given a name an optional klCode</span>
+    <span class="c1">// if the parser doesn&#39;t exist yet - it will be created.</span>
+    <span class="k">static</span> <span class="n">KLParser</span> <span class="nf">getParser</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">owner</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">name</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">klCode</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">);</span>
+
+    <span class="c1">// parse new KL code in this parser</span>
+    <span class="kt">bool</span> <span class="nf">parse</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">klCode</span><span class="p">);</span>
+
+    <span class="c1">// returns the number of KL symbols</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">getNbKLSymbols</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// returns a specific KL symbol</span>
+    <span class="n">KLSymbol</span> <span class="nf">getKLSymbol</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">symbolIndex</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// returns the symbol for a special character index in the KL code</span>
+    <span class="n">KLSymbol</span> <span class="nf">getKLSymbolFromCharIndex</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">charIndex</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// returns the number of required KL types / extensions</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">getNbKLRequires</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// returns the name of the required KL type / extension given an index</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">getKLRequire</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// returns the number of KL constants</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">getNbKLConstants</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// returns the KL constant given an index</span>
+    <span class="n">KLConstant</span> <span class="nf">getKLConstant</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// returns the number of KL variables</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">getNbKLVariables</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// returns the KL variable given an index</span>
+    <span class="n">KLVariable</span> <span class="nf">getKLVariable</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// returns the number of KL interfaces</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">getNbKLInterfaces</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// returns the KL interface given an index</span>
+    <span class="n">KLInterface</span> <span class="nf">getKLInterface</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// returns the number of KL structs / objects</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">getNbKLStructs</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// returns the KL struct / object given an index</span>
+    <span class="n">KLStruct</span> <span class="nf">getKLStruct</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// returns the number of KL operators</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">getNbKLOperators</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// returns the KL operator given an index</span>
+    <span class="n">KLOperator</span> <span class="nf">getKLOperator</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// returns the number of KL functions / methods</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">getNbKLFunctions</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// returns the KL function given an index</span>
+    <span class="n">KLFunction</span> <span class="nf">getKLFunction</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// returns the KL type for a given name symbol (or &quot;&quot; if unknown)</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">getKLTypeForSymbol</span><span class="p">(</span><span class="k">const</span> <span class="n">KLSymbol</span> <span class="o">&amp;</span> <span class="n">symbol</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="c1">// returns the KL type for a member or method below a given owner type</span>
+    <span class="k">static</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="nf">getKLTypeForSymbol</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">owner</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">member</span><span class="p">);</span>
+  <span class="p">};</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">FabricSplice::KLParser</a><ul>
+<li><a class="reference internal" href="#example">Example</a></li>
+<li><a class="reference internal" href="#class-outline">Class Outline</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="scripting.html"
+                        title="前の章へ">FabricSplice::Scripting</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="integrations.html"
+                        title="次の章へ">Integrating Fabric:Splice</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/DCCIntegrations/SpliceAPI/klparser.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DCCIntegrations/SpliceAPI/klparser.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="integrations.html" title="Integrating Fabric:Splice"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="scripting.html" title="FabricSplice::Scripting"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.2.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Fabric Engine Splice C/C++ API Documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="classes.html" >Classes</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

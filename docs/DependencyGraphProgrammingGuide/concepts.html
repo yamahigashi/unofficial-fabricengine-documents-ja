@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Concepts &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="concepts">
+<h1>Concepts<a class="headerlink" href="#concepts" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>In traditional software development, programmers create data structures and write functions to manipulate the data.  In order for the program to perform operations in parallel, thereby taking advantage of multi-core CPUs, the programmer must call functions within the programming language itself to schedule the execution of the parallel pieces of code.</p>
+<p>In a Fabric Engine application, no explicit scheduling of execution is needed; the parallelism is instead expressed through higher-level models.  One of these models is the <em class="dfn">dependency graph</em> model, the subject of this book.  A Fabric Engine application builds a dependency graph that describes the computation it needs perform; the Fabric Engine core then automatically executes in parallel operations which are not interdependent.  This model requires that the user express data dependencies rather than have them implicit in the program itself.  By analyzing these interdependencies, the Fabric code creates an execution schedule that runs independent parts of the computation in parallel; in this way, Fabric achieves <em class="dfn">task-based</em> parallelism.</p>
+<p>In addition, Fabric supports the notion of <em class="dfn">slicing</em> data.  A <em class="dfn">Node</em> in Fabric is a generic, typed data container that has one or more members that contain data; each Node also has a <em class="dfn">slice count</em> N, and the Node acts as if it were N independent copies of the same data that are operated on in parallel.  In this way, Fabric achieves <em class="dfn">data-based</em> (or <em class="dfn">SIMD</em>) parallelism.  For more information on Nodes, members, and slice counts, see <a class="reference internal" href="nodes.html#nodes"><span class="std std-ref">Nodes</span></a>.</p>
+<p>In addition to the dependency graph, Fabric provides a method of traversing the Nodes in the dependency graph through objects called Events and EventHandlers.  The Fabric SceneGraph uses Events and EventHandlers to draw OpenGL viewports in its rendering system.  For more information on Events and EventHandlers, see <a class="reference internal" href="events-event-handlers.html#events-event-handlers"><span class="std std-ref">Event Graphs, Events and EventHandlers</span></a>.</p>
+<p>The actual code that performs computation in Fabric is contained in objects called <em class="dfn">Operators</em>.  Operators can then be <em class="dfn">bound</em> to Nodes and EventHandlers using glue objects called Bindings; Bindings tell Fabric what data should be passed to the functions defined in the code in an Operator.  For more information on Operators, see <a class="reference internal" href="operators-bindings.html#operators-bindings"><span class="std std-ref">Operators and Bindings</span></a>.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/DependencyGraphProgrammingGuide/concepts.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DependencyGraphProgrammingGuide/concepts.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

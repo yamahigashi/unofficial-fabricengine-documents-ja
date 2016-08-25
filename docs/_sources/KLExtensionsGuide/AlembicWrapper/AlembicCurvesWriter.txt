@@ -1,0 +1,10 @@
+.. _alembiccurveswriter:
+
+AlembicCurvesWriter (object)
+===========================================================================
+
+.. kl-type:: AlembicCurvesWriter
+  createrefs=1;
+  methods=1;
+  params=1;
+  members=1;

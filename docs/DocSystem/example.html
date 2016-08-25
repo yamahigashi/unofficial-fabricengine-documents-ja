@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ドキュメンテーションシステム Hello World &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="Fabric Engine ドキュメンテーションシステム" href="index.html" />
+    <link rel="next" title="ドキュメンテーションシステム Sphinx構文" href="directives.html" />
+    <link rel="prev" title="ドキュメンテーションシステム 基礎知識" href="prerequisites.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="directives.html" title="ドキュメンテーションシステム Sphinx構文"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="prerequisites.html" title="ドキュメンテーションシステム 基礎知識"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Fabric Engine ドキュメンテーションシステム</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="documentation-system-hello-world">
+<h1>ドキュメンテーションシステム Hello World<a class="headerlink" href="#documentation-system-hello-world" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../_images/FE_logo_345_60.png"><img alt="../_images/FE_logo_345_60.png" src="../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 2.3.0</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+</div>
+<p>この例ではエクステンションを作成し、そこにドキュメントを付してみます。つまりは HelloWorld ですね。まずはエクステンションを配する HelloWorld フォルダを作成し、以下の２ファイルを追加します：</p>
+<p>HelloWorld.fpm.json :</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;code&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;HelloWorld.kl&quot;</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>HelloWorld.kl :</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="c1">/// A function to print out HelloWorld</span>
+<span class="c1">/// \example</span>
+<span class="c1">///   // prints out hello world</span>
+<span class="c1">///   printHelloWorld();</span>
+<span class="c1">/// \endexample</span>
+<span class="kd">function</span> <span class="nx">printHelloWorld</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nb">report</span><span class="p">(</span><span class="s1">&#39;Hello World!&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>もちろん sphinx のため <em class="dfn">conf.py</em> ファイルも必要ですね。以下のようにしてみましょう（詳細は sphinx 自身のドキュメントに譲ります）</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">FabricEngine.Sphinx.KL</span>
+
+<span class="c1"># Add any Sphinx extension module names here, as strings. They can be extensions</span>
+<span class="c1"># coming with Sphinx (named &#39;sphinx.ext.*&#39;) or your custom ones.</span>
+<span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s1">&#39;sphinx.ext.autodoc&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;sphinx.ext.graphviz&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;FabricEngine.Sphinx.KL&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;FabricEngine.Sphinx.DFG&#39;</span>
+<span class="p">]</span>
+
+<span class="c1"># Find exectuable in PATH</span>
+<span class="k">def</span> <span class="nf">which</span><span class="p">(</span><span class="n">program</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">is_exe</span><span class="p">(</span><span class="n">fpath</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fpath</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">X_OK</span><span class="p">)</span>
+
+    <span class="n">fpath</span><span class="p">,</span> <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">program</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">fpath</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">is_exe</span><span class="p">(</span><span class="n">program</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">program</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PATH&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="p">):</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+            <span class="n">exe_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">program</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">is_exe</span><span class="p">(</span><span class="n">exe_file</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">exe_file</span>
+
+    <span class="k">return</span> <span class="bp">None</span>
+
+<span class="c1"># location of the graphviz dot file</span>
+<span class="n">buildOS</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;FABRIC_BUILD_OS&#39;</span><span class="p">]</span>
+<span class="k">if</span> <span class="n">buildOS</span> <span class="o">==</span> <span class="s1">&#39;Windows&#39;</span><span class="p">:</span>
+  <span class="n">graphviz_dot</span> <span class="o">=</span> <span class="n">which</span><span class="p">(</span><span class="s2">&quot;dot.exe&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+  <span class="n">graphviz_dot</span> <span class="o">=</span> <span class="n">which</span><span class="p">(</span><span class="s2">&quot;dot&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">graphviz_dot</span><span class="p">:</span>
+  <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Missing &#39;dot&#39; executable. Check that GraphViz is installed and that dot.exe cam be found. Define an environment variable GRAPHVIZ_DOT_BIN which points to dot.exe&quot;</span><span class="p">)</span>
+<span class="n">graphviz_output_format</span> <span class="o">=</span> <span class="s1">&#39;svg&#39;</span>
+
+<span class="c1"># The suffix of source filenames.</span>
+<span class="n">source_suffix</span> <span class="o">=</span> <span class="s1">&#39;.rst&#39;</span>
+
+<span class="c1"># The master toctree document.</span>
+<span class="n">master_doc</span> <span class="o">=</span> <span class="s1">&#39;index&#39;</span>
+
+<span class="c1"># General information about the project.</span>
+<span class="n">project</span> <span class="o">=</span> <span class="s1">u&#39;My project&#39;</span>
+<span class="n">copyright</span> <span class="o">=</span> <span class="s1">u&#39;My company copyright&#39;</span>
+
+<span class="c1"># The short X.Y version.</span>
+<span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;1.0.0&#39;</span>
+<span class="c1"># The full version, including alpha/beta/rc tags.</span>
+<span class="n">release</span> <span class="o">=</span> <span class="s1">&#39;1.0.0&#39;</span>
+
+<span class="c1"># The name of the Pygments (syntax highlighting) style to use.</span>
+<span class="n">pygments_style</span> <span class="o">=</span> <span class="s1">&#39;sphinx&#39;</span>
+
+<span class="c1"># The theme to use for HTML and HTML Help pages.  See the documentation for</span>
+<span class="c1"># a list of builtin themes.</span>
+<span class="n">html_theme</span> <span class="o">=</span> <span class="s1">&#39;default&#39;</span>
+
+<span class="c1"># Theme options are theme-specific and customize the look and feel of a theme</span>
+<span class="c1"># further.  For a list of options available for each theme, see the</span>
+<span class="c1"># documentation.</span>
+<span class="n">fabric_color_sky_blue</span> <span class="o">=</span> <span class="s2">&quot;#21a8e0&quot;</span>
+<span class="n">fabric_color_greenish</span> <span class="o">=</span> <span class="s2">&quot;#73992b&quot;</span>
+<span class="n">fabric_color_aubergine</span> <span class="o">=</span> <span class="s2">&quot;#2e1a2e&quot;</span>
+<span class="n">fabric_color_33pct_gray</span> <span class="o">=</span> <span class="s2">&quot;#a8a8a8&quot;</span>
+<span class="n">fabric_color_15pct_gray</span> <span class="o">=</span> <span class="s2">&quot;#dadada&quot;</span>
+<span class="n">fabric_color_black</span> <span class="o">=</span> <span class="s2">&quot;#000000&quot;</span>
+<span class="n">html_theme_options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">&quot;headbgcolor&quot;</span><span class="p">:</span> <span class="n">fabric_color_15pct_gray</span><span class="p">,</span>
+  <span class="s2">&quot;headtextcolor&quot;</span><span class="p">:</span> <span class="n">fabric_color_aubergine</span><span class="p">,</span>
+  <span class="s2">&quot;sidebarbgcolor&quot;</span><span class="p">:</span> <span class="n">fabric_color_aubergine</span><span class="p">,</span>
+  <span class="s2">&quot;sidebartextcolor&quot;</span><span class="p">:</span> <span class="n">fabric_color_33pct_gray</span><span class="p">,</span>
+  <span class="s2">&quot;sidebarlinkcolor&quot;</span><span class="p">:</span> <span class="n">fabric_color_15pct_gray</span><span class="p">,</span>
+  <span class="s2">&quot;relbarbgcolor&quot;</span><span class="p">:</span> <span class="n">fabric_color_greenish</span><span class="p">,</span>
+  <span class="s2">&quot;relbartextcolor&quot;</span><span class="p">:</span> <span class="n">fabric_color_15pct_gray</span><span class="p">,</span>
+  <span class="s2">&quot;relbarlinkcolor&quot;</span><span class="p">:</span> <span class="n">fabric_color_aubergine</span><span class="p">,</span>
+  <span class="s2">&quot;footerbgcolor&quot;</span><span class="p">:</span> <span class="n">fabric_color_black</span><span class="p">,</span>
+  <span class="s2">&quot;footertextcolor&quot;</span><span class="p">:</span> <span class="n">fabric_color_33pct_gray</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># The name for this set of Sphinx documents.  If None, it defaults to</span>
+<span class="c1"># &quot;&lt;project&gt; v&lt;release&gt; documentation&quot;.</span>
+<span class="n">html_title</span> <span class="o">=</span> <span class="s2">&quot;My project Documentation&quot;</span>
+</pre></div>
+</div>
+<p><em class="dfn">index.rst</em> ファイルも必要です：</p>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="nt">_TOP:</span>
+
+<span class="gh">My project Documentation</span>
+<span class="gh">=========================================</span>
+
+<span class="gh">Welcome!</span>
+<span class="gh">---------------------</span>
+
+This is the documentation for My project.
+
+
+<span class="gh">Table of contents</span>
+<span class="gh">---------------------------------</span>
+
+<span class="p">..</span> <span class="ow">toctree</span><span class="p">::</span>
+  <span class="nc">:maxdepth:</span> <span class="nf">1</span>
+
+  extensions/index
+</pre></div>
+</div>
+<p>見てわかるようにここで <em class="dfn">index.rst</em> ファイルを <em class="dfn">extensions</em> サブフォルダ内で参照しています。すべてのエクステンションのドキュメントがここに生成されます。このように他のセクションのドキュメントをさらに他へと文書埋め込み可能です。  <em class="dfn">extensions/index.rst</em> :</p>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="gh">My project Extensions</span>
+<span class="gh">==================================</span>
+
+<span class="gh">Table of Contents</span>
+<span class="gh">-----------------</span>
+
+<span class="p">..</span> <span class="ow">kl-extlist</span><span class="p">::</span> extensions
+</pre></div>
+</div>
+<p>カスタムKL構文を使用していますね。この構文は見つかった全エクステンションの目次（toc）を自動生成します。</p>
+<p>最後に、つぎのヘルパスクリプトを使用し、ドキュメントを生成できます。勿論各種パスは調整してください。</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sphinx</span>
+
+<span class="kn">from</span> <span class="nn">ASTWrapper</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># note: the extsDir also has to be on the FABRIC_EXTS_PATH env var</span>
+<span class="n">extsDir</span> <span class="o">=</span> <span class="s1">&#39;c:</span><span class="se">\\</span><span class="s1">temp</span><span class="se">\\</span><span class="s1">exts&#39;</span>
+<span class="n">tmpDir</span> <span class="o">=</span> <span class="s1">&#39;c:</span><span class="se">\\</span><span class="s1">temp</span><span class="se">\\</span><span class="s1">build&#39;</span>
+<span class="n">srcDir</span> <span class="o">=</span> <span class="s1">&#39;c:</span><span class="se">\\</span><span class="s1">temp</span><span class="se">\\</span><span class="s1">source&#39;</span>
+<span class="n">extSrcDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">srcDir</span><span class="p">,</span> <span class="s1">&#39;Extensions&#39;</span><span class="p">)</span>
+<span class="n">stageDir</span> <span class="o">=</span> <span class="s1">&#39;c:</span><span class="se">\\</span><span class="s1">temp</span><span class="se">\\</span><span class="s1">docs&#39;</span>
+
+
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">[</span><span class="n">tmpDir</span><span class="p">,</span> <span class="n">srcDir</span><span class="p">,</span> <span class="n">stageDir</span><span class="p">]:</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;RST_DOC_SOURCE_EXTS_DIR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stageDir</span><span class="p">,</span> <span class="s1">&#39;Extensions&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;RST_DOC_TARGET_EXTS_DIR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">extSrcDir</span>
+
+<span class="c1"># create the ast manager</span>
+<span class="n">manager</span> <span class="o">=</span> <span class="n">KLManager</span><span class="p">(</span><span class="n">paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">extsDir</span><span class="p">],</span> <span class="n">header</span> <span class="o">=</span> <span class="p">[])</span>
+
+<span class="c1"># create all extension rst files</span>
+<span class="n">extensions</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">getKLExtensions</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">extension</span> <span class="ow">in</span> <span class="n">extensions</span><span class="p">:</span>
+  <span class="n">extSrcDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">extSrcDir</span><span class="p">,</span> <span class="n">extension</span><span class="o">.</span><span class="n">getName</span><span class="p">())</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">extSrcDir</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">extSrcDir</span><span class="p">)</span>
+  <span class="n">extTmpDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpDir</span><span class="p">,</span> <span class="n">extension</span><span class="o">.</span><span class="n">getName</span><span class="p">())</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">extTmpDir</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">extTmpDir</span><span class="p">)</span>
+  <span class="n">manager</span><span class="o">.</span><span class="n">generateKLExtensionRST</span><span class="p">(</span><span class="n">extension</span><span class="p">,</span> <span class="n">extSrcDir</span><span class="p">,</span> <span class="n">extTmpDir</span><span class="p">)</span>
+
+<span class="c1"># invoke sphinx</span>
+<span class="n">sphinx</span><span class="o">.</span><span class="n">main</span><span class="p">([</span><span class="s1">&#39;-b html&#39;</span><span class="p">,</span> <span class="s1">&#39;-E&#39;</span><span class="p">,</span> <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="n">srcDir</span><span class="p">,</span> <span class="n">stageDir</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>目次<a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../genindex.html"><span class="std std-ref">索引</span></a></li>
+<li><a class="reference internal" href="../search.html"><span class="std std-ref">検索ページ</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ドキュメンテーションシステム Hello World</a><ul>
+<li><a class="reference internal" href="#indices-and-tables">目次</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="prerequisites.html"
+                        title="前の章へ">ドキュメンテーションシステム 基礎知識</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="directives.html"
+                        title="次の章へ">ドキュメンテーションシステム Sphinx構文</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/DocSystem/example.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DocSystem/example.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="directives.html" title="ドキュメンテーションシステム Sphinx構文"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="prerequisites.html" title="ドキュメンテーションシステム 基礎知識"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Fabric Engine ドキュメンテーションシステム</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

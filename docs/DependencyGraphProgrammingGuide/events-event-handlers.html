@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Event Graphs, Events and EventHandlers &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="event-graphs-events-and-eventhandlers">
+<span id="events-event-handlers"></span><h1>Event Graphs, Events and EventHandlers<a class="headerlink" href="#event-graphs-events-and-eventhandlers" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Fabric Engine provides a method of traversing the Nodes in the dependency graph through objects called Events and EventHandlers.  An Event can be fired, which will then fire a list of EventHandlers; each EventHandler has a list of child EventHandlers which are visited in turn, and each EventHandler has a list of <em class="dfn">pre-descend operators</em> that are executed before the child EventHandlers are visited and a list of <em class="dfn">post-descend operators</em> that are executed after the child EventHandlers are visit.  Each event handler can also bind to Nodes in the dependency graph to access from its Operators.  A typical use of Events and EventHandlers is for OpenGL rendering.  When an OpenGL viewport is created, a &#8220;redraw Event&#8221; is associated with it; this event is automatically fired whenever the viewport needs to be redrawn.  The EventHandlers that &#8220;chain&#8221; off of the redraw Event can then issue OpenGL calls to draw the viewport contents.</p>
+<div class="section" id="event-creation">
+<h2>Event Creation<a class="headerlink" href="#event-creation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>To create an Event, call the <code class="docutils literal"><span class="pre">fabricClient.DG.createEvent</span></code> function.  Like Nodes, Events must have a unique name that is not the same as that of a Node, Operator or EventHandler.  To get an existing event&#8217;s name, call its <code class="docutils literal"><span class="pre">getName</span></code> method.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; event = fabricClient.DG.createEvent(&quot;anEvent&quot;)
+&gt;&gt;&gt; event.getName()
+&#39;anEvent&#39;
+&gt;&gt;&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="eventhandler-creation">
+<h2>EventHandler Creation<a class="headerlink" href="#eventhandler-creation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Event event has a list of EventHandlers attached so it.  When an Event is fired, each attached EventHandler is fired in sequence.  To create an EventHandler, call <code class="docutils literal"><span class="pre">fabricClient.DG.createEventHandler</span></code>.  To append the EventHandler to an Event, call the Event&#8217;s <code class="docutils literal"><span class="pre">appendEventHandler</span></code> method.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; eventHandler = fabricClient.DG.createEventHandler(&quot;trivialEventHandler&quot;)
+&gt;&gt;&gt; event.appendEventHandler(eventHandler)
+&gt;&gt;&gt; event.getEventHandlers()
+[&lt;fabric._EVENTHANDLER object at 0x2cebfd0&gt;]
+&gt;&gt;&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="operators-and-eventhandlers">
+<h2>Operators and EventHandlers<a class="headerlink" href="#operators-and-eventhandlers" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Each EventHandler has two lists of Operators (or, rather, Bindings) called <code class="docutils literal"><span class="pre">preDescendBindings</span></code> and <code class="docutils literal"><span class="pre">postDescendBindings</span></code>, as well as a list of child EventHandlers.  When an Event is fired, each of its EventHandlers is visited.  For each EventHandler, Bindings in <code class="docutils literal"><span class="pre">preDescendBindings</span></code> are executed in sequence, then its child EventHandlers are visited in the same way, then Bindings in <code class="docutils literal"><span class="pre">postDescendBindings</span></code> are executed in sequence.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; op = fabricClient.DG.createOperator(&quot;trivialOperator&quot;)
+&gt;&gt;&gt; op.setSourceCode(&quot;operator entry() { report(&#39;Ran trivialOperator&#39;); }&quot;)
+&gt;&gt;&gt; op.setEntryPoint(&#39;entry&#39;)
+&gt;&gt;&gt; binding = fabricClient.DG.createBinding()
+&gt;&gt;&gt; binding.setOperator(op)
+&gt;&gt;&gt; binding.setParameterLayout([])
+&gt;&gt;&gt; eventHandler.preDescendBindings.append(binding)
+&gt;&gt;&gt; event.fire()
+[FABRIC] [MT] Ran trivialOperator
+&gt;&gt;&gt; anotherOp = fabricClient.DG.createOperator(&quot;trivialOperatorTwo&quot;)
+&gt;&gt;&gt; anotherOp.setSourceCode(&quot;operator entry() { report(&#39;Ran trivialOperatorTwo&#39;); }&quot;)
+&gt;&gt;&gt; anotherOp.setEntryPoint(&#39;entry&#39;)
+&gt;&gt;&gt; binding = fabricClient.DG.createBinding()
+&gt;&gt;&gt; binding.setOperator(anotherOp)
+&gt;&gt;&gt; binding.setParameterLayout([])
+&gt;&gt;&gt; eventHandler.postDescendBindings.append(binding)
+&gt;&gt;&gt; event.fire()
+[FABRIC] [MT] Ran trivialOperator
+[FABRIC] [MT] Ran trivialOperatorTwo
+&gt;&gt;&gt;
+</pre></div>
+</div>
+<p>EventHandlers in turn can have child EventHandlers.  The child EventHandlers of a given EventHandler are fired, in order, after the pre-descend operators are executed and before the post-descend operators are executed.  Child EventHandlers are added by calling the EventHandler&#8217;s <code class="docutils literal"><span class="pre">appendChildEventHandler</span></code> method:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; binding = fabricClient.DG.createBinding()
+&gt;&gt;&gt; binding.setOperator(op)
+&gt;&gt;&gt; binding.setParameterLayout([])
+&gt;&gt;&gt; ceh = fabricClient.DG.createEventHandler(&quot;childEventHandler&quot;)
+&gt;&gt;&gt; ceh.preDescendBindings.append(binding)
+&gt;&gt;&gt; eventHandler.appendChildEventHandler(ceh)
+&gt;&gt;&gt; event.fire()
+[FABRIC] [MT] Ran trivialOperator
+[FABRIC] [MT] Ran trivialOperator
+[FABRIC] [MT] Ran trivialOperatorTwo
+&gt;&gt;&gt;
+</pre></div>
+</div>
+<p>EventHandlers can access data stored in Nodes by using their <code class="docutils literal"><span class="pre">setScope</span></code> method.  Once a Node is bound to an EventHandler, that Node is guaranteed to be evaluated (if it is dirty) before any Event that could fire the EventHandler is fired.  The name given in the <code class="docutils literal"><span class="pre">setScope</span></code> method is also available to child EventHandlers, their children, and so on, for binding.  If a child EventHandler binds a scope with the same name, it overrides the parent&#8217;s scope.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; node = fabricClient.DG.createNode(&quot;someNode&quot;)
+&gt;&gt;&gt; node.addMember( &quot;x&quot;, &quot;Scalar&quot; )
+&gt;&gt;&gt; node.addMember( &quot;y&quot;, &quot;Scalar&quot; )
+&gt;&gt;&gt; squareOp = fabricClient.DG.createOperator(&quot;squareOp&quot;)
+&gt;&gt;&gt; squareOp.setSourceCode(&quot;operator entry( io Scalar x, io Scalar y ) { y = x * x; }&quot;)
+&gt;&gt;&gt; squareOp.setEntryPoint(&quot;entry&quot;)
+&gt;&gt;&gt; binding = fabricClient.DG.createBinding()
+&gt;&gt;&gt; binding.setOperator(squareOp)
+&gt;&gt;&gt; binding.setParameterLayout([&#39;self.x&#39;,&#39;self.y&#39;])
+&gt;&gt;&gt; node.bindings.append(binding)
+&gt;&gt;&gt; displayOp = fabricClient.DG.createOperator(&quot;displayOp&quot;)
+&gt;&gt;&gt; displayOp.setSourceCode( &quot;operator entry( io Scalar x, io Scalar y ) { report(x + &#39; squared is &#39; + y); }&quot; )
+&gt;&gt;&gt; displayOp.setEntryPoint(&quot;entry&quot;)
+&gt;&gt;&gt; binding = fabricClient.DG.createBinding()
+&gt;&gt;&gt; binding.setOperator(displayOp)
+&gt;&gt;&gt; binding.setParameterLayout([&#39;mynode.x&#39;,&#39;mynode.y&#39;])
+&gt;&gt;&gt; eventHandler.setScope(&quot;mynode&quot;,node)
+&gt;&gt;&gt; eventHandler.postDescendBindings.append(binding)
+&gt;&gt;&gt; event.fire()
+[FABRIC] [MT] Ran trivialOperator
+[FABRIC] [MT] Ran trivialOperator
+[FABRIC] [MT] Ran trivialOperatorTwo
+[FABRIC] [MT] 0 squared is 0
+&gt;&gt;&gt; node.setData(&#39;x&#39;,5.0)
+&gt;&gt;&gt; event.fire()
+[FABRIC] [MT] Ran trivialOperator
+[FABRIC] [MT] Ran trivialOperator
+[FABRIC] [MT] Ran trivialOperatorTwo
+[FABRIC] [MT] 5 squared is 25
+&gt;&gt;&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="eventhandler-data">
+<h2>EventHandler Data<a class="headerlink" href="#eventhandler-data" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>EventHandlers themselves can also have data, and they set the name of their own scope, as seen by child EventHandlers, through <code class="docutils literal"><span class="pre">setScopeName</span></code>:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; eventHandler.setScopeName(&quot;childEventHandler&quot;)
+&gt;&gt;&gt; eventHandler.addMember(&quot;x&quot;,&quot;Scalar&quot;)
+&gt;&gt;&gt; eventHandler.addMember(&quot;y&quot;,&quot;Scalar&quot;)
+&gt;&gt;&gt; binding = fabricClient.DG.createBinding()
+&gt;&gt;&gt; binding.setOperator(squareOp)
+&gt;&gt;&gt; binding.setParameterLayout([&#39;childEventHandler.x&#39;,&#39;childEventHandler.y&#39;])
+&gt;&gt;&gt; ceh.preDescendBindings.append(binding)
+&gt;&gt;&gt; binding = fabricClient.DG.createBinding()
+&gt;&gt;&gt; binding.setOperator(displayOp)
+&gt;&gt;&gt; binding.setParameterLayout([&#39;childEventHandler.x&#39;,&#39;childEventHandler.y&#39;])
+&gt;&gt;&gt; ceh.preDescendBindings.append(binding)
+&gt;&gt;&gt; event.fire()
+[FABRIC] [MT] Ran trivialOperator
+[FABRIC] [MT] Ran trivialOperator
+[FABRIC] [MT] 0 squared is 0
+[FABRIC] [MT] Ran trivialOperatorTwo
+[FABRIC] [MT] 5 squared is 25
+&gt;&gt;&gt; eventHandler.setData(&quot;x&quot;,7.31)
+&gt;&gt;&gt; event.fire()
+[FABRIC] [MT] Ran trivialOperator
+[FABRIC] [MT] Ran trivialOperator
+[FABRIC] [MT] 7.31 squared is 53.4361
+[FABRIC] [MT] Ran trivialOperatorTwo
+[FABRIC] [MT] 5 squared is 25
+&gt;&gt;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Event Graphs, Events and EventHandlers</a><ul>
+<li><a class="reference internal" href="#event-creation">Event Creation</a></li>
+<li><a class="reference internal" href="#eventhandler-creation">EventHandler Creation</a></li>
+<li><a class="reference internal" href="#operators-and-eventhandlers">Operators and EventHandlers</a></li>
+<li><a class="reference internal" href="#eventhandler-data">EventHandler Data</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/DependencyGraphProgrammingGuide/events-event-handlers.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DependencyGraphProgrammingGuide/events-event-handlers.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

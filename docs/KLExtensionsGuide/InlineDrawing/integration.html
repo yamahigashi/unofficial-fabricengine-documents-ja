@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Integrating InlineDrawing in DCCs &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="InlineDrawing エクステンション" href="index.html" />
+    <link rel="next" title="JSON エクステンション" href="../JSON/index.html" />
+    <link rel="prev" title="Transitioning from Pre-1.12.0 InlineDrawing" href="transition.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../JSON/index.html" title="JSON エクステンション"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="transition.html" title="Transitioning from Pre-1.12.0 InlineDrawing"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">InlineDrawing エクステンション</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="integrating-inlinedrawing-in-dccs">
+<span id="inlinedrawing-extension-integration"></span><h1>Integrating InlineDrawing in DCCs<a class="headerlink" href="#integrating-inlinedrawing-in-dccs" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified">バージョン 1.12.0 で追加.</span></p>
+</div>
+<p>The Inline Drawing extension can be used directly with the provided OpenGL types to render into DCC viewports. This integration is provided for several DCCs, however it can be extended for additional products or in-house systems.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">You can find all of the KL types in the <a class="reference internal" href="index.html#inlinedrawing-extension"><span class="std std-ref">InlineDrawing エクステンション</span></a>.</p>
+</div>
+<p>To ensure that the InlineDrawing is rendered, you&#8217;ll need to construct a FabricCore::RTVal of the <a class="reference internal" href="DrawContext.html#drawcontext"><span class="std std-ref">DrawContext (object)</span></a> object in C++:</p>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="n">FabricCore</span><span class="o">::</span><span class="n">RTVal</span> <span class="n">drawContext</span> <span class="o">=</span> <span class="n">FabricSplice</span><span class="o">::</span><span class="n">constructObjectRTVal</span><span class="p">(</span><span class="s">&quot;DrawContext&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>You will then need to fill all of its members accordingly. See the KL snippet below for more detail.</p>
+<p><div class="versionadded">
+<p><span class="versionmodified">バージョン 1.12.0 で追加.</span></p>
+</div>
+<p class="plaintext">The <a class="reference internal" href="DrawContext.html#drawcontext"><span class="std std-ref">DrawContext</span></a> is used to provide contextual information during a custom draw. Please see the <a class="reference internal" href="OGLInlineDrawing.html#oglinlinedrawing"><span class="std std-ref">OGLInlineDrawing</span></a> for an example of this.</p>
+</p>
+<p>Once that is done you will need to call into Splice&#8217;s rendering callback, as seen below, in C++:</p>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="k">try</span>
+<span class="p">{</span>
+  <span class="n">FabricSplice</span><span class="o">::</span><span class="n">SceneManagement</span><span class="o">::</span><span class="n">drawOpenGL</span><span class="p">(</span><span class="n">drawContext</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">catch</span><span class="p">(</span><span class="n">FabricCore</span><span class="o">::</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">myLogFunc</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">getDesc_cstr</span><span class="p">());</span>
+<span class="p">}</span>
+<span class="k">catch</span><span class="p">(</span><span class="n">FabricSplice</span><span class="o">::</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">myLogFunc</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">what</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This will render the content into the DCCs viewport directly.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="transition.html"
+                        title="前の章へ">Transitioning from Pre-1.12.0 InlineDrawing</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="../JSON/index.html"
+                        title="次の章へ">JSON エクステンション</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/InlineDrawing/integration.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/InlineDrawing/integration.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../JSON/index.html" title="JSON エクステンション"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="transition.html" title="Transitioning from Pre-1.12.0 InlineDrawing"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >InlineDrawing エクステンション</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

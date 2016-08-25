@@ -1,0 +1,440 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Splice Scripting Interface &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Fabric Engine DCC 統合" href="../index.html" />
+    <link rel="next" title="Fabric:Splice Workshops" href="../Workshops/index.html" />
+    <link rel="prev" title="Integrating Fabric:Splice" href="../SpliceAPI/integrations.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../Workshops/index.html" title="Fabric:Splice Workshops"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="../SpliceAPI/integrations.html" title="Integrating Fabric:Splice"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Fabric Engine DCC 統合</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="splice-scripting-interface">
+<span id="splicescriptingactions"></span><h1>Splice Scripting Interface<a class="headerlink" href="#splice-scripting-interface" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../../_images/Splice_logo.png"><img alt="../../_images/Splice_logo.png" src="../../_images/Splice_logo.png" style="width: 360px; height: 57px;" /></a>
+<div class="line-block">
+<div class="line">Splice version 2.3.0</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+</div>
+</div>
+<div class="section" id="dcc-specific-scripting-integration">
+<h1>DCC-Specific Scripting integration<a class="headerlink" href="#dcc-specific-scripting-integration" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Splice provides a scripting interface in a selection of DCCs. The scripting interface will typically use the DCC&#8217;s main scripting language (for ex: MEL or JavaScript). You can find information about which scripting language to use in the usage section for each DCC&#8217;s specific documentation. All examples in this document are provided for Maya, however they are very close to each implementation in other DCCs.</p>
+<p>The scripting command in each DCC will take four arguments:</p>
+<blockquote>
+<div><ul class="simple">
+<li>String action: Name of the action to perform</li>
+<li>String reference: Full name of the Splice node in the DCC</li>
+<li>String data: Json string encoding all additional arguments</li>
+<li>String auxiliary (optional): String providing auxiliary data.</li>
+</ul>
+</div></blockquote>
+<p>All of the action arguments listed below refer to arguments provided as part of the String data json argument. So for example for <em class="dfn">registerKLType</em> the call in maya would look like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">maya</span> <span class="kn">import</span> <span class="n">cmds</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;registerKLType&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;rt&quot;: &quot;Vec3&quot;}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="available-splice-scripting-actions">
+<h1>Available Splice Scripting actions<a class="headerlink" href="#available-splice-scripting-actions" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="constructclient">
+<h2>constructClient<a class="headerlink" href="#constructclient" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>No arguments. Constructs a Fabric:Core client, loads the standard extensions. This can be used if you want to deploy the client prior to the creation of the first Splice node / operator.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;constructClient&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="destroyclient">
+<h2>destroyClient<a class="headerlink" href="#destroyclient" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>No arguments. Destroys the Fabric:Core client if it exists. This is not safe to be called if there are still other containers using the client, such as Splice nodes / operators.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;destroyClient&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getclientcontextid">
+<h2>getClientContextID<a class="headerlink" href="#getclientcontextid" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>No arguments. Returns the contextID of the current Fabric:Core client, which is a string containing a unique identifier. This can be used in the C/C++ or python integrations to construct a client sharing the same contextID, which will then allow you to manipulate the same hosted data.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">contextID</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;getClientContextID&#39;</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">contextID</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="registerkltype">
+<h2>registerKLType<a class="headerlink" href="#registerkltype" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>String <strong>rt</strong>: Name of the KL type to register</li>
+<li>String <strong>extension</strong> (optional): Name of the KL Extension to load</li>
+</ul>
+<p>Loads, compiles and registers a KL type. This can be used to load KL types outside of the scope of Splice nodes / operators, for example for use within python.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;registerKLType&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;rt&quot;: &quot;Vec3&quot;, &quot;extension&quot;: &quot;Math&quot;}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="togglerenderer">
+<h2>toggleRenderer<a class="headerlink" href="#togglerenderer" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>No arguments. Enables / disables the Splice realtime renderer callback.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;toggleRenderer&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="startprofiling">
+<h2>startProfiling<a class="headerlink" href="#startprofiling" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>No arguments. Starts the profiling of the Splice nodes / operators.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;startProfiling&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="endprofiling">
+<h2>endProfiling<a class="headerlink" href="#endprofiling" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>No arguments. Stops the profiling and prints a profiling report to the DCC&#8217;s script editor.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;endProfiling&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setgloballoadrtcommand">
+<h2>setGlobalLoadRTCommand<a class="headerlink" href="#setgloballoadrtcommand" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>String <strong>commandName</strong>: Name of the command to provide KL source code</li>
+<li>String <strong>rtFilter</strong>: Filter for the KL types to be loaded through this command</li>
+</ul>
+<p>Setting a global command to load KL types overrides the standard KL loading functionality. Given a rtFilter (for example MyTypes*) the command will be called every time the Fabric:Core tries to load the source code for a given KL type. The command will then have to return the KL source code as a string. This allows you to implement runtime generated types.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;registerKLType&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;rtFilter&quot;: &quot;MyType&quot;, &quot;commandName&quot;: &quot;MyLoadRTCommand&quot;}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="addinputport-addoutputport-addioport">
+<h2>addInputPort / addOutputPort / addIOPort<a class="headerlink" href="#addinputport-addoutputport-addioport" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>String <strong>portName</strong>: The name of the port to add</li>
+<li>String <strong>dataType</strong>: The data type to use for the port:</li>
+<li>String <strong>arrayType</strong>: The array type to use fo the port (defaults to single value)</li>
+<li>Boolean <strong>autoInitObjects</strong> - If set KL objects will be initialized on this port automatically.</li>
+<li>String <strong>extension</strong> (optional): Name of the KL Extension to load</li>
+</ul>
+<p>Maya specific:</p>
+<ul class="simple">
+<li>Boolean <strong>addMayaAttr</strong>: If set the matching maya attribute will be created.</li>
+<li>Boolean <strong>addSpliceMayaAttr</strong>: If set the maya attribute will be created as opaque data.</li>
+</ul>
+<p>Adds a new <strong>input</strong>, <strong>output</strong> or <strong>IO</strong> port to the Splice node. The auxiliary script command argument can provide a json string containing the default value for the port.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addInputPort&#39;</span><span class="p">,</span> <span class="s1">&#39;spliceMayaNode1&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;: &quot;a&quot;, &quot;dataType&quot;: &quot;Scalar&quot;, &quot;addMayaAttr&quot;: true}&#39;</span><span class="p">)</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addOutputPort&#39;</span><span class="p">,</span> <span class="s1">&#39;spliceMayaNode1&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;: &quot;b&quot;, &quot;dataType&quot;: &quot;Scalar&quot;, &quot;addMayaAttr&quot;: true}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="removeport">
+<h2>removePort<a class="headerlink" href="#removeport" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>String <strong>portName</strong>: The name of the port to add</li>
+</ul>
+<p>Removes an existing port from a Splice node.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;removePort&#39;</span><span class="p">,</span> <span class="s1">&#39;spliceMayaNode1&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;: &quot;a&quot;}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setdirtymechanism-maya-specific">
+<h2>setDirtyMechanism (Maya specific)<a class="headerlink" href="#setdirtymechanism-maya-specific" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>Boolean <strong>enabled</strong>: Defines if the dirtymechanism should be set or not</li>
+</ul>
+<p>Enables or disables the Maya specific dirty mechanism. This can be used to increase performance of longer scripts involving several calls to the Splice scripting interface.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;setDirtyMechanism&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;enabled&quot;: false}&#39;</span><span class="p">)</span>
+<span class="c1"># do all of your calls</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;setDirtyMechanism&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;enabled&quot;: true}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="addkloperator">
+<h2>addKLOperator<a class="headerlink" href="#addkloperator" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>String <strong>opName</strong>: The name of the operator to add</li>
+<li>String <strong>entry</strong> (optional): The name of the entry function to use, defaults to opName</li>
+<li>Dict <strong>portMap</strong> (optional): A string to string dictionary which defines the portmapping</li>
+</ul>
+<p>Adds a KL operator to the Splice node. The auxiliary argument of the Splice scripting command is used to store the KL operator&#8217;s source code.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;addKLOperator&#39;</span><span class="p">,</span> <span class="s1">&#39;spliceMayaNode1&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;opName&quot;: &quot;MyOp&quot;}&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">  operator MyOp(Scalar a, io Scalar b) {</span>
+<span class="s2">    b = 2.0 * a;</span>
+<span class="s2">  }</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="removekloperator">
+<h2>removeKLOperator<a class="headerlink" href="#removekloperator" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>String <strong>opName</strong>: The name of the KL operator to remove</li>
+</ul>
+<p>Removes a KL operator from the Splice node.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;removeKLOperator&#39;</span><span class="p">,</span> <span class="s1">&#39;spliceMayaNode1&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;opName&quot;: &quot;MyOp&quot;}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setkloperatorcode">
+<h2>setKLOperatorCode<a class="headerlink" href="#setkloperatorcode" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>String <strong>opName</strong>: The name of the operator to update</li>
+<li>String <strong>entry</strong> (optional): The name of the entry function to use, defaults to opName</li>
+</ul>
+<p>Updates the source code of an existing operator. The auxiliary parameter of the Splice scripting command contains the KL source code.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;setKLOperatorCode&#39;</span><span class="p">,</span> <span class="s1">&#39;spliceMayaNode1&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;opName&quot;: &quot;MyOp&quot;}&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">  operator MyOp(Scalar a, io Scalar b) {</span>
+<span class="s2">    b = 17.3 + a;</span>
+<span class="s2">  }</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getkloperatorcode">
+<h2>getKLOperatorCode<a class="headerlink" href="#getkloperatorcode" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>String <strong>opName</strong>: The name of the operator to query</li>
+</ul>
+<p>Returns the KL source code of a given operator.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">code</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;getKLOperatorCode&#39;</span><span class="p">,</span> <span class="s1">&#39;spliceMayaNode1&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;opName&quot;: &quot;MyOp&quot;}&#39;</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">code</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setkloperatorfile">
+<h2>setKLOperatorFile<a class="headerlink" href="#setkloperatorfile" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>String <strong>opName</strong>: The name of the operator to update</li>
+<li>String <strong>entry</strong> (optional): The name of the entry function to use, defaults to opName</li>
+<li>String <strong>fileName</strong>: The file name to use for the KL source file</li>
+</ul>
+<p>Sets the KL operator to be referencing an external KL file. The file will be reloaded upon load of the Splice node each time.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;setKLOperatorFile&#39;</span><span class="p">,</span> <span class="s1">&#39;spliceMayaNode1&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;opName&quot;: &quot;MyOp&quot;, &quot;fileName&quot;: &quot;/tmp/test.kl&quot;}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setkloperatorentry">
+<h2>setKLOperatorEntry<a class="headerlink" href="#setkloperatorentry" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>String <strong>opName</strong>: The name of the operator to update</li>
+<li>String <strong>entry</strong>: The name of the entry function to use, defaults to opName</li>
+</ul>
+<p>Changes an existing KL operator&#8217;s entry function name.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;setKLOperatorEntry&#39;</span><span class="p">,</span> <span class="s1">&#39;spliceMayaNode1&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;opName&quot;: &quot;MyOp&quot;, &quot;entry&quot;: &quot;MyEntry&quot;}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setkloperatorindex">
+<h2>setKLOperatorIndex<a class="headerlink" href="#setkloperatorindex" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>String <strong>opName</strong>: The name of the operator to update</li>
+<li>String <strong>index</strong>: The index of the operator on the stack</li>
+</ul>
+<p>Moves a KL operator on the operator stack. If the index is out of range an error is raised.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;setKLOperatorIndex&#39;</span><span class="p">,</span> <span class="s1">&#39;spliceMayaNode1&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;opName&quot;: &quot;MyOp&quot;, &quot;index&quot;: 2}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="savesplice">
+<h2>saveSplice<a class="headerlink" href="#savesplice" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>String <strong>fileName</strong>: The file name to save the splice file to.</li>
+</ul>
+<p>Saves an existing Splice node to an external ascii file.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;saveSplice&#39;</span><span class="p">,</span> <span class="s1">&#39;spliceMayaNode1&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;fileName&quot;: &quot;/tmp/test.splice&quot;}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loadsplice">
+<h2>loadSplice<a class="headerlink" href="#loadsplice" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>String <strong>fileName</strong>: The file name to load the splice file from.</li>
+<li>Boolean <strong>asReferenced</strong>: If set to true the content of the splice file will not be persisted within the scope of the DCC, but referenced.</li>
+</ul>
+<p>Loads a splice port layout and KL operator stack from an existing splice file onto a given Splice node.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;loadSplice&#39;</span><span class="p">,</span> <span class="s1">&#39;spliceMayaNode1&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;fileName&quot;: &quot;/tmp/test.splice&quot;}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getportinfo">
+<h2>getPortInfo<a class="headerlink" href="#getportinfo" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>No arguments. Returns a json string providing all of the available contextual information on all ports of a Splice node. This includes the port type, mode, corresponding Core DGNode, corresponding Splice DGGraph etc.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">info</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;getPortInfo&#39;</span><span class="p">,</span> <span class="s1">&#39;spliceMayaNode1&#39;</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">info</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setportpersistence">
+<h2>setPortPersistence<a class="headerlink" href="#setportpersistence" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>String <strong>portName</strong>: The name of the port to set the persistence for</li>
+<li>Boolean <strong>persistence</strong>: The persistence setting</li>
+</ul>
+<p>Overrides the standard persistence setting for a port, allowing users to drive if a port&#8217;s data will be serialized into the DCC&#8217;s persistence file.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;setPortPersistence&#39;</span><span class="p">,</span> <span class="s1">&#39;spliceMayaNode1&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;: &quot;a&quot;, &quot;persistence&quot;: true}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getportdata">
+<h2>getPortData<a class="headerlink" href="#getportdata" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>String <strong>portName</strong>: The name of the port get the data from</li>
+</ul>
+<p>Returns a json string representing the flattened data currently present on a port.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;getPortData&#39;</span><span class="p">,</span> <span class="s1">&#39;spliceMayaNode1&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;: &quot;v&quot;}&#39;</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setportdata">
+<h2>setPortData<a class="headerlink" href="#setportdata" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>String <strong>portName</strong>: The name of the port to set the data for</li>
+</ul>
+<p>Takes a json string provided as the auxiliary argument of the Splice scripting command and sets it as the current data of a port on a Splice node.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="s1">&#39;{&quot;x&quot;: 1.0, &quot;y&quot;: 2.0, &quot;z&quot;: 3.0}&#39;</span>
+<span class="n">cmds</span><span class="o">.</span><span class="n">fabricSplice</span><span class="p">(</span><span class="s1">&#39;setPortData&#39;</span><span class="p">,</span> <span class="s1">&#39;spliceMayaNode1&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;portName&quot;: &quot;v&quot;}&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Splice Scripting Interface</a></li>
+<li><a class="reference internal" href="#dcc-specific-scripting-integration">DCC-Specific Scripting integration</a></li>
+<li><a class="reference internal" href="#available-splice-scripting-actions">Available Splice Scripting actions</a><ul>
+<li><a class="reference internal" href="#constructclient">constructClient</a></li>
+<li><a class="reference internal" href="#destroyclient">destroyClient</a></li>
+<li><a class="reference internal" href="#getclientcontextid">getClientContextID</a></li>
+<li><a class="reference internal" href="#registerkltype">registerKLType</a></li>
+<li><a class="reference internal" href="#togglerenderer">toggleRenderer</a></li>
+<li><a class="reference internal" href="#startprofiling">startProfiling</a></li>
+<li><a class="reference internal" href="#endprofiling">endProfiling</a></li>
+<li><a class="reference internal" href="#setgloballoadrtcommand">setGlobalLoadRTCommand</a></li>
+<li><a class="reference internal" href="#addinputport-addoutputport-addioport">addInputPort / addOutputPort / addIOPort</a></li>
+<li><a class="reference internal" href="#removeport">removePort</a></li>
+<li><a class="reference internal" href="#setdirtymechanism-maya-specific">setDirtyMechanism (Maya specific)</a></li>
+<li><a class="reference internal" href="#addkloperator">addKLOperator</a></li>
+<li><a class="reference internal" href="#removekloperator">removeKLOperator</a></li>
+<li><a class="reference internal" href="#setkloperatorcode">setKLOperatorCode</a></li>
+<li><a class="reference internal" href="#getkloperatorcode">getKLOperatorCode</a></li>
+<li><a class="reference internal" href="#setkloperatorfile">setKLOperatorFile</a></li>
+<li><a class="reference internal" href="#setkloperatorentry">setKLOperatorEntry</a></li>
+<li><a class="reference internal" href="#setkloperatorindex">setKLOperatorIndex</a></li>
+<li><a class="reference internal" href="#savesplice">saveSplice</a></li>
+<li><a class="reference internal" href="#loadsplice">loadSplice</a></li>
+<li><a class="reference internal" href="#getportinfo">getPortInfo</a></li>
+<li><a class="reference internal" href="#setportpersistence">setPortPersistence</a></li>
+<li><a class="reference internal" href="#getportdata">getPortData</a></li>
+<li><a class="reference internal" href="#setportdata">setPortData</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="../SpliceAPI/integrations.html"
+                        title="前の章へ">Integrating Fabric:Splice</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="../Workshops/index.html"
+                        title="次の章へ">Fabric:Splice Workshops</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/DCCIntegrations/Scripting/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DCCIntegrations/Scripting/index.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../Workshops/index.html" title="Fabric:Splice Workshops"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="../SpliceAPI/integrations.html" title="Integrating Fabric:Splice"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

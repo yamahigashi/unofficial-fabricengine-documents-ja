@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Scene Assembly &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="scene-assembly">
+<span id="sceneassembly"></span><h1>Scene Assembly<a class="headerlink" href="#scene-assembly" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>The scene assembly is the procedural scene processing portion of the <a class="reference internal" href="scenehub.html#scenehub"><span class="std std-ref">SceneHub</span></a>.
+It consist of a processing graph containing nodes that query, filter, merge or augment
+scene element groups. It includes, too, a set of interfaces for abstracting the scene
+implementation while allowing for efficient, asynchronous processing, which is implemented
+by the <a class="reference internal" href="../SceneGraph/scenegraphoverview.html#scenegraph-overview"><span class="std std-ref">SceneGraph</span></a>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">The SceneAssembly extension is in early development stages and will grow in the next releases.
+In particular, there is currently no support for visual creation
+of processing graphs (DFG) however this is planned for future releases.</p>
+</div>
+<p>The following objects and interfaces constitute the main building blocs of the scene assembly framework:</p>
+<ul>
+<li><p class="first">The <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneWrapper</span></code> interface is the main interface for abstracting a source scene
+(such as the <a class="reference internal" href="../SceneGraph/scenegraphoverview.html#scenegraph-overview"><span class="std std-ref">SceneGraph</span></a>). It allows to create generic
+evaluation contexts (<code class="xref std std-kl-ref docutils literal"><span class="pre">SWContext</span></code>), queries and reference arrays.</p>
+</li>
+<li><p class="first">The <code class="xref std std-kl-ref docutils literal"><span class="pre">SWElementReference</span></code> refers to a scene element or sub-property.
+By implementing support for these, the scene provides an abstraction of its elements
+that allows for efficient and generic processing.</p>
+<p><code class="xref std std-kl-ref docutils literal"><span class="pre">SWElementReference</span></code>&#8216;s methods allow for generic functionality such as:</p>
+<ul class="simple">
+<li>Get its type and value</li>
+<li>Request <code class="xref std std-kl-ref docutils literal"><span class="pre">SWElementReference</span></code> for sub-properties (eg: <cite>globalTransform</cite>)</li>
+<li>Get its full name (mostly for debug purpose)</li>
+<li>Ability to update or generate its value for a specific scene context (<code class="xref std std-kl-ref docutils literal"><span class="pre">SWContext</span></code>, eg: for a specific
+frame) and provides a value version which allows clients to asynchronously detect changes.</li>
+<li>Attach an adaptor for a specific target (eg: OpenGL/RealTimeRenderer adaptor).
+The adaptor will be attached to scene&#8217;s source element (share by all SWElementReference
+that refer to the same scene element)</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">The <code class="xref std std-kl-ref docutils literal"><span class="pre">SWElementReference</span></code> is a simple struct that is an accessor for a specifc
+indexed <code class="xref std std-kl-ref docutils literal"><span class="pre">SWElementReferenceArray</span></code> item. It basically wraps a [elementsArray, index]
+pair, which simplifies its usage while maintaining regrouped element allocation for
+better performance and memory usage.</p>
+</div>
+</li>
+<li><p class="first">The <code class="xref std std-kl-ref docutils literal"><span class="pre">BaseDynamicGroup</span></code> is the base class for scene assembly processing nodes.
+It allows to collect an indexed set of scene items, provides information for updating
+ouput groups asynchronously and maintains a link to items&#8217; source groups
+(access to their <code class="xref std std-kl-ref docutils literal"><span class="pre">SWElementReference</span></code>). The <code class="xref std std-kl-ref docutils literal"><span class="pre">BaseDynamicGroup</span></code>
+is optimized for efficiency and low memory usage.</p>
+</li>
+</ul>
+<p>The connected scene assembly nodes form a procedural scene processing graph.
+All nodes implement an <cite>update</cite> method which takes a <code class="xref std std-kl-ref docutils literal"><span class="pre">SWContext</span></code>.
+The nodes recursively call <cite>update</cite> on their input group before
+updating their state and data. Nodes themselve have a version
+(<a class="reference internal" href="../Util/Versioned.html#versioned"><span class="std std-ref">Versioned</span></a> interface), which allows connected groups
+to detect if their data changed.</p>
+<p>The provided nodes and data include the following:</p>
+<ul>
+<li><p class="first"><code class="xref std std-kl-ref docutils literal"><span class="pre">SWDynamicGroup</span></code>: an initial group providing a set of
+source <code class="xref std std-kl-ref docutils literal"><span class="pre">SWElementReference</span></code>. The <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneWrapper.createInstanceQuery</span></code> method
+allows to create <code class="xref std std-kl-ref docutils literal"><span class="pre">SWDynamicGroup</span></code> containing the result of a scene query.</p>
+</li>
+<li><p class="first">The <code class="xref std std-kl-ref docutils literal"><span class="pre">BaseDynamicGroupFilter</span></code> base object provides services for creating
+a filtered subset of an input <code class="xref std std-kl-ref docutils literal"><span class="pre">BaseDynamicGroup</span></code>.</p>
+</li>
+<li><p class="first">The <code class="xref std std-kl-ref docutils literal"><span class="pre">DynamicGroupVolumeFilter</span></code> filter node will select scene elements
+based on their bounding box (<cite>globalBBox</cite> property) and a specified volume query.
+For a better performance, it uses a <code class="xref std std-kl-ref docutils literal"><span class="pre">DynamicGroupOctree</span></code> which can incrementally
+updates an <a class="reference internal" href="../Geometry/Octree.html#octree"><span class="std std-ref">Octree</span></a> of the input scene elements. The <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRCullFromVolumeTask</span></code>
+is a specialization of the <code class="xref std std-kl-ref docutils literal"><span class="pre">DynamicGroupVolumeFilter</span></code> for culling scene elements
+based on camera&#8217;s volume.</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">The set of provided processing or filtering nodes at this point is pretty limited, for example these don&#8217;t
+include nodes to &#8220;merge&#8221; multiple scenes together. Additionally, DFG support for the assembly graph is planned but
+hasn&#8217;t been realized at this point.</p>
+</div>
+</li>
+</ul>
+<div class="section" id="sceneassembly-example-scenegraph-to-rtr">
+<span id="sceneassembly-scenegraph-to-rtr"></span><h2>SceneAssembly example: SceneGraph to RTR<a class="headerlink" href="#sceneassembly-example-scenegraph-to-rtr" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Below is illustrated a simple scene processing graph for providing culled geometries and lights to the <a class="reference internal" href="../RTR2/rtr2.html#rtr2"><span class="std std-ref">RealTime Renderer</span></a>:</p>
+<img alt="../../_images/SceneAssembly.png" src="../../_images/SceneAssembly.png" />
+<p>In the diagram above:</p>
+<ul class="simple">
+<li>The &#8220;Query geometry&#8221; and &#8220;Query lights&#8221; nodes are <code class="xref std std-kl-ref docutils literal"><span class="pre">SceneGraph</span></code> specific implementations of
+<code class="xref std std-kl-ref docutils literal"><span class="pre">SWDynamicGroup</span></code> element queries (<code class="xref std std-kl-ref docutils literal"><span class="pre">SGInstanceQuery</span></code>) which are embedding
+different specialized scene element filters (<code class="xref std std-kl-ref docutils literal"><span class="pre">SGGeometryInstanceFilter</span></code> and <code class="xref std std-kl-ref docutils literal"><span class="pre">SGBaseLightInstanceFilter</span></code>).</li>
+<li>The geometry group is then filtered based on a &#8220;visible&#8221; property using the <code class="xref std std-kl-ref docutils literal"><span class="pre">VisiblePropertyGroupFilter</span></code></li>
+<li>The light and geometry groups are filtered based on the <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRCamera</span></code> volume, which is a
+<code class="xref std std-kl-ref docutils literal"><span class="pre">DynamicGroupVolumeFilter</span></code> specialized for the <a class="reference internal" href="../RTR2/rtr2.html#rtr2"><span class="std std-ref">RealTime Renderer</span></a>. A SceneGraph to RTR adaptor
+allows to adapt SceneGraph&#8217;s <code class="xref std std-kl-ref docutils literal"><span class="pre">SGCamera</span></code> to the RTR-specialized <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRCamera</span></code>.</li>
+<li>Finally, RTR-specific adaptors are created for the resulting scene geometry instances and lights.
+These adaptors allow to map scene-specific types, such as <code class="xref std std-kl-ref docutils literal"><span class="pre">SGDirectionalLight</span></code> and
+<code class="xref std std-kl-ref docutils literal"><span class="pre">SGInstance</span></code>, to corresponding RTR objects, such as <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRDirectionalLight</span></code>
+and <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRSWInstance</span></code>. See <a class="reference internal" href="scenehub.html#scenehub-adaptors"><span class="std std-ref">Scene element adaptors</span></a> for more details about the adaptor mechanism.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Scene Assembly</a><ul>
+<li><a class="reference internal" href="#sceneassembly-example-scenegraph-to-rtr">SceneAssembly example: SceneGraph to RTR</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/SceneAssembly/sceneassembly.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/SceneAssembly/sceneassembly.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

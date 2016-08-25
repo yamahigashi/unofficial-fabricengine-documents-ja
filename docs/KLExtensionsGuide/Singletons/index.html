@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Singletons エクステンション &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="KL エクステンションガイド" href="../index.html" />
+    <link rel="next" title="Singletons Extension’s Files" href="files.html" />
+    <link rel="prev" title="XfoParam (object)" href="../Parameters/XfoParam.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="Singletons Extension’s Files"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="../Parameters/XfoParam.html" title="XfoParam (object)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">KL エクステンションガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="singletons-extension">
+<span id="id1"></span><h1>Singletons エクステンション<a class="headerlink" href="#singletons-extension" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../../_images/FE_logo_345_60.png"><img alt="../../_images/FE_logo_345_60.png" src="../../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 2.3.0</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+</div>
+<p><a class="reference internal" href="#singletons-extension"><span class="std std-ref">Singletons エクステンション</span></a> は、1つの演算子や別のスコープからKLオブジェクトを永続化する方法を提供します。オブジェクトは、ユーザーには理解できない静的C++マップ内に格納されます。これの使用例として、 <a class="reference internal" href="../InlineDrawing/index.html#inlinedrawing-extension"><span class="std std-ref">InlineDrawing エクステンション</span></a> は <a class="reference internal" href="../InlineDrawing/InlineDrawing.html#inlinedrawing"><span class="std std-ref">InlineDrawing</span></a> シングルトンを格納します。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">グローバルマップにKLオブジェクトの保存ができます。KL構造体ではありません。</p>
+</div>
+<p><a class="reference internal" href="functions.html#id105926"><span class="std std-ref">Singleton_set</span></a> 、 <a class="reference internal" href="functions.html#id105922"><span class="std std-ref">Singleton_has</span></a> や <a class="reference internal" href="functions.html#id105936"><span class="std std-ref">Singleton_get</span></a></p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Fabric Engine のバージョン1.12.0から実装のシングルトンは、コアクライアントを閉じるときに自動的に破棄されます。</p>
+</div>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">require</span> <span class="nx">Singletons</span><span class="p">;</span>
+
+<span class="kr">object</span> <span class="nx">MySettings</span> <span class="p">{</span>
+
+  <span class="c1">/// \internal</span>
+  <span class="kr">String</span> <span class="nx">values</span><span class="p">[</span><span class="kr">String</span><span class="p">];</span>
+
+<span class="p">};</span>
+
+<span class="kd">function</span> <span class="nx">MySettings</span><span class="p">.</span><span class="nx">set</span><span class="o">!</span><span class="p">(</span><span class="kr">String</span> <span class="nx">key</span><span class="p">,</span> <span class="kr">String</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">values</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="kr">String</span> <span class="nx">MySettings</span><span class="p">.</span><span class="nx">get</span><span class="o">!</span><span class="p">(</span><span class="kr">String</span> <span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">setupSettings</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="nx">MySettings</span> <span class="nx">settings</span> <span class="o">=</span> <span class="nx">MySettings</span><span class="p">();</span>
+  <span class="nx">settings</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;language&#39;</span><span class="p">,</span> <span class="s1">&#39;english&#39;</span><span class="p">);</span>
+  <span class="nx">settings</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;localization&#39;</span><span class="p">,</span> <span class="s1">&#39;us&#39;</span><span class="p">);</span>
+
+  <span class="c1">// in this function&#39;s scope we create an object and</span>
+  <span class="c1">// store it in the singletons extension&#39;s memory.</span>
+  <span class="c1">// note that it otherwise would run out of scope and</span>
+  <span class="c1">// get destroyed.</span>
+  <span class="nx">Singleton_set</span><span class="p">(</span><span class="s1">&#39;settings&#39;</span><span class="p">,</span> <span class="nx">settings</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="nx">setupSettings</span><span class="p">();</span>
+
+  <span class="c1">// check if we have the singleton in this scope.</span>
+  <span class="k">if</span><span class="p">(</span><span class="nx">Singleton_has</span><span class="p">(</span><span class="s1">&#39;settings&#39;</span><span class="p">))</span> <span class="p">{</span>
+
+    <span class="nx">MySettings</span> <span class="nx">settings</span> <span class="o">=</span> <span class="nx">Singleton_get</span><span class="p">(</span><span class="s1">&#39;settings&#39;</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">settings</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">setError</span><span class="p">(</span><span class="s1">&#39;Singleton settings is set, but not of KL type MySettings!&#39;</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nb">report</span><span class="p">(</span><span class="s1">&#39;Language setting: &#39;</span><span class="o">+</span><span class="nx">settings</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;language&#39;</span><span class="p">));</span>
+      <span class="nb">report</span><span class="p">(</span><span class="s1">&#39;Localization setting: &#39;</span><span class="o">+</span><span class="nx">settings</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;localization&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">Language setting: english</span>
+<span class="cm">Localization setting: us</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<p>シングルトン単体テストの一例</p>
+<p><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Singletons_Test1.kl</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Singletons</span><span class="p">;</span>
+
+<span class="kr">object</span> <span class="nx">MySingleton</span> <span class="p">{</span>
+  <span class="kr">String</span> <span class="nx">name</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">MySingleton</span> <span class="nx">someSingleton</span> <span class="o">=</span> <span class="nx">MySingleton</span><span class="p">();</span>
+  <span class="nx">someSingleton</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span><span class="p">;</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">someSingleton</span><span class="p">);</span>
+
+  <span class="nx">Singleton_set</span><span class="p">(</span><span class="s1">&#39;someSingleton&#39;</span><span class="p">,</span> <span class="nx">someSingleton</span><span class="p">);</span>
+  <span class="nx">someSingleton</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">someSingleton</span><span class="p">);</span>
+
+  <span class="nx">someSingleton</span> <span class="o">=</span> <span class="nx">Singleton_get</span><span class="p">(</span><span class="s1">&#39;someSingleton&#39;</span><span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">someSingleton</span><span class="p">);</span>  
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">{name:&quot;test&quot;}</span>
+<span class="cm">null</span>
+<span class="cm">{name:&quot;test&quot;}</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</p>
+<div class="section" id="table-of-contents">
+<h2>目次<a class="headerlink" href="#table-of-contents" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="files.html">Singletons Extension&#8217;s Files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SingletonHandle.kl.html">SingletonHandle.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Singletons.kl.html">Singletons.kl</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">Singletons Extension&#8217;s Free Functions</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>索引と検索<a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../../genindex.html"><span class="std std-ref">索引</span></a></li>
+<li><a class="reference internal" href="../../search.html"><span class="std std-ref">検索ページ</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Singletons エクステンション</a><ul>
+<li><a class="reference internal" href="#table-of-contents">目次</a></li>
+<li><a class="reference internal" href="#indices-and-tables">索引と検索</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="../Parameters/XfoParam.html"
+                        title="前の章へ">XfoParam (object)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="files.html"
+                        title="次の章へ">Singletons Extension&#8217;s Files</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Singletons/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Singletons/index.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="Singletons Extension’s Files"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="../Parameters/XfoParam.html" title="XfoParam (object)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

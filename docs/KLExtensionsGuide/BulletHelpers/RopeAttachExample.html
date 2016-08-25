@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Rope Attach Example &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Bullet Helpers エクステンション" href="index.html" />
+    <link rel="next" title="Aero Example" href="AeroExample.html" />
+    <link rel="prev" title="Constraints Example" href="ConstraintsExample.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="AeroExample.html" title="Aero Example"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="ConstraintsExample.html" title="Constraints Example"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Bullet Helpers エクステンション</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="rope-attach-example">
+<span id="ropeattach-example"></span><h1>Rope Attach Example<a class="headerlink" href="#rope-attach-example" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: SoftBodies_RopeAttach.kl</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Math</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">Geometry</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">BulletHelpers</span><span class="p">;</span>
+
+
+<span class="c1">//</span>
+<span class="c1">// Rope attach</span>
+<span class="c1">//</span>
+<span class="kd">function</span> <span class="nx">Init_RopeAttach</span><span class="p">(</span><span class="k">io</span> <span class="nx">SoftBodySimulation</span> <span class="nx">sim</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="nx">sim</span><span class="p">.</span><span class="nx">initPhysics</span><span class="p">();</span>
+  <span class="nx">BulletSoftRigidDynamicsWorld</span> <span class="nx">softWorld</span> <span class="o">=</span> <span class="nx">sim</span><span class="p">.</span><span class="nx">getSoftDynamicsWorld</span><span class="p">();</span>
+  
+  <span class="nx">Vec3</span> <span class="nx">boxDim</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+  <span class="nx">PolygonMesh</span> <span class="nx">cuboidMesh</span><span class="p">();</span> 
+  <span class="nx">cuboidMesh</span><span class="p">.</span><span class="nx">addCuboid</span><span class="p">(</span><span class="nx">Xfo</span><span class="p">(),</span> <span class="nx">boxDim</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span> <span class="nx">boxDim</span><span class="p">.</span><span class="nx">y</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span> <span class="nx">boxDim</span><span class="p">.</span><span class="nx">z</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">);</span>
+  
+  <span class="nx">Xfo</span> <span class="nx">startTransform</span><span class="p">;</span>
+  <span class="nx">startTransform</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+  <span class="nx">startTransform</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="nx">BulletRigidBody</span> <span class="nx">rbm</span><span class="o">=</span><span class="nx">sim</span><span class="p">.</span><span class="nx">addRigidBody</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="nx">startTransform</span><span class="p">,</span> <span class="nx">BulletBoxShape</span><span class="p">(</span><span class="nx">boxDim</span><span class="p">));</span>
+
+  <span class="nx">BulletSoftBody</span>  <span class="nx">psb0</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">psb1</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+  <span class="p">{</span>
+    <span class="nx">Lines</span> <span class="nx">rope</span><span class="p">();</span>
+    <span class="nx">Vec3</span> <span class="nx">p1</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+    <span class="nx">rope</span><span class="p">.</span><span class="nx">addSegmentedLine</span><span class="p">(</span><span class="nx">p1</span><span class="p">,</span><span class="nx">p1</span><span class="o">+</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="mi">8</span><span class="p">);</span>
+    <span class="nx">psb0</span><span class="o">=</span><span class="nx">BulletSoftBodyHelpers_CreateRope</span><span class="p">(</span><span class="nx">sim</span><span class="p">.</span><span class="nx">softBodyWorldInfo</span><span class="p">,</span> <span class="nx">rope</span><span class="p">.</span><span class="nx">getAttributes</span><span class="p">().</span><span class="nx">getPositions</span><span class="p">().</span><span class="nx">values</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="nx">psb0</span><span class="p">.</span><span class="nx">setTotalMass</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span>
+    <span class="nx">sim</span><span class="p">.</span><span class="nx">addSoftBodyLines</span><span class="p">(</span><span class="nx">psb0</span><span class="p">,</span> <span class="nx">rope</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="p">{</span>
+    <span class="nx">Lines</span> <span class="nx">rope</span><span class="p">();</span>
+    <span class="nx">Vec3</span> <span class="nx">p2</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+    <span class="nx">rope</span><span class="p">.</span><span class="nx">addSegmentedLine</span><span class="p">(</span><span class="nx">p2</span><span class="p">,</span><span class="nx">p2</span><span class="o">+</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="mi">8</span><span class="p">);</span>
+    <span class="nx">psb1</span><span class="o">=</span><span class="nx">BulletSoftBodyHelpers_CreateRope</span><span class="p">(</span><span class="nx">sim</span><span class="p">.</span><span class="nx">softBodyWorldInfo</span><span class="p">,</span> <span class="nx">rope</span><span class="p">.</span><span class="nx">getAttributes</span><span class="p">().</span><span class="nx">getPositions</span><span class="p">().</span><span class="nx">values</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="nx">psb1</span><span class="p">.</span><span class="nx">setTotalMass</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span>
+    <span class="nx">sim</span><span class="p">.</span><span class="nx">addSoftBodyLines</span><span class="p">(</span><span class="nx">psb1</span><span class="p">,</span> <span class="nx">rope</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">psb0</span><span class="p">.</span><span class="nx">appendAnchor</span><span class="p">(</span><span class="nx">psb0</span><span class="p">.</span><span class="nx">getNumNodes</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="nx">rbm</span><span class="p">);</span>
+  <span class="nx">psb1</span><span class="p">.</span><span class="nx">appendAnchor</span><span class="p">(</span><span class="nx">psb1</span><span class="p">.</span><span class="nx">getNumNodes</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="nx">rbm</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">(){</span>
+
+  <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;SoftBodySimulation RopeAttach Demo&quot;</span><span class="p">);</span>
+  <span class="nx">SoftBodySimulation</span> <span class="nx">sim</span><span class="p">();</span>
+  <span class="nx">Init_RopeAttach</span><span class="p">(</span><span class="nx">sim</span><span class="p">);</span>
+
+
+  <span class="nx">BulletSoftRigidDynamicsWorld</span> <span class="nx">softWorld</span> <span class="o">=</span> <span class="nx">sim</span><span class="p">.</span><span class="nx">getSoftDynamicsWorld</span><span class="p">();</span>
+  <span class="kr">UInt32</span> <span class="nx">numReportedVertices</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+  <span class="kr">String</span> <span class="nx">reportedPositions</span><span class="p">[];</span>
+  <span class="nx">reportedPositions</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">numReportedVertices</span><span class="p">);</span>
+
+  <span class="nx">BulletSoftBody</span> <span class="nx">softBodies</span><span class="p">[]</span> <span class="o">=</span>  <span class="nx">softWorld</span><span class="p">.</span><span class="nx">getSoftBodyArray</span><span class="p">();</span>
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="mi">30</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="nx">sim</span><span class="p">.</span><span class="nx">stepSimulation</span><span class="p">();</span>
+
+    <span class="c1">// Report X vertex positions;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">k</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">k</span><span class="o">&lt;</span><span class="nx">softBodies</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span> <span class="nx">k</span><span class="o">++</span><span class="p">){</span>
+      <span class="nx">BulletSoftBody</span> <span class="nx">softBody</span> <span class="o">=</span> <span class="nx">softBodies</span><span class="p">[</span><span class="nx">k</span><span class="p">];</span>
+      <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">j</span><span class="o">&lt;</span><span class="nx">numReportedVertices</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">){</span>
+        <span class="kr">Index</span> <span class="nx">index</span> <span class="o">=</span> <span class="p">(</span><span class="nx">Scalar</span><span class="p">(</span><span class="nx">j</span><span class="p">)</span> <span class="o">/</span> <span class="nx">Scalar</span><span class="p">(</span><span class="nx">numReportedVertices</span><span class="p">))</span> <span class="o">*</span> <span class="nx">softBody</span><span class="p">.</span><span class="nx">getNumNodes</span><span class="p">();</span>
+        <span class="nx">BulletSoftBodyNode</span> <span class="nx">node</span> <span class="o">=</span> <span class="nx">softBody</span><span class="p">.</span><span class="nx">getNode</span><span class="p">(</span><span class="nx">index</span><span class="p">);</span>
+        <span class="nx">reportedPositions</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="o">=</span> <span class="nx">unitTestPrint</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">x</span><span class="p">);</span>
+      <span class="p">}</span>
+      <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;i:&quot;</span><span class="o">+</span><span class="nx">i</span> <span class="o">+</span><span class="s2">&quot;k:&quot;</span><span class="o">+</span><span class="nx">k</span> <span class="o">+</span> <span class="s2">&quot; mesh vertices:&quot;</span> <span class="o">+</span> <span class="nx">reportedPositions</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;i:&quot;</span><span class="o">+</span><span class="nx">i</span> <span class="o">+</span><span class="s2">&quot;body&quot;</span> <span class="o">+</span> <span class="nx">unitTestPrint</span><span class="p">(</span><span class="nx">sim</span><span class="p">.</span><span class="nx">rigidBodies</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">getWorldTransform</span><span class="p">()));</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Force the destruction of the sim object.</span>
+  <span class="nx">sim</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+
+  <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;entry&lt;&lt;&lt;&lt;&quot;</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">SoftBodySimulation RopeAttach Demo</span>
+<span class="cm">i:0k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.666504,y:+7.991211,z:-1.0}&quot;,&quot;{x:+5.333008,y:+7.991211,z:-1.0}&quot;,&quot;{x:+8.0,y:+7.991211,z:-1.0}&quot;]</span>
+<span class="cm">i:0k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.666504,y:+7.991211,z:+1.0}&quot;,&quot;{x:+5.333008,y:+7.991211,z:+1.0}&quot;,&quot;{x:+8.0,y:+7.991211,z:+1.0}&quot;]</span>
+<span class="cm">i:0body{tr:{x:+12.0,y:+7.991211,z:+0.0},ori:{v:{x:+3.466027e-11,y:+0.0,z:-1.777607e-9},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:1k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.666504,y:+7.958008,z:-1.0}&quot;,&quot;{x:+5.333008,y:+7.958008,z:-1.0}&quot;,&quot;{x:+8.0,y:+7.958008,z:-1.0}&quot;]</span>
+<span class="cm">i:1k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.666504,y:+7.958008,z:+1.0}&quot;,&quot;{x:+5.333008,y:+7.958008,z:+1.0}&quot;,&quot;{x:+8.0,y:+7.958008,z:+1.0}&quot;]</span>
+<span class="cm">i:1body{tr:{x:+12.0,y:+7.958008,z:-3.522979e-17},ori:{v:{x:+0.532168e-9,y:-1.649342e-17,z:-2.728484e-8},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:2k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.665527,y:+7.921875,z:-1.0}&quot;,&quot;{x:+5.333008,y:+7.921875,z:-1.0}&quot;,&quot;{x:+8.0,y:+7.921875,z:-1.0}&quot;]</span>
+<span class="cm">i:2k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.665527,y:+7.921875,z:+1.0}&quot;,&quot;{x:+5.333008,y:+7.921875,z:+1.0}&quot;,&quot;{x:+8.0,y:+7.921875,z:+1.0}&quot;]</span>
+<span class="cm">i:2body{tr:{x:+12.0,y:+7.921875,z:+3.336481e-9},ori:{v:{x:+1.132548e-9,y:+3.403784e-9,z:-5.864422e-8},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:3k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.663574,y:+7.875,z:-1.0}&quot;,&quot;{x:+5.333008,y:+7.875,z:-1.0}&quot;,&quot;{x:+8.0,y:+7.875,z:-1.0}&quot;]</span>
+<span class="cm">i:3k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.663574,y:+7.875,z:+1.0}&quot;,&quot;{x:+5.333008,y:+7.875,z:+1.0}&quot;,&quot;{x:+8.0,y:+7.875,z:+1.0}&quot;]</span>
+<span class="cm">i:3body{tr:{x:+12.0,y:+7.875,z:-1.249463e-8},ori:{v:{x:+1.8224e-9,y:+0.836553e-8,z:-0.945728e-7},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:4k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.655761,y:+7.783203,z:-1.0}&quot;,&quot;{x:+5.330078,y:+7.783203,z:-1.0}&quot;,&quot;{x:+7.999023,y:+7.783203,z:-1.0}&quot;]</span>
+<span class="cm">i:4k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.655761,y:+7.783203,z:+1.0}&quot;,&quot;{x:+5.330078,y:+7.783203,z:+1.0}&quot;,&quot;{x:+7.999023,y:+7.783203,z:+1.0}&quot;]</span>
+<span class="cm">i:4body{tr:{x:+12.0,y:+7.783203,z:-2.875458e-7},ori:{v:{x:+3.096374e-9,y:+3.409513e-8,z:-1.618173e-7},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:5k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.645507,y:+7.708008,z:-1.0}&quot;,&quot;{x:+5.326172,y:+7.708008,z:-1.0}&quot;,&quot;{x:+7.998047,y:+7.708008,z:-1.0}&quot;]</span>
+<span class="cm">i:5k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.645507,y:+7.708008,z:+1.0}&quot;,&quot;{x:+5.326172,y:+7.708008,z:+1.0}&quot;,&quot;{x:+7.998047,y:+7.708008,z:+1.0}&quot;]</span>
+<span class="cm">i:5body{tr:{x:+12.0,y:+7.708008,z:-0.857282e-6},ori:{v:{x:+0.503405e-9,y:+5.576294e-8,z:-2.102169e-7},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:6k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.621582,y:+7.575195,z:-1.0}&quot;,&quot;{x:+5.313476,y:+7.575195,z:-1.0}&quot;,&quot;{x:+7.993164,y:+7.575195,z:-1.0}&quot;]</span>
+<span class="cm">i:6k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.621582,y:+7.575195,z:+1.0}&quot;,&quot;{x:+5.313476,y:+7.575195,z:+1.0}&quot;,&quot;{x:+7.993164,y:+7.575195,z:+1.0}&quot;]</span>
+<span class="cm">i:6body{tr:{x:+12.0,y:+7.575195,z:-3.279652e-6},ori:{v:{x:-3.410605e-9,y:+2.937158e-7,z:-3.100722e-7},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:7k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.600586,y:+7.472656,z:-1.0}&quot;,&quot;{x:+5.300781,y:+7.472656,z:-1.0}&quot;,&quot;{x:+7.987304,y:+7.472656,z:-1.0}&quot;]</span>
+<span class="cm">i:7k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.600586,y:+7.472656,z:+1.0}&quot;,&quot;{x:+5.300781,y:+7.472656,z:+1.0}&quot;,&quot;{x:+7.987304,y:+7.472656,z:+1.0}&quot;]</span>
+<span class="cm">i:7body{tr:{x:+11.99804,y:+7.472656,z:-0.664871e-5},ori:{v:{x:-0.507043e-8,y:+0.834115e-6,z:-3.846944e-7},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:8k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.561035,y:+7.298828,z:-1.0}&quot;,&quot;{x:+5.274414,y:+7.296875,z:-1.0}&quot;,&quot;{x:+7.973633,y:+7.296875,z:-1.0}&quot;]</span>
+<span class="cm">i:8k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.561035,y:+7.298828,z:+1.0}&quot;,&quot;{x:+5.274414,y:+7.296875,z:+1.0}&quot;,&quot;{x:+7.973633,y:+7.296875,z:+1.0}&quot;]</span>
+<span class="cm">i:8body{tr:{x:+11.99218,y:+7.296875,z:-1.543387e-5},ori:{v:{x:-1.195076e-8,y:+2.943445e-6,z:-0.50629e-6},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:9k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.529785,y:+7.169922,z:-1.0}&quot;,&quot;{x:+5.251953,y:+7.166992,z:-1.0}&quot;,&quot;{x:+7.959961,y:+7.166992,z:-1.0}&quot;]</span>
+<span class="cm">i:9k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.529785,y:+7.169922,z:+1.0}&quot;,&quot;{x:+5.251953,y:+7.166992,z:+1.0}&quot;,&quot;{x:+7.959961,y:+7.166992,z:+1.0}&quot;]</span>
+<span class="cm">i:9body{tr:{x:+11.98632,y:+7.166992,z:-2.405792e-5},ori:{v:{x:-1.634907e-8,y:+0.573415e-5,z:-0.614789e-6},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:10k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.476074,y:+6.963867,z:-1.0}&quot;,&quot;{x:+5.210937,y:+6.950195,z:-1.0}&quot;,&quot;{x:+7.932617,y:+6.950195,z:-1.0}&quot;]</span>
+<span class="cm">i:10k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.476074,y:+6.963867,z:+1.0}&quot;,&quot;{x:+5.210937,y:+6.950195,z:+1.0}&quot;,&quot;{x:+7.932617,y:+6.950195,z:+1.0}&quot;]</span>
+<span class="cm">i:10body{tr:{x:+11.96875,y:+6.950195,z:-4.110485e-5},ori:{v:{x:-2.131492e-8,y:+1.246295e-5,z:-0.821659e-6},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:11k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.435058,y:+6.822265,z:-1.0}&quot;,&quot;{x:+5.179687,y:+6.791992,z:-1.0}&quot;,&quot;{x:+7.909179,y:+6.791992,z:-1.0}&quot;]</span>
+<span class="cm">i:11k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.435058,y:+6.822265,z:+1.0}&quot;,&quot;{x:+5.178711,y:+6.791992,z:+1.0}&quot;,&quot;{x:+7.908203,y:+6.791992,z:+1.0}&quot;]</span>
+<span class="cm">i:11body{tr:{x:+11.95117,y:+6.791992,z:-5.510449e-5},ori:{v:{x:-2.730303e-8,y:+1.845136e-5,z:-0.994419e-6},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:12k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.368164,y:+6.61914,z:-1.0}&quot;,&quot;{x:+5.123047,y:+6.533203,z:-1.0}&quot;,&quot;{x:+7.864258,y:+6.533203,z:-1.0}&quot;]</span>
+<span class="cm">i:12k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.367675,y:+6.61914,z:+1.0}&quot;,&quot;{x:+5.123047,y:+6.533203,z:+1.0}&quot;,&quot;{x:+7.863281,y:+6.533203,z:+1.0}&quot;]</span>
+<span class="cm">i:12body{tr:{x:+11.91406,y:+6.533203,z:-0.80198e-4},ori:{v:{x:-4.348112e-8,y:+2.897158e-5,z:-1.324573e-6},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:13k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.322265,y:+6.499023,z:-1.0}&quot;,&quot;{x:+5.080078,y:+6.347656,z:-1.0}&quot;,&quot;{x:+7.826172,y:+6.347656,z:-1.0}&quot;]</span>
+<span class="cm">i:13k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.321777,y:+6.499023,z:+1.0}&quot;,&quot;{x:+5.079101,y:+6.347656,z:+1.0}&quot;,&quot;{x:+7.826172,y:+6.347656,z:+1.0}&quot;]</span>
+<span class="cm">i:13body{tr:{x:+11.88085,y:+6.347656,z:-0.997632e-4},ori:{v:{x:-4.850153e-8,y:+3.650039e-5,z:-1.596054e-6},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:14k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.257324,y:+6.353515,z:-1.0}&quot;,&quot;{x:+5.002929,y:+6.048828,z:-1.0}&quot;,&quot;{x:+7.756836,y:+6.046875,z:-0.999877}&quot;]</span>
+<span class="cm">i:14k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.256836,y:+6.353515,z:+1.0}&quot;,&quot;{x:+5.001953,y:+6.048828,z:+1.0}&quot;,&quot;{x:+7.755859,y:+6.046875,z:+1.0}&quot;]</span>
+<span class="cm">i:14body{tr:{x:+11.8164,y:+6.046875,z:-1.332759e-4},ori:{v:{x:-5.20813e-8,y:+4.774332e-5,z:-2.074521e-6},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:15k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.219726,y:+6.280273,z:-1.0}&quot;,&quot;{x:+4.942383,y:+5.836914,z:-1.0}&quot;,&quot;{x:+7.701172,y:+5.833008,z:-0.999877}&quot;]</span>
+<span class="cm">i:15k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.219238,y:+6.280273,z:+1.0}&quot;,&quot;{x:+4.941406,y:+5.836914,z:+1.0}&quot;,&quot;{x:+7.700195,y:+5.833008,z:+1.0}&quot;]</span>
+<span class="cm">i:15body{tr:{x:+11.76367,y:+5.833008,z:-1.582801e-4},ori:{v:{x:-5.60758e-8,y:+5.493313e-5,z:-2.444256e-6},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:16k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.171875,y:+6.196289,z:-1.0}&quot;,&quot;{x:+4.836914,y:+5.504883,z:-1.0}&quot;,&quot;{x:+7.601562,y:+5.492187,z:-0.999755}&quot;]</span>
+<span class="cm">i:16k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.171386,y:+6.195312,z:+1.0}&quot;,&quot;{x:+4.835937,y:+5.504883,z:+1.0}&quot;,&quot;{x:+7.600586,y:+5.492187,z:+1.0}&quot;]</span>
+<span class="cm">i:16body{tr:{x:+11.66992,y:+5.492187,z:-1.991093e-4},ori:{v:{x:-0.681611e-7,y:+0.650882e-4,z:-3.068242e-6},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:17k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.142578,y:+6.149414,z:-1.0}&quot;,&quot;{x:+4.755859,y:+5.277344,z:-1.0}&quot;,&quot;{x:+7.524414,y:+5.25,z:-0.999633}&quot;]</span>
+<span class="cm">i:17k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.142089,y:+6.148437,z:+1.0}&quot;,&quot;{x:+4.754883,y:+5.277344,z:+1.0}&quot;,&quot;{x:+7.523437,y:+5.25,z:+1.0}&quot;]</span>
+<span class="cm">i:17body{tr:{x:+11.5957,y:+5.25,z:-2.282858e-4},ori:{v:{x:-0.717846e-7,y:+0.714659e-4,z:-3.526918e-6},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:18k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.098144,y:+6.083984,z:-1.0}&quot;,&quot;{x:+4.618164,y:+4.941406,z:-1.0}&quot;,&quot;{x:+7.390625,y:+4.867187,z:-0.999511}&quot;]</span>
+<span class="cm">i:18k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.097168,y:+6.083008,z:+1.0}&quot;,&quot;{x:+4.617187,y:+4.941406,z:+1.0}&quot;,&quot;{x:+7.389648,y:+4.867187,z:+1.0}&quot;]</span>
+<span class="cm">i:18body{tr:{x:+11.46484,y:+4.867187,z:-2.746582e-4},ori:{v:{x:-0.790896e-7,y:+0.805407e-4,z:-0.427104e-5},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:19k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.066406,y:+6.041992,z:-1.0}&quot;,&quot;{x:+4.517578,y:+4.728515,z:-1.0}&quot;,&quot;{x:+7.289062,y:+4.597656,z:-0.999389}&quot;]</span>
+<span class="cm">i:19k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.065918,y:+6.041992,z:+1.0}&quot;,&quot;{x:+4.516601,y:+4.728515,z:+1.0}&quot;,&quot;{x:+7.289062,y:+4.597656,z:+1.0}&quot;]</span>
+<span class="cm">i:19body{tr:{x:+11.36718,y:+4.597656,z:-3.072619e-4},ori:{v:{x:-0.828877e-7,y:+0.86382e-4,z:-0.481959e-5},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:20k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+2.017089,y:+5.980469,z:-1.0}&quot;,&quot;{x:+4.357422,y:+4.441406,z:-1.0}&quot;,&quot;{x:+7.118164,y:+4.174804,z:-0.999145}&quot;]</span>
+<span class="cm">i:20k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+2.016113,y:+5.979492,z:+1.0}&quot;,&quot;{x:+4.356445,y:+4.440429,z:+1.0}&quot;,&quot;{x:+7.117187,y:+4.174804,z:+1.0}&quot;]</span>
+<span class="cm">i:20body{tr:{x:+11.19921,y:+4.171875,z:-3.585815e-4},ori:{v:{x:-0.958389e-7,y:+0.950098e-4,z:-0.576768e-5},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:21k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+1.982177,y:+5.939453,z:-1.0}&quot;,&quot;{x:+4.249023,y:+4.274414,z:-1.0}&quot;,&quot;{x:+6.990234,y:+3.880371,z:-0.999145}&quot;]</span>
+<span class="cm">i:21k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+1.981445,y:+5.938476,z:+1.0}&quot;,&quot;{x:+4.249023,y:+4.273437,z:+1.0}&quot;,&quot;{x:+6.989258,y:+3.880371,z:+1.0}&quot;]</span>
+<span class="cm">i:21body{tr:{x:+11.07421,y:+3.875,z:-3.943443e-4},ori:{v:{x:-1.032167e-7,y:+1.006275e-4,z:-0.651087e-5},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:22k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+1.926757,y:+5.877929,z:-1.0}&quot;,&quot;{x:+4.091797,y:+4.061523,z:-0.999877}&quot;,&quot;{x:+6.777344,y:+3.424316,z:-0.999023}&quot;]</span>
+<span class="cm">i:22k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+1.926025,y:+5.876953,z:+1.0}&quot;,&quot;{x:+4.09082,y:+4.060547,z:+1.0}&quot;,&quot;{x:+6.776367,y:+3.424316,z:+1.0}&quot;]</span>
+<span class="cm">i:22body{tr:{x:+10.86523,y:+3.408203,z:-4.499554e-4},ori:{v:{x:-1.150474e-7,y:+1.085847e-4,z:-0.811368e-5},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:23k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+1.886962,y:+5.834961,z:-1.0}&quot;,&quot;{x:+3.991211,y:+3.938476,z:-0.999755}&quot;,&quot;{x:+6.621094,y:+3.114746,z:-0.998901}&quot;]</span>
+<span class="cm">i:23k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+1.88623,y:+5.834961,z:+1.0}&quot;,&quot;{x:+3.990234,y:+3.9375,z:+1.0}&quot;,&quot;{x:+6.620117,y:+3.114746,z:+1.0}&quot;]</span>
+<span class="cm">i:23body{tr:{x:+10.71093,y:+3.083496,z:-0.488281e-3},ori:{v:{x:-1.16197e-7,y:+1.13368e-4,z:-1.016073e-5},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:24k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+1.823242,y:+5.771484,z:-1.0}&quot;,&quot;{x:+3.84375,y:+3.772949,z:-0.999633}&quot;,&quot;{x:+6.364258,y:+2.651855,z:-0.998901}&quot;]</span>
+<span class="cm">i:24k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+1.822509,y:+5.770508,z:+1.0}&quot;,&quot;{x:+3.842773,y:+3.771972,z:+1.0}&quot;,&quot;{x:+6.364258,y:+2.651855,z:+1.0}&quot;]</span>
+<span class="cm">i:24body{tr:{x:+10.45703,y:+2.575195,z:-0.547528e-3},ori:{v:{x:-0.919826e-7,y:+1.194179e-4,z:-1.811608e-5},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:25k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+1.778076,y:+5.727539,z:-1.0}&quot;,&quot;{x:+3.746093,y:+3.669922,z:-0.999511}&quot;,&quot;{x:+6.179687,y:+2.352539,z:-0.998779}&quot;]</span>
+<span class="cm">i:25k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+1.777343,y:+5.727539,z:+1.0}&quot;,&quot;{x:+3.745117,y:+3.668945,z:+1.0}&quot;,&quot;{x:+6.178711,y:+2.35205,z:+1.0}&quot;]</span>
+<span class="cm">i:25body{tr:{x:+10.27148,y:+2.222656,z:-0.588059e-3},ori:{v:{x:-4.057801e-8,y:+1.225471e-4,z:-3.190338e-5},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:26k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+1.706787,y:+5.662109,z:-1.0}&quot;,&quot;{x:+3.597168,y:+3.521972,z:-0.999389}&quot;,&quot;{x:+5.887695,y:+1.93164,z:-0.998779}&quot;]</span>
+<span class="cm">i:26k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+1.706054,y:+5.662109,z:+1.0}&quot;,&quot;{x:+3.595703,y:+3.520996,z:+1.0}&quot;,&quot;{x:+5.885742,y:+1.931152,z:+1.0}&quot;]</span>
+<span class="cm">i:26body{tr:{x:+9.96875,y:+1.673339,z:-0.650763e-3},ori:{v:{x:+1.618173e-7,y:+1.257658e-4,z:-0.875443e-4},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:27k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+1.657226,y:+5.61914,z:-0.999877}&quot;,&quot;{x:+3.495117,y:+3.425781,z:-0.999267}&quot;,&quot;{x:+5.686523,y:+1.677002,z:-0.998657}&quot;]</span>
+<span class="cm">i:27k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+1.656738,y:+5.618164,z:+1.0}&quot;,&quot;{x:+3.493652,y:+3.424804,z:+1.0}&quot;,&quot;{x:+5.68457,y:+1.676269,z:+1.0}&quot;]</span>
+<span class="cm">i:27body{tr:{x:+9.75,y:+1.293945,z:-0.694036e-3},ori:{v:{x:+4.750909e-7,y:+1.270473e-4,z:-1.765787e-4},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:28k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+1.580322,y:+5.554687,z:-0.999877}&quot;,&quot;{x:+3.337402,y:+3.284179,z:-0.999145}&quot;,&quot;{x:+5.385742,y:+1.338623,z:-0.998657}&quot;]</span>
+<span class="cm">i:28k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+1.579834,y:+5.554687,z:+1.0}&quot;,&quot;{x:+3.336425,y:+3.283203,z:+1.0}&quot;,&quot;{x:+5.383789,y:+1.33789,z:+1.0}&quot;]</span>
+<span class="cm">i:28body{tr:{x:+9.392578,y:+0.706543,z:-0.762343e-3},ori:{v:{x:+1.512933e-6,y:+1.283288e-4,z:-0.48983e-3},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">i:29k:0 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:-1.0}&quot;,&quot;{x:+1.527587,y:+5.512695,z:-0.999755}&quot;,&quot;{x:+3.22998,y:+3.191406,z:-0.999145}&quot;,&quot;{x:+5.190429,y:+1.139648,z:-0.998657}&quot;]</span>
+<span class="cm">i:29k:1 mesh vertices:[&quot;{x:+0.0,y:+8.0,z:+1.0}&quot;,&quot;{x:+1.527099,y:+5.512695,z:+1.0}&quot;,&quot;{x:+3.228515,y:+3.190918,z:+1.0}&quot;,&quot;{x:+5.189453,y:+1.138916,z:+1.0}&quot;]</span>
+<span class="cm">i:29body{tr:{x:+9.134766,y:+0.304199,z:-0.812053e-3},ori:{v:{x:+2.926215e-6,y:+1.296103e-4,z:-0.932693e-3},w:+1.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">entry&lt;&lt;&lt;&lt;</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="ConstraintsExample.html"
+                        title="前の章へ">Constraints Example</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="AeroExample.html"
+                        title="次の章へ">Aero Example</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/BulletHelpers/RopeAttachExample.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/BulletHelpers/RopeAttachExample.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="AeroExample.html" title="Aero Example"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="ConstraintsExample.html" title="Constraints Example"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Bullet Helpers エクステンション</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

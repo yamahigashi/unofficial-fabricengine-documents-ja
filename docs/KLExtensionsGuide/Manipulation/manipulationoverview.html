@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Manipulation 2.0 Overview &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="manipulation-2-0-overview">
+<span id="manipulation-overview"></span><h1>Manipulation 2.0 Overview<a class="headerlink" href="#manipulation-2-0-overview" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>The new manipulation system provides an abstraction layer making it more flexible, more scalable and independant of the rendering.
+Furthermore, this new design makes the system safely usable within Canvas.
+For the moment, only <code class="xref std std-kl-ref docutils literal"><span class="pre">SRTManipulator</span></code> are supported, but others as Surface painting manipulator will also be implemented.</p>
+<div class="section" id="srtmanipulator">
+<h2>SRTManipulator<a class="headerlink" href="#srtmanipulator" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>SRTManipulator is a special implementation of manipulator used to scale, rotate and translate any rendered objects : geometries, instances, lights, groups, ...
+The manipulation can either be global or applied along a specfic axis.</p>
+<p>The SRT manipulation system has two general components : a <code class="xref std std-kl-ref docutils literal"><span class="pre">SRTManipulatorBase</span></code> and a <code class="xref std std-kl-ref docutils literal"><span class="pre">SRTManipulatorTargetBase</span></code>:</p>
+<ul class="simple">
+<li>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SRTManipulatorBase</span></code> is the manipulator, which represents a gizmo that can be manipulated either freely or along its X,Y,Z axis only. The components process the mouse/key events it receives and, depending of the manipulation mode (S,R,T - global or per-axis), tranforms itself. The manipulator doesn&#8217;t know any of the objects it&#8217;s manipulating. Instead, it owns a <code class="xref std std-kl-ref docutils literal"><span class="pre">SRTManipulatorTargetBase</span></code> container and gets/sets its transformation.</li>
+<li>The <code class="xref std std-kl-ref docutils literal"><span class="pre">SRTManipulatorTargetBase</span></code> is a container that refers one or several transforms, which are the transforms of the target objects to manipulate. In SceneHub, the target objects are <code class="xref std std-kl-ref docutils literal"><span class="pre">SWElementHandle</span></code> (cf. <code class="xref std std-kl-ref docutils literal"><span class="pre">SGSRTManipulatorTarget</span></code>), in InlineDrawing it could be <a class="reference internal" href="../InlineDrawing/InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a>. This component sets the targets transforms accordingly the manipulator&#8217;s transform and updates the <a class="reference internal" href="Host.html#host"><span class="std std-ref">Host</span></a> DCC scene.</li>
+</ul>
+<p>In SceneHub, <code class="xref std std-kl-ref docutils literal"><span class="pre">RTRSRTManipulator</span></code> and <code class="xref std std-kl-ref docutils literal"><span class="pre">SGSRTManipulatorTarget</span></code> are the specialized classes derived from <code class="xref std std-kl-ref docutils literal"><span class="pre">SRTManipulatorBase</span></code> and <code class="xref std std-kl-ref docutils literal"><span class="pre">SRTManipulatorTargetBase</span></code>.
+They are responsible of respectively drawing the manipulator and refreshing the objects of the scene if their transforms have been changed by the manipulator.
+Finally, the <code class="xref std std-kl-ref docutils literal"><span class="pre">RTREventDispatcher</span></code> class owns and manages one or several <a class="reference internal" href="Manipulator.html#manipulator"><span class="std std-ref">Manipulator</span></a>.
+It provides high level controls such as selecting the current manipulator, dispatch the user events to the right manipulator and active/deactive the system.</p>
+<p>Here is an overview of the manipulation system in SceneHub :</p>
+<img alt="../../_images/ManipulationSchema.png" src="../../_images/ManipulationSchema.png" />
+<p>See <cite>Samples/SceneHub/SelectedAndManipulate.kl</cite> for an example of simple manipulation setup.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Manipulation 2.0 Overview</a><ul>
+<li><a class="reference internal" href="#srtmanipulator">SRTManipulator</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Manipulation/manipulationoverview.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Manipulation/manipulationoverview.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Canvas ユーザガイド &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="next" title="Canvas Graph View" href="graphview.html" />
+    <link rel="prev" title="Fabric for MODO チュートリアル" href="../GettingStartedGuide/modotutorials.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="graphview.html" title="Canvas Graph View"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="../GettingStartedGuide/modotutorials.html" title="Fabric for MODO チュートリアル"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="canvas-user-guide">
+<span id="canvasuserguide"></span><h1>Canvas ユーザガイド<a class="headerlink" href="#canvas-user-guide" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../_images/FE_logo_345_60.png"><img alt="../_images/FE_logo_345_60.png" src="../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 2.3.0</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+</div>
+<p>この文書では、Canvasアプリケーションとインターフェースについてのユーザガイドです。主にCanvasのグラフ、プリセット、関数を使用しどのように機能を構築していくかについて解説します。</p>
+<p><a class="reference internal" href="../CanvasProgrammerGuide/index.html#canvasprogrammerguide"><span class="std std-ref">Canvas プログラマーガイド</span></a> プログラマ向けの Canvas 情報はこちらを参照してください。</p>
+<div class="section" id="table-of-contents">
+<h2>目次<a class="headerlink" href="#table-of-contents" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="graphview.html">Canvas Graph View</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="graphview.html#creating-nodes">ノードの作成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphview.html#node-ui-features">Node UI 解説</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphview.html#connecting-nodes">ノードの接続</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphview.html#exposing-ports">ポートの外部公開（Expose）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphview.html#port-options">ポートのオプション</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphview.html#reordering-ports">ポートの再配置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphview.html#execute-ports">Execute ポート</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphview.html#subgraphs">サブグラフ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphview.html#imploding-exploding-subgraphs">サブグラフの作成と展開（Imploding / Exploding）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphview.html#copy-and-paste">コピー・アンド・ペースト</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphview.html#defining-extension-requirements">必要エクステンションの定義</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphview.html#saving-exporting-presets">プリセットの保存と書き出し</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphview.html#custom-kl-nodes">カスタム KL ノード</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphview.html#backdrops">Backdrops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphview.html#comments">コメント</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="valueeditor.html">Value Editor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="valueeditor.html#editing-ports-and-values">ポートと値の編集</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="valueeditor.html#spin-box-widgets">Spin Box ウィジェット</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cug-blocks.html">Blocks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cug-blocks.html#fixed-block-ports">「固定」Blockポート</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cug-blocks.html#exposing-block-ports">公開Blockポート</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cug-blocks.html#looking-inside-nodes-with-blocks">Blockのあるノードの見方</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cug-blocks.html#blocks-samples">Blocksのサンプル</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cug-blocks.html#blocks-presets">Blockプリセット</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cug-blocks.html#using-blocks-in-custom-graphs-and-functions">Blockのカスタムグラフ・関数での使用</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="timeline.html">Timeline ウィジェット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History ウィジェット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="variables.html">Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="caches.html">Caches</a></li>
+<li class="toctree-l1"><a class="reference internal" href="polymorphism.html">Polymorphic （多態性）ノード</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shortcuts.html">キーボードショートカット</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="shortcuts.html#canvas">Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shortcuts.html#fabric-standalone">Fabric Standalone</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<img alt="../_images/userguide_01.png" src="../_images/userguide_01.png" />
+</div>
+<div class="section" id="indices-and-tables">
+<h2>インデックスとテーブル<a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../genindex.html"><span class="std std-ref">索引</span></a></li>
+<li><a class="reference internal" href="../search.html"><span class="std std-ref">検索ページ</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Canvas ユーザガイド</a><ul>
+<li><a class="reference internal" href="#table-of-contents">目次</a></li>
+<li><a class="reference internal" href="#indices-and-tables">インデックスとテーブル</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="../GettingStartedGuide/modotutorials.html"
+                        title="前の章へ">Fabric for MODO チュートリアル</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="graphview.html"
+                        title="次の章へ">Canvas Graph View</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/CanvasUserGuide/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/CanvasUserGuide/index.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="graphview.html" title="Canvas Graph View"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="../GettingStartedGuide/modotutorials.html" title="Fabric for MODO チュートリアル"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

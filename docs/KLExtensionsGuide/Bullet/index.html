@@ -1,0 +1,303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Bullet エクステンション &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="KL エクステンションガイド" href="../index.html" />
+    <link rel="next" title="Bullet Extension’s Files" href="files.html" />
+    <link rel="prev" title="PolygonMesh (object)" href="../AttributeHelpers/PolygonMesh.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="Bullet Extension’s Files"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="../AttributeHelpers/PolygonMesh.html" title="PolygonMesh (object)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">KL エクステンションガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="bullet-extension">
+<span id="id1"></span><h1>Bullet エクステンション<a class="headerlink" href="#bullet-extension" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../../_images/FE_logo_345_60.png"><img alt="../../_images/FE_logo_345_60.png" src="../../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 2.3.0</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+</div>
+<p>BulletエクステンションはBulletフィジックスAPIのラッピングを提供します。Bullet APIはAPIの使用方法に最小限の変更を加えたKLで公開されています。Bulletフレームワークの利用法を示すため、Bullet 付属のサンプルも KLへとそのまま移植されています。</p>
+<p>Bullet APIのドキュメントと使用方法については、Bullet Physics のWebサイトを参照し、ドキュメントはこちらから確認してください(<a class="reference external" href="http://bulletphysics.org/">http://bulletphysics.org/</a>)</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Bulletエクステンションでは、Bullet API を若干高レベルなラッパとして実装しているため、 生のC++ API ではカウンタやポインタが渡すことを期待しているような箇所でも、KL配列を渡すことができます。実装方法の例は、Bulletエクステンションが提供するソースコードを見てください。</p>
+</div>
+<p>例えば、Bullet APIでは、btConvexHullShapeを構築に、ただのスカラー値の配列 ―― しかもbtVector3のストライドな配列が渡されると期待します。これらの引数をKLで表現するのは簡単ではありません。KLではポインタ群をサポートしないためです。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="nx">btConvexHullShape</span><span class="o">::</span><span class="nx">btConvexHullShape</span><span class="p">(</span> <span class="kr">const</span> <span class="nx">btScalar</span><span class="o">*</span> <span class="nx">points</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nx">int</span>   <span class="nx">numPoints</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nx">int</span>   <span class="nx">stride</span> <span class="o">=</span> <span class="nx">sizeof</span><span class="p">(</span><span class="nx">btVector3</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="BulletConvexHullShape.html#bulletconvexhullshape"><span class="std std-ref">BulletConvexHullShape</span></a> のための高レベルのコンストラクタは、代わりにVec3値の配列を受け取ります。Bulletエクステンションは受け取った配列から値をアンパックし C++API へと渡します。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">BulletConvexHullShape</span><span class="p">(</span><span class="nx">Vec3</span> <span class="nx">points</span><span class="p">[]);</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="../BulletHelpers/index.html#bullethelpers-extension"><span class="std std-ref">Bullet Helpers エクステンション</span></a> はBullet APIの作業を簡素化する一連の関数と一連の高レベルのオブジェクトのセットを提供します。</p>
+<div class="section" id="table-of-contents">
+<h2>目次<a class="headerlink" href="#table-of-contents" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="files.html">Bullet Extension&#8217;s Files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="BulletAabbUtil2.kl.html">BulletAabbUtil2.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletActionInterface.kl.html">BulletActionInterface.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletAxisSweep3.kl.html">BulletAxisSweep3.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletBox2dBox2dCollisionAlgorithm.kl.html">BulletBox2dBox2dCollisionAlgorithm.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletBoxShape.kl.html">BulletBoxShape.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletBroadphaseInterface.kl.html">BulletBroadphaseInterface.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletBroadphaseProxy.kl.html">BulletBroadphaseProxy.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletBvhTriangleMeshShape.kl.html">BulletBvhTriangleMeshShape.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletCapsuleShape.kl.html">BulletCapsuleShape.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletCollisionAlgorithm.kl.html">BulletCollisionAlgorithm.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletCollisionConfiguration.kl.html">BulletCollisionConfiguration.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletCollisionCreateFunc.kl.html">BulletCollisionCreateFunc.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletCollisionDispatcher.kl.html">BulletCollisionDispatcher.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletCollisionObject.kl.html">BulletCollisionObject.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletCollisionShape.kl.html">BulletCollisionShape.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletCollisionWorld.kl.html">BulletCollisionWorld.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletCompoundShape.kl.html">BulletCompoundShape.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletConcaveShape.kl.html">BulletConcaveShape.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletConeTwistConstraint.kl.html">BulletConeTwistConstraint.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletConstraintSolver.kl.html">BulletConstraintSolver.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletContactConstraint.kl.html">BulletContactConstraint.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletContinuousDynamicsWorld.kl.html">BulletContinuousDynamicsWorld.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletConvex2dConvex2dAlgorithm.kl.html">BulletConvex2dConvex2dAlgorithm.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletConvex2dShape.kl.html">BulletConvex2dShape.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletConvexHullShape.kl.html">BulletConvexHullShape.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletConvexInternalShape.kl.html">BulletConvexInternalShape.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletConvexPenetrationDepthSolver.kl.html">BulletConvexPenetrationDepthSolver.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletConvexShape.kl.html">BulletConvexShape.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletCylinderShape.kl.html">BulletCylinderShape.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletDbvtBroadphase.kl.html">BulletDbvtBroadphase.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletDefaultCollisionConfiguration.kl.html">BulletDefaultCollisionConfiguration.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletDefaultMotionState.kl.html">BulletDefaultMotionState.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletDiscreteDynamicsWorld.kl.html">BulletDiscreteDynamicsWorld.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletDispatcher.kl.html">BulletDispatcher.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletDynamicsWorld.kl.html">BulletDynamicsWorld.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletGeneric6DofConstraint.kl.html">BulletGeneric6DofConstraint.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletHingeConstraint.kl.html">BulletHingeConstraint.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletManifoldPoint.kl.html">BulletManifoldPoint.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletMinkowskiPenetrationDepthSolver.kl.html">BulletMinkowskiPenetrationDepthSolver.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletMotionState.kl.html">BulletMotionState.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletOverlappingPairCache.kl.html">BulletOverlappingPairCache.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletPersistentManifold.kl.html">BulletPersistentManifold.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletPoint2PointConstraint.kl.html">BulletPoint2PointConstraint.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletPolyhedralConvexShape.kl.html">BulletPolyhedralConvexShape.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletRigidBody.kl.html">BulletRigidBody.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletRigidBody_Constraints.kl.html">BulletRigidBody_Constraints.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSequentialImpulseConstraintSolver.kl.html">BulletSequentialImpulseConstraintSolver.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSimpleDynamicsWorld.kl.html">BulletSimpleDynamicsWorld.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSimplexSolverInterface.kl.html">BulletSimplexSolverInterface.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSliderConstraint.kl.html">BulletSliderConstraint.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftBody.kl.html">BulletSoftBody.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftBodyHelpers.kl.html">BulletSoftBodyHelpers.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftBodyInternals.kl.html">BulletSoftBodyInternals.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftBodyRigidBodyCollisionConfiguration.kl.html">BulletSoftBodyRigidBodyCollisionConfiguration.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftBodySolvers.kl.html">BulletSoftBodySolvers.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftRigidCollisionAlgorithm.kl.html">BulletSoftRigidCollisionAlgorithm.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftRigidDynamicsWorld.kl.html">BulletSoftRigidDynamicsWorld.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftSoftCollisionAlgorithm.kl.html">BulletSoftSoftCollisionAlgorithm.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSparseSDF.kl.html">BulletSparseSDF.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSphereShape.kl.html">BulletSphereShape.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletStaticPlaneShape.kl.html">BulletStaticPlaneShape.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletStridingMeshInterface.kl.html">BulletStridingMeshInterface.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletTriangleIndexVertexArray.kl.html">BulletTriangleIndexVertexArray.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletTriangleMeshShape.kl.html">BulletTriangleMeshShape.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletTypedConstraint.kl.html">BulletTypedConstraint.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletTypedObject.kl.html">BulletTypedObject.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletUniversalConstraint.kl.html">BulletUniversalConstraint.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletVoronoiSimplexSolver.kl.html">BulletVoronoiSimplexSolver.kl</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="types.html">Bullet Extension&#8217;s Types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Bullet32BitAxisSweep3.html">Bullet32BitAxisSweep3 (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletAxisSweep3.html">BulletAxisSweep3 (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletBox2dBox2dCollisionAlgorithm_CreateFunc.html">BulletBox2dBox2dCollisionAlgorithm_CreateFunc (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletBoxShape.html">BulletBoxShape (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletBroadphasePair.html">BulletBroadphasePair (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletBroadphaseProxy.html">BulletBroadphaseProxy (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletBvhTriangleMeshShape.html">BulletBvhTriangleMeshShape (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletCapsuleShape.html">BulletCapsuleShape (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletCollisionAlgorithmConstructionInfo.html">BulletCollisionAlgorithmConstructionInfo (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletCollisionDispatcher.html">BulletCollisionDispatcher (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletCollisionObject.html">BulletCollisionObject (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletCompoundShape.html">BulletCompoundShape (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletConeTwistConstraint.html">BulletConeTwistConstraint (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletContinuousDynamicsWorld.html">BulletContinuousDynamicsWorld (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletConvex2dConvex2dAlgorithm_CreateFunc.html">BulletConvex2dConvex2dAlgorithm_CreateFunc (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletConvex2dShape.html">BulletConvex2dShape (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletConvexHullShape.html">BulletConvexHullShape (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletCylinderShape.html">BulletCylinderShape (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletCylinderShapeX.html">BulletCylinderShapeX (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletCylinderShapeZ.html">BulletCylinderShapeZ (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletDbvtBroadphase.html">BulletDbvtBroadphase (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletDefaultCollisionConfiguration.html">BulletDefaultCollisionConfiguration (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletDefaultMotionState.html">BulletDefaultMotionState (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletDiscreteDynamicsWorld.html">BulletDiscreteDynamicsWorld (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletDispatcherInfo.html">BulletDispatcherInfo (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletGeneric6DofConstraint.html">BulletGeneric6DofConstraint (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletHingeConstraint.html">BulletHingeConstraint (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletManifoldPoint.html">BulletManifoldPoint (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletMinkowskiPenetrationDepthSolver.html">BulletMinkowskiPenetrationDepthSolver (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletOverlappingPairCache.html">BulletOverlappingPairCache (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletPersistentManifold.html">BulletPersistentManifold (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletPoint2PointConstraint.html">BulletPoint2PointConstraint (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletRigidBody.html">BulletRigidBody (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletRigidBodyConstructionInfo.html">BulletRigidBodyConstructionInfo (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletRotationalLimitMotor.html">BulletRotationalLimitMotor (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSequentialImpulseConstraintSolver.html">BulletSequentialImpulseConstraintSolver (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSimpleDynamicsWorld.html">BulletSimpleDynamicsWorld (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSliderConstraint.html">BulletSliderConstraint (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftBody.html">BulletSoftBody (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftBodyCluster.html">BulletSoftBodyCluster (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftBodyCollisionShape.html">BulletSoftBodyCollisionShape (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftBodyConfig.html">BulletSoftBodyConfig (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftBodyMaterial.html">BulletSoftBodyMaterial (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftBodyNode.html">BulletSoftBodyNode (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftBodyRigidBodyCollisionConfiguration.html">BulletSoftBodyRigidBodyCollisionConfiguration (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftBodyWorldInfo.html">BulletSoftBodyWorldInfo (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftClusterCollisionShape.html">BulletSoftClusterCollisionShape (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftRigidCollisionAlgorithm.html">BulletSoftRigidCollisionAlgorithm (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftRigidDynamicsWorld.html">BulletSoftRigidDynamicsWorld (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSoftSoftCollisionAlgorithm.html">BulletSoftSoftCollisionAlgorithm (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSparseSdf.html">BulletSparseSdf (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletSphereShape.html">BulletSphereShape (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletStaticPlaneShape.html">BulletStaticPlaneShape (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletTranslationalLimitMotor.html">BulletTranslationalLimitMotor (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletTriangleIndexVertexArray.html">BulletTriangleIndexVertexArray (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletUniversalConstraint.html">BulletUniversalConstraint (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BulletVoronoiSimplexSolver.html">BulletVoronoiSimplexSolver (object)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>索引と検索<a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../../genindex.html"><span class="std std-ref">索引</span></a></li>
+<li><a class="reference internal" href="../../search.html"><span class="std std-ref">検索ページ</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Bullet エクステンション</a><ul>
+<li><a class="reference internal" href="#table-of-contents">目次</a></li>
+<li><a class="reference internal" href="#indices-and-tables">索引と検索</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="../AttributeHelpers/PolygonMesh.html"
+                        title="前の章へ">PolygonMesh (object)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="files.html"
+                        title="次の章へ">Bullet Extension&#8217;s Files</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Bullet/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Bullet/index.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="Bullet Extension’s Files"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="../AttributeHelpers/PolygonMesh.html" title="PolygonMesh (object)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

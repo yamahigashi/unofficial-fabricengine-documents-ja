@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Custom Operator “CanvasOp” &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../../index.html" />
+    <link rel="up" title="Fabric for Softimage" href="index.html" />
+    <link rel="next" title="The Custom Commands" href="custom-commands.html" />
+    <link rel="prev" title="Fabric Menu" href="fabric-menu.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="custom-commands.html" title="The Custom Commands"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="fabric-menu.html" title="Fabric Menu"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../index.html" >Fabric for Softimage</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="index.html" accesskey="U">Fabric for Softimage</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="custom-operator-canvasop">
+<h1>Custom Operator &#8220;CanvasOp&#8221;<a class="headerlink" href="#custom-operator-canvasop" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>The <em>CanvasOp</em> operator ensures communication between Softimage and Fabric and allows controlling Fabric graph&#8217;s inputs using conventional Softimage parameters and objects. The operator then executes the graph and passes the results of the calculations back to Softimage.</p>
+<p>The operator is always attached under the global kinematics of an object, regardless of the object&#8217;s type. It can, however, be connected with other parts of the same object, as well as with parts of other objects. For example you can have a null with a Canvas operator that controls the geometry of one, two or more polygon meshes.</p>
+<p>Its property page contains a set of tools to set up connections between the graph and Softimage and to open <em>Fabric Canvas</em>, the node editor.</p>
+<div class="section" id="property-page-tab-main">
+<h2>Property Page - Tab &#8220;Main&#8221;<a class="headerlink" href="#property-page-tab-main" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>This tab contains the exposed Canvas graph&#8217;s ports.</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><strong>Execute Graph</strong></p>
+<p>Enables/disables the execution of the graph.</p>
+<p>Unchecking this parameter is similar to muting the operator.</p>
+</li>
+<li><p class="first"><strong>Open Canvas</strong></p>
+<p>Opens a modal floating window showing Fabric Canvas node editor.</p>
+<p><em>Note: Softimage&#8217;s main window is disabled as long as the Canvas window is open! Once you close Canvas Softimage&#8217;s main window will be active and responsive again.</em></p>
+</li>
+<li><p class="first"><strong>Parameters</strong></p>
+<p>The parameters of the graph&#8217;s exposed ports.</p>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="property-page-tab-ports-and-tools">
+<h2>Property Page - Tab &#8220;Ports and Tools&#8221;<a class="headerlink" href="#property-page-tab-ports-and-tools" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>This tab displays the list of available input and output ports of the Canvas graph and provides information on how they are currently exposed to Softimage. It also provides a set of tools to define the types of exposed ports, connect and disconnect ports, import/export graphs and log information into the history log.</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><strong>Execute Graph</strong></p>
+<p>See tab &#8220;Main&#8221; above.</p>
+</li>
+<li><p class="first"><strong>Open Canvas</strong></p>
+<p>See tab &#8220;Main&#8221; above.</p>
+</li>
+<li><p class="first"><strong>Graph Ports</strong></p>
+<p>The list of input and output ports of the graph with each port&#8217;s name, type, mode and target.</p>
+</li>
+<li><p class="first"><strong>Update UI</strong></p>
+<p>Forces the property page to update itself, ensuring that the list of graph ports is up to date. Generally you do not need to do this (it is done automatically).</p>
+</li>
+<li><p class="first"><strong>Define Type/Target</strong></p>
+<p>Opens a window to define in what way a port is to be exposed.</p>
+<p>Ports can either be internal (i.e. not exposed) or exposed as Softimage parameters, Softimage ports or ICE ports.</p>
+</li>
+<li><p class="first"><strong>Connect (Pick)</strong></p>
+<p>Lets you pick the target for a Softimage port: first select a port in the above list, then click on &#8220;Connect (Pick)&#8221; and finally pick the target.</p>
+</li>
+<li><p class="first"><strong>Connect with Self</strong></p>
+<p>This will connect a Softimage port with the object to which the Canvas operator belongs to.</p>
+</li>
+<li><p class="first"><strong>Disconnect</strong></p>
+<p>Disconnects the target from a Softimage port: first select a port in the above list, then click on &#8220;Disconnect&#8221; to disconnect the target..</p>
+</li>
+<li><p class="first"><strong>Sync Op</strong></p>
+<p>Synchronizes the Canvas graph and the Softimage Canvas operator in the sense that all exposed Fabric parameters have their respective Softimage parameter or port. This is usually done automatically but in certain cases the graph and the operator could get out of sync (e.g. renaming or reordering ports in Canvas).</p>
+<p><em>Note: the property page notices when synchronization has been lost and will display a little red exclamation mark next to this button to inform you about it. Then just click the &#8220;Sync Op&#8221; button to resync again.</em></p>
+</li>
+<li><p class="first"><strong>Select connected Objects</strong></p>
+<p>The buttons &#8220;All&#8221;, &#8220;Inputs&#8221; and &#8220;Outputs&#8221; let you select all the objects that are in some way connected to the operator. This is a convenient way to quickly check what objects in your scene are connected to an operator.</p>
+</li>
+<li><p class="first"><strong>File</strong></p>
+<p>Use &#8220;Import Graph&#8221; to replace the current graph by a graph contained in a file.</p>
+<p>Use &#8220;Export Graph&#8221; to save the current graph to disk.</p>
+</li>
+<li><p class="first"><strong>Log Graph Info</strong></p>
+<p>Logs information about the graph into the history log.</p>
+</li>
+<li><p class="first"><strong>Log Graph File</strong></p>
+<p>Logs the text representation of the current graph into the history log. This is the exact same text that is written to disk when using &#8220;Export Graph&#8221;.</p>
+<p><em>Note: those texts can get quite big and Softimage might not display the entire text in the history log.</em></p>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="property-page-tab-advanced">
+<h2>Property Page - Tab &#8220;Advanced&#8221;<a class="headerlink" href="#property-page-tab-advanced" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>This tab displays more advanced parameters that define the operator&#8217;s behavior and how the graph is executed.</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><strong>Verbose</strong></p>
+<p>If enabled then some (rather extensive) verbose is outputted into the history log whenever the operator gets called. This is mainly for debugging purpose.</p>
+</li>
+<li><p class="first"><strong>Exec Mode</strong></p>
+<dl class="docutils">
+<dt>Controls how the graph gets executed:</dt>
+<dd><ul class="first last simple">
+<li>&#8220;execute graph only if necessary&#8221; will keep track of whether the graph is up to date or not and only execute it if necessary. This is the default.</li>
+<li>&#8220;always execute graph&#8221; will execute the graph each time the operator gets evaluated.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first"><strong>persistenceData</strong></p>
+<p>This is used internally.</p>
+</li>
+<li><p class="first"><strong>Mute</strong></p>
+<p>Mutes the operator.</p>
+</li>
+<li><p class="first"><strong>Always Evaluate</strong></p>
+<p>Forces Softimage to always evaluate the operator.</p>
+</li>
+<li><p class="first"><strong>Debug</strong></p>
+<p>Logs debug information into the history log.</p>
+</li>
+<li><p class="first"><strong>Name</strong></p>
+<p>The name of the operator.</p>
+</li>
+<li><p class="first"><strong>-</strong></p>
+<p>This button is for debugging and development and can be ignored.</p>
+</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Custom Operator &#8220;CanvasOp&#8221;</a><ul>
+<li><a class="reference internal" href="#property-page-tab-main">Property Page - Tab &#8220;Main&#8221;</a></li>
+<li><a class="reference internal" href="#property-page-tab-ports-and-tools">Property Page - Tab &#8220;Ports and Tools&#8221;</a></li>
+<li><a class="reference internal" href="#property-page-tab-advanced">Property Page - Tab &#8220;Advanced&#8221;</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="fabric-menu.html"
+                        title="前の章へ">Fabric Menu</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="custom-commands.html"
+                        title="次の章へ">The Custom Commands</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/DCCIntegrations/Softimage/SoftimageCanvas/canvas-operator.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DCCIntegrations/Softimage/SoftimageCanvas/canvas-operator.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="custom-commands.html" title="The Custom Commands"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="fabric-menu.html" title="Fabric Menu"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../index.html" >Fabric for Softimage</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="index.html" >Fabric for Softimage</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,526 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>KL Implementation &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="Map-Reduce Programming Guide" href="index.html" />
+    <link rel="next" title="Core オーバービュー" href="../CoreOverview/index.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../CoreOverview/index.html" title="Core オーバービュー"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Map-Reduce Programming Guide</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="kl-implementation">
+<h1>KL Implementation<a class="headerlink" href="#kl-implementation" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>As mentioned previously, the map-reduce model is available in KL. Using the map-reduce model directly from within KL allows for simple multithreading directly from within KL itself, without the need to create structures within the host language.</p>
+<div class="section" id="kl-constant-producers">
+<h2>KL Constant Producers<a class="headerlink" href="#kl-constant-producers" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>In KL, a constant value producer is created using the <code class="samp docutils literal"><span class="pre">createConstValue(</span><em><span class="pre">value</span></em><span class="pre">)</span></code> call. The <code class="samp docutils literal"><em><span class="pre">value</span></em></code> parameter can be any typed KL r-value, eg. a constant value, the value of a variable, or the result of a function call. The result of the value is a value of type <code class="samp docutils literal"><span class="pre">ValueProducer&lt;</span><em><span class="pre">ValueType</span></em><span class="pre">&gt;</span></code>, where <code class="samp docutils literal"><em><span class="pre">ValueType</span></em></code> is the type of <code class="samp docutils literal"><em><span class="pre">value</span></em></code>. For example, the KL code:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator entry() {
+  ValueProducer&lt;Scalar&gt; vp = createConstValue(1.4142);
+  report(vp.produce());
+}
+</pre></div>
+</div>
+<p>produces the result:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>1.4142
+</pre></div>
+</div>
+<p>A constant array producer is created using the <code class="samp docutils literal"><span class="pre">createConstArray(</span><em><span class="pre">array</span></em><span class="pre">)</span></code> function. Its single parameter <code class="samp docutils literal"><em><span class="pre">array</span></em></code> must be an expression that resolves to a fixed-length, variable-length or external array. The return value is of type <code class="samp docutils literal"><span class="pre">ArrayProducer&lt;</span><em><span class="pre">ElementType</span></em><span class="pre">&gt;</span></code>, where <code class="samp docutils literal"><em><span class="pre">ElementType</span></em></code> is the type of the array elements. For example, the KL code:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator entry() {
+  String a[];
+  a.push(&#39;zero&#39;); a.push(&#39;one&#39;); a.push(&#39;two&#39;);
+  ArrayProducer&lt;String&gt; ap = createConstArray(a);
+  report(ap.produce());
+}
+</pre></div>
+</div>
+<p>produces the result:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>[&quot;zero&quot;,&quot;one&quot;,&quot;two&quot;]
+</pre></div>
+</div>
+</div>
+<div class="section" id="kl-generators">
+<h2>KL Generators<a class="headerlink" href="#kl-generators" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>A value generator in KL is created using the <code class="samp docutils literal"><span class="pre">createValueGenerator(</span><em><span class="pre">functionName</span></em><span class="pre">)</span></code>. <code class="samp docutils literal"><em><span class="pre">functionName</span></em></code> must be the name of a KL function available in the same KL module that has the operator signature <code class="samp docutils literal"><em><span class="pre">functionName</span></em><span class="pre">(io</span> <em><span class="pre">ValueType</span></em> <span class="pre">value);</span></code> the result is a value of type <code class="samp docutils literal"><span class="pre">ValueProducer&lt;</span><em><span class="pre">ValueType</span></em><span class="pre">&gt;</span></code>. For example, the KL code:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator gen(io String value[]) {
+  value.push(&quot;Hello, world!&quot;);
+}
+
+operator entry() {
+  ValueProducer&lt;String[]&gt;vp = createValueGenerator(gen);
+  report(vp.produce());
+}
+</pre></div>
+</div>
+<p>produces the output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>[&quot;Hello, world!&quot;]
+</pre></div>
+</div>
+<p>An array generator in KL is created using the <code class="samp docutils literal"><span class="pre">createArrayGenerator(</span><em><span class="pre">countValueProducer</span></em><span class="pre">,</span> <em><span class="pre">functionName</span></em><span class="pre">)</span></code>. The <code class="samp docutils literal"><em><span class="pre">countValueProducer</span></em></code> parameter must be a value producer that produces a value of type <code class="samp docutils literal"><span class="pre">Size</span></code>, ie. a value of type <code class="samp docutils literal"><span class="pre">ValueProducer&lt;Size&gt;</span></code>. If you are generating a fixed-size array of size 16, for instance, you can pass the result of <code class="samp docutils literal"><span class="pre">createConstValue(16)</span></code>, but you can also pass a more complex value producer such as a value generator. <code class="samp docutils literal"><em><span class="pre">functionName</span></em></code> is the name of a function in the same module with one of the following prototypes:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator functionName(io ElementType element);
+operator functionName(io ElementType element, Index index);
+operator functionName(io ElementType element, Index index, Size count);
+</pre></div>
+</div>
+<p>In cases where the index parameter is present, the index of the element within the array is passed to the generator function; similarly, when the count parameter is present the total number of elements in the array is passed. This can be useful for figuring out what value to generate.</p>
+<p>An example of an array generator:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator gen(
+  io Scalar v,
+  Index i,
+  Size n
+  )
+{
+  // Produces n uniform values on the interval [0,1], including 0 and 1 themselves
+  v = Scalar(i) / Scalar(n-1);
+}
+
+operator entry() {
+  ArrayProducer&lt;Scalar&gt; ap = createArrayGenerator(createConstValue(Size(10)), gen);
+  report(ap.produce());
+}
+</pre></div>
+</div>
+<p>produces:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>[0,0.1111111,0.2222222,0.3333333,0.4444444,0.5555556,0.6666667,0.7777778,0.8888889,1]
+</pre></div>
+</div>
+<p>In both cases, you can optionally specify a shared value producer as the last parameter to the <code class="samp docutils literal"><span class="pre">create...Generator()</span></code> call. When a shared value producer is provided, the function receives an additional parameter whose type is the value type of the shared value producer. So, for value generators, the prototype of the operator becomes:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator gen(io ValueType value, SharedType sharedValue) {
+  ...
+}
+</pre></div>
+</div>
+<p>and for array generators the prototype of the operator becomes:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator gen(io ElementType element, Index index, Size count, SharedType sharedValue) {
+  ...
+}
+</pre></div>
+</div>
+<p>Note that when using a shared value with an array generator you must include the index and count parameters in the operator even if they are unused.</p>
+</div>
+<div class="section" id="kl-maps">
+<h2>KL Maps<a class="headerlink" href="#kl-maps" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>A value map in KL is created using the <code class="samp docutils literal"><span class="pre">createValueMap(</span><em><span class="pre">inputValueProducer</span></em><span class="pre">,</span> <em><span class="pre">functionName</span></em><span class="pre">)</span></code>. <code class="samp docutils literal"><em><span class="pre">inputValueProducer</span></em></code> must be a value producer, and <code class="samp docutils literal"><em><span class="pre">functionName</span></em></code> must be the name of a KL function available in the same KL module that has the operator signature <code class="samp docutils literal"><em><span class="pre">functionName</span></em><span class="pre">(</span><em><span class="pre">InputType</span></em> <span class="pre">input,</span> <span class="pre">io</span> <em><span class="pre">OutputType</span></em> <span class="pre">output);</span></code> the type <code class="samp docutils literal"><span class="pre">InputType</span></code> must be the same as the value type of the input value producer. The result of the <code class="samp docutils literal"><span class="pre">createValueMap</span></code> call is a value of type <code class="samp docutils literal"><span class="pre">ValueProducer&lt;</span><em><span class="pre">OutputType</span></em><span class="pre">&gt;</span></code>. For example, the KL code:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator map(String input, io Size output) {
+  output = input.length;
+}
+
+operator entry() {
+  ValueProducer&lt;Size&gt; vp = createValueMap(createConstValue(&quot;Hello, world!&quot;), map);
+  report(vp.produce());
+}
+</pre></div>
+</div>
+<p>produces the output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>13
+</pre></div>
+</div>
+<p>An array map in KL is created using the <code class="samp docutils literal"><span class="pre">createArrayMap(</span><em><span class="pre">inputArrayProducer</span></em><span class="pre">,</span> <em><span class="pre">functionName</span></em><span class="pre">)</span></code>. The <code class="samp docutils literal"><em><span class="pre">inputArrayProducer</span></em></code> parameter must be an array producer. Assuming that the element type of <code class="samp docutils literal"><em><span class="pre">inputArrayProducer</span></em></code> is <code class="samp docutils literal"><em><span class="pre">InputType</span></em></code>, <code class="samp docutils literal"><em><span class="pre">functionName</span></em></code> is the name of a function in the same module with one of the following prototypes:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator functionName(InputType input, io OutputType output);
+operator functionName(InputType input, io OutputType output, Index index);
+operator functionName(InputType input, io OutputType output, Index index, Size count)
+</pre></div>
+</div>
+<p>In cases where the <code class="samp docutils literal"><span class="pre">index</span></code> parameter is present, the index of the element within the array is passed to the generator function; similarly, when the count parameter is present the total number of elements in the array is passed. The result of the <code class="samp docutils literal"><span class="pre">createArrayMap</span></code> call is a value of type <code class="samp docutils literal"><span class="pre">ArrayProducer&lt;</span><em><span class="pre">OutputType</span></em><span class="pre">&gt;</span></code>.</p>
+<p>An example of an array map:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator map(String input, io Size output) {
+  output = input.length;
+}
+
+operator entry() {
+  String a[]; a.push(&quot;one&quot;); a.push(&quot;two&quot;); a.push(&quot;three&quot;);
+  ArrayProducer&lt;String&gt; iap = createConstArray(a);
+  report(iap.produce());
+  ArrayProducer&lt;Size&gt; oap = createArrayMap(iap, map);
+  report(oap.produce());
+}
+</pre></div>
+</div>
+<p>produces:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>[&quot;one&quot;,&quot;two&quot;,&quot;three&quot;]
+[3,3,5]
+</pre></div>
+</div>
+<p>In both cases, you can optionally specify a shared value producer as the last parameter to the <code class="samp docutils literal"><span class="pre">create...Map()</span></code> call. When a shared value producer is provided, the function receives an additional parameter whose type is the value type of the shared value producer. So, for value maps, the prototype of the operator becomes:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator gen(InputType input, io OutputType output, SharedType sharedValue) {
+  ...
+}
+</pre></div>
+</div>
+<p>and for array maps the prototype of the operator becomes:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator gen(
+  in InputType input,
+  io OutputType output,
+  in Index index,
+  in Size count,
+  in SharedType sharedValue
+  )
+{
+  ...
+}
+</pre></div>
+</div>
+<p>Note that when using a shared value with an array map you must include the <code class="samp docutils literal"><span class="pre">index</span></code> and <code class="samp docutils literal"><span class="pre">count</span></code> parameters in the operator even if they are unused.</p>
+</div>
+<div class="section" id="kl-transforms">
+<h2>KL Transforms<a class="headerlink" href="#kl-transforms" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>A value transform in KL is created using the <code class="samp docutils literal"><span class="pre">createValueTransform(</span><em><span class="pre">inputValueProducer</span></em><span class="pre">,</span> <em><span class="pre">functionName</span></em><span class="pre">)</span></code>. <code class="samp docutils literal"><em><span class="pre">inputValueProducer</span></em></code> must be a value producer, and <code class="samp docutils literal"><em><span class="pre">functionName</span></em></code> must be the name of a KL function available in the same KL module that has the operator signature <code class="samp docutils literal"><em><span class="pre">functionName</span></em><span class="pre">(io</span> <em><span class="pre">ValueType</span></em> <span class="pre">value)</span></code>; the type <code class="samp docutils literal"><em><span class="pre">ValueType</span></em></code> must be the same as the value type of the input value producer. The result of the <code class="samp docutils literal"><span class="pre">createValueMap</span></code> call is a value of type <code class="samp docutils literal"><span class="pre">ValueProducer&lt;</span><em><span class="pre">ValueType</span></em><span class="pre">&gt;</span></code>. For example, the KL code:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator transform(io Scalar value) {
+  value = sqrt(value);
+}
+
+operator entry() {
+  ValueProducer&lt;Scalar&gt; vp = createValueTransform(createConstValue(Scalar(3.14)), transform);
+  report(vp.produce());
+}
+</pre></div>
+</div>
+<p>produces the output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>1.772004
+</pre></div>
+</div>
+<p>An array transform in KL is created using the <code class="samp docutils literal"><span class="pre">createArrayTransform(</span><em><span class="pre">inputArrayProducer</span></em><span class="pre">,</span> <em><span class="pre">functionName</span></em><span class="pre">)</span></code>. The <code class="samp docutils literal"><em><span class="pre">inputArrayProducer</span></em></code> parameter must be an array producer. Assuming that the element type of <code class="samp docutils literal"><em><span class="pre">inputArrayProducer</span></em></code> is <code class="samp docutils literal"><em><span class="pre">ElementType</span></em></code>, <code class="samp docutils literal"><em><span class="pre">functionName</span></em></code> is the name of a function in the same module with one of the following prototypes:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator functionName(io ElementType element);
+operator functionName(io ElementType element, Index index);
+operator functionName(io ElementType element, Index index, Size count);
+</pre></div>
+</div>
+<p>In cases where the <code class="samp docutils literal"><em><span class="pre">index</span></em></code> parameter is present, the index of the element within the array is passed to the generator function; similarly, when the <code class="samp docutils literal"><em><span class="pre">count</span></em></code> parameter is present the total number of elements in the array is passed. The result of the <code class="samp docutils literal"><span class="pre">createArrayTransform</span></code> call is a value of type <code class="samp docutils literal"><span class="pre">ArrayProducer&lt;</span><em><span class="pre">ElementType</span></em><span class="pre">&gt;</span></code>.</p>
+<p>An example of an array transform:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator transform(io Scalar value) {
+  value = sqrt(value);
+}
+
+operator entry() {
+  Scalar ia[]; ia.push(3.14); ia.push(2.71); ia.push(10.0); ia.push(87.32);
+  ArrayProducer&lt;Scalar&gt; iap = createConstArray(ia);
+  report(iap.produce());
+  ArrayProducer&lt;Scalar&gt; oap = createArrayTransform(iap, transform);
+  report(oap.produce());
+}
+</pre></div>
+</div>
+<p>produces:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>[3.14,2.71,10,87.32]
+[1.772004,1.646208,3.162278,9.344517]
+</pre></div>
+</div>
+<p>In both cases, you can optionally specify a shared value producer as the last parameter to the <code class="samp docutils literal"><span class="pre">create...Transform()</span></code> call. When a shared value producer is provided, the function receives an additional parameter whose type is the value type of the shared value producer. So, for value maps, the prototype of the operator becomes:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator gen(io ValueType value, SharedType sharedValue) {
+  ...
+}
+</pre></div>
+</div>
+<p>and for array maps the prototype of the operator becomes:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator gen(io ElementType element, Index index, Size count, SharedType sharedValue) {
+  ...
+}
+</pre></div>
+</div>
+<p>Note that when using a shared value with an array map you must include the <code class="samp docutils literal"><span class="pre">index</span></code> and <code class="samp docutils literal"><span class="pre">count</span></code> parameters in the operator even if they are unused.</p>
+</div>
+<div class="section" id="kl-reduce-operations">
+<h2>KL Reduce Operations<a class="headerlink" href="#kl-reduce-operations" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>To create a reduce operation in KL, use the <code class="samp docutils literal"><span class="pre">createReduce(</span><em><span class="pre">inputArrayProducer</span></em><span class="pre">,</span> <em><span class="pre">functionName</span></em><span class="pre">)</span></code> call. <code class="samp docutils literal"><em><span class="pre">inputArrayProducer</span></em></code> must be an array producer; assume its element type is <code class="samp docutils literal"><em><span class="pre">InputType</span></em></code>. <code class="samp docutils literal"><em><span class="pre">functionName</span></em></code> must be the name of a function in the same module with one of the prototypes:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator functionName(InputType input, io OutputType output);
+operator functionName(InputType input, io OutputType output, Index index);
+operator functionName(InputType input, io OutputType output, Index index, Size count);
+</pre></div>
+</div>
+<p>The result of the <code class="samp docutils literal"><span class="pre">createReduce</span></code> call is a value producer with value type <code class="samp docutils literal"><em><span class="pre">OutputType</span></em></code>, ie. a result of type <code class="samp docutils literal"><span class="pre">ValueProducer&lt;</span><em><span class="pre">OutputType</span></em><span class="pre">&gt;</span></code>. An example of using a reduce operation in KL:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator generate(io Size value, Index index) {
+  value = index + 1;
+}
+
+operator reduce(Size input, io Size output) {
+  output += input;
+}
+
+operator entry() {
+  // Report the sum 1+2+...+99+100
+  ValueProducer&lt;Size&gt; vp = createReduce(
+    createArrayGenerator(
+      createConstValue(Size(100)),
+      generate
+    ),
+    reduce
+  );
+  report(vp.produce());
+}
+</pre></div>
+</div>
+<p>This produces the result:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>5050
+</pre></div>
+</div>
+<p>You can optionally specify a shared value producer as the last parameter to the <code class="samp docutils literal"><span class="pre">createReduce()</span></code> call. When a shared value producer is provided, the function receives an additional parameter whose type is the value type of the shared value producer. The prototype of the operator becomes:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator reduce(
+  in InputType input,
+  io OutputType output,
+  in Index index,
+  in Size count,
+  in SharedType sharedValue
+  ) {
+  ...
+}
+</pre></div>
+</div>
+<p>Note that when using a shared value with an array map you must include the <code class="samp docutils literal"><em><span class="pre">index</span></em></code> and <code class="samp docutils literal"><em><span class="pre">count</span></em></code> parameters in the operator even if they are unused.</p>
+</div>
+<div class="section" id="kl-caches">
+<h2>KL Caches<a class="headerlink" href="#kl-caches" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>A value cache is created in KL using the <code class="samp docutils literal"><span class="pre">createValueCache(</span><em><span class="pre">inputValueProducer</span></em><span class="pre">)</span></code> call. The element type of the resulting value producer is the same as that of <code class="samp docutils literal"><em><span class="pre">inputValueProducer</span></em></code>. Example usage of a value cache in KL:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator gen(io String output) {
+  report(&quot;  Running generator!&quot;);
+  output = &quot;Hello&quot;;
+}
+
+operator entry() {
+  // test caching ValueGenerator
+  ValueProducer&lt;String&gt; vp1 = createValueCache(createValueGenerator(gen));
+  report(&quot;vp1 = &quot; + vp1);
+
+  report(&quot;Should run generator&quot;);
+  report(&quot;vp1.produce() = &quot; + vp1.produce());
+
+  report(&quot;Should not run generator (use cache)&quot;);
+  report(&quot;vp1.produce() = &quot; + vp1.produce());
+
+  vp1.flush();
+  report(&quot;Should run generator&quot;);
+  report(&quot;vp1.produce() = &quot; + vp1.produce());
+}
+</pre></div>
+</div>
+<p>resulting in:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>vp1 = ValueProducer&lt;String&gt;
+Should run generator
+  Running generator!
+vp1.produce() = Hello
+Should not run generator (use cache)
+vp1.produce() = Hello
+Should run generator
+  Running generator!
+vp1.produce() = Hello
+</pre></div>
+</div>
+<p>Similarly, an array cache is created using the <code class="samp docutils literal"><span class="pre">createArrayProducer(</span><em><span class="pre">inputArrayProducer</span></em><span class="pre">)</span></code> call. The resulting array producer has the same element type as <code class="samp docutils literal"><em><span class="pre">inputArrayProducer</span></em></code>. Example usage:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator generator(
+  io Integer value
+  )
+{
+  report(&quot;  Running generator&quot;);
+  value = 42;
+}
+
+operator entry() {
+  // Generator caching
+  ValueProducer&lt;Size&gt; cvg = createConstValue(Size(10));
+  ArrayProducer&lt;Integer&gt; gen = createArrayCache(
+    createArrayGenerator(cvg, generator)
+    );
+
+  report(gen);
+  report(&quot; gen.getCount() = &quot; + gen.getCount());
+
+  report(&quot;Should run generator 10x&quot;);
+  for (Index i=0; i&lt;10; ++i)
+    report(&quot; gen.produce() = &quot; + gen.produce(i));
+
+  report(&quot;Should not run generator (cached)&quot;);
+  for (Index i=0; i&lt;10; ++i)
+    report(&quot; gen.produce() = &quot; + gen.produce(i));
+
+  gen.flush();
+  report(&quot;Should run generator 10x&quot;);
+  for (Index i=0; i&lt;10; ++i)
+    report(&quot; gen.produce() = &quot; + gen.produce(i));
+}
+</pre></div>
+</div>
+<p>resulting in:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>ArrayProducer&lt;Integer&gt;
+ gen.getCount() = 10
+Should run generator 10x
+  Running generator
+ gen.produce() = 42
+  Running generator
+ gen.produce() = 42
+  Running generator
+ gen.produce() = 42
+  Running generator
+ gen.produce() = 42
+  Running generator
+ gen.produce() = 42
+  Running generator
+ gen.produce() = 42
+  Running generator
+ gen.produce() = 42
+  Running generator
+ gen.produce() = 42
+  Running generator
+ gen.produce() = 42
+  Running generator
+ gen.produce() = 42
+Should not run generator (cached)
+ gen.produce() = 42
+ gen.produce() = 42
+ gen.produce() = 42
+ gen.produce() = 42
+ gen.produce() = 42
+ gen.produce() = 42
+ gen.produce() = 42
+ gen.produce() = 42
+ gen.produce() = 42
+ gen.produce() = 42
+Should run generator 10x
+  Running generator
+ gen.produce() = 42
+  Running generator
+  Running transform
+ tr.produce() = 2
+  Running transform
+ tr.produce() = 4
+  Running transform
+ tr.produce() = 6
+  Running transform
+ tr.produce() = 8
+  Running transform
+ tr.produce() = 10
+  Running transform
+ tr.produce() = 12
+  Running transform
+ tr.produce() = 14
+  Running transform
+ tr.produce() = 16
+  Running transform
+ tr.produce() = 18
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">KL Implementation</a><ul>
+<li><a class="reference internal" href="#kl-constant-producers">KL Constant Producers</a></li>
+<li><a class="reference internal" href="#kl-generators">KL Generators</a></li>
+<li><a class="reference internal" href="#kl-maps">KL Maps</a></li>
+<li><a class="reference internal" href="#kl-transforms">KL Transforms</a></li>
+<li><a class="reference internal" href="#kl-reduce-operations">KL Reduce Operations</a></li>
+<li><a class="reference internal" href="#kl-caches">KL Caches</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="introduction.html"
+                        title="前の章へ">Introduction</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="../CoreOverview/index.html"
+                        title="次の章へ">Core オーバービュー</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/MapReduceProgrammingGuide/kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/MapReduceProgrammingGuide/kl.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../CoreOverview/index.html" title="Core オーバービュー"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Map-Reduce Programming Guide</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

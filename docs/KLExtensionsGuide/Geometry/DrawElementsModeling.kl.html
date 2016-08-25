@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>DrawElementsModeling.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Geometry Extension’s Files" href="files.html" />
+    <link rel="next" title="GeometryAttributes.kl" href="GeometryAttributes.kl.html" />
+    <link rel="prev" title="DrawElementsLocation.kl" href="DrawElementsLocation.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="GeometryAttributes.kl.html" title="GeometryAttributes.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="DrawElementsLocation.kl.html" title="DrawElementsLocation.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Geometry エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Geometry Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="geometry-drawelementsmodeling-kl">
+<span id="drawelementsmodeling-kl"></span><span id="id1"></span><h1>DrawElementsModeling.kl<a class="headerlink" href="#geometry-drawelementsmodeling-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="drawelements-object">
+<h3>DrawElements (object)<a class="headerlink" href="#drawelements-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a> allows to define a simple mix of points, lines and triangles for debug drawing purposes.</p>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="24%" />
+<col width="9%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="GeometryAttributes.html#geometryattributes"><span class="std std-ref">GeometryAttributes</span></a></td>
+<td>attributes</td>
+<td>Container for all attributes.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>debugName</td>
+<td>Name that will be printed in descriptions.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>structureVersion</td>
+<td>Version of the geometry structure itself, excluding the <a class="reference internal" href="GeometryAttributes.html#geometryattributes"><span class="std std-ref">GeometryAttributes</span></a> content.</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td>computeGPUBoundingVolume</td>
+<td>If positions are on the GPU: if true, the bounding volume is computed, else an infinite bbox is returned.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Containers/ThreadsafeMetaDataContainer.html#threadsafemetadatacontainer"><span class="std std-ref">ThreadsafeMetaDataContainer</span></a></td>
+<td>metaData</td>
+<td>Container for holding various user data (<a class="reference internal" href="Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> specific), such as the BoundingBox cache data, or raycast acceleration structures and data (<a class="reference internal" href="Octree.html#octree"><span class="std std-ref">Octree</span></a>).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>pointSize</td>
+<td>Point size in pixels</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>lineWidth</td>
+<td>Line width in pixels</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: DrawElements</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Geometry</span><span class="p">;</span>
+  
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+          <span class="nx">DrawElements</span> <span class="nx">elements</span><span class="p">(</span><span class="s1">&#39;debug&#39;</span><span class="p">);</span>
+          
+          <span class="c1">// draw a couple of points</span>
+          <span class="nx">elements</span><span class="p">.</span><span class="nx">drawPoint</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+          <span class="nx">elements</span><span class="p">.</span><span class="nx">drawPoint</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+          <span class="nx">elements</span><span class="p">.</span><span class="nx">drawPoint</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">));</span>
+          
+          <span class="c1">// draw a couple of lines</span>
+          <span class="nx">elements</span><span class="p">.</span><span class="nx">drawLine</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+          <span class="nx">elements</span><span class="p">.</span><span class="nx">drawLine</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+          <span class="nx">elements</span><span class="p">.</span><span class="nx">drawLine</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">));</span>
+          
+          <span class="c1">// for more methods check the method description below.</span>
+  
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="27%" />
+<col width="73%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="DrawElements.html#id113795"><span class="std std-ref">DrawElements</span></a>  ( in <a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="DrawElements.html#id60359"><span class="std std-ref">DrawElements</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="DrawElements.html#id60352"><span class="std std-ref">DrawElements</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td>Index</td>
+<td><a class="reference internal" href="DrawElements.html#id60466"><span class="std std-ref">allocateLines</span></a> ! ( in Size nbPoints, in Size nbLines )</td>
+</tr>
+<tr class="row-odd"><td>Index</td>
+<td><a class="reference internal" href="DrawElements.html#id60462"><span class="std std-ref">allocatePoints</span></a> ! ( in Size nbPoints )</td>
+</tr>
+<tr class="row-even"><td>Index</td>
+<td><a class="reference internal" href="DrawElements.html#id60471"><span class="std std-ref">allocateTriangles</span></a> ! ( in Size nbPoints, in Size nbTriangles )</td>
+</tr>
+<tr class="row-odd"><td>Index</td>
+<td><a class="reference internal" href="DrawElements.html#id60458"><span class="std std-ref">allocateVertices</span></a> ! ( in Size nbVertices )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="DrawElements.html#id60455"><span class="std std-ref">clear</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id113799"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="DrawElements.html#id60409"><span class="std std-ref">cloneMembersTo</span></a> ? ( io <a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a> that )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="DrawElements.html#id60401"><span class="std std-ref">copy</span></a> ! ( in <a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a> src )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="DrawElements.html#id60405"><span class="std std-ref">copy</span></a> ! ( in <a class="reference internal" href="Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> src )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="DrawElements.html#id60445"><span class="std std-ref">disablePen</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60508"><span class="std std-ref">drawArc</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> angleMinMax, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> detail )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60540"><span class="std std-ref">drawAxes</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in Boolean bothSides )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60534"><span class="std std-ref">drawBBox</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> bboxmin, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> bboxmax )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60521"><span class="std std-ref">drawCapsuleLines</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> height, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> detail )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60502"><span class="std std-ref">drawCircle</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> detail )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60480"><span class="std std-ref">drawLine</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> from, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> to )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60498"><span class="std std-ref">drawLineStrip</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> points[] )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60476"><span class="std std-ref">drawPoint</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pos )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60492"><span class="std std-ref">drawSegmentedLine</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> from, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> to, in Size numSegments )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60485"><span class="std std-ref">drawSegmentedLine</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> from, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> to, in Size numSegments, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> ratio )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60515"><span class="std std-ref">drawSphereLines</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> detail )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60528"><span class="std std-ref">drawSquare</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> length, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> width )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60561"><span class="std std-ref">drawTriangle</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> p0, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> p1, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> p2 )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60554"><span class="std std-ref">drawTriangle</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> p0, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> p1, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> p2, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> n )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60545"><span class="std std-ref">drawTriangle</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> p0, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> p1, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> p2, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> n0, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> n1, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> n2 )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60573"><span class="std std-ref">drawTrianglesCone</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> height, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> detail )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60580"><span class="std std-ref">drawTrianglesCube</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> width, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> height, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> length )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60587"><span class="std std-ref">drawTrianglesPlane</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> width, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> height )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="DrawElements.html#drawelements"><span class="std std-ref">DrawElements</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60567"><span class="std std-ref">drawTrianglesSphere</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> detail )</td>
+</tr>
+<tr class="row-odd"><td>Size</td>
+<td><a class="reference internal" href="DrawElements.html#id60391"><span class="std std-ref">elementCount</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Ref&lt;<a class="reference internal" href="GeometryAttributes.html#geometryattributes"><span class="std std-ref">GeometryAttributes</span></a>&gt;</td>
+<td><a class="reference internal" href="DrawElements.html#id60379"><span class="std std-ref">getAttributes</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60394"><span class="std std-ref">getBoundingVolume</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60367"><span class="std std-ref">getDebugName</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60413"><span class="std std-ref">getDesc</span></a> ? ( in Boolean withAttributes, in Boolean useUnitTestPrint )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60397"><span class="std std-ref">getElementBoundingVolume</span></a> ? ( in Size index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60425"><span class="std std-ref">getLineWidth</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Ref&lt;<a class="reference internal" href="../Containers/ThreadsafeMetaDataContainer.html#threadsafemetadatacontainer"><span class="std std-ref">ThreadsafeMetaDataContainer</span></a>&gt;</td>
+<td><a class="reference internal" href="DrawElements.html#id60376"><span class="std std-ref">getMetaData</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60418"><span class="std std-ref">getPointSize</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60373"><span class="std std-ref">getStructureVersion</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="DrawElements.html#id60370"><span class="std std-ref">getVersion</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="DrawElements.html#id60363"><span class="std std-ref">init</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="DrawElements.html#id60452"><span class="std std-ref">reset</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="DrawElements.html#id60428"><span class="std std-ref">setLineWidth</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="DrawElements.html#id60432"><span class="std std-ref">setPen</span></a> ! ( in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="DrawElements.html#id60421"><span class="std std-ref">setPointSize</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="DrawElementsLocation.kl.html"
+                        title="前の章へ">DrawElementsLocation.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="GeometryAttributes.kl.html"
+                        title="次の章へ">GeometryAttributes.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Geometry/DrawElementsModeling.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Geometry/DrawElementsModeling.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="GeometryAttributes.kl.html" title="GeometryAttributes.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="DrawElementsLocation.kl.html" title="DrawElementsLocation.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Geometry エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >Geometry Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

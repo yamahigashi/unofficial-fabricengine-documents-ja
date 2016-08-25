@@ -1,0 +1,320 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Canvas Graph View &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="Canvas ユーザガイド" href="index.html" />
+    <link rel="next" title="Value Editor" href="valueeditor.html" />
+    <link rel="prev" title="Canvas ユーザガイド" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="valueeditor.html" title="Value Editor"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Canvas ユーザガイド"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Canvas ユーザガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="canvas-graph-view">
+<span id="canvas-user-guide-graphview"></span><h1>Canvas Graph View<a class="headerlink" href="#canvas-graph-view" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Fabric Canvas Graph View インターフェースは Fabric のノードベースエディタです。そこではノードの追加/削除、ノード間の接続を定義、あるいはサブグラフを含むようなカスタムノードや、KLコードを含むようなノードを新規作成しつつ、グラフを作成できます。</p>
+<p>Canvasは全ての Fabricの統合版、もちろんスタンドアロン版(<code class="file docutils literal"><span class="pre">canvas.py</span></code>)から利用できます。使用するホストアプリケーションによらず同じ操作で利用できます。</p>
+<div class="section" id="creating-nodes">
+<h2>ノードの作成<a class="headerlink" href="#creating-nodes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Canvasではノードの作成手段が多数あります。</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">Preset Tree: プリセットツリーから作成したいノードを見つけます。Fabricのファクトリプリセット、ユーザホームディレクトリ下の&#8221;Fabric/Presets/User&#8221;フォルダ、それにくわえ環境変数  <span class="target" id="index-4"></span><code class="xref std std-envvar docutils literal"><span class="pre">FABRIC_DFG_PATH</span></code> ディレクトリ以下、に存在する全てのプリセットへのアクセスを提供します。ノードとしてインスタンス作成をおこないたいプリセットをドラッグし、グラフビューへドロップしノードを作成します。</p>
+</li>
+<li><p class="first">Tab Search: グラフビューにフォーカスがある際、 <em class="dfn">TAB</em> キーを押すとスマートサーチを開始します。検索ボックスにインスタンスを作成したいプリセットの名前の一部を入力します。例： <em class="dfn">Math.Vec3.ComposeVec3</em> や <em class="dfn">MaVComp</em> など。</p>
+</li>
+<li><p class="first">コンテキストメニュー: 特殊なノード、例えば backdrops、empty graph ノード、functionノード、blocks を作成できます。Canvas上で右クリックし、それぞれ適切なコンテキストメニューを選びます。</p>
+</li>
+</ul>
+</div></blockquote>
+<img alt="../_images/userguide_02.jpg" src="../_images/userguide_02.jpg" />
+<img alt="../_images/userguide_03.jpg" src="../_images/userguide_03.jpg" />
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">特定のノードは、型名やメソッド名では見つかりません。該当プリセットのポリモーフィック、複数の型のサポートのためです。 ―例えば <em class="dfn">Vec3.unit</em> は見つかりませんが <em class="dfn">Math.unit</em> で望みのノードが見つかります― ポリモーフィックについては <a class="reference internal" href="polymorphism.html#canvas-user-guide-polymorphism"><span class="std std-ref">polymorphic</span></a> を参照してください。</p>
+</div>
+</div>
+<div class="section" id="node-ui-features">
+<h2>Node UI 解説<a class="headerlink" href="#node-ui-features" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<img alt="../_images/userguide_04.png" src="../_images/userguide_04.png" />
+<p>Canvas UI のノードで可能な一連の操作：</p>
+<blockquote>
+<div><ul>
+<li><p class="first">折りたたみボタン</p>
+<p>どのノードもヘッダの右端の小さいアイコンをクリックし表示を折りたたむことができます。折りたたみ状態はサイクルします。</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">全てのポートを表示</p>
+</li>
+<li><p class="first">接続のあるポートのみ表示</p>
+</li>
+<li><p class="first">全てのポートを非表示</p>
+</li>
+</ul>
+</div></blockquote>
+<p>選択ノード全て一括で折りたたみできます。それぞれキーボードショートカットで １，２，３キーを押します。</p>
+</li>
+<li><p class="first">ヘッダーポート</p>
+<p>ノードのすべてのポートへは、ノードラベルすぐ横のヘッダをクリックすることでアクセスできます。ノードを折りたたんでいる場合に便利です。非プリセットノードではこのメニューから、新規のポートを外部公開することもできます。</p>
+</li>
+<li><p class="first">整列</p>
+<p>Ctrl+R キーショートカットにより、選択ノードとその子供を、自動再配置します。</p>
+<img alt="../_images/userguide_05.jpg" src="../_images/userguide_05.jpg" />
+</li>
+<li><p class="first">ズーム</p>
+<p>A ショートカットキーを押すと、グラフ中のノード全てをうつすようにフレーム移動します。F ショートカットキーを押すと、選択ノードにフォーカスします。</p>
+</li>
+<li><p class="first">編集</p>
+<p>ノードをシフトキーを押しながらダブルクリックすると、ノード内部へ突入します。ノードのタイプによって以下のどちらか、突入したノード（サブグラフあるいはKL関数）の定義を示すか、突入したノードにあるブロックインスタンス（複数可）どれか一つの定義をしめします。サブグラフや、カスタムKLノードについてのより詳しい情報は、このページ後段のセクションにあります。</p>
+</li>
+<li><p class="first">（ノードの出力として表示されていない）入力ポートをデイジーチェーン（数珠つなぎ）することもできます。ノードの入力ポートの右側（高さを合わせましょう）をマウスでホバーさせると出力ポートが表示されます。</p>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="connecting-nodes">
+<h2>ノードの接続<a class="headerlink" href="#connecting-nodes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<img alt="../_images/userguide_06.jpg" src="../_images/userguide_06.jpg" />
+<p>ノードをクリックしポートをドラッグしノードを接続します。シフトキーを押しながらポートを選択すると、接続を複数のポートに対して連続で行えます。さらにヘッダポートを使用するとそのノードが折りたたみされていても全てのノードにアクセス可能です。</p>
+<img alt="../_images/userguide_07.jpg" src="../_images/userguide_07.jpg" />
+<p>互換性のあるポート間のみ接続を作成できます。非互換である場合、接続に失敗した原因がツールチップに表示されます。</p>
+<p>ノードのヘッダポートをクリックすると、ポートリストが表示されます。&#8217;=&#8217; は inポート (ポートの値はパススルーされることを意味)、 &#8216;&gt;&#8217; は out, ioポートであることを示します。</p>
+<img alt="../_images/header_port_connection.png" src="../_images/header_port_connection.png" />
+</div>
+<div class="section" id="exposing-ports">
+<h2>ポートの外部公開（Expose）<a class="headerlink" href="#exposing-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ホストアプリケーションから、あるいはサブグラフの上位ノードから利用可能なようにするには、ポートを外部公開（Expose）します。ポートを外部公開するには複数の手段があります</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">サイドパネルを右クリックし、 <em class="dfn">Create port</em> を選びます。ダイアログに従いそれぞれ名前と ―トップレベルのグラフであればそのポートのデータ型を― 指定し作成します。指定したデータ型が、特定の拡張に含まれるものであれば、さらに <em class="dfn">advanced -&gt; extension</em> 欄に拡張の名前を指定します。</p>
+</li>
+<li><p class="first">両サイドパネルにある黒い <em class="dfn">Expose</em> ポートとノードのポートを接続します。これにより正しく設定せれた外部公開ポートが作成され接続されます。</p>
+</li>
+<li><p class="first">ノードヘッダのポートボタンをクリックし、&#8221;Expose Port&#8221;を選びます。既存のポートをドラッグし、ノードヘッダのポートボタンへドロップし、&#8221;Expose Port&#8221;を選択しても新規ポートの作成がおこなえ、さらに同時に接続を張ることもできます。どちらの操作でも、新規ポートの詳細についてダイアログが登場します。</p>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="port-options">
+<span id="canvas-user-guide-port-options"></span><h2>ポートのオプション<a class="headerlink" href="#port-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><em class="dfn">Create port</em> もしくは <em class="dfn">Edit port</em> する際、<cite>metadata</cite> セクションよりポートの追加設定が行えます。</p>
+<ul>
+<li><p class="first"><em class="dfn">visibility</em> コンボボックスではポートがホストアプリケーション ―例えばMaya― に対しどのように外部公開されるかを指定できます。</p>
+<ul class="simple">
+<li><p class="first"><cite>normal</cite>: ポートの値はホストアプリケーションの型（アトリビュート）に合わせ、可能な場合マップされ変換されます。</p>
+</li>
+<li><p class="first"><cite>opaque</cite>: ポートの値は、ホストアプリケーションからは、不明なデータ型として扱われます。異なるホストアプリケーション間でグラフを共有する際、ホストの処理系には関与されたくないような不安定な ―volatile― KLオブジェクトをやりとりできます。</p>
+</li>
+<li><p class="first"><cite>hidden</cite>: このポートは、ホストアプリケーションからは不明となります。</p>
+</li>
+</ul>
+</li>
+<li><p class="first"><em class="dfn">persist value</em> チェックボックスはトップレベルのグラフでのみ現れます。チェックを入れるとポートの値がグラフと共にpersist ―永続化、保存― されることを示します。 チェックが入らない場合、再度グラフを読み込むとポートの値はディフォルトへとリセットされます。値の永続化についての技術的詳細は <a class="reference internal" href="../CanvasProgrammerGuide/valuepersistance.html#canvas-programmer-guide-valuepersistance"><span class="std std-ref">ポートの値の永続化（Port value persistance）</span></a> を参照してください。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Maya や Softimage では、このオプションは変更した値や単純な型に応じ自動で設定されます。</p>
+</div>
+</li>
+<li><p class="first"><em class="dfn">use range</em> チェックボックスは値編集 UI の幅を編集目的に合わせ指定できます。（実行時に値の切り上げ落としは行われません）</p>
+</li>
+<li><p class="first"><em class="dfn">use combo</em> チェックボックスでは、リスト表示のコンボボックスUI です。0..N-1 としてマップされます。</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">トップレベルグラフのポートダイアログは、特定のホストアプリケーション ―例えばMaya― 上で特別な機能を提供しています。</p>
+</div>
+</div>
+<div class="section" id="reordering-ports">
+<h2>ポートの再配置<a class="headerlink" href="#reordering-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>グラフ中のポートは、望みの場所へドラッグすることで再配置できます。また、inputあるいはoutput全てのポートは、右クリックのコンテキストメニューから一番下に移動させることができます。</p>
+</div>
+<div class="section" id="execute-ports">
+<h2>Execute ポート<a class="headerlink" href="#execute-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>いくつかのノードでは <em class="dfn">Execute</em> とよばれる特別なノードを提供しています。このノードはデータをやりとりすためではなく、特定のノード間を単にデイジーチェーンするためだけに存在し、実行フローの制御に使用します。プログラマガイド内の  <a class="reference internal" href="../CanvasProgrammerGuide/execute-ports.html#canvas-programmer-guide-execute-ports"><span class="std std-ref">Execute Ports</span></a> に詳細な情報があります。</p>
+</div>
+<div class="section" id="subgraphs">
+<h2>サブグラフ<a class="headerlink" href="#subgraphs" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>グラフ中何もない場所を右クリックし <em class="dfn">New empty graph</em> を選びとサブグラフを内包する新規ノードを作成できます。サブグラフを編集するには、該当ノードをシフトキーを押しながらダブルクリックするか、もしくは右クリックしコンテキストメニューから <em class="dfn">Edit</em> を選びます。サブグラフの編集から抜けるにはグラフ右上部の <em class="dfn">Back</em> ボタンを押します。</p>
+<img alt="../_images/userguide_08.png" src="../_images/userguide_08.png" />
+</div>
+<div class="section" id="imploding-exploding-subgraphs">
+<h2>サブグラフの作成と展開（Imploding / Exploding）<a class="headerlink" href="#imploding-exploding-subgraphs" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>複数のノードを一つのサブグラフとしてに纏めることができます。複数のノードを選択し右クリックし <em class="dfn">Implode</em> を選びます。選択したノードを含むサブグラフノードが一つ作成されます。全ての接続は保ったまま、サブグラフに向かう入力は自動的に外部公開されます。</p>
+<p>当然逆の操作も可能です。サブグラフを選択し展開します。サブグラフは削除され、そこに含まれていたノードは全ての接続を保ったまま現在のグラフへ展開されます。</p>
+</div>
+<div class="section" id="copy-and-paste">
+<h2>コピー・アンド・ペースト<a class="headerlink" href="#copy-and-paste" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>システム特有のキーボードショートカットを使い Canvas のノードはコピー・アンド・ペーストを行えます。Canvas では選択中のノードもしくはグラフをテキスト形式でクリップボードに保存します。JSON 形式でエンコードされているので、他のアプリケーション ―例えばテキストエディタや、ほかのCanvas アプリケーション― 上へペースト出来ます。つまり異種間DCCで直接コピー・アンド・ペーストが可能です。</p>
+</div>
+<div class="section" id="defining-extension-requirements">
+<span id="canvas-user-guide-graphview-requirements"></span><h2>必要エクステンションの定義<a class="headerlink" href="#defining-extension-requirements" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>グラフはディスクに存在するKLエクステンションに依存させることができます。ユーザ独自の KLのデータ構造を記述、あるいは用例としてサードパーティ製のKLエクステンションをダウンロードするなどした場合、それらを使用するには一番上にある <em class="dfn">Required Extensions</em> フィールドに依存関係を指定する必要があります。KLエクステンション由来のデータ型を使用するポートを定義する場合に有用です。このフィールドには、複数のエクステンションをカンマ区切りで指定可能です。必要なエクステンション名とバージョンを記入します。米印アスタリスク（<a href="#id1"><span class="problematic" id="id2">*</span></a>)を使用するとどのバージョンにも適します。グラフビューでも、KL関数エディタでもどちらでもこの機能は有効です。例を示します：</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Math:*,Utils:1.1
+</pre></div>
+</div>
+</div>
+<div class="section" id="saving-exporting-presets">
+<h2>プリセットの保存と書き出し<a class="headerlink" href="#saving-exporting-presets" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>プリセットに関連付けられていない Canvas ノードは <em class="dfn">inlined</em> と呼びます。これらのノードはグラフ保存時、グラフ中に保存されます。 inline なノードかそうではないかはノードタイトルがイタリック体か通常書体か、もしくはタイトル頭に <em class="dfn">*</em> がつているかどうかで見分けられます。</p>
+<img alt="../_images/userguide_20.jpg" src="../_images/userguide_20.jpg" />
+<p>Canvas のノードは以下２通りのディスクへの保存方法があります。第１の方法は、ノードを選択し右クリックから <em class="dfn">Export graph</em> を選び、ノードを外部ファイルに保存します。これは複数人でプリセットを共有する場合、例えばサーバにアップロードする場合に使えます。ただし、吐き出し時のセッション中に、そのプリセットを使用できるわけではありません。グラフをエクスポートすると、現時点の入力の型と値を保持したままとなります。</p>
+<p>第２の方法は、任意のノードをプリセットにします。環境変数 <span class="target" id="index-5"></span><code class="xref std std-envvar docutils literal"><span class="pre">FABRIC_DFG_PATH</span></code> 内ディレクトリに作成できます。このディレクトリはディフォルトでは Fabric Engineのインストールフォルダ（ただしここにはプリセットを作成できません）と、システムのユーザーホームフォルダ以下にあります。</p>
+<p>ノードのプリセットを作成するには、ノードを右クリックし <em class="dfn">Create preset</em> を選びます。</p>
+<img alt="../_images/userguide_21.jpg" src="../_images/userguide_21.jpg" />
+<p>プリセットを作成、保存する場所を選びます。既存フォルダではなく書き込み可能な場所に新規でフォルダを作成することもできます。（Fabric Engine インストールフォルダ以下は除く）新規フォルダ作成には親フォルダを右クリックしましょう。保存フォルダを選び、名前をつけ  <em class="dfn">Ok</em> を押します。プリセット化によりノードのタイトル書体は通常になり、<em class="dfn">*</em> 表記も消えます。</p>
+<p>以後、そのノードをスマートサーチにその名前を与え作成することができるようになります。</p>
+<img alt="../_images/userguide_22.jpg" src="../_images/userguide_22.jpg" />
+</div>
+<div class="section" id="custom-kl-nodes">
+<h2>カスタム KL ノード<a class="headerlink" href="#custom-kl-nodes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Canvas ノードでは KL関数をノードに含むこともできます。KL関数ノードの作成には、グラフ中何もない場所を右クリックし <em class="dfn">New empty function</em> を選びます。KL関数を編集するには、そのノードをシフトキーを押しながらダブルクリックするか、ノードのコンテキストメニューから <em class="dfn">Edit</em> を選びます。カスタムKL関数についてのより詳しい情報はプログラマガイド内 <a class="reference internal" href="../CanvasProgrammerGuide/klfunctioneditor.html#canvas-programmer-guide-klfunctioneditor"><span class="std std-ref">KL Function エディタ</span></a> を参照してください。</p>
+</div>
+<div class="section" id="backdrops">
+<h2>Backdrops<a class="headerlink" href="#backdrops" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Backdrops（背景）ノードは、グラフ中のワークスペースを整理するための特別なノードです。Backdropsノードの作成は、何もない場所を右クリックし <em class="dfn">New backdrop</em> を選びます。Backdropsの、大きさの変更はノード四隅をドラッグ、色の変更は右クリックし <em class="dfn">Properties</em> から行えます。Backdropsは他のノードを内包できます。Backdropsの中にドラッグ・アンド・ドロップで他のノードを入れます。</p>
+<img alt="../_images/userguide_09.jpg" src="../_images/userguide_09.jpg" />
+</div>
+<div class="section" id="comments">
+<h2>コメント<a class="headerlink" href="#comments" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>全てのノードにはコメントをつけることができます。他人のグラフに馴染みがない場合、特に有用でしょう。ノードを右クリックし、 <em class="dfn">Set comment</em> を選びます。コメントを消すには <em class="dfn">Remove comment</em> です。コメントの編集はコメントをダブルクリックします。コメントは右クリックにより折りたためます。黄色くスティッカー状に折りたたまれたコメントをダブルクリックで元に戻します。</p>
+<img alt="../_images/userguide_10.jpg" src="../_images/userguide_10.jpg" />
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Backdropsにもコメントをつけることができます。ノードセクション全体に記述を行う場合に使用しましょう。</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Canvas Graph View</a><ul>
+<li><a class="reference internal" href="#creating-nodes">ノードの作成</a></li>
+<li><a class="reference internal" href="#node-ui-features">Node UI 解説</a></li>
+<li><a class="reference internal" href="#connecting-nodes">ノードの接続</a></li>
+<li><a class="reference internal" href="#exposing-ports">ポートの外部公開（Expose）</a></li>
+<li><a class="reference internal" href="#port-options">ポートのオプション</a></li>
+<li><a class="reference internal" href="#reordering-ports">ポートの再配置</a></li>
+<li><a class="reference internal" href="#execute-ports">Execute ポート</a></li>
+<li><a class="reference internal" href="#subgraphs">サブグラフ</a></li>
+<li><a class="reference internal" href="#imploding-exploding-subgraphs">サブグラフの作成と展開（Imploding / Exploding）</a></li>
+<li><a class="reference internal" href="#copy-and-paste">コピー・アンド・ペースト</a></li>
+<li><a class="reference internal" href="#defining-extension-requirements">必要エクステンションの定義</a></li>
+<li><a class="reference internal" href="#saving-exporting-presets">プリセットの保存と書き出し</a></li>
+<li><a class="reference internal" href="#custom-kl-nodes">カスタム KL ノード</a></li>
+<li><a class="reference internal" href="#backdrops">Backdrops</a></li>
+<li><a class="reference internal" href="#comments">コメント</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="index.html"
+                        title="前の章へ">Canvas ユーザガイド</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="valueeditor.html"
+                        title="次の章へ">Value Editor</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/CanvasUserGuide/graphview.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/CanvasUserGuide/graphview.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="valueeditor.html" title="Value Editor"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Canvas ユーザガイド"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Canvas ユーザガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

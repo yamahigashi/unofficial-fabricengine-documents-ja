@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>FabricSplice::SceneManagement &mdash; Fabric Engine 2.2.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.2.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Classes" href="classes.html" />
+    <link rel="next" title="FabricSplice::Scripting" href="scripting.html" />
+    <link rel="prev" title="FabricSplice::DGPort" href="dgport.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="scripting.html" title="FabricSplice::Scripting"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="dgport.html" title="FabricSplice::DGPort"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.2.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Fabric Engine Splice C/C++ API Documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="classes.html" accesskey="U">Classes</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fabricsplice-scenemanagement">
+<span id="scenemanagement"></span><h1>FabricSplice::SceneManagement<a class="headerlink" href="#fabricsplice-scenemanagement" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>The SceneManagement class provides static methods to perform certain scene management related tasks, such as draw all drawable <a class="reference internal" href="dgport.html#dgport"><span class="std std-ref">FabricSplice::DGPort</span></a> object, as well deal with interactive manipulation.</p>
+<div class="section" id="class-outline">
+<h2>Class Outline<a class="headerlink" href="#class-outline" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="n">FabricSplice</span>
+<span class="p">{</span>
+  <span class="k">struct</span> <span class="n">ManipulationData</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">event</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="o">*</span> <span class="n">userData</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">graphName</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">portName</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">FabricCore</span><span class="o">::</span><span class="n">RTVal</span> <span class="o">*</span> <span class="n">manipulationContext</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">FabricCore</span><span class="o">::</span><span class="n">RTVal</span> <span class="o">*</span> <span class="n">manipulationResult</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="k">typedef</span> <span class="nf">int</span><span class="p">(</span><span class="o">*</span><span class="n">ManipulationFunc</span><span class="p">)(</span><span class="n">ManipulationData</span> <span class="o">*</span> <span class="n">data</span><span class="p">);</span>
+
+  <span class="k">class</span> <span class="nc">SceneManagement</span>
+  <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+
+    <span class="c1">// sets the callback for manipulation</span>
+    <span class="k">static</span> <span class="kt">void</span> <span class="n">setManipulationFunc</span><span class="p">(</span><span class="n">ManipulationFunc</span> <span class="n">func</span><span class="p">);</span>
+
+    <span class="c1">// returns true if there is anything to render</span>
+    <span class="k">static</span> <span class="kt">bool</span> <span class="nf">hasRenderableContent</span><span class="p">();</span>
+
+    <span class="c1">// draw all drawable ports</span>
+    <span class="c1">// ensure to only call this with a valid</span>
+    <span class="c1">// OpenGL context set, otherwise it might</span>
+    <span class="c1">// cause instabilities</span>
+    <span class="k">static</span> <span class="kt">void</span> <span class="nf">drawOpenGL</span><span class="p">(</span><span class="n">FabricCore</span><span class="o">::</span><span class="n">RTVal</span> <span class="o">&amp;</span> <span class="n">drawContext</span><span class="p">);</span>
+
+    <span class="c1">// raycast against all raycastable objects</span>
+    <span class="k">static</span> <span class="kt">bool</span> <span class="nf">raycast</span><span class="p">(</span><span class="n">FabricCore</span><span class="o">::</span><span class="n">RTVal</span> <span class="o">&amp;</span> <span class="n">raycastContext</span><span class="p">,</span> <span class="n">DGPort</span> <span class="o">&amp;</span> <span class="n">port</span><span class="p">);</span>
+  <span class="p">};</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">FabricSplice::SceneManagement</a><ul>
+<li><a class="reference internal" href="#class-outline">Class Outline</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="dgport.html"
+                        title="前の章へ">FabricSplice::DGPort</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="scripting.html"
+                        title="次の章へ">FabricSplice::Scripting</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/DCCIntegrations/SpliceAPI/scenemanagement.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DCCIntegrations/SpliceAPI/scenemanagement.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="scripting.html" title="FabricSplice::Scripting"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="dgport.html" title="FabricSplice::DGPort"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.2.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Fabric Engine Splice C/C++ API Documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="classes.html" >Classes</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

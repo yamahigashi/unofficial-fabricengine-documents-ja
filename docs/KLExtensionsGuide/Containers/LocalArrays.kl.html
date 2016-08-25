@@ -1,0 +1,2537 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>LocalArrays.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Containers Extension’s Files" href="files.html" />
+    <link rel="next" title="PackedIndexLists.kl" href="PackedIndexLists.kl.html" />
+    <link rel="prev" title="IndexSet.kl" href="IndexSet.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="PackedIndexLists.kl.html" title="PackedIndexLists.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="IndexSet.kl.html" title="IndexSet.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Containers エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Containers Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="containers-localarrays-kl">
+<span id="localarrays-kl"></span><span id="id1"></span><h1>LocalArrays.kl<a class="headerlink" href="#containers-localarrays-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="locall64scalararray-struct">
+<h3>LocalL64ScalarArray (struct)<a class="headerlink" href="#locall64scalararray-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL64ScalarArray.html#locall64scalararray"><span class="std std-ref">LocalL64ScalarArray</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> values, where up to 64 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 64.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="71%" />
+<col width="21%" />
+<col width="7%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a>[64]</td>
+<td>first64</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64ScalarArray.html#id47094"><span class="std std-ref">LocalL64ScalarArray</span></a>  ( in <a class="reference internal" href="LocalL64ScalarArray.html#locall64scalararray"><span class="std std-ref">LocalL64ScalarArray</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64ScalarArray.html#id112800"><span class="std std-ref">LocalL64ScalarArray</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL64ScalarArray.html#locall64scalararray"><span class="std std-ref">LocalL64ScalarArray</span></a></td>
+<td><a class="reference internal" href="LocalL64ScalarArray.html#id112803"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="LocalL64ScalarArray.html#id47117"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL64ScalarArray.html#id47136"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64ScalarArray.html#id47132"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64ScalarArray.html#id47109"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64ScalarArray.html#id47121"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL64ScalarArray.html#id47106"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="operators">
+<h4>Operators<a class="headerlink" href="#operators" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL64ScalarArray.html#locall64scalararray"><span class="std std-ref">LocalL64ScalarArray</span></a></td>
+<td><a class="reference internal" href="LocalL64ScalarArray.html#id47088"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall8uint16array-struct">
+<h3>LocalL8UInt16Array (struct)<a class="headerlink" href="#locall8uint16array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL8UInt16Array.html#locall8uint16array"><span class="std std-ref">LocalL8UInt16Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> values, where up to 8 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 8.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id2">
+<h4>Members<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="73%" />
+<col width="20%" />
+<col width="8%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a>[8]</td>
+<td>first8</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id3">
+<h4>Methods<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8UInt16Array.html#id46032"><span class="std std-ref">LocalL8UInt16Array</span></a>  ( in <a class="reference internal" href="LocalL8UInt16Array.html#locall8uint16array"><span class="std std-ref">LocalL8UInt16Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8UInt16Array.html#id112806"><span class="std std-ref">LocalL8UInt16Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL8UInt16Array.html#locall8uint16array"><span class="std std-ref">LocalL8UInt16Array</span></a></td>
+<td><a class="reference internal" href="LocalL8UInt16Array.html#id112809"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a></td>
+<td><a class="reference internal" href="LocalL8UInt16Array.html#id46055"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL8UInt16Array.html#id46074"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8UInt16Array.html#id46070"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8UInt16Array.html#id46047"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8UInt16Array.html#id46059"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL8UInt16Array.html#id46044"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id4">
+<h4>Operators<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL8UInt16Array.html#locall8uint16array"><span class="std std-ref">LocalL8UInt16Array</span></a></td>
+<td><a class="reference internal" href="LocalL8UInt16Array.html#id46026"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall4uint32array-struct">
+<h3>LocalL4UInt32Array (struct)<a class="headerlink" href="#locall4uint32array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="../Geometry/LocalL4UInt32Array.html#locall4uint32array"><span class="std std-ref">LocalL4UInt32Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> values, where up to 4 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 4.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id5">
+<h4>Members<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="73%" />
+<col width="20%" />
+<col width="8%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a>[4]</td>
+<td>first4</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id6">
+<h4>Methods<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="../Geometry/LocalL4UInt32Array.html#id46268"><span class="std std-ref">LocalL4UInt32Array</span></a>  ( in <a class="reference internal" href="../Geometry/LocalL4UInt32Array.html#locall4uint32array"><span class="std std-ref">LocalL4UInt32Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="../Geometry/LocalL4UInt32Array.html#id112812"><span class="std std-ref">LocalL4UInt32Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Geometry/LocalL4UInt32Array.html#locall4uint32array"><span class="std std-ref">LocalL4UInt32Array</span></a></td>
+<td><a class="reference internal" href="../Geometry/LocalL4UInt32Array.html#id112815"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="../Geometry/LocalL4UInt32Array.html#id46291"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="../Geometry/LocalL4UInt32Array.html#id46310"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="../Geometry/LocalL4UInt32Array.html#id46306"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="../Geometry/LocalL4UInt32Array.html#id46283"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="../Geometry/LocalL4UInt32Array.html#id46295"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="../Geometry/LocalL4UInt32Array.html#id46280"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id7">
+<h4>Operators<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Geometry/LocalL4UInt32Array.html#locall4uint32array"><span class="std std-ref">LocalL4UInt32Array</span></a></td>
+<td><a class="reference internal" href="../Geometry/LocalL4UInt32Array.html#id46262"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall8uint64array-struct">
+<h3>LocalL8UInt64Array (struct)<a class="headerlink" href="#locall8uint64array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL8UInt64Array.html#locall8uint64array"><span class="std std-ref">LocalL8UInt64Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a> values, where up to 8 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 8.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id8">
+<h4>Members<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="73%" />
+<col width="20%" />
+<col width="8%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a>[8]</td>
+<td>first8</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id9">
+<h4>Methods<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8UInt64Array.html#id46622"><span class="std std-ref">LocalL8UInt64Array</span></a>  ( in <a class="reference internal" href="LocalL8UInt64Array.html#locall8uint64array"><span class="std std-ref">LocalL8UInt64Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8UInt64Array.html#id112818"><span class="std std-ref">LocalL8UInt64Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL8UInt64Array.html#locall8uint64array"><span class="std std-ref">LocalL8UInt64Array</span></a></td>
+<td><a class="reference internal" href="LocalL8UInt64Array.html#id112821"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a></td>
+<td><a class="reference internal" href="LocalL8UInt64Array.html#id46645"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL8UInt64Array.html#id46664"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8UInt64Array.html#id46660"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8UInt64Array.html#id46637"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8UInt64Array.html#id46649"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL8UInt64Array.html#id46634"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id10">
+<h4>Operators<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL8UInt64Array.html#locall8uint64array"><span class="std std-ref">LocalL8UInt64Array</span></a></td>
+<td><a class="reference internal" href="LocalL8UInt64Array.html#id46616"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall16scalararray-struct">
+<h3>LocalL16ScalarArray (struct)<a class="headerlink" href="#locall16scalararray-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL16ScalarArray.html#locall16scalararray"><span class="std std-ref">LocalL16ScalarArray</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> values, where up to 16 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 16.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id11">
+<h4>Members<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="71%" />
+<col width="21%" />
+<col width="7%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a>[16]</td>
+<td>first16</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id12">
+<h4>Methods<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16ScalarArray.html#id46976"><span class="std std-ref">LocalL16ScalarArray</span></a>  ( in <a class="reference internal" href="LocalL16ScalarArray.html#locall16scalararray"><span class="std std-ref">LocalL16ScalarArray</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16ScalarArray.html#id112824"><span class="std std-ref">LocalL16ScalarArray</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL16ScalarArray.html#locall16scalararray"><span class="std std-ref">LocalL16ScalarArray</span></a></td>
+<td><a class="reference internal" href="LocalL16ScalarArray.html#id112827"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="LocalL16ScalarArray.html#id46999"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL16ScalarArray.html#id47018"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16ScalarArray.html#id47014"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16ScalarArray.html#id46991"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16ScalarArray.html#id47003"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL16ScalarArray.html#id46988"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id13">
+<h4>Operators<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL16ScalarArray.html#locall16scalararray"><span class="std std-ref">LocalL16ScalarArray</span></a></td>
+<td><a class="reference internal" href="LocalL16ScalarArray.html#id46970"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall32uint16array-struct">
+<h3>LocalL32UInt16Array (struct)<a class="headerlink" href="#locall32uint16array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL32UInt16Array.html#locall32uint16array"><span class="std std-ref">LocalL32UInt16Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> values, where up to 32 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 32.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id14">
+<h4>Members<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="71%" />
+<col width="21%" />
+<col width="7%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a>[32]</td>
+<td>first32</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id15">
+<h4>Methods<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt16Array.html#id46150"><span class="std std-ref">LocalL32UInt16Array</span></a>  ( in <a class="reference internal" href="LocalL32UInt16Array.html#locall32uint16array"><span class="std std-ref">LocalL32UInt16Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt16Array.html#id112830"><span class="std std-ref">LocalL32UInt16Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL32UInt16Array.html#locall32uint16array"><span class="std std-ref">LocalL32UInt16Array</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt16Array.html#id112833"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt16Array.html#id46173"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt16Array.html#id46192"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt16Array.html#id46188"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt16Array.html#id46165"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt16Array.html#id46177"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt16Array.html#id46162"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id16">
+<h4>Operators<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL32UInt16Array.html#locall32uint16array"><span class="std std-ref">LocalL32UInt16Array</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt16Array.html#id46144"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall64uint8array-struct">
+<h3>LocalL64UInt8Array (struct)<a class="headerlink" href="#locall64uint8array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL64UInt8Array.html#locall64uint8array"><span class="std std-ref">LocalL64UInt8Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> values, where up to 64 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 64.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id17">
+<h4>Members<a class="headerlink" href="#id17" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="70%" />
+<col width="23%" />
+<col width="8%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a>[64]</td>
+<td>first64</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id18">
+<h4>Methods<a class="headerlink" href="#id18" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt8Array.html#id45914"><span class="std std-ref">LocalL64UInt8Array</span></a>  ( in <a class="reference internal" href="LocalL64UInt8Array.html#locall64uint8array"><span class="std std-ref">LocalL64UInt8Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt8Array.html#id112836"><span class="std std-ref">LocalL64UInt8Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL64UInt8Array.html#locall64uint8array"><span class="std std-ref">LocalL64UInt8Array</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt8Array.html#id112839"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt8Array.html#id45937"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt8Array.html#id45956"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt8Array.html#id45952"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt8Array.html#id45929"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt8Array.html#id45941"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt8Array.html#id45926"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id19">
+<h4>Operators<a class="headerlink" href="#id19" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL64UInt8Array.html#locall64uint8array"><span class="std std-ref">LocalL64UInt8Array</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt8Array.html#id45908"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall4uint64array-struct">
+<h3>LocalL4UInt64Array (struct)<a class="headerlink" href="#locall4uint64array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL4UInt64Array.html#locall4uint64array"><span class="std std-ref">LocalL4UInt64Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a> values, where up to 4 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 4.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id20">
+<h4>Members<a class="headerlink" href="#id20" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="73%" />
+<col width="20%" />
+<col width="8%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a>[4]</td>
+<td>first4</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id21">
+<h4>Methods<a class="headerlink" href="#id21" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4UInt64Array.html#id46563"><span class="std std-ref">LocalL4UInt64Array</span></a>  ( in <a class="reference internal" href="LocalL4UInt64Array.html#locall4uint64array"><span class="std std-ref">LocalL4UInt64Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4UInt64Array.html#id112842"><span class="std std-ref">LocalL4UInt64Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL4UInt64Array.html#locall4uint64array"><span class="std std-ref">LocalL4UInt64Array</span></a></td>
+<td><a class="reference internal" href="LocalL4UInt64Array.html#id112845"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a></td>
+<td><a class="reference internal" href="LocalL4UInt64Array.html#id46586"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL4UInt64Array.html#id46605"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4UInt64Array.html#id46601"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4UInt64Array.html#id46578"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4UInt64Array.html#id46590"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL4UInt64Array.html#id46575"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id22">
+<h4>Operators<a class="headerlink" href="#id22" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL4UInt64Array.html#locall4uint64array"><span class="std std-ref">LocalL4UInt64Array</span></a></td>
+<td><a class="reference internal" href="LocalL4UInt64Array.html#id46557"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall16uint8array-struct">
+<h3>LocalL16UInt8Array (struct)<a class="headerlink" href="#locall16uint8array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> values, where up to 16 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 16.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id23">
+<h4>Members<a class="headerlink" href="#id23" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="70%" />
+<col width="23%" />
+<col width="8%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a>[16]</td>
+<td>first16</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id24">
+<h4>Methods<a class="headerlink" href="#id24" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt8Array.html#id45796"><span class="std std-ref">LocalL16UInt8Array</span></a>  ( in <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt8Array.html#id112848"><span class="std std-ref">LocalL16UInt8Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt8Array.html#id112851"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt8Array.html#id45819"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt8Array.html#id45838"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt8Array.html#id45834"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt8Array.html#id45811"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt8Array.html#id45823"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt8Array.html#id45808"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id25">
+<h4>Operators<a class="headerlink" href="#id25" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt8Array.html#id45790"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall8scalararray-struct">
+<h3>LocalL8ScalarArray (struct)<a class="headerlink" href="#locall8scalararray-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL8ScalarArray.html#locall8scalararray"><span class="std std-ref">LocalL8ScalarArray</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> values, where up to 8 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 8.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id26">
+<h4>Members<a class="headerlink" href="#id26" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="73%" />
+<col width="20%" />
+<col width="8%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a>[8]</td>
+<td>first8</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id27">
+<h4>Methods<a class="headerlink" href="#id27" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8ScalarArray.html#id46917"><span class="std std-ref">LocalL8ScalarArray</span></a>  ( in <a class="reference internal" href="LocalL8ScalarArray.html#locall8scalararray"><span class="std std-ref">LocalL8ScalarArray</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8ScalarArray.html#id112854"><span class="std std-ref">LocalL8ScalarArray</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL8ScalarArray.html#locall8scalararray"><span class="std std-ref">LocalL8ScalarArray</span></a></td>
+<td><a class="reference internal" href="LocalL8ScalarArray.html#id112857"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="LocalL8ScalarArray.html#id46940"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL8ScalarArray.html#id46959"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8ScalarArray.html#id46955"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8ScalarArray.html#id46932"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8ScalarArray.html#id46944"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL8ScalarArray.html#id46929"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id28">
+<h4>Operators<a class="headerlink" href="#id28" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL8ScalarArray.html#locall8scalararray"><span class="std std-ref">LocalL8ScalarArray</span></a></td>
+<td><a class="reference internal" href="LocalL8ScalarArray.html#id46911"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall32uint32array-struct">
+<h3>LocalL32UInt32Array (struct)<a class="headerlink" href="#locall32uint32array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL32UInt32Array.html#locall32uint32array"><span class="std std-ref">LocalL32UInt32Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> values, where up to 32 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 32.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id29">
+<h4>Members<a class="headerlink" href="#id29" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="71%" />
+<col width="21%" />
+<col width="7%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a>[32]</td>
+<td>first32</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id30">
+<h4>Methods<a class="headerlink" href="#id30" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt32Array.html#id46445"><span class="std std-ref">LocalL32UInt32Array</span></a>  ( in <a class="reference internal" href="LocalL32UInt32Array.html#locall32uint32array"><span class="std std-ref">LocalL32UInt32Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt32Array.html#id112860"><span class="std std-ref">LocalL32UInt32Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL32UInt32Array.html#locall32uint32array"><span class="std std-ref">LocalL32UInt32Array</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt32Array.html#id112863"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt32Array.html#id46468"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt32Array.html#id46487"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt32Array.html#id46483"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt32Array.html#id46460"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt32Array.html#id46472"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt32Array.html#id46457"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id31">
+<h4>Operators<a class="headerlink" href="#id31" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL32UInt32Array.html#locall32uint32array"><span class="std std-ref">LocalL32UInt32Array</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt32Array.html#id46439"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall32uint64array-struct">
+<h3>LocalL32UInt64Array (struct)<a class="headerlink" href="#locall32uint64array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL32UInt64Array.html#locall32uint64array"><span class="std std-ref">LocalL32UInt64Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a> values, where up to 32 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 32.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id32">
+<h4>Members<a class="headerlink" href="#id32" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="71%" />
+<col width="21%" />
+<col width="7%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a>[32]</td>
+<td>first32</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id33">
+<h4>Methods<a class="headerlink" href="#id33" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt64Array.html#id46740"><span class="std std-ref">LocalL32UInt64Array</span></a>  ( in <a class="reference internal" href="LocalL32UInt64Array.html#locall32uint64array"><span class="std std-ref">LocalL32UInt64Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt64Array.html#id112866"><span class="std std-ref">LocalL32UInt64Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL32UInt64Array.html#locall32uint64array"><span class="std std-ref">LocalL32UInt64Array</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt64Array.html#id112869"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt64Array.html#id46763"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt64Array.html#id46782"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt64Array.html#id46778"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt64Array.html#id46755"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt64Array.html#id46767"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt64Array.html#id46752"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id34">
+<h4>Operators<a class="headerlink" href="#id34" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL32UInt64Array.html#locall32uint64array"><span class="std std-ref">LocalL32UInt64Array</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt64Array.html#id46734"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall8uint8array-struct">
+<h3>LocalL8UInt8Array (struct)<a class="headerlink" href="#locall8uint8array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL8UInt8Array.html#locall8uint8array"><span class="std std-ref">LocalL8UInt8Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> values, where up to 8 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 8.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id35">
+<h4>Members<a class="headerlink" href="#id35" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="71%" />
+<col width="21%" />
+<col width="8%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a>[8]</td>
+<td>first8</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id36">
+<h4>Methods<a class="headerlink" href="#id36" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8UInt8Array.html#id45737"><span class="std std-ref">LocalL8UInt8Array</span></a>  ( in <a class="reference internal" href="LocalL8UInt8Array.html#locall8uint8array"><span class="std std-ref">LocalL8UInt8Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8UInt8Array.html#id112872"><span class="std std-ref">LocalL8UInt8Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL8UInt8Array.html#locall8uint8array"><span class="std std-ref">LocalL8UInt8Array</span></a></td>
+<td><a class="reference internal" href="LocalL8UInt8Array.html#id112875"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a></td>
+<td><a class="reference internal" href="LocalL8UInt8Array.html#id45760"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL8UInt8Array.html#id45779"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8UInt8Array.html#id45775"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8UInt8Array.html#id45752"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL8UInt8Array.html#id45764"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL8UInt8Array.html#id45749"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id37">
+<h4>Operators<a class="headerlink" href="#id37" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="47%" />
+<col width="53%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL8UInt8Array.html#locall8uint8array"><span class="std std-ref">LocalL8UInt8Array</span></a></td>
+<td><a class="reference internal" href="LocalL8UInt8Array.html#id45731"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall16uint64array-struct">
+<h3>LocalL16UInt64Array (struct)<a class="headerlink" href="#locall16uint64array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL16UInt64Array.html#locall16uint64array"><span class="std std-ref">LocalL16UInt64Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a> values, where up to 16 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 16.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id38">
+<h4>Members<a class="headerlink" href="#id38" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="71%" />
+<col width="21%" />
+<col width="7%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a>[16]</td>
+<td>first16</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id39">
+<h4>Methods<a class="headerlink" href="#id39" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt64Array.html#id46681"><span class="std std-ref">LocalL16UInt64Array</span></a>  ( in <a class="reference internal" href="LocalL16UInt64Array.html#locall16uint64array"><span class="std std-ref">LocalL16UInt64Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt64Array.html#id112878"><span class="std std-ref">LocalL16UInt64Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL16UInt64Array.html#locall16uint64array"><span class="std std-ref">LocalL16UInt64Array</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt64Array.html#id112881"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt64Array.html#id46704"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt64Array.html#id46723"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt64Array.html#id46719"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt64Array.html#id46696"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt64Array.html#id46708"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt64Array.html#id46693"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id40">
+<h4>Operators<a class="headerlink" href="#id40" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL16UInt64Array.html#locall16uint64array"><span class="std std-ref">LocalL16UInt64Array</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt64Array.html#id46675"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall32scalararray-struct">
+<h3>LocalL32ScalarArray (struct)<a class="headerlink" href="#locall32scalararray-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL32ScalarArray.html#locall32scalararray"><span class="std std-ref">LocalL32ScalarArray</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> values, where up to 32 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 32.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id41">
+<h4>Members<a class="headerlink" href="#id41" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="71%" />
+<col width="21%" />
+<col width="7%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a>[32]</td>
+<td>first32</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id42">
+<h4>Methods<a class="headerlink" href="#id42" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32ScalarArray.html#id47035"><span class="std std-ref">LocalL32ScalarArray</span></a>  ( in <a class="reference internal" href="LocalL32ScalarArray.html#locall32scalararray"><span class="std std-ref">LocalL32ScalarArray</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32ScalarArray.html#id112884"><span class="std std-ref">LocalL32ScalarArray</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL32ScalarArray.html#locall32scalararray"><span class="std std-ref">LocalL32ScalarArray</span></a></td>
+<td><a class="reference internal" href="LocalL32ScalarArray.html#id112887"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="LocalL32ScalarArray.html#id47058"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL32ScalarArray.html#id47077"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32ScalarArray.html#id47073"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32ScalarArray.html#id47050"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32ScalarArray.html#id47062"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL32ScalarArray.html#id47047"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id43">
+<h4>Operators<a class="headerlink" href="#id43" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL32ScalarArray.html#locall32scalararray"><span class="std std-ref">LocalL32ScalarArray</span></a></td>
+<td><a class="reference internal" href="LocalL32ScalarArray.html#id47029"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall16uint16array-struct">
+<h3>LocalL16UInt16Array (struct)<a class="headerlink" href="#locall16uint16array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL16UInt16Array.html#locall16uint16array"><span class="std std-ref">LocalL16UInt16Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> values, where up to 16 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 16.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id44">
+<h4>Members<a class="headerlink" href="#id44" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="71%" />
+<col width="21%" />
+<col width="7%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a>[16]</td>
+<td>first16</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id45">
+<h4>Methods<a class="headerlink" href="#id45" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt16Array.html#id46091"><span class="std std-ref">LocalL16UInt16Array</span></a>  ( in <a class="reference internal" href="LocalL16UInt16Array.html#locall16uint16array"><span class="std std-ref">LocalL16UInt16Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt16Array.html#id112890"><span class="std std-ref">LocalL16UInt16Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL16UInt16Array.html#locall16uint16array"><span class="std std-ref">LocalL16UInt16Array</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt16Array.html#id112893"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt16Array.html#id46114"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt16Array.html#id46133"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt16Array.html#id46129"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt16Array.html#id46106"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt16Array.html#id46118"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt16Array.html#id46103"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id46">
+<h4>Operators<a class="headerlink" href="#id46" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL16UInt16Array.html#locall16uint16array"><span class="std std-ref">LocalL16UInt16Array</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt16Array.html#id46085"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall8uint32array-struct">
+<h3>LocalL8UInt32Array (struct)<a class="headerlink" href="#locall8uint32array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="../Geometry/LocalL8UInt32Array.html#locall8uint32array"><span class="std std-ref">LocalL8UInt32Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> values, where up to 8 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 8.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id47">
+<h4>Members<a class="headerlink" href="#id47" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="73%" />
+<col width="20%" />
+<col width="8%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a>[8]</td>
+<td>first8</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id48">
+<h4>Methods<a class="headerlink" href="#id48" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="../Geometry/LocalL8UInt32Array.html#id46327"><span class="std std-ref">LocalL8UInt32Array</span></a>  ( in <a class="reference internal" href="../Geometry/LocalL8UInt32Array.html#locall8uint32array"><span class="std std-ref">LocalL8UInt32Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="../Geometry/LocalL8UInt32Array.html#id112896"><span class="std std-ref">LocalL8UInt32Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Geometry/LocalL8UInt32Array.html#locall8uint32array"><span class="std std-ref">LocalL8UInt32Array</span></a></td>
+<td><a class="reference internal" href="../Geometry/LocalL8UInt32Array.html#id112899"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="../Geometry/LocalL8UInt32Array.html#id46350"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="../Geometry/LocalL8UInt32Array.html#id46369"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="../Geometry/LocalL8UInt32Array.html#id46365"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="../Geometry/LocalL8UInt32Array.html#id46342"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="../Geometry/LocalL8UInt32Array.html#id46354"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="../Geometry/LocalL8UInt32Array.html#id46339"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id49">
+<h4>Operators<a class="headerlink" href="#id49" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Geometry/LocalL8UInt32Array.html#locall8uint32array"><span class="std std-ref">LocalL8UInt32Array</span></a></td>
+<td><a class="reference internal" href="../Geometry/LocalL8UInt32Array.html#id46321"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall32uint8array-struct">
+<h3>LocalL32UInt8Array (struct)<a class="headerlink" href="#locall32uint8array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL32UInt8Array.html#locall32uint8array"><span class="std std-ref">LocalL32UInt8Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> values, where up to 32 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 32.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id50">
+<h4>Members<a class="headerlink" href="#id50" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="70%" />
+<col width="23%" />
+<col width="8%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a>[32]</td>
+<td>first32</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id51">
+<h4>Methods<a class="headerlink" href="#id51" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt8Array.html#id45855"><span class="std std-ref">LocalL32UInt8Array</span></a>  ( in <a class="reference internal" href="LocalL32UInt8Array.html#locall32uint8array"><span class="std std-ref">LocalL32UInt8Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt8Array.html#id112902"><span class="std std-ref">LocalL32UInt8Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL32UInt8Array.html#locall32uint8array"><span class="std std-ref">LocalL32UInt8Array</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt8Array.html#id112905"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt8Array.html#id45878"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt8Array.html#id45897"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt8Array.html#id45893"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt8Array.html#id45870"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL32UInt8Array.html#id45882"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt8Array.html#id45867"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id52">
+<h4>Operators<a class="headerlink" href="#id52" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL32UInt8Array.html#locall32uint8array"><span class="std std-ref">LocalL32UInt8Array</span></a></td>
+<td><a class="reference internal" href="LocalL32UInt8Array.html#id45849"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall4scalararray-struct">
+<h3>LocalL4ScalarArray (struct)<a class="headerlink" href="#locall4scalararray-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL4ScalarArray.html#locall4scalararray"><span class="std std-ref">LocalL4ScalarArray</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> values, where up to 4 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 4.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id53">
+<h4>Members<a class="headerlink" href="#id53" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="73%" />
+<col width="20%" />
+<col width="8%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a>[4]</td>
+<td>first4</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id54">
+<h4>Methods<a class="headerlink" href="#id54" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4ScalarArray.html#id46858"><span class="std std-ref">LocalL4ScalarArray</span></a>  ( in <a class="reference internal" href="LocalL4ScalarArray.html#locall4scalararray"><span class="std std-ref">LocalL4ScalarArray</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4ScalarArray.html#id112908"><span class="std std-ref">LocalL4ScalarArray</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL4ScalarArray.html#locall4scalararray"><span class="std std-ref">LocalL4ScalarArray</span></a></td>
+<td><a class="reference internal" href="LocalL4ScalarArray.html#id112911"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="LocalL4ScalarArray.html#id46881"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL4ScalarArray.html#id46900"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4ScalarArray.html#id46896"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4ScalarArray.html#id46873"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4ScalarArray.html#id46885"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL4ScalarArray.html#id46870"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id55">
+<h4>Operators<a class="headerlink" href="#id55" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL4ScalarArray.html#locall4scalararray"><span class="std std-ref">LocalL4ScalarArray</span></a></td>
+<td><a class="reference internal" href="LocalL4ScalarArray.html#id46852"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall4uint8array-struct">
+<h3>LocalL4UInt8Array (struct)<a class="headerlink" href="#locall4uint8array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL4UInt8Array.html#locall4uint8array"><span class="std std-ref">LocalL4UInt8Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> values, where up to 4 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 4.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id56">
+<h4>Members<a class="headerlink" href="#id56" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="71%" />
+<col width="21%" />
+<col width="8%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a>[4]</td>
+<td>first4</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id57">
+<h4>Methods<a class="headerlink" href="#id57" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4UInt8Array.html#id45678"><span class="std std-ref">LocalL4UInt8Array</span></a>  ( in <a class="reference internal" href="LocalL4UInt8Array.html#locall4uint8array"><span class="std std-ref">LocalL4UInt8Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4UInt8Array.html#id112914"><span class="std std-ref">LocalL4UInt8Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL4UInt8Array.html#locall4uint8array"><span class="std std-ref">LocalL4UInt8Array</span></a></td>
+<td><a class="reference internal" href="LocalL4UInt8Array.html#id112917"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a></td>
+<td><a class="reference internal" href="LocalL4UInt8Array.html#id45701"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL4UInt8Array.html#id45720"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4UInt8Array.html#id45716"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4UInt8Array.html#id45693"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4UInt8Array.html#id45705"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL4UInt8Array.html#id45690"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id58">
+<h4>Operators<a class="headerlink" href="#id58" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="47%" />
+<col width="53%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL4UInt8Array.html#locall4uint8array"><span class="std std-ref">LocalL4UInt8Array</span></a></td>
+<td><a class="reference internal" href="LocalL4UInt8Array.html#id45672"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall64uint16array-struct">
+<h3>LocalL64UInt16Array (struct)<a class="headerlink" href="#locall64uint16array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL64UInt16Array.html#locall64uint16array"><span class="std std-ref">LocalL64UInt16Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> values, where up to 64 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 64.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id59">
+<h4>Members<a class="headerlink" href="#id59" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="71%" />
+<col width="21%" />
+<col width="7%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a>[64]</td>
+<td>first64</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id60">
+<h4>Methods<a class="headerlink" href="#id60" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt16Array.html#id46209"><span class="std std-ref">LocalL64UInt16Array</span></a>  ( in <a class="reference internal" href="LocalL64UInt16Array.html#locall64uint16array"><span class="std std-ref">LocalL64UInt16Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt16Array.html#id112920"><span class="std std-ref">LocalL64UInt16Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL64UInt16Array.html#locall64uint16array"><span class="std std-ref">LocalL64UInt16Array</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt16Array.html#id112923"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt16Array.html#id46232"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt16Array.html#id46251"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt16Array.html#id46247"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt16Array.html#id46224"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt16Array.html#id46236"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt16Array.html#id46221"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id61">
+<h4>Operators<a class="headerlink" href="#id61" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL64UInt16Array.html#locall64uint16array"><span class="std std-ref">LocalL64UInt16Array</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt16Array.html#id46203"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall64uint32array-struct">
+<h3>LocalL64UInt32Array (struct)<a class="headerlink" href="#locall64uint32array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL64UInt32Array.html#locall64uint32array"><span class="std std-ref">LocalL64UInt32Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> values, where up to 64 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 64.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id62">
+<h4>Members<a class="headerlink" href="#id62" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="71%" />
+<col width="21%" />
+<col width="7%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a>[64]</td>
+<td>first64</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id63">
+<h4>Methods<a class="headerlink" href="#id63" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt32Array.html#id46504"><span class="std std-ref">LocalL64UInt32Array</span></a>  ( in <a class="reference internal" href="LocalL64UInt32Array.html#locall64uint32array"><span class="std std-ref">LocalL64UInt32Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt32Array.html#id112926"><span class="std std-ref">LocalL64UInt32Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL64UInt32Array.html#locall64uint32array"><span class="std std-ref">LocalL64UInt32Array</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt32Array.html#id112929"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt32Array.html#id46527"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt32Array.html#id46546"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt32Array.html#id46542"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt32Array.html#id46519"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt32Array.html#id46531"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt32Array.html#id46516"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id64">
+<h4>Operators<a class="headerlink" href="#id64" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL64UInt32Array.html#locall64uint32array"><span class="std std-ref">LocalL64UInt32Array</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt32Array.html#id46498"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall16uint32array-struct">
+<h3>LocalL16UInt32Array (struct)<a class="headerlink" href="#locall16uint32array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL16UInt32Array.html#locall16uint32array"><span class="std std-ref">LocalL16UInt32Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> values, where up to 16 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 16.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id65">
+<h4>Members<a class="headerlink" href="#id65" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="71%" />
+<col width="21%" />
+<col width="7%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a>[16]</td>
+<td>first16</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id66">
+<h4>Methods<a class="headerlink" href="#id66" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt32Array.html#id46386"><span class="std std-ref">LocalL16UInt32Array</span></a>  ( in <a class="reference internal" href="LocalL16UInt32Array.html#locall16uint32array"><span class="std std-ref">LocalL16UInt32Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt32Array.html#id112932"><span class="std std-ref">LocalL16UInt32Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL16UInt32Array.html#locall16uint32array"><span class="std std-ref">LocalL16UInt32Array</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt32Array.html#id112935"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt32Array.html#id46409"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt32Array.html#id46428"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt32Array.html#id46424"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt32Array.html#id46401"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL16UInt32Array.html#id46413"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt32Array.html#id46398"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id67">
+<h4>Operators<a class="headerlink" href="#id67" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL16UInt32Array.html#locall16uint32array"><span class="std std-ref">LocalL16UInt32Array</span></a></td>
+<td><a class="reference internal" href="LocalL16UInt32Array.html#id46380"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall64uint64array-struct">
+<h3>LocalL64UInt64Array (struct)<a class="headerlink" href="#locall64uint64array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL64UInt64Array.html#locall64uint64array"><span class="std std-ref">LocalL64UInt64Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a> values, where up to 64 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 64.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id68">
+<h4>Members<a class="headerlink" href="#id68" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="71%" />
+<col width="21%" />
+<col width="7%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a>[64]</td>
+<td>first64</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id69">
+<h4>Methods<a class="headerlink" href="#id69" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt64Array.html#id46799"><span class="std std-ref">LocalL64UInt64Array</span></a>  ( in <a class="reference internal" href="LocalL64UInt64Array.html#locall64uint64array"><span class="std std-ref">LocalL64UInt64Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt64Array.html#id112938"><span class="std std-ref">LocalL64UInt64Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL64UInt64Array.html#locall64uint64array"><span class="std std-ref">LocalL64UInt64Array</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt64Array.html#id112941"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt64Array.html#id46822"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt64Array.html#id46841"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt64Array.html#id46837"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt64Array.html#id46814"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL64UInt64Array.html#id46826"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt64Array.html#id46811"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id70">
+<h4>Operators<a class="headerlink" href="#id70" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL64UInt64Array.html#locall64uint64array"><span class="std std-ref">LocalL64UInt64Array</span></a></td>
+<td><a class="reference internal" href="LocalL64UInt64Array.html#id46793"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="locall4uint16array-struct">
+<h3>LocalL4UInt16Array (struct)<a class="headerlink" href="#locall4uint16array-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="LocalL4UInt16Array.html#locall4uint16array"><span class="std std-ref">LocalL4UInt16Array</span></a> is an efficient container for
+storing <a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> values, where up to 4 values can be added
+without requiring memory allocations on the heap. This allows to efficiently
+contain array of values, where arrays are usually smaller than 4.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Avoiding frequent heap memory allocations can have a significant performance impact. Using this type can avoid the memory allocation overhead in some scenarios (eg: various <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> methods use local arrays).</p>
+</div>
+<div class="section" id="id71">
+<h4>Members<a class="headerlink" href="#id71" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="73%" />
+<col width="20%" />
+<col width="8%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a>[4]</td>
+<td>first4</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a>[]</td>
+<td>others</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>count</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id72">
+<h4>Methods<a class="headerlink" href="#id72" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4UInt16Array.html#id45973"><span class="std std-ref">LocalL4UInt16Array</span></a>  ( in <a class="reference internal" href="LocalL4UInt16Array.html#locall4uint16array"><span class="std std-ref">LocalL4UInt16Array</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4UInt16Array.html#id112944"><span class="std std-ref">LocalL4UInt16Array</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalL4UInt16Array.html#locall4uint16array"><span class="std std-ref">LocalL4UInt16Array</span></a></td>
+<td><a class="reference internal" href="LocalL4UInt16Array.html#id112947"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a></td>
+<td><a class="reference internal" href="LocalL4UInt16Array.html#id45996"><span class="std std-ref">get</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalL4UInt16Array.html#id46015"><span class="std std-ref">getString</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4UInt16Array.html#id46011"><span class="std std-ref">push</span></a> ! ( in <a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4UInt16Array.html#id45988"><span class="std std-ref">resize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalL4UInt16Array.html#id46000"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="LocalL4UInt16Array.html#id45985"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="id73">
+<h4>Operators<a class="headerlink" href="#id73" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="LocalL4UInt16Array.html#locall4uint16array"><span class="std std-ref">LocalL4UInt16Array</span></a></td>
+<td><a class="reference internal" href="LocalL4UInt16Array.html#id45967"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="swap">
+<h3>swap<a class="headerlink" href="#swap" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id74">
+<h3>swap<a class="headerlink" href="#id74" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id75">
+<h3>swap<a class="headerlink" href="#id75" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id76">
+<h3>swap<a class="headerlink" href="#id76" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id77">
+<h3>swap<a class="headerlink" href="#id77" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id78">
+<h3>swap<a class="headerlink" href="#id78" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id79">
+<h3>swap<a class="headerlink" href="#id79" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id80">
+<h3>swap<a class="headerlink" href="#id80" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id81">
+<h3>swap<a class="headerlink" href="#id81" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id82">
+<h3>swap<a class="headerlink" href="#id82" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id83">
+<h3>swap<a class="headerlink" href="#id83" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id84">
+<h3>swap<a class="headerlink" href="#id84" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id85">
+<h3>swap<a class="headerlink" href="#id85" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id86">
+<h3>swap<a class="headerlink" href="#id86" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id87">
+<h3>swap<a class="headerlink" href="#id87" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id88">
+<h3>swap<a class="headerlink" href="#id88" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id89">
+<h3>swap<a class="headerlink" href="#id89" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id90">
+<h3>swap<a class="headerlink" href="#id90" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id91">
+<h3>swap<a class="headerlink" href="#id91" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id92">
+<h3>swap<a class="headerlink" href="#id92" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id93">
+<h3>swap<a class="headerlink" href="#id93" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id94">
+<h3>swap<a class="headerlink" href="#id94" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id95">
+<h3>swap<a class="headerlink" href="#id95" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id96">
+<h3>swap<a class="headerlink" href="#id96" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+<p><div class="section" id="id97">
+<h3>swap<a class="headerlink" href="#id97" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">swap ( io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> first, io <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> second )</p>
+<p class="plaintext">swaps one <a class="reference internal" href="LocalL16UInt8Array.html#locall16uint8array"><span class="std std-ref">LocalL16UInt8Array</span></a> with another one</p>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="IndexSet.kl.html"
+                        title="前の章へ">IndexSet.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="PackedIndexLists.kl.html"
+                        title="次の章へ">PackedIndexLists.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Containers/LocalArrays.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Containers/LocalArrays.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="PackedIndexLists.kl.html" title="PackedIndexLists.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="IndexSet.kl.html" title="IndexSet.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Containers エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >Containers Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

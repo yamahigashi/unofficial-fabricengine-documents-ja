@@ -1,0 +1,325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Using Fabric for Maya with Maya 2016 &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Fabric for Maya" href="index.html" />
+    <link rel="next" title="Using the Splice Maya plugin (legacy)" href="pre-2.0.html" />
+    <link rel="prev" title="Canvasスクリプティング・インターフェース" href="canvasscripting.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="pre-2.0.html" title="Using the Splice Maya plugin (legacy)"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="canvasscripting.html" title="Canvasスクリプティング・インターフェース"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Fabric for Maya</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="using-fabric-for-maya-with-maya-2016">
+<span id="fabricformaya-usagemaya2016"></span><h1>Using Fabric for Maya with Maya 2016<a class="headerlink" href="#using-fabric-for-maya-with-maya-2016" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Maya 2016のサポートはFabric Engine バージョン 2.0.0 で最初に追加されました。Maya 2016の新しい重要な機能のひとつに、Mayaノードグラフの並列評価のサポートがあります。Fabric for Mayaでは、Maya 2016の並列評価機能が有効になっているときは、（ユーザーが設定すれば）特定のノードを並列に実行することができるようになりました。</p>
+<p>デフォルトでは、CanvasとSpliceノードはたとえ、Mayaの並列評価が有効になっていたとしても、互いに並列に動作することはありません。なぜかというと、Fabric for Mayaはあらゆる互いのノードが同時に実行されることが安全であるか、確証を持てないためです。例えば、ある２つのノードはスレッドセーフでないKLエクステンションを使っているかもしれません。</p>
+<p>Fabric for Mayaでは、ノードごとの並列評価動作を設定できます。２つの異なる動作があります。</p>
+<ul>
+<li><p class="first">共有実行（または評価）：Fabricノードは、共有実行が有効になっている他のあらゆる全てのFabricノードと、潜在的に並列に実行されます。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">共有実行が有効になっているCanvasノードとSpliceノードは、潜在的に互いに並列実行されます。</p>
+</div>
+</li>
+<li><p class="first">排他実行（または評価）（これがデフォルトです）：Fabricノードは他のFabricノードとは並列に実行されません。しかしながら、Fabricノードでない、他のノードとは並列に実行される可能性があります（この並列動作はMaya 2016によってコントロールされます）。</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">CanvasノードとSpliceノードの共有実行は、Canvasノード、Spliceノードの内部の並列評価とは異なります。たとえFabricノードが共有実行を有効にされていなくても、PEXコールのような内部的な並列操作は実行できるのです。</p>
+</div>
+<p>現在のところ、共有実行はスクリプティングを通してのみ、有効にすることができます。共有実行を有効にするためのスクリプトコマンドが、各Fabric CanvasとFabric Spliceにあります。</p>
+<p>Follow these steps to see an example showing the difference between shared and unshared execution of Canvas nodes:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>The samples folder &#8220;Maya/Canvas/ParallelEvaluation&#8221; contains a scene called &#8220;four_outlines_with_parallel_evaluation&#8221;. It comes in two versions, with the suffix &#8220;_OFF&#8221; (no shared execution) and with &#8220;_ON&#8221; (shared execution).</li>
+<li>Load the &#8220;four_outlines_with_parallel_evaluation_OFF&#8221; sample and press playback. After one hundred frames stop playback and take a look at the script log. You will see the time, in milliseconds, it took to evaluate all the Canvas nodes. Keep that number in mind.</li>
+<li>Now load the &#8220;four_outlines_with_parallel_evaluation_ON&#8221; sample and press playback. Depending on your CPU you will probably already notice that it plays back faster. Stop playback and take a look at the script log again. This time the evaluation time should be noticeable smaller.</li>
+</ol>
+</div></blockquote>
+<div class="section" id="enabling-parallel-evaluation-for-canvas-nodes">
+<h2>Canvasノードの並列評価の有効化<a class="headerlink" href="#enabling-parallel-evaluation-for-canvas-nodes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Canvasノードの並列評価を有効にするMELコマンドは：</p>
+<pre class="literal-block">
+FabricCanvasSetExecuteShared -mayaNode <code class="samp docutils literal"><em><span class="pre">canvasMayaNodeName</span></em></code> -enable true;
+</pre>
+<p>このコマンドは即座に効果をもたらします。</p>
+<p>The MEL command to get the current parallel evaluation mode of a Canvas node is:</p>
+<pre class="literal-block">
+FabricCanvasGetExecuteShared -mayaNode <code class="samp docutils literal"><em><span class="pre">canvasMayaNodeName</span></em></code>;
+</pre>
+<p>It returns 1 (true) if parallel evaluation is enabled for the node and 0 (false) if it is disabled.</p>
+<p>Canvasノードの並列計算を行うサンプルのMELスクリプトです：</p>
+<div class="highlight-MEL"><div class="highlight"><pre><span></span>$count = 16;
+loadPlugin &quot;FabricMaya&quot;;
+file -f -new;
+spaceLocator -n &quot;inputLocator1&quot; -p 0 0 0;
+spaceLocator -n &quot;inputLocator2&quot; -p 0 0 0;
+createNode -n &quot;combiningCanvasNode&quot; &quot;canvasNode&quot;;
+for ($i = 0; $i &lt; $count; ++$i)
+{
+    $nodeName = `format -s $i &quot;slowCanvasNode^1s&quot;`;
+    print `format -s $nodeName &quot;** Building node ^1s\n&quot;`;
+    createNode -n $nodeName &quot;canvasNode&quot;;
+
+    FabricCanvasSetExecuteShared -m $nodeName -e false;
+
+    FabricCanvasAddFunc -m $nodeName -e &quot;&quot; -t &quot;func&quot; -c &quot;dfgEntry {}\n&quot;;
+    FabricCanvasAddPort -m $nodeName -e &quot;func&quot; -d &quot;i1&quot; -p &quot;In&quot; -t &quot;Vec3&quot;;
+    FabricCanvasAddPort -m $nodeName -e &quot;func&quot; -d &quot;i2&quot; -p &quot;In&quot; -t &quot;Vec3&quot;;
+    FabricCanvasAddPort -m $nodeName -e &quot;func&quot; -d &quot;o&quot; -p &quot;Out&quot; -t &quot;Vec3&quot;;
+    FabricCanvasSetCode -m $nodeName -e &quot;func&quot; -c `format -s $i &quot;dfgEntry {\n  UInt64 ticks = getCurrentTicks();\n  o = Vec3();\n  for ( Index n = 0; n &lt; (1&lt;&lt;20); ++n )\n    o += +2e-8 * (i1 + i2);\n  //report(\&quot;op:slow^1s:tid=\&quot; + getHardwareThreadID() + \&quot;:\&quot; + getSecondsBetweenTicks(ticks, getCurrentTicks()) + \&quot;ms\&quot;);\n}\n&quot;`;
+
+    FabricCanvasAddPort -m $nodeName -e &quot;&quot; -d &quot;i1&quot; -p &quot;In&quot; -t &quot;Vec3&quot;;
+    FabricCanvasConnect -m $nodeName -e &quot;&quot; -s &quot;i1&quot; -d &quot;func.i1&quot;;
+    connectAttr -f &quot;inputLocator1.translate&quot; `format -s $nodeName &quot;^1s.i1&quot;`;
+
+    FabricCanvasAddPort -m $nodeName -e &quot;&quot; -d &quot;i2&quot; -p &quot;In&quot; -t &quot;Vec3&quot;;
+    FabricCanvasConnect -m $nodeName -e &quot;&quot; -s &quot;i2&quot; -d &quot;func.i2&quot;;
+    connectAttr -f &quot;inputLocator2.translate&quot; `format -s $nodeName &quot;^1s.i2&quot;`;
+
+    FabricCanvasAddPort -m $nodeName -e &quot;&quot; -d &quot;o&quot; -p &quot;Out&quot; -t &quot;Vec3&quot;;
+    FabricCanvasConnect -m $nodeName -e &quot;&quot; -s &quot;func.o&quot; -d &quot;o&quot;;
+    $iName = `format -s $i &quot;i^1s&quot;`;
+    FabricCanvasAddPort -m &quot;combiningCanvasNode&quot; -e &quot;&quot; -d $iName -p &quot;In&quot; -t &quot;Vec3&quot;;
+    connectAttr -f `format -s $nodeName &quot;^1s.o&quot;` `format -s $iName &quot;combiningCanvasNode.^1s&quot;`;
+}
+
+print &quot;** Building node combiningCanvasNode\n&quot;;
+FabricCanvasAddPort -m &quot;combiningCanvasNode&quot; -e &quot;&quot; -d &quot;o&quot; -p &quot;Out&quot; -t &quot;Vec3&quot;;
+spaceLocator -n &quot;outputLocator&quot; -p 0 0 0;
+connectAttr -f &quot;combiningCanvasNode.o&quot; &quot;outputLocator.translate&quot;;
+$combinedKL = &quot;dfgEntry {\n  UInt64 ticks = getCurrentTicks();\n  o = Vec3();&quot;;
+for ($i = 0; $i &lt; $count; ++$i)
+{
+  $combinedKL = `format -s $combinedKL -s $i &quot;^1s\n  o += i^2s;&quot;`;
+}
+$combinedKL = `format -s $combinedKL &quot;^1s\n  //report(\&quot;op:combined:tid=\&quot; + getHardwareThreadID() + \&quot;:\&quot; + getSecondsBetweenTicks(ticks, getCurrentTicks()) + \&quot;ms\&quot;);\n}&quot;`;
+FabricCanvasAddFunc -m &quot;combiningCanvasNode&quot; -e &quot;&quot; -t &quot;func&quot; -c &quot;dfgEntry {}&quot;;
+FabricCanvasSetCode -m &quot;combiningCanvasNode&quot; -e &quot;func&quot; -c $combinedKL;
+for ($i = 0; $i &lt; $count; ++$i)
+{
+    $iName = `format -s $i &quot;i^1s&quot;`;
+    FabricCanvasAddPort -m &quot;combiningCanvasNode&quot; -e &quot;func&quot; -d $iName -p &quot;In&quot; -t &quot;Vec3&quot;;
+    FabricCanvasConnect -m &quot;combiningCanvasNode&quot; -e &quot;&quot; -s $iName -d `format -s $iName &quot;func.^1s&quot;`;
+}
+FabricCanvasAddPort -m &quot;combiningCanvasNode&quot; -e &quot;func&quot; -d &quot;o&quot; -p &quot;Out&quot; -t &quot;Vec3&quot;;
+FabricCanvasConnect -m &quot;combiningCanvasNode&quot; -e &quot;&quot; -s &quot;func.o&quot; -d &quot;o&quot;;
+
+currentTime 1;
+select -r &quot;inputLocator1&quot;;
+move -r -10 0 -10;
+setKeyframe &quot;inputLocator1.translate&quot;;
+select -r &quot;inputLocator2&quot;;
+move -r 3 0 -3;
+setKeyframe &quot;inputLocator2.translate&quot;;
+currentTime 120;
+select -r &quot;inputLocator1&quot;;
+move -r -10 0 10;
+setKeyframe &quot;inputLocator1.translate&quot;;
+select -r &quot;inputLocator2&quot;;
+move -r -7 0 7;
+setKeyframe &quot;inputLocator2.translate&quot;;
+currentTime 1;
+select -r &quot;inputLocator1&quot;;
+</pre></div>
+</div>
+</div>
+<div class="section" id="enabling-parallel-evaluation-for-splice-nodes">
+<h2>Spliceノードの並列評価の有効化<a class="headerlink" href="#enabling-parallel-evaluation-for-splice-nodes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Spliceノードの並列評価を有効にするMELコマンドは：</p>
+<pre class="literal-block">
+fabricSplice &quot;setEvaluateShared&quot; <code class="samp docutils literal"><em><span class="pre">spliceMayaNodeName</span></em></code> &quot;{\&quot;enabled\&quot;: true}&quot;;
+</pre>
+<p>このコマンドは即座に効果をもたらします。</p>
+<p>Spliceノードの並列計算を行うサンプルのMELスクリプトです：</p>
+<div class="highlight-MEL"><div class="highlight"><pre><span></span>$count = 16;
+loadPlugin &quot;FabricMaya&quot;;
+file -f -new;
+spaceLocator -n &quot;inputLocator1&quot; -p 0 0 0;
+spaceLocator -n &quot;inputLocator2&quot; -p 0 0 0;
+createNode -n &quot;combiningSpliceNode&quot; &quot;spliceMayaNode&quot;;
+for ($i = 0; $i &lt; $count; ++$i)
+{
+    $nodeName = `format -stringArg $i &quot;slowSpliceNode^1s&quot;`;
+    print `format -stringArg $nodeName &quot;Building node ^1s&quot;`;
+    createNode -n $nodeName &quot;spliceMayaNode&quot;;
+    fabricSplice &quot;setEvaluateShared&quot; $nodeName &quot;{\&quot;enabled\&quot;: true}&quot;;
+    fabricSplice &quot;addInputPort&quot; $nodeName &quot;{\&quot;portName\&quot;: \&quot;i1\&quot;, \&quot;dataType\&quot; : \&quot;Vec3\&quot;, \&quot;arrayType\&quot;: \&quot;Single Value\&quot;, \&quot;addMayaAttr\&quot;: true}&quot;;
+    connectAttr -f &quot;inputLocator1.translate&quot; `format -stringArg $nodeName &quot;^1s.i1&quot;`;
+    fabricSplice &quot;addInputPort&quot; $nodeName &quot;{\&quot;portName\&quot;: \&quot;i2\&quot;, \&quot;dataType\&quot; : \&quot;Vec3\&quot;, \&quot;arrayType\&quot;: \&quot;Single Value\&quot;, \&quot;addMayaAttr\&quot;: true}&quot;;
+    connectAttr -f &quot;inputLocator2.translate&quot; `format -stringArg $nodeName &quot;^1s.i2&quot;`;
+    fabricSplice &quot;addOutputPort&quot; $nodeName &quot;{\&quot;portName\&quot;: \&quot;o\&quot;, \&quot;dataType\&quot; : \&quot;Vec3\&quot;, \&quot;arrayType\&quot;: \&quot;Single Value\&quot;, \&quot;addMayaAttr\&quot;: true}&quot;;
+    $iName = `format -stringArg $i &quot;i^1s&quot;`;
+    fabricSplice &quot;addInputPort&quot; &quot;combiningSpliceNode&quot; `format -stringArg $iName &quot;{\&quot;portName\&quot;: \&quot;^1s\&quot;, \&quot;dataType\&quot; : \&quot;Vec3\&quot;, \&quot;arrayType\&quot;: \&quot;Single Value\&quot;, \&quot;addMayaAttr\&quot;: true}&quot;`;
+    connectAttr -f `format -stringArg $nodeName &quot;^1s.o&quot;` `format -stringArg $iName &quot;combiningSpliceNode.^1s&quot;`;
+    fabricSplice &quot;addKLOperator&quot; $nodeName `format -stringArg $i &quot;{\&quot;opName\&quot;: \&quot;slow^1s\&quot;}&quot;` `format -stringArg $i &quot;require Math;\noperator slow^1s(\n  in Vec3 i1,\n  in Vec3 i2,\n  io Vec3 o\n  )\n{\n  UInt64 ticks = getCurrentTicks();\n  o = Vec3();\n  for ( Index n = 0; n &lt; (1&lt;&lt;20); ++n )\n    o += +2e-8 * (i1 + i2);\n  report(\&quot;op:slow^1s:tid=\&quot; + getHardwareThreadID() + \&quot;:\&quot; + getSecondsBetweenTicks(ticks, getCurrentTicks()) + \&quot;ms\&quot;);\n}&quot;`;
+}
+print `format -stringArg &quot;combiningSpliceNode&quot; &quot;Building node ^1s&quot;`;
+fabricSplice &quot;addOutputPort&quot; &quot;combiningSpliceNode&quot; &quot;{\&quot;portName\&quot;: \&quot;o\&quot;, \&quot;dataType\&quot; : \&quot;Vec3\&quot;, \&quot;arrayType\&quot;: \&quot;Single Value\&quot;, \&quot;addMayaAttr\&quot;: true}&quot;;
+spaceLocator -n &quot;outputLocator&quot; -p 0 0 0;
+connectAttr -f &quot;combiningSpliceNode.o&quot; &quot;outputLocator.translate&quot;;
+$combinedKL = &quot;require Math;\noperator combined(&quot;;
+for ($i = 0; $i &lt; $count; ++$i)
+{
+  $combinedKL = `format -stringArg $combinedKL -stringArg $i &quot;^1s\n  in Vec3 i^2s,&quot;`;
+}
+$combinedKL = `format -stringArg $combinedKL &quot;^1s\n  io Vec3 o\n  )\n{\n  UInt64 ticks = getCurrentTicks();\n  o = Vec3();&quot;`;
+for ($i = 0; $i &lt; $count; ++$i)
+{
+  $combinedKL = `format -stringArg $combinedKL -stringArg $i &quot;^1s\n  o += i^2s;&quot;`;
+}
+$combinedKL = `format -stringArg $combinedKL &quot;^1s\n  report(\&quot;op:combined:tid=\&quot; + getHardwareThreadID() + \&quot;:\&quot; + getSecondsBetweenTicks(ticks, getCurrentTicks()) + \&quot;ms\&quot;);\n}&quot;`;
+fabricSplice &quot;addKLOperator&quot; &quot;combiningSpliceNode&quot; &quot;{\&quot;opName\&quot;: \&quot;combined\&quot;}&quot; $combinedKL;
+currentTime 1;
+select -r &quot;inputLocator1&quot;;
+move -r -10 0 -10;
+setKeyframe &quot;inputLocator1.translate&quot;;
+select -r &quot;inputLocator2&quot;;
+move -r 3 0 -3;
+setKeyframe &quot;inputLocator2.translate&quot;;
+currentTime 120;
+select -r &quot;inputLocator1&quot;;
+move -r -10 0 10;
+setKeyframe &quot;inputLocator1.translate&quot;;
+select -r &quot;inputLocator2&quot;;
+move -r -7 0 7;
+setKeyframe &quot;inputLocator2.translate&quot;;
+currentTime 1;
+select -r &quot;inputLocator1&quot;;
+</pre></div>
+</div>
+</div>
+<div class="section" id="enabling-shared-execution-by-default">
+<h2>共有実行を標準で有効にする<a class="headerlink" href="#enabling-shared-execution-by-default" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Maya 2016では、２つの環境変数 <cite>FABRIC_CANVAS_PARALLEL_DEFAULT</cite> と <cite>FABRIC_SPLICE_PARALLEL_DEFAULT</cite> によって、標準でFabricノードの共有実行を有効にできます。</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">これらの変数は、非常によくコントロールされた状況下でのみ使用されるべきです。そうであるなら、全てのユーザーが作成したFabricノードが互いに並列に実行されるでしょう。もしこれらのノードが、（たとえ直接的でなくても）共通の共有リソースに書き込みをおこなったら、おそらくクラッシュを引き起こすでしょう。</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Using Fabric for Maya with Maya 2016</a><ul>
+<li><a class="reference internal" href="#enabling-parallel-evaluation-for-canvas-nodes">Canvasノードの並列評価の有効化</a></li>
+<li><a class="reference internal" href="#enabling-parallel-evaluation-for-splice-nodes">Spliceノードの並列評価の有効化</a></li>
+<li><a class="reference internal" href="#enabling-shared-execution-by-default">共有実行を標準で有効にする</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="canvasscripting.html"
+                        title="前の章へ">Canvasスクリプティング・インターフェース</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="pre-2.0.html"
+                        title="次の章へ">Using the Splice Maya plugin (legacy)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/DCCIntegrations/Maya/m2016.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DCCIntegrations/Maya/m2016.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="pre-2.0.html" title="Using the Splice Maya plugin (legacy)"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="canvasscripting.html" title="Canvasスクリプティング・インターフェース"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Fabric for Maya</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Aero Example &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Bullet Helpers エクステンション" href="index.html" />
+    <link rel="next" title="Ragdoll Example" href="RagdollExample.html" />
+    <link rel="prev" title="Rope Attach Example" href="RopeAttachExample.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="RagdollExample.html" title="Ragdoll Example"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="RopeAttachExample.html" title="Rope Attach Example"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Bullet Helpers エクステンション</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="aero-example">
+<span id="id1"></span><h1>Aero Example<a class="headerlink" href="#aero-example" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: SoftBodies_Aero.kl</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Math</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">Geometry</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">BulletHelpers</span><span class="p">;</span>
+
+
+<span class="kd">function</span> <span class="nx">Vec3</span> <span class="nx">randomVec3</span><span class="p">(</span><span class="k">io</span> <span class="nx">Size</span> <span class="nx">offset</span><span class="p">,</span> <span class="nx">Scalar</span> <span class="nx">scale</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">Size</span> <span class="nx">seed</span> <span class="o">=</span> <span class="mi">16841</span><span class="p">;</span>
+  <span class="nx">Vec3</span> <span class="nx">p</span><span class="p">(</span>
+    <span class="nx">mathRandomFloat32</span><span class="p">(</span><span class="nx">seed</span><span class="p">,</span> <span class="nx">offset</span><span class="o">++</span><span class="p">),</span>
+    <span class="nx">mathRandomFloat32</span><span class="p">(</span><span class="nx">seed</span><span class="p">,</span> <span class="nx">offset</span><span class="o">++</span><span class="p">),</span>
+    <span class="nx">mathRandomFloat32</span><span class="p">(</span><span class="nx">seed</span><span class="p">,</span> <span class="nx">offset</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">);</span>
+  <span class="k">return</span> <span class="nx">p</span> <span class="o">*</span> <span class="nx">scale</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">Init_Aero</span><span class="p">(</span><span class="k">io</span> <span class="nx">SoftBodySimulation</span> <span class="nx">sim</span><span class="p">,</span> <span class="kr">Integer</span> <span class="nx">count</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="nx">sim</span><span class="p">.</span><span class="nx">initPhysics</span><span class="p">();</span>
+  <span class="nx">sim</span><span class="p">.</span><span class="nx">createFlatGround</span><span class="p">(</span><span class="mf">0.0</span><span class="p">);</span>
+  <span class="nx">BulletSoftRigidDynamicsWorld</span> <span class="nx">softWorld</span> <span class="o">=</span> <span class="nx">sim</span><span class="p">.</span><span class="nx">getSoftDynamicsWorld</span><span class="p">();</span>
+
+  <span class="kr">const</span> <span class="nx">Scalar</span>  <span class="nx">s</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">Scalar</span>  <span class="nx">h</span><span class="o">=</span><span class="mi">10</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">segments</span><span class="o">=</span><span class="mi">6</span><span class="p">;</span>
+  <span class="nx">Size</span>      <span class="nx">randoffset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">count</span><span class="p">;</span><span class="o">++</span><span class="nx">i</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">// create a cloth</span>
+    <span class="nx">PolygonMesh</span> <span class="nx">cloth</span><span class="p">();</span>
+    <span class="nx">cloth</span><span class="p">.</span><span class="nx">addPlane</span><span class="p">(</span><span class="nx">Xfo</span><span class="p">(),</span> <span class="nx">s</span><span class="o">*</span><span class="mf">2.0</span><span class="p">,</span> <span class="nx">s</span><span class="o">*</span><span class="mf">2.0</span><span class="p">,</span> <span class="nx">segments</span><span class="p">,</span> <span class="nx">segments</span><span class="p">);</span>
+
+    <span class="nx">Vec3</span> <span class="nx">positions</span><span class="p">[]</span> <span class="o">=</span> <span class="nx">cloth</span><span class="p">.</span><span class="nx">getAttributes</span><span class="p">().</span><span class="nx">getPositions</span><span class="p">().</span><span class="nx">values</span><span class="p">;</span>
+    <span class="nx">positions</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">cloth</span><span class="p">.</span><span class="nx">pointCount</span><span class="p">());</span>
+    <span class="kr">UInt32</span> <span class="nx">triangles</span><span class="p">[]</span> <span class="o">=</span> <span class="nx">cloth</span><span class="p">.</span><span class="nx">generateTriangleList</span><span class="p">();</span>
+
+    <span class="nx">BulletSoftBody</span>  <span class="nx">psb</span><span class="o">=</span><span class="nx">BulletSoftBodyHelpers_CreateFromTriMesh</span><span class="p">(</span><span class="nx">sim</span><span class="p">.</span><span class="nx">softBodyWorldInfo</span><span class="p">,</span> <span class="nx">positions</span><span class="p">,</span> <span class="nx">triangles</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+
+    <span class="nx">BulletSoftBodyMaterial</span>  <span class="nx">pm</span><span class="o">=</span><span class="nx">psb</span><span class="p">.</span><span class="nx">appendMaterial</span><span class="p">();</span>
+    <span class="nx">psb</span><span class="p">.</span><span class="nx">generateBendingConstraints</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="nx">pm</span><span class="p">);</span>
+    <span class="nx">BulletSoftBodyConfig</span> <span class="nx">cfg</span> <span class="o">=</span> <span class="nx">psb</span><span class="p">.</span><span class="nx">getConfig</span><span class="p">();</span>
+    <span class="nx">cfg</span><span class="p">.</span><span class="nx">setLF</span><span class="p">(</span><span class="mf">0.004</span><span class="p">);</span>
+    <span class="nx">cfg</span><span class="p">.</span><span class="nx">setDG</span><span class="p">(</span><span class="mf">0.0003</span><span class="p">);</span>
+    <span class="nx">cfg</span><span class="p">.</span><span class="nx">setAeromodel</span><span class="p">(</span><span class="nx">BulletSoftBody_eAeroModel_V_TwoSided</span><span class="p">);</span>
+    <span class="nx">Xfo</span> <span class="nx">trs</span><span class="p">;</span>
+    <span class="nx">Vec3</span> <span class="nx">ra</span><span class="o">=</span>  <span class="nx">randomVec3</span><span class="p">(</span><span class="nx">randoffset</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">).</span><span class="nx">unit</span><span class="p">()</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">;</span>
+    <span class="nx">trs</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+    <span class="nx">trs</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">randomVec3</span><span class="p">(</span><span class="nx">randoffset</span><span class="p">,</span> <span class="nx">Scalar</span><span class="p">(</span><span class="nx">count</span><span class="p">)</span><span class="o">*</span><span class="mf">0.3</span><span class="p">)</span> <span class="o">+</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="o">-</span><span class="mi">40</span><span class="p">);</span>
+    <span class="nx">trs</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEulerAngles</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="nx">PI</span><span class="o">/</span><span class="mi">8</span> <span class="o">+</span> <span class="nx">ra</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="o">-</span><span class="nx">PI</span><span class="o">/</span><span class="mi">7</span> <span class="o">+</span> <span class="nx">ra</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span><span class="nx">ra</span><span class="p">.</span><span class="nx">z</span><span class="p">));</span>
+    <span class="nx">psb</span><span class="p">.</span><span class="nx">transform</span><span class="p">(</span><span class="nx">trs</span><span class="p">);</span>
+    <span class="nx">psb</span><span class="p">.</span><span class="nx">setTotalMass</span><span class="p">(</span><span class="mf">0.1</span><span class="p">);</span>
+    <span class="nx">psb</span><span class="p">.</span><span class="nx">addForce</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="mi">0</span><span class="p">);</span>
+
+    <span class="nx">sim</span><span class="p">.</span><span class="nx">addSoftBody</span><span class="p">(</span><span class="nx">psb</span><span class="p">,</span> <span class="nx">cloth</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">(){</span>
+
+  <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;SoftBodySimulation Aero Demo&quot;</span><span class="p">);</span>
+  <span class="nx">SoftBodySimulation</span> <span class="nx">sim</span><span class="p">();</span>
+  <span class="nx">Init_Aero</span><span class="p">(</span><span class="nx">sim</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+
+  <span class="nx">BulletSoftRigidDynamicsWorld</span> <span class="nx">softWorld</span> <span class="o">=</span> <span class="nx">sim</span><span class="p">.</span><span class="nx">getSoftDynamicsWorld</span><span class="p">();</span>
+  <span class="kr">UInt32</span> <span class="nx">numReportedVertices</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+  <span class="kr">String</span> <span class="nx">reportedPositions</span><span class="p">[];</span>
+  <span class="nx">reportedPositions</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">numReportedVertices</span><span class="p">);</span>
+
+  <span class="nx">BulletSoftBody</span> <span class="nx">softBodies</span><span class="p">[]</span> <span class="o">=</span>  <span class="nx">softWorld</span><span class="p">.</span><span class="nx">getSoftBodyArray</span><span class="p">();</span>
+
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="mi">600</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="nx">sim</span><span class="p">.</span><span class="nx">stepSimulation</span><span class="p">();</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">i</span><span class="o">%</span><span class="mi">60</span><span class="o">==</span><span class="mi">0</span><span class="p">){</span>
+      <span class="c1">// Report X vertex positions;</span>
+      <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">k</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">k</span><span class="o">&lt;</span><span class="nx">softBodies</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span> <span class="nx">k</span><span class="o">++</span><span class="p">){</span>
+        <span class="nx">BulletSoftBody</span> <span class="nx">softBody</span> <span class="o">=</span> <span class="nx">softBodies</span><span class="p">[</span><span class="nx">k</span><span class="p">];</span>
+        <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">j</span><span class="o">&lt;</span><span class="nx">numReportedVertices</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">){</span>
+          <span class="kr">Index</span> <span class="nx">index</span> <span class="o">=</span> <span class="p">(</span><span class="nx">Scalar</span><span class="p">(</span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="nx">Scalar</span><span class="p">(</span><span class="nx">numReportedVertices</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="nx">softBody</span><span class="p">.</span><span class="nx">getNumNodes</span><span class="p">();</span>
+          <span class="nx">BulletSoftBodyNode</span> <span class="nx">node</span> <span class="o">=</span> <span class="nx">softBody</span><span class="p">.</span><span class="nx">getNode</span><span class="p">(</span><span class="nx">index</span><span class="p">);</span>
+          <span class="nx">reportedPositions</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="o">=</span> <span class="nx">unitTestPrint</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">x</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;i:&quot;</span><span class="o">+</span><span class="nx">i</span> <span class="o">+</span><span class="s2">&quot;k:&quot;</span><span class="o">+</span><span class="nx">k</span> <span class="o">+</span> <span class="s2">&quot; mesh vertices:&quot;</span> <span class="o">+</span> <span class="nx">reportedPositions</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Force the destruction of the sim object.</span>
+  <span class="nx">sim</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+
+  <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;entry&lt;&lt;&lt;&lt;&quot;</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">SoftBodySimulation Aero Demo</span>
+<span class="cm">i:0k:0 mesh vertices:[&quot;{x:+1.011718,y:+22.51953,z:-41.22656}&quot;,&quot;{x:+2.550293,y:+22.02734,z:-39.875}&quot;,&quot;{x:-0.405761,y:+21.64843,z:-39.9375}&quot;,&quot;{x:+1.133056,y:+21.15234,z:-38.58593}&quot;]</span>
+<span class="cm">i:0k:1 mesh vertices:[&quot;{x:+0.053405,y:+23.0664,z:-38.61718}&quot;,&quot;{x:+1.662597,y:+22.78906,z:-37.28906}&quot;,&quot;{x:-1.267578,y:+22.24609,z:-37.19531}&quot;,&quot;{x:+0.341857,y:+21.96875,z:-35.85937}&quot;]</span>
+<span class="cm">i:0k:2 mesh vertices:[&quot;{x:+0.383361,y:+21.99609,z:-41.03906}&quot;,&quot;{x:+2.085937,y:+21.69531,z:-39.83593}&quot;,&quot;{x:-0.835327,y:+21.1875,z:-39.52343}&quot;,&quot;{x:+0.867431,y:+20.88671,z:-38.3125}&quot;]</span>
+<span class="cm">i:0k:3 mesh vertices:[&quot;{x:+2.19873,y:+22.38671,z:-38.64062}&quot;,&quot;{x:+3.782226,y:+21.99218,z:-37.30468}&quot;,&quot;{x:+0.838623,y:+21.51953,z:-37.28125}&quot;,&quot;{x:+2.421875,y:+21.125,z:-35.94531}&quot;]</span>
+<span class="cm">i:0k:4 mesh vertices:[&quot;{x:+2.744629,y:+22.75,z:-40.03906}&quot;,&quot;{x:+4.412109,y:+22.4414,z:-38.78906}&quot;,&quot;{x:+1.484863,y:+21.91796,z:-38.57031}&quot;,&quot;{x:+3.152343,y:+21.60937,z:-37.32031}&quot;]</span>
+<span class="cm">i:0k:5 mesh vertices:[&quot;{x:+3.009277,y:+22.98046,z:-40.03906}&quot;,&quot;{x:+4.5,y:+22.64453,z:-38.58593}&quot;,&quot;{x:+1.559326,y:+22.17578,z:-38.73437}&quot;,&quot;{x:+3.049804,y:+21.83984,z:-37.28906}&quot;]</span>
+<span class="cm">i:0k:6 mesh vertices:[&quot;{x:+1.666015,y:+22.96875,z:-38.98437}&quot;,&quot;{x:+3.335937,y:+22.76562,z:-37.71093}&quot;,&quot;{x:+0.415039,y:+22.22265,z:-37.46093}&quot;,&quot;{x:+2.084961,y:+22.01953,z:-36.1875}&quot;]</span>
+<span class="cm">i:0k:7 mesh vertices:[&quot;{x:+1.90747,y:+22.01953,z:-39.86718}&quot;,&quot;{x:+3.551269,y:+21.58984,z:-38.625}&quot;,&quot;{x:+0.608764,y:+21.13281,z:-38.46875}&quot;,&quot;{x:+2.252441,y:+20.70312,z:-37.21875}&quot;]</span>
+<span class="cm">i:0k:8 mesh vertices:[&quot;{x:+2.266113,y:+23.97265,z:-40.54687}&quot;,&quot;{x:+3.903808,y:+23.3789,z:-39.36718}&quot;,&quot;{x:+0.944458,y:+23.0664,z:-39.17968}&quot;,&quot;{x:+2.582519,y:+22.47265,z:-37.99218}&quot;]</span>
+<span class="cm">i:0k:9 mesh vertices:[&quot;{x:+1.546875,y:+22.64062,z:-39.20312}&quot;,&quot;{x:+3.306152,y:+22.30078,z:-38.09375}&quot;,&quot;{x:+0.391845,y:+21.91406,z:-37.59375}&quot;,&quot;{x:+2.150879,y:+21.57812,z:-36.48437}&quot;]</span>
+<span class="cm">i:60k:0 mesh vertices:[&quot;{x:+1.867431,y:+20.51562,z:-44.42968}&quot;,&quot;{x:+3.40625,y:+20.02343,z:-43.07031}&quot;,&quot;{x:+0.449768,y:+19.64062,z:-43.13281}&quot;,&quot;{x:+1.988525,y:+19.14843,z:-41.78125}&quot;]</span>
+<span class="cm">i:60k:1 mesh vertices:[&quot;{x:+1.193603,y:+20.27343,z:-41.36718}&quot;,&quot;{x:+2.803222,y:+19.99609,z:-40.03125}&quot;,&quot;{x:-0.127044,y:+19.45312,z:-39.94531}&quot;,&quot;{x:+1.482421,y:+19.17578,z:-38.60937}&quot;]</span>
+<span class="cm">i:60k:2 mesh vertices:[&quot;{x:+1.223877,y:+19.17968,z:-43.88281}&quot;,&quot;{x:+2.926757,y:+18.8789,z:-42.67968}&quot;,&quot;{x:+0.524234e-2,y:+18.375,z:-42.36718}&quot;,&quot;{x:+1.708007,y:+18.07031,z:-41.15625}&quot;]</span>
+<span class="cm">i:60k:3 mesh vertices:[&quot;{x:+3.189941,y:+20.08203,z:-41.67187}&quot;,&quot;{x:+4.773437,y:+19.6875,z:-40.33593}&quot;,&quot;{x:+1.829589,y:+19.21484,z:-40.3125}&quot;,&quot;{x:+3.412597,y:+18.82031,z:-38.97656}&quot;]</span>
+<span class="cm">i:60k:4 mesh vertices:[&quot;{x:+3.695312,y:+20.08593,z:-42.92187}&quot;,&quot;{x:+5.363281,y:+19.77734,z:-41.67187}&quot;,&quot;{x:+2.435547,y:+19.2539,z:-41.45312}&quot;,&quot;{x:+4.103515,y:+18.94531,z:-40.20312}&quot;]</span>
+<span class="cm">i:60k:5 mesh vertices:[&quot;{x:+4.197265,y:+20.22265,z:-42.78906}&quot;,&quot;{x:+5.688476,y:+19.88671,z:-41.33593}&quot;,&quot;{x:+2.747558,y:+19.41796,z:-41.48437}&quot;,&quot;{x:+4.238281,y:+19.08203,z:-40.03125}&quot;]</span>
+<span class="cm">i:60k:6 mesh vertices:[&quot;{x:+2.730957,y:+19.67187,z:-41.5}&quot;,&quot;{x:+4.401367,y:+19.46484,z:-40.22656}&quot;,&quot;{x:+1.47998,y:+18.92578,z:-39.97656}&quot;,&quot;{x:+3.149902,y:+18.72265,z:-38.70312}&quot;]</span>
+<span class="cm">i:60k:7 mesh vertices:[&quot;{x:+2.694824,y:+19.90234,z:-43.03906}&quot;,&quot;{x:+4.338867,y:+19.47265,z:-41.78906}&quot;,&quot;{x:+1.39624,y:+19.01953,z:-41.63281}&quot;,&quot;{x:+3.040039,y:+18.58593,z:-40.39062}&quot;]</span>
+<span class="cm">i:60k:8 mesh vertices:[&quot;{x:+2.662109,y:+22.4375,z:-44.00781}&quot;,&quot;{x:+4.299804,y:+21.84375,z:-42.82031}&quot;,&quot;{x:+1.340332,y:+21.53515,z:-42.64062}&quot;,&quot;{x:+2.978027,y:+20.9375,z:-41.45312}&quot;]</span>
+<span class="cm">i:60k:9 mesh vertices:[&quot;{x:+1.988281,y:+19.48828,z:-41.97656}&quot;,&quot;{x:+3.747558,y:+19.15234,z:-40.85937}&quot;,&quot;{x:+0.833251,y:+18.76562,z:-40.36718}&quot;,&quot;{x:+2.592285,y:+18.42578,z:-39.25781}&quot;]</span>
+<span class="cm">i:120k:0 mesh vertices:[&quot;{x:-3.841308,y:+8.880859,z:-23.64843}&quot;,&quot;{x:-2.297363,y:+8.503906,z:-22.27734}&quot;,&quot;{x:-5.24707,y:+8.0625,z:-22.30859}&quot;,&quot;{x:-3.693847,y:+7.646484,z:-20.95312}&quot;]</span>
+<span class="cm">i:120k:1 mesh vertices:[&quot;{x:-6.05664,y:+11.27148,z:-23.9375}&quot;,&quot;{x:-4.450195,y:+11.01171,z:-22.59765}&quot;,&quot;{x:-7.375976,y:+10.44726,z:-22.51171}&quot;,&quot;{x:-5.768554,y:+10.1875,z:-21.17578}&quot;]</span>
+<span class="cm">i:120k:2 mesh vertices:[&quot;{x:-4.047851,y:+10.11132,z:-25.80468}&quot;,&quot;{x:-2.340332,y:+9.751953,z:-24.62109}&quot;,&quot;{x:-5.267578,y:+9.289063,z:-24.29296}&quot;,&quot;{x:-3.560547,y:+8.933594,z:-23.10937}&quot;]</span>
+<span class="cm">i:120k:3 mesh vertices:[&quot;{x:-3.163574,y:+9.199219,z:-22.0039}&quot;,&quot;{x:-1.576904,y:+8.763672,z:-20.6875}&quot;,&quot;{x:-4.52539,y:+8.324219,z:-20.65625}&quot;,&quot;{x:-2.936035,y:+7.867187,z:-19.35156}&quot;]</span>
+<span class="cm">i:120k:4 mesh vertices:[&quot;{x:-2.422363,y:+10.71093,z:-24.55078}&quot;,&quot;{x:-0.759521,y:+10.44335,z:-23.28515}&quot;,&quot;{x:-3.680175,y:+9.882813,z:-23.07812}&quot;,&quot;{x:-2.013672,y:+9.59375,z:-21.82031}&quot;]</span>
+<span class="cm">i:120k:5 mesh vertices:[&quot;{x:-3.358398,y:+11.06054,z:-25.32421}&quot;,&quot;{x:-1.863281,y:+10.70703,z:-23.88281}&quot;,&quot;{x:-4.804687,y:+10.24414,z:-24.02734}&quot;,&quot;{x:-3.322754,y:+9.960938,z:-22.55468}&quot;]</span>
+<span class="cm">i:120k:6 mesh vertices:[&quot;{x:-3.883789,y:+12.29101,z:-25.95703}&quot;,&quot;{x:-2.213867,y:+12.09179,z:-24.6875}&quot;,&quot;{x:-5.133789,y:+11.54882,z:-24.43359}&quot;,&quot;{x:-3.461425,y:+11.33203,z:-23.16796}&quot;]</span>
+<span class="cm">i:120k:7 mesh vertices:[&quot;{x:-2.303222,y:+8.070313,z:-22.46484}&quot;,&quot;{x:-0.652465,y:+7.603515,z:-21.24218}&quot;,&quot;{x:-3.602539,y:+7.220703,z:-21.03906}&quot;,&quot;{x:-1.943847,y:+6.666015,z:-19.86718}&quot;]</span>
+<span class="cm">i:120k:8 mesh vertices:[&quot;{x:+0.350219,y:+7.203125,z:-21.52734}&quot;,&quot;{x:+1.991943,y:+6.329101,z:-20.55078}&quot;,&quot;{x:-0.964233,y:+6.230469,z:-20.19531}&quot;,&quot;{x:+0.673828,y:+5.231445,z:-19.32421}&quot;]</span>
+<span class="cm">i:120k:9 mesh vertices:[&quot;{x:-0.765625,y:+11.62109,z:-24.6914}&quot;,&quot;{x:+0.99353,y:+11.28906,z:-23.57812}&quot;,&quot;{x:-1.920166,y:+10.89648,z:-23.08593}&quot;,&quot;{x:-0.161132,y:+10.56445,z:-21.96875}&quot;]</span>
+<span class="cm">i:180k:0 mesh vertices:[&quot;{x:-17.3125,y:+2.276367,z:-1.479248}&quot;,&quot;{x:-17.95312,y:+4.199219,z:-1.998291}&quot;,&quot;{x:-19.26562,y:+1.78125,z:-0.854003}&quot;,&quot;{x:-19.89843,y:+3.726562,z:-1.350341}&quot;]</span>
+<span class="cm">i:180k:1 mesh vertices:[&quot;{x:-16.88671,y:+0.252136,z:+1.545654}&quot;,&quot;{x:-15.51953,y:+0.252197,z:+3.144043}&quot;,&quot;{x:-18.49218,y:+0.252441,z:+2.909179}&quot;,&quot;{x:-17.125,y:+0.252258,z:+4.510742}&quot;]</span>
+<span class="cm">i:180k:2 mesh vertices:[&quot;{x:-9.771484,y:+0.252746,z:-4.605469}&quot;,&quot;{x:-8.189453,y:+0.252746,z:-3.211425}&quot;,&quot;{x:-11.16601,y:+0.252746,z:-3.023925}&quot;,&quot;{x:-9.583984,y:+0.252746,z:-1.629882}&quot;]</span>
+<span class="cm">i:180k:3 mesh vertices:[&quot;{x:-7.624023,y:+0.252746,z:-3.918457}&quot;,&quot;{x:-7.492187,y:+0.252685,z:-1.814453}&quot;,&quot;{x:-9.728516,y:+0.252746,z:-3.786621}&quot;,&quot;{x:-9.595703,y:+0.252746,z:-1.682617}&quot;]</span>
+<span class="cm">i:180k:4 mesh vertices:[&quot;{x:-9.703125,y:+0.252685,z:-0.986084}&quot;,&quot;{x:-9.025391,y:+0.252624,z:+1.010009}&quot;,&quot;{x:-11.69921,y:+0.252563,z:-0.307678}&quot;,&quot;{x:-11.02148,y:+0.252685,z:+1.688476}&quot;]</span>
+<span class="cm">i:180k:5 mesh vertices:[&quot;{x:-13.94531,y:+0.252502,z:-1.609863}&quot;,&quot;{x:-12.5625,y:+0.252502,z:-1.832199e-2}&quot;,&quot;{x:-15.5371,y:+0.252624,z:-0.227233}&quot;,&quot;{x:-14.15429,y:+0.252624,z:+1.364257}&quot;]</span>
+<span class="cm">i:180k:6 mesh vertices:[&quot;{x:-15.03125,y:+0.251403,z:+0.800293}&quot;,&quot;{x:-13.14062,y:+0.247741,z:+1.738525}&quot;,&quot;{x:-15.96679,y:+0.25061,z:+2.690429}&quot;,&quot;{x:-14.07812,y:+0.252014,z:+3.626953}&quot;]</span>
+<span class="cm">i:180k:7 mesh vertices:[&quot;{x:-4.877929,y:+0.252746,z:-8.820313}&quot;,&quot;{x:-3.517578,y:+0.252746,z:-7.208984}&quot;,&quot;{x:-6.488281,y:+0.252746,z:-7.459961}&quot;,&quot;{x:-5.127929,y:+0.252746,z:-5.848633}&quot;]</span>
+<span class="cm">i:180k:8 mesh vertices:[&quot;{x:-0.818603,y:+0.250976,z:-14.75976}&quot;,&quot;{x:+0.950561,y:+0.398681,z:-13.65625}&quot;,&quot;{x:-1.933593,y:+0.239562,z:-12.97265}&quot;,&quot;{x:-0.241699,y:+0.955688,z:-11.98437}&quot;]</span>
+<span class="cm">i:180k:9 mesh vertices:[&quot;{x:-5.248047,y:+0.251525,z:+4.483398}&quot;,&quot;{x:-3.8125,y:+0.250976,z:+6.026367}&quot;,&quot;{x:-6.791992,y:+0.251159,z:+5.918945}&quot;,&quot;{x:-5.356445,y:+0.251831,z:+7.461914}&quot;]</span>
+<span class="cm">i:240k:0 mesh vertices:[&quot;{x:-25.23437,y:+0.252746,z:+0.980102}&quot;,&quot;{x:-27.3125,y:+0.252441,z:+1.328857}&quot;,&quot;{x:-24.88281,y:+0.252746,z:+3.059082}&quot;,&quot;{x:-26.96484,y:+0.252685,z:+3.408203}&quot;]</span>
+<span class="cm">i:240k:1 mesh vertices:[&quot;{x:-16.88671,y:+0.252746,z:+1.541503}&quot;,&quot;{x:-15.51953,y:+0.252746,z:+3.146972}&quot;,&quot;{x:-18.49218,y:+0.252746,z:+2.908203}&quot;,&quot;{x:-17.125,y:+0.252746,z:+4.513672}&quot;]</span>
+<span class="cm">i:240k:2 mesh vertices:[&quot;{x:-9.771484,y:+0.252746,z:-4.605469}&quot;,&quot;{x:-8.189453,y:+0.252746,z:-3.211425}&quot;,&quot;{x:-11.16601,y:+0.252746,z:-3.023925}&quot;,&quot;{x:-9.583984,y:+0.252746,z:-1.629882}&quot;]</span>
+<span class="cm">i:240k:3 mesh vertices:[&quot;{x:-7.624023,y:+0.252746,z:-3.918457}&quot;,&quot;{x:-7.492187,y:+0.252746,z:-1.814453}&quot;,&quot;{x:-9.728516,y:+0.252746,z:-3.786621}&quot;,&quot;{x:-9.595703,y:+0.252746,z:-1.682617}&quot;]</span>
+<span class="cm">i:240k:4 mesh vertices:[&quot;{x:-9.703125,y:+0.252746,z:-0.986084}&quot;,&quot;{x:-9.025391,y:+0.252746,z:+1.010009}&quot;,&quot;{x:-11.69921,y:+0.252746,z:-0.307678}&quot;,&quot;{x:-11.02148,y:+0.252746,z:+1.688476}&quot;]</span>
+<span class="cm">i:240k:5 mesh vertices:[&quot;{x:-13.94531,y:+0.252746,z:-1.609863}&quot;,&quot;{x:-12.5625,y:+0.252746,z:-1.831817e-2}&quot;,&quot;{x:-15.5371,y:+0.252746,z:-0.227233}&quot;,&quot;{x:-14.15429,y:+0.252746,z:+1.364257}&quot;]</span>
+<span class="cm">i:240k:6 mesh vertices:[&quot;{x:-15.13085,y:+0.252746,z:+0.970092}&quot;,&quot;{x:-13.21679,y:+0.252685,z:+1.856689}&quot;,&quot;{x:-16.01562,y:+0.252746,z:+2.882812}&quot;,&quot;{x:-14.10351,y:+0.252746,z:+3.769531}&quot;]</span>
+<span class="cm">i:240k:7 mesh vertices:[&quot;{x:-4.877929,y:+0.252746,z:-8.820313}&quot;,&quot;{x:-3.517578,y:+0.252746,z:-7.208984}&quot;,&quot;{x:-6.488281,y:+0.252746,z:-7.459961}&quot;,&quot;{x:-5.127929,y:+0.252746,z:-5.848633}&quot;]</span>
+<span class="cm">i:240k:8 mesh vertices:[&quot;{x:-0.838989,y:+0.252746,z:-14.79296}&quot;,&quot;{x:+0.947631,y:+0.252746,z:-13.67382}&quot;,&quot;{x:-1.958252,y:+0.252746,z:-13.00585}&quot;,&quot;{x:-0.171539,y:+0.252685,z:-11.88671}&quot;]</span>
+<span class="cm">i:240k:9 mesh vertices:[&quot;{x:-5.223633,y:+0.252746,z:+4.741211}&quot;,&quot;{x:-3.853027,y:+0.252746,z:+6.342773}&quot;,&quot;{x:-6.825195,y:+0.252746,z:+6.111328}&quot;,&quot;{x:-5.455078,y:+0.252746,z:+7.71289}&quot;]</span>
+<span class="cm">i:300k:0 mesh vertices:[&quot;{x:-25.23437,y:+0.252746,z:+0.980102}&quot;,&quot;{x:-27.3125,y:+0.252746,z:+1.328857}&quot;,&quot;{x:-24.88281,y:+0.252746,z:+3.059082}&quot;,&quot;{x:-26.96484,y:+0.252746,z:+3.408203}&quot;]</span>
+<span class="cm">i:300k:1 mesh vertices:[&quot;{x:-16.88671,y:+0.252746,z:+1.541503}&quot;,&quot;{x:-15.51953,y:+0.252746,z:+3.146972}&quot;,&quot;{x:-18.49218,y:+0.252746,z:+2.908203}&quot;,&quot;{x:-17.125,y:+0.252746,z:+4.513672}&quot;]</span>
+<span class="cm">i:300k:2 mesh vertices:[&quot;{x:-9.771484,y:+0.252746,z:-4.605469}&quot;,&quot;{x:-8.189453,y:+0.252746,z:-3.211425}&quot;,&quot;{x:-11.16601,y:+0.252746,z:-3.023925}&quot;,&quot;{x:-9.583984,y:+0.252746,z:-1.629882}&quot;]</span>
+<span class="cm">i:300k:3 mesh vertices:[&quot;{x:-7.624023,y:+0.252746,z:-3.918457}&quot;,&quot;{x:-7.492187,y:+0.252441,z:-1.814453}&quot;,&quot;{x:-9.728516,y:+0.252746,z:-3.786621}&quot;,&quot;{x:-9.595703,y:+0.252746,z:-1.682617}&quot;]</span>
+<span class="cm">i:300k:4 mesh vertices:[&quot;{x:-9.703125,y:+0.252746,z:-0.986084}&quot;,&quot;{x:-9.025391,y:+0.252746,z:+1.010009}&quot;,&quot;{x:-11.69921,y:+0.252746,z:-0.307678}&quot;,&quot;{x:-11.02148,y:+0.252746,z:+1.688476}&quot;]</span>
+<span class="cm">i:300k:5 mesh vertices:[&quot;{x:-13.94531,y:+0.252746,z:-1.609863}&quot;,&quot;{x:-12.5625,y:+0.252746,z:-1.831817e-2}&quot;,&quot;{x:-15.5371,y:+0.252746,z:-0.227233}&quot;,&quot;{x:-14.15429,y:+0.252746,z:+1.364257}&quot;]</span>
+<span class="cm">i:300k:6 mesh vertices:[&quot;{x:-15.13085,y:+0.252746,z:+0.970092}&quot;,&quot;{x:-13.21679,y:+0.252746,z:+1.856689}&quot;,&quot;{x:-16.01562,y:+0.252746,z:+2.882812}&quot;,&quot;{x:-14.10351,y:+0.252746,z:+3.769531}&quot;]</span>
+<span class="cm">i:300k:7 mesh vertices:[&quot;{x:-4.877929,y:+0.252746,z:-8.820313}&quot;,&quot;{x:-3.517578,y:+0.252746,z:-7.208984}&quot;,&quot;{x:-6.488281,y:+0.252746,z:-7.459961}&quot;,&quot;{x:-5.127929,y:+0.252746,z:-5.848633}&quot;]</span>
+<span class="cm">i:300k:8 mesh vertices:[&quot;{x:-0.838989,y:+0.252746,z:-14.79296}&quot;,&quot;{x:+0.947631,y:+0.252746,z:-13.67382}&quot;,&quot;{x:-1.958252,y:+0.252746,z:-13.00585}&quot;,&quot;{x:-0.171569,y:+0.252746,z:-11.88671}&quot;]</span>
+<span class="cm">i:300k:9 mesh vertices:[&quot;{x:-5.223633,y:+0.252746,z:+4.741211}&quot;,&quot;{x:-3.853027,y:+0.252746,z:+6.342773}&quot;,&quot;{x:-6.825195,y:+0.252746,z:+6.111328}&quot;,&quot;{x:-5.455078,y:+0.252746,z:+7.71289}&quot;]</span>
+<span class="cm">i:360k:0 mesh vertices:[&quot;{x:-25.23437,y:+0.252685,z:+0.980102}&quot;,&quot;{x:-27.3125,y:+0.252746,z:+1.328857}&quot;,&quot;{x:-24.88281,y:+0.252746,z:+3.059082}&quot;,&quot;{x:-26.96484,y:+0.252746,z:+3.408203}&quot;]</span>
+<span class="cm">i:360k:1 mesh vertices:[&quot;{x:-16.88671,y:+0.252746,z:+1.541503}&quot;,&quot;{x:-15.51953,y:+0.252746,z:+3.146972}&quot;,&quot;{x:-18.49218,y:+0.252746,z:+2.908203}&quot;,&quot;{x:-17.125,y:+0.252746,z:+4.513672}&quot;]</span>
+<span class="cm">i:360k:2 mesh vertices:[&quot;{x:-9.771484,y:+0.252746,z:-4.605469}&quot;,&quot;{x:-8.189453,y:+0.252746,z:-3.211425}&quot;,&quot;{x:-11.16601,y:+0.252746,z:-3.023925}&quot;,&quot;{x:-9.583984,y:+0.252746,z:-1.629882}&quot;]</span>
+<span class="cm">i:360k:3 mesh vertices:[&quot;{x:-7.624023,y:+0.252746,z:-3.918457}&quot;,&quot;{x:-7.492187,y:+0.252746,z:-1.814453}&quot;,&quot;{x:-9.728516,y:+0.252746,z:-3.786621}&quot;,&quot;{x:-9.595703,y:+0.252746,z:-1.682617}&quot;]</span>
+<span class="cm">i:360k:4 mesh vertices:[&quot;{x:-9.703125,y:+0.252746,z:-0.986084}&quot;,&quot;{x:-9.025391,y:+0.252746,z:+1.010009}&quot;,&quot;{x:-11.69921,y:+0.252746,z:-0.307678}&quot;,&quot;{x:-11.02148,y:+0.252746,z:+1.688476}&quot;]</span>
+<span class="cm">i:360k:5 mesh vertices:[&quot;{x:-13.94531,y:+0.252746,z:-1.609863}&quot;,&quot;{x:-12.5625,y:+0.252746,z:-1.831817e-2}&quot;,&quot;{x:-15.5371,y:+0.252746,z:-0.227233}&quot;,&quot;{x:-14.15429,y:+0.252746,z:+1.364257}&quot;]</span>
+<span class="cm">i:360k:6 mesh vertices:[&quot;{x:-15.13085,y:+0.252746,z:+0.970092}&quot;,&quot;{x:-13.21679,y:+0.252502,z:+1.856689}&quot;,&quot;{x:-16.01562,y:+0.252746,z:+2.882812}&quot;,&quot;{x:-14.10351,y:+0.252746,z:+3.769531}&quot;]</span>
+<span class="cm">i:360k:7 mesh vertices:[&quot;{x:-4.877929,y:+0.252746,z:-8.820313}&quot;,&quot;{x:-3.517578,y:+0.252746,z:-7.208984}&quot;,&quot;{x:-6.488281,y:+0.252746,z:-7.459961}&quot;,&quot;{x:-5.127929,y:+0.252746,z:-5.848633}&quot;]</span>
+<span class="cm">i:360k:8 mesh vertices:[&quot;{x:-0.838989,y:+0.252746,z:-14.79296}&quot;,&quot;{x:+0.947631,y:+0.252746,z:-13.67382}&quot;,&quot;{x:-1.958252,y:+0.252746,z:-13.00585}&quot;,&quot;{x:-0.171569,y:+0.252746,z:-11.88671}&quot;]</span>
+<span class="cm">i:360k:9 mesh vertices:[&quot;{x:-5.223633,y:+0.252746,z:+4.741211}&quot;,&quot;{x:-3.853027,y:+0.252746,z:+6.342773}&quot;,&quot;{x:-6.825195,y:+0.252746,z:+6.111328}&quot;,&quot;{x:-5.455078,y:+0.252746,z:+7.71289}&quot;]</span>
+<span class="cm">i:420k:0 mesh vertices:[&quot;{x:-25.23437,y:+0.252746,z:+0.980102}&quot;,&quot;{x:-27.3125,y:+0.252746,z:+1.328857}&quot;,&quot;{x:-24.88281,y:+0.252746,z:+3.059082}&quot;,&quot;{x:-26.96484,y:+0.252746,z:+3.408203}&quot;]</span>
+<span class="cm">i:420k:1 mesh vertices:[&quot;{x:-16.88671,y:+0.252746,z:+1.541503}&quot;,&quot;{x:-15.51953,y:+0.252746,z:+3.146972}&quot;,&quot;{x:-18.49218,y:+0.252746,z:+2.908203}&quot;,&quot;{x:-17.125,y:+0.252746,z:+4.513672}&quot;]</span>
+<span class="cm">i:420k:2 mesh vertices:[&quot;{x:-9.771484,y:+0.252746,z:-4.605469}&quot;,&quot;{x:-8.189453,y:+0.252746,z:-3.211425}&quot;,&quot;{x:-11.16601,y:+0.252746,z:-3.023925}&quot;,&quot;{x:-9.583984,y:+0.252746,z:-1.629882}&quot;]</span>
+<span class="cm">i:420k:3 mesh vertices:[&quot;{x:-7.624023,y:+0.252746,z:-3.918457}&quot;,&quot;{x:-7.492187,y:+0.251709,z:-1.814453}&quot;,&quot;{x:-9.728516,y:+0.252746,z:-3.786621}&quot;,&quot;{x:-9.595703,y:+0.252746,z:-1.682617}&quot;]</span>
+<span class="cm">i:420k:4 mesh vertices:[&quot;{x:-9.703125,y:+0.252746,z:-0.986084}&quot;,&quot;{x:-9.025391,y:+0.252746,z:+1.010009}&quot;,&quot;{x:-11.69921,y:+0.252746,z:-0.307678}&quot;,&quot;{x:-11.02148,y:+0.252746,z:+1.688476}&quot;]</span>
+<span class="cm">i:420k:5 mesh vertices:[&quot;{x:-13.94531,y:+0.252746,z:-1.609863}&quot;,&quot;{x:-12.5625,y:+0.252746,z:-1.831817e-2}&quot;,&quot;{x:-15.5371,y:+0.252746,z:-0.227233}&quot;,&quot;{x:-14.15429,y:+0.252746,z:+1.364257}&quot;]</span>
+<span class="cm">i:420k:6 mesh vertices:[&quot;{x:-15.13085,y:+0.252746,z:+0.970092}&quot;,&quot;{x:-13.21679,y:+0.252746,z:+1.856689}&quot;,&quot;{x:-16.01562,y:+0.252746,z:+2.882812}&quot;,&quot;{x:-14.10351,y:+0.252746,z:+3.769531}&quot;]</span>
+<span class="cm">i:420k:7 mesh vertices:[&quot;{x:-4.877929,y:+0.252746,z:-8.820313}&quot;,&quot;{x:-3.517578,y:+0.252746,z:-7.208984}&quot;,&quot;{x:-6.488281,y:+0.252746,z:-7.459961}&quot;,&quot;{x:-5.127929,y:+0.252746,z:-5.848633}&quot;]</span>
+<span class="cm">i:420k:8 mesh vertices:[&quot;{x:-0.838989,y:+0.252746,z:-14.79296}&quot;,&quot;{x:+0.947631,y:+0.252746,z:-13.67382}&quot;,&quot;{x:-1.958252,y:+0.252746,z:-13.00585}&quot;,&quot;{x:-0.171569,y:+0.252746,z:-11.88671}&quot;]</span>
+<span class="cm">i:420k:9 mesh vertices:[&quot;{x:-5.223633,y:+0.252746,z:+4.741211}&quot;,&quot;{x:-3.853027,y:+0.252746,z:+6.342773}&quot;,&quot;{x:-6.825195,y:+0.252746,z:+6.111328}&quot;,&quot;{x:-5.455078,y:+0.252746,z:+7.71289}&quot;]</span>
+<span class="cm">i:480k:0 mesh vertices:[&quot;{x:-25.23437,y:+0.252563,z:+0.980102}&quot;,&quot;{x:-27.3125,y:+0.252746,z:+1.328857}&quot;,&quot;{x:-24.88281,y:+0.252746,z:+3.059082}&quot;,&quot;{x:-26.96484,y:+0.252746,z:+3.408203}&quot;]</span>
+<span class="cm">i:480k:1 mesh vertices:[&quot;{x:-16.88671,y:+0.252746,z:+1.541503}&quot;,&quot;{x:-15.51953,y:+0.252746,z:+3.146972}&quot;,&quot;{x:-18.49218,y:+0.252746,z:+2.908203}&quot;,&quot;{x:-17.125,y:+0.252746,z:+4.513672}&quot;]</span>
+<span class="cm">i:480k:2 mesh vertices:[&quot;{x:-9.771484,y:+0.252746,z:-4.605469}&quot;,&quot;{x:-8.189453,y:+0.252746,z:-3.211425}&quot;,&quot;{x:-11.16601,y:+0.252746,z:-3.023925}&quot;,&quot;{x:-9.583984,y:+0.252746,z:-1.629882}&quot;]</span>
+<span class="cm">i:480k:3 mesh vertices:[&quot;{x:-7.624023,y:+0.252746,z:-3.918457}&quot;,&quot;{x:-7.492187,y:+0.252746,z:-1.814453}&quot;,&quot;{x:-9.728516,y:+0.252746,z:-3.786621}&quot;,&quot;{x:-9.595703,y:+0.252746,z:-1.682617}&quot;]</span>
+<span class="cm">i:480k:4 mesh vertices:[&quot;{x:-9.703125,y:+0.252746,z:-0.986084}&quot;,&quot;{x:-9.025391,y:+0.252746,z:+1.010009}&quot;,&quot;{x:-11.69921,y:+0.252746,z:-0.307678}&quot;,&quot;{x:-11.02148,y:+0.252746,z:+1.688476}&quot;]</span>
+<span class="cm">i:480k:5 mesh vertices:[&quot;{x:-13.94531,y:+0.252746,z:-1.609863}&quot;,&quot;{x:-12.5625,y:+0.252746,z:-1.831817e-2}&quot;,&quot;{x:-15.5371,y:+0.252746,z:-0.227233}&quot;,&quot;{x:-14.15429,y:+0.252746,z:+1.364257}&quot;]</span>
+<span class="cm">i:480k:6 mesh vertices:[&quot;{x:-15.13085,y:+0.252746,z:+0.970092}&quot;,&quot;{x:-13.21679,y:+0.251586,z:+1.856689}&quot;,&quot;{x:-16.01562,y:+0.252746,z:+2.882812}&quot;,&quot;{x:-14.10351,y:+0.252746,z:+3.769531}&quot;]</span>
+<span class="cm">i:480k:7 mesh vertices:[&quot;{x:-4.877929,y:+0.252746,z:-8.820313}&quot;,&quot;{x:-3.517578,y:+0.252746,z:-7.208984}&quot;,&quot;{x:-6.488281,y:+0.252746,z:-7.459961}&quot;,&quot;{x:-5.127929,y:+0.252746,z:-5.848633}&quot;]</span>
+<span class="cm">i:480k:8 mesh vertices:[&quot;{x:-0.838989,y:+0.252746,z:-14.79296}&quot;,&quot;{x:+0.947631,y:+0.252746,z:-13.67382}&quot;,&quot;{x:-1.958252,y:+0.252746,z:-13.00585}&quot;,&quot;{x:-0.171569,y:+0.252746,z:-11.88671}&quot;]</span>
+<span class="cm">i:480k:9 mesh vertices:[&quot;{x:-5.223633,y:+0.252746,z:+4.741211}&quot;,&quot;{x:-3.853027,y:+0.252746,z:+6.342773}&quot;,&quot;{x:-6.825195,y:+0.252746,z:+6.111328}&quot;,&quot;{x:-5.455078,y:+0.252746,z:+7.71289}&quot;]</span>
+<span class="cm">i:540k:0 mesh vertices:[&quot;{x:-25.23437,y:+0.252746,z:+0.980102}&quot;,&quot;{x:-27.3125,y:+0.252746,z:+1.328857}&quot;,&quot;{x:-24.88281,y:+0.252746,z:+3.059082}&quot;,&quot;{x:-26.96484,y:+0.252746,z:+3.408203}&quot;]</span>
+<span class="cm">i:540k:1 mesh vertices:[&quot;{x:-16.88671,y:+0.252746,z:+1.541503}&quot;,&quot;{x:-15.51953,y:+0.252746,z:+3.146972}&quot;,&quot;{x:-18.49218,y:+0.252746,z:+2.908203}&quot;,&quot;{x:-17.125,y:+0.252746,z:+4.513672}&quot;]</span>
+<span class="cm">i:540k:2 mesh vertices:[&quot;{x:-9.771484,y:+0.252746,z:-4.605469}&quot;,&quot;{x:-8.189453,y:+0.252746,z:-3.211425}&quot;,&quot;{x:-11.16601,y:+0.252746,z:-3.023925}&quot;,&quot;{x:-9.583984,y:+0.252746,z:-1.629882}&quot;]</span>
+<span class="cm">i:540k:3 mesh vertices:[&quot;{x:-7.624023,y:+0.252746,z:-3.918457}&quot;,&quot;{x:-7.492187,y:+0.252746,z:-1.814453}&quot;,&quot;{x:-9.728516,y:+0.252746,z:-3.786621}&quot;,&quot;{x:-9.595703,y:+0.252746,z:-1.682617}&quot;]</span>
+<span class="cm">i:540k:4 mesh vertices:[&quot;{x:-9.703125,y:+0.252746,z:-0.986084}&quot;,&quot;{x:-9.025391,y:+0.252746,z:+1.010009}&quot;,&quot;{x:-11.69921,y:+0.252746,z:-0.307678}&quot;,&quot;{x:-11.02148,y:+0.252746,z:+1.688476}&quot;]</span>
+<span class="cm">i:540k:5 mesh vertices:[&quot;{x:-13.94531,y:+0.252746,z:-1.609863}&quot;,&quot;{x:-12.5625,y:+0.252746,z:-1.831817e-2}&quot;,&quot;{x:-15.5371,y:+0.252746,z:-0.227233}&quot;,&quot;{x:-14.15429,y:+0.252746,z:+1.364257}&quot;]</span>
+<span class="cm">i:540k:6 mesh vertices:[&quot;{x:-15.13085,y:+0.252746,z:+0.970092}&quot;,&quot;{x:-13.21679,y:+0.252746,z:+1.856689}&quot;,&quot;{x:-16.01562,y:+0.252746,z:+2.882812}&quot;,&quot;{x:-14.10351,y:+0.252746,z:+3.769531}&quot;]</span>
+<span class="cm">i:540k:7 mesh vertices:[&quot;{x:-4.877929,y:+0.252746,z:-8.820313}&quot;,&quot;{x:-3.517578,y:+0.252746,z:-7.208984}&quot;,&quot;{x:-6.488281,y:+0.252746,z:-7.459961}&quot;,&quot;{x:-5.127929,y:+0.252746,z:-5.848633}&quot;]</span>
+<span class="cm">i:540k:8 mesh vertices:[&quot;{x:-0.838989,y:+0.252746,z:-14.79296}&quot;,&quot;{x:+0.947631,y:+0.252746,z:-13.67382}&quot;,&quot;{x:-1.958252,y:+0.252746,z:-13.00585}&quot;,&quot;{x:-0.171569,y:+0.252746,z:-11.88671}&quot;]</span>
+<span class="cm">i:540k:9 mesh vertices:[&quot;{x:-5.223633,y:+0.252746,z:+4.741211}&quot;,&quot;{x:-3.853027,y:+0.252746,z:+6.342773}&quot;,&quot;{x:-6.825195,y:+0.252746,z:+6.111328}&quot;,&quot;{x:-5.455078,y:+0.252746,z:+7.71289}&quot;]</span>
+<span class="cm">entry&lt;&lt;&lt;&lt;</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="RopeAttachExample.html"
+                        title="前の章へ">Rope Attach Example</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="RagdollExample.html"
+                        title="次の章へ">Ragdoll Example</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/BulletHelpers/AeroExample.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/BulletHelpers/AeroExample.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="RagdollExample.html" title="Ragdoll Example"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="RopeAttachExample.html" title="Rope Attach Example"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Bullet Helpers エクステンション</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

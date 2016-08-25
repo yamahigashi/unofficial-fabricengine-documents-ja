@@ -1,0 +1,458 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>EventDispatcher (object) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Manipulation Extension’s Types" href="types.html" />
+    <link rel="next" title="EventDispatcherHandle (object)" href="EventDispatcherHandle.html" />
+    <link rel="prev" title="DispatcherDescription (object)" href="DispatcherDescription.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="EventDispatcherHandle.html" title="EventDispatcherHandle (object)"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="DispatcherDescription.html" title="DispatcherDescription (object)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Manipulation エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" accesskey="U">Manipulation Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="eventdispatcher-object">
+<span id="eventdispatcher"></span><h1>EventDispatcher (object)<a class="headerlink" href="#eventdispatcher-object" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="versionadded">
+<p><span class="versionmodified">バージョン 1.12.0 で追加.</span></p>
+</div>
+<p class="plaintext">The <a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a> manages a set of manipulators and
+dispatching events to the currently active manipulator. Custom manipulators can be defined supporting the <a class="reference internal" href="Manipulator.html#manipulator"><span class="std std-ref">Manipulator</span></a> interface.
+These custom manipulator objects can be registered with the <a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a> and
+then pushed onto the manipulator stack to become activated. The active manipulator
+then receives <a class="reference internal" href="KeyEvent.html#keyevent"><span class="std std-ref">KeyEvent</span></a>, <a class="reference internal" href="MouseEvent.html#mouseevent"><span class="std std-ref">MouseEvent</span></a> and <a class="reference internal" href="MouseWheelEvent.html#mousewheelevent"><span class="std std-ref">MouseWheelEvent</span></a>
+events as they are propagated from the host application.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="EventDispatcherHandle.html#eventdispatcherhandle"><span class="std std-ref">EventDispatcherHandle</span></a>, <a class="reference internal" href="Manipulator.html#manipulator"><span class="std std-ref">Manipulator</span></a></p>
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>A custom Manipulator can be defined that handles mouse events. Manipulators are 
+free to interpret mouse events in any way they require.</p>
+<blockquote>
+<div><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: EventLogger</span>
+<span class="cm">*/</span>
+
+<span class="c1">// Define a custom manipulator that simply reports events. </span>
+<span class="kr">object</span> <span class="nx">EventLogger</span> <span class="o">:</span> <span class="nx">Manipulator</span> <span class="p">{</span>
+<span class="p">};</span>
+
+<span class="kd">function</span> <span class="nx">EventLogger</span><span class="p">.</span><span class="nx">onEvent</span><span class="o">!</span><span class="p">(</span><span class="k">io</span> <span class="nx">Event</span> <span class="nx">event</span><span class="p">){</span>
+  <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;EventLogger.onEvent:&quot;</span> <span class="o">+</span> <span class="nx">event</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">EventLogger</span><span class="p">.</span><span class="nx">onEnable</span><span class="o">!</span><span class="p">(){</span>
+  <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;EventLogger.onEnable&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">EventLogger</span><span class="p">.</span><span class="nx">onDisable</span><span class="o">!</span><span class="p">(){</span>
+  <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;EventLogger.onDisable&quot;</span> <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This custom manipulator can now be created and registered with the EventDispatcher.</p>
+<blockquote>
+<div><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: EventLoggerRegistration</span>
+<span class="cm">*/</span>
+
+<span class="nx">EventDispatcher</span> <span class="nx">dispatcher</span> <span class="o">=</span> <span class="nx">EventDispatcher_GetInstance</span><span class="p">();</span>
+<span class="nx">Manipulator</span> <span class="nx">manipulator</span> <span class="o">=</span> <span class="nx">EventLogger</span><span class="p">();</span>
+
+<span class="c1">// Register and Activate the EventLogger so that it starts receiving </span>
+<span class="c1">// events from the DCC (Maya, Softimage or 3dsmax).</span>
+<span class="nx">dispatcher</span><span class="p">.</span><span class="nx">registerManipulator</span><span class="p">(</span><span class="s1">&#39;EventLogger&#39;</span><span class="p">,</span> <span class="nx">manipulator</span><span class="p">);</span>
+
+<span class="c1">// Push the manipulator so that it is the currently active manipulator.</span>
+<span class="nx">eventDispatcher</span><span class="p">.</span><span class="nx">pushManipulator</span><span class="p">(</span><span class="s1">&#39;EventLogger&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+ -->
+<!-- Title: EventDispatcher Pages: 1 -->
+<svg width="96pt" height="44pt"
+ viewBox="0.00 0.00 96.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>EventDispatcher</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-40 93,-40 93,5 -4,5"/>
+<!-- EventDispatcher -->
+<g id="node1" class="node"><title>EventDispatcher</title>
+<a xlink:href="../Manipulation/EventDispatcher.html" xlink:title="EventDispatcher">
+<polygon fill="#3fabd3" stroke="#3f3f3f" points="87.5,-36 0.5,-36 0.5,-0 87.5,-0 87.5,-36"/>
+<text text-anchor="middle" x="44" y="-15.5" font-family="Arial" font-size="10.00">EventDispatcher</text>
+</a>
+</g>
+</g>
+</svg></p>
+</div>
+<div class="section" id="members">
+<h2>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="34%" />
+<col width="8%" />
+<col width="59%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="Manipulator.html#manipulator"><span class="std std-ref">Manipulator</span></a>[<a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a>]</td>
+<td>manipulators</td>
+<td>The library of registered manipulators.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Manipulator.html#manipulator"><span class="std std-ref">Manipulator</span></a>[]</td>
+<td>stack</td>
+<td>The stack of active manipulators. The last manpulator in the array is the currently active manipulator.</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td>active</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id116068"><span class="std std-ref">EventDispatcher</span></a>  ( in <a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id116065"><span class="std std-ref">EventDispatcher</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id71978"><span class="std std-ref">activateManipulation</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id71992"><span class="std std-ref">activeManipulator</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a></td>
+<td><a class="reference internal" href="#id116072"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id71981"><span class="std std-ref">deactivateManipulation</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Manipulator.html#manipulator"><span class="std std-ref">Manipulator</span></a></td>
+<td><a class="reference internal" href="#id71988"><span class="std std-ref">getManipulator</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="#id71984"><span class="std std-ref">hasManipulator</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id72002"><span class="std std-ref">onEvent</span></a> ! ( io <a class="reference internal" href="Event.html#event"><span class="std std-ref">Event</span></a> event )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="#id72006"><span class="std std-ref">onEvent</span></a> ! ( io <a class="reference internal" href="KeyEvent.html#keyevent"><span class="std std-ref">KeyEvent</span></a> keyEvent )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="#id72010"><span class="std std-ref">onEvent</span></a> ! ( io <a class="reference internal" href="MouseEvent.html#mouseevent"><span class="std std-ref">MouseEvent</span></a> mouseEvent )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="#id72014"><span class="std std-ref">onEvent</span></a> ! ( io <a class="reference internal" href="MouseWheelEvent.html#mousewheelevent"><span class="std std-ref">MouseWheelEvent</span></a> weelEvent )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id71999"><span class="std std-ref">popManipulator</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id71995"><span class="std std-ref">pushManipulator</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id71970"><span class="std std-ref">registerManipulator</span></a> ! ( in <a class="reference internal" href="Manipulator.html#manipulator"><span class="std std-ref">Manipulator</span></a> manipulator )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id71965"><span class="std std-ref">registerManipulator</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="Manipulator.html#manipulator"><span class="std std-ref">Manipulator</span></a> manipulator )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id71974"><span class="std std-ref">unregisterManipulator</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="methods-in-detail">
+<h2>Methods in detail<a class="headerlink" href="#methods-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><span class="target" id="id116068"></span><p><p class="klcode"><a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a> ( in <a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a> other )</p>
+<p class="plaintext">copy constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id116065"></span><p><p class="klcode"><a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a> ()</p>
+<p class="plaintext">default constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id71978"></span><p><p class="klcode"><a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a>.activateManipulation! ()</p>
+<p class="plaintext">Reactivate the manipulation, but do not modify the stack.
+This method should be called by the DCC to activate the currently pushed manipulator.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">The active manipulator should manage hiding and showing its visible manipulation gizmos when it is deactivated/activated.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Calls into <a class="reference internal" href="#id71978"><span class="std std-ref">EventDispatcher.activateManipulation</span></a></p>
+</div>
+</p>
+<hr class="docutils" />
+<span class="target" id="id71992"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a>.activeManipulator? ()</p>
+<p class="plaintext">Returns the name of the currently active manipulator</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id116072"></span><p><p class="klcode"><a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a> <a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a>.clone? ()</p>
+<p class="plaintext">clone method</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id71981"></span><p><p class="klcode"><a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a>.deactivateManipulation! ()</p>
+<p class="plaintext">Temporarily deactivate the manipulation, but do not modify the stack.
+This method should be called by the DCC when the custom manipulator is disabled to
+suspend manipulation.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">If a paint manipulator is active, but the user activates a different tool in Maya, then we simply deactivate the manipulation system, but leave the paint manipulator at the top of the stack. The Paint manipulator should then hide its paint brush.</p>
+</div>
+</p>
+<hr class="docutils" />
+<span class="target" id="id71988"></span><p><p class="klcode"><a class="reference internal" href="Manipulator.html#manipulator"><span class="std std-ref">Manipulator</span></a> <a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a>.getManipulator? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</p>
+<p class="plaintext">Returns the manipulator registered under with the given name.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>name</td>
+<td>the name of the manipulator.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id71984"></span><p><p class="klcode">Boolean <a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a>.hasManipulator? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</p>
+<p class="plaintext">Returns true if a manipulator with the given name has been registered.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>name</td>
+<td>the name of the manipulator.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id72002"></span><p><p class="klcode"><a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a>.onEvent! ( io <a class="reference internal" href="Event.html#event"><span class="std std-ref">Event</span></a> event )</p>
+<p class="plaintext">Send the event to the manipulator</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>event</td>
+<td>The event propagated from the DCC application.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id72006"></span><p><p class="klcode">Boolean <a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a>.onEvent! ( io <a class="reference internal" href="KeyEvent.html#keyevent"><span class="std std-ref">KeyEvent</span></a> keyEvent )</p>
+<p class="plaintext">Called by the Splice plugin in the Host DCC to propagate a <a class="reference internal" href="KeyEvent.html#keyevent"><span class="std std-ref">KeyEvent</span></a>
+to the currently active manipulator.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id72010"></span><p><p class="klcode">Boolean <a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a>.onEvent! ( io <a class="reference internal" href="MouseEvent.html#mouseevent"><span class="std std-ref">MouseEvent</span></a> mouseEvent )</p>
+<p class="plaintext">Called by the Splice plugin in the Host DCC to propagate a <a class="reference internal" href="MouseEvent.html#mouseevent"><span class="std std-ref">MouseEvent</span></a>
+to the currently active manipulator.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id72014"></span><p><p class="klcode">Boolean <a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a>.onEvent! ( io <a class="reference internal" href="MouseWheelEvent.html#mousewheelevent"><span class="std std-ref">MouseWheelEvent</span></a> weelEvent )</p>
+<p class="plaintext">Called by the Splice plugin in the Host DCC to propagate a <a class="reference internal" href="MouseWheelEvent.html#mousewheelevent"><span class="std std-ref">MouseWheelEvent</span></a>
+to the currently active manipulator.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id71999"></span><p><p class="klcode"><a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a>.popManipulator! ()</p>
+<p class="plaintext">Pop the current manipulator off the stack. This reverts the active manipulator
+to the one that was active before the current one was active.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id71995"></span><p><p class="klcode"><a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a>.pushManipulator! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</p>
+<p class="plaintext">Push the manipulator onto the stack by name. This makes it the
+new active manipulator that will receive events.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id71970"></span><p><p class="klcode"><a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a>.registerManipulator! ( in <a class="reference internal" href="Manipulator.html#manipulator"><span class="std std-ref">Manipulator</span></a> manipulator )</p>
+<p class="plaintext">Registers a new manipulator with the <a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a>. The name used will be
+generated from the <a class="reference internal" href="Manipulator.html#manipulator"><span class="std std-ref">Manipulator</span></a> type.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="16%" />
+<col width="84%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>the</td>
+<td>manipulator to register.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id71965"></span><p><p class="klcode"><a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a>.registerManipulator! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="Manipulator.html#manipulator"><span class="std std-ref">Manipulator</span></a> manipulator )</p>
+<p class="plaintext">Registers a new manipulator with the <a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a> with a given name.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="23%" />
+<col width="77%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>manipulator</td>
+<td>The manipulator to register.</td>
+</tr>
+<tr class="row-even"><td>name</td>
+<td>The name to register the manipulator with.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id71974"></span><p><p class="klcode"><a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a>.unregisterManipulator! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</p>
+<p class="plaintext">Unregisters an existing manipulator from the <a class="reference internal" href="#eventdispatcher"><span class="std std-ref">EventDispatcher</span></a>.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>The</td>
+<td>name of the manipulator to unregister.</td>
+</tr>
+</tbody>
+</table>
+</p>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="DispatcherDescription.html"
+                        title="前の章へ">DispatcherDescription (object)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="EventDispatcherHandle.html"
+                        title="次の章へ">EventDispatcherHandle (object)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Manipulation/EventDispatcher.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Manipulation/EventDispatcher.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="EventDispatcherHandle.html" title="EventDispatcherHandle (object)"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="DispatcherDescription.html" title="DispatcherDescription (object)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Manipulation エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" >Manipulation Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

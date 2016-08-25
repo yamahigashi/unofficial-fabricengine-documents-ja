@@ -1,0 +1,390 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>OGLSkinnedSurfaceShader (object) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="InlineDrawing Extension’s Types" href="types.html" />
+    <link rel="next" title="OGLStandaloneViewport (object)" href="OGLStandaloneViewport.html" />
+    <link rel="prev" title="OGLPointsShapeAdaptor (object)" href="OGLPointsShapeAdaptor.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="OGLStandaloneViewport.html" title="OGLStandaloneViewport (object)"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="OGLPointsShapeAdaptor.html" title="OGLPointsShapeAdaptor (object)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >InlineDrawing エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" accesskey="U">InlineDrawing Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="oglskinnedsurfaceshader-object">
+<span id="oglskinnedsurfaceshader"></span><h1>OGLSkinnedSurfaceShader (object)<a class="headerlink" href="#oglskinnedsurfaceshader-object" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="versionadded">
+<p><span class="versionmodified">バージョン 1.12.0 で追加.</span></p>
+</div>
+<p class="plaintext">The OGLSkinnedSurfaceShader inherits the OGLSurfaceShader. It extends the OGLSurfaceShader for shading skinned geometries. The Skinned geometries should have a <a class="reference internal" href="../Geometry/SkinningAttribute.html#skinningattribute"><span class="std std-ref">SkinningAttribute</span></a> attribute applied containing the vertex ids and skin weights.</p>
+<p class="plaintext">The <a class="reference internal" href="../Geometry/SkinningAttribute.html#skinningattribute"><span class="std std-ref">SkinningAttribute</span></a> attribute is converted to a packed vec4 struct by the InlineDrawing system. Each element in the vec4 packs an index and weight, enabling up to 4 joints per vertex to be used in the deformation.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">The <a class="reference internal" href="../FbxHelpers/FbxCharacter.html#fbxcharacter"><span class="std std-ref">FbxCharacter</span></a> loads skinning data from Fbx files. See the FbxCharacter.kl file for examples of generating</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">For arbitrary number of joints to be used per vertex, use CPU based skinning. And example of this can be found in the <a class="reference internal" href="../Characters/Character.html#character"><span class="std std-ref">Character</span></a>.</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="../Characters/Character.html#character"><span class="std std-ref">Character</span></a>, <a class="reference internal" href="../FbxHelpers/FbxCharacter.html#fbxcharacter"><span class="std std-ref">FbxCharacter</span></a>, <a class="reference internal" href="../Geometry/SkinningAttribute.html#skinningattribute"><span class="std std-ref">SkinningAttribute</span></a></p>
+</div>
+<div class="section" id="uniforms">
+<h2>Uniforms<a class="headerlink" href="#uniforms" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="12%" />
+<col width="36%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+<th class="head">Default</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>u_light0Position</td>
+<td>Vec3</td>
+<td>Position of the first light</td>
+<td>Position of the camera</td>
+</tr>
+<tr class="row-odd"><td>u_light0Color</td>
+<td>Color</td>
+<td>Color of the first light</td>
+<td>Color(1.0, 1.0, 1.0)</td>
+</tr>
+<tr class="row-even"><td>u_ambientColor</td>
+<td>Color</td>
+<td>Ambient color component</td>
+<td>Color(0.05, 0.05, 0.05)</td>
+</tr>
+<tr class="row-odd"><td>u_diffuseColor</td>
+<td>Color</td>
+<td>Diffuse color component</td>
+<td>Color(0.0, 1.0, 0.0)</td>
+</tr>
+<tr class="row-even"><td>u_specularColor</td>
+<td>Color</td>
+<td>Specular color component</td>
+<td>Color(0.2, 0.2, 0.2)</td>
+</tr>
+<tr class="row-odd"><td>u_specularFactor</td>
+<td>Color</td>
+<td>Specular distribution factor</td>
+<td>16.0</td>
+</tr>
+<tr class="row-even"><td>u_normalIsTangent</td>
+<td>Integer</td>
+<td>Flag defining normal type</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>u_doubleSided</td>
+<td>Integer</td>
+<td>Flag defining backface shading model</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="19%" />
+<col width="58%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>positions</td>
+<td>Vec3</td>
+<td>Geometry positions</td>
+</tr>
+<tr class="row-odd"><td>normals</td>
+<td>Vec3</td>
+<td>Geometry normals</td>
+</tr>
+<tr class="row-even"><td>skinningData</td>
+<td>Vec4</td>
+<td>Skinning Data</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: SkinningShader :nooutput: InlineDrawing drawing = OGLInlineDrawing_GetInstance(); DrawingHandle handle(); FbxCharacter fbxCharacter(fbxFile);</span>
+<span class="cm">*/</span>
+
+<span class="nx">InlineShader</span> <span class="nx">skinnedSurfaceShader</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">drawing</span><span class="p">.</span><span class="nx">hasShader</span><span class="p">(</span><span class="s1">&#39;skinnedSurfaceShader&#39;</span><span class="p">)){</span>
+  <span class="nx">skinnedSurfaceShader</span> <span class="o">=</span> <span class="nx">OGLSkinnedSurfaceShader</span><span class="p">(</span><span class="s1">&#39;skinnedSurfaceShader&#39;</span><span class="p">);</span>
+  <span class="nx">drawing</span><span class="p">.</span><span class="nx">registerShader</span><span class="p">(</span><span class="nx">skinnedSurfaceShader</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">else</span>
+  <span class="nx">skinnedSurfaceShader</span> <span class="o">=</span> <span class="nx">drawing</span><span class="p">.</span><span class="nx">getShader</span><span class="p">(</span><span class="s1">&#39;skinnedSurfaceShader&#39;</span><span class="p">);</span>
+
+<span class="nx">InlineMaterial</span> <span class="nx">characterMaterial</span> <span class="o">=</span> <span class="nx">skinnedSurfaceShader</span><span class="p">.</span><span class="nx">getOrCreateMaterial</span><span class="p">(</span><span class="nx">fbxCharacter</span><span class="p">.</span><span class="nx">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_Material&quot;</span><span class="p">);</span>
+<span class="nx">characterMaterial</span><span class="p">.</span><span class="nx">setUniform</span><span class="p">(</span><span class="nx">InlineUniform</span><span class="p">(</span><span class="s1">&#39;u_diffuseColor&#39;</span><span class="p">,</span> <span class="nx">Color</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)));</span>
+
+<span class="nx">InlineMatrixArrayTexture</span> <span class="nx">poseTexture</span><span class="p">(</span><span class="nx">fbxCharacter</span><span class="p">.</span><span class="nx">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_PoseTexture&quot;</span><span class="p">,</span> <span class="nx">fbxCharacter</span><span class="p">.</span><span class="nx">getSkinningMatrices</span><span class="p">());</span>
+<span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">geom</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">geom</span><span class="o">&lt;</span><span class="nx">fbxCharacter</span><span class="p">.</span><span class="nx">getNumGeometries</span><span class="p">();</span> <span class="nx">geom</span><span class="o">++</span><span class="p">){</span>
+  <span class="nx">InlineMeshShape</span> <span class="nx">skinShape</span><span class="p">(</span><span class="nx">fbxCharacter</span><span class="p">.</span><span class="nx">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nx">geom</span><span class="p">,</span> <span class="nx">fbxCharacter</span><span class="p">.</span><span class="nx">getGeometry</span><span class="p">(</span><span class="nx">geom</span><span class="p">));</span>
+  <span class="nx">InlineInstance</span> <span class="nx">skinInstance</span> <span class="o">=</span> <span class="nx">SimpleInlineInstance</span><span class="p">(</span><span class="nx">fbxCharacter</span><span class="p">.</span><span class="nx">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nx">geom</span><span class="p">,</span> <span class="nx">handle</span><span class="p">.</span><span class="nx">rootTransform</span><span class="p">,</span> <span class="nx">skinShape</span><span class="p">,</span> <span class="nx">characterMaterial</span><span class="p">);</span>
+  <span class="nx">skinInstance</span><span class="p">.</span><span class="nx">setInstanceUniform</span><span class="p">(</span><span class="nx">InlineUniform</span><span class="p">(</span><span class="s1">&#39;skinningMatrices&#39;</span><span class="p">,</span> <span class="nx">poseTexture</span><span class="p">));</span>
+  <span class="nx">skinInstance</span><span class="p">.</span><span class="nx">setInstanceUniform</span><span class="p">(</span><span class="nx">InlineUniform</span><span class="p">(</span><span class="s1">&#39;bindShapeTransform&#39;</span><span class="p">,</span> <span class="nx">fbxCharacter</span><span class="p">.</span><span class="nx">getBindShapeTransform</span><span class="p">(</span><span class="nx">geom</span><span class="p">)));</span>
+<span class="p">}</span>
+
+<span class="c1">// Update the pose of the character before rendering.</span>
+<span class="nx">ClipPose</span> <span class="nx">pose</span> <span class="o">=</span> <span class="nx">characters</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">getPose</span><span class="p">();</span>
+<span class="nx">pose</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="nx">time</span><span class="p">);</span>
+<span class="nx">poseTexture</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">characters</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">getSkinningMatrices</span><span class="p">());</span>
+</pre></div>
+</div>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+ -->
+<!-- Title: OGLSkinnedSurfaceShader Pages: 1 -->
+<svg width="634pt" height="98pt"
+ viewBox="0.00 0.00 634.00 98.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 94)">
+<title>OGLSkinnedSurfaceShader</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-94 631,-94 631,5 -4,5"/>
+<!-- OGLSkinnedSurfaceShader -->
+<g id="node1" class="node"><title>OGLSkinnedSurfaceShader</title>
+<a xlink:href="../InlineDrawing/OGLSkinnedSurfaceShader.html" xlink:title="OGLSkinnedSurfaceShader">
+<polygon fill="#3fabd3" stroke="#3f3f3f" points="626,-63 490,-63 490,-27 626,-27 626,-63"/>
+<text text-anchor="middle" x="558" y="-42.5" font-family="Arial" font-size="10.00">OGLSkinnedSurfaceShader</text>
+</a>
+</g>
+<!-- OGLSurfaceShader -->
+<g id="node3" class="node"><title>OGLSurfaceShader</title>
+<a xlink:href="../InlineDrawing/OGLSurfaceShader.html" xlink:title="OGLSurfaceShader">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="453.5,-63 352.5,-63 352.5,-27 453.5,-27 453.5,-63"/>
+<text text-anchor="middle" x="403" y="-42.5" font-family="Arial" font-size="10.00">OGLSurfaceShader</text>
+</a>
+</g>
+<!-- OGLSkinnedSurfaceShader&#45;&gt;OGLSurfaceShader -->
+<g id="edge2" class="edge"><title>OGLSkinnedSurfaceShader&#45;&gt;OGLSurfaceShader</title>
+<path fill="none" stroke="#3f3f3f" d="M489.892,-45C481.215,-45 472.375,-45 463.827,-45"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="463.576,-41.5001 453.576,-45 463.576,-48.5001 463.576,-41.5001"/>
+</g>
+<!-- OGLInlineShader -->
+<g id="node5" class="node"><title>OGLInlineShader</title>
+<a xlink:href="../InlineDrawing/OGLInlineShader.html" xlink:title="OGLInlineShader">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="316,-63 226,-63 226,-27 316,-27 316,-63"/>
+<text text-anchor="middle" x="271" y="-42.5" font-family="Arial" font-size="10.00">OGLInlineShader</text>
+</a>
+</g>
+<!-- OGLSurfaceShader&#45;&gt;OGLInlineShader -->
+<g id="edge4" class="edge"><title>OGLSurfaceShader&#45;&gt;OGLInlineShader</title>
+<path fill="none" stroke="#3f3f3f" d="M352.482,-45C343.921,-45 334.979,-45 326.299,-45"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="326.269,-41.5001 316.269,-45 326.269,-48.5001 326.269,-41.5001"/>
+</g>
+<!-- InlineEntityBase -->
+<g id="node7" class="node"><title>InlineEntityBase</title>
+<a xlink:href="../InlineDrawing/InlineEntityBase.html" xlink:title="InlineEntityBase">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="189.5,-90 102.5,-90 102.5,-54 189.5,-54 189.5,-90"/>
+<text text-anchor="middle" x="146" y="-69.5" font-family="Arial" font-size="10.00">InlineEntityBase</text>
+</a>
+</g>
+<!-- OGLInlineShader&#45;&gt;InlineEntityBase -->
+<g id="edge6" class="edge"><title>OGLInlineShader&#45;&gt;InlineEntityBase</title>
+<path fill="none" stroke="#3f3f3f" d="M225.942,-54.6714C217.327,-56.5623 208.215,-58.5626 199.361,-60.5061"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="198.532,-57.1046 189.515,-62.6674 200.033,-63.9418 198.532,-57.1046"/>
+</g>
+<!-- InlineShader -->
+<g id="node11" class="node"><title>InlineShader</title>
+<a xlink:href="../InlineDrawing/InlineShader.html" xlink:title="InlineShader">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="181,-36 111,-36 111,-0 181,-0 181,-36"/>
+<text text-anchor="middle" x="146" y="-15.5" font-family="Arial" font-size="10.00">InlineShader</text>
+</a>
+</g>
+<!-- OGLInlineShader&#45;&gt;InlineShader -->
+<g id="edge10" class="edge"><title>OGLInlineShader&#45;&gt;InlineShader</title>
+<path fill="none" stroke="#3f3f3f" d="M225.942,-35.3286C214.647,-32.8494 202.498,-30.1824 191.197,-27.7017"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="191.623,-24.2121 181.105,-25.4865 190.122,-31.0493 191.623,-24.2121"/>
+</g>
+<!-- InlineEntity -->
+<g id="node9" class="node"><title>InlineEntity</title>
+<a xlink:href="../InlineDrawing/InlineEntity.html" xlink:title="InlineEntity">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="65.5,-90 0.5,-90 0.5,-54 65.5,-54 65.5,-90"/>
+<text text-anchor="middle" x="33" y="-69.5" font-family="Arial" font-size="10.00">InlineEntity</text>
+</a>
+</g>
+<!-- InlineEntityBase&#45;&gt;InlineEntity -->
+<g id="edge8" class="edge"><title>InlineEntityBase&#45;&gt;InlineEntity</title>
+<path fill="none" stroke="#3f3f3f" d="M102.402,-72C93.7089,-72 84.5688,-72 75.9004,-72"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="75.6225,-68.5001 65.6225,-72 75.6225,-75.5001 75.6225,-68.5001"/>
+</g>
+</g>
+</svg></p>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id115361"><span class="std std-ref">OGLSkinnedSurfaceShader</span></a>  ( in <a class="reference internal" href="#oglskinnedsurfaceshader"><span class="std std-ref">OGLSkinnedSurfaceShader</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id68574"><span class="std std-ref">OGLSkinnedSurfaceShader</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id68567"><span class="std std-ref">OGLSkinnedSurfaceShader</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#oglskinnedsurfaceshader"><span class="std std-ref">OGLSkinnedSurfaceShader</span></a></td>
+<td><a class="reference internal" href="#id115365"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="methods-in-detail">
+<h2>Methods in detail<a class="headerlink" href="#methods-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><span class="target" id="id115361"></span><p><p class="klcode"><a class="reference internal" href="#oglskinnedsurfaceshader"><span class="std std-ref">OGLSkinnedSurfaceShader</span></a> ( in <a class="reference internal" href="#oglskinnedsurfaceshader"><span class="std std-ref">OGLSkinnedSurfaceShader</span></a> other )</p>
+<p class="plaintext">copy constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id68574"></span><p><p class="klcode"><a class="reference internal" href="#oglskinnedsurfaceshader"><span class="std std-ref">OGLSkinnedSurfaceShader</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</p>
+<p class="plaintext">default constructor taking a name</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id68567"></span><p><p class="klcode"><a class="reference internal" href="#oglskinnedsurfaceshader"><span class="std std-ref">OGLSkinnedSurfaceShader</span></a> ()</p>
+<p class="plaintext">default constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id115365"></span><p><p class="klcode"><a class="reference internal" href="#oglskinnedsurfaceshader"><span class="std std-ref">OGLSkinnedSurfaceShader</span></a> <a class="reference internal" href="#oglskinnedsurfaceshader"><span class="std std-ref">OGLSkinnedSurfaceShader</span></a>.clone? ()</p>
+<p class="plaintext">clone method</p>
+</p>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="OGLPointsShapeAdaptor.html"
+                        title="前の章へ">OGLPointsShapeAdaptor (object)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="OGLStandaloneViewport.html"
+                        title="次の章へ">OGLStandaloneViewport (object)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/InlineDrawing/OGLSkinnedSurfaceShader.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/InlineDrawing/OGLSkinnedSurfaceShader.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="OGLStandaloneViewport.html" title="OGLStandaloneViewport (object)"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="OGLPointsShapeAdaptor.html" title="OGLPointsShapeAdaptor (object)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >InlineDrawing エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" >InlineDrawing Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introduction &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="Map-Reduce Programming Guide" href="index.html" />
+    <link rel="next" title="KL Implementation" href="kl.html" />
+    <link rel="prev" title="Map-Reduce Programming Guide" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="kl.html" title="KL Implementation"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Map-Reduce Programming Guide"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Map-Reduce Programming Guide</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>In addition to the dependency graph model of parallel programming, Fabric Engine provides a separate model of parallel programming called &#8220;Map-Reduce&#8221; that is inspired by models of parallelism provided by functional programming languages and commercial MapReduce frameworks for large-scale computing. The map-reduce functionality is available from within the KL language. It is simple to use, provides highly-parallel performance and incurs a minimal memory overhead.</p>
+<div class="section" id="background">
+<h2>Background<a class="headerlink" href="#background" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Traditionally, the map-reduce paradigm provides a simple way of performing parallel operations on large sets of data. The input to map-reduce is a large array of data whose elements are of a common type, and the output is a single value of another type. The output is produced from the input by performing the following steps:</p>
+<ul class="simple">
+<li>For each input element <code class="samp docutils literal"><em><span class="pre">Xi</span></em></code> in the input array <code class="samp docutils literal"><span class="pre">[</span><em><span class="pre">X1</span></em><span class="pre">,</span><em><span class="pre">X2</span></em><span class="pre">,...</span><em><span class="pre">Xn</span></em><span class="pre">]</span></code>, the value <code class="samp docutils literal"><em><span class="pre">Mi</span></em> <span class="pre">=</span> <span class="pre">map(</span><em><span class="pre">Xi</span></em><span class="pre">)</span></code> is computed. This can be done for the input elements in parallel.</li>
+<li>The result <code class="samp docutils literal"><em><span class="pre">R</span></em> <span class="pre">=</span> <span class="pre">reduce([</span><em><span class="pre">M1</span></em><span class="pre">,</span><em><span class="pre">M2</span></em><span class="pre">,...,</span><em><span class="pre">Mn</span></em><span class="pre">])</span></code> is computed by combining the results of the map operations.</li>
+</ul>
+<p>The canonical example of a map-reduce operation is to count the number of occurrences of a given word in a large set of documents (for simplicity, strings). Then the <code class="samp docutils literal"><span class="pre">map(</span><em><span class="pre">Xi</span></em><span class="pre">)</span></code> operation counts the number of occurrences of the word in the string <code class="samp docutils literal"><em><span class="pre">Xi</span></em></code>, and the <code class="samp docutils literal"><span class="pre">reduce([</span><em><span class="pre">M1</span></em><span class="pre">,</span><em><span class="pre">M2</span></em><span class="pre">,...,</span><em><span class="pre">Mn</span></em><span class="pre">])</span></code> operation simply sums the results of all the <code class="samp docutils literal"><em><span class="pre">Mi</span></em></code>.</p>
+<p>There are several problems with map-reduce in its simplest form:</p>
+<ul class="simple">
+<li>The individual <code class="samp docutils literal"><em><span class="pre">Xi</span></em></code> themselves might be values that need to be computed and/or that take a lot of memory. As such, it makes sense to retrieve (or compute) the value <code class="samp docutils literal"><em><span class="pre">Xi</span></em></code> right before computing <code class="samp docutils literal"><span class="pre">map(</span><em><span class="pre">Xi</span></em><span class="pre">)</span></code> and then to immediately throw away the value of <code class="samp docutils literal"><em><span class="pre">Xi</span></em></code>.</li>
+<li>Instead of computing <code class="samp docutils literal"><span class="pre">reduce([</span><em><span class="pre">M1</span></em><span class="pre">,</span><em><span class="pre">M2</span></em><span class="pre">,...,</span><em><span class="pre">Mn</span></em><span class="pre">])</span></code> once all the <code class="samp docutils literal"><em><span class="pre">Mi</span></em></code> are computed, we use less memory and make better use of parallelism by accumulating the result. First we initialize <code class="samp docutils literal"><em><span class="pre">R</span></em></code> to a default value, and then as each <code class="samp docutils literal"><em><span class="pre">Mi</span></em></code> is computed we compute <code class="samp docutils literal"><em><span class="pre">R</span></em> <span class="pre">=</span> <span class="pre">reduce(</span><em><span class="pre">R</span></em><span class="pre">,</span> <em><span class="pre">Mi</span></em><span class="pre">)</span></code>. Once this is done for all the <code class="samp docutils literal"><em><span class="pre">Mi</span></em></code>, we return the resulting <code class="samp docutils literal"><em><span class="pre">R</span></em></code>. We must use a mutex to guarantee that <code class="samp docutils literal"><span class="pre">reduce(</span><em><span class="pre">R</span></em><span class="pre">,</span> <em><span class="pre">Mi</span></em><span class="pre">)</span></code> is only ever executed by one thread at a time.</li>
+</ul>
+<p>Fabric Engine addresses these issues as well as others to provide a more general framework for parallel computation inspired by the traditional map-reduce case.</p>
+</div>
+<div class="section" id="concepts">
+<h2>Concepts<a class="headerlink" href="#concepts" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Map-reduce in Fabric Engine has a more generic and powerful implementation that arises from a core set of concepts and operations. The traditional map-reduce case is then just a specific case of what can be done with the Fabric Engine map-reduce framework. All of the concepts and operations are available both within KL programs and are accessible using the host language interface to the Fabric Engine.</p>
+<div class="section" id="producers">
+<h3>Producers<a class="headerlink" href="#producers" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The first concept is the notion of a producer. A <em class="dfn">producer</em> is a first-class object whose methods can be used to produce scalar and vector values; these values can be any of the built-in KL types, any registered (user-defined) types, or even more producers.  For more information about built-in KL types see the chapter &#8220;The KL Type System&#8221; of the <a class="reference internal" href="../KLProgrammingGuide/index.html#klpg"><span class="std std-ref">KL プログラミングガイド</span></a>.</p>
+<p>For more information about registered types in Fabric Engine see <a class="reference internal" href="../DependencyGraphProgrammingGuide/registered-types.html#dgpg-registered-types"><span class="std std-ref">Registered Types</span></a> in the <a class="reference internal" href="../DependencyGraphProgrammingGuide/index.html#dgpg"><span class="std std-ref">Dependency Graph Programming Guide</span></a>.</p>
+<p>There are two classes of producers in Fabric Engine, described below.</p>
+<div class="section" id="value-producers">
+<h4>Value Producers<a class="headerlink" href="#value-producers" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>A <em class="dfn">value producer</em> is a producer that can produce a scalar value; it has the method <code class="samp docutils literal"><span class="pre">produce()</span></code> that returns the value, as well as the method <code class="samp docutils literal"><span class="pre">flush()</span></code> that flushes any cached values (see the section <a class="reference internal" href="#caches"><span class="std std-ref">Caches</span></a>).</p>
+</div>
+<div class="section" id="array-producers">
+<h4>Array Producers<a class="headerlink" href="#array-producers" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>An <em class="dfn">array producer</em> is a producer that can produce an array (vector) of elements; it has five methods:</p>
+<ul class="simple">
+<li><code class="samp docutils literal"><span class="pre">getCount()</span></code>: returns the number of elements in the array</li>
+<li><code class="samp docutils literal"><span class="pre">produce(</span><em><span class="pre">index</span></em><span class="pre">)</span></code>: returns the element of the array with index <code class="samp docutils literal"><em><span class="pre">index</span></em></code></li>
+<li><code class="samp docutils literal"><span class="pre">produce(</span><em><span class="pre">startIndex</span></em><span class="pre">,</span> <em><span class="pre">count</span></em><span class="pre">)</span></code>: returns the subarray of <code class="samp docutils literal"><em><span class="pre">count</span></em></code> elements of the array starting with index <code class="samp docutils literal"><em><span class="pre">startIndex</span></em></code></li>
+<li><code class="samp docutils literal"><span class="pre">produce()</span></code>: returns the array of all elements</li>
+<li><code class="samp docutils literal"><span class="pre">flush()</span></code>: flushes any cached values (see the section <a class="reference internal" href="#caches"><span class="std std-ref">Caches</span></a>).</li>
+</ul>
+<p>The indices are zero-based, as in KL. All the the array elements have the same type; in a strong sense, an array producer is an object that can be used to populate a variable-length KL array.</p>
+<p>Note that an array producer specifies how to produce the elements of an array without actually producing them. This means that you can create an array produce for an array with billions of elements and it takes no more memory than an array producer for one element; it&#8217;s only when the elements are produced that the results may be stored, depending on how the results are used.</p>
+<p>The <code class="samp docutils literal"><span class="pre">produce()</span></code> and <code class="samp docutils literal"><span class="pre">produce(</span><em><span class="pre">startIndex</span></em><span class="pre">,</span> <em><span class="pre">count</span></em><span class="pre">)</span></code> methods produce the individual elements of the array in parallel.</p>
+</div>
+</div>
+<div class="section" id="types-of-producers">
+<h3>Types of Producers<a class="headerlink" href="#types-of-producers" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>For each class (value or array) of producer, there are four basic types of producers that produce values in different ways.</p>
+<div class="section" id="constant-producers">
+<h4>Constant Producers<a class="headerlink" href="#constant-producers" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>A constant producer has fixed values that are produced. It does not need to execute any code to produce its values, and the values it produces are specified when the constant producer is created.</p>
+</div>
+<div class="section" id="generators">
+<h4>Generators<a class="headerlink" href="#generators" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>A generator is a producer that calls a function to produce its value. In the case of an array producer, the function that is called can optionally receive the index within the array and the total number of elements of the array; these can be used to calculate the element to generate. Both value and array producers can optionally take a &#8220;shared value&#8221; which can be used to pass things like shared parameters to the generator. The shared value is itself the result of calling <code class="samp docutils literal"><span class="pre">produce()</span></code> on a value producer, which means that it can itself potentially be a calculated value.</p>
+</div>
+<div class="section" id="maps">
+<h4>Maps<a class="headerlink" href="#maps" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>A map is a producer that takes as input a value of one type and produces from it a value of another, potentially different, type. An example of a simple map might be one that takes a string as input and produces the length of the string as output. As with generators, an array map can optionally take the index of the element being produced as well as the count of the array, and both value and array maps can take a shared value.</p>
+</div>
+<div class="section" id="transforms">
+<h4>Transforms<a class="headerlink" href="#transforms" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>A transform is a producer that modifies the value of another producer. The same behavior could be accomplished using a map that uses the same type for input and output, but using a transform instead will require less memory and generally result in slightly better runtime performance. An example of a simple transform might be one that normalizes a vector. As with generators and maps, an array transform can optionally take the index of the element being produced as well as the count of the array, and both value and array transforms can take a shared value.</p>
+</div>
+</div>
+<div class="section" id="reduce">
+<h3>Reduce<a class="headerlink" href="#reduce" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The reduce operation is the bridge between array producers and value producers. A reduce operation takes an array producer and a function as input and returns a value producer as output. The reduce operation works by calling the function for each element produced by the array producer; this function is then used to progressively produce the result of reduce operation as a value producer. There are two guarantees for the function:</p>
+<ul class="simple">
+<li>The function is called exactly once for each element of the input array producer; and</li>
+<li>The function is called by only one thread at a time so that no manual synchronization is necessary.</li>
+</ul>
+<p>However, the order in which the elements of the array producer is undefined, and as such algorithms cannot depend on this order.</p>
+<p>As with generators, maps and transforms, the reduce function can optionally take the index of element of the input array producer as well as its total count, and you can optionally pass a shared value.</p>
+<p>A simple example of a reduce operation would be to sum an array of values. The array producer would produce the individual values, and the reduce function would simply add each value to the result.</p>
+</div>
+<div class="section" id="caches">
+<span id="id1"></span><h3>Caches<a class="headerlink" href="#caches" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>A cache is a producer that simply caches the value of another producer. Caches are a simple solution for situations where the same results would be computed multiple times. As an example, if multiple producers all used the same shared value producer, it would probably make sense to put a value cache in front of the value producer so that it&#8217;s not recomputed every time it&#8217;s used.</p>
+<p>All producers support a method called <code class="samp docutils literal"><span class="pre">flush()</span></code> that recursively flushes any caches. So, for example, if you have a reduce operation that uses a shared value that is cached, calling <code class="samp docutils literal"><span class="pre">flush()</span></code> on the reduce operation will flush the connected shared value cache.</p>
+</div>
+<div class="section" id="composing-producers-and-reduce-operations">
+<h3>Composing Producers and Reduce Operations<a class="headerlink" href="#composing-producers-and-reduce-operations" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The power of the Fabric Engine map-reduce model is found through the use of composition. Maps, transforms and reduce operations all take other producers as input and allow modification of the results. As well, generators, maps, transforms and reduce operations all optionally take shared values that are the results of the <code class="samp docutils literal"><span class="pre">produce()</span></code> operation of a value producer; this value produce can in turn be a complex, composed operation such as a reduce operation on a map.</p>
+<p>As an example, suppose you had a large set of documents and you wanted to count the occurrence of the longest word that occurs across all the documents; assume for the example that there is a unique longest word. You need to first figure out what this word is and then count it. The compositional model would be:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>reduce(
+  input: map(
+    input: constArray(documents),
+    function: countWord,
+    sharedValue: reduce(
+      input: map(
+        input: constArray(documents),
+        function: findLongestWord
+        ),
+      function: pickLongestWord
+    ),
+  function: sumValue
+  )
+</pre></div>
+</div>
+<p>Then the functions would look something like:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>operator findLongestWord(String document, io String longestWord) {
+  // Set longestWord to the longest word in document
+}
+
+operator pickLongestWord(String word, io String longestWord) {
+  if (word.length &gt; longestWord.length)
+    longestWord = word;
+}
+
+operator countWord(String document, io Size count, String word) {
+  // Set count to the number of occurrences of word in document
+}
+
+operator sumValue(Size count, io Size totalCount) {
+  totalCount += count;
+}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#background">Background</a></li>
+<li><a class="reference internal" href="#concepts">Concepts</a><ul>
+<li><a class="reference internal" href="#producers">Producers</a><ul>
+<li><a class="reference internal" href="#value-producers">Value Producers</a></li>
+<li><a class="reference internal" href="#array-producers">Array Producers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#types-of-producers">Types of Producers</a><ul>
+<li><a class="reference internal" href="#constant-producers">Constant Producers</a></li>
+<li><a class="reference internal" href="#generators">Generators</a></li>
+<li><a class="reference internal" href="#maps">Maps</a></li>
+<li><a class="reference internal" href="#transforms">Transforms</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reduce">Reduce</a></li>
+<li><a class="reference internal" href="#caches">Caches</a></li>
+<li><a class="reference internal" href="#composing-producers-and-reduce-operations">Composing Producers and Reduce Operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="index.html"
+                        title="前の章へ">Map-Reduce Programming Guide</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="kl.html"
+                        title="次の章へ">KL Implementation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/MapReduceProgrammingGuide/introduction.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/MapReduceProgrammingGuide/introduction.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="kl.html" title="KL Implementation"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Map-Reduce Programming Guide"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Map-Reduce Programming Guide</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fabric for MODO チュートリアル &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="Fabric Engine 入門" href="index.html" />
+    <link rel="next" title="Canvas ユーザガイド" href="../CanvasUserGuide/index.html" />
+    <link rel="prev" title="Fabric for Softimage チュートリアル" href="softimagetutorials.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../CanvasUserGuide/index.html" title="Canvas ユーザガイド"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="softimagetutorials.html" title="Fabric for Softimage チュートリアル"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Fabric Engine 入門</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fabric-for-modo-tutorials">
+<span id="gettingstarted-modotutorials"></span><h1>Fabric for MODO チュートリアル<a class="headerlink" href="#fabric-for-modo-tutorials" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="procedural-mesh">
+<h2>プロシージャルメッシュ<a class="headerlink" href="#procedural-mesh" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>In this tutorial you will learn how to create a procedurally driven mesh within MODO. This is a very powerful concept and will allow you to create portable procedural assets driven by any KL extension, for example an Alembic reader or a Bullet Softbody simulation. We&#8217;ll focus on the basics in this tutorial to get you started.</p>
+<ul class="simple">
+<li>Start with a new MODO scene.</li>
+<li>Add a CanvasPI item to the scene by using the &#8220;Add Item&#8221; drop down:</li>
+</ul>
+<img alt="../_images/31_modo_tut_00.png" src="../_images/31_modo_tut_00.png" />
+<ul class="simple">
+<li>Open the Canvas UI by clicking on the button &#8220;Open Canvas&#8221; in the item&#8217;s property page.</li>
+<li>Click into the main area (where you can see a little &#8220;Press TAB to insert nodes&#8221;) and then press the TAB key. This will start the tab search. Enter &#8220;gettor&#8221; and press return. A &#8220;GetTorus&#8221; node is added to your graph.</li>
+<li>Now expose the output of the &#8220;GetTorus&#8221; node: left-click on the &#8220;mesh&#8221; port and then drag it to the black &#8220;Expose&#8221; port on the right and release the mouse button. Your graph should now look like this and you should see a torus in the viewport:</li>
+</ul>
+<img alt="../_images/31_modo_tut_01.png" src="../_images/31_modo_tut_01.png" />
+<ul class="simple">
+<li>To tweak the parameters (= the input ports) of the &#8220;GetTorus&#8221; preset simply double-click on it and the value editor will appear on the right. You can make it a bit wider if needed by clickiing and dragging the left border of the value editor. Then play around with the parameters to get a different looking torus:</li>
+</ul>
+<img alt="../_images/31_modo_tut_02.png" src="../_images/31_modo_tut_02.png" />
+</div>
+<div class="section" id="driving-a-null-linear-interpolation">
+<h2>Driving a Null - Linear Interpolation<a class="headerlink" href="#driving-a-null-linear-interpolation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Here you will learn how to drive the kinematic of an item. This is the first step towards using Canvas for rigging.</p>
+<ul class="simple">
+<li>Start with a new MODO scene.</li>
+<li>Get two locators and place them somewhere in your scene.</li>
+<li>Get a cube (Item -&gt; Primitive -&gt; Cube).</li>
+<li>Select both locators and the cube and then click on &#8220;Add Selected&#8221; in the schematic view.</li>
+<li>Add the &#8220;World Position&#8221; channels to all three items. Things should look like this now:</li>
+</ul>
+<img alt="../_images/32_modo_tut_00.png" src="../_images/32_modo_tut_00.png" />
+<ul class="simple">
+<li>Now add a &#8220;CanvasIM&#8221; item to the schematic view by choosing &#8220;Add ... -&gt; Channel Modifyer -&gt; Other -&gt; CanvasIM&#8221;.</li>
+</ul>
+<img alt="../_images/32_modo_tut_01.png" src="../_images/32_modo_tut_01.png" />
+<ul class="simple">
+<li>After a short moment the item will show up in the schematic view.</li>
+<li>Open the Canvas UI by clicking on the button &#8220;Open Canvas&#8221; in the item&#8217;s &#8220;Properties&#8221;.</li>
+<li>Use the tab search to add a &#8220;Func.LinearInterpolate&#8221; node.</li>
+<li>Use the tab search to add a &#8220;Constants.Xfo&#8221; node.</li>
+<li>Connect the &#8220;Result&#8221; port with the &#8220;Value&#8221; port. Note how the &#8220;LinearInterpolate&#8221; node now has all ports of type &#8220;Xfo&#8221; (&#8216;Xfo&#8217; stands for&#8217; transformation&#8217;).</li>
+<li>Expose all the input and output ports so that your graph looks like this:</li>
+</ul>
+<img alt="../_images/32_modo_tut_02.png" src="../_images/32_modo_tut_02.png" />
+<ul class="simple">
+<li>Finally connect things up in the schematic view like this:</li>
+</ul>
+<img alt="../_images/32_modo_tut_03.png" src="../_images/32_modo_tut_03.png" />
+<ul class="simple">
+<li>The cube should now be located at the position of the first locator. Set the value of the &#8220;t&#8221; channel of the CanvasIM item to &#8220;0.5&#8221;. Now the cube should be exactly between the two locators.</li>
+<li>Done ... and time to play! Select one of the two locators and move it around. The cube will always stay between the two locators:</li>
+</ul>
+<img alt="../_images/32_modo_tut_04.png" src="../_images/32_modo_tut_04.png" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Fabric for MODO チュートリアル</a><ul>
+<li><a class="reference internal" href="#procedural-mesh">プロシージャルメッシュ</a></li>
+<li><a class="reference internal" href="#driving-a-null-linear-interpolation">Driving a Null - Linear Interpolation</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="softimagetutorials.html"
+                        title="前の章へ">Fabric for Softimage チュートリアル</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="../CanvasUserGuide/index.html"
+                        title="次の章へ">Canvas ユーザガイド</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/GettingStartedGuide/modotutorials.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/GettingStartedGuide/modotutorials.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../CanvasUserGuide/index.html" title="Canvas ユーザガイド"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="softimagetutorials.html" title="Fabric for Softimage チュートリアル"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Fabric Engine 入門</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>KL Function エディタ &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="Canvas プログラマーガイド" href="index.html" />
+    <link rel="next" title="多態性を持つノード（Polymorphic nodes）" href="polymorphism.html" />
+    <link rel="prev" title="Canvas プログラマーガイド" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="polymorphism.html" title="多態性を持つノード（Polymorphic nodes）"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Canvas プログラマーガイド"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Canvas プログラマーガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="kl-function-editor">
+<span id="canvas-programmer-guide-klfunctioneditor"></span><h1>KL Function エディタ<a class="headerlink" href="#kl-function-editor" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Canvas 内に独自のKL関数ノードを作成できます。これらのノードは LLVMを使用した、グラフに対する just-in-time （JIT）コンパイルと同じ処理過程を経て実行されます。</p>
+<p>カスタムKL関数の作成には、グラフビューの背景を右クリックし、 <em class="dfn">New empty function</em> を選びます。すると関数ノードがつくられ、KL関数エディタが開きます。既存の関数ノードをKL関数エディタで開くには、シフトキーを押下しながらダブルクリックするか、そのノードを右クリックしコンテキストメニューより <em class="dfn">Edit</em> を選びます。</p>
+<img alt="../_images/cpg-function-editor.png" src="../_images/cpg-function-editor.png" />
+<p>KL function エディタは２つの基礎要素 ―portリストと、codeウィンド から成ります。</p>
+<div class="section" id="kl-function-ports">
+<h2>KL関数ポート<a class="headerlink" href="#kl-function-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ポートの名前、ポートの型、データの型を埋め、 &#8220;Add Port&#8221; をクリックすることでポートの追加ができます。既定ではポートの型は多態ですが、固定の型を選ぶこともできます。KL関数の多態性については <a class="reference internal" href="polymorphism.html#canvas-programmer-guide-polymorphism"><span class="std std-ref">多態性を持つノード（Polymorphic nodes）</span></a> を参照してください。</p>
+<p>ポートの削除には、ポート左の赤いマイナスアイコンをクリックします。シフトクリックやコントロールクリック（macOSであればコマンドクリック）をすることで複数のポートを選択し、右クリックから &#8220;Remove Selected&#8221; することもできます。</p>
+<p>ポートの詳細を編集することもできます。たとえばUIメタデータです。ポート左の鉛筆アイコンをクリックします。</p>
+<p>ドラッグ・アンド・ドロップによりポートを再配置することができます。シフト／コントロールクリックによる範囲選択に対しても機能します。</p>
+<p>ポートはKLコード内より、そのポート名で参照できます。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">KLエクステンションに実装された型を使用するポートを追加する際は、そのエクステンションをエディタウィンド左上 <em class="dfn">Required Extensions</em> 欄に記入します。</p>
+</div>
+</div>
+<div class="section" id="requirements-field">
+<h2>Requirementsフィールド<a class="headerlink" href="#requirements-field" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>KL関数ノードがディスク上のなんらかのエクステンションに依存する場合、エクステンションの requirement定義を requirements テキストフィールドに記述します。詳細は <a class="reference internal" href="../CanvasUserGuide/graphview.html#canvas-user-guide-graphview-requirements"><span class="std std-ref">必要エクステンションの定義</span></a> 参照。</p>
+</div>
+<div class="section" id="kl-code-window">
+<h2>KL code ウィンド<a class="headerlink" href="#kl-code-window" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>KL関数ノードのエントリポイントは dfgEntry ブロックになります。Canvasコンパイラは dfgEntry を適切な関数宣言 ―つまり必要なポートや機能の定義― に置き換えます。以下の例では３つの <em class="dfn">Float32</em> ポートがあり、エントリポイントの定義はこのようになります。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="nx">dfgEntry</span> <span class="p">{</span>
+
+  <span class="nx">result</span> <span class="o">=</span> <span class="nx">cos</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="o">*</span> <span class="nx">b</span><span class="p">;</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>もちろん、KL関数エディタ内ではオペレータを直接定義できます。例えば２つの <em class="dfn">Float32[]</em> ポートをもつ、PEX（並列実行）オペレータ使用例は：</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kd">operator</span> <span class="nx">task</span><span class="o">&lt;&lt;&lt;</span><span class="nx">index</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="kr">Float32</span> <span class="nx">values</span><span class="p">[],</span> <span class="k">io</span> <span class="kr">Float32</span> <span class="nx">result</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="nx">result</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span> <span class="o">=</span> <span class="nx">cos</span><span class="p">(</span><span class="nx">values</span><span class="p">[</span><span class="nx">index</span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="nx">dfgEntry</span> <span class="p">{</span>
+  <span class="nx">result</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">values</span><span class="p">.</span><span class="nx">size</span><span class="p">());</span>
+  <span class="nx">task</span><span class="o">&lt;&lt;&lt;</span><span class="nx">values</span><span class="p">.</span><span class="nx">size</span><span class="p">()</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="nx">values</span><span class="p">,</span> <span class="nx">result</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>ウィンド左上の <em class="dfn">Save</em> を押しKL関数をコンパイルします。 <em class="dfn">Reload</em> ボタンを押すと、KL関数で使用する外部プリセットファイル中のKLコードを読み込み直します。KL関数エディタから抜ける際、未保存の変更がある場合には警告UIが表示されます。</p>
+<p>このコードウィンドではオブジェクト、メソッドの基本的なコード補完を提供しています。Ctrl-スペース をタイプすると、コード補完メニューが表示されます。（例：新規行で『V』と書き始めると、『V』で始まるオブジェクト、Vec2, Vec3,などがリストアップされます）オブジェクトのメソッドやシグネチャもコード補完対象となります。</p>
+<p>より詳しい KL の機能については <a class="reference internal" href="../KLProgrammingGuide/index.html#klpg"><span class="std std-ref">KL プログラミングガイド</span></a> を参照してください。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">KL関数ノード内であらたにデータ型を定義することも可能です。ただしデータ型の実装はKLエクステンション内で行うことを強くお薦めします。Canvasコンパイラより変更を追跡させやすくするためです。エディタウィンド左上の  <em class="dfn">Required extensions</em> 欄に使用するKLエクステンションを追記し、KL関数がそのエクステンションを確実に読み込むようにします。</p>
+</div>
+<div class="section" id="special-constructs-in-canvas-kl-code">
+<h3>Canvas KLコード内の特別な構成物<a class="headerlink" href="#special-constructs-in-canvas-kl-code" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Canvas内で使われる、特定の KLコード構成物がいくつかあります。以下：</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">dfgEntry</span></code></dt>
+<dd><p class="first last">Canvasノードのエントリポイントです。上述のとおりです。</p>
+</dd>
+<dt><code class="docutils literal"><span class="pre">dfgExecute(portName)</span></code></dt>
+<dd><p class="first last">明示的なexecuteポートの実行を強制します。詳細は <a class="reference internal" href="execute-ports.html#canvas-programmer-guide-execute-ports-explicit"><span class="std std-ref">Explicit Execute Ports</span></a> を参照してください。</p>
+</dd>
+<dt><code class="docutils literal"><span class="pre">dfgNodePath</span></code></dt>
+<dd><p class="first last">文字列定数で、ノードが実行されるパスを表します。</p>
+</dd>
+<dt><code class="docutils literal"><span class="pre">dfgPullBlockPort</span></code></dt>
+<dd><p class="first last">blockポートをpullします。 <a class="reference internal" href="cpg-blocks.html#canvas-programmer-guide-blocks"><span class="std std-ref">Blocks - 関数ノードでの Block の公開</span></a> 参照。</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">KL Function エディタ</a><ul>
+<li><a class="reference internal" href="#kl-function-ports">KL関数ポート</a></li>
+<li><a class="reference internal" href="#requirements-field">Requirementsフィールド</a></li>
+<li><a class="reference internal" href="#kl-code-window">KL code ウィンド</a><ul>
+<li><a class="reference internal" href="#special-constructs-in-canvas-kl-code">Canvas KLコード内の特別な構成物</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="index.html"
+                        title="前の章へ">Canvas プログラマーガイド</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="polymorphism.html"
+                        title="次の章へ">多態性を持つノード（Polymorphic nodes）</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/CanvasProgrammerGuide/klfunctioneditor.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/CanvasProgrammerGuide/klfunctioneditor.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="polymorphism.html" title="多態性を持つノード（Polymorphic nodes）"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Canvas プログラマーガイド"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Canvas プログラマーガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

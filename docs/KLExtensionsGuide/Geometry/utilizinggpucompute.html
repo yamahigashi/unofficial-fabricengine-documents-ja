@@ -1,0 +1,532 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ジオメトリを用いたGPUコンピュートの利用 &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Geometry エクステンション" href="index.html" />
+    <link rel="next" title="Geometry Extension’s Files" href="files.html" />
+    <link rel="prev" title="ジオメトリを用いた空間分析群(Spatial queries)の使用" href="spatialqueriesusage.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="Geometry Extension’s Files"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="spatialqueriesusage.html" title="ジオメトリを用いた空間分析群(Spatial queries)の使用"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Geometry エクステンション</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="utilizing-gpu-commpute-with-geometries">
+<span id="polygonmeshstructure"></span><h1>ジオメトリを用いたGPUコンピュートの利用<a class="headerlink" href="#utilizing-gpu-commpute-with-geometries" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="introduction">
+<h2>導入部<a class="headerlink" href="#introduction" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>GPUコンピュートは、現在比較的容易にジオメトリデフォメーションの計算のために使用することができます。</p>
+<p>InlineDrawingシステムは、既にGPU上にあるジオメトリのレンダリングをサポートするように更新されました。</p>
+<p>オブジェクトはまだGPUでサポートされておらず、単純な型の構造体と配列だけはGPUコンピュートカーネルで使用することができます。</p>
+</div>
+<div class="section" id="polygonmesh">
+<span id="polygonmeshcomponents"></span><h2>ポリゴンメッシュ<a class="headerlink" href="#polygonmesh" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> は、GPU上へ移動しGPUコンピュートカーネルに渡すことができる <a class="reference internal" href="PolygonMeshTopology.html#polygonmeshtopology"><span class="std std-ref">PolygonMeshTopology</span></a> 型の &#8216;topology&#8217; と呼ばれるメンバーを所有しています。</p>
+<p><a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> をGPUカーネルで使用する前に、そのトポロジーデータをGPUに移動する必要があります。ジオメトリが所有する各 :kl-ref:<a href="#id1"><span class="problematic" id="id2">`</span></a>GeometryAttribute&#8217; もまた使用する前にGPUに個別に移動する必要があります。</p>
+<p>GPUコンピュートカーネルはオブジェクト群をサポートしておらず、ポリゴンメッシュやライン群、ポイント群、または様々なアトリビュート型をGPUカーネルへ渡せないことを意味します。代わりに、これらのオブジェクトに含まれるデータはGPUカーネルに渡すことができます。</p>
+<p>各ジオメトリアトリビュートは、GPUコンピュートカーネルに渡すことができるデータを所有しています。大半のアトリビュートは <a class="reference internal" href="GeometryAttribute.html#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a> をサポートするデータ型の配列である&#8217;values&#8217;と呼ばれるメンバーを持っています。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Moving a polygonMesh to the GPU</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Geometry</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">meshDataOnGPU</span><span class="o">&lt;&lt;&lt;</span><span class="nx">index</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="k">io</span> <span class="nx">PolygonMeshTopology</span> <span class="nx">meshData</span><span class="p">){</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">meshData</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="nx">PolygonMesh</span> <span class="nx">mesh</span> <span class="o">=</span> <span class="nx">PolygonMesh</span><span class="p">();</span>
+  <span class="nx">Scalar</span> <span class="nx">length</span> <span class="o">=</span> <span class="mf">12.0</span><span class="p">;</span>
+  <span class="nx">Scalar</span> <span class="nx">width</span> <span class="o">=</span> <span class="mf">4.0</span><span class="p">;</span>
+  <span class="kr">Integer</span> <span class="nx">lengthSections</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+  <span class="kr">Integer</span> <span class="nx">widthSections</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+
+  <span class="nx">mesh</span><span class="p">.</span><span class="nx">addPlane</span><span class="p">(</span><span class="nx">Xfo</span><span class="p">(),</span> <span class="nx">length</span><span class="p">,</span> <span class="nx">width</span><span class="p">,</span> <span class="nx">lengthSections</span><span class="p">,</span> <span class="nx">widthSections</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+
+  <span class="nx">mesh</span><span class="p">.</span><span class="nx">convertToGPU</span><span class="p">();</span>
+  <span class="nx">meshDataOnGPU</span><span class="o">&lt;&lt;&lt;</span><span class="mi">1</span><span class="err">@</span><span class="kc">true</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="nx">mesh</span><span class="p">.</span><span class="nx">topology</span><span class="p">);</span>
+
+  <span class="nx">mesh</span><span class="p">.</span><span class="nx">convertToCPU</span><span class="p">();</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">mesh</span><span class="p">.</span><span class="nx">getDesc</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">{polyData:{data:{data:[0,4,8,56,105,154,12,200,9,153,250,20,296,201,249,346,28,392,297,345,440,36,155,104,489,538,44,251,152,537,586,52,347,248,585,634,60,441,344,633,680,68,539,488,728,777,76,587,536,776,825,84,635,584,824,873,92,681,632,872,920],freeData:{data:[0,0],size:61},freeDataCount:0,freeBlocsListUpperPow2:[]},startIters:[1,6,11,16,21,26,31,36,41,46,51,56],freeIters:{data:[0],size:12},freeItersCount:0},pointData:{data:{data:[0,2147483658,8,49,5,4294967295,4294967295,2147483649,9,5,4294967295,4294967295,4294967295,2147483690,169,10,5,4294967295,4294967295,52,209,50,11,168,4294967295,2147483666,48,89,5,4294967295,4294967295,60,249,90,51,208,4294967295,2147483674,88,129,5,4294967295,4294967295,68,289,130,91,248,4294967295,2147483681,128,5,4294967295,4294967295,4294967295,2147483722,131,288,5,4294967295,4294967295,2147483730,329,170,5,4294967295,4294967295,92,369,210,171,328,4294967295,100,409,250,211,368,4294967295,108,449,290,251,408,4294967295,2147483762,291,448,5,4294967295,4294967295,2147483769,330,5,4294967295,4294967295,4294967295,2147483778,370,331,5,4294967295,4294967295,2147483786,410,371,5,4294967295,4294967295,2147483794,450,411,5,4294967295,4294967295,2147483801,451,5,4294967295,4294967295,4294967295],freeData:{data:[1627790432,410060304,3322953990,29759585],size:121},freeDataCount:38,freeBlocsListUpperPow2:[]},startIters:[7,1,25,37,49,13,19,31,43,55,61,67,73,79,85,91,97,103,109,115],freeIters:{data:[0],size:20},freeItersCount:0},unsharedAttrToPointSlidingArray:[],unsharedAttrToPointSlidingArrayBegin:0}</span>
+<span class="cm">Mesh: pointCount: 20 polygonCount: 12 nbAttributeVectors: 20</span>
+<span class="cm">  Points (adjacent polygons as &#39;polygon.neighborPolygonIndex&#39;, </span>
+<span class="cm">          borders as &#39;|&#39;, closed wing starts as &#39;&lt;&lt;&#39;,</span>
+<span class="cm">          unshared attribute as value@attributeIndex ):</span>
+<span class="cm">    0: 1 polygons:  |0.1</span>
+<span class="cm">      Attr positions:{x:-2.0,y:+0.0,z:-6.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+0.0,y:+0.0}</span>
+<span class="cm">    1: 2 polygons:  |0.0, 1.1</span>
+<span class="cm">      Attr positions:{x:-1.0,y:+0.0,z:-6.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+0.25,y:+0.0}</span>
+<span class="cm">    2: 2 polygons:  |1.0, 2.1</span>
+<span class="cm">      Attr positions:{x:+0.0,y:+0.0,z:-6.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+0.5,y:+0.0}</span>
+<span class="cm">    3: 2 polygons:  |2.0, 3.1</span>
+<span class="cm">      Attr positions:{x:+1.0,y:+0.0,z:-6.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+0.75,y:+0.0}</span>
+<span class="cm">    4: 1 polygons:  |3.0</span>
+<span class="cm">      Attr positions:{x:+2.0,y:+0.0,z:-6.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+1.0,y:+0.0}</span>
+<span class="cm">    5: 2 polygons:  |4.1, 0.2</span>
+<span class="cm">      Attr positions:{x:-2.0,y:+0.0,z:-2.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+0.0,y:+0.333313}</span>
+<span class="cm">    6: 4 polygons:  &lt;&lt;5.1, 1.2, 0.3, 4.0</span>
+<span class="cm">      Attr positions:{x:-1.0,y:+0.0,z:-2.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+0.25,y:+0.333313}</span>
+<span class="cm">    7: 4 polygons:  &lt;&lt;6.1, 2.2, 1.3, 5.0</span>
+<span class="cm">      Attr positions:{x:+0.0,y:+0.0,z:-2.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+0.5,y:+0.333313}</span>
+<span class="cm">    8: 4 polygons:  &lt;&lt;7.1, 3.2, 2.3, 6.0</span>
+<span class="cm">      Attr positions:{x:+1.0,y:+0.0,z:-2.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+0.75,y:+0.333313}</span>
+<span class="cm">    9: 2 polygons:  |3.3, 7.0</span>
+<span class="cm">      Attr positions:{x:+2.0,y:+0.0,z:-2.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+1.0,y:+0.333313}</span>
+<span class="cm">    10: 2 polygons:  |8.1, 4.2</span>
+<span class="cm">      Attr positions:{x:-2.0,y:+0.0,z:+2.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+0.0,y:+0.666626}</span>
+<span class="cm">    11: 4 polygons:  &lt;&lt;9.1, 5.2, 4.3, 8.0</span>
+<span class="cm">      Attr positions:{x:-1.0,y:+0.0,z:+2.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+0.25,y:+0.666626}</span>
+<span class="cm">    12: 4 polygons:  &lt;&lt;10.1, 6.2, 5.3, 9.0</span>
+<span class="cm">      Attr positions:{x:+0.0,y:+0.0,z:+2.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+0.5,y:+0.666626}</span>
+<span class="cm">    13: 4 polygons:  &lt;&lt;11.1, 7.2, 6.3, 10.0</span>
+<span class="cm">      Attr positions:{x:+1.0,y:+0.0,z:+2.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+0.75,y:+0.666626}</span>
+<span class="cm">    14: 2 polygons:  |7.3, 11.0</span>
+<span class="cm">      Attr positions:{x:+2.0,y:+0.0,z:+2.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+1.0,y:+0.666626}</span>
+<span class="cm">    15: 1 polygons:  |8.2</span>
+<span class="cm">      Attr positions:{x:-2.0,y:+0.0,z:+6.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+0.0,y:+1.0}</span>
+<span class="cm">    16: 2 polygons:  |9.2, 8.3</span>
+<span class="cm">      Attr positions:{x:-1.0,y:+0.0,z:+6.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+0.25,y:+1.0}</span>
+<span class="cm">    17: 2 polygons:  |10.2, 9.3</span>
+<span class="cm">      Attr positions:{x:+0.0,y:+0.0,z:+6.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+0.5,y:+1.0}</span>
+<span class="cm">    18: 2 polygons:  |11.2, 10.3</span>
+<span class="cm">      Attr positions:{x:+1.0,y:+0.0,z:+6.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+0.75,y:+1.0}</span>
+<span class="cm">    19: 1 polygons:  |11.3</span>
+<span class="cm">      Attr positions:{x:+2.0,y:+0.0,z:+6.0}</span>
+<span class="cm">      Attr normals:{x:+0.0,y:+1.0,z:+0.0}</span>
+<span class="cm">      Attr uvs0:{x:+1.0,y:+1.0}</span>
+<span class="cm">  Polygons (connected points as &#39;point.polygonPointIndex&#39;, borders as &#39;|&#39;):</span>
+<span class="cm">    0: 4 points: 1.0 |, 0.0 |, 5.1, 6.2</span>
+<span class="cm">    1: 4 points: 2.0 |, 1.1, 6.1, 7.2</span>
+<span class="cm">    2: 4 points: 3.0 |, 2.1, 7.1, 8.2</span>
+<span class="cm">    3: 4 points: 4.0 |, 3.1, 8.1, 9.0 |</span>
+<span class="cm">    4: 4 points: 6.3, 5.0 |, 10.1, 11.2</span>
+<span class="cm">    5: 4 points: 7.3, 6.0, 11.1, 12.2</span>
+<span class="cm">    6: 4 points: 8.3, 7.0, 12.1, 13.2</span>
+<span class="cm">    7: 4 points: 9.1, 8.0, 13.1, 14.0 |</span>
+<span class="cm">    8: 4 points: 11.3, 10.0 |, 15.0 |, 16.1</span>
+<span class="cm">    9: 4 points: 12.3, 11.0, 16.0 |, 17.1</span>
+<span class="cm">    10: 4 points: 13.3, 12.0, 17.0 |, 18.1</span>
+<span class="cm">    11: 4 points: 14.1, 13.0, 18.0 |, 19.0 |</span>
+
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<p>データがGPU上に有れば、 CPUで普段よく使用されるものと同じカーネル群をGPU上でも実行できます。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Performing a smooth mesh using the CPU and then again using the GPU</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Geometry</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">noiseOp</span><span class="o">&lt;&lt;&lt;</span><span class="nx">index</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="k">io</span> <span class="nx">Vec3</span> <span class="nx">positions</span><span class="p">[],</span> <span class="nx">Scalar</span> <span class="nx">height</span><span class="p">){</span>
+  <span class="nx">positions</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">mathRandomFloat32</span><span class="p">(</span><span class="mi">54775</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="o">*</span> <span class="nx">height</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">operator</span> <span class="nx">smoothMesh</span><span class="o">&lt;&lt;&lt;</span><span class="nx">index</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="k">io</span> <span class="nx">PolygonMeshTopology</span> <span class="nx">mesh</span><span class="p">,</span> <span class="k">io</span> <span class="nx">Vec3</span> <span class="nx">positions</span><span class="p">[],</span> <span class="nx">Vec3</span> <span class="nx">positionsDoubleBuffer</span><span class="p">[])</span> <span class="p">{</span>
+
+  <span class="c1">//Pseudo-gaussian: center weight = 0.5, neighbor weights sum = 0.5</span>
+  <span class="nx">Vec3</span> <span class="nx">position</span> <span class="o">=</span> <span class="nx">positionsDoubleBuffer</span><span class="p">[</span> <span class="nx">index</span> <span class="p">];</span>
+
+  <span class="nx">LocalL16UInt32Array</span> <span class="nx">surroundingPoints</span><span class="p">;</span>
+  <span class="nx">mesh</span><span class="p">.</span><span class="nx">getPointSurroundingPoints</span><span class="p">(</span> <span class="nx">index</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">surroundingPoints</span> <span class="p">);</span>
+  <span class="kr">UInt32</span> <span class="nx">nbNei</span> <span class="o">=</span> <span class="nx">surroundingPoints</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span>
+  <span class="k">if</span><span class="p">(</span> <span class="nx">nbNei</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="nx">Vec3</span> <span class="nx">neiSum</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span> <span class="kr">UInt32</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">nbNei</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="kr">UInt32</span> <span class="nx">neiPt</span> <span class="o">=</span> <span class="nx">surroundingPoints</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+      <span class="nx">neiSum</span> <span class="o">+=</span> <span class="nx">positionsDoubleBuffer</span><span class="p">[</span><span class="nx">neiPt</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="nx">neiSum</span> <span class="o">/=</span> <span class="nx">Scalar</span><span class="p">(</span><span class="nx">nbNei</span><span class="p">);</span>
+    <span class="nx">position</span> <span class="o">=</span> <span class="p">(</span> <span class="nx">position</span> <span class="o">+</span> <span class="nx">neiSum</span> <span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">;</span>
+    <span class="nx">mesh</span><span class="p">.</span><span class="nx">setPointAttribute</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">positions</span><span class="p">,</span> <span class="nx">position</span> <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="kr">UInt32</span> <span class="nx">iterations</span> <span class="o">=</span> <span class="mi">40</span><span class="p">;</span>
+  <span class="nx">Scalar</span> <span class="nx">length</span> <span class="o">=</span> <span class="mf">120.0</span><span class="p">;</span>
+  <span class="nx">Scalar</span> <span class="nx">width</span> <span class="o">=</span> <span class="mf">40.0</span><span class="p">;</span>
+  <span class="kr">Integer</span> <span class="nx">lengthSections</span> <span class="o">=</span> <span class="mi">1400</span><span class="p">;</span>
+  <span class="kr">Integer</span> <span class="nx">widthSections</span> <span class="o">=</span> <span class="mi">900</span><span class="p">;</span>
+  <span class="nx">Scalar</span> <span class="nx">height</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">;</span>
+
+  <span class="c1">// first smooth on the CPU.</span>
+  <span class="p">{</span>
+
+    <span class="nx">PolygonMesh</span> <span class="nx">mesh</span> <span class="o">=</span> <span class="nx">PolygonMesh</span><span class="p">();</span>
+    <span class="nx">mesh</span><span class="p">.</span><span class="nx">addPlane</span><span class="p">(</span><span class="nx">Xfo</span><span class="p">(),</span> <span class="nx">length</span><span class="p">,</span> <span class="nx">width</span><span class="p">,</span> <span class="nx">lengthSections</span><span class="p">,</span> <span class="nx">widthSections</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="nx">Ref</span><span class="o">&lt;</span><span class="nx">Vec3Attribute</span><span class="o">&gt;</span> <span class="nx">positionsAttr</span> <span class="o">=</span> <span class="nx">mesh</span><span class="p">.</span><span class="nx">getAttributes</span><span class="p">().</span><span class="nx">getPositions</span><span class="p">();</span>
+
+    <span class="nx">Vec3</span> <span class="nx">positionsDoubleBuffer</span><span class="p">[];</span>
+    <span class="nx">positionsDoubleBuffer</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">size</span><span class="p">);</span>
+
+    <span class="nx">noiseOp</span><span class="o">&lt;&lt;&lt;</span><span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">size</span><span class="err">@</span><span class="kc">false</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">,</span> <span class="nx">height</span><span class="p">);</span>
+
+    <span class="kr">UInt64</span> <span class="nx">start</span> <span class="o">=</span> <span class="nx">getCurrentTicks</span><span class="p">();</span>
+    <span class="k">for</span><span class="p">(</span><span class="kr">UInt32</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">iterations</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+      <span class="nx">smoothMesh</span><span class="o">&lt;&lt;&lt;</span><span class="nx">mesh</span><span class="p">.</span><span class="nx">pointCount</span><span class="p">()</span><span class="err">@</span><span class="kc">false</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="nx">mesh</span><span class="p">.</span><span class="nx">topology</span><span class="p">,</span> <span class="nx">positionsDoubleBuffer</span><span class="p">,</span> <span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">);</span>
+
+      <span class="nx">Vec3</span> <span class="nx">tmp</span><span class="p">[]</span> <span class="o">=</span> <span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">;</span>
+      <span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span> <span class="o">=</span> <span class="nx">positionsDoubleBuffer</span><span class="p">;</span>
+      <span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span> <span class="o">=</span> <span class="nx">tmp</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kr">UInt64</span> <span class="nx">end</span> <span class="o">=</span> <span class="nx">getCurrentTicks</span><span class="p">();</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;pointCount: &quot;</span> <span class="o">+</span> <span class="nx">mesh</span><span class="p">.</span><span class="nx">pointCount</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; CPU Time: &quot;</span> <span class="o">+</span> <span class="nx">getSecondsBetweenTicks</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span> <span class="nx">end</span><span class="p">));</span>
+  <span class="p">}</span>
+
+  <span class="c1">// then use the same code to smooth on the GPU.</span>
+  <span class="p">{</span>
+
+    <span class="nx">PolygonMesh</span> <span class="nx">mesh</span> <span class="o">=</span> <span class="nx">PolygonMesh</span><span class="p">();</span>
+    <span class="nx">mesh</span><span class="p">.</span><span class="nx">addPlane</span><span class="p">(</span><span class="nx">Xfo</span><span class="p">(),</span> <span class="nx">length</span><span class="p">,</span> <span class="nx">width</span><span class="p">,</span> <span class="nx">lengthSections</span><span class="p">,</span> <span class="nx">widthSections</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="nx">Ref</span><span class="o">&lt;</span><span class="nx">Vec3Attribute</span><span class="o">&gt;</span> <span class="nx">positionsAttr</span> <span class="o">=</span> <span class="nx">mesh</span><span class="p">.</span><span class="nx">getAttributes</span><span class="p">().</span><span class="nx">getPositions</span><span class="p">();</span>
+
+    <span class="nx">Vec3</span> <span class="nx">positionsDoubleBuffer</span><span class="p">[];</span>
+    <span class="nx">positionsDoubleBuffer</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">size</span><span class="p">);</span>
+
+    <span class="nx">mesh</span><span class="p">.</span><span class="nx">convertToGPU</span><span class="p">();</span>
+    <span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">convertToGPU</span><span class="p">();</span>
+    <span class="nx">positionsDoubleBuffer</span><span class="p">.</span><span class="nx">convertToGPU</span><span class="p">();</span>
+
+    <span class="nx">noiseOp</span><span class="o">&lt;&lt;&lt;</span><span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">size</span><span class="err">@</span><span class="kc">true</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">,</span> <span class="nx">height</span><span class="p">);</span>
+
+    <span class="kr">UInt64</span> <span class="nx">start</span> <span class="o">=</span> <span class="nx">getCurrentTicks</span><span class="p">();</span>
+    <span class="k">for</span><span class="p">(</span><span class="kr">UInt32</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">iterations</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+      <span class="nx">smoothMesh</span><span class="o">&lt;&lt;&lt;</span><span class="nx">mesh</span><span class="p">.</span><span class="nx">pointCount</span><span class="p">()</span><span class="err">@</span><span class="kc">true</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="nx">mesh</span><span class="p">.</span><span class="nx">topology</span><span class="p">,</span> <span class="nx">positionsDoubleBuffer</span><span class="p">,</span> <span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">);</span>
+
+      <span class="nx">Vec3</span> <span class="nx">tmp</span><span class="p">[]</span> <span class="o">=</span> <span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">;</span>
+      <span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span> <span class="o">=</span> <span class="nx">positionsDoubleBuffer</span><span class="p">;</span>
+      <span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span> <span class="o">=</span> <span class="nx">tmp</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kr">UInt64</span> <span class="nx">end</span> <span class="o">=</span> <span class="nx">getCurrentTicks</span><span class="p">();</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;pointCount: &quot;</span> <span class="o">+</span> <span class="nx">mesh</span><span class="p">.</span><span class="nx">pointCount</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; GPU Time: &quot;</span> <span class="o">+</span> <span class="nx">getSecondsBetweenTicks</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span> <span class="nx">end</span><span class="p">));</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+<span class="cm">(stdin):49:5: error: must use parentheses to call methods</span>
+<span class="cm">(stdin):51:5: error: must use parentheses to call methods</span>
+<span class="cm">(stdin):73:5: error: must use parentheses to call methods</span>
+<span class="cm">(stdin):79:5: error: must use parentheses to call methods</span>
+
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<div class="section" id="setting-attribute-values">
+<h3>アトリビュート値の設定<a class="headerlink" href="#setting-attribute-values" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>通常CPU上でアトリビュート値を設定する際には、PolygonMeshヘルパーメソッドの&#8221;setPointAttribute&#8221;&#8217;を使用することができます。ポリゴンメッシュトポロジー構造は、アトリビュートオブジェクトオブジェクトの代わりにとアトリビュートの値を取得する同様のメソッド群をサポートしています。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Setting Attribute values using setPointAttribute on the PolygonMeshTopology struct.</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Geometry</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">randomizeMesh</span><span class="o">&lt;&lt;&lt;</span><span class="nx">index</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="k">io</span> <span class="nx">PolygonMeshTopology</span> <span class="nx">mesh</span><span class="p">,</span> <span class="k">io</span> <span class="nx">Vec3</span> <span class="nx">positions</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="nx">Vec3</span> <span class="nx">position</span> <span class="o">=</span> <span class="nx">positionsDoubleBuffer</span><span class="p">[</span> <span class="nx">index</span> <span class="p">];</span>
+  <span class="nx">positions</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">mathRandomFloat32</span><span class="p">(</span><span class="mi">54775</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="o">*</span> <span class="nx">height</span><span class="p">;</span>
+  <span class="nx">mesh</span><span class="p">.</span><span class="nx">setPointAttribute</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">positions</span><span class="p">,</span> <span class="nx">position</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="nx">PolygonMesh</span> <span class="nx">mesh</span><span class="p">();</span>
+  <span class="nx">mesh</span><span class="p">.</span><span class="nx">addPlane</span><span class="p">(</span><span class="nx">Xfo</span><span class="p">(),</span> <span class="mf">120.0</span><span class="p">,</span> <span class="mf">40.0</span><span class="p">,</span> <span class="mi">1400</span><span class="p">,</span> <span class="mi">900</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+  <span class="nx">Ref</span><span class="o">&lt;</span><span class="nx">Vec3Attribute</span><span class="o">&gt;</span> <span class="nx">positionsAttr</span> <span class="o">=</span> <span class="nx">mesh</span><span class="p">.</span><span class="nx">getAttributes</span><span class="p">().</span><span class="nx">getPositions</span><span class="p">();</span>
+  <span class="nx">mesh</span><span class="p">.</span><span class="nx">convertToGPU</span><span class="p">();</span>
+  <span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">convertToGPU</span><span class="p">();</span>
+
+  <span class="nx">randomizeMesh</span><span class="o">&lt;&lt;&lt;</span><span class="nx">mesh</span><span class="p">.</span><span class="nx">pointCount</span><span class="p">()</span><span class="err">@</span><span class="kc">true</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="nx">mesh</span><span class="p">.</span><span class="nx">topology</span><span class="p">,</span> <span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+<span class="cm">(stdin):9:19: error: &#39;positionsDoubleBuffer&#39;: symbol not found</span>
+<span class="cm">(stdin):10:3: In assignment:</span>
+<span class="cm">(stdin):10:24:   In binary * expression:</span>
+<span class="cm">(stdin):10:58:     In right-hand side:</span>
+<span class="cm">(stdin):10:58: error: &#39;height&#39;: symbol not found</span>
+<span class="cm">(stdin):11:44: error: &#39;position&#39;: symbol not found</span>
+
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="skinning-attribute">
+<h3>スキニング・アトリビュート<a class="headerlink" href="#skinning-attribute" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><a class="reference internal" href="SkinningAttribute.html#skinningattribute"><span class="std std-ref">SkinningAttribute</span></a> はのGPUコンピュートカーネルに渡される <a class="reference internal" href="SkinningAttributeData.html#skinningattributedata"><span class="std std-ref">SkinningAttributeData</span></a> 型、または &#8216;data&#8217; で呼びだされる構造体メンバーを持っています。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Using the SkinningAttribute in a GPU compute kernel.</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Geometry</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">skinMeshPositions</span><span class="o">&lt;&lt;&lt;</span><span class="nx">index</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span>
+  <span class="k">io</span> <span class="nx">PolygonMeshTopology</span> <span class="nx">mesh</span><span class="p">,</span>
+  <span class="k">io</span> <span class="nx">Vec3</span> <span class="nx">positions</span><span class="p">[],</span>
+  <span class="k">io</span> <span class="nx">SkinningAttributeData</span> <span class="nx">skinningAttr</span><span class="p">,</span>
+  <span class="nx">Mat44</span> <span class="nx">skinningMatrices</span><span class="p">[]</span>
+<span class="p">){</span>
+  <span class="nx">Vec3</span> <span class="nx">srcPos</span> <span class="o">=</span> <span class="nx">positions</span><span class="p">[</span><span class="nx">index</span><span class="p">];</span>
+
+  <span class="nx">LocalL16UInt32Array</span> <span class="nx">indices</span><span class="p">;</span>
+  <span class="nx">LocalL16ScalarArray</span> <span class="nx">weights</span><span class="p">;</span>
+  <span class="nx">skinningAttr</span><span class="p">.</span><span class="nx">getPairs</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">indices</span><span class="p">,</span> <span class="nx">weights</span><span class="p">);</span>
+  <span class="nx">Scalar</span> <span class="nx">weighSum</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+  <span class="nx">Vec3</span> <span class="nx">position</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="k">for</span><span class="p">(</span> <span class="kr">UInt32</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">indices</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span> <span class="o">++</span><span class="nx">i</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="nx">Scalar</span> <span class="nx">boneWeight</span> <span class="o">=</span> <span class="nx">weights</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span> <span class="nx">boneWeight</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="p">)</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="kr">UInt32</span> <span class="nx">boneId</span> <span class="o">=</span> <span class="nx">indices</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+    <span class="nx">position</span> <span class="o">+=</span> <span class="p">(</span><span class="nx">skinningMatrices</span><span class="p">[</span><span class="nx">boneId</span><span class="p">]</span> <span class="o">*</span> <span class="nx">srcPos</span><span class="p">)</span> <span class="o">*</span> <span class="nx">boneWeight</span><span class="p">;</span>
+    <span class="nx">weighSum</span> <span class="o">+=</span> <span class="nx">boneWeight</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">mesh</span><span class="p">.</span><span class="nx">setPointAttribute</span><span class="p">(</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">positions</span><span class="p">,</span> <span class="nx">position</span> <span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="nx">PolygonMesh</span> <span class="nx">mesh</span> <span class="o">=</span> <span class="nx">PolygonMesh</span><span class="p">();</span>
+  <span class="nx">mesh</span><span class="p">.</span><span class="nx">addCuboid</span><span class="p">(</span><span class="nx">Xfo</span><span class="p">(),</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">);</span>
+  <span class="nx">Ref</span><span class="o">&lt;</span><span class="nx">Vec3Attribute</span><span class="o">&gt;</span> <span class="nx">positionsAttribute</span> <span class="o">=</span> <span class="nx">mesh</span><span class="p">.</span><span class="nx">getAttributes</span><span class="p">().</span><span class="nx">positionsAttribute</span><span class="p">;</span>
+
+  <span class="nx">Ref</span><span class="o">&lt;</span><span class="nx">SkinningAttribute</span><span class="o">&gt;</span> <span class="nx">skinningAttribute</span> <span class="o">=</span> <span class="nx">mesh</span><span class="p">.</span><span class="nx">getOrCreateAttribute</span><span class="p">(</span><span class="s2">&quot;skinningData&quot;</span><span class="p">,</span> <span class="nx">SkinningAttribute</span><span class="p">);</span>
+
+  <span class="c1">// Generate a random set of id/weight pairs per vertex in the mesh.</span>
+  <span class="kr">UInt32</span> <span class="nx">numJoints</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+  <span class="kr">UInt32</span> <span class="nx">maxNumJointerPerVertex</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+  <span class="kr">UInt32</span> <span class="nx">seed</span> <span class="o">=</span> <span class="mi">8516</span><span class="p">;</span>
+  <span class="kr">UInt32</span> <span class="nx">offset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">skinningAttribute</span><span class="p">.</span><span class="nx">size</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="kr">UInt16</span> <span class="nx">numItems</span> <span class="o">=</span> <span class="nx">mathRandomFloat32</span><span class="p">(</span><span class="nx">seed</span><span class="p">,</span> <span class="o">++</span><span class="nx">offset</span><span class="p">)</span> <span class="o">*</span> <span class="nx">maxNumJointerPerVertex</span><span class="p">;</span>
+    <span class="nx">skinningAttribute</span><span class="p">.</span><span class="nx">setPairCount</span><span class="p">(</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">numItems</span> <span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">j</span><span class="o">&lt;</span><span class="nx">numItems</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">){</span>
+      <span class="kr">UInt16</span> <span class="nx">index</span> <span class="o">=</span> <span class="nx">mathRandomFloat32</span><span class="p">(</span><span class="nx">seed</span><span class="p">,</span> <span class="o">++</span><span class="nx">offset</span><span class="p">)</span> <span class="o">*</span> <span class="nx">numJoints</span><span class="p">;</span>
+      <span class="kr">Float32</span> <span class="nx">weight</span> <span class="o">=</span> <span class="nx">mathRandomFloat32</span><span class="p">(</span><span class="nx">seed</span><span class="p">,</span> <span class="o">++</span><span class="nx">offset</span><span class="p">);</span>
+      <span class="nx">skinningAttribute</span><span class="p">.</span><span class="nx">setPair</span><span class="p">(</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">j</span><span class="p">,</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">weight</span> <span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nx">Mat44</span> <span class="nx">skinningMatrices</span><span class="p">[];</span>
+  <span class="nx">skinningMatrices</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">numJoints</span><span class="p">);</span>
+
+  <span class="nx">mesh</span><span class="p">.</span><span class="nx">convertToGPU</span><span class="p">();</span>
+  <span class="nx">positionsAttribute</span><span class="p">.</span><span class="nx">convertToGPU</span><span class="p">();</span>
+  <span class="nx">skinningAttribute</span><span class="p">.</span><span class="nx">convertToGPU</span><span class="p">();</span>
+  <span class="nx">skinningMatrices</span><span class="p">.</span><span class="nx">convertToGPU</span><span class="p">();</span>
+
+  <span class="nx">skinMeshPositions</span><span class="o">&lt;&lt;&lt;</span><span class="nx">mesh</span><span class="p">.</span><span class="nx">pointCount</span><span class="p">()</span><span class="err">@</span><span class="kc">true</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span>
+    <span class="nx">mesh</span><span class="p">.</span><span class="nx">topology</span><span class="p">,</span>
+    <span class="nx">positionsAttribute</span><span class="p">.</span><span class="nx">values</span><span class="p">,</span>
+    <span class="nx">skinningAttribute</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span>
+    <span class="nx">skinningMatrices</span>
+  <span class="p">);</span>
+
+  <span class="nx">positionsAttribute</span><span class="p">.</span><span class="nx">convertToCPU</span><span class="p">();</span>
+  <span class="nx">skinningAttribute</span><span class="p">.</span><span class="nx">convertToCPU</span><span class="p">();</span>
+  <span class="nx">mesh</span><span class="p">.</span><span class="nx">convertToCPU</span><span class="p">();</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">mesh</span><span class="p">.</span><span class="nx">getDesc</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+<span class="cm">(stdin):47:3: error: must use parentheses to call methods</span>
+
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="current-limitations">
+<h2>現在の制限<a class="headerlink" href="#current-limitations" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>現在のGPUコンピュートのインフラは、以下の制限があります。</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">アトリビュートのサイズはGPUコンピュート動作中に変更することはできません。ポリゴンメッシュトポロジーでサポートしているメソッド群だけが値を変更できますが、アトリビュートの共有情報は変更しないでください。</p>
+</li>
+<li><p class="first">オブジェクト群はまだGPUでサポートされておらず、単純な型と構造体と配列だけがGPUコンピュートカーネルで使用することができます。</p>
+</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ジオメトリを用いたGPUコンピュートの利用</a><ul>
+<li><a class="reference internal" href="#introduction">導入部</a></li>
+<li><a class="reference internal" href="#polygonmesh">ポリゴンメッシュ</a><ul>
+<li><a class="reference internal" href="#setting-attribute-values">アトリビュート値の設定</a></li>
+<li><a class="reference internal" href="#skinning-attribute">スキニング・アトリビュート</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#current-limitations">現在の制限</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="spatialqueriesusage.html"
+                        title="前の章へ">ジオメトリを用いた空間分析群(Spatial queries)の使用</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="files.html"
+                        title="次の章へ">Geometry Extension&#8217;s Files</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Geometry/utilizinggpucompute.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Geometry/utilizinggpucompute.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="Geometry Extension’s Files"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="spatialqueriesusage.html" title="ジオメトリを用いた空間分析群(Spatial queries)の使用"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Geometry エクステンション</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

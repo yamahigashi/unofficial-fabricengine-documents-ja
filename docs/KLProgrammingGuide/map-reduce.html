@@ -1,0 +1,897 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Map-Reduce &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="KL プログラミングガイド" href="index.html" />
+    <link rel="next" title="KL スタイルガイド" href="../KLStyleGuide/index.html" />
+    <link rel="prev" title="文（Statements）" href="statements.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../KLStyleGuide/index.html" title="KL スタイルガイド"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="statements.html" title="文（Statements）"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">KL プログラミングガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="map-reduce">
+<span id="index-0"></span><span id="id1"></span><h1>Map-Reduce<a class="headerlink" href="#map-reduce" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Fabric Engine では一般的な map-reduce フレームワークを提供し、それにより大規模なデータ集合に対する再帰的並列操作を作成することができます。</p>
+<p>この章では、map-reduce の背景概念や Fabric Engine map-reduceフレームワークの使用法については説明しません。ここでは純粋に、KLでこのフレームワークに提供される型,関数を列挙します。map-reduceの概念や、フレームワークの使用法についてのさらなる情報は <a class="reference internal" href="../MapReduceProgrammingGuide/index.html#mrpg"><span class="std std-ref">Map-Reduce Programming Guide</span></a> を参照してください。</p>
+<div class="section" id="map-reduce-types">
+<span id="mr-types"></span><span id="index-1"></span><h2>Map-Reduce 型<a class="headerlink" href="#map-reduce-types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>map-reduce のサポートのため、KLでは新しい２つの派生型を導入します。 <code class="samp docutils literal"><span class="pre">ValueProducer&lt;</span><em><span class="pre">ValueType</span></em><span class="pre">&gt;</span></code> と <code class="samp docutils literal"><span class="pre">ArrayProducer&lt;</span><em><span class="pre">ElementType</span></em><span class="pre">&gt;</span></code> です。</p>
+<div class="section" id="the-valueproducer-valuetype-type">
+<span id="value-producer"></span><span id="index-2"></span><h3><code class="samp docutils literal"><span class="pre">ValueProducer&lt;</span><em><span class="pre">ValueType</span></em><span class="pre">&gt;</span></code> 型<a class="headerlink" href="#the-valueproducer-valuetype-type" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><code class="samp docutils literal"><span class="pre">ValueProducer&lt;</span><em><span class="pre">ValueType</span></em><span class="pre">&gt;</span></code> に既存の型 <code class="samp docutils literal"><em><span class="pre">ValueType</span></em></code> を与え、map-reduce値プロデューサを生成します。 <code class="samp docutils literal"><em><span class="pre">ValueType</span></em></code> 型の値を生成します。 <code class="samp docutils literal"><span class="pre">ValueProducer&lt;</span><em><span class="pre">ValueType</span></em><span class="pre">&gt;</span></code> 型の値は以下の特徴を持ちます：</p>
+<ul>
+<li><p class="first"><code class="samp docutils literal"><em><span class="pre">ValueType</span></em></code> と正確に一致する同じ型の変数に代入できます。換言すると <code class="samp docutils literal"><span class="pre">ValueProducer&lt;</span><em><span class="pre">ValueType1</span></em><span class="pre">&gt;</span></code> と <code class="samp docutils literal"><span class="pre">ValueProducer&lt;</span><em><span class="pre">ValueType2</span></em><span class="pre">&gt;</span></code> が同じ型となるのは、 <code class="samp docutils literal"><em><span class="pre">ValueType1</span></em></code> と <code class="samp docutils literal"><em><span class="pre">ValueType2</span></em></code> が同じ型の場合のみです。</p>
+</li>
+<li><p class="first">以下のメソッドをサポートします</p>
+<pre class="literal-block">
+function <code class="samp docutils literal"><em><span class="pre">ValueType</span></em></code> ValueProducer&lt;<code class="samp docutils literal"><em><span class="pre">ValueType</span></em></code>&gt;.produce()
+</pre>
+<p>これは値プロデューサ（value producer）の値を生成します。</p>
+</li>
+<li><p class="first">以下のメソッドをサポートします</p>
+<pre class="literal-block">
+function ValueProducer&lt;<code class="samp docutils literal"><em><span class="pre">ValueType</span></em></code>&gt;.flush()
+</pre>
+<p>これは値プロデューサに接続されている全てのキャッシュを再帰的に破棄（フラッシュ）します。</p>
+</li>
+</ul>
+</div>
+<div class="section" id="the-arrayproducer-elementtype-type">
+<span id="array-producer"></span><h3><code class="samp docutils literal"><span class="pre">ArrayProducer&lt;</span><em><span class="pre">ElementType</span></em><span class="pre">&gt;</span></code> 型<a class="headerlink" href="#the-arrayproducer-elementtype-type" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><code class="samp docutils literal"><span class="pre">ArrayProducer&lt;</span><em><span class="pre">ElementType</span></em><span class="pre">&gt;</span></code> に既存の <code class="samp docutils literal"><em><span class="pre">ElementType</span></em></code> 型を与え、 map-reduce 配列プロデューサを生成します。 <code class="samp docutils literal"><em><span class="pre">ElementType</span></em></code> 型の値を生成します。 <code class="samp docutils literal"><span class="pre">ArrayProducer&lt;</span><em><span class="pre">ElementType</span></em><span class="pre">&gt;</span></code> 型の値は以下の特徴を持ちます：</p>
+<ul>
+<li><p class="first"><code class="samp docutils literal"><em><span class="pre">ElementType</span></em></code> と正確に一致する同じ型の変数に代入できます。換言すると <code class="samp docutils literal"><span class="pre">ValueProducer&lt;</span><em><span class="pre">ElementType1</span></em><span class="pre">&gt;</span></code> と <code class="samp docutils literal"><span class="pre">ValueProducer&lt;</span><em><span class="pre">ElementType2</span></em><span class="pre">&gt;</span></code> が同じ型となるのは、 <code class="samp docutils literal"><em><span class="pre">ElementType1</span></em></code> と <code class="samp docutils literal"><em><span class="pre">ElementType2</span></em></code> が同じ型の場合のみです。</p>
+</li>
+<li><p class="first">以下のメソッドをサポートします</p>
+<pre class="literal-block">
+function Size ArrayProducer&lt;<code class="samp docutils literal"><em><span class="pre">ElementType</span></em></code>&gt;.getCount()
+</pre>
+<p>これは配列プロデューサ内の要素数を返します。 <code class="samp docutils literal"><span class="pre">produce(</span><em><span class="pre">i</span></em><span class="pre">)</span></code> を <code class="docutils literal"><span class="pre">getCount()</span></code> の結果よりも超える <code class="samp docutils literal"><em><span class="pre">i</span></em></code> で呼び出しを行うと例外を投げます。</p>
+</li>
+<li><p class="first">以下のメソッドをサポートします</p>
+<pre class="literal-block">
+function <code class="samp docutils literal"><em><span class="pre">ElementType</span></em></code> ArrayProducer&lt;<code class="samp docutils literal"><em><span class="pre">ElementType</span></em></code>&gt;.produce(Index <code class="samp docutils literal"><em><span class="pre">i</span></em></code>)
+</pre>
+<p>これは配列プロデューサの <code class="samp docutils literal"><em><span class="pre">i</span></em></code> 番目の要素を生成します。</p>
+</li>
+<li><p class="first">以下のメソッドをサポートします</p>
+<pre class="literal-block">
+function ArrayProducer&lt;<code class="samp docutils literal"><em><span class="pre">ElementType</span></em></code>&gt;.flush()
+</pre>
+<p>これは、配列プロデューサに接続されている全てのキャッシュを破棄します。</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="map-reduce-functions">
+<span id="mr-functions"></span><h2>Map-Reduce 関数<a class="headerlink" href="#map-reduce-functions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>KLは幾つかの関数をサポートし、それにより既存のプロデューサ,KL関数,値から、新規の値（もしくは配列）プロデューサの作成ができます。</p>
+<div class="section" id="value-producer-creation-functions">
+<h3>値プロデューサを作成する関数<a class="headerlink" href="#value-producer-creation-functions" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<dl class="function">
+<dt id="createConstValue">
+<code class="descname">createConstValue</code><span class="sig-paren">(</span><em>expr</em><span class="sig-paren">)</span><a class="headerlink" href="#createConstValue" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>定数を返す値プロデューサを作成します。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">引数:</th><td class="field-body"><ul class="first simple">
+<li><strong>expr</strong> (<em>ValueType</em>) &#8211; 定数を得るため評価する式</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">戻り値の型:</th><td class="field-body"><p class="first last">ValueProducer&lt;ValueType&gt;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>用例:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">operator</span> <span class="n">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">ValueProducer</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">vp</span> <span class="o">=</span> <span class="n">createConstValue</span><span class="p">(</span> <span class="mi">42</span> <span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="n">vp</span><span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="n">vp</span><span class="o">.</span><span class="n">produce</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>出力:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ValueProducer</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span>
+<span class="mi">42</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="createValueGenerator">
+<code class="descname">createValueGenerator</code><span class="sig-paren">(</span><em>operatorName</em><span class="optional">[</span>, <em>sharedValueProducer</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#createValueGenerator" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>値を生成するため  <em>operatorName</em> と名づけられたオペレータを呼ぶ、値プロデューサを作成します。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">引数:</th><td class="field-body"><ul class="first simple">
+<li><strong>operatorName</strong> &#8211; 値を生成するため呼ぶオペレータの名前</li>
+<li><strong>sharedValueProducer</strong> (<em>ValueProducer&lt;SharedValueType&gt;</em>) &#8211; （オプション） <em>operatorName</em> へ渡される共有される値プロデューサ</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">戻り値の型:</th><td class="field-body"><p class="first last">ValueProducer&lt;ValueType&gt;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>オペレータ <em>operatorName</em> は以下のプロトタイプに従う必要があります:</p>
+<pre class="literal-block">
+operator <em>operatorName</em>(
+  io <em>ValueType</em> outputValue,
+  // required if and only if <em>sharedValueProducer</em> provided
+  in <em>SharedValueType</em> sharedValue
+  );
+</pre>
+<p><em>ValueType</em> 型は <em>operatorName</em> 第一パラメータの型から推測されます。</p>
+<p>用例:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">operator</span> <span class="n">gen1</span><span class="p">(</span><span class="n">io</span> <span class="n">String</span> <span class="n">output</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;Hello!&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">operator</span> <span class="n">gen2</span><span class="p">(</span><span class="n">io</span> <span class="n">String</span> <span class="n">output</span><span class="p">,</span> <span class="n">String</span> <span class="n">shared</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="n">shared</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">operator</span> <span class="n">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">ValueProducer</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">vp1</span> <span class="o">=</span> <span class="n">createValueGenerator</span><span class="p">(</span><span class="n">gen1</span><span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;vp1 = &quot;</span> <span class="o">+</span> <span class="n">vp1</span><span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;vp1.produce() = &quot;</span> <span class="o">+</span> <span class="n">vp1</span><span class="o">.</span><span class="n">produce</span><span class="p">());</span>
+
+  <span class="n">ValueProducer</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">vp2</span> <span class="o">=</span> <span class="n">createValueGenerator</span><span class="p">(</span><span class="n">gen2</span><span class="p">,</span> <span class="n">vp1</span><span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;vp2 = &quot;</span> <span class="o">+</span> <span class="n">vp2</span><span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;vp2.produce() = &quot;</span> <span class="o">+</span> <span class="n">vp2</span><span class="o">.</span><span class="n">produce</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>出力:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>vp1 = ValueProducer&lt;String&gt;
+vp1.produce() = Hello!
+vp2 = ValueProducer&lt;String&gt;
+vp2.produce() = Hello, Hello!
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="createValueTransform">
+<code class="descname">createValueTransform</code><span class="sig-paren">(</span><em>inputValueProducer</em>, <em>operatorName</em><span class="optional">[</span>, <em>sharedValueProducer</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#createValueTransform" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>与えられたオペレータを呼び出し、結果を同型の異なる値へトランスフォームする値プロデューサを作成します。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">引数:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputValueProducer</strong> (<em>ValueProducer&lt;ValueType&gt;</em>) &#8211; トランスフォームさせるために入力する値プロデューサ</li>
+<li><strong>operatorName</strong> &#8211; 値をトランスフォームさせるために呼び出すオペレータの名前</li>
+<li><strong>sharedValueProducer</strong> (<em>ValueProducer&lt;SharedValueType&gt;</em>) &#8211; （オプション） <em>operatorName</em> へ渡される共有される値プロデューサ</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">戻り値の型:</th><td class="field-body"><p class="first last">ValueProducer&lt;ValueType&gt;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>オペレータ <em>operatorName</em> は以下のプロトタイプに従う必要があります:</p>
+<pre class="literal-block">
+operator <em>operatorName</em>(
+  io <em>ValueType</em> value,
+  // required if and only if <em>sharedValueProducer</em> provided
+  in <em>SharedValueType</em> sharedValue
+  );
+</pre>
+<p>用例:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">operator</span> <span class="n">multByTwo</span><span class="p">(</span>
+  <span class="n">io</span> <span class="n">Integer</span> <span class="n">value</span>
+  <span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">value</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">operator</span> <span class="n">multByShared</span><span class="p">(</span>
+  <span class="n">io</span> <span class="n">Integer</span> <span class="n">value</span><span class="p">,</span>
+  <span class="n">Integer</span> <span class="n">shared</span>
+  <span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">value</span> <span class="o">*=</span> <span class="n">shared</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">operator</span> <span class="n">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">ValueProducer</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">vp</span><span class="p">;</span>
+
+  <span class="n">vp</span> <span class="o">=</span> <span class="n">createValueTransform</span><span class="p">(</span>
+    <span class="n">createConstValue</span><span class="p">(</span> <span class="mi">42</span> <span class="p">),</span>
+    <span class="n">multByTwo</span>
+    <span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="n">vp</span><span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="n">vp</span><span class="o">.</span><span class="n">produce</span><span class="p">());</span>
+
+  <span class="n">vp</span> <span class="o">=</span> <span class="n">createValueTransform</span><span class="p">(</span>
+    <span class="n">createConstValue</span><span class="p">(</span> <span class="mi">2</span> <span class="p">),</span>
+    <span class="n">multByShared</span><span class="p">,</span>
+    <span class="n">createConstValue</span><span class="p">(</span> <span class="mi">3</span> <span class="p">)</span>
+    <span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="n">vp</span><span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="n">vp</span><span class="o">.</span><span class="n">produce</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>出力:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ValueProducer</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span>
+<span class="mi">84</span>
+<span class="n">ValueProducer</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span>
+<span class="mi">6</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="createValueMap">
+<code class="descname">createValueMap</code><span class="sig-paren">(</span><em>inputValueProducer</em>, <em>operatorName</em><span class="optional">[</span>, <em>sharedValueType</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#createValueMap" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>オペレータ <em>operatorName</em> を呼び出し、結果を異なる値プロデューサへと ―場合によっては異なる型へとマップする値プロデューサを作成します。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">引数:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputValueProducer</strong> (<em>ValueProducer&lt;InputValueType&gt;</em>) &#8211; 値のマップ元となる入力値プロデューサ</li>
+<li><strong>operatorName</strong> &#8211; 値のマップのために呼び出すオペレータの名前</li>
+<li><strong>sharedValueProducer</strong> (<em>ValueProducer&lt;SharedValueType&gt;</em>) &#8211; （オプション） <em>operatorName</em> へ渡される共有される値プロデューサ</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">戻り値の型:</th><td class="field-body"><p class="first last">ValueProducer&lt;OutputValueType&gt;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>オペレータ <em>operatorName</em> は以下のプロトタイプに従う必要があります:</p>
+<pre class="literal-block">
+operator <em>operatorName</em>(
+  in <em>InputValueType</em> inputValue,
+  io <em>OutputValueType</em> outputValue,
+  // required if and only if <em>sharedValueProducer</em> provided
+  in <em>SharedValueType</em> sharedValue
+  );
+</pre>
+<p><em>OutputValueType</em> の型は <em>operatorName</em> の第二パラメータから推測されます</p>
+<p>用例:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">operator</span> <span class="n">multByPi</span><span class="p">(</span>
+  <span class="n">Integer</span> <span class="nb">input</span><span class="p">,</span>
+  <span class="n">io</span> <span class="n">Scalar</span> <span class="n">output</span>
+  <span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">output</span> <span class="o">=</span> <span class="mf">3.14</span> <span class="o">*</span> <span class="nb">input</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">operator</span> <span class="n">multByShared</span><span class="p">(</span>
+  <span class="n">Integer</span> <span class="nb">input</span><span class="p">,</span>
+  <span class="n">io</span> <span class="n">Scalar</span> <span class="n">output</span><span class="p">,</span>
+  <span class="n">Scalar</span> <span class="n">shared</span>
+  <span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">output</span> <span class="o">=</span> <span class="nb">input</span> <span class="o">*</span> <span class="n">shared</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">operator</span> <span class="n">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">ValueProducer</span><span class="o">&lt;</span><span class="n">Scalar</span><span class="o">&gt;</span> <span class="n">vp</span><span class="p">;</span>
+
+  <span class="n">vp</span> <span class="o">=</span> <span class="n">createValueMap</span><span class="p">(</span>
+    <span class="n">createConstValue</span><span class="p">(</span> <span class="mi">42</span> <span class="p">),</span>
+    <span class="n">multByPi</span>
+    <span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="n">vp</span><span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="n">vp</span><span class="o">.</span><span class="n">produce</span><span class="p">());</span>
+
+  <span class="n">vp</span> <span class="o">=</span> <span class="n">createValueMap</span><span class="p">(</span>
+    <span class="n">createConstValue</span><span class="p">(</span> <span class="mi">2</span> <span class="p">),</span>
+    <span class="n">multByShared</span><span class="p">,</span>
+    <span class="n">createConstValue</span><span class="p">(</span> <span class="n">Scalar</span><span class="p">(</span><span class="mf">2.71</span><span class="p">)</span> <span class="p">)</span>
+    <span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="n">vp</span><span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="n">vp</span><span class="o">.</span><span class="n">produce</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>出力:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ValueProducer</span><span class="o">&lt;</span><span class="n">Scalar</span><span class="o">&gt;</span>
+<span class="mf">131.88</span>
+<span class="n">ValueProducer</span><span class="o">&lt;</span><span class="n">Scalar</span><span class="o">&gt;</span>
+<span class="mf">5.42</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="createValueCache">
+<code class="descname">createValueCache</code><span class="sig-paren">(</span><em>inputValueProducer</em><span class="sig-paren">)</span><a class="headerlink" href="#createValueCache" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>他の同型の値プロデューサの結果をキャッシュする、値プロデューサを作成します。詳細は <a class="reference internal" href="../MapReduceProgrammingGuide/index.html#mrpg"><span class="std std-ref">Map-Reduce Programming Guide</span></a> を参照してください。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">引数:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputValueProducer</strong> (<em>ValueProducer&lt;ValueType&gt;</em>) &#8211; キャッシュする入力値プロデューサ</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">戻り値の型:</th><td class="field-body"><p class="first last">ValueProducer&lt;ValueType&gt;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>用例:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">operator</span> <span class="n">valueGen</span><span class="p">(</span>
+  <span class="n">io</span> <span class="n">Scalar</span> <span class="n">output</span>
+  <span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">output</span> <span class="o">=</span> <span class="mf">2.71</span><span class="p">;</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;Generating output = &quot;</span> <span class="o">+</span> <span class="n">output</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">operator</span> <span class="n">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">ValueProducer</span><span class="o">&lt;</span><span class="n">Scalar</span><span class="o">&gt;</span> <span class="n">vp</span> <span class="o">=</span> <span class="n">createValueCache</span><span class="p">(</span><span class="n">createValueGenerator</span><span class="p">(</span><span class="n">valueGen</span><span class="p">));</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;vp.produce() = &quot;</span> <span class="o">+</span> <span class="n">vp</span><span class="o">.</span><span class="n">produce</span><span class="p">());</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;vp.produce() = &quot;</span> <span class="o">+</span> <span class="n">vp</span><span class="o">.</span><span class="n">produce</span><span class="p">());</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;calling vp.flush()&quot;</span><span class="p">);</span>
+  <span class="n">vp</span><span class="o">.</span><span class="n">flush</span><span class="p">();</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;vp.produce() = &quot;</span> <span class="o">+</span> <span class="n">vp</span><span class="o">.</span><span class="n">produce</span><span class="p">());</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;vp.produce() = &quot;</span> <span class="o">+</span> <span class="n">vp</span><span class="o">.</span><span class="n">produce</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>出力:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Generating</span> <span class="n">output</span> <span class="o">=</span> <span class="mf">2.71</span>
+<span class="n">vp</span><span class="o">.</span><span class="n">produce</span><span class="p">()</span> <span class="o">=</span> <span class="mf">2.71</span>
+<span class="n">vp</span><span class="o">.</span><span class="n">produce</span><span class="p">()</span> <span class="o">=</span> <span class="mf">2.71</span>
+<span class="n">calling</span> <span class="n">vp</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+<span class="n">Generating</span> <span class="n">output</span> <span class="o">=</span> <span class="mf">2.71</span>
+<span class="n">vp</span><span class="o">.</span><span class="n">produce</span><span class="p">()</span> <span class="o">=</span> <span class="mf">2.71</span>
+<span class="n">vp</span><span class="o">.</span><span class="n">produce</span><span class="p">()</span> <span class="o">=</span> <span class="mf">2.71</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="array-producer-creation-functions">
+<h3>配列プロデューサを作成する関数<a class="headerlink" href="#array-producer-creation-functions" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<dl class="function">
+<dt id="createConstArray">
+<code class="descname">createConstArray</code><span class="sig-paren">(</span><em>arrayExpr</em><span class="sig-paren">)</span><a class="headerlink" href="#createConstArray" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>定数を返す配列プロデューサを作成します。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">引数:</th><td class="field-body"><ul class="first simple">
+<li><strong>expr</strong> &#8211; 定数配列を得るため評価する式。この指揮はKL配列の一種である必要があります。 (可変長配列, 固定長配列, 外部配列のいずれか)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">戻り値の型:</th><td class="field-body"><p class="first last">ArrayProducer&lt;ElementType&gt;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><em>ElementType</em> は <em>arrayExpr</em> により与えられる配列の要素の型</p>
+<p>用例:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">operator</span> <span class="n">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Integer</span> <span class="n">a</span><span class="p">[];</span> <span class="n">a</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">42</span><span class="p">);</span> <span class="n">a</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">17</span><span class="p">);</span> <span class="n">a</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">52</span><span class="p">);</span> <span class="n">a</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">871</span><span class="p">);</span>
+  <span class="n">ArrayProducer</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">ap</span> <span class="o">=</span> <span class="n">createConstArray</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="n">ap</span><span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="n">ap</span><span class="o">.</span><span class="n">getCount</span><span class="p">());</span>
+  <span class="n">report</span><span class="p">(</span><span class="n">ap</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>出力:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ArrayProducer</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span>
+<span class="mi">4</span>
+<span class="mi">52</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="createArrayGenerator">
+<code class="descname">createArrayGenerator</code><span class="sig-paren">(</span><em>sizeProducer</em>, <em>operatorName</em><span class="optional">[</span>, <em>sharedValueProducer</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#createArrayGenerator" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>配列の要素を生成するため  <em>operatorName</em> と名づけられたオペレータを呼ぶ、値プロデューサを作成します。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">引数:</th><td class="field-body"><ul class="first simple">
+<li><strong>sizeProducer</strong> (<em>ValueProducer&lt;Size&gt;</em>) &#8211; <code class="docutils literal"><span class="pre">Size</span></code> 型の値を生成する値プロデューサ。この値プロデューサにより配列のサイズ（要素数）を決定します。</li>
+<li><strong>operatorName</strong> &#8211; 要素を生成するため呼ぶオペレータの名前</li>
+<li><strong>sharedValueProducer</strong> (<em>ValueProducer&lt;SharedValueType&gt;</em>) &#8211; （オプション） <em>operatorName</em> へ渡される共有される値プロデューサ</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">戻り値の型:</th><td class="field-body"><p class="first last">ArrayProducer&lt;ElementType&gt;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>オペレータ <em>operatorName</em> は以下のプロトタイプに従う必要があります:</p>
+<pre class="literal-block">
+operator <em>operatorName</em>(
+  io <em>ElementType</em> outputElementValue,
+  in Size index,
+  in Size size,
+  // required if and only if <em>sharedValueProducer</em> provided
+  in <em>SharedValueType</em> sharedValue
+  );
+</pre>
+<p><em>ElementType</em> 型は <em>operatorName</em> の第一パラメータの型から推測されます。</p>
+<p>用例:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">operator</span> <span class="n">generator</span><span class="p">(</span>
+  <span class="n">io</span> <span class="n">Float32</span> <span class="n">value</span><span class="p">,</span>
+  <span class="n">Size</span> <span class="n">index</span><span class="p">,</span>
+  <span class="n">Size</span> <span class="n">count</span><span class="p">,</span>
+  <span class="n">Float32</span> <span class="n">shared</span>
+  <span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;generator: value=&quot;</span> <span class="o">+</span> <span class="n">value</span> <span class="o">+</span> <span class="s2">&quot; index=&quot;</span> <span class="o">+</span> <span class="n">index</span> <span class="o">+</span> <span class="s2">&quot; count=&quot;</span> <span class="o">+</span> <span class="n">count</span> <span class="o">+</span> <span class="s2">&quot; shared=&quot;</span> <span class="o">+</span> <span class="n">shared</span><span class="p">);</span>
+  <span class="n">value</span> <span class="o">=</span> <span class="n">shared</span><span class="o">*</span><span class="n">index</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">operator</span> <span class="n">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">ValueProducer</span><span class="o">&lt;</span><span class="n">Size</span><span class="o">&gt;</span> <span class="n">cvg</span> <span class="o">=</span> <span class="n">createConstValue</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span>
+  <span class="n">ArrayProducer</span><span class="o">&lt;</span><span class="n">Float32</span><span class="o">&gt;</span> <span class="n">ag4</span> <span class="o">=</span> <span class="n">createArrayGenerator</span><span class="p">(</span><span class="n">cvg</span><span class="p">,</span> <span class="n">generator</span><span class="p">,</span> <span class="n">createConstValue</span><span class="p">(</span><span class="n">Float32</span><span class="p">(</span><span class="mf">3.141</span><span class="p">)));</span>
+  <span class="n">report</span><span class="p">(</span><span class="n">ag4</span><span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="n">ag4</span><span class="o">.</span><span class="n">getCount</span><span class="p">());</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">Size</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">report</span><span class="p">(</span><span class="n">ag4</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>出力:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ArrayProducer</span><span class="o">&lt;</span><span class="n">Float32</span><span class="o">&gt;</span>
+<span class="mi">10</span>
+<span class="n">generator</span><span class="p">:</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span> <span class="n">count</span><span class="o">=</span><span class="mi">10</span> <span class="n">shared</span><span class="o">=</span><span class="mf">3.141</span>
+<span class="mi">0</span>
+<span class="n">generator</span><span class="p">:</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span> <span class="n">index</span><span class="o">=</span><span class="mi">1</span> <span class="n">count</span><span class="o">=</span><span class="mi">10</span> <span class="n">shared</span><span class="o">=</span><span class="mf">3.141</span>
+<span class="mf">3.141</span>
+<span class="n">generator</span><span class="p">:</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span> <span class="n">index</span><span class="o">=</span><span class="mi">2</span> <span class="n">count</span><span class="o">=</span><span class="mi">10</span> <span class="n">shared</span><span class="o">=</span><span class="mf">3.141</span>
+<span class="mf">6.282</span>
+<span class="n">generator</span><span class="p">:</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span> <span class="n">index</span><span class="o">=</span><span class="mi">3</span> <span class="n">count</span><span class="o">=</span><span class="mi">10</span> <span class="n">shared</span><span class="o">=</span><span class="mf">3.141</span>
+<span class="mf">9.423</span>
+<span class="n">generator</span><span class="p">:</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span> <span class="n">index</span><span class="o">=</span><span class="mi">4</span> <span class="n">count</span><span class="o">=</span><span class="mi">10</span> <span class="n">shared</span><span class="o">=</span><span class="mf">3.141</span>
+<span class="mf">12.564</span>
+<span class="n">generator</span><span class="p">:</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span> <span class="n">index</span><span class="o">=</span><span class="mi">5</span> <span class="n">count</span><span class="o">=</span><span class="mi">10</span> <span class="n">shared</span><span class="o">=</span><span class="mf">3.141</span>
+<span class="mf">15.705</span>
+<span class="n">generator</span><span class="p">:</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span> <span class="n">index</span><span class="o">=</span><span class="mi">6</span> <span class="n">count</span><span class="o">=</span><span class="mi">10</span> <span class="n">shared</span><span class="o">=</span><span class="mf">3.141</span>
+<span class="mf">18.846</span>
+<span class="n">generator</span><span class="p">:</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span> <span class="n">index</span><span class="o">=</span><span class="mi">7</span> <span class="n">count</span><span class="o">=</span><span class="mi">10</span> <span class="n">shared</span><span class="o">=</span><span class="mf">3.141</span>
+<span class="mf">21.987</span>
+<span class="n">generator</span><span class="p">:</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span> <span class="n">index</span><span class="o">=</span><span class="mi">8</span> <span class="n">count</span><span class="o">=</span><span class="mi">10</span> <span class="n">shared</span><span class="o">=</span><span class="mf">3.141</span>
+<span class="mf">25.128</span>
+<span class="n">generator</span><span class="p">:</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span> <span class="n">index</span><span class="o">=</span><span class="mi">9</span> <span class="n">count</span><span class="o">=</span><span class="mi">10</span> <span class="n">shared</span><span class="o">=</span><span class="mf">3.141</span>
+<span class="mf">28.269</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="createArrayTransform">
+<code class="descname">createArrayTransform</code><span class="sig-paren">(</span><em>inputArrayProducer</em>, <em>operatorName</em><span class="optional">[</span>, <em>sharedValueProducer</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#createArrayTransform" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>入力された配列プロデューサを <em>operatorName</em> という名前のオペレータを各要素に対して呼び出し、トランスフォームさせる配列プロデューサを作成します。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">引数:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputArrayProducer</strong> (<em>ArrayProducer&lt;ElementType&gt;</em>) &#8211; トランスフォームさせる入力配列プロデューサ</li>
+<li><strong>operatorName</strong> &#8211; 要素に対しトランスフォームするため適用するオペレータの名前</li>
+<li><strong>sharedValueProducer</strong> (<em>ValueProducer&lt;SharedValueType&gt;</em>) &#8211; （オプション） <em>operatorName</em> へ渡される共有される値プロデューサ</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">戻り値の型:</th><td class="field-body"><p class="first last">ArrayProducer&lt;ElementType&gt;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>オペレータ <em>operatorName</em> は以下のプロトタイプに従う必要があります:</p>
+<pre class="literal-block">
+operator <em>operatorName</em>(
+  io <em>ElementType</em> elementValue,
+  in Size index,
+  in Size size,
+  // required if and only if <em>sharedValueProducer</em> provided
+  in <em>SharedValueType</em> sharedValue
+  );
+</pre>
+<p>用例:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">operator</span> <span class="n">transform</span><span class="p">(</span>
+  <span class="n">io</span> <span class="n">Float32</span> <span class="n">value</span><span class="p">,</span>
+  <span class="n">Size</span> <span class="n">index</span><span class="p">,</span>
+  <span class="n">Size</span> <span class="n">count</span><span class="p">,</span>
+  <span class="n">Float32</span> <span class="n">shared</span>
+  <span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;transform: value=&quot;</span> <span class="o">+</span> <span class="n">value</span> <span class="o">+</span> <span class="s2">&quot; index=&quot;</span> <span class="o">+</span> <span class="n">index</span> <span class="o">+</span> <span class="s2">&quot; count=&quot;</span> <span class="o">+</span> <span class="n">count</span> <span class="o">+</span> <span class="s2">&quot; shared=&quot;</span> <span class="o">+</span> <span class="n">shared</span><span class="p">);</span>
+  <span class="n">value</span> <span class="o">*=</span> <span class="n">shared</span> <span class="o">*</span> <span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">operator</span> <span class="n">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Float32</span> <span class="n">inputArray</span><span class="p">[];</span> <span class="n">inputArray</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mf">5.6</span><span class="p">);</span> <span class="n">inputArray</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="o">-</span><span class="mf">3.4</span><span class="p">);</span> <span class="n">inputArray</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mf">1.4142</span><span class="p">);</span>
+  <span class="n">ArrayProducer</span><span class="o">&lt;</span><span class="n">Float32</span><span class="o">&gt;</span> <span class="n">inputArrayProducer</span> <span class="o">=</span> <span class="n">createConstArray</span><span class="p">(</span><span class="n">inputArray</span><span class="p">);</span>
+  <span class="n">ArrayProducer</span><span class="o">&lt;</span><span class="n">Float32</span><span class="o">&gt;</span> <span class="n">transformedArrayProducer</span> <span class="o">=</span> <span class="n">createArrayTransform</span><span class="p">(</span><span class="n">inputArrayProducer</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">createConstValue</span><span class="p">(</span><span class="n">Float32</span><span class="p">(</span><span class="mf">2.56</span><span class="p">)));</span>
+  <span class="n">report</span><span class="p">(</span><span class="n">transformedArrayProducer</span><span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="n">transformedArrayProducer</span><span class="o">.</span><span class="n">getCount</span><span class="p">());</span>
+  <span class="n">Size</span> <span class="n">transformedArrayProducerCount</span> <span class="o">=</span> <span class="n">transformedArrayProducer</span><span class="o">.</span><span class="n">getCount</span><span class="p">();</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">Index</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">transformedArrayProducerCount</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">report</span><span class="p">(</span><span class="n">transformedArrayProducer</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>出力:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ArrayProducer</span><span class="o">&lt;</span><span class="n">Float32</span><span class="o">&gt;</span>
+<span class="mi">3</span>
+<span class="n">transform</span><span class="p">:</span> <span class="n">value</span><span class="o">=</span><span class="mf">5.6</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span> <span class="n">count</span><span class="o">=</span><span class="mi">3</span> <span class="n">shared</span><span class="o">=</span><span class="mf">2.56</span>
+<span class="mf">14.336</span>
+<span class="n">transform</span><span class="p">:</span> <span class="n">value</span><span class="o">=-</span><span class="mf">3.4</span> <span class="n">index</span><span class="o">=</span><span class="mi">1</span> <span class="n">count</span><span class="o">=</span><span class="mi">3</span> <span class="n">shared</span><span class="o">=</span><span class="mf">2.56</span>
+<span class="o">-</span><span class="mf">17.408</span>
+<span class="n">transform</span><span class="p">:</span> <span class="n">value</span><span class="o">=</span><span class="mf">1.4142</span> <span class="n">index</span><span class="o">=</span><span class="mi">2</span> <span class="n">count</span><span class="o">=</span><span class="mi">3</span> <span class="n">shared</span><span class="o">=</span><span class="mf">2.56</span>
+<span class="mf">10.86106</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="createArrayMap">
+<code class="descname">createArrayMap</code><span class="sig-paren">(</span><em>inputArrayProducer</em>, <em>operatorName</em><span class="optional">[</span>, <em>sharedValueProducer</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#createArrayMap" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>オペレータ <em>operatorName</em> を呼び出し、結果を異なる配列プロデューサへと ―場合によっては異なる型へとマップする配列プロデューサを作成します。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">引数:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputArrayProducer</strong> (<em>ArrayProducer&lt;InputElementType&gt;</em>) &#8211; 要素のマップ元となる入力配列プロデューサ</li>
+<li><strong>operatorName</strong> &#8211; 要素のマップのために呼び出すオペレータの名前</li>
+<li><strong>sharedValueProducer</strong> (<em>ValueProducer&lt;SharedValueType&gt;</em>) &#8211; （オプション） <em>operatorName</em> へ渡される共有される値プロデューサ</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">戻り値の型:</th><td class="field-body"><p class="first last">ArrayProducer&lt;OutputElementType&gt;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>オペレータ <em>operatorName</em> は以下のプロトタイプに従う必要があります:</p>
+<pre class="literal-block">
+operator <em>operatorName</em>(
+  in <em>InputElementType</em> inputElementValue,
+  io <em>OutputElementType</em> outputElementValue,
+  in Size index,
+  in Size size,
+  // required if and only if <em>sharedValueProducer</em> provided
+  in <em>SharedValueType</em> sharedValue
+  );
+</pre>
+<p><em>OutputElementType</em> の型は <em>operatorName</em> の第二パラメータから推測されます</p>
+<p>用例:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">operator</span> <span class="nb">map</span><span class="p">(</span>
+  <span class="n">Float32</span> <span class="n">inputValue</span><span class="p">,</span>
+  <span class="n">io</span> <span class="n">String</span> <span class="n">outputValue</span><span class="p">,</span>
+  <span class="n">Size</span> <span class="n">index</span><span class="p">,</span>
+  <span class="n">Size</span> <span class="n">count</span><span class="p">,</span>
+  <span class="n">Float32</span> <span class="n">shared</span>
+  <span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;map: inputValue=&quot;</span> <span class="o">+</span> <span class="n">inputValue</span> <span class="o">+</span> <span class="s2">&quot; index=&quot;</span> <span class="o">+</span> <span class="n">index</span> <span class="o">+</span> <span class="s2">&quot; count=&quot;</span> <span class="o">+</span> <span class="n">count</span> <span class="o">+</span> <span class="s2">&quot; shared=&quot;</span> <span class="o">+</span> <span class="n">shared</span><span class="p">);</span>
+  <span class="n">Float32</span> <span class="n">float32Value</span> <span class="o">=</span> <span class="n">inputValue</span> <span class="o">*</span> <span class="n">shared</span> <span class="o">*</span> <span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">float32Value</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">outputValue</span> <span class="o">=</span> <span class="s2">&quot;small&quot;</span><span class="p">;</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">float32Value</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">10.0</span><span class="p">)</span>
+    <span class="n">outputValue</span> <span class="o">=</span> <span class="s2">&quot;medium&quot;</span><span class="p">;</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">float32Value</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">100.0</span><span class="p">)</span>
+    <span class="n">outputValue</span> <span class="o">=</span> <span class="s2">&quot;large&quot;</span><span class="p">;</span>
+  <span class="k">else</span>
+    <span class="n">outputValue</span> <span class="o">=</span> <span class="s2">&quot;x-large&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">operator</span> <span class="n">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Float32</span> <span class="n">inputArray</span><span class="p">[];</span> <span class="n">inputArray</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mf">5.6</span><span class="p">);</span> <span class="n">inputArray</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="o">-</span><span class="mf">0.034</span><span class="p">);</span> <span class="n">inputArray</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mf">1.4142</span><span class="p">);</span>
+  <span class="n">ArrayProducer</span><span class="o">&lt;</span><span class="n">Float32</span><span class="o">&gt;</span> <span class="n">inputArrayProducer</span> <span class="o">=</span> <span class="n">createConstArray</span><span class="p">(</span><span class="n">inputArray</span><span class="p">);</span>
+  <span class="n">ArrayProducer</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">mappedArrayProducer</span> <span class="o">=</span> <span class="n">createArrayMap</span><span class="p">(</span><span class="n">inputArrayProducer</span><span class="p">,</span> <span class="nb">map</span><span class="p">,</span> <span class="n">createConstValue</span><span class="p">(</span><span class="n">Float32</span><span class="p">(</span><span class="mf">2.56</span><span class="p">)));</span>
+  <span class="n">report</span><span class="p">(</span><span class="n">mappedArrayProducer</span><span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="n">mappedArrayProducer</span><span class="o">.</span><span class="n">getCount</span><span class="p">());</span>
+  <span class="n">Size</span> <span class="n">mappedArrayProducerCount</span> <span class="o">=</span> <span class="n">mappedArrayProducer</span><span class="o">.</span><span class="n">getCount</span><span class="p">();</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">Index</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">mappedArrayProducerCount</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">report</span><span class="p">(</span><span class="n">mappedArrayProducer</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>出力:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ArrayProducer</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span>
+<span class="mi">3</span>
+<span class="nb">map</span><span class="p">:</span> <span class="n">inputValue</span><span class="o">=</span><span class="mf">5.6</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span> <span class="n">count</span><span class="o">=</span><span class="mi">3</span> <span class="n">shared</span><span class="o">=</span><span class="mf">2.56</span>
+<span class="n">large</span>
+<span class="nb">map</span><span class="p">:</span> <span class="n">inputValue</span><span class="o">=-</span><span class="mf">0.034</span> <span class="n">index</span><span class="o">=</span><span class="mi">1</span> <span class="n">count</span><span class="o">=</span><span class="mi">3</span> <span class="n">shared</span><span class="o">=</span><span class="mf">2.56</span>
+<span class="n">small</span>
+<span class="nb">map</span><span class="p">:</span> <span class="n">inputValue</span><span class="o">=</span><span class="mf">1.4142</span> <span class="n">index</span><span class="o">=</span><span class="mi">2</span> <span class="n">count</span><span class="o">=</span><span class="mi">3</span> <span class="n">shared</span><span class="o">=</span><span class="mf">2.56</span>
+<span class="n">large</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="createArrayCache">
+<code class="descname">createArrayCache</code><span class="sig-paren">(</span><em>inputArrayProducer</em><span class="sig-paren">)</span><a class="headerlink" href="#createArrayCache" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>他の同型の配列プロデューサの結果をキャッシュする、配列プロデューサを作成します。詳細は <a class="reference internal" href="../MapReduceProgrammingGuide/index.html#mrpg"><span class="std std-ref">Map-Reduce Programming Guide</span></a> を参照してください。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">引数:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputArrayProducer</strong> (<em>ArrayProducer&lt;ElementType&gt;</em>) &#8211; キャッシュする入力配列プロデューサ</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">戻り値の型:</th><td class="field-body"><p class="first last">ArrayProducer&lt;ElementType&gt;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>用例:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">operator</span> <span class="n">elementGen</span><span class="p">(</span>
+  <span class="n">io</span> <span class="n">Scalar</span> <span class="n">output</span><span class="p">,</span>
+  <span class="n">Size</span> <span class="n">index</span>
+  <span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">output</span> <span class="o">=</span> <span class="mf">2.71</span> <span class="o">*</span> <span class="n">index</span><span class="p">;</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;Generating output = &quot;</span> <span class="o">+</span> <span class="n">output</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">operator</span> <span class="n">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">ArrayProducer</span><span class="o">&lt;</span><span class="n">Scalar</span><span class="o">&gt;</span> <span class="n">ap</span> <span class="o">=</span> <span class="n">createArrayCache</span><span class="p">(</span>
+    <span class="n">createArrayGenerator</span><span class="p">(</span>
+      <span class="n">createConstValue</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">4</span><span class="p">)),</span>
+      <span class="n">elementGen</span>
+      <span class="p">)</span>
+    <span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;ap.produce(2) = &quot;</span> <span class="o">+</span> <span class="n">ap</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;ap.produce(2) = &quot;</span> <span class="o">+</span> <span class="n">ap</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;calling ap.flush()&quot;</span><span class="p">);</span>
+  <span class="n">ap</span><span class="o">.</span><span class="n">flush</span><span class="p">();</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;ap.produce(2) = &quot;</span> <span class="o">+</span> <span class="n">ap</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;ap.produce(2) = &quot;</span> <span class="o">+</span> <span class="n">ap</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>出力:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Generating</span> <span class="n">output</span> <span class="o">=</span> <span class="mf">5.42</span>
+<span class="n">ap</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="mf">5.42</span>
+<span class="n">ap</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="mf">5.42</span>
+<span class="n">calling</span> <span class="n">ap</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+<span class="n">Generating</span> <span class="n">output</span> <span class="o">=</span> <span class="mf">5.42</span>
+<span class="n">ap</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="mf">5.42</span>
+<span class="n">ap</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="mf">5.42</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="reduce-functions">
+<h3>Reduce 関数<a class="headerlink" href="#reduce-functions" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<dl class="function">
+<dt id="createReduce">
+<code class="descname">createReduce</code><span class="sig-paren">(</span><em>arrayProducer</em>, <em>operatorName</em><span class="optional">[</span>, <em>sharedValueProducer</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#createReduce" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p><em>operatorName</em> オペレータを各々個別の要素をリダクションかけるために呼び出し、配列プロデューサを reduce し値を生成する、値プロデューサを作成します。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">引数:</th><td class="field-body"><ul class="first simple">
+<li><strong>arrayProducer</strong> (<em>ArrayProducer&lt;ElementType&gt;</em>) &#8211; Reduceかかる入力配列プロデューサ</li>
+<li><strong>operatorName</strong> &#8211; 要素に対しトランスフォームするため適用するオペレータの名前</li>
+<li><strong>sharedValueProducer</strong> (<em>ValueProducer&lt;SharedValueType&gt;</em>) &#8211; （オプション） <em>operatorName</em> へ渡される共有される値プロデューサ</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">戻り値の型:</th><td class="field-body"><p class="first last">ValueProducer&lt;ValueType&gt;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>オペレータ <em>operatorName</em> は以下のプロトタイプに従う必要があります:</p>
+<pre class="literal-block">
+operator <em>operatorName</em>(
+  in <em>ElementType</em> inputElement,
+  io <em>ValueType</em> outputValue,
+  in Size index,
+  in Size size,
+  // required if and only if <em>sharedValueProducer</em> provided
+  in <em>SharedValueType</em> sharedValue
+  );
+</pre>
+<p>用例:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">operator</span> <span class="n">generator</span><span class="p">(</span>
+  <span class="n">io</span> <span class="n">Integer</span> <span class="n">outputValue</span><span class="p">,</span>
+  <span class="n">Size</span> <span class="n">index</span><span class="p">,</span>
+  <span class="n">Size</span> <span class="n">size</span>
+  <span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">outputValue</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">operator</span> <span class="n">reduce</span><span class="p">(</span>
+  <span class="n">Integer</span> <span class="n">inputValue</span><span class="p">,</span>
+  <span class="n">io</span> <span class="n">Integer</span> <span class="n">outputValue</span><span class="p">,</span>
+  <span class="n">Size</span> <span class="n">index</span><span class="p">,</span>
+  <span class="n">Size</span> <span class="n">size</span>
+  <span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;reduce: inputValue=&quot;</span> <span class="o">+</span> <span class="n">inputValue</span><span class="p">);</span>
+  <span class="n">outputValue</span> <span class="o">+=</span> <span class="n">inputValue</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">operator</span> <span class="n">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">ValueProducer</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nb">sum</span> <span class="o">=</span> <span class="n">createReduce</span><span class="p">(</span>
+    <span class="n">createArrayGenerator</span><span class="p">(</span>
+      <span class="n">createConstValue</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">10</span><span class="p">)),</span>
+      <span class="n">generator</span>
+      <span class="p">),</span>
+    <span class="n">reduce</span>
+    <span class="p">);</span>
+  <span class="n">report</span><span class="p">(</span><span class="s2">&quot;sum.produce() = &quot;</span> <span class="o">+</span> <span class="nb">sum</span><span class="o">.</span><span class="n">produce</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>出力:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">reduce</span><span class="p">:</span> <span class="n">inputValue</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">reduce</span><span class="p">:</span> <span class="n">inputValue</span><span class="o">=</span><span class="mi">2</span>
+<span class="n">reduce</span><span class="p">:</span> <span class="n">inputValue</span><span class="o">=</span><span class="mi">3</span>
+<span class="n">reduce</span><span class="p">:</span> <span class="n">inputValue</span><span class="o">=</span><span class="mi">4</span>
+<span class="n">reduce</span><span class="p">:</span> <span class="n">inputValue</span><span class="o">=</span><span class="mi">5</span>
+<span class="n">reduce</span><span class="p">:</span> <span class="n">inputValue</span><span class="o">=</span><span class="mi">6</span>
+<span class="n">reduce</span><span class="p">:</span> <span class="n">inputValue</span><span class="o">=</span><span class="mi">7</span>
+<span class="n">reduce</span><span class="p">:</span> <span class="n">inputValue</span><span class="o">=</span><span class="mi">8</span>
+<span class="n">reduce</span><span class="p">:</span> <span class="n">inputValue</span><span class="o">=</span><span class="mi">9</span>
+<span class="n">reduce</span><span class="p">:</span> <span class="n">inputValue</span><span class="o">=</span><span class="mi">10</span>
+<span class="nb">sum</span><span class="o">.</span><span class="n">produce</span><span class="p">()</span> <span class="o">=</span> <span class="mi">55</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Map-Reduce</a><ul>
+<li><a class="reference internal" href="#map-reduce-types">Map-Reduce 型</a><ul>
+<li><a class="reference internal" href="#the-valueproducer-valuetype-type"><code class="samp docutils literal"><span class="pre">ValueProducer&lt;</span><em><span class="pre">ValueType</span></em><span class="pre">&gt;</span></code> 型</a></li>
+<li><a class="reference internal" href="#the-arrayproducer-elementtype-type"><code class="samp docutils literal"><span class="pre">ArrayProducer&lt;</span><em><span class="pre">ElementType</span></em><span class="pre">&gt;</span></code> 型</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#map-reduce-functions">Map-Reduce 関数</a><ul>
+<li><a class="reference internal" href="#value-producer-creation-functions">値プロデューサを作成する関数</a></li>
+<li><a class="reference internal" href="#array-producer-creation-functions">配列プロデューサを作成する関数</a></li>
+<li><a class="reference internal" href="#reduce-functions">Reduce 関数</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="statements.html"
+                        title="前の章へ">文（Statements）</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="../KLStyleGuide/index.html"
+                        title="次の章へ">KL スタイルガイド</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/KLProgrammingGuide/map-reduce.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLProgrammingGuide/map-reduce.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../KLStyleGuide/index.html" title="KL スタイルガイド"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="statements.html" title="文（Statements）"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >KL プログラミングガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Execute Ports &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="Canvas プログラマーガイド" href="index.html" />
+    <link rel="next" title="KL2DFG コマンドラインユーティリティ" href="kl2dfg.html" />
+    <link rel="prev" title="ポートの値の永続化（Port value persistance）" href="valuepersistance.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="kl2dfg.html" title="KL2DFG コマンドラインユーティリティ"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="valuepersistance.html" title="ポートの値の永続化（Port value persistance）"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Canvas プログラマーガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="execute-ports">
+<span id="canvas-programmer-guide-execute-ports"></span><h1>Execute Ports<a class="headerlink" href="#execute-ports" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Execute ports are a special type of port used to control execution of the graph.  For the most part execute ports and their connections appear like regular ports and connections in Canvas, but their behavior is somewhat different, as described below.</p>
+<p>An execute port is a port whose type is the built-in type <cite>Execute</cite>.  The type <cite>Execute</cite> is an empty type and carries no data; however, the core of Fabric Engine looks for ports of type <cite>Execute</cite> and uses them to control how Canvas graphs are executed.</p>
+<div class="section" id="the-implicit-execute-port">
+<h2>The Implicit Execute Port<a class="headerlink" href="#the-implicit-execute-port" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Every instance node automatically has a port of type <cite>Execute</cite> called <cite>exec</cite>.  This is referred to as the <em class="dfn">implicit execute port</em>.  The implicit execute port does not appear alongside regular ports on nodes but rather is accessible through the node header:</p>
+<img alt="../_images/exec-1.png" src="../_images/exec-1.png" />
+<p>Once connected, the connection will also originate from or connect to the node header:</p>
+<img alt="../_images/exec-2.png" src="../_images/exec-2.png" />
+<p>The implicit execute port is automatically &#8220;pulled&#8221; by a node before the node is executed.  This allows Canvas programmers to ensure that other nodes that are connected to it will be executed before the node is executed.</p>
+</div>
+<div class="section" id="explicit-execute-ports">
+<span id="canvas-programmer-guide-execute-ports-explicit"></span><h2>Explicit Execute Ports<a class="headerlink" href="#explicit-execute-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>In addition to the implicit execute port, you can add explicit execute ports to a node by simply adding ports of type <cite>Execute</cite>:</p>
+<img alt="../_images/exec-3.png" src="../_images/exec-3.png" />
+<p>In the above example, which is a Canvas function that implements a for loop, the <cite>body</cite> port has type <cite>Execute</cite>.</p>
+<p>In order to cause an implicit execute port to be executed, you simply wrap the name of of the port in the <cite>dfgExecute(...)</cite> construct as shown above.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Note that the <cite>dfgExecute(...)</cite> construct is optional; simply inserting the name of the implicit execute port as an expression will cause it to be executed.  The purpose of this is to allow certain polymorphic nodes such as <cite>Fabric.Core.Control.If</cite> to operate equally well when their ports have execute and non-execute types.</p>
+</div>
+</div>
+<div class="section" id="connections-to-and-from-execute-ports">
+<h2>Connections To and From Execute Ports<a class="headerlink" href="#connections-to-and-from-execute-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>In addition to connections between ports that both have type <cite>Execute</cite>, it is possible to connect from a port that has a type other than <cite>Execute</cite> to a port of type <cite>Execute</cite>:</p>
+<img alt="../_images/exec-4.png" src="../_images/exec-4.png" />
+<p>Such a connection simply pulls the port in question and discards the result.</p>
+</div>
+<div class="section" id="multiple-connections-to-execute-ports">
+<h2>Multiple Connections to Execute Ports<a class="headerlink" href="#multiple-connections-to-execute-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Unlike regular ports, it is possible to have multiple connections to a single execute port:</p>
+<img alt="../_images/exec-5.png" src="../_images/exec-5.png" />
+<p>In the case of multiple connections, the order in which Canvas &#8220;pulls&#8221; the connected ports is not guaranteed; this is to enable (eventually) parallel evaluation of multiple branches.  If you wish to guarantee sequential evaluation, use one of the Execute.Merge presets.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">It is not currently possible in the Canvas interface to see the order of the connections; therefore it is recommended to lay out the nodes manually in the order of the connections so that it is obvious for someone reading the graph.  This will be fixed in a future version of Fabric.</p>
+</div>
+</div>
+<div class="section" id="multiple-executions-of-execute-ports">
+<h2>Multiple Executions of Execute Ports<a class="headerlink" href="#multiple-executions-of-execute-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Unlike regular ports, if an implicit execute port is &#8220;pulled&#8221; multiple times, then it will be evaluated multiple times.  This allows you to create looping-type constructs using execute ports.</p>
+<p>Furthermore, whenever an execute port is pulled it will re-evaluate all the (execute and non-execute) ports behind the execute port.  In contrast, when a regular port is pulled it will only evaluate the ports behind it if they haven&#8217;t already been evaluated.</p>
+<p>It is possible to ensure that (execute and non-execute) ports are only pulled a single time by using a explicit <cite>Cache</cite> node.  Simply put the cache node in front of the nodes that you only want to have evaluated a single time.</p>
+<p>All of this is illustrated in the ForLoop.canvas example that ships with Fabric, located at <code class="file docutils literal"><span class="pre">$FABRIC_DIR/Samples/Canvas/ExecutePorts/ForLoop.canvas</span></code>.  In this example we use execute ports to execute a collection of nodes as the body of a loop, using a Canvas variable to track the iteration of the loop.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This example is meant to serve primarily as an example of how execute ports work; a future version of Fabric will introduce a feature called &#8220;blocks&#8221; that will provide a more natural way of looping over groups of nodes.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Execute Ports</a><ul>
+<li><a class="reference internal" href="#the-implicit-execute-port">The Implicit Execute Port</a></li>
+<li><a class="reference internal" href="#explicit-execute-ports">Explicit Execute Ports</a></li>
+<li><a class="reference internal" href="#connections-to-and-from-execute-ports">Connections To and From Execute Ports</a></li>
+<li><a class="reference internal" href="#multiple-connections-to-execute-ports">Multiple Connections to Execute Ports</a></li>
+<li><a class="reference internal" href="#multiple-executions-of-execute-ports">Multiple Executions of Execute Ports</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="valuepersistance.html"
+                        title="前の章へ">ポートの値の永続化（Port value persistance）</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="kl2dfg.html"
+                        title="次の章へ">KL2DFG コマンドラインユーティリティ</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/CanvasProgrammerGuide/execute-ports.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/CanvasProgrammerGuide/execute-ports.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="kl2dfg.html" title="KL2DFG コマンドラインユーティリティ"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="valuepersistance.html" title="ポートの値の永続化（Port value persistance）"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Canvas プログラマーガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Integrating Fabric:Splice &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Fabric Engine DCC 統合" href="../index.html" />
+    <link rel="next" title="Splice Scripting Interface" href="../Scripting/index.html" />
+    <link rel="prev" title="Splice ICE nodes" href="../Softimage/SoftimageSplice/ice.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../Scripting/index.html" title="Splice Scripting Interface"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="../Softimage/SoftimageSplice/ice.html" title="Splice ICE nodes"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Fabric Engine DCC 統合</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="integrating-fabric-splice">
+<span id="spliceintegration"></span><h1>Integrating Fabric:Splice<a class="headerlink" href="#integrating-fabric-splice" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../../_images/Splice_logo.png"><img alt="../../_images/Splice_logo.png" src="../../_images/Splice_logo.png" style="width: 360px; height: 57px;" /></a>
+<div class="line-block">
+<div class="line">Splice version 2.3.0</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+</div>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>This document focuses on integrating Splice into a host application using a C++ plugin architecture. All of the current provided integrations ship with their source code, so you can use them as a reference. It&#8217;s recommended to use the integration for <em class="dfn">Maya</em> as the main reference, since it is the most advanced.</p>
+<p>The only thing you need to build against is the API package. The API package contains several versions of the libraries:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Shared FabricSplice using Shared FabricCore (Splice-2.3.0, uses FabricCore-2.3.0)</li>
+<li>Static FabricSplice using Shared FabricCore (Splice-<a href="#id1"><span class="problematic" id="id2">|</span></a>FABRIC_VERSION|_s, uses FabricCore-<a href="#id3"><span class="problematic" id="id4">|</span></a>FABRIC_VERSION|_s)</li>
+<li>Static FabricSplice using Static FabricCore (Splice-<a href="#id5"><span class="problematic" id="id6">|</span></a>FABRIC_VERSION|_ss, uses FabricCore-<a href="#id7"><span class="problematic" id="id8">|</span></a>FABRIC_VERSION|_s)</li>
+</ul>
+</div></blockquote>
+<p>Splice can be build statically or dynamically against the FabricCore / FabricSplice libraries. The fully static library (suffixed _ss) makes linking straight forward. In terms of linking order please link against the FabricSplice library followed by the FabricCore library. (especially on unix based system the linking order is important, in case you have problems try the opposite order). On linux you might need to link against additional libraries, depending on the distribution. This order is confirmed to work on linux: [FabricSplice-<a href="#id9"><span class="problematic" id="id10">|</span></a>FABRIC_VERSION|_ss, FabricCore-<a href="#id11"><span class="problematic" id="id12">|</span></a>FABRIC_VERSION|_s, GL, pthread, dl]. On Windows you will need to additionally link against <em class="dfn">user32</em>, <em class="dfn">advapi32</em>, <em class="dfn">gdi32</em>, <em class="dfn">shell32</em>, <em class="dfn">ws2_32</em>, <em class="dfn">Opengl32</em>, <em class="dfn">glu32</em>.</p>
+<div class="versionadded">
+<p><span class="versionmodified">バージョン 1.12.0 で追加.</span></p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">The SpliceAPI needs the boost thread, system and filesystem libraries to be linked against. You need to specify the <a href="#id13"><span class="problematic" id="id14">:env:`BOOST_INCLUDE_DIR`</span></a> and <a href="#id15"><span class="problematic" id="id16">:env:`BOOST_LIBRARY_DIR`</span></a> environment variables for the Scons scripts to perform.</p>
+</div>
+<p>You will need add one of the two C defines <em class="dfn">FECS_STATIC</em> or <em class="dfn">FECS_SHARED</em>, depending on your build choice (usually <em class="dfn">FECS_STATIC</em>). The <em class="dfn">FECS_</em> prefix stands for <em class="dfn">Fabric Engine Core Splice</em>. You&#8217;ll have to additionally define the corresponding <em class="dfn">Fabric Engine Core</em> define (<em class="dfn">FEC_STATIC</em> or <em class="dfn">FEC_SHARED</em>).  The defines have to be part of the build system settings (for example in scons) or can be hard-coded into the source files. In that case the defines have to be placed prior to including <em class="dfn">FabricSplice.h</em>. So using fully static linking for example like this:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="cp">#define FEC_STATIC</span>
+<span class="cp">#define FECS_STATIC</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;FabricSplice.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<p>You can get the latest API packages here: <a class="reference external" href="http://dist.fabric-engine.com/FabricEngine/2.3.0/">http://dist.fabric-engine.com/FabricEngine/2.3.0/</a></p>
+<p>We&#8217;ll now go through the steps required to build an integration, but also how to follow our design which we have used in Maya and Softimage.</p>
+</div>
+<div class="section" id="source-control">
+<h2>Source Control<a class="headerlink" href="#source-control" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Since we are using <a class="reference external" href="https://github.com/">GitHub</a>, please create a GitHub account (if you don&#8217;t have one already) and create a repository for your work on the specific integration. Also please inform the Splice team and add us as collaborators. This will allow us to review code, comment on code changes and help out by working on the same code if you get stuck. The repository can be public (if you consider your integration public) or private (if the integration is proprietary and to be protected). We still strongly encourage to provide the Splice team access though, since it will shorten development time and simplify support.</p>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>For documentation on the Splice C/C++ API, please refer to <span class="xref std std-ref">SPLICECAPI</span>.</p>
+<p>Since FabricSplice uses some of the FabricCore types, you&#8217;ll also want to refer to the <a class="reference internal" href="../../CAPIProgrammingGuide/index.html#capipg"><span class="std std-ref">CAPI プログラミングガイド</span></a>.</p>
+<p>You can also inspect the two header files which come with the API packages (FabricCore.h and FabricSplice.h).</p>
+</div>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The way the integrations work essentially is that they provide a generic node (in maya a hypergraph node and in softimage an operator) which hosts the FabricSplice::DGGraph. All parameters / inputs and outputs are then converted by the integration from the host (Houdini in your case) to the FabricSplice::DGGraph.</p>
+<p>The essential design as well is that we provide a scripting command for the host application which can perform any changes required. The user interface then utilizes that command. That way scripters can automate the usage of FabricSplice and general users can utilize the UI. The command uses an <em class="dfn">action</em> parameter to define the action it is performing. I strongly recommend to use the same action names (such as the maya implementation, for example), so that users switching from Maya to Houdini can use the same sort of syntax to interact with Splice.</p>
+</div>
+<div class="section" id="development-steps">
+<h2>Development steps<a class="headerlink" href="#development-steps" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>Implement generic node (just hosting a FabricSplice::DGGraph without functionality). This ensures that you are compiling correctly and your linker settings are correct.</li>
+<li>Implement the parameter synchronization for the basic types (Scalar, Integer, Boolean, String)</li>
+<li>Implement the scripting command to add / edit / remove KL operators and the KL source code.</li>
+<li>Test basic math implementations (Add / Subtract etc)</li>
+<li>Implement parameter synchronization for complex types (Vec3, Quat, Mat44, arrays of all types, PolygonMesh).</li>
+<li>Implement user interface.</li>
+</ul>
+<p>We can advice along the way, so let us know if you need anything else to get started.</p>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and Tables<a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../../genindex.html"><span class="std std-ref">索引</span></a></li>
+<li><a class="reference internal" href="../../search.html"><span class="std std-ref">検索ページ</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Integrating Fabric:Splice</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#source-control">Source Control</a></li>
+<li><a class="reference internal" href="#documentation">Documentation</a></li>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#development-steps">Development steps</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and Tables</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="../Softimage/SoftimageSplice/ice.html"
+                        title="前の章へ">Splice ICE nodes</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="../Scripting/index.html"
+                        title="次の章へ">Splice Scripting Interface</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/DCCIntegrations/SpliceAPI/integrations.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DCCIntegrations/SpliceAPI/integrations.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../Scripting/index.html" title="Splice Scripting Interface"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="../Softimage/SoftimageSplice/ice.html" title="Splice ICE nodes"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

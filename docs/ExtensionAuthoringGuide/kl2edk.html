@@ -1,0 +1,441 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kl2edk ユーティリティ &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="エクステンション・オーサリングガイド" href="index.html" />
+    <link rel="next" title="Types and Extensions" href="types.html" />
+    <link rel="prev" title="C++ APIをラップしKLで使用するには" href="cPlusPlusApis.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="types.html" title="Types and Extensions"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="cPlusPlusApis.html" title="C++ APIをラップしKLで使用するには"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">エクステンション・オーサリングガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="the-kl2edk-utility">
+<span id="eag-kl2edk"></span><h1><strong class="command">kl2edk</strong> ユーティリティ<a class="headerlink" href="#the-kl2edk-utility" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Fabric Engine version 1.11.0の一部として <strong class="command">kl2edk</strong> と呼ぶユーティリティが登場しました。エクステンション開発に非常に役立ちます。エクステンションで必要となるKLの型や関数プロトタイプをC++のものへと自動で変換します。</p>
+<p>サンプルエクステンションに付属のビルドスクリプトをカスタムエクステンション作成の土台としたのであれば、 <strong class="command">kl2edk</strong>  がビルドプロセスの一環として自動で実行されます。もし異なるビルドシステムを使用する必要があれば、 <strong class="command">kl2edk</strong> の呼び出しをビルドプロセスに組み込みましょう。 <strong class="command">kl2edk</strong> の使い方は、簡単です。コマンドプロンプトから  <strong class="command">kl2edk --help</strong>  と実行すると詳しい用法が表示されます。</p>
+<div class="section" id="required-build-flags">
+<h2>必要なビルドフラグ<a class="headerlink" href="#required-build-flags" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>サンプルエクステンションに付属の SConstript ファイルをカスタムエクステンション作成の土台としたのであれば、必要となるビルドフラグはすでにそのファイルに設定されています。独自のビルド環境（Linux、あるいはOSXで)を設定中であれば、確実に <code class="samp docutils literal"><span class="pre">-fno-omit-frame-pointer</span></code> フラグをコンパイラにわたしましょう。フレームポインタの省略（frame pointer ommision)とは、最適化の一種で、KLスタックトレースの生成が作動（実行時のエラーの際にKLスタックトレース表示する出力ための機能）するためにはこれを無効にします。このフラグの追加を忘れてしまうと、作成しているエクステンションの C++部分での KLエラーでクラッシュを引き起こします。このフラグの使用の必要性は将来のバージョンで取り除かれる予定であります。</p>
+</div>
+<div class="section" id="the-generated-header-files">
+<h2>生成されるヘッダファイル<a class="headerlink" href="#the-generated-header-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><strong class="command">kl2edk</strong> によって KLソースファイルから生成されたヘッダファイルは、ディフォルトでは3つのセクションからなります。</p>
+<p>一番目のセクションにはベース <code class="file docutils literal"><span class="pre">FabricEDK.h</span></code> ファイル ――ヘッダファイルの残りやエクステンション開発で一般的に必要となる基本型やマクロを提供 が含まれます。 <code class="code docutils literal"><span class="pre">FabricEDK.h</span></code> については  <a class="reference internal" href="#eag-kl2edk-edk-h"><span class="std std-ref">後段</span></a> で詳述します。</p>
+<p>二番目のセクションでは、KLから参照される可能性のある全KL構造体、オブジェクト、インタフェースの C++バージョンを提供します。これについては <a class="reference internal" href="types.html#eag-types"><span class="std std-ref">Types and Extensions</span></a> により詳しい情報があります。</p>
+<p>三番目のセクションでは、エクステンションからネイティブコード中に実装されることが期待されている関数のC++プロタイプがあります。これは正確には、KL関数定義中に現れる <code class="samp docutils literal"><span class="pre">=</span> <span class="pre">&quot;</span><em><span class="pre">FunctionSymbolNane</span></em><span class="pre">&quot;;</span></code> を含む関数です。関数のものと厳密に一致するシグネチャをもたない場合、このプロトタイプによりC++エクステンションコードでコンパイルエラーが発生します。これによりKLコードと、それが呼び出すC++関数が正しく繋がっているか確認する助けになります。</p>
+</div>
+<div class="section" id="cpp-code-generation">
+<h2>Cppコードの生成<a class="headerlink" href="#cpp-code-generation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><strong class="command">kl2edk</strong> ではエクステンションのメインC++ファイルどうよう、関数の実装も生成できます。C++の型と、KLの型の間の変換を自動生成するには、コード生成に際してさらに一つ追加の json ファイルを加え <strong class="command">kl2edk</strong> を支援します。このファイルは <code class="samp docutils literal"><span class="pre">.codegen.json</span></code> と末尾に付け、戦闘にはエクステンションの <code class="samp docutils literal"><span class="pre">.fpm.json</span></code> ファイルの名前と同じにします。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">codegen json ファイル必須ではありません。ない場合 <strong class="command">kl2edk</strong> は、関数本体を空にしてcppファイルを生成します。</p>
+</div>
+<p><strong class="command">kl2edk</strong> will attempt to generate bodies for your C++ methods based on the provided codegen json file. Please see the json example below for more information. Any incomplete cpp function will contain a warning pragma, which will allow you to see the missing implementations at compile time. To enable cpp code generation you need to specify the output folder for the cpp files with the -c command line flag like so:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>kl2edk test.fpm.json -o /tmp/test/h -c /tmp/test/cpp
+</pre></div>
+</div>
+<p>This will put all of the generated headers into the folder <code class="samp docutils literal"><span class="pre">/temp/test/h</span></code> and the the generated implementation files in the corresponding folder.</p>
+<p>The code generation relies on conversion functions to be provided. The conversion functions have to use the following notation:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="kr">inline</span> <span class="kt">bool</span> <span class="nf">StringFromKL</span><span class="p">(</span><span class="k">const</span> <span class="n">KL</span><span class="o">::</span><span class="n">String</span> <span class="o">&amp;</span> <span class="n">from</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span> <span class="n">to</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">to</span> <span class="o">=</span> <span class="n">from</span><span class="p">.</span><span class="n">data</span><span class="p">();</span>
+  <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="kt">bool</span> <span class="nf">StringToKL</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span> <span class="n">from</span><span class="p">,</span> <span class="n">KL</span><span class="o">::</span><span class="n">String</span> <span class="o">&amp;</span> <span class="n">to</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">to</span> <span class="o">=</span> <span class="n">from</span><span class="p">.</span><span class="n">c_str</span><span class="p">();</span>
+  <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The sample below will illustrate a simple case. Note that the example is trivial and not a production relevant scenario. <code class="samp docutils literal"><span class="pre">printf</span></code> of course provides redundant functionality which is already covered by KL&#8217;s <code class="samp docutils literal"><span class="pre">report</span></code> function.</p>
+<p>KL file content:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">String</span> <span class="n">String</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">UInt32</span> <span class="n">start</span><span class="p">,</span> <span class="n">UInt32</span> <span class="n">length</span><span class="p">)</span> <span class="o">=</span> <span class="s">&quot;String_substr&quot;</span><span class="p">;</span>
+<span class="n">function</span> <span class="n">String</span><span class="p">.</span><span class="n">printf</span><span class="p">()</span> <span class="o">=</span> <span class="s">&quot;String_printf&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>codegen.json file content:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;header&quot;</span><span class="p">:</span> <span class="s2">&quot;</span>
+<span class="s2">// my extension includes</span>
+<span class="s2">#include \&quot;custom_conversion.h\&quot;</span>
+<span class="s2">#include &lt;thirdparty_api.h&gt;</span>
+<span class="s2">  &quot;</span><span class="p">,</span>
+  <span class="nt">&quot;functionentry&quot;</span><span class="p">:</span> <span class="s2">&quot;FUNCTION_ENTRY&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;functionexit&quot;</span><span class="p">:</span> <span class="s2">&quot;FUNCTION_EXIT&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;functionexitreturn&quot;</span><span class="p">:</span> <span class="s2">&quot;FUNCTION_EXIT_RETURN&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;parameterprefix&quot;</span><span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;typemapping&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;UInt32&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;ctype&quot;</span><span class="p">:</span> <span class="s2">&quot;unsigned int&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;from&quot;</span><span class="p">:</span> <span class="s2">&quot;uintFromKL&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;to&quot;</span><span class="p">:</span> <span class="s2">&quot;uintToKL&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;methodop&quot;</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;defaultvalue&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;String&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;ctype&quot;</span><span class="p">:</span> <span class="s2">&quot;std::string&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;from&quot;</span><span class="p">:</span> <span class="s2">&quot;StringFromKL&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;to&quot;</span><span class="p">:</span> <span class="s2">&quot;StringToKL&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;methodop&quot;</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;defaultvalue&quot;</span><span class="p">:</span> <span class="s2">&quot;std::string()&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;functionbodies&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;String_printf&quot;</span><span class="p">:</span> <span class="s2">&quot;</span>
+<span class="s2">  printf(\&quot;My custom printf &#39;%s&#39;!\\n\&quot;, localThis_.c_str());</span>
+<span class="s2">    &quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Resulting generated c++ code:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">FABRIC_EXT_EXPORT</span> <span class="kt">void</span> <span class="nf">String_substr</span><span class="p">(</span>
+  <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">KL</span><span class="o">::</span><span class="n">Traits</span><span class="o">&lt;</span> <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">KL</span><span class="o">::</span><span class="n">String</span> <span class="o">&gt;::</span><span class="n">Result</span> <span class="n">_result</span><span class="p">,</span>
+  <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">KL</span><span class="o">::</span><span class="n">Traits</span><span class="o">&lt;</span> <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">KL</span><span class="o">::</span><span class="n">String</span> <span class="o">&gt;::</span><span class="n">INParam</span> <span class="n">this_</span><span class="p">,</span>
+  <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">KL</span><span class="o">::</span><span class="n">Traits</span><span class="o">&lt;</span> <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">KL</span><span class="o">::</span><span class="n">UInt32</span> <span class="o">&gt;::</span><span class="n">INParam</span> <span class="n">start</span><span class="p">,</span>
+  <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">KL</span><span class="o">::</span><span class="n">Traits</span><span class="o">&lt;</span> <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">KL</span><span class="o">::</span><span class="n">UInt32</span> <span class="o">&gt;::</span><span class="n">INParam</span> <span class="n">length</span>
+<span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">FUNCTION_ENTRY</span><span class="p">(</span><span class="s">&quot;String_substr&quot;</span><span class="p">)</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">localThis_</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">();</span>
+  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">StringFromKL</span><span class="p">(</span><span class="n">this_</span><span class="p">,</span> <span class="n">localThis_</span><span class="p">)){</span>
+    <span class="n">setError</span><span class="p">(</span><span class="s">&quot;Error in String_substr. unable to convert: this_&quot;</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">localStart</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">uintFromKL</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">localStart</span><span class="p">)){</span>
+    <span class="n">setError</span><span class="p">(</span><span class="s">&quot;Error in String_substr. unable to convert: start&quot;</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">localLength</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">uintFromKL</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">localLength</span><span class="p">)){</span>
+    <span class="n">setError</span><span class="p">(</span><span class="s">&quot;Error in String_substr. unable to convert: length&quot;</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">local_result</span> <span class="o">=</span> <span class="n">localThis_</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">localStart</span><span class="p">,</span> <span class="n">localLength</span><span class="p">);</span>
+  <span class="n">StringToKL</span><span class="p">(</span><span class="n">local_result</span><span class="p">,</span> <span class="n">_result</span><span class="p">);</span>
+
+  <span class="n">FUNCTION_EXIT</span><span class="p">(</span><span class="s">&quot;String_substr&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">FABRIC_EXT_EXPORT</span> <span class="kt">void</span> <span class="nf">String_printf</span><span class="p">(</span>
+  <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">KL</span><span class="o">::</span><span class="n">Traits</span><span class="o">&lt;</span> <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">KL</span><span class="o">::</span><span class="n">String</span> <span class="o">&gt;::</span><span class="n">IOParam</span> <span class="n">this_</span>
+<span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">FUNCTION_ENTRY</span><span class="p">(</span><span class="s">&quot;String_printf&quot;</span><span class="p">)</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">localThis_</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">();</span>
+  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">StringFromKL</span><span class="p">(</span><span class="n">this_</span><span class="p">,</span> <span class="n">localThis_</span><span class="p">)){</span>
+    <span class="n">setError</span><span class="p">(</span><span class="s">&quot;Error in String_printf. unable to convert: this_&quot;</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;My custom printf &#39;%s&#39;!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">localThis_</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+
+  <span class="n">FUNCTION_EXIT</span><span class="p">(</span><span class="s">&quot;String_printf&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last"><strong class="command">kl2edk</strong> will never overwrite existing cpp files, but instead write files suffixed with <code class="samp docutils literal"><span class="pre">.stubs</span></code>.</p>
+</div>
+<p>The content of the codegen file in a little more detail:</p>
+<ul class="simple">
+<li><code class="samp docutils literal"><span class="pre">header</span></code>: a string (can be multi-line) which gets inserted into every generated cpp right after the standard includes. this can be useful to include thirdparty api headers etc. This should also provide additional includes such as the conversion functions.</li>
+<li><code class="samp docutils literal"><span class="pre">functionentry</span></code>: a macro which is called on every function entry. This parameter is optional, so leave this field empty if you do not need to bracket your functions with entry/exit statements. The notation of the macro should be (the name ENTRYMACRO of course is up to you). ENTRYMACRO(symbolname).</li>
+<li><code class="samp docutils literal"><span class="pre">functionexit</span></code>: a macro which is called on every function exit for void functions. This parameter is optional, so leave this field empty if you do not need to bracket your functions with entry/exit statements. The notation of the macro should be: EXITMACRO(symbolname)</li>
+<li><code class="samp docutils literal"><span class="pre">functionexitreturn</span></code>: a macro which is called on every function exit for functions with return values. this is optional. The notation of the macro should be: EXITRETURNMACRO(symbolname, defaultValue)</li>
+<li><code class="samp docutils literal"><span class="pre">parameterprefix</span></code>: A prefix used for the native data type parameter names. This is parameter mandatory and must be specified.</li>
+<li><code class="samp docutils literal"><span class="pre">typemapping</span></code>: A dictionary providing information for all type conversions. The key of the dictionary contains the KL type. The flags in the dictionary are:</li>
+<li><code class="samp docutils literal"><span class="pre">ctype</span></code>: the native type to be converted to</li>
+<li><code class="samp docutils literal"><span class="pre">from</span></code>: the function to be called to perform the from conversion, from KL type to native type. the notation of both the to and from conversion functions has to be <code class="samp docutils literal"><span class="pre">bool</span> <span class="pre">conversion(const</span> <span class="pre">fromType</span> <span class="pre">&amp;</span> <span class="pre">from,</span> <span class="pre">toType</span> <span class="pre">&amp;</span> <span class="pre">to);</span></code> The conversion functions need to return true or false to flag the conversion as successful or not. the conversion functions can also call on <code class="samp docutils literal"><span class="pre">Fabric::EDK::setError</span></code> or raise an exception, for example, to provide more information about an unsuccessful conversion.</li>
+<li><code class="samp docutils literal"><span class="pre">to</span></code>: the function to be called to perform the to conversion, from native to KL type.</li>
+<li><code class="samp docutils literal"><span class="pre">defaultvalue</span></code>: the default value to be used for the type for non void functions.</li>
+<li><code class="samp docutils literal"><span class="pre">methodop</span></code>: an operator to use when accessing methods on the native type. this can be &#8221;.&#8221; or &#8220;-&gt;&#8221;.</li>
+<li><code class="samp docutils literal"><span class="pre">functionbodies</span></code>: Optionally you can specify a dictionary here of function body implementations. This doesn’t not have to include the conversions, these will be added automatically by kl2edk. You only need to worry about the third-party api specific implementation code. As seen in the json example above, the callback <code class="samp docutils literal"><span class="pre">String_printf</span></code> will be generated with the additional lines of C++ code provided.</li>
+<li><code class="samp docutils literal"><span class="pre">parameterconversionstoskip</span></code>: Optionally you can specify an array here of strings containing a combination of a c++ symbol name and a parameter. Each symbol and parameter will be skipped for the code generation when creating the parameter conversion code. For example:</li>
+</ul>
+<div class="highlight-json"><div class="highlight"><pre><span></span>&quot;parameterconversionstoskip&quot;: [
+  &quot;MyClass_init.this_&quot;
+]
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="samp docutils literal"><span class="pre">methodmapping</span></code>: Additionally you can specify a dictionary containing a string map from c++ symbolname to class method name. This can be important when you have multiple implementations of the same method name in KL, since the c++ symbolnames have to be different. Example:</li>
+</ul>
+<div class="highlight-json"><div class="highlight"><pre><span></span>&quot;methodmapping&quot;: {
+  &quot;MyClass_set_variant1&quot;: &quot;set&quot;,
+  &quot;MyClass_set_variant2&quot;: &quot;set&quot;
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="namespacing">
+<h2>Namespacing<a class="headerlink" href="#namespacing" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>All macros provided by <code class="file docutils literal"><span class="pre">FabricEDK.h</span></code>, with the exception of <code class="code docutils literal"><span class="pre">IMPLEMENT_FABRIC_EDK_ENTRIES</span></code> (below), begin with <code class="code docutils literal"><span class="pre">FABRIC_EDK_...</span></code>.  All C++ types and functions provided by <code class="file docutils literal"><span class="pre">FabricEDK.h</span></code> as well as the  header file generated by <strong class="command">kl2edk</strong> are defined in the <code class="code docutils literal"><span class="pre">Fabric::EDK</span></code> namespace.  Both of this are to avoid conflicts with third-party libraries.</p>
+<p>For convenience, you can use the <code class="code docutils literal"><span class="pre">use</span> <span class="pre">namespace</span></code> functionality of C++ to avoid prefixing the types and functions:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>However, we recommend manually prefixing types and functions so that it is easier to find them in the case of a future API change.</p>
+</div>
+<div class="section" id="the-fabricedk-h-header-file">
+<span id="eag-kl2edk-edk-h"></span><h2>The <code class="file docutils literal"><span class="pre">FabricEDK.h</span></code> Header File<a class="headerlink" href="#the-fabricedk-h-header-file" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The C++ source code for an extension must always begin with the lines:</p>
+<div class="highlight-Cpp"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;MyExtensionName.h&quot;</span><span class="cp"></span>
+
+<span class="n">IMPLEMENT_FABRIC_EDK_ENTRIES</span><span class="p">(</span> <span class="n">MyExtensionName</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>The first line includes the header file generated by <strong class="command">kl2edk</strong>, which in turn includes <code class="file docutils literal"><span class="pre">FabricEDK.h</span></code>.  The second line implements some internal functions that allow the Fabric Engine core to initialize the extension.</p>
+<p>In addition to providing a definition for the <code class="code docutils literal"><span class="pre">IMPLEMENT_FABRIC_EDK_ENTRIES</span></code> macro, the <code class="file docutils literal"><span class="pre">FabricEDK.h</span></code> header file provides definitions for built-in KL types (see <a class="reference internal" href="types.html#eag-types"><span class="std std-ref">Types and Extensions</span></a>), several macros required for definitions of functions and custom types, and several debugging and error-handling functions.</p>
+<div class="section" id="build-macros">
+<h3>Build Macros<a class="headerlink" href="#build-macros" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><code class="file docutils literal"><span class="pre">FabricEDK.h</span></code> provides several flags that can be used to detect various aspects of the system on which the extension is being built.  Each of these should be tested using the <code class="code docutils literal"><span class="pre">#ifdef</span></code> C++ preprocessor directive.</p>
+<dl class="docutils">
+<dt><code class="code docutils literal"><span class="pre">FABRIC_EDK_PLATFORM_POSIX</span></code></dt>
+<dd>The current system is a *NIX-type system; defined on Linux and Mac OS X.</dd>
+<dt><code class="code docutils literal"><span class="pre">FABRIC_EDK_PLATFORM_WINDOWS</span></code></dt>
+<dd>The current system is a Windows system; defined on Windows</dd>
+<dt><code class="code docutils literal"><span class="pre">FABRIC_EDK_OS_LINUX</span></code></dt>
+<dd>The current system is running some version of Linux</dd>
+<dt><code class="code docutils literal"><span class="pre">FABRIC_EDK_OS_DARWIN</span></code></dt>
+<dd>The current system is running some version of Mac OS X</dd>
+<dt><code class="code docutils literal"><span class="pre">FABRIC_EDK_OS_WINDOWS</span></code></dt>
+<dd>The current system is running some version of Windows</dd>
+<dt><code class="code docutils literal"><span class="pre">FABRIC_EDK_ARCH_64BIT</span></code></dt>
+<dd>The current system is running a 64-bit operating system</dd>
+<dt><code class="code docutils literal"><span class="pre">FABRIC_EDK_ARCH_32BIT</span></code></dt>
+<dd>The current system is running a 32-bit operating system</dd>
+<dt><code class="code docutils literal"><span class="pre">FABRIC_EDK_BUILD_RELEASE</span></code></dt>
+<dd>The current build is a release build with optimizations enabled and debug symbols disabled</dd>
+<dt><code class="code docutils literal"><span class="pre">FABRIC_EDK_BUILD_DEBUG</span></code></dt>
+<dd>The current build is a debug build with optimizations disabled and with debug symbols enabled</dd>
+</dl>
+</div>
+<div class="section" id="the-fabric-ext-export-function-definition-prefix">
+<h3>The <code class="code docutils literal"><span class="pre">FABRIC_EXT_EXPORT</span></code> Function Definition Prefix<a class="headerlink" href="#the-fabric-ext-export-function-definition-prefix" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><code class="file docutils literal"><span class="pre">FabricEDK.h</span></code> provides the single function definition macro <code class="code docutils literal"><span class="pre">FABRIC_EXT_EXPORT</span></code> that should prefix any function definition that should be made available in KL.  For example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">FABRIC_EXT_EXPORT</span> <span class="n">void</span> <span class="n">MyFunctionToExport</span><span class="p">(</span>
+  <span class="o">//</span> <span class="o">...</span>
+  <span class="p">)</span>
+<span class="p">{</span>
+  <span class="o">//</span> <span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If you use the <strong class="command">kl2edk</strong> utility to generate the header file for your extension and then copy the function prototypes for your function implementations then they will already use <code class="code docutils literal"><span class="pre">FABRIC_EXT_EXPORT</span></code>.</p>
+<p><code class="code docutils literal"><span class="pre">FABRIC_EXT_EXPORT</span></code> does two things: it guarantees that the symbol is visible (&#8220;exported&#8221;) in the native code shared library, and it disables &#8220;mangling&#8221; of the symbol name so that the name of the exported symbol is exactly the function name.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Only symbols that will be called from KL need the <code class="code docutils literal"><span class="pre">FABRIC_EXT_EXPORT</span></code> prefix; other functions and methods in the native code source file can be left without the prefix.</p>
+</div>
+</div>
+<div class="section" id="debugging-and-error-handling-functions">
+<h3>Debugging and Error-Handling Functions<a class="headerlink" href="#debugging-and-error-handling-functions" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><code class="file docutils literal"><span class="pre">FabricEDK.h</span></code> provides several functions and macros that are used for debugging and error handling.</p>
+<dl class="function">
+<dt id="_CPPv2N6Fabric3EDK6reportEPcz">
+<span id="Fabric::EDK::report__cCP.z"></span>void <code class="descclassname">Fabric::EDK::</code><code class="descname">report</code><span class="sig-paren">(</span>char <em class="property">const</em> *<em>format</em>, ...<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6Fabric3EDK6reportEPcz" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv2N6Fabric3EDK6reportE8uint32_tPc">
+<span id="Fabric::EDK::report__uint32_t.cCP"></span>void <code class="descclassname">Fabric::EDK::</code><code class="descname">report</code><span class="sig-paren">(</span>uint32_t <em>length</em>, char <em class="property">const</em> *<em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6Fabric3EDK6reportE8uint32_tPc" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>The equivalent of the KL <code class="docutils literal"><span class="pre">report</span></code> function.  The first variation takes a <code class="docutils literal"><span class="pre">printf</span></code>-style format string and a list of arguments, while the second takes a string length and a pointer to raw character data.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6Fabric3EDK3logEPcz">
+<span id="Fabric::EDK::log__cCP.z"></span>void <code class="descclassname">Fabric::EDK::</code><code class="descname">log</code><span class="sig-paren">(</span>char <em class="property">const</em> *<em>format</em>, ...<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6Fabric3EDK3logEPcz" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv2N6Fabric3EDK3logE8uint32_tPc">
+<span id="Fabric::EDK::log__uint32_t.cCP"></span>void <code class="descclassname">Fabric::EDK::</code><code class="descname">log</code><span class="sig-paren">(</span>uint32_t <em>length</em>, char <em class="property">const</em> *<em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6Fabric3EDK3logE8uint32_tPc" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Aliases for <code class="docutils literal"><span class="pre">Fabric::EDK::report</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6Fabric3EDK16getExtensionNameEv">
+<span id="Fabric::EDK::getExtensionName"></span>char <em class="property">const</em> *<code class="descclassname">Fabric::EDK::</code><code class="descname">getExtensionName</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6Fabric3EDK16getExtensionNameEv" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Returns a C-style null-terminated string that is the name of the extension.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6Fabric3EDK8setErrorEPcz">
+<span id="Fabric::EDK::setError__cCP.z"></span>void <code class="descclassname">Fabric::EDK::</code><code class="descname">setError</code><span class="sig-paren">(</span>char <em class="property">const</em> *<em>cStrFormat</em>, ...<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6Fabric3EDK8setErrorEPcz" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv2N6Fabric3EDK8setErrorE8uint32_tPc">
+<span id="Fabric::EDK::setError__uint32_t.cCP"></span>void <code class="descclassname">Fabric::EDK::</code><code class="descname">setError</code><span class="sig-paren">(</span>uint32_t <em>length</em>, char <em class="property">const</em> *<em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6Fabric3EDK8setErrorE8uint32_tPc" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv2N6Fabric3EDK8setErrorERNSt6stringE">
+<span id="Fabric::EDK::setError__ssCR"></span>void <code class="descclassname">Fabric::EDK::</code><code class="descname">setError</code><span class="sig-paren">(</span>std::string <em class="property">const</em> &amp;<em>string</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6Fabric3EDK8setErrorERNSt6stringE" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>The equivalent of the KL <code class="docutils literal"><span class="pre">setError</span></code> function.  The first variation takes a <code class="docutils literal"><span class="pre">printf</span></code>-style format string and a list of arguments, the second takes a string length and a pointer to raw character data, and the third takes an STL <code class="docutils literal"><span class="pre">std::string</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6Fabric3EDK14throwExceptionEPcz">
+<span id="Fabric::EDK::throwException__cCP.z"></span>void <code class="descclassname">Fabric::EDK::</code><code class="descname">throwException</code><span class="sig-paren">(</span>char <em class="property">const</em> *<em>cStrFormat</em>, ...<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6Fabric3EDK14throwExceptionEPcz" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv2N6Fabric3EDK14throwExceptionE8uint32_tPc">
+<span id="Fabric::EDK::throwException__uint32_t.cCP"></span>void <code class="descclassname">Fabric::EDK::</code><code class="descname">throwException</code><span class="sig-paren">(</span>uint32_t <em>length</em>, char <em class="property">const</em> *<em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6Fabric3EDK14throwExceptionE8uint32_tPc" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv2N6Fabric3EDK14throwExceptionERNSt6stringE">
+<span id="Fabric::EDK::throwException__ssCR"></span>void <code class="descclassname">Fabric::EDK::</code><code class="descname">throwException</code><span class="sig-paren">(</span>std::string <em class="property">const</em> &amp;<em>string</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6Fabric3EDK14throwExceptionERNSt6stringE" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>The equivalent of the KL <code class="docutils literal"><span class="pre">throw</span></code> statement.  The first variation takes a <code class="docutils literal"><span class="pre">printf</span></code>-style format string and a list of arguments, the second takes a string length and a pointer to raw character data, and the third takes an STL <code class="docutils literal"><span class="pre">std::string</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">You must use the <code class="docutils literal"><span class="pre">Fabric::EDK::throwException</span></code> function to throw an exception from within an extension; using the C++ <code class="docutils literal"><span class="pre">throw</span></code> keyword will not work.</p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="older-extensions-before-kl2edk">
+<h3>Older Extensions (before kl2edk)<a class="headerlink" href="#older-extensions-before-kl2edk" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">バージョン 1.13.0 で追加.</span></p>
+</div>
+<p>Some users may have older extensions which are not yet using kl2edk. For these users there is an additional <cite>#define</cite> which must be declared before calling <code class="code docutils literal"><span class="pre">IMPLEMENT_FABRIC_EDK_ENTRIES</span></code>. An example of this define can be seen here:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="cp">#define FABRIC_EDK_EXT_MyExtensionName_DEPENDENT_EXTS \</span>
+<span class="cp">  { \</span>
+<span class="cp">    { &quot;MyDependentExt&quot;, 1, 5, 2, NULL }, \</span>
+<span class="cp">    { 0, 0, 0, 0, 0 } \</span>
+<span class="cp">  }</span>
+</pre></div>
+</div>
+<p>This <cite>#define</cite> specifies the version of extensions on which the current one depends as a static array terminated by an entry which is all zeros. In the above example the <cite>MyExtensionName</cite> extension depends on version 1.5.2 of the <cite>MyDependentExt</cite> extension. When matching extensions Fabric will match any extension in the minor version range greater than or equal to the specified version, so in this example <cite>MyDependentExt</cite> &gt;= 1.5.2 and &lt; 1.6.0 will match.</p>
+<p>The values passed in each row of the <cite>DEPENDENT_EXTS</cite> define are:</p>
+<ul class="simple">
+<li>Extension name</li>
+<li>Major version number</li>
+<li>Minor version number</li>
+<li>Patch version number</li>
+<li>(optional) Override value (see <a class="reference internal" href="fpm.html#exts-versioning"><span class="std std-ref">version ：エクステンション・バージョニングの指定（任意）</span></a>)</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><strong class="command">kl2edk</strong> ユーティリティ</a><ul>
+<li><a class="reference internal" href="#required-build-flags">必要なビルドフラグ</a></li>
+<li><a class="reference internal" href="#the-generated-header-files">生成されるヘッダファイル</a></li>
+<li><a class="reference internal" href="#cpp-code-generation">Cppコードの生成</a></li>
+<li><a class="reference internal" href="#namespacing">Namespacing</a></li>
+<li><a class="reference internal" href="#the-fabricedk-h-header-file">The <code class="file docutils literal"><span class="pre">FabricEDK.h</span></code> Header File</a><ul>
+<li><a class="reference internal" href="#build-macros">Build Macros</a></li>
+<li><a class="reference internal" href="#the-fabric-ext-export-function-definition-prefix">The <code class="code docutils literal"><span class="pre">FABRIC_EXT_EXPORT</span></code> Function Definition Prefix</a></li>
+<li><a class="reference internal" href="#debugging-and-error-handling-functions">Debugging and Error-Handling Functions</a></li>
+<li><a class="reference internal" href="#older-extensions-before-kl2edk">Older Extensions (before kl2edk)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="cPlusPlusApis.html"
+                        title="前の章へ">C++ APIをラップしKLで使用するには</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="types.html"
+                        title="次の章へ">Types and Extensions</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/ExtensionAuthoringGuide/kl2edk.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/ExtensionAuthoringGuide/kl2edk.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="types.html" title="Types and Extensions"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="cPlusPlusApis.html" title="C++ APIをラップしKLで使用するには"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >エクステンション・オーサリングガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

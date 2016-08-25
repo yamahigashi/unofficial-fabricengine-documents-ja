@@ -1,0 +1,449 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ragdoll Example &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Bullet Helpers エクステンション" href="index.html" />
+    <link rel="next" title="BulletHelpers Extension’s Files" href="files.html" />
+    <link rel="prev" title="Aero Example" href="AeroExample.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="BulletHelpers Extension’s Files"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="AeroExample.html" title="Aero Example"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Bullet Helpers エクステンション</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="ragdoll-example">
+<span id="id1"></span><h1>Ragdoll Example<a class="headerlink" href="#ragdoll-example" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Ragdoll.kl</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Math</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">Bullet</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">Geometry</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">BulletHelpers</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">BODYPART_PELVIS</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">BODYPART_SPINE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">BODYPART_HEAD</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">BODYPART_LEFT_UPPER_LEG</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">BODYPART_LEFT_LOWER_LEG</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">BODYPART_RIGHT_UPPER_LEG</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">BODYPART_RIGHT_LOWER_LEG</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">BODYPART_LEFT_UPPER_ARM</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">BODYPART_LEFT_LOWER_ARM</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">BODYPART_RIGHT_UPPER_ARM</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">BODYPART_RIGHT_LOWER_ARM</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">BODYPART_COUNT</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span>
+
+
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">JOINT_PELVIS_SPINE</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">JOINT_SPINE_HEAD</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">JOINT_LEFT_HIP</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">JOINT_LEFT_KNEE</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">JOINT_RIGHT_HIP</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">JOINT_RIGHT_KNEE</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">JOINT_LEFT_SHOULDER</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">JOINT_LEFT_ELBOW</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">JOINT_RIGHT_SHOULDER</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">JOINT_RIGHT_ELBOW</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="kr">Integer</span> <span class="nx">JOINT_COUNT</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+
+<span class="kr">object</span> <span class="nx">BulletRagdoll</span> <span class="p">{</span>
+  <span class="nx">Color</span> <span class="nx">color</span><span class="p">;</span>
+  <span class="nx">BulletCollisionShape</span>  <span class="nx">shapes</span><span class="p">[];</span>
+  <span class="nx">BulletRigidBody</span>       <span class="nx">bodies</span><span class="p">[];</span>
+  <span class="nx">BulletTypedConstraint</span> <span class="nx">joints</span><span class="p">[];</span>
+<span class="p">};</span>
+
+
+<span class="kd">function</span> <span class="nx">BulletRagdoll</span><span class="p">.</span><span class="nx">addBodyPart</span><span class="o">!</span><span class="p">(</span><span class="k">io</span> <span class="nx">RigidBodySimulation</span> <span class="nx">sim</span><span class="p">,</span> <span class="kr">Integer</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">Xfo</span> <span class="nx">xfo</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="nx">BulletCapsuleShape</span> <span class="nx">shape</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">shapes</span><span class="p">[</span><span class="nx">index</span><span class="p">];</span>
+  <span class="nx">Lines</span> <span class="nx">lines</span><span class="p">();</span>
+  <span class="nx">Scalar</span> <span class="nx">radius</span> <span class="o">=</span> <span class="nx">shape</span><span class="p">.</span><span class="nx">getRadius</span><span class="p">();</span>
+  <span class="nx">Scalar</span> <span class="nx">height</span> <span class="o">=</span> <span class="nx">shape</span><span class="p">.</span><span class="nx">getHalfHeight</span><span class="p">()</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">;</span>
+  <span class="nx">lines</span><span class="p">.</span><span class="nx">addCapsule</span><span class="p">(</span><span class="nx">Xfo</span><span class="p">(),</span> <span class="nx">radius</span><span class="p">,</span> <span class="nx">height</span><span class="p">,</span> <span class="mi">24</span><span class="p">);</span>
+
+  <span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span> <span class="o">=</span> <span class="nx">sim</span><span class="p">.</span><span class="nx">addRigidBody</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nx">xfo</span><span class="p">,</span> <span class="nx">Vec3</span><span class="p">(),</span> <span class="nx">Vec3</span><span class="p">(),</span> <span class="nx">shape</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">BulletRagdoll</span> <span class="p">(</span><span class="k">io</span> <span class="nx">RigidBodySimulation</span> <span class="nx">sim</span><span class="p">,</span> <span class="nx">Xfo</span> <span class="nx">offset</span><span class="p">,</span> <span class="nx">Color</span> <span class="nx">color</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="nx">color</span><span class="p">;</span>
+  <span class="c1">// Setup the geometry</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">shapes</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">BODYPART_COUNT</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">shapes</span><span class="p">[</span><span class="nx">BODYPART_PELVIS</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BulletCapsuleShape</span><span class="p">(</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">shapes</span><span class="p">[</span><span class="nx">BODYPART_SPINE</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BulletCapsuleShape</span><span class="p">(</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.28</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">shapes</span><span class="p">[</span><span class="nx">BODYPART_HEAD</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BulletCapsuleShape</span><span class="p">(</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">shapes</span><span class="p">[</span><span class="nx">BODYPART_LEFT_UPPER_LEG</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BulletCapsuleShape</span><span class="p">(</span><span class="mf">0.07</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">shapes</span><span class="p">[</span><span class="nx">BODYPART_LEFT_LOWER_LEG</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BulletCapsuleShape</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.37</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">shapes</span><span class="p">[</span><span class="nx">BODYPART_RIGHT_UPPER_LEG</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BulletCapsuleShape</span><span class="p">(</span><span class="mf">0.07</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">shapes</span><span class="p">[</span><span class="nx">BODYPART_RIGHT_LOWER_LEG</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BulletCapsuleShape</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.37</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">shapes</span><span class="p">[</span><span class="nx">BODYPART_LEFT_UPPER_ARM</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BulletCapsuleShape</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.33</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">shapes</span><span class="p">[</span><span class="nx">BODYPART_LEFT_LOWER_ARM</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BulletCapsuleShape</span><span class="p">(</span><span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">shapes</span><span class="p">[</span><span class="nx">BODYPART_RIGHT_UPPER_ARM</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BulletCapsuleShape</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.33</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">shapes</span><span class="p">[</span><span class="nx">BODYPART_RIGHT_LOWER_ARM</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BulletCapsuleShape</span><span class="p">(</span><span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">);</span>
+
+  <span class="c1">// Setup all the rigid bodies</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">BODYPART_COUNT</span><span class="p">);</span>
+
+  <span class="nx">Xfo</span> <span class="nx">transform</span><span class="p">;</span>
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">addBodyPart</span><span class="p">(</span><span class="nx">sim</span><span class="p">,</span> <span class="nx">BODYPART_PELVIS</span><span class="p">,</span> <span class="nx">offset</span><span class="o">*</span><span class="nx">transform</span><span class="p">);</span>
+
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">addBodyPart</span><span class="p">(</span><span class="nx">sim</span><span class="p">,</span> <span class="nx">BODYPART_SPINE</span><span class="p">,</span> <span class="nx">offset</span><span class="o">*</span><span class="nx">transform</span><span class="p">);</span>
+
+
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">addBodyPart</span><span class="p">(</span><span class="nx">sim</span><span class="p">,</span> <span class="nx">BODYPART_HEAD</span><span class="p">,</span> <span class="nx">offset</span><span class="o">*</span><span class="nx">transform</span><span class="p">);</span>
+
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="o">-</span><span class="mf">0.18</span><span class="p">,</span> <span class="mf">0.65</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">addBodyPart</span><span class="p">(</span><span class="nx">sim</span><span class="p">,</span> <span class="nx">BODYPART_LEFT_UPPER_LEG</span><span class="p">,</span> <span class="nx">offset</span><span class="o">*</span><span class="nx">transform</span><span class="p">);</span>
+
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="o">-</span><span class="mf">0.18</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">addBodyPart</span><span class="p">(</span><span class="nx">sim</span><span class="p">,</span> <span class="nx">BODYPART_LEFT_LOWER_LEG</span><span class="p">,</span> <span class="nx">offset</span><span class="o">*</span><span class="nx">transform</span><span class="p">);</span>
+
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.18</span><span class="p">,</span> <span class="mf">0.65</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">addBodyPart</span><span class="p">(</span><span class="nx">sim</span><span class="p">,</span> <span class="nx">BODYPART_RIGHT_UPPER_LEG</span><span class="p">,</span> <span class="nx">offset</span><span class="o">*</span><span class="nx">transform</span><span class="p">);</span>
+
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.18</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">addBodyPart</span><span class="p">(</span><span class="nx">sim</span><span class="p">,</span> <span class="nx">BODYPART_RIGHT_LOWER_LEG</span><span class="p">,</span> <span class="nx">offset</span><span class="o">*</span><span class="nx">transform</span><span class="p">);</span>
+
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="o">-</span><span class="mf">0.35</span><span class="p">,</span> <span class="mf">1.45</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">addBodyPart</span><span class="p">(</span><span class="nx">sim</span><span class="p">,</span> <span class="nx">BODYPART_LEFT_UPPER_ARM</span><span class="p">,</span> <span class="nx">offset</span><span class="o">*</span><span class="nx">transform</span><span class="p">);</span>
+
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="o">-</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.45</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">addBodyPart</span><span class="p">(</span><span class="nx">sim</span><span class="p">,</span> <span class="nx">BODYPART_LEFT_LOWER_ARM</span><span class="p">,</span> <span class="nx">offset</span><span class="o">*</span><span class="nx">transform</span><span class="p">);</span>
+
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.35</span><span class="p">,</span> <span class="mf">1.45</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="nx">HALF_PI</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">addBodyPart</span><span class="p">(</span><span class="nx">sim</span><span class="p">,</span> <span class="nx">BODYPART_RIGHT_UPPER_ARM</span><span class="p">,</span> <span class="nx">offset</span><span class="o">*</span><span class="nx">transform</span><span class="p">);</span>
+
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.45</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+  <span class="nx">transform</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="nx">HALF_PI</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">addBodyPart</span><span class="p">(</span><span class="nx">sim</span><span class="p">,</span> <span class="nx">BODYPART_RIGHT_LOWER_ARM</span><span class="p">,</span> <span class="nx">offset</span><span class="o">*</span><span class="nx">transform</span><span class="p">);</span>
+
+  <span class="c1">// Setup some damping on the this.bodies</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">BODYPART_COUNT</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">setDamping</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">setDeactivationTime</span><span class="p">(</span><span class="mf">0.8</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">setSleepingThresholds</span><span class="p">(</span><span class="mf">1.6</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Now setup the constraints</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">joints</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">JOINT_COUNT</span><span class="p">);</span>
+  <span class="nx">Xfo</span> <span class="nx">localA</span><span class="p">,</span> <span class="nx">localB</span><span class="p">;</span>
+  <span class="nx">localA</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+  <span class="p">{</span>
+    <span class="nx">localA</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localA</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">localB</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">BulletHingeConstraint</span> <span class="nx">hingeC</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_PELVIS</span><span class="p">],</span> <span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_SPINE</span><span class="p">],</span> <span class="nx">localA</span><span class="p">,</span> <span class="nx">localB</span><span class="p">);</span><span class="c1">//</span>
+    <span class="nx">hingeC</span><span class="p">.</span><span class="nx">setLimit</span><span class="p">(</span><span class="o">-</span><span class="nx">QUARTER_PI</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">joints</span><span class="p">[</span><span class="nx">JOINT_PELVIS_SPINE</span><span class="p">]</span> <span class="o">=</span> <span class="nx">hingeC</span><span class="p">;</span>
+    <span class="c1">//hingeC.setDbgDrawSize(CONSTRAINT_DEBUG_SIZE);</span>
+  <span class="p">}</span>
+
+  <span class="p">{</span>
+    <span class="nx">localA</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+    <span class="nx">localA</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localA</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.30</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">localB</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.14</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">BulletConeTwistConstraint</span> <span class="nx">coneC</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_SPINE</span><span class="p">],</span> <span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_HEAD</span><span class="p">],</span> <span class="nx">localA</span><span class="p">,</span> <span class="nx">localB</span><span class="p">);</span>
+    <span class="nx">coneC</span><span class="p">.</span><span class="nx">setLimit</span><span class="p">(</span><span class="nx">QUARTER_PI</span><span class="p">,</span> <span class="nx">QUARTER_PI</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">joints</span><span class="p">[</span><span class="nx">JOINT_SPINE_HEAD</span><span class="p">]</span> <span class="o">=</span> <span class="nx">coneC</span><span class="p">;</span>
+    <span class="c1">//coneC.setDbgDrawSize(CONSTRAINT_DEBUG_SIZE);</span>
+  <span class="p">}</span>
+
+  <span class="p">{</span>
+    <span class="nx">localA</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+    <span class="nx">localA</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="nx">QUARTER_PI</span><span class="o">*</span><span class="mi">5</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localA</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="o">-</span><span class="mf">0.18</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">localB</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="nx">QUARTER_PI</span><span class="o">*</span><span class="mi">5</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">BulletConeTwistConstraint</span> <span class="nx">coneC</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_PELVIS</span><span class="p">],</span> <span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_LEFT_UPPER_LEG</span><span class="p">],</span> <span class="nx">localA</span><span class="p">,</span> <span class="nx">localB</span><span class="p">);</span>
+    <span class="nx">coneC</span><span class="p">.</span><span class="nx">setLimit</span><span class="p">(</span><span class="nx">QUARTER_PI</span><span class="p">,</span> <span class="nx">QUARTER_PI</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">joints</span><span class="p">[</span><span class="nx">JOINT_LEFT_HIP</span><span class="p">]</span> <span class="o">=</span> <span class="nx">coneC</span><span class="p">;</span>
+    <span class="c1">//coneC.setDbgDrawSize(CONSTRAINT_DEBUG_SIZE);</span>
+  <span class="p">}</span>
+
+  <span class="p">{</span>
+    <span class="nx">localA</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+    <span class="nx">localA</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localA</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.225</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">localB</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.185</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">BulletHingeConstraint</span> <span class="nx">hingeC</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_LEFT_UPPER_LEG</span><span class="p">],</span> <span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_LEFT_LOWER_LEG</span><span class="p">],</span> <span class="nx">localA</span><span class="p">,</span> <span class="nx">localB</span><span class="p">);</span>
+    <span class="nx">hingeC</span><span class="p">.</span><span class="nx">setLimit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">joints</span><span class="p">[</span><span class="nx">JOINT_LEFT_KNEE</span><span class="p">]</span> <span class="o">=</span> <span class="nx">hingeC</span><span class="p">;</span>
+    <span class="c1">//hingeC.setDbgDrawSize(CONSTRAINT_DEBUG_SIZE);</span>
+  <span class="p">}</span>
+
+  <span class="p">{</span>
+    <span class="nx">localA</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+    <span class="nx">localA</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">QUARTER_PI</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localA</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.18</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">localB</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">QUARTER_PI</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">BulletConeTwistConstraint</span> <span class="nx">coneC</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_PELVIS</span><span class="p">],</span> <span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_RIGHT_UPPER_LEG</span><span class="p">],</span> <span class="nx">localA</span><span class="p">,</span> <span class="nx">localB</span><span class="p">);</span>
+    <span class="nx">coneC</span><span class="p">.</span><span class="nx">setLimit</span><span class="p">(</span><span class="nx">QUARTER_PI</span><span class="p">,</span> <span class="nx">QUARTER_PI</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">joints</span><span class="p">[</span><span class="nx">JOINT_RIGHT_HIP</span><span class="p">]</span> <span class="o">=</span> <span class="nx">coneC</span><span class="p">;</span>
+    <span class="c1">//coneC.setDbgDrawSize(CONSTRAINT_DEBUG_SIZE);</span>
+  <span class="p">}</span>
+
+  <span class="p">{</span>
+    <span class="nx">localA</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+    <span class="nx">localA</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localA</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.225</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">localB</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.185</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">BulletHingeConstraint</span> <span class="nx">hingeC</span> <span class="o">=</span> <span class="nx">BulletHingeConstraint</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_RIGHT_UPPER_LEG</span><span class="p">],</span> <span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_RIGHT_LOWER_LEG</span><span class="p">],</span> <span class="nx">localA</span><span class="p">,</span> <span class="nx">localB</span><span class="p">);</span>
+    <span class="nx">hingeC</span><span class="p">.</span><span class="nx">setLimit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">joints</span><span class="p">[</span><span class="nx">JOINT_RIGHT_KNEE</span><span class="p">]</span> <span class="o">=</span> <span class="nx">hingeC</span><span class="p">;</span>
+    <span class="c1">//hingeC.setDbgDrawSize(CONSTRAINT_DEBUG_SIZE);</span>
+  <span class="p">}</span>
+
+  <span class="p">{</span>
+    <span class="nx">localA</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+    <span class="nx">localA</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="nx">PI</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localA</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">localB</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.18</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">BulletConeTwistConstraint</span> <span class="nx">coneC</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_SPINE</span><span class="p">],</span> <span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_LEFT_UPPER_ARM</span><span class="p">],</span> <span class="nx">localA</span><span class="p">,</span> <span class="nx">localB</span><span class="p">);</span>
+    <span class="nx">coneC</span><span class="p">.</span><span class="nx">setLimit</span><span class="p">(</span><span class="nx">HALF_PI</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">joints</span><span class="p">[</span><span class="nx">JOINT_LEFT_SHOULDER</span><span class="p">]</span> <span class="o">=</span> <span class="nx">coneC</span><span class="p">;</span>
+    <span class="c1">//coneC.setDbgDrawSize(CONSTRAINT_DEBUG_SIZE);</span>
+  <span class="p">}</span>
+  
+  <span class="p">{</span>
+    <span class="nx">localA</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+    <span class="nx">localA</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localA</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.18</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">localB</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.14</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">BulletHingeConstraint</span> <span class="nx">hingeC</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_LEFT_UPPER_ARM</span><span class="p">],</span> <span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_LEFT_LOWER_ARM</span><span class="p">],</span> <span class="nx">localA</span><span class="p">,</span> <span class="nx">localB</span><span class="p">);</span>
+  <span class="c1">//    hingeC.setLimit(HALF_PI, 0));</span>
+    <span class="nx">hingeC</span><span class="p">.</span><span class="nx">setLimit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">joints</span><span class="p">[</span><span class="nx">JOINT_LEFT_ELBOW</span><span class="p">]</span> <span class="o">=</span> <span class="nx">hingeC</span><span class="p">;</span>
+    <span class="c1">//hingeC.setDbgDrawSize(CONSTRAINT_DEBUG_SIZE);</span>
+  <span class="p">}</span>
+
+
+  <span class="p">{</span>
+    <span class="nx">localA</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+    <span class="nx">localA</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localA</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">localB</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.18</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">BulletConeTwistConstraint</span> <span class="nx">coneC</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_SPINE</span><span class="p">],</span> <span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_RIGHT_UPPER_ARM</span><span class="p">],</span> <span class="nx">localA</span><span class="p">,</span> <span class="nx">localB</span><span class="p">);</span>
+    <span class="nx">coneC</span><span class="p">.</span><span class="nx">setLimit</span><span class="p">(</span><span class="nx">HALF_PI</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">joints</span><span class="p">[</span><span class="nx">JOINT_RIGHT_SHOULDER</span><span class="p">]</span> <span class="o">=</span> <span class="nx">coneC</span><span class="p">;</span>
+    <span class="c1">//coneC.setDbgDrawSize(CONSTRAINT_DEBUG_SIZE);</span>
+  <span class="p">}</span>
+
+  <span class="p">{</span>
+    <span class="nx">localA</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">setIdentity</span><span class="p">();</span>
+    <span class="nx">localA</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localA</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.18</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">localB</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEuler</span><span class="p">(</span><span class="nx">Euler</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span> <span class="nx">RotationOrder</span><span class="p">(</span><span class="s1">&#39;ZYX&#39;</span><span class="p">)));</span> <span class="nx">localB</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.14</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">BulletHingeConstraint</span> <span class="nx">hingeC</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_RIGHT_UPPER_ARM</span><span class="p">],</span> <span class="k">this</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_RIGHT_LOWER_ARM</span><span class="p">],</span> <span class="nx">localA</span><span class="p">,</span> <span class="nx">localB</span><span class="p">);</span>
+  <span class="c1">//    hingeC.setLimit(HALF_PI, 0));</span>
+    <span class="nx">hingeC</span><span class="p">.</span><span class="nx">setLimit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">HALF_PI</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">joints</span><span class="p">[</span><span class="nx">JOINT_RIGHT_ELBOW</span><span class="p">]</span> <span class="o">=</span> <span class="nx">hingeC</span><span class="p">;</span>
+    <span class="c1">//hingeC.setDbgDrawSize(CONSTRAINT_DEBUG_SIZE);</span>
+  <span class="p">}</span>
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="k">this</span><span class="p">.</span><span class="nx">joints</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="nx">sim</span><span class="p">.</span><span class="nx">dynamicsWorld</span><span class="p">.</span><span class="nx">addConstraint</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">joints</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="kc">true</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">(){</span>
+
+  <span class="nx">RigidBodySimulation</span> <span class="nx">sim</span><span class="p">();</span>
+  <span class="nx">sim</span><span class="p">.</span><span class="nx">initPhysics</span><span class="p">();</span>
+  <span class="nx">sim</span><span class="p">.</span><span class="nx">createGround</span><span class="p">();</span>
+  <span class="nx">Xfo</span> <span class="nx">offset</span><span class="p">;</span>
+  <span class="nx">BulletRagdoll</span> <span class="nx">ragdoll</span> <span class="o">=</span> <span class="nx">BulletRagdoll</span><span class="p">(</span><span class="nx">sim</span><span class="p">,</span> <span class="nx">offset</span><span class="p">,</span> <span class="nx">Color</span><span class="p">());</span>
+  <span class="nx">sim</span><span class="p">.</span><span class="nx">initialized</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+  <span class="c1">// Xfo bodyXfos[];</span>
+  <span class="c1">// bodyXfos.resize(ragdoll.bodies.size);</span>
+
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="mi">300</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="nx">sim</span><span class="p">.</span><span class="nx">stepSimulation</span><span class="p">();</span>
+
+    <span class="c1">// Report the bodies</span>
+    <span class="c1">// for(Integer j=0; j&lt;ragdoll.bodies.size; j++){</span>
+    <span class="c1">//   ragdoll.bodies[j].getTransform(bodyXfos[j]);</span>
+    <span class="c1">// }</span>
+    <span class="c1">// report(&quot;bodyXfos&quot;+i+&quot;:&quot; + bodyXfos);</span>
+    
+    <span class="k">if</span><span class="p">((</span><span class="nx">i</span><span class="o">%</span><span class="mi">10</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">){</span>
+      <span class="nx">Xfo</span> <span class="nx">headXfo</span> <span class="o">=</span> <span class="nx">ragdoll</span><span class="p">.</span><span class="nx">bodies</span><span class="p">[</span><span class="nx">BODYPART_HEAD</span><span class="p">].</span><span class="nx">getWorldTransform</span><span class="p">();</span>
+      <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;Head Xfo&quot;</span><span class="o">+</span><span class="nx">i</span><span class="o">+</span><span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="nx">unitTestPrint</span><span class="p">(</span><span class="nx">headXfo</span><span class="p">.</span><span class="nx">tr</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">Head Xfo0:{x:+4.902482e-5,y:+1.6333,z:-1.629232e-7}</span>
+<span class="cm">Head Xfo10:{x:+0.656127e-3,y:+1.675293,z:-1.113176e-3}</span>
+<span class="cm">Head Xfo20:{x:+0.083023,y:+1.256591,z:-0.060401}</span>
+<span class="cm">Head Xfo30:{x:+2.994918e-2,y:+1.03247,z:-0.216217}</span>
+<span class="cm">Head Xfo40:{x:+0.070022,y:+0.919799,z:-0.493652}</span>
+<span class="cm">Head Xfo50:{x:+0.258728,y:+0.428283,z:-0.887695}</span>
+<span class="cm">Head Xfo60:{x:+0.467163,y:+0.100753,z:-1.185791}</span>
+<span class="cm">Head Xfo70:{x:+0.756225,y:+0.097763,z:-1.356201}</span>
+<span class="cm">Head Xfo80:{x:+0.810791,y:+0.098754,z:-1.337402}</span>
+<span class="cm">Head Xfo90:{x:+0.811035,y:+0.101043,z:-1.343994}</span>
+<span class="cm">Head Xfo100:{x:+0.809692,y:+0.101593,z:-1.351806}</span>
+<span class="cm">Head Xfo110:{x:+0.809326,y:+0.10234,z:-1.358154}</span>
+<span class="cm">Head Xfo120:{x:+0.810424,y:+0.102996,z:-1.362793}</span>
+<span class="cm">Head Xfo130:{x:+0.810913,y:+0.103958,z:-1.366699}</span>
+<span class="cm">Head Xfo140:{x:+0.811401,y:+0.104324,z:-1.367675}</span>
+<span class="cm">Head Xfo150:{x:+0.811401,y:+0.104324,z:-1.367675}</span>
+<span class="cm">Head Xfo160:{x:+0.811401,y:+0.104324,z:-1.367675}</span>
+<span class="cm">Head Xfo170:{x:+0.811401,y:+0.104324,z:-1.367675}</span>
+<span class="cm">Head Xfo180:{x:+0.811401,y:+0.104324,z:-1.367675}</span>
+<span class="cm">Head Xfo190:{x:+0.811401,y:+0.104324,z:-1.367675}</span>
+<span class="cm">Head Xfo200:{x:+0.811401,y:+0.104324,z:-1.367675}</span>
+<span class="cm">Head Xfo210:{x:+0.811401,y:+0.104324,z:-1.367675}</span>
+<span class="cm">Head Xfo220:{x:+0.811401,y:+0.104324,z:-1.367675}</span>
+<span class="cm">Head Xfo230:{x:+0.811401,y:+0.104324,z:-1.367675}</span>
+<span class="cm">Head Xfo240:{x:+0.811401,y:+0.104324,z:-1.367675}</span>
+<span class="cm">Head Xfo250:{x:+0.811401,y:+0.104324,z:-1.367675}</span>
+<span class="cm">Head Xfo260:{x:+0.811401,y:+0.104324,z:-1.367675}</span>
+<span class="cm">Head Xfo270:{x:+0.811401,y:+0.104324,z:-1.367675}</span>
+<span class="cm">Head Xfo280:{x:+0.811401,y:+0.104324,z:-1.367675}</span>
+<span class="cm">Head Xfo290:{x:+0.811401,y:+0.104324,z:-1.367675}</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="AeroExample.html"
+                        title="前の章へ">Aero Example</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="files.html"
+                        title="次の章へ">BulletHelpers Extension&#8217;s Files</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/BulletHelpers/RagdollExample.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/BulletHelpers/RagdollExample.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="BulletHelpers Extension’s Files"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="AeroExample.html" title="Aero Example"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Bullet Helpers エクステンション</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

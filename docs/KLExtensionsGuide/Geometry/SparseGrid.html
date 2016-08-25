@@ -1,0 +1,493 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SparseGrid (object) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Geometry Extension’s Types" href="types.html" />
+    <link rel="next" title="UInt16ConstantArrayAttribute (object)" href="UInt16ConstantArrayAttribute.html" />
+    <link rel="prev" title="SkinningAttributeData (struct)" href="SkinningAttributeData.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="UInt16ConstantArrayAttribute.html" title="UInt16ConstantArrayAttribute (object)"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="SkinningAttributeData.html" title="SkinningAttributeData (struct)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Geometry エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" accesskey="U">Geometry Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="sparsegrid-object">
+<span id="sparsegrid"></span><h1>SparseGrid (object)<a class="headerlink" href="#sparsegrid-object" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><p class="plaintext">The <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a> is a spatial acceleration structure that subdivides the 3D space as a regular grid of cubic cells.
+The <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a> object can hold objects that are described as points, or as a bounding volume (box or sphere).</p>
+<p class="plaintext">The grid is sparse because, similarly to a hash table, only cells that contain some objects are allocated.
+In order to offer a good performance, the <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a> offers:
+Before issuing queries, the <a class="reference internal" href="#id55312"><span class="std std-ref">SparseGrid.updateGrid</span></a> method must be called
+if grid objects were modified (<a class="reference internal" href="#id55315"><span class="std std-ref">SparseGrid.updatePointObject</span></a>, <a class="reference internal" href="#id55320"><span class="std std-ref">SparseGrid.updateBBoxObject</span></a>,
+<a class="reference internal" href="#id55326"><span class="std std-ref">SparseGrid.updateBSphereObject</span></a>, <a class="reference internal" href="#id55332"><span class="std std-ref">SparseGrid.removeObject</span></a>).</p>
+<p class="plaintext">By default, the cell size will be adjusted automatically based on the number of objects and
+their volume. However it is possible to adjust the cell size
+using a multiplication factor (see <a class="reference internal" href="#id55305"><span class="std std-ref">SparseGrid.setAutoCellSize</span></a>) or an
+explicit size (see <a class="reference internal" href="#id55301"><span class="std std-ref">SparseGrid.setExplicitCellSize</span></a>).</p>
+<p class="plaintext">Because <a class="reference internal" href="#id55340"><span class="std std-ref">SparseGrid.raycast</span></a> and <a class="reference internal" href="#id55348"><span class="std std-ref">SparseGrid.getClosest</span></a> need to be more precise
+than simple bounding volume intersection, these require specialized object intersections
+for the actual geometry (polygon, edge, geometry) to be implemented through the <a class="reference internal" href="RaycastResult.html#raycastresult"><span class="std std-ref">RaycastResult</span></a> and
+<a class="reference internal" href="ClosestResult.html#closestresult"><span class="std std-ref">ClosestResult</span></a> interfaces.</p>
+<p class="plaintext">Query (read) methods are threadsafe if the grid not modified (not being updated, or its objects are not changed).</p>
+<ul class="simple">
+<li>Compact memory: all data is managed into a few arrays, reducing global memory consumption 
+and improving speed due to memory locality</li>
+<li>Auto-adjusting cell size: allows the grid to adjust relatively optimally to various object sizes 
+and placement. The SparseGrid tracks the various parameters and will update the cell size if 
+conditions change too much.</li>
+<li>Incremental update: only objects that move between cells will cause changes.</li>
+</ul>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+ -->
+<!-- Title: SparseGrid Pages: 1 -->
+<svg width="306pt" height="44pt"
+ viewBox="0.00 0.00 306.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>SparseGrid</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-40 303,-40 303,5 -4,5"/>
+<!-- SparseGrid -->
+<g id="node1" class="node"><title>SparseGrid</title>
+<a xlink:href="../Geometry/SparseGrid.html" xlink:title="SparseGrid">
+<polygon fill="#3fabd3" stroke="#3f3f3f" points="297.5,-36 232.5,-36 232.5,-0 297.5,-0 297.5,-36"/>
+<text text-anchor="middle" x="265" y="-15.5" font-family="Arial" font-size="10.00">SparseGrid</text>
+</a>
+</g>
+<!-- StatisticSourceWithAutoRegisterMember -->
+<g id="node3" class="node"><title>StatisticSourceWithAutoRegisterMember</title>
+<a xlink:href="../FabricStatistics/StatisticSourceWithAutoRegisterMember.html" xlink:title="StatisticSourceWithAutoRegisterMember">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="195.5,-36 0.5,-36 0.5,-0 195.5,-0 195.5,-36"/>
+<text text-anchor="middle" x="98" y="-15.5" font-family="Arial" font-size="10.00">StatisticSourceWithAutoRegisterMember</text>
+</a>
+</g>
+<!-- SparseGrid&#45;&gt;StatisticSourceWithAutoRegisterMember -->
+<g id="edge2" class="edge"><title>SparseGrid&#45;&gt;StatisticSourceWithAutoRegisterMember</title>
+<path fill="none" stroke="#3f3f3f" d="M232.186,-18C224.193,-18 215.164,-18 205.666,-18"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="205.623,-14.5001 195.623,-18 205.623,-21.5001 205.623,-14.5001"/>
+</g>
+</g>
+</svg></p>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id114457"><span class="std std-ref">SparseGrid</span></a>  ( in <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id55295"><span class="std std-ref">SparseGrid</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id55356"><span class="std std-ref">bBoxQuery</span></a> ? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> min, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> max, io <a class="reference internal" href="../Containers/IndexSet.html#indexset"><span class="std std-ref">IndexSet</span></a> result )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id55362"><span class="std std-ref">bSphereQuery</span></a> ? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> center, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius, io <a class="reference internal" href="../Containers/IndexSet.html#indexset"><span class="std std-ref">IndexSet</span></a> result )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a></td>
+<td><a class="reference internal" href="#id114461"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id55348"><span class="std std-ref">getClosest</span></a> ? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> position, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> scaling, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> maxUnscaledDistance, io <a class="reference internal" href="SpatialQueryData.html#spatialquerydata"><span class="std std-ref">SpatialQueryData</span></a> data, io Ref&lt;<a class="reference internal" href="ClosestResult.html#closestresult"><span class="std std-ref">ClosestResult</span></a>&gt; result )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id55368"><span class="std std-ref">getLineIntersectedObjects</span></a> ? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> start, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> end, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> intersectionLineTypeEnum, io <a class="reference internal" href="../Containers/IndexSet.html#indexset"><span class="std std-ref">IndexSet</span></a> result )</td>
+</tr>
+<tr class="row-even"><td>Size</td>
+<td><a class="reference internal" href="#id55375"><span class="std std-ref">getObjectCount</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id55336"><span class="std std-ref">incrementalUpdateObjectCount</span></a> ! ( in Size objectCount )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id55340"><span class="std std-ref">raycast</span></a> ? ( in <a class="reference internal" href="../Math/Ray.html#ray"><span class="std std-ref">Ray</span></a> ray, in Boolean doubleSided, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> maxDistance, io <a class="reference internal" href="SpatialQueryData.html#spatialquerydata"><span class="std std-ref">SpatialQueryData</span></a> data, io Ref&lt;<a class="reference internal" href="RaycastResult.html#raycastresult"><span class="std std-ref">RaycastResult</span></a>&gt; result )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id55332"><span class="std std-ref">removeObject</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> objectIndex )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id55305"><span class="std std-ref">setAutoCellSize</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> autoCellSizeMultiplierHint )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id55309"><span class="std std-ref">setAutoCellSize</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id55301"><span class="std std-ref">setExplicitCellSize</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> cellSize )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id55320"><span class="std std-ref">updateBBoxObject</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> objectIndex, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> min, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> max )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id55326"><span class="std std-ref">updateBSphereObject</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> objectIndex, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> center, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id55312"><span class="std std-ref">updateGrid</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id55315"><span class="std std-ref">updatePointObject</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> objectIndex, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> position )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="methods-in-detail">
+<h2>Methods in detail<a class="headerlink" href="#methods-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><span class="target" id="id114457"></span><p><p class="klcode"><a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a> ( in <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a> other )</p>
+<p class="plaintext">copy constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id55295"></span><p><p class="klcode"><a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a> ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id55356"></span><p><p class="klcode"><a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a>.bBoxQuery? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> min, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> max, io <a class="reference internal" href="../Containers/IndexSet.html#indexset"><span class="std std-ref">IndexSet</span></a> result )</p>
+<p class="plaintext">Returns objects intersecting the specified local bounding box.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Depending on the case, it is possible that the <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a> returns too many objects by including some that are close to the queried volume but not actually intersecting it.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Reusing the same <cite>result</cite> for multiple queries will improve performance by reducing the amount of temporary heap allocations</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This function is threadsafe if the <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a> is not modified</p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>result</td>
+<td>Contains resulting object indices. Important: the actual object count is <cite>result.size()</cite> and not <cite>result.indices.size()</cite> (see IndexSet).</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id55362"></span><p><p class="klcode"><a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a>.bSphereQuery? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> center, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius, io <a class="reference internal" href="../Containers/IndexSet.html#indexset"><span class="std std-ref">IndexSet</span></a> result )</p>
+<p class="plaintext">Returns objects intersecting the specified local bounding sphere.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Depending on the case, it is possible that the <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a> returns too many objects by including some that are close to the queried volume but not actually intersecting it.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Reusing the same <cite>result</cite> for multiple queries will improve performance by reducing the amount of temporary heap allocations</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This function is threadsafe if the <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a> is not modified</p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>result</td>
+<td>Contains resulting object indices. Important: the actual object count is <cite>result.size()</cite> and not <cite>result.indices.size()</cite> (see IndexSet).</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id114461"></span><p><p class="klcode"><a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a> <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a>.clone? ()</p>
+<p class="plaintext">clone method</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id55348"></span><p><p class="klcode"><a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a>.getClosest? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> position, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> scaling, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> maxUnscaledDistance, io <a class="reference internal" href="SpatialQueryData.html#spatialquerydata"><span class="std std-ref">SpatialQueryData</span></a> data, io Ref&lt;<a class="reference internal" href="ClosestResult.html#closestresult"><span class="std std-ref">ClosestResult</span></a>&gt; result )</p>
+<p class="plaintext">Gets the closest object of the <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a>.
+See <a class="reference internal" href="SpatialQueryable.html#id53116"><span class="std std-ref">SpatialQueryable.getClosest</span></a> for a description of the other parameters.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>data</td>
+<td>Temporary data used for processing the query. Reusing the same <cite>data</cite> for multiple queries will improve performance by reducing the amount of temporary heap allocations.</td>
+</tr>
+<tr class="row-even"><td>result</td>
+<td>Implements specialized object intersection through the <a class="reference internal" href="ClosestResult.html#closestresult"><span class="std std-ref">ClosestResult</span></a> interface, and will hold the final result.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id55368"></span><p><p class="klcode"><a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a>.getLineIntersectedObjects? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> start, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> end, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> intersectionLineTypeEnum, io <a class="reference internal" href="../Containers/IndexSet.html#indexset"><span class="std std-ref">IndexSet</span></a> result )</p>
+<p class="plaintext">Returns objects intersecting the specified line, semi-line or line segment.</p>
+<ul class="plaintext simple">
+<li>if <cite>lineIntersectionType</cite> == 0 (<cite>SpatialQuery_lineIntersection</cite>) : intersects with an infinite line passing through <cite>start</cite> and <cite>end</cite></li>
+<li>if <cite>lineIntersectionType</cite> == 1 (<cite>SpatialQuery_semiLineIntersection</cite>) : intersects with a semi-line starting at <cite>start</cite>, passing through <cite>end</cite> and continuing infinitely in that direction</li>
+<li>if <cite>lineIntersectionType</cite> == 2 (<cite>SpatialQuery_segmentIntersection</cite>) : intersects with a segment starting at <cite>start</cite> and ending at <cite>end</cite></li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Depending on the case, it is possible that the <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a> returns too many objects by including some that are close to the queried volume but not actually intersecting it.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Reusing the same <cite>result</cite> for multiple queries will improve performance by reducing the amount of temporary heap allocations</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This function is threadsafe if the <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a> is not modified</p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>result</td>
+<td>Contains resulting object indices. Important: the actual object count is <cite>result.size()</cite> and not <cite>result.indices.size()</cite> (see IndexSet).</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id55375"></span><p><p class="klcode">Size <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a>.getObjectCount? ()</p>
+<p class="plaintext">Returns the object index range.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Some of the indices between 0 and <cite>SparseGrid.getObjectCount</cite> might be unused, if object&#8217;s volume was never specified (eg: with <a class="reference internal" href="#id55326"><span class="std std-ref">SparseGrid.updateBSphereObject</span></a>) or if <a class="reference internal" href="#id55332"><span class="std std-ref">SparseGrid.removeObject</span></a> was called for an object.</p>
+</div>
+</p>
+<hr class="docutils" />
+<span class="target" id="id55336"></span><p><p class="klcode"><a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a>.incrementalUpdateObjectCount! ( in Size objectCount )</p>
+<p class="plaintext">Updates the object count, with no changes to remaining objects.
+Added objects will have no effect until their volume is specified (eg: with <a class="reference internal" href="#id55326"><span class="std std-ref">SparseGrid.updateBSphereObject</span></a>).</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">If existing objects get truncated, these will be automatically removed from the grid, incrementally (no need to call <a class="reference internal" href="#id55332"><span class="std std-ref">SparseGrid.removeObject</span></a> first).</p>
+</div>
+</p>
+<hr class="docutils" />
+<span class="target" id="id55340"></span><p><p class="klcode"><a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a>.raycast? ( in <a class="reference internal" href="../Math/Ray.html#ray"><span class="std std-ref">Ray</span></a> ray, in Boolean doubleSided, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> maxDistance, io <a class="reference internal" href="SpatialQueryData.html#spatialquerydata"><span class="std std-ref">SpatialQueryData</span></a> data, io Ref&lt;<a class="reference internal" href="RaycastResult.html#raycastresult"><span class="std std-ref">RaycastResult</span></a>&gt; result )</p>
+<p class="plaintext">Raycasts the objects of the <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a>.
+See <a class="reference internal" href="SpatialQueryable.html#id53109"><span class="std std-ref">SpatialQueryable.raycast</span></a> for a description of the other parameters.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>data</td>
+<td>Temporary data used for processing the query. Reusing the same <cite>data</cite> for multiple queries will improve performance by reducing the amount of temporary heap allocations.</td>
+</tr>
+<tr class="row-even"><td>result</td>
+<td>Implements specialized object intersection through the <a class="reference internal" href="RaycastResult.html#raycastresult"><span class="std std-ref">RaycastResult</span></a> interface, and will hold the final result.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id55332"></span><p><p class="klcode"><a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a>.removeObject! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> objectIndex )</p>
+<p class="plaintext">Removes an object. The <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a> remains valid.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This method is not thread-safe.</p>
+</div>
+</p>
+<hr class="docutils" />
+<span class="target" id="id55305"></span><p><p class="klcode"><a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a>.setAutoCellSize! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> autoCellSizeMultiplierHint )</p>
+<p class="plaintext">Enables auto-cell-size mode, and the cell size determined by the SparseGrid heuristic will then be multiplied by <cite>autoCellSizeMultiplierHint</cite>
+(value &gt; 1.0 will lead to less grid cells, value &lt; 1.0 will lead to more grid cells)</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="#id55301"><span class="std std-ref">SparseGrid.setExplicitCellSize</span></a></p>
+</div>
+</p>
+<hr class="docutils" />
+<span class="target" id="id55309"></span><p><p class="klcode"><a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a>.setAutoCellSize! ()</p>
+<p class="plaintext">Enables auto-cell-size mode.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id55301"></span><p><p class="klcode"><a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a>.setExplicitCellSize! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> cellSize )</p>
+<p class="plaintext">Forces a specific cell size. Disables &#8216;auto-cell-size&#8217; mode.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="#id55305"><span class="std std-ref">SparseGrid.setAutoCellSize</span></a></p>
+</div>
+</p>
+<hr class="docutils" />
+<span class="target" id="id55320"></span><p><p class="klcode"><a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a>.updateBBoxObject! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> objectIndex, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> min, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> max )</p>
+<p class="plaintext">Adds or updates a bounding box object.
+This will not update the SparseGrid: <a class="reference internal" href="#id55312"><span class="std std-ref">SparseGrid.updateGrid</span></a> must be called (incremental update) for
+the <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a> to be valid again once all objects&#8217; volumes have been set.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">if objectIndex &gt;= <a class="reference internal" href="#id55375"><span class="std std-ref">SparseGrid.getObjectCount</span></a>, the count will be increased automatically</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This method is not thread-safe.</p>
+</div>
+</p>
+<hr class="docutils" />
+<span class="target" id="id55326"></span><p><p class="klcode"><a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a>.updateBSphereObject! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> objectIndex, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> center, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius )</p>
+<p class="plaintext">Adds or updates a bounding sphere object.
+This will not update the SparseGrid: <a class="reference internal" href="#id55312"><span class="std std-ref">SparseGrid.updateGrid</span></a> must be called (incremental update) for
+the <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a> to be valid again once all objects&#8217; volumes have been set.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">if objectIndex &gt;= <a class="reference internal" href="#id55375"><span class="std std-ref">SparseGrid.getObjectCount</span></a>, the count will be increased automatically</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This method is not thread-safe.</p>
+</div>
+</p>
+<hr class="docutils" />
+<span class="target" id="id55312"></span><p><p class="klcode"><a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a>.updateGrid! ()</p>
+<p class="plaintext">Must be called after all changes are done to update the <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a> incrementally. Potential changes include calls to:</p>
+<ul class="plaintext simple">
+<li><a class="reference internal" href="#id55301"><span class="std std-ref">SparseGrid.setExplicitCellSize</span></a> or <a class="reference internal" href="#id55305"><span class="std std-ref">SparseGrid.setAutoCellSize</span></a></li>
+<li><a class="reference internal" href="#id55315"><span class="std std-ref">SparseGrid.updatePointObject</span></a>, <a class="reference internal" href="#id55320"><span class="std std-ref">SparseGrid.updateBBoxObject</span></a> or <a class="reference internal" href="#id55326"><span class="std std-ref">SparseGrid.updateBSphereObject</span></a></li>
+<li><a class="reference internal" href="#id55332"><span class="std std-ref">SparseGrid.removeObject</span></a></li>
+</ul>
+<p class="plaintext">Otherwise, results are unpredictable.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This function is not thread-safe.</p>
+</div>
+</p>
+<hr class="docutils" />
+<span class="target" id="id55315"></span><p><p class="klcode"><a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a>.updatePointObject! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> objectIndex, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> position )</p>
+<p class="plaintext">Adds or updates a point object.
+This will not update the SparseGrid: <a class="reference internal" href="#id55312"><span class="std std-ref">SparseGrid.updateGrid</span></a> must be called (incremental update) for
+the <a class="reference internal" href="#sparsegrid"><span class="std std-ref">SparseGrid</span></a> to be valid again once all objects&#8217; volumes have been set.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">if objectIndex &gt;= <a class="reference internal" href="#id55375"><span class="std std-ref">SparseGrid.getObjectCount</span></a>, the count will be increased automatically</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This method is not thread-safe.</p>
+</div>
+</p>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="SkinningAttributeData.html"
+                        title="前の章へ">SkinningAttributeData (struct)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="UInt16ConstantArrayAttribute.html"
+                        title="次の章へ">UInt16ConstantArrayAttribute (object)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Geometry/SparseGrid.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Geometry/SparseGrid.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="UInt16ConstantArrayAttribute.html" title="UInt16ConstantArrayAttribute (object)"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="SkinningAttributeData.html" title="SkinningAttributeData (struct)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Geometry エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" >Geometry Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

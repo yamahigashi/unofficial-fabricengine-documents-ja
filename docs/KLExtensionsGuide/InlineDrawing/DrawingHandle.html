@@ -1,0 +1,550 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>DrawingHandle (object) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="InlineDrawing Extension’s Types" href="types.html" />
+    <link rel="next" title="InlineCamera (object)" href="InlineCamera.html" />
+    <link rel="prev" title="DrawContext (object)" href="DrawContext.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="InlineCamera.html" title="InlineCamera (object)"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="DrawContext.html" title="DrawContext (object)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >InlineDrawing エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" accesskey="U">InlineDrawing Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="drawinghandle-object">
+<span id="drawinghandle"></span><h1>DrawingHandle (object)<a class="headerlink" href="#drawinghandle-object" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="versionadded">
+<p><span class="versionmodified">バージョン 1.13.0 で追加.</span></p>
+</div>
+<p class="plaintext">The <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a> is used to manage the lifetime of drawn objects.</p>
+<p class="plaintext">The <a class="reference internal" href="InlineDrawing.html#inlinedrawing"><span class="std std-ref">InlineDrawing</span></a> system uses a singleton to store the data submitted to rendering. This makes adding data to the renderer easy, but removing data can be difficult.
+Often we want data to be removed when its owner is destroyed. The owner might be a node in Maya for example. By adding the <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a> as a member of a splice node, any drawn elements associated with the handle will be automatically cleaned up when the Splice node is destroyed.</p>
+<p class="plaintext">When the <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a> is used within Canvas, the visual programming system, the <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a> is stored in a singleton, outside of the graph.
+You will need to call <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.clear to remove its content from the drawing. So you should use the <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.clear node prior to any draw nodes when using it in Canvas.</p>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+ -->
+<!-- Title: DrawingHandle Pages: 1 -->
+<svg width="316pt" height="98pt"
+ viewBox="0.00 0.00 316.00 98.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 94)">
+<title>DrawingHandle</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-94 313,-94 313,5 -4,5"/>
+<!-- DrawingHandle -->
+<g id="node1" class="node"><title>DrawingHandle</title>
+<a xlink:href="../InlineDrawing/DrawingHandle.html" xlink:title="DrawingHandle">
+<polygon fill="#3fabd3" stroke="#3f3f3f" points="307.5,-63 226.5,-63 226.5,-27 307.5,-27 307.5,-63"/>
+<text text-anchor="middle" x="267" y="-42.5" font-family="Arial" font-size="10.00">DrawingHandle</text>
+</a>
+</g>
+<!-- Detachable -->
+<g id="node3" class="node"><title>Detachable</title>
+<a xlink:href="../FabricInterfaces/Detachable.html" xlink:title="Detachable">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="178.5,-90 113.5,-90 113.5,-54 178.5,-54 178.5,-90"/>
+<text text-anchor="middle" x="146" y="-69.5" font-family="Arial" font-size="10.00">Detachable</text>
+</a>
+</g>
+<!-- DrawingHandle&#45;&gt;Detachable -->
+<g id="edge2" class="edge"><title>DrawingHandle&#45;&gt;Detachable</title>
+<path fill="none" stroke="#3f3f3f" d="M226.375,-53.9906C214.226,-56.7471 200.828,-59.787 188.554,-62.5718"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="187.538,-59.2133 178.56,-64.8393 189.087,-66.0398 187.538,-59.2133"/>
+</g>
+<!-- InlineEntityBase -->
+<g id="node5" class="node"><title>InlineEntityBase</title>
+<a xlink:href="../InlineDrawing/InlineEntityBase.html" xlink:title="InlineEntityBase">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="189.5,-36 102.5,-36 102.5,-0 189.5,-0 189.5,-36"/>
+<text text-anchor="middle" x="146" y="-15.5" font-family="Arial" font-size="10.00">InlineEntityBase</text>
+</a>
+</g>
+<!-- DrawingHandle&#45;&gt;InlineEntityBase -->
+<g id="edge4" class="edge"><title>DrawingHandle&#45;&gt;InlineEntityBase</title>
+<path fill="none" stroke="#3f3f3f" d="M226.375,-36.0094C217.827,-34.07 208.661,-31.9904 199.704,-29.958"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="200.249,-26.4929 189.723,-27.6934 198.7,-33.3194 200.249,-26.4929"/>
+</g>
+<!-- InlineEntity -->
+<g id="node7" class="node"><title>InlineEntity</title>
+<a xlink:href="../InlineDrawing/InlineEntity.html" xlink:title="InlineEntity">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="65.5,-36 0.5,-36 0.5,-0 65.5,-0 65.5,-36"/>
+<text text-anchor="middle" x="33" y="-15.5" font-family="Arial" font-size="10.00">InlineEntity</text>
+</a>
+</g>
+<!-- InlineEntityBase&#45;&gt;InlineEntity -->
+<g id="edge6" class="edge"><title>InlineEntityBase&#45;&gt;InlineEntity</title>
+<path fill="none" stroke="#3f3f3f" d="M102.402,-18C93.7089,-18 84.5688,-18 75.9004,-18"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="75.6225,-14.5001 65.6225,-18 75.6225,-21.5001 75.6225,-14.5001"/>
+</g>
+</g>
+</svg></p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: DrawingHandle</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">InlineDrawing</span><span class="p">;</span>
+  
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="c1">// Create a handle to manage the lifetime of the drawn elements </span>
+  <span class="nx">DrawingHandle</span> <span class="nx">handle</span><span class="p">();</span>
+  
+  <span class="k">if</span><span class="p">(</span><span class="nx">handle</span><span class="p">.</span><span class="nx">isEmpty</span><span class="p">())</span> <span class="p">{</span>  
+  
+    <span class="nx">InlineDrawing</span> <span class="nx">drawing</span> <span class="o">=</span> <span class="nx">handle</span><span class="p">.</span><span class="nx">getDrawing</span><span class="p">();</span>
+  
+    <span class="c1">// create a couple of transforms parented into a hierarchy attached to the handle.</span>
+    <span class="nx">InlineTransform</span> <span class="nx">rootTransform</span> <span class="o">=</span> <span class="nx">handle</span><span class="p">.</span><span class="nx">getRootTransform</span><span class="p">();</span>
+    <span class="nx">InlineTransform</span> <span class="nx">transfo1</span> <span class="o">=</span> <span class="nx">StaticInlineTransform</span><span class="p">(</span><span class="s1">&#39;parent&#39;</span><span class="p">,</span> <span class="nx">rootTransform</span><span class="p">,</span> <span class="nx">Xfo</span><span class="p">());</span>
+    <span class="nx">InlineTransform</span> <span class="nx">transfo2</span> <span class="o">=</span> <span class="nx">StaticInlineTransform</span><span class="p">(</span><span class="s1">&#39;childA&#39;</span><span class="p">,</span> <span class="nx">transfo1</span><span class="p">,</span> <span class="nx">Xfo</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)));</span>
+    <span class="nx">InlineTransform</span> <span class="nx">transfo3</span> <span class="o">=</span> <span class="nx">StaticInlineTransform</span><span class="p">(</span><span class="s1">&#39;childB&#39;</span><span class="p">,</span> <span class="nx">transfo1</span><span class="p">,</span> <span class="nx">Xfo</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)));</span>
+  
+    <span class="c1">// Attach some points to transfo2</span>
+    <span class="nx">InlineShader</span> <span class="nx">flatShader</span> <span class="o">=</span> <span class="nx">drawing</span><span class="p">.</span><span class="nx">registerShader</span><span class="p">(</span><span class="nx">OGLFlatShader</span><span class="p">());</span>
+    <span class="nx">InlineShader</span> <span class="nx">surfaceShader</span> <span class="o">=</span> <span class="nx">drawing</span><span class="p">.</span><span class="nx">registerShader</span><span class="p">(</span><span class="nx">OGLSurfaceShader</span><span class="p">());</span>
+  
+    <span class="nx">InlineMaterial</span> <span class="nx">pointsMaterial</span> <span class="o">=</span> <span class="nx">flatShader</span><span class="p">.</span><span class="nx">getOrCreateMaterial</span><span class="p">(</span><span class="s2">&quot;points&quot;</span><span class="p">);</span>
+    <span class="nx">pointsMaterial</span><span class="p">.</span><span class="nx">setUniform</span><span class="p">(</span><span class="s1">&#39;u_color&#39;</span><span class="p">,</span> <span class="nx">Color</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">));</span>
+  
+    <span class="nx">Points</span> <span class="nx">points</span><span class="p">();</span>
+    <span class="nx">InlinePointsShape</span> <span class="nx">pointsShape</span><span class="p">(</span><span class="s2">&quot;points&quot;</span><span class="p">,</span> <span class="nx">points</span><span class="p">);</span>
+    <span class="nx">InlineInstance</span> <span class="nx">pointsdInstance</span> <span class="o">=</span> <span class="nx">InlineInstance</span><span class="p">(</span><span class="s2">&quot;points&quot;</span><span class="p">,</span> <span class="nx">transfo2</span><span class="p">,</span> <span class="nx">pointsShape</span><span class="p">,</span> <span class="nx">pointsMaterial</span><span class="p">);</span>
+  
+    <span class="c1">// Attach a mesh to transfo3</span>
+    <span class="nx">InlineMaterial</span> <span class="nx">surfaceMaterial</span> <span class="o">=</span> <span class="nx">surfaceShader</span><span class="p">.</span><span class="nx">getOrCreateMaterial</span><span class="p">(</span><span class="s2">&quot;surface&quot;</span><span class="p">);</span>
+    <span class="nx">surfaceMaterial</span><span class="p">.</span><span class="nx">setUniform</span><span class="p">(</span><span class="s1">&#39;u_diffuseColor&#39;</span><span class="p">,</span> <span class="nx">Color</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">));</span>
+  
+    <span class="nx">PolygonMesh</span> <span class="nx">mesh</span><span class="p">();</span>
+    <span class="nx">InlineMeshShape</span> <span class="nx">meshShape</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="nx">mesh</span><span class="p">);</span>
+    <span class="nx">InlineInstance</span> <span class="nx">meshInstance</span> <span class="o">=</span> <span class="nx">InlineInstance</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="nx">transfo3</span><span class="p">,</span> <span class="nx">meshShape</span><span class="p">,</span> <span class="nx">surfaceMaterial</span><span class="p">);</span>
+  
+  <span class="p">}</span>
+  
+  <span class="c1">// deactivate the drawing of all contents within the handle</span>
+  <span class="nx">handle</span><span class="p">.</span><span class="nx">setActive</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+  
+  <span class="c1">// activate it again</span>
+  <span class="nx">handle</span><span class="p">.</span><span class="nx">setActive</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+  
+  <span class="c1">// Later.... Destroy the handle. The hierarch containing the points and mesh will be removed from the InlineDrawing system</span>
+  <span class="nx">handle</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+  
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id114897"><span class="std std-ref">DrawingHandle</span></a>  ( in <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id68997"><span class="std std-ref">DrawingHandle</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id68990"><span class="std std-ref">DrawingHandle</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69007"><span class="std std-ref">clear</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a></td>
+<td><a class="reference internal" href="#id114901"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69280"><span class="std std-ref">drawAttributeAsAxes</span></a> ! ( in <a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> geometry, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> attribute, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> scale, in Boolean local, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69263"><span class="std std-ref">drawAttributeAsColor</span></a> ! ( in <a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> geometry, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> attribute, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> radius, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69250"><span class="std std-ref">drawAttributeAsFloat32</span></a> ! ( in <a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> geometry, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> attribute, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> minValue, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> maxValue, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> minRadius, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> maxRadius, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> minColor, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> maxColor, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69241"><span class="std std-ref">drawAttributeAsPosition</span></a> ! ( in <a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> geometry, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> attribute, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> radius, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69271"><span class="std std-ref">drawAttributeAsVec3</span></a> ! ( in <a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> geometry, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> attribute, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> scale, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69181"><span class="std std-ref">drawAxes</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transform, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69174"><span class="std std-ref">drawAxesInstances</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69086"><span class="std std-ref">drawColoredLines</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transform, in <a class="reference internal" href="../Geometry/Lines.html#lines"><span class="std std-ref">Lines</span></a> lines, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69078"><span class="std std-ref">drawColoredLinesInstances</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], in <a class="reference internal" href="../Geometry/Lines.html#lines"><span class="std std-ref">Lines</span></a> lines, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69133"><span class="std std-ref">drawColoredPolygonMesh</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> specular, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> specFactor, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transform, in <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> mesh, in Boolean wireFrame, in Boolean doubleSided, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69120"><span class="std std-ref">drawColoredPolygonMeshInstances</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> specular, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> specFactor, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], in <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> mesh, in Boolean wireFrame, in Boolean doubleSided, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69067"><span class="std std-ref">drawLines</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> specular, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> specFactor, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transform, in <a class="reference internal" href="../Geometry/Lines.html#lines"><span class="std std-ref">Lines</span></a> lines, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69303"><span class="std std-ref">drawLinesArray</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Geometry/Lines.html#lines"><span class="std std-ref">Lines</span></a> masters[], in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], in Index indices[], out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69058"><span class="std std-ref">drawLinesInstances</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], in <a class="reference internal" href="../Geometry/Lines.html#lines"><span class="std std-ref">Lines</span></a> lines, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69050"><span class="std std-ref">drawPoints</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transform, in <a class="reference internal" href="../Geometry/Points.html#points"><span class="std std-ref">Points</span></a> points, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69313"><span class="std std-ref">drawPointsArray</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Geometry/Points.html#points"><span class="std std-ref">Points</span></a> masters[], in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], in Index indices[], out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69042"><span class="std std-ref">drawPointsInstances</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], in <a class="reference internal" href="../Geometry/Points.html#points"><span class="std std-ref">Points</span></a> points, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69107"><span class="std std-ref">drawPolygonMesh</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> specular, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> specFactor, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transform, in <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> mesh, in Boolean wireFrame, in Boolean doubleSided, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69289"><span class="std std-ref">drawPolygonMeshArray</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> specular, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> specFactor, in <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> masters[], in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], in Index indices[], in Boolean wireFrame, in Boolean doubleSided, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69094"><span class="std std-ref">drawPolygonMeshInstances</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> specular, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> specFactor, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], in <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> mesh, in Boolean wireFrame, in Boolean doubleSided, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69188"><span class="std std-ref">drawTexturedPlane</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> width, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> height, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> pixels[], in Boolean mirrorU, in Boolean mirrorV, in Boolean discardAlpha, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transform, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69201"><span class="std std-ref">drawTexturedPlane</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> width, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> height, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> pixels[], in Boolean mirrorU, in Boolean mirrorV, in Boolean discardAlpha, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transform, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69160"><span class="std std-ref">drawTexturedPolygonMesh</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> filePath, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> specular, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> specFactor, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> ambient, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transform, in <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> mesh, in Boolean wireFrame, in Boolean doubleSided, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69146"><span class="std std-ref">drawTexturedPolygonMeshInstances</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> filePath, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> specular, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> specFactor, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> ambient, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], in <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> mesh, in Boolean wireFrame, in Boolean doubleSided, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="InlineDebugShape.html#inlinedebugshape"><span class="std std-ref">InlineDebugShape</span></a></td>
+<td><a class="reference internal" href="#id69219"><span class="std std-ref">getDebugShape</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="InlineDebugShape.html#inlinedebugshape"><span class="std std-ref">InlineDebugShape</span></a></td>
+<td><a class="reference internal" href="#id69214"><span class="std std-ref">getDebugShape</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="InlineDrawing.html#inlinedrawing"><span class="std std-ref">InlineDrawing</span></a></td>
+<td><a class="reference internal" href="#id69027"><span class="std std-ref">getDrawing</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="InlineDebugShape.html#inlinedebugshape"><span class="std std-ref">InlineDebugShape</span></a></td>
+<td><a class="reference internal" href="#id69228"><span class="std std-ref">getEmptyDebugShape</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="InlineDebugShape.html#inlinedebugshape"><span class="std std-ref">InlineDebugShape</span></a></td>
+<td><a class="reference internal" href="#id69223"><span class="std std-ref">getEmptyDebugShape</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a></td>
+<td><a class="reference internal" href="#id69030"><span class="std std-ref">getRootTransform</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="#id69024"><span class="std std-ref">isEmpty</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69237"><span class="std std-ref">removeDebugShape</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69232"><span class="std std-ref">removeDebugShape</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id69014"><span class="std std-ref">setActive</span></a> ! ( in Boolean active )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="methods-in-detail">
+<h2>Methods in detail<a class="headerlink" href="#methods-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><span class="target" id="id114897"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a> ( in <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a> other )</p>
+<p class="plaintext">copy constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id68997"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</p>
+<p class="plaintext">constructor taking a name for the root transform of this drawing handle</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id68990"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a> ()</p>
+<p class="plaintext">default constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69007"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.clear! ()</p>
+<p class="plaintext">removes all contents from the <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a></p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id114901"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a> <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.clone? ()</p>
+<p class="plaintext">clone method</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69280"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawAttributeAsAxes! ( in <a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> geometry, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> attribute, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> scale, in Boolean local, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a surface <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> attribute</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69263"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawAttributeAsColor! ( in <a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> geometry, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> attribute, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> radius, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a surface <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> attribute</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69250"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawAttributeAsFloat32! ( in <a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> geometry, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> attribute, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> minValue, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> maxValue, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> minRadius, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> maxRadius, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> minColor, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> maxColor, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a surface <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> attribute</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69241"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawAttributeAsPosition! ( in <a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> geometry, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> attribute, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> radius, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a surface <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> attribute</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69271"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawAttributeAsVec3! ( in <a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> geometry, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> attribute, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> scale, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a surface <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> attribute</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69181"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawAxes! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transform, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a single axes</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69174"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawAxesInstances! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw axes at given transforms</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69086"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawColoredLines! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transform, in <a class="reference internal" href="../Geometry/Lines.html#lines"><span class="std std-ref">Lines</span></a> lines, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a lines object given a single transform</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69078"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawColoredLinesInstances! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], in <a class="reference internal" href="../Geometry/Lines.html#lines"><span class="std std-ref">Lines</span></a> lines, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a lines object given an array of transforms</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69133"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawColoredPolygonMesh! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> specular, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> specFactor, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transform, in <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> mesh, in Boolean wireFrame, in Boolean doubleSided, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a mesh given a color + a single transform</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69120"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawColoredPolygonMeshInstances! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> specular, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> specFactor, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], in <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> mesh, in Boolean wireFrame, in Boolean doubleSided, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a mesh given a color + an array of transforms</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69067"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawLines! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> specular, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> specFactor, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transform, in <a class="reference internal" href="../Geometry/Lines.html#lines"><span class="std std-ref">Lines</span></a> lines, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a lines object given a color + a single transform</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69303"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawLinesArray! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Geometry/Lines.html#lines"><span class="std std-ref">Lines</span></a> masters[], in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], in Index indices[], out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">Helper function for the <a class="reference internal" href="InlineDrawing.html#inlinedrawing"><span class="std std-ref">InlineDrawing</span></a> <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a> data type
+to draw a list of objects given an index table and a list of
+transforms.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69058"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawLinesInstances! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], in <a class="reference internal" href="../Geometry/Lines.html#lines"><span class="std std-ref">Lines</span></a> lines, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a lines object given a color + an array of transforms</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69050"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawPoints! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transform, in <a class="reference internal" href="../Geometry/Points.html#points"><span class="std std-ref">Points</span></a> points, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a points object given a color + a single transform</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69313"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawPointsArray! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Geometry/Points.html#points"><span class="std std-ref">Points</span></a> masters[], in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], in Index indices[], out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">Helper function for the <a class="reference internal" href="InlineDrawing.html#inlinedrawing"><span class="std std-ref">InlineDrawing</span></a> <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a> data type
+to draw a list of objects given an index table and a list of
+transforms.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69042"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawPointsInstances! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], in <a class="reference internal" href="../Geometry/Points.html#points"><span class="std std-ref">Points</span></a> points, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a points object given a color + an array of transforms</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69107"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawPolygonMesh! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> specular, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> specFactor, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transform, in <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> mesh, in Boolean wireFrame, in Boolean doubleSided, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a mesh given a color + a single transform</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69289"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawPolygonMeshArray! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> specular, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> specFactor, in <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> masters[], in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], in Index indices[], in Boolean wireFrame, in Boolean doubleSided, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">Helper function for the <a class="reference internal" href="InlineDrawing.html#inlinedrawing"><span class="std std-ref">InlineDrawing</span></a> <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a> data type
+to draw a list of objects given an index table and a list of
+transforms.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69094"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawPolygonMeshInstances! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> specular, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> specFactor, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], in <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> mesh, in Boolean wireFrame, in Boolean doubleSided, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a mesh given a color + an array of transforms</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69188"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawTexturedPlane! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> width, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> height, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> pixels[], in Boolean mirrorU, in Boolean mirrorV, in Boolean discardAlpha, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transform, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a plane given texture values + a single transform</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69201"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawTexturedPlane! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> width, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> height, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> pixels[], in Boolean mirrorU, in Boolean mirrorV, in Boolean discardAlpha, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transform, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a plane given texture values + a single transform</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69160"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawTexturedPolygonMesh! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> filePath, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> specular, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> specFactor, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> ambient, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transform, in <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> mesh, in Boolean wireFrame, in Boolean doubleSided, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a mesh given a color + a single transform</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69146"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.drawTexturedPolygonMeshInstances! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> filePath, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> specular, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> specFactor, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> ambient, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transforms[], in <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> mesh, in Boolean wireFrame, in Boolean doubleSided, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult, out <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">helper function to draw a mesh given a color + an array of transforms</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69219"></span><p><p class="klcode"><a class="reference internal" href="InlineDebugShape.html#inlinedebugshape"><span class="std std-ref">InlineDebugShape</span></a> <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.getDebugShape! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</p>
+<p class="plaintext">helper function to get a debug shape</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69214"></span><p><p class="klcode"><a class="reference internal" href="InlineDebugShape.html#inlinedebugshape"><span class="std std-ref">InlineDebugShape</span></a> <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.getDebugShape! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult )</p>
+<p class="plaintext">helper function to get a debug shape</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69027"></span><p><p class="klcode"><a class="reference internal" href="InlineDrawing.html#inlinedrawing"><span class="std std-ref">InlineDrawing</span></a> <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.getDrawing? ()</p>
+<p class="plaintext">returns the handle&#8217;s <a class="reference internal" href="InlineDrawing.html#inlinedrawing"><span class="std std-ref">InlineDrawing</span></a></p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69228"></span><p><p class="klcode"><a class="reference internal" href="InlineDebugShape.html#inlinedebugshape"><span class="std std-ref">InlineDebugShape</span></a> <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.getEmptyDebugShape! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</p>
+<p class="plaintext">helper function to clear a debug drawing shape</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69223"></span><p><p class="klcode"><a class="reference internal" href="InlineDebugShape.html#inlinedebugshape"><span class="std std-ref">InlineDebugShape</span></a> <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.getEmptyDebugShape! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult )</p>
+<p class="plaintext">helper function to clear a debug drawing shape</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69030"></span><p><p class="klcode"><a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.getRootTransform? ()</p>
+<p class="plaintext">returns the root transform of this drawing.
+use this to add content.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69024"></span><p><p class="klcode">Boolean <a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.isEmpty? ()</p>
+<p class="plaintext">returns true if this handle has no content</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69237"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.removeDebugShape! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</p>
+<p class="plaintext">helper function to remove a debug drawing shape</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69232"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.removeDebugShape! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dummyResult )</p>
+<p class="plaintext">helper function to remove a debug drawing shape</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id69014"></span><p><p class="klcode"><a class="reference internal" href="#drawinghandle"><span class="std std-ref">DrawingHandle</span></a>.setActive! ( in Boolean active )</p>
+<p class="plaintext">enables or disables the rendering of this handle</p>
+</p>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="DrawContext.html"
+                        title="前の章へ">DrawContext (object)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="InlineCamera.html"
+                        title="次の章へ">InlineCamera (object)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/InlineDrawing/DrawingHandle.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/InlineDrawing/DrawingHandle.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="InlineCamera.html" title="InlineCamera (object)"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="DrawContext.html" title="DrawContext (object)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >InlineDrawing エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" >InlineDrawing Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

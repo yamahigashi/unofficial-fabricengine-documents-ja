@@ -1,0 +1,417 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fabric Engine 2.1.0 リリースノート &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fabric-engine-2-1-0-release-notes">
+<span id="relnotes-2-1-0"></span><h1>Fabric Engine 2.1.0 リリースノート<a class="headerlink" href="#fabric-engine-2-1-0-release-notes" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../_images/FE_logo_345_60.png"><img alt="../_images/FE_logo_345_60.png" src="../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 2.1.0</div>
+<div class="line">2016年2月吉日リリース</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc. All rights reserved.</div>
+</div>
+<div class="section" id="about-this-release">
+<h2>このリリースについて<a class="headerlink" href="#about-this-release" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric Engine 2.1.0 is the first feature release since the introduction of Canvas in Fabric Engine 2.  We’ve been carefully listening feedback and have focused on making your Fabric Engine experience &#8211; whether you are just learning or are building complex tools &#8211; more intuitive and productive. Here are some highlights:</p>
+<ul class="simple">
+<li>The Value Editor has been completely rewritten and in doing so we’ve added some pretty convenient things like spin boxes and the ability to skin it using QSS.</li>
+<li><p class="first">『初めてFabricに触るプログラマが知るべきこと』についての専用のドキュメントセクションを追加しました。 <a class="reference external" href="http://fabricengine.com/fabric-101-for-programmers/">http://fabricengine.com/fabric-101-for-programmers/</a> をご覧ください。</p>
+</li>
+<li><p class="first">presets, サンプルを豊富に追加しました。詳細は後述します。</p>
+</li>
+<li><p class="first">Fabric for Maya へ『CanvasDeformer』ノードを追加しました。通常の『CanvasNode』より 4-5倍高速です。</p>
+</li>
+<li><p class="first">診断ウィンド（diagnostic window)を追加しました。グラフ上でのエラーや接続ミスを、より容易に素早くトラブルシュート可能です。</p>
+</li>
+<li><p class="first">Coreでの多くの問題を解決しました。</p>
+</li>
+<li><p class="first">DFGBindings: KLから Canvasバインディングを実行することができるようになりました。これを &lt;graphs flowing through the data graph&gt; を略し DFGBinding と呼称します。 <a class="reference external" href="http://fabricengine.com/graphs-flowing-through-graphs/">http://fabricengine.com/graphs-flowing-through-graphs/</a>  により詳しい説明があります。</p>
+</li>
+<li><p class="first">200以上のバグを修正、機能向上や使い勝手の向上をおこないました。例えば .canvas 拡張子を持つファイルのドラッグ・アンド・ドロップの許容などを含みます。</p>
+</li>
+</ul>
+</div>
+<div class="section" id="supported-operating-systems-integrations-and-gpus">
+<h2>サポートするOS, DCC統合, GPU<a class="headerlink" href="#supported-operating-systems-integrations-and-gpus" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p class="first">Fabric 2 は Windows, Linux をサポートします。OS X はバイナリビルドが提供されますが公式にはサポートされません。ただしこれからのリリースでサポート予定です。</p>
+</li>
+<li><p class="first">Fabric for Maya 統合では Windows/Linux 版 Autodesk Maya 2014, 2015, 2016 （とそれぞれのサービスパック）をサポートします。OS X はバイナリビルドが提供されますが公式にはサポートされません。ただしこれからのリリースでサポート予定です。サンプルシーンを Maya 2016 上で使用する際、Parallel Evaluation を有効にしているといくつかの不具合が起きます。この問題は Maya 2016 SP4 で解決されています。</p>
+</li>
+<li><p class="first">Fabric for Softimage 統合版は Autodesk Softimage 2014、2015（SP版含むWindows版）をサポートします。</p>
+</li>
+<li><p class="first">Fabric 2 GPU supportは NVIDIAハードウェアのみ利用可能です。詳細はGPUコンピューティングガイドを御覧ください。</p>
+</li>
+</ul>
+</div>
+<div class="section" id="documentation">
+<h2>ドキュメント<a class="headerlink" href="#documentation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric Canvas について学びたいのであれば、こちらをどうぞ:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../CanvasUserGuide/index.html#canvasuserguide"><span class="std std-ref">Canvas ユーザガイド</span></a></li>
+<li><a class="reference internal" href="../CanvasProgrammerGuide/index.html#canvasprogrammerguide"><span class="std std-ref">Canvas プログラマーガイド</span></a></li>
+<li><a class="reference internal" href="../GettingStartedGuide/index.html#gettingstarted-index"><span class="std std-ref">Fabric Engine 入門</span></a></li>
+</ul>
+<p><a class="reference external" href="http://fabricengine.com/blog/">http://fabricengine.com/blog/</a> に記事と、how-to ビデオの紹介がありますのでチェックしてみてください。</p>
+</div>
+<div class="section" id="downloads">
+<h2>ダウンロード<a class="headerlink" href="#downloads" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric Engine 2 を取得するには <a class="reference external" href="http://dist.fabric-engine.com/FabricEngine/2.1.0/">http://dist.fabric-engine.com/FabricEngine/2.1.0/</a> から行えます。インストールについては <a class="reference internal" href="../GettingStartedGuide/index.html#gettingstarted-index"><span class="std std-ref">Fabric Engine 入門</span></a> を参照してください。</p>
+</div>
+<div class="section" id="support">
+<h2>サポート<a class="headerlink" href="#support" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric 2.1 は評価版、スタジオ版、教育版が無償で利用可能です。また商用契約に基づく利用も可能です。商用ライセンスをご利用のお客様は、私達Fabricへ直接連絡いただけます。非商用のお客様はサポートについて以下のオプションをとることをお勧めいたします。</p>
+<ul class="simple">
+<li><p class="first"><a class="reference external" href="http://forums.fabricengine.com">http://forums.fabricengine.com</a> :Fabric コミュニティによる Ask &amp; answer questions。サポートに関する問題を投稿する場です。</p>
+</li>
+<li><p class="first"><a class="reference external" href="mailto://bugs&#37;&#52;&#48;fabricengine&#46;com">mailto://bugs<span>&#64;</span>fabricengine<span>&#46;</span>com</a> : もしバグを発見したら、明快な再現手段を付しEメールをください。(使用OSとDCCアプリ、それぞれのバージョンについての詳細も)Fabricからの返答は、Fabricプラットフォームの問題の解決にあたって追加情報を必要とする場合のみですので、ご了承ください。</p>
+</li>
+</ul>
+</div>
+<div class="section" id="changes">
+<h2>変更点<a class="headerlink" href="#changes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">EDK の関数 isValid() は klObjectIsValid(); に変更しました。isValid()使用箇所を必要に応じ修正し、再コンパイルしてください。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Compounds/PolygonMesh/Queries 以下のプリセット, Conversion プリセットや、Query プリセットは、それぞれのサブグラフにおいては可読性のため、私達のガイドラインに従い新しく追加された Attribute プリセットを使用するようにしてください。これは将来のリリースでかいけつ予定です。</p>
+</div>
+<p><strong>新しい Value Editor</strong></p>
+<p>機能強化と改善点</p>
+<ul class="simple">
+<li><p class="first">ウィジェットを活用し対処</p>
+</li>
+<li><p class="first">Array Widgetsのサポート</p>
+</li>
+<li><p class="first">portの値をディフォルトにリセット</p>
+</li>
+<li><p class="first">スピンボックスコントローラ</p>
+</li>
+<li><p class="first">スライダーUXの改善（スライダのクリック箇所に応じて値を設定）</p>
+</li>
+<li><p class="first">カラーウィジェットを改善(RGB &lt;&#8211;&gt; HSV)</p>
+</li>
+<li><p class="first">nodes と ports のリネームを可能に</p>
+</li>
+<li><p class="first">複合型(Mat, XFO)の deep inspection</p>
+</li>
+<li><p class="first">QSSによるスキン</p>
+</li>
+</ul>
+<p><strong>DFGBindings</strong></p>
+<p>Canvas bindings を KLから実行することが可能になりました。Canvas グラフを『オブジェクト』としてグラフ内で引き回すことができます。これにより、再利用性が飛躍的にまし、大規模なシステムへとスケールする柔軟性を手にしました。DFGBinding は 『グラフ』とその『データ』を持ちます。『データ』とはすなわち『入力』であり、有用な作業を行うものに必要なものであり、また作業の『結果』でもあります。したがってFabricに関するかぎり DFGBinding はデータの一部であり、他のデータと同様グラフ中で流れさせる事が可能です。これは以下を意味します。グラフ内にグラフ &lt;ディスクから単体で読み込んできものや、さらには配列や辞書に格納したものまで&gt; を作成できます。<a class="reference external" href="http://fabricengine.com/graphs-flowing-through-graphs/">http://fabricengine.com/graphs-flowing-through-graphs/</a>  により詳しい説明とビデオがあります。</p>
+<p><strong>canvasDeformer ノード</strong></p>
+<p>Fabric for Maya に新しいノード、canvasDeformer を追加しました。Maya のデフォメーションツールとコマンドを活用し、トポロジを変えること無くPolygonMesh の位置配列を編集します。新規のメッシュの作成を避けることができるので CanvasNode によるデフォメーションは4-5倍高速になります。</p>
+<p><strong>新規追加 Presets</strong></p>
+<p>Fabric Engine 2.1.0 には以下の新しいプリセットが含まれます。 <a class="reference external" href="http://fabricengine.com/blog/">http://fabricengine.com/blog/</a> に導入ビデオとより詳しい説明があります。</p>
+<p>プリミティブ</p>
+<ul class="simple">
+<li>GetCone</li>
+<li>GetCylinder</li>
+<li>GetTeapot</li>
+<li>GetPlatonic</li>
+<li>GetDodecahedron</li>
+<li>CrissCross</li>
+<li>OElement</li>
+<li>UElement</li>
+</ul>
+<p>ファイルIO</p>
+<ul class="simple">
+<li>LoadFBX</li>
+<li><p class="first">Alembic の完全なサポート(<a class="reference external" href="http://fabricengine.com/high-level-alembic-presets/">http://fabricengine.com/high-level-alembic-presets/</a>)</p>
+</li>
+</ul>
+<p>Geometry Attributes</p>
+<ul class="simple">
+<li>Getters and Setters</li>
+<li><p class="first">算術演算子のサポート</p>
+</li>
+<li>Raycasting</li>
+<li><p class="first">オブジェクト間での attribute 転送</p>
+</li>
+<li>(<a class="reference external" href="http://fabricengine.com/new-attribute-presets/">http://fabricengine.com/new-attribute-presets/</a>)</li>
+</ul>
+<p>Deformers</p>
+<ul class="simple">
+<li>Smooth</li>
+</ul>
+<p>InlineDrawing and Debug</p>
+<ul class="simple">
+<li>DrawXfo</li>
+<li>DrawXfoArray</li>
+<li>DrawMeshInstances</li>
+</ul>
+<p>Core &amp; System</p>
+<ul class="simple">
+<li>FilePathCompose</li>
+<li>XfoBezier4</li>
+<li>Array.Concatenate</li>
+<li>Array.ConcatenateInPlace</li>
+</ul>
+<p>ユーティリティ</p>
+<ul class="simple">
+<li>String.Concat</li>
+<li>Math.ResizeVector</li>
+</ul>
+<p><strong>新規追加サンプル</strong></p>
+<p>Canvas サンプルを、DCC統合サンプル同様、再配置しました。Samples/Canvas にあります。</p>
+<ul class="simple">
+<li><p class="first">Geometry Attributes, queries サンプル</p>
+</li>
+<li>GPU noise</li>
+<li>Point buncher, showcasing points manipulation</li>
+<li><p class="first">Xfo 配列入力 ports のサンプルシーン</p>
+</li>
+<li><p class="first">Alembic プリセットのサンプル</p>
+</li>
+<li><p class="first">DFGBinding の特徴紹介サンプル</p>
+</li>
+</ul>
+</div>
+<div class="section" id="known-issues-limitations-and-workarounds">
+<span id="knownissues-2-1-0"></span><h2>既知の不具合、制限事項、回避策<a class="headerlink" href="#known-issues-limitations-and-workarounds" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul>
+<li><p class="first"><strong>Limitation</strong>: Saving Presets won’t include the attached comment (FE-4900)</p>
+<blockquote>
+<div><p>回避策: 替わりにノードのツールチッププロパティを使用する</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="list-of-issues-addressed">
+<span id="fixes-2-1-0"></span><h2>修正された不具合<a class="headerlink" href="#list-of-issues-addressed" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><strong>一般</strong></p>
+<p>[FE-5818] Python 2.6 用の 正しい FabricEngine2.0 _CAPI.pyd を梱包</p>
+<p>[FE-5893] MAYA_MODULE_PATH を environment.sh から削除</p>
+<p>[FE-5777] libFabricSplice, libFabricSplice_s シンボリックリンクが Linux and OS X で正しく動作</p>
+<p><strong>Canvas</strong></p>
+<p>[FE-5649] Framerate の測定を正確に</p>
+<p>[FE-5564] ノードが実行不可能であったり定義を欠く場合、エラーハンドリングを適切に</p>
+<p>[FE-5651] 新規ファイルを作成する際、既存の extの削除に常に失敗していた</p>
+<p>[FE-5671] 選択可能なFPSに 25 fps追加</p>
+<p>[FE-5702] Removed annoying &#8220;can&#8217;t find path &#8216;exts&#8217; …&#8221; when loading Canvas</p>
+<p>[FE-5716] ポート順変更のアンドゥを正しく</p>
+<p>[FE-5738] ポートを &#8220;timeline&#8221; へ変更すると timeline をフックし正しく反映</p>
+<p>[FE-5746] Loop Once, Oscillate Play back モードが期待通りに動作</p>
+<p>[FE-5748] データを持たない変数の作成が undo stack を破壊していた</p>
+<p>[FE-5750] rename port から無駄なアクションを削除</p>
+<p>[FE-5768] empty function ノードを作成すると自動でKLエディタが起動</p>
+<p>[FE-5856] EOLで終わらない function ノードを編集した際クラッシュしていた</p>
+<p>[FE-5870] スタンドアロンでは EvalContext.GetTime() はフレーム数ではなく 秒 を返すように変更</p>
+<p>[FE-5959] グラフ中に接続されていればサブグラフを展開してもポートの値を保ったままに</p>
+<p>[FE-4788] 新規のグラフ,関数,バックドロップ を作成するさい、CTRL キーを押下していると、名前の入力の必要なしにアクションを実行できます、ノードの畳み込みも同様です。</p>
+<p>[FE-5321] Canvas スタンドアロンではグラフの保存でプレイバック情報も同時に保存</p>
+<p>[FE-5536] グラフ階層を上にたぐる際、ノードの元の選択状態を復元</p>
+<p>[FE-5922] &#8216;Create Preset&#8217; ダイアログで書き込み権限のあるフォルダのみを表示</p>
+<p>[FE-6081] QApplication::notify() によりイベントハンドラから投げられるすべての例外を捕捉</p>
+<p>[FE-6124] Canvas はユーザ定義の変換、キャンバスグラフの接続の暗黙のキャストをサポート。 注意: Canvasでは型の解決において、functionノードの保持する型を保つように変更がかかります。既存のグラフの方の解決を変更し、さらにはグラフの結果までを変更するようなことも可能です。ただし、これらの別個の事象として区別するようにしてください。</p>
+<p><strong>Canvas UX</strong></p>
+<p>[FE-5705] Canvas は .canvas ファイルのドラッグ・アンド・ドロップを受け付けます</p>
+<p>[FE-5708] Empty graph ノードを作成すると自動で選択されます</p>
+<p>[FE-5711] Tab search はプリセット内では利きません</p>
+<p>[FE-5712] TAB 検索から作成したノードは作成後選択されます</p>
+<p>[FE-5782] ノードエクスプローラからプリセットを追加すると、選択が解除され追加したノードをあらたに選択します</p>
+<p>[FE-5805] プリセット内ではポート作成コンテキストメニューが利きません</p>
+<p>[FE-5845] canvas ウィンドをどのようなサイズにも変更できます</p>
+<p><strong>Diagnostic window</strong></p>
+<p>[FE-5794] 診断ウィンド（diagnostic window）を実装しました。グラフが壊れた際、何がまずいかをまとめます</p>
+<p>[FE-5795]diagnostic windowに 壊れたグラフの接続ミスの情報を追加</p>
+<p>[FE-5837] error Reporting を改善， ノードをハイライトする</p>
+<p>[FE-5967] コンパイルエラーメッセージの『冗長さ』をさらに追加</p>
+<p>[FE-6020] 暗黙の bool castでクラッシュしていた</p>
+<p><strong>Core</strong></p>
+<p>[FE-5798] Core no longer ignores “default values” (ie. port values) on IO ports</p>
+<p>[FE-5844] RTVal::getContext() の追加</p>
+<p>[FE-6052] exec ports が 特定の状況で自分の型を勝手に変更しないように</p>
+<p>[FE-6084] 不正なオブジェクトのキャストの扱いにかかあるコンパイル時間を改善</p>
+<p>[FE-6097] 無関係なオブジェクト間でのキャストによりコンパイルエラーを起こす Extensions がクラッシュを引き起こしていた</p>
+<p><strong>DFGBindings</strong></p>
+<p>[FE-5846] KL 自己診断（Introspection）実装: KL から RTVals API を直接使用可能</p>
+<p>[FE-6039] DFGBinding から引数のname, typespec, porttypeについての問い合わせが可能に</p>
+<p>[FE-6040] DFGBinding のエラーのチェック手段追加</p>
+<p>[FE-6041] DFGBinding の引数を名前による、取得、設定が可能に</p>
+<p><strong>Value Editor</strong></p>
+<p>[FE-5645] Value Editor を書き直した</p>
+<p>[FE-4787] Value Editor のcolor ウィジェットは 値を 0-1内でクランプ</p>
+<p>[FE-4708] Array 型をサポート</p>
+<p>[FE5945/FE-5404] フォーカス順を標準にしたがい改善</p>
+<p>[FE-5433] サブグラフノードの Value Editorはノードが削除されたら永続化されない</p>
+<p>[FE-5580] Value Editor内からノードのリネームが可能に</p>
+<p>[FE-5725] スライダーウィジェットのどこでもマウスクリック可能に。クリック箇所に応じて値を設定</p>
+<p>[FE-5781] パラメータを右クリックで、ポートのディフォルト値へとリセット</p>
+<p>[FE-5875] 各種 widgetタイプを実装(Quat,Xfo,Color,Array, spinbox...)</p>
+<p>[FE-5876] 追加の UI context を metadata に追加</p>
+<p><strong>Presets</strong></p>
+<p>[FE-5807] いくつかのポートで Matrix ノードの要素が間違っていた</p>
+<p>[FE-5858] JSONDictValue プリセットが不正な color を入力としてとっていた</p>
+<p>[FE-5859] Dict.Has プリセットが間違った名前だった</p>
+<p>[FE-5898] FilePathCompose プリセットが常に末尾スラッシュつける挙動</p>
+<p>[FE-5924] The “Only Polygons in polygonIndices[]” mode now works properly</p>
+<p><strong>Extensions</strong></p>
+<p>[FE-3136] Bones が法線反転して描画されていた</p>
+<p>[FE-5568] Alembic プリセットが全メッシュタイプを検出可能に</p>
+<p>[FE-5687] Utilsエクステンション内の String.count() メソッドにバグがあった</p>
+<p>[FE-5691] Utilsエクステンション内の String.split() メソッドにバグがあった</p>
+<p>[FE-5888] IntegerUtils.kl の swap メソッドにバグがあった</p>
+<p>[FE-5913] glVertexAttribPointer &#8216;pointer&#8217; 引数を&#8217;Data&#8217; から &#8216;Size&#8217; の値に変更</p>
+<p>[FE-5914] OGL Extension に glBufferStorage 追加</p>
+<p>[FE-5915] glMapBufferRange がデータへのポインタを返すように</p>
+<p>[FE-6062] OGL Extensionで ARB_bindless_texture をサポート</p>
+<p>[FE-6110] TransformManipulator が壊れていた</p>
+<p>[FE-6111] PositionAxisGizmoManager がエラー起こしていた</p>
+<p><strong>DCC Integrations General</strong></p>
+<p>[FE-5695] 新規作成した variables がノードエクスプローラに表示されていなかった</p>
+<p>[FE-5675] DCCをバッチでもインタラクティブでも実行する際、正しいライセンスいずれかを使用するように</p>
+<p>[FE-5894] Canvas では常に FABRIC_DFG_PATH 内の見つかったユーザホームフォルダから Presets/User をプリセットリストに追加します</p>
+<p><strong>Fabric for Maya</strong></p>
+<p>[FE-5508] Mayaシーン間をまたいで、同じFabric Clientが永続化します</p>
+<p>[FE-5538] Maya がグラフの断片を読み込むとクラッシュしていた</p>
+<p>[FE-5728] 選択したmayaノードを削除すると無限ループに陥る可能性があった</p>
+<p>[FE-5758] Maya 2016用に manipulation_surfacesculpting.ma サンプルを修正</p>
+<p>[FE-5808] Maya起動直後にサンプルシーンを開くとMayaがハングすることがあった</p>
+<p>[FE-5926] manipulationシステムが古のattribute名を使用していた(例 &#8220;pos_x&#8221;) Fabric 2.0.1 では新しいattribute 名(e.g. &#8220;posX&#8221;)を使用するようになった. &#8220;manipulation_drivingports&#8221; サンプルはこれに追従した</p>
+<p>[FE-5811] canvasDeformer が追加されました。Maya のデフォメーションツールとコマンドを活用し、トポロジを変えること無くPolygonMesh の位置配列を編集します。新規のメッシュの作成を避けることができるので CanvasNode によるデフォメーションは4-5倍高速になります。</p>
+<p>[FE-6049] おかしなデータタイプのポートがMayaクラッシュを引き起こしていた</p>
+<p>[FE-6056] libFabricMaya.so のヘッダファイルが抜けていた</p>
+<p>[FE-5598] レファレンスな Maya Canvas ノードは読み込み専用に</p>
+<p>[FE-5810] ノードステート &#8216;HasNoEffect&#8217; をサポート, Canvasグラフの実行をミュートします</p>
+<p>[FE-5815] Maya 2015 での DrawPolygonMesh リフレッシュ問題を解決</p>
+<p>[FE-5983] Maya内の Fabric メニュー名をより正しく</p>
+<p>[FE-6017] Canvasノードの複製で正しく内容（グラフなど）も複製するように</p>
+<p>[FE-6053] Added support for all the basic data types that previously wouldn’t sow in the AE Template</p>
+<p>[FE-5869] A problem where inline drawing meshes were inverted in Maya 2016&#8217;s ViewPort 2.0 has been resolved. However, there is still a small drawing glitch in Maya 2014 and Maya 2015 when clicking in the viewport that we continue to investigate</p>
+<p>[FE-6065] セーブした後、特定の状況でInline drawing がオブジェクトを2度描画する</p>
+<p>[FE-6193] Maya doesn&#8217;t crash anymore when reloading extensions</p>
+<p>[FE-6216] Removed QString::toStdString calls that could crash Maya 2014 when changing color nodes</p>
+<p><strong>Fabric for Softimage</strong></p>
+<p>[FE-5533] ドキュメント内の Fabric for Softimage and Maya で次のセクションへボタンがなかった</p>
+<p>[FE-5677] empty PolygonMesh を作成した際のエラーを除去</p>
+<p>[FE-5734] プラグインが Canvas オペレータをリビルドするたびに、新しいオペレータを作成したのを修正</p>
+<p>[FE-5088] Mat44, Xfo 配列の入力をサポート、FabricCanvasOpDisconnectPort コマンドを追加</p>
+<p>[FE-5670] New menu entry ‘Inspect Canvas Op’ and command FabricCanvasInspectO added, to open the canvas op property of a selected object</p>
+<p>[FE-5678] <code class="docutils literal"><span class="pre">FABRIC_*</span></code> 環境変数がない場合それらを自動で正しく設定する。</p>
+<p>[FE-5690] Xfo ポートが XSI ポートとして暴露（expose）可能に</p>
+<p>[FE-5735] Refモデルでは CanvasOp 読み込み専用</p>
+<p><strong>Documentation</strong></p>
+<p>[FE-5539] ExtensionAuthoringGuide ビルドの説明を更新</p>
+<p>[FE-5540] .. code-block:: python が ExtensionAuthoringGuide サンプル内で正常にレンダリングされていなかった</p>
+<p>[FE-5541] KL Code object B was not defining a block in ExtensionAuthoringGuide c++ Api</p>
+<p>[FE-5553] RLM .lic ファイルを使用したサーバモードについてドキュメント</p>
+<p>[FE-5692] Doxygen コメントの String.upper() のエラーを修正</p>
+<p>[FE-5899] Math_BadDivisor の論理についてのドキュメントが間違っていた</p>
+<p>[FE-1974] Softimageとクラッシュハンドラについての注意をドキュメントに記載</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Fabric Engine 2.1.0 リリースノート</a><ul>
+<li><a class="reference internal" href="#about-this-release">このリリースについて</a></li>
+<li><a class="reference internal" href="#supported-operating-systems-integrations-and-gpus">サポートするOS, DCC統合, GPU</a></li>
+<li><a class="reference internal" href="#documentation">ドキュメント</a></li>
+<li><a class="reference internal" href="#downloads">ダウンロード</a></li>
+<li><a class="reference internal" href="#support">サポート</a></li>
+<li><a class="reference internal" href="#changes">変更点</a></li>
+<li><a class="reference internal" href="#known-issues-limitations-and-workarounds">既知の不具合、制限事項、回避策</a></li>
+<li><a class="reference internal" href="#list-of-issues-addressed">修正された不具合</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/ReleaseNotes/2.1.0.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/ReleaseNotes/2.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

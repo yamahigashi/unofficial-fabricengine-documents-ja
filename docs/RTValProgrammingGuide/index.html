@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>RTVal プログラミングガイド &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="next" title="前書と背景" href="intro.html" />
+    <link rel="prev" title="Canvas Core API" href="../CAPIProgrammingGuide/canvas.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="前書と背景"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="../CAPIProgrammingGuide/canvas.html" title="Canvas Core API"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="rtval-programming-guide">
+<span id="rtvpg"></span><h1>RTVal プログラミングガイド<a class="headerlink" href="#rtval-programming-guide" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../_images/FE_logo_345_60.png"><img alt="../_images/FE_logo_345_60.png" src="../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 2.3.0</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+</div>
+<div class="section" id="table-of-contents">
+<h2>目次<a class="headerlink" href="#table-of-contents" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">前書と背景</a></li>
+<li class="toctree-l1"><a class="reference internal" href="what.html">RTVal とは何であるか</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="what.html#rtvals-have-types">RTVal は型を持つ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="what.html#rtvals-have-values">RTVal は値を持つ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="what.html#rtvals-are-reference-counted">RTVal は参照カウントされる</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">RTVal のPythonアプリケーションからの使用</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="python.html#obtain-a-fabric-product-name-client-handle">Fabric Engine クライアントハンドルを得る</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#using-derived-types">派生型の使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#creating-an-rtval-for-kl-basic-types-or-structures">KLでの基本型、構造体 の RTVal の作成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#creating-an-rtval-for-kl-objects">KLでのオブジェクト の RTVal の作成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#creating-rtval-arrays">RTVal配列の作成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#creating-2d-rtval-arrays">2次RTVal配列</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#getting-python-values-from-an-rtval">RTVal からPythonの値を取得</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#calling-an-rtval-method">RTVal のメソッド呼び出し</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#copying-rtval-references">RTVal 参照のコピー</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#destroying-an-rtval">RTVal の破棄</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#interfacing-with-the-dependency-graph">Dependency Graph とのインタフェース</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#working-with-kl-rtval">KL <code class="docutils literal"><span class="pre">RTVal</span></code> の活用</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="capi.html">RTVals のC++アプリからの利用</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="capi.html#rtvals-are-copy-by-reference">RTVal は参照によるコピー（Copy-by-Reference）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="capi.html#common-tasks">一般的タスク</a></li>
+<li class="toctree-l2"><a class="reference internal" href="capi.html#api-reference">API レファレンス</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>索引<a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../genindex.html"><span class="std std-ref">索引</span></a></li>
+<li><a class="reference internal" href="../search.html"><span class="std std-ref">検索ページ</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">RTVal プログラミングガイド</a><ul>
+<li><a class="reference internal" href="#table-of-contents">目次</a></li>
+<li><a class="reference internal" href="#indices-and-tables">索引</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="../CAPIProgrammingGuide/canvas.html"
+                        title="前の章へ">Canvas Core API</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="intro.html"
+                        title="次の章へ">前書と背景</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/RTValProgrammingGuide/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/RTValProgrammingGuide/index.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="前書と背景"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="../CAPIProgrammingGuide/canvas.html" title="Canvas Core API"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

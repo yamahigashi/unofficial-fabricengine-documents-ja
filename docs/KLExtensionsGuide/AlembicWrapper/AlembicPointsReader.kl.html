@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>AlembicPointsReader.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="AlembicWrapper Extension’s Files" href="files.html" />
+    <link rel="next" title="AlembicPointsWriter.kl" href="AlembicPointsWriter.kl.html" />
+    <link rel="prev" title="AlembicObjectWriter.kl" href="AlembicObjectWriter.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="AlembicPointsWriter.kl.html" title="AlembicPointsWriter.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="AlembicObjectWriter.kl.html" title="AlembicObjectWriter.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >AlembicWrapper エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">AlembicWrapper Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="alembicwrapper-alembicpointsreader-kl">
+<span id="alembicpointsreader-kl"></span><span id="id1"></span><h1>AlembicPointsReader.kl<a class="headerlink" href="#alembicwrapper-alembicpointsreader-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="alembicpointsreader-object">
+<h3>AlembicPointsReader (object)<a class="headerlink" href="#alembicpointsreader-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="AlembicPointsReader.html#alembicpointsreader"><span class="std std-ref">AlembicPointsReader</span></a> specializes the <a class="reference internal" href="AlembicObjectReader.html#alembicobjectreader"><span class="std std-ref">AlembicObjectReader</span></a> interface for reading <a class="reference internal" href="../Alembic/AlembicIPoints.html#alembicipoints"><span class="std std-ref">AlembicIPoints</span></a> data.
+It can be created using the <a class="reference internal" href="AlembicArchiveReader.html#id23355"><span class="std std-ref">AlembicArchiveReader.getPoints</span></a> method.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="AlembicPointsWriter.html#alembicpointswriter"><span class="std std-ref">AlembicPointsWriter</span></a></p>
+</div>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: AlembicPointsReader</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">AlembicWrapper</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">FileIO</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  
+  <span class="nx">FilePath</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">FilePath</span><span class="p">(</span><span class="s1">&#39;${FABRIC_SCENE_GRAPH_DIR}/Python/Apps/Resources/Alembic/fireworks.abc&#39;</span><span class="p">).</span><span class="nx">expandEnvVars</span><span class="p">();</span>
+
+  <span class="nx">AlembicArchiveReader</span> <span class="nx">archive</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">string</span><span class="p">());</span>
+  <span class="kr">String</span> <span class="nx">pointsPaths</span><span class="p">[]</span> <span class="o">=</span> <span class="nx">archive</span><span class="p">.</span><span class="nx">getPathsOfType</span><span class="p">(</span><span class="s1">&#39;Points&#39;</span><span class="p">);</span>
+
+  <span class="k">for</span><span class="p">(</span><span class="nx">Size</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">pointsPaths</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="nx">AlembicPointsReader</span> <span class="nx">points</span> <span class="o">=</span> <span class="nx">archive</span><span class="p">.</span><span class="nx">getPoints</span><span class="p">(</span><span class="nx">pointsPaths</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s1">&#39;samples: &#39;</span><span class="o">+</span><span class="nx">points</span><span class="p">.</span><span class="nx">getNumSamples</span><span class="p">());</span>
+
+    <span class="nx">GeometryAttributes</span> <span class="nx">attr</span> <span class="o">=</span> <span class="nx">GeometryAttributes</span><span class="p">();</span>
+    <span class="nx">points</span><span class="p">.</span><span class="nx">readSample</span><span class="p">(</span><span class="mf">4.3</span><span class="p">,</span> <span class="nx">attr</span><span class="p">);</span>
+
+    <span class="nb">report</span><span class="p">(</span><span class="nx">attr</span><span class="p">.</span><span class="nx">size</span><span class="p">());</span>
+
+    <span class="nx">Ref</span><span class="o">&lt;</span><span class="nx">Vec3Attribute</span><span class="o">&gt;</span> <span class="nx">positions</span> <span class="o">=</span> <span class="nx">attr</span><span class="p">.</span><span class="nx">getPositions</span><span class="p">();</span>
+    <span class="nb">report</span><span class="p">(</span><span class="nx">positions</span><span class="p">.</span><span class="nx">values</span><span class="p">[</span><span class="mi">4</span><span class="p">]);</span>
+    <span class="nb">report</span><span class="p">(</span><span class="nx">positions</span><span class="p">.</span><span class="nx">values</span><span class="p">[</span><span class="mi">12</span><span class="p">]);</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+<span class="cm">HDF5-DIAG: Error detected in HDF5 (1.8.13) thread 0:</span>
+<span class="cm">  #000: c:\Users\Andrew\Fabric\SceneGraph\ThirdParty\scripts\src\hdf5-1.8.13\src\H5F.c line 861 in H5Fis_hdf5(): unable to open file</span>
+<span class="cm">    major: Low-level I/O</span>
+<span class="cm">    minor: Unable to initialize object</span>
+<span class="cm">  #001: c:\Users\Andrew\Fabric\SceneGraph\ThirdParty\scripts\src\hdf5-1.8.13\src\H5FD.c line 985 in H5FD_open(): open failed</span>
+<span class="cm">    major: Virtual File Layer</span>
+<span class="cm">    minor: Unable to initialize object</span>
+<span class="cm">  #002: c:\Users\Andrew\Fabric\SceneGraph\ThirdParty\scripts\src\hdf5-1.8.13\src\H5FDsec2.c line 343 in H5FD_sec2_open(): unable to open file: name = &#39;D:\fabric\release/Python/Apps/Resources/Alembic/fireworks.abc&#39;, errno = 2, error message = &#39;No such file or directory&#39;, flags = 0, o_flags = 0</span>
+<span class="cm">    major: File accessibilty</span>
+<span class="cm">    minor: Unable to open file</span>
+
+<span class="cm">Error: Alembic: AlembicIArchive_constructFromString: Unknown core type / file not found.</span>
+<span class="cm">KL stack trace:</span>
+<span class="cm">[ST] 1 create.L.OO_AlembicArchiveReader.R.ST() AlembicArchiveReader.kl:91</span>
+<span class="cm">[ST] 2 operator.entry() (stdin):13</span>
+<span class="cm">[ST] 3 kl.internal.entry.stub.cpu()</span>
+<span class="cm">Error: Alembic: Error in AlembicIArchive_getArchiveVersion. unable to convert: this_</span>
+<span class="cm">KL stack trace:</span>
+<span class="cm">[ST] 1 create.L.OO_AlembicArchiveReader.R.ST() AlembicArchiveReader.kl:92</span>
+<span class="cm">[ST] 2 operator.entry() (stdin):13</span>
+<span class="cm">[ST] 3 kl.internal.entry.stub.cpu()</span>
+<span class="cm">Error: Alembic: Error in AlembicIArchive_getTop. unable to convert: this_</span>
+<span class="cm">KL stack trace:</span>
+<span class="cm">[ST] 1 method.getAllPaths.L.UO_AlembicArchiveReader() AlembicArchiveReader.kl:373</span>
+<span class="cm">[ST] 2 method.getPathsOfType.L.UO_AlembicArchiveReader.R.ST() AlembicArchiveReader.kl:396</span>
+<span class="cm">[ST] 3 operator.entry() (stdin):14</span>
+<span class="cm">[ST] 4 kl.internal.entry.stub.cpu()</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="29%" />
+<col width="71%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicPointsReader.html#id110436"><span class="std std-ref">AlembicPointsReader</span></a>  ( in <a class="reference internal" href="AlembicPointsReader.html#alembicpointsreader"><span class="std std-ref">AlembicPointsReader</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicPointsReader.html#id110433"><span class="std std-ref">AlembicPointsReader</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="AlembicPointsReader.html#id22434"><span class="std std-ref">areSelfBoundsConstant</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="AlembicPointsReader.html#alembicpointsreader"><span class="std std-ref">AlembicPointsReader</span></a></td>
+<td><a class="reference internal" href="AlembicPointsReader.html#id110440"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/SInt32.html#sint32"><span class="std std-ref">SInt32</span></a></td>
+<td><a class="reference internal" href="AlembicPointsReader.html#id22414"><span class="std std-ref">getNumSamples</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="AlembicPointsReader.html#id22405"><span class="std std-ref">getPath</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Alembic/AlembicIPointsSample.html#alembicipointssample"><span class="std std-ref">AlembicIPointsSample</span></a></td>
+<td><a class="reference internal" href="AlembicPointsReader.html#id22420"><span class="std std-ref">getSampleA</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Alembic/AlembicIPointsSample.html#alembicipointssample"><span class="std std-ref">AlembicIPointsSample</span></a></td>
+<td><a class="reference internal" href="AlembicPointsReader.html#id22423"><span class="std std-ref">getSampleB</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Alembic/AlembicIPointsSchema.html#alembicipointsschema"><span class="std std-ref">AlembicIPointsSchema</span></a></td>
+<td><a class="reference internal" href="AlembicPointsReader.html#id22417"><span class="std std-ref">getSchema</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Box3.html#box3"><span class="std std-ref">Box3</span></a></td>
+<td><a class="reference internal" href="AlembicPointsReader.html#id22429"><span class="std std-ref">getSelfBounds</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> time, io Boolean isConstant )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Alembic/AlembicTimeSampling.html#alembictimesampling"><span class="std std-ref">AlembicTimeSampling</span></a></td>
+<td><a class="reference internal" href="AlembicPointsReader.html#id22426"><span class="std std-ref">getTimeSampling</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicPointsReader.html#id22447"><span class="std std-ref">readSample</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> time, io <a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> geom )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicPointsReader.html#id22437"><span class="std std-ref">readSample</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> time, io <a class="reference internal" href="../Geometry/GeometryAttributes.html#geometryattributes"><span class="std std-ref">GeometryAttributes</span></a> attributes )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicPointsReader.html#id22442"><span class="std std-ref">readSamplePoints</span></a> ! ( in <a class="reference internal" href="../Math/Float64.html#float64"><span class="std std-ref">Float64</span></a> time, io <a class="reference internal" href="../Geometry/Points.html#points"><span class="std std-ref">Points</span></a> points )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="AlembicPointsReader.html#id22411"><span class="std std-ref">reset</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="AlembicPointsReader.html#id22408"><span class="std std-ref">valid</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="AlembicObjectWriter.kl.html"
+                        title="前の章へ">AlembicObjectWriter.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="AlembicPointsWriter.kl.html"
+                        title="次の章へ">AlembicPointsWriter.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/AlembicWrapper/AlembicPointsReader.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/AlembicWrapper/AlembicPointsReader.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="AlembicPointsWriter.kl.html" title="AlembicPointsWriter.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="AlembicObjectWriter.kl.html" title="AlembicObjectWriter.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >AlembicWrapper エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >AlembicWrapper Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

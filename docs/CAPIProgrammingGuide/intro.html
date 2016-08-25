@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>導入 &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="CAPI プログラミングガイド" href="index.html" />
+    <link rel="next" title="CAPIビルド環境" href="build-env.html" />
+    <link rel="prev" title="CAPI プログラミングガイド" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="build-env.html" title="CAPIビルド環境"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="CAPI プログラミングガイド"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">CAPI プログラミングガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="introduction">
+<h1>導入<a class="headerlink" href="#introduction" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Fabric Core C/C++ API, ――以下この文書では <em class="dfn">CAPI</em> と呼称―― は Fabricプラットフォームのアプリケーションスタックにとって最低レイヤの API です。 CAPIは Fabric Core Python バインディングへ、ネイティブ言語レイヤを提供するためにあります。ただし必要があれば Fabricプラットフォームアプリから CAPI へと直接やり取りすることもできます。</p>
+<img alt="../_images/CAPI-Stack.png" src="../_images/CAPI-Stack.png" />
+<p>CAPI とのやりとりが適した使用箇所例：</p>
+<ul class="simple">
+<li><p class="first">Fabric プラットフォームアプリ ⇔ Python APIを欠いたサードパーティ製アプリあるいはエクステンションAPI でのやりとり</p>
+</li>
+<li><p class="first">事前ビルドされた Fabric プラットフォームコンテンツ ⇔ ゲームエンジンなどのようなランタイムエンジン でのやりとり</p>
+</li>
+<li><p class="first">Python インタプリタの実行オーバーヘッドを無視できないようなアプリ</p>
+</li>
+</ul>
+<p>CAPI は &lt;C言語、C++言語&gt; と &lt;Fabric Core&gt; との直接のインタフェースです。CAPIにより C/C++言語のプログラム環境へと、Fabric Core を完全に公開しています。CAPIを用いることで例えば、Fabric Core dependency graph を作成し、ノードグループへとデータを流し込み、KLオペレータを起動させ、結果をビューポートへと描画、さらにはさらなる作業のために実行結果を保存することさえできます。Fabric Core の機能全てが利用可能です。Fabric プラットフォームの強力なエクステンション機構も含みます。このガイドでは、Fabric Coreの基礎概念を前提とします。Fabricプラットフォームと Fabric Core についての文書の全容 <a class="reference internal" href="../index.html#top"><span class="std std-ref">Fabric Engine Unofficial Documentation 日本語版</span></a> から確認できます。</p>
+<div class="section" id="one-api-two-interfaces">
+<h2>一つのAPI, 二つのインタフェース<a class="headerlink" href="#one-api-two-interfaces" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>CAPI はピュア C なAPI ――C++インタフェースをインライン化し、C++アプリからも利用容易にしつつ―― として実装されています。つまりリンクにまつわる問題を最小限にとどめています。Fabric プラットフォームのサポートする環境上での、Cのリンクインタフェースは、C++のそれよりもより良くコントロールされているためです。C++ インタフェースはしたがって C++ プログラマの利便性のために存在します。もちろんこれはプログラマ皆にとって偉大な利便性です。可能な限りこちらを使いましょう。C,C++どちらのインタフェースも、同じ共有ライブラリ（DLL)にリンクします。</p>
+<p>このガイド内で API について言及した場合、C と C++ 両方のバリエーションが常に存在します。この2つの間には、いくつか重要な違いがあります。以下に記述します。</p>
+</div>
+<div class="section" id="work-in-progress">
+<h2>作業進行中<a class="headerlink" href="#work-in-progress" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>この文書は現在、まだ作業途上にあります。いくつもセクションが抜けています。ですがコード掘り下げたいのであれば、CAPIをためしてみたり、サンプルをコピーしたりすることは可能です。 <a class="reference internal" href="build-env.html#build-env"><span class="std std-ref">CAPIビルド環境</span></a> では、CAPIを使用しCAPIヘッダがどこにあるかなどの、サンプルコードのビルド方法を解説します。このサンプルは、CAPIアプリケーションを作成する際の土台となり、CAPIを使って何ができるのかについての確認にもなるでしょう。CAPI ヘッダファイルは <code class="file docutils literal"><span class="pre">$FABRIC_DIR/include/FabricEngine/FabricCore.h</span></code> から。</p>
+</div>
+<div class="section" id="the-road-ahead">
+<h2>ここからさきは<a class="headerlink" href="#the-road-ahead" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>このガイドの残りは以下：</p>
+<ul class="simple">
+<li><p class="first"><a class="reference internal" href="build-env.html#build-env"><span class="std std-ref">CAPIビルド環境</span></a> ：はじめに CAPI アプリケーションのビルド環境の構築からです。CAPIサンプルがどこにあり、どうやってビルドするかについてもここです。CAPI コードを実際に試してみるのに最適でしょう。</p>
+</li>
+<li><p class="first"><a class="reference internal" href="c-interface.html#c-interface"><span class="std std-ref">C言語インタフェース</span></a> , <a class="reference internal" href="cpp-interface.html#cpp-interface"><span class="std std-ref">C++言語インタフェース</span></a> ：上述の CAPIの &lt;C と C++&gt; 二つのインタフェースです。この二つについての一般的な扱いについて記述します。</p>
+</li>
+<li><p class="first"><a class="reference internal" href="clients.html#clients"><span class="std std-ref">クライアントとアプリケーションの生存サイクル</span></a> Fabric Core の <em class="dfn">client</em> ：アプリケーション（もしくはプラグイン）が CAPIの使用前には、まずCAPIの初期化と Fabric Core の CAPI <em class="dfn">client</em> の作成を行う必要があります。 <a class="reference internal" href="clients.html#clients"><span class="std std-ref">クライアントとアプリケーションの生存サイクル</span></a> では CAPI アプリケーションのライフサイクルと client の作成と使用方法について記述します。</p>
+</li>
+<li><p class="first">(未定) よいアプリケーションプログラミングテクニックというものは、つねに実行時のコードの結果をチェックし起こりうるエラーについて備えるものです。CAPIを使用した例外ハンドルについて詳述します <span class="xref std std-ref">exceptions</span></p>
+</li>
+<li><p class="first">(未定) CAPI での <em class="dfn">variant</em> と呼ばれる基本型について取り扱います。ヘテロジニアスなデータを、Fabric Core 外へと受け渡す際によく用います。 <span class="xref std std-ref">variants</span>  に詳述します。</p>
+</li>
+<li><p class="first">(未定) <span class="xref std std-ref">CAPIPG.registered-types</span> で registered types システムへの CAPIを用いたインタフェースについて説明します。</p>
+</li>
+<li><p class="first">(未定) Fabric Core への主なインタフェースは、Fabric Core <em class="dfn">dependency graph</em> によって扱われる個々のオブジェクを通して成り立ちます。 <span class="xref std std-ref">dg-objects</span> ではCAPIの dependency graph API について詳述します。</p>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">導入</a><ul>
+<li><a class="reference internal" href="#one-api-two-interfaces">一つのAPI, 二つのインタフェース</a></li>
+<li><a class="reference internal" href="#work-in-progress">作業進行中</a></li>
+<li><a class="reference internal" href="#the-road-ahead">ここからさきは</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="index.html"
+                        title="前の章へ">CAPI プログラミングガイド</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="build-env.html"
+                        title="次の章へ">CAPIビルド環境</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/CAPIProgrammingGuide/intro.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/CAPIProgrammingGuide/intro.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="build-env.html" title="CAPIビルド環境"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="CAPI プログラミングガイド"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >CAPI プログラミングガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

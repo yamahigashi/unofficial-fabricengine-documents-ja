@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Persistable (interface) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="FabricInterfaces Extension’s Interfaces" href="interfaces.html" />
+    <link rel="next" title="RTValFromJSONDecoder (interface)" href="RTValFromJSONDecoder.html" />
+    <link rel="prev" title="Detachable (interface)" href="Detachable.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="RTValFromJSONDecoder.html" title="RTValFromJSONDecoder (interface)"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="Detachable.html" title="Detachable (interface)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >FabricInterfaces エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="interfaces.html" accesskey="U">FabricInterfaces Extension&#8217;s Interfaces</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="persistable-interface">
+<span id="persistable"></span><h1>Persistable (interface)<a class="headerlink" href="#persistable-interface" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="versionadded">
+<p><span class="versionmodified">バージョン 1.13.0 で追加.</span></p>
+</div>
+<p class="plaintext">The <a class="reference internal" href="#persistable"><span class="std std-ref">Persistable</span></a>  is an interface that objects can support if they wish to provide
+custom persistence within Splice. The Splice plugins call methods on objects supporting
+the <a class="reference internal" href="#persistable"><span class="std std-ref">Persistable</span></a> interface. The data is included into the <a class="reference internal" href="../Manipulation/Host.html#host"><span class="std std-ref">Host</span></a> DCC scene file.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">For nested data types, the root object must invoke the save and load methods on any members that must also save thier data.</p>
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>A custom object can save its data to the host application&#8217;s scene file by supporting the Persistable interface.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">require</span> <span class="nx">FileIO</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">JSON</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">FabricInterfaces</span><span class="p">;</span>
+
+<span class="c1">// MyObject supports custom persistence in the Splice application.</span>
+<span class="kr">object</span> <span class="nx">MyObject</span> <span class="o">:</span> <span class="nx">Persistable</span> <span class="p">{</span>
+  <span class="kr">String</span> <span class="nx">name</span><span class="p">;</span>
+  <span class="kr">String</span> <span class="nx">filePath</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">function</span> <span class="nx">MyObject</span><span class="p">()</span> <span class="p">{</span>
+
+<span class="p">}</span>
+
+<span class="c1">// The scene file is being saved, and the KL object can save its own data to the scene file.</span>
+<span class="kd">function</span> <span class="kr">String</span> <span class="nx">MyObject</span><span class="p">.</span><span class="nx">saveDataToString</span><span class="p">(</span><span class="nx">PersistenceContext</span> <span class="nx">context</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">JSONDoc</span> <span class="nx">doc</span><span class="p">();</span>
+  <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">setString</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+  <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">setString</span><span class="p">(</span><span class="s2">&quot;filePath&quot;</span><span class="p">,</span> <span class="nx">filePath</span><span class="p">.</span><span class="nx">string</span><span class="p">());</span>
+  <span class="kr">String</span> <span class="nx">json</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">write</span><span class="p">();</span>
+  <span class="k">return</span> <span class="nx">json</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// The scene file has been loaded and now the KL obect can load its custom data. </span>
+<span class="kd">function</span> <span class="nx">MyObject</span><span class="p">.</span><span class="nx">loadDataFromString</span><span class="o">!</span><span class="p">(</span><span class="nx">PersistenceContext</span> <span class="nx">context</span><span class="p">,</span> <span class="kr">String</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">JSONDoc</span> <span class="nx">doc</span><span class="p">();</span>
+  <span class="k">if</span><span class="p">(</span><span class="nx">doc</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">)){</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)){</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getString</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="s2">&quot;filePath&quot;</span><span class="p">)){</span>
+      <span class="nx">FilePath</span> <span class="nx">filePath</span><span class="p">(</span><span class="nx">doc</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">getString</span><span class="p">(</span><span class="s2">&quot;filePath&quot;</span><span class="p">));</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">filePath</span><span class="p">.</span><span class="nx">exists</span><span class="p">()){</span>
+        <span class="c1">// Read the external data file.</span>
+
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">else</span><span class="p">{</span>
+    <span class="nx">setError</span><span class="p">(</span><span class="s2">&quot;ERROR Loading MyObject. Saved JSON data is not valid&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+ -->
+<!-- Title: Persistable Pages: 1 -->
+<svg width="230pt" height="98pt"
+ viewBox="0.00 0.00 230.00 98.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 94)">
+<title>Persistable</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-94 227,-94 227,5 -4,5"/>
+<!-- Persistable -->
+<g id="node1" class="node"><title>Persistable</title>
+<a xlink:href="../FabricInterfaces/Persistable.html" xlink:title="Persistable">
+<polygon fill="#3fabd3" stroke="#3f3f3f" points="65.5,-63 0.5,-63 0.5,-27 65.5,-27 65.5,-63"/>
+<text text-anchor="middle" x="33" y="-42.5" font-family="Arial" font-size="10.00">Persistable</text>
+</a>
+</g>
+<!-- CurrPersistenceContext -->
+<g id="node2" class="node"><title>CurrPersistenceContext</title>
+<a xlink:href="../FabricInterfaces/CurrPersistenceContext.html" xlink:title="CurrPersistenceContext">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="222,-90 102,-90 102,-54 222,-54 222,-90"/>
+<text text-anchor="middle" x="162" y="-69.5" font-family="Arial" font-size="10.00">CurrPersistenceContext</text>
+</a>
+</g>
+<!-- CurrPersistenceContext&#45;&gt;Persistable -->
+<g id="edge2" class="edge"><title>CurrPersistenceContext&#45;&gt;Persistable</title>
+<path fill="none" stroke="#3f3f3f" d="M101.962,-59.4485C93.0276,-57.5492 83.9752,-55.6246 75.5165,-53.8263"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="76.0504,-50.3617 65.5411,-51.7056 74.5947,-57.2087 76.0504,-50.3617"/>
+</g>
+<!-- Weightmap -->
+<g id="node4" class="node"><title>Weightmap</title>
+<a xlink:href="../Manipulation/Weightmap.html" xlink:title="Weightmap">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="195,-36 129,-36 129,-0 195,-0 195,-36"/>
+<text text-anchor="middle" x="162" y="-15.5" font-family="Arial" font-size="10.00">Weightmap</text>
+</a>
+</g>
+<!-- Weightmap&#45;&gt;Persistable -->
+<g id="edge4" class="edge"><title>Weightmap&#45;&gt;Persistable</title>
+<path fill="none" stroke="#3f3f3f" d="M128.953,-24.8132C112.736,-28.2608 92.8582,-32.4868 75.4881,-36.1797"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="74.6508,-32.7794 65.5973,-38.2825 76.1065,-39.6264 74.6508,-32.7794"/>
+</g>
+</g>
+</svg></p>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id47813"><span class="std std-ref">loadDataFromString</span></a> ! ( in <a class="reference internal" href="PersistenceContext.html#persistencecontext"><span class="std std-ref">PersistenceContext</span></a> context, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> data )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id47809"><span class="std std-ref">saveDataToString</span></a> ? ( in <a class="reference internal" href="PersistenceContext.html#persistencecontext"><span class="std std-ref">PersistenceContext</span></a> context )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="functions-in-detail">
+<h2>Functions in detail<a class="headerlink" href="#functions-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><span class="target" id="id47813"></span><p><p class="klcode"><a class="reference internal" href="#persistable"><span class="std std-ref">Persistable</span></a>.loadDataFromString! ( in <a class="reference internal" href="PersistenceContext.html#persistencecontext"><span class="std std-ref">PersistenceContext</span></a> context, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> data )</p>
+<p class="plaintext">a callback invoked by Splice when an object loaded back within Splice</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id47809"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#persistable"><span class="std std-ref">Persistable</span></a>.saveDataToString? ( in <a class="reference internal" href="PersistenceContext.html#persistencecontext"><span class="std std-ref">PersistenceContext</span></a> context )</p>
+<p class="plaintext">a callback invoked by Splice when an object is persisted</p>
+</p>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="Detachable.html"
+                        title="前の章へ">Detachable (interface)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="RTValFromJSONDecoder.html"
+                        title="次の章へ">RTValFromJSONDecoder (interface)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/FabricInterfaces/Persistable.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/FabricInterfaces/Persistable.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="RTValFromJSONDecoder.html" title="RTValFromJSONDecoder (interface)"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="Detachable.html" title="Detachable (interface)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >FabricInterfaces エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="interfaces.html" >FabricInterfaces Extension&#8217;s Interfaces</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

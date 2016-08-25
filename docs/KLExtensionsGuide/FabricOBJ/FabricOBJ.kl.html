@@ -1,0 +1,351 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>FabricOBJ.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="FabricOBJ Extension’s Files" href="files.html" />
+    <link rel="next" title="FabricOBJ Extension’s Types" href="types.html" />
+    <link rel="prev" title="FabricOBJ Extension’s Files" href="files.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="types.html" title="FabricOBJ Extension’s Types"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="FabricOBJ Extension’s Files"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >FabricOBJ エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">FabricOBJ Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fabricobj-fabricobj-kl">
+<span id="fabricobj-kl"></span><span id="id1"></span><h1>FabricOBJ.kl<a class="headerlink" href="#fabricobj-fabricobj-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="objdatahandle-object">
+<h3>OBJDataHandle (object)<a class="headerlink" href="#objdatahandle-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="OBJDataHandle.html#objdatahandle"><span class="std std-ref">OBJDataHandle</span></a> is used to expose a C++ library for opening and loading obj files.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="../Fbx/FbxHandle.html#fbxhandle"><span class="std std-ref">FbxHandle</span></a></p>
+</div>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="65%" />
+<col width="26%" />
+<col width="10%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a></td>
+<td>handle</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: OBJDataHandle</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">FabricOBJ</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">FileIO</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">Geometry</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">parseObjPolygonMesh</span><span class="p">(</span>
+  <span class="k">io</span> <span class="nx">OBJDataHandle</span> <span class="nx">objHandle</span><span class="p">,</span>
+  <span class="nx">ImporterIdentifier</span> <span class="nx">identifier</span><span class="p">,</span>
+  <span class="k">io</span> <span class="nx">PolygonMesh</span> <span class="nx">mesh</span>
+<span class="p">)</span> <span class="p">{</span>
+  <span class="kr">UInt32</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">j</span><span class="p">,</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">src</span><span class="p">;</span>
+
+  <span class="nx">Size</span> <span class="nx">polySizes</span><span class="p">[];</span>
+  <span class="nx">Size</span> <span class="nx">packedPolyPoints</span><span class="p">[];</span>
+  <span class="nx">Size</span> <span class="nx">packedPolyAttrIndices</span><span class="p">[];</span>
+
+  <span class="nx">objHandle</span><span class="p">.</span><span class="nx">getEntityFaceTopologyIndices</span><span class="p">(</span> <span class="nx">identifier</span><span class="p">.</span><span class="nx">index</span><span class="p">,</span> <span class="nx">packedPolyPoints</span> <span class="p">);</span>
+  <span class="nx">objHandle</span><span class="p">.</span><span class="nx">getEntityFaceIndices</span><span class="p">(</span> <span class="nx">identifier</span><span class="p">.</span><span class="nx">index</span><span class="p">,</span> <span class="nx">packedPolyAttrIndices</span> <span class="p">);</span>
+  <span class="nx">objHandle</span><span class="p">.</span><span class="nx">getEntityFaceSizes</span><span class="p">(</span> <span class="nx">identifier</span><span class="p">.</span><span class="nx">index</span><span class="p">,</span> <span class="nx">polySizes</span> <span class="p">);</span>
+
+  <span class="kr">UInt32</span> <span class="nx">nbPoly</span> <span class="o">=</span> <span class="nx">polySizes</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span>
+  <span class="kr">UInt32</span> <span class="nx">nbPoints</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">packedPolyPoints</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span> <span class="o">++</span><span class="nx">i</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span> <span class="kr">UInt32</span><span class="p">(</span><span class="nx">packedPolyPoints</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="nx">nbPoints</span> <span class="p">)</span>
+      <span class="nx">nbPoints</span> <span class="o">=</span> <span class="nx">packedPolyPoints</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nx">mesh</span><span class="p">.</span><span class="nx">createPoints</span><span class="p">(</span> <span class="nx">nbPoints</span> <span class="p">);</span>
+  <span class="nx">mesh</span><span class="p">.</span><span class="nx">addPolygons</span><span class="p">(</span> <span class="nx">polySizes</span><span class="p">,</span> <span class="nx">packedPolyPoints</span> <span class="p">);</span>
+
+  <span class="nx">Vec3</span> <span class="nx">vec3Data</span><span class="p">[];</span>
+  <span class="nx">Ref</span><span class="o">&lt;</span><span class="nx">Vec3Attribute</span><span class="o">&gt;</span> <span class="nx">normals</span> <span class="o">=</span> <span class="nx">mesh</span><span class="p">.</span><span class="nx">getOrCreateNormals</span><span class="p">();</span>
+
+  <span class="nx">objHandle</span><span class="p">.</span><span class="nx">getEntityPoints</span><span class="p">(</span> <span class="nx">identifier</span><span class="p">.</span><span class="nx">index</span><span class="p">,</span> <span class="nx">vec3Data</span> <span class="p">);</span>
+  <span class="nx">BitVector</span> <span class="nx">initPos</span><span class="p">;</span>
+  <span class="nx">initPos</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">nbPoints</span><span class="p">);</span>
+  <span class="nx">src</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">nbPoly</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kr">UInt32</span> <span class="nx">polSize</span> <span class="o">=</span> <span class="kr">UInt32</span><span class="p">(</span><span class="nx">polySizes</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+    <span class="k">for</span><span class="p">(</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">polSize</span><span class="p">;</span> <span class="o">++</span><span class="nx">j</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="kr">UInt32</span> <span class="nx">point</span> <span class="o">=</span> <span class="nx">mesh</span><span class="p">.</span><span class="nx">getPolygonPoint</span><span class="p">(</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="p">);</span>
+      <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">initPos</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">point</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">initPos</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="nx">point</span><span class="p">);</span>
+        <span class="kr">UInt32</span> <span class="nx">srcIndex</span> <span class="o">=</span> <span class="nx">packedPolyAttrIndices</span><span class="p">[</span><span class="nx">src</span><span class="p">];</span>
+        <span class="nx">mesh</span><span class="p">.</span><span class="nx">setPointPosition</span><span class="p">(</span> <span class="nx">point</span><span class="p">,</span> <span class="nx">vec3Data</span><span class="p">[</span><span class="nx">srcIndex</span><span class="p">]</span> <span class="p">);</span>
+      <span class="p">}</span>
+      <span class="nx">src</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nx">objHandle</span><span class="p">.</span><span class="nx">getEntityNormals</span><span class="p">(</span> <span class="nx">identifier</span><span class="p">.</span><span class="nx">index</span><span class="p">,</span> <span class="nx">vec3Data</span> <span class="p">);</span>
+
+  <span class="nx">mesh</span><span class="p">.</span><span class="nx">setAttributeFromPolygonPackedData</span><span class="p">(</span> <span class="s2">&quot;normals&quot;</span><span class="p">,</span> <span class="nx">vec3Data</span><span class="p">,</span> <span class="nx">packedPolyAttrIndices</span> <span class="p">);</span>
+
+  <span class="kr">Boolean</span> <span class="nx">hasTextureCoords</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="nx">objHandle</span><span class="p">.</span><span class="nx">hasTextureCoords</span><span class="p">(</span> <span class="nx">hasTextureCoords</span> <span class="p">);</span>
+
+  <span class="k">if</span><span class="p">(</span> <span class="nx">hasTextureCoords</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="nx">Vec2</span> <span class="nx">vec2Data</span><span class="p">[];</span>
+    <span class="nx">objHandle</span><span class="p">.</span><span class="nx">getEntityTextureCoords</span><span class="p">(</span> <span class="nx">identifier</span><span class="p">.</span><span class="nx">index</span><span class="p">,</span> <span class="nx">vec2Data</span> <span class="p">);</span>
+    <span class="nx">mesh</span><span class="p">.</span><span class="nx">setAttributeFromPolygonPackedData</span><span class="p">(</span> <span class="s2">&quot;uvs0&quot;</span><span class="p">,</span> <span class="nx">vec2Data</span><span class="p">,</span> <span class="nx">packedPolyAttrIndices</span> <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">(){</span>
+  <span class="c1">// Load an Fbx file to provide the clip data. </span>
+
+  <span class="nx">FilePath</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">FilePath</span><span class="p">(</span><span class="s2">&quot;${FABRIC_SCENE_GRAPH_DIR}/Python/Apps/Resources/Obj/cow.obj&quot;</span><span class="p">).</span><span class="nx">expandEnvVars</span><span class="p">();</span>
+  <span class="nx">OBJDataHandle</span> <span class="nx">objHandle</span><span class="p">();</span>
+  <span class="nx">ImporterOptions</span> <span class="nx">options</span><span class="p">;</span>
+  <span class="nx">objHandle</span><span class="p">.</span><span class="nx">openFileHandle</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">string</span><span class="p">(),</span> <span class="nx">options</span><span class="p">);</span>
+
+  <span class="nx">ImporterIdentifier</span> <span class="nx">identifiers</span><span class="p">[];</span>
+  <span class="nx">objHandle</span><span class="p">.</span><span class="nx">getIdentifiers</span><span class="p">(</span><span class="nx">identifiers</span><span class="p">);</span>
+
+  <span class="nx">Size</span> <span class="nx">nbPts</span><span class="p">,</span> <span class="nx">nbTris</span><span class="p">;</span>
+  <span class="nx">objHandle</span><span class="p">.</span><span class="nx">getNbEntityPoints</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nx">nbPts</span><span class="p">);</span>
+  <span class="nx">objHandle</span><span class="p">.</span><span class="nx">getNbEntityFaces</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nx">nbTris</span><span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;OBJ : &quot;</span> <span class="o">+</span> <span class="nx">identifiers</span><span class="p">.</span><span class="nx">size</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; identifiers: &quot;</span> <span class="o">+</span> <span class="nx">nbPts</span> <span class="o">+</span> <span class="s2">&quot; vertices, &quot;</span> <span class="o">+</span> <span class="nx">nbTris</span> <span class="o">+</span> <span class="s2">&quot; triangles&quot;</span><span class="p">);</span>
+  
+  <span class="kr">String</span> <span class="nx">materialNames</span><span class="p">[];</span>
+  <span class="nx">objHandle</span><span class="p">.</span><span class="nx">getMaterialNames</span><span class="p">(</span> <span class="nx">materialNames</span> <span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;materialNames:&quot;</span> <span class="o">+</span> <span class="nx">materialNames</span><span class="p">);</span>
+
+  <span class="k">for</span><span class="p">(</span> <span class="nx">Size</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">identifiers</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span> <span class="o">++</span><span class="nx">i</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="nx">objHandle</span><span class="p">.</span><span class="nx">getNbEntityPoints</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">nbPts</span><span class="p">);</span>
+    <span class="nx">objHandle</span><span class="p">.</span><span class="nx">getNbEntityFaces</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">nbTris</span><span class="p">);</span>
+    <span class="kr">String</span> <span class="nx">name</span> <span class="o">=</span> <span class="p">(</span><span class="nx">identifiers</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">name</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="o">?</span> <span class="nx">identifiers</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">name</span> <span class="o">:</span> <span class="s2">&quot;(none)&quot;</span><span class="p">);</span>
+    <span class="kr">String</span> <span class="nx">groupName</span> <span class="o">=</span> <span class="p">(</span><span class="nx">identifiers</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">getStringData</span><span class="p">(</span><span class="s2">&quot;groupName&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="o">?</span> <span class="nx">identifiers</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">getStringData</span><span class="p">(</span><span class="s2">&quot;groupName&quot;</span><span class="p">)</span> <span class="o">:</span> <span class="s2">&quot;(none)&quot;</span><span class="p">);</span>
+    <span class="kr">String</span> <span class="nx">matName</span> <span class="o">=</span> <span class="p">(</span><span class="nx">identifiers</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">getStringData</span><span class="p">(</span><span class="s2">&quot;materialName&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="o">?</span> <span class="nx">identifiers</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">getStringData</span><span class="p">(</span><span class="s2">&quot;materialName&quot;</span><span class="p">)</span> <span class="o">:</span> <span class="s2">&quot;(none)&quot;</span><span class="p">);</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;  Entity #&quot;</span> <span class="o">+</span> <span class="nx">i</span> <span class="o">+</span> <span class="s2">&quot;: objName: &quot;</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot;, groupName: &quot;</span> <span class="o">+</span> <span class="nx">groupName</span>  <span class="o">+</span> <span class="s2">&quot;, matName: &quot;</span> <span class="o">+</span> <span class="nx">matName</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="nx">nbPts</span> <span class="o">+</span> <span class="s2">&quot; vertices, &quot;</span> <span class="o">+</span> <span class="nx">nbTris</span> <span class="o">+</span> <span class="s2">&quot; triangles&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">PolygonMesh</span> <span class="nx">meshes</span><span class="p">[];</span>
+  <span class="nx">meshes</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">identifiers</span><span class="p">.</span><span class="nx">size</span><span class="p">());</span>
+  <span class="k">for</span><span class="p">(</span> <span class="nx">Size</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">identifiers</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span> <span class="o">++</span><span class="nx">i</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="nx">meshes</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">PolygonMesh</span><span class="p">();</span>
+    <span class="nx">parseObjPolygonMesh</span><span class="p">(</span><span class="nx">objHandle</span><span class="p">,</span> <span class="nx">identifiers</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">meshes</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+    <span class="nx">meshes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">_validate</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">OBJ : 1 identifiers: 0 vertices, 0 triangles</span>
+<span class="cm">materialNames:[]</span>
+<span class="cm">  Entity #0: objName: (none), groupName: (none), matName: (none), 0 vertices, 0 triangles</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="23%" />
+<col width="77%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id113069"><span class="std std-ref">OBJDataHandle</span></a>  ( in <a class="reference internal" href="OBJDataHandle.html#objdatahandle"><span class="std std-ref">OBJDataHandle</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id113066"><span class="std std-ref">OBJDataHandle</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id85588"><span class="std std-ref">clear</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="OBJDataHandle.html#objdatahandle"><span class="std std-ref">OBJDataHandle</span></a></td>
+<td><a class="reference internal" href="OBJDataHandle.html#id113073"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id85639"><span class="std std-ref">getEntityFaceIndices</span></a> ! ( in Integer entity, out Size faceIndices[] )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id85654"><span class="std std-ref">getEntityFaceMaterialIndices</span></a> ! ( in Integer entity, out Size triangleIndices[] )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id85649"><span class="std std-ref">getEntityFaceSizes</span></a> ! ( in Integer entity, out Size faceSizes[] )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id85644"><span class="std std-ref">getEntityFaceTopologyIndices</span></a> ! ( in Integer entity, out Size faceIndices[] )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id85614"><span class="std std-ref">getEntityNormals</span></a> ! ( in Integer entity, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> normals[] )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id85619"><span class="std std-ref">getEntityNormalsSliced</span></a> ! ( in Integer entity, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> normals&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id85604"><span class="std std-ref">getEntityPoints</span></a> ! ( in Integer entity, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> points[] )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id85609"><span class="std std-ref">getEntityPointsSliced</span></a> ! ( in Integer entity, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> points&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id85624"><span class="std std-ref">getEntityTextureCoords</span></a> ! ( in Integer entity, out <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> texCoords[] )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id85629"><span class="std std-ref">getEntityTextureCoordsSliced</span></a> ! ( in Integer entity, out <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> texCoords&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id85595"><span class="std std-ref">getIdentifiers</span></a> ! ( io <a class="reference internal" href="../Util/ImporterIdentifier.html#importeridentifier"><span class="std std-ref">ImporterIdentifier</span></a> identifiers[] )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id85659"><span class="std std-ref">getMaterialNames</span></a> ! ( out <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> materialNames[] )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id85634"><span class="std std-ref">getNbEntityFaces</span></a> ! ( in Integer entity, out Size nbTriangles )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id85599"><span class="std std-ref">getNbEntityPoints</span></a> ! ( in Integer entity, out Size nbPoints )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id85591"><span class="std std-ref">hasTextureCoords</span></a> ! ( out Boolean hasTextureCoords )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id85584"><span class="std std-ref">isValid</span></a> ! ( out Boolean valid )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id85579"><span class="std std-ref">openFileHandle</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> filePath, in <a class="reference internal" href="../Util/ImporterOptions.html#importeroptions"><span class="std std-ref">ImporterOptions</span></a> options )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OBJDataHandle.html#id85666"><span class="std std-ref">~OBJDataHandle</span></a>  ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="files.html"
+                        title="前の章へ">FabricOBJ Extension&#8217;s Files</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="types.html"
+                        title="次の章へ">FabricOBJ Extension&#8217;s Types</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/FabricOBJ/FabricOBJ.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/FabricOBJ/FabricOBJ.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="types.html" title="FabricOBJ Extension’s Types"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="FabricOBJ Extension’s Files"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >FabricOBJ エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >FabricOBJ Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

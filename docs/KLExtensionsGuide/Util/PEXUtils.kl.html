@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>PEXUtils.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Util Extension’s Files" href="files.html" />
+    <link rel="next" title="Regex.kl" href="Regex.kl.html" />
+    <link rel="prev" title="NumberMethods.kl" href="NumberMethods.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Regex.kl.html" title="Regex.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="NumberMethods.kl.html" title="NumberMethods.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Util エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Util Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="util-pexutils-kl">
+<span id="pexutils-kl"></span><span id="id1"></span><h1>PEXUtils.kl<a class="headerlink" href="#util-pexutils-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="getbatchsizeandcountforparallel">
+<h3>GetBatchSizeAndCountForParallel<a class="headerlink" href="#getbatchsizeandcountforparallel" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">GetBatchSizeAndCountForParallel ( in Size numIndices, in Size workloadMultiplier, in Size minBatchSize, io Size numBatches, io Size batchSize )</p>
+<p class="plaintext">This function can be used to compute a batchsize for a given number of tasks.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: GetBatchSizeAndCountForParallel</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Util</span><span class="p">;</span>
+  
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="nx">Size</span> <span class="nx">numTasks</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+  <span class="nx">Size</span> <span class="nx">minBatchSize</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+  <span class="nx">Size</span> <span class="nx">numBatches</span><span class="p">,</span> <span class="nx">batchSize</span><span class="p">;</span>
+  <span class="nx">GetBatchSizeAndCountForParallel</span><span class="p">(</span><span class="nx">numTasks</span><span class="p">,</span> <span class="nx">minBatchSize</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="nx">numBatches</span><span class="p">,</span> <span class="nx">batchSize</span><span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span><span class="s1">&#39;numBatches: &#39;</span><span class="o">+</span><span class="nx">numBatches</span><span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span><span class="s1">&#39;batchSize: &#39;</span><span class="o">+</span><span class="nx">batchSize</span><span class="p">);</span>
+  
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">numBatches: 8</span>
+<span class="cm">batchSize: 13</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="NumberMethods.kl.html"
+                        title="前の章へ">NumberMethods.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="Regex.kl.html"
+                        title="次の章へ">Regex.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Util/PEXUtils.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Util/PEXUtils.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Regex.kl.html" title="Regex.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="NumberMethods.kl.html" title="NumberMethods.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Util エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >Util Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

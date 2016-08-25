@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Splice ICE nodes &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../../index.html" />
+    <link rel="up" title="Splice (legacy)" href="index.html" />
+    <link rel="next" title="Integrating Fabric:Splice" href="../../SpliceAPI/integrations.html" />
+    <link rel="prev" title="Using the Splice Softimage plugin" href="usage.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../../SpliceAPI/integrations.html" title="Integrating Fabric:Splice"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="usage.html" title="Using the Splice Softimage plugin"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../index.html" >Fabric for Softimage</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="index.html" accesskey="U">Splice (legacy)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="splice-ice-nodes">
+<span id="splice-softimage-ice"></span><h1>Splice ICE nodes<a class="headerlink" href="#splice-ice-nodes" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="splicegetdata-ice-node">
+<span id="splice-softimage-splicegetdata"></span><h2>spliceGetData ICE node<a class="headerlink" href="#splicegetdata-ice-node" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The spliceGetData ICE node is used to pull data from a KL singleton into ICE. The data has to be stored in a KL object, which in turn has to be stored in a singleton. See the code below for an example how to make data available to the spliceGetData node.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">require</span> <span class="nx">Singletons</span><span class="p">;</span>
+
+<span class="kr">object</span> <span class="nx">MyData</span> <span class="p">{</span>
+  <span class="kr">SInt32</span> <span class="nx">count</span><span class="p">;</span>
+  <span class="nx">Vec3</span> <span class="nx">pos</span><span class="p">[];</span>
+  <span class="nx">Vec3</span> <span class="nx">fur</span><span class="p">[][];</span>
+<span class="p">};</span>
+
+<span class="kd">operator</span> <span class="nx">mySoftimageOp</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="nx">MyData</span> <span class="nx">ud</span><span class="p">();</span>
+  <span class="nx">ud</span><span class="p">.</span><span class="nx">count</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+  <span class="nx">ud</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">count</span><span class="p">);</span>
+  <span class="nx">ud</span><span class="p">.</span><span class="nx">fur</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">count</span><span class="p">);</span>
+  <span class="cm">/* ... fill in the data */</span>
+
+  <span class="nx">Singleton_set</span><span class="p">(</span><span class="s1">&#39;myData01&#39;</span><span class="p">,</span> <span class="nx">ud</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">To ensure data integrity, it&#8217;s safer to define the data structure inside a KL extension instead of inlining it with the operator code.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">You can also use the <a class="reference internal" href="../../../KLExtensionsGuide/Util/EvalContext.html#evalcontext"><span class="std std-ref">EvalContext</span></a> to get access to the SpliceOp&#8217;s name inside softimage. This can be handy to create unique names within the scene.</p>
+</div>
+<p>The spliceGetData node can now be used to query data from that singleton. Since there is no way in Softimage to connect directly to the splice operator, the ICE node comes with a trigger port, which can be used to connect to the data providing Softimage object, for example a mesh.</p>
+<img alt="../../../_images/SpliceGetData_01.jpg" src="../../../_images/SpliceGetData_01.jpg" />
+<p>The ports in detail:</p>
+<ul class="simple">
+<li>trigger: Connect the incoming data provider object here, let it be a mesh or a kinematic state.</li>
+<li>reference: A string defining an address in the singleton. The first section has to be the name of the singleton, the second the member to access.</li>
+<li>klType: The KL type of the singleton object. This has to match, since the spliceGetData will have to cast the data accordingly.</li>
+<li>element: This port is used to define the data, structure and context type of the outgoing data. You will have to connect a piece of data which matches your data layout.</li>
+</ul>
+<p>The data types currently support for the spliceGetData node are:</p>
+<ul class="simple">
+<li>long in ICE : SInt32 or Integer in KL</li>
+<li>Float in ICE: Float32 or Scalar in KL</li>
+<li>Vector3 in ICE: Vec3 in KL</li>
+<li>Color4 in ICE: Color in KL</li>
+</ul>
+<img alt="../../../_images/SpliceGetData_02.jpg" src="../../../_images/SpliceGetData_02.jpg" />
+<p>The spliceDataNode will obey the data, structure and context layout of the incoming element port. There are four variations of this layout:</p>
+<ul class="simple">
+<li>singleton context, single value: A single value in KL. (such as count in the example above)</li>
+<li>singleton context, array value: An array value in KL. (such as pos in the example above)</li>
+<li>per element context, single value: An array value in KL. (such as pos in the example above)</li>
+<li>per element context, array value: A two-dimensional array in KL. (such as fur in the example above)</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Splice ICE nodes</a><ul>
+<li><a class="reference internal" href="#splicegetdata-ice-node">spliceGetData ICE node</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="usage.html"
+                        title="前の章へ">Using the Splice Softimage plugin</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="../../SpliceAPI/integrations.html"
+                        title="次の章へ">Integrating Fabric:Splice</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/DCCIntegrations/Softimage/SoftimageSplice/ice.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DCCIntegrations/Softimage/SoftimageSplice/ice.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../../SpliceAPI/integrations.html" title="Integrating Fabric:Splice"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="usage.html" title="Using the Splice Softimage plugin"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../index.html" >Fabric for Softimage</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="index.html" >Splice (legacy)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

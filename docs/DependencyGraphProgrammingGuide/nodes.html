@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Nodes &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="nodes">
+<span id="id1"></span><h1>Nodes<a class="headerlink" href="#nodes" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>The fundamental unit of the Fabric Engine dependency graph is called a <em class="dfn">Node</em>.  A Node contains data and has a list of Operators, written in the KL programming language, that manipulate the data.</p>
+<div class="section" id="node-creation">
+<h2>Node Creation<a class="headerlink" href="#node-creation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Each node must have a unique name which is specified when it node is created.  The name of the node must not conflict with the name of any Event, EventHandler or Operator (see below).  To create a node, call <code class="docutils literal"><span class="pre">fabricClient.DG.createNode</span></code>.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; node = fabricClient.DG.createNode(&#39;vertices&#39;)
+&gt;&gt;&gt;
+</pre></div>
+</div>
+<p>The name of a node can be retrieved through the <code class="docutils literal"><span class="pre">getName</span></code> method.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; node.getName()
+&#39;vertices&#39;
+&gt;&gt;&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="node-members">
+<h2>Node Members<a class="headerlink" href="#node-members" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>A Node has zero or more <em class="dfn">members</em>.  Each member has a name (a non-empty string), a type (referred to as the name of a registered type), and, optionally, a default value.  Members can be added to nodes with the <code class="docutils literal"><span class="pre">addMember</span></code> method and an object with details of all the members can be retrieved with the <code class="docutils literal"><span class="pre">getMembers</span></code> method.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; node.addMember(&quot;position&quot;, &quot;Vec3&quot;, Vec3(0.0, 0.0, 0.0))
+&gt;&gt;&gt; node.getMembers()[&#39;position&#39;]
+{&#39;defaultValue&#39;: &lt;__main__.Vec3 instance at 0x1109727e8&gt;, &#39;type&#39;: &#39;Vec3&#39;, &#39;name&#39;: &#39;position&#39;}
+&gt;&gt;&gt;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">The optional third argument to <code class="docutils literal"><span class="pre">node.addMember()</span></code> is NOT an RTVal; it is a simple Python structure that has the same layout of the KL type.  Use of this default value is NOT recommended as it is from a very old version of the DG API.</p>
+</div>
+<p>Each member has a value, or in the case of a node with a slice count greater than one (see below), one value per slice.  The value of a member is retrieved using the <code class="docutils literal"><span class="pre">getData</span></code> method and set using the <code class="docutils literal"><span class="pre">setData</span></code> method.  Both methods take the member name as the first argument and the slice index as the second argument.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; vars(node.getData(&#39;position&#39;, 0))
+{&#39;y&#39;: 0, &#39;x&#39;: 0, &#39;z&#39;: 0}
+&gt;&gt;&gt; node.setData(&#39;position&#39;, 0, Vec3(1.0, 2.0, 3.0))
+&gt;&gt;&gt; vars(node.getData(&#39;position&#39;, 0))
+{&#39;y&#39;: 2, &#39;x&#39;: 1, &#39;z&#39;: 3}
+&gt;&gt;&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="node-slice-counts">
+<h2>Node Slice Counts<a class="headerlink" href="#node-slice-counts" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Each Node has a <em class="dfn">slice count</em>.  Setting the slice count of a node to a number greater than one enables the core to compute over an array of data (&#8220;SIMD parallelization&#8221;); each member has one value for each slice of the node.  The default slice count for a node is one.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Operators can run on nodes per-slice or on all slices at once, depending on how the operator is bound to the node.  This will be explained below.</p>
+</div>
+<p>The slice count for a node is set with the <code class="docutils literal"><span class="pre">setSliceCount</span></code> (or <code class="docutils literal"><span class="pre">setSize</span></code>) method and retrieved with the <code class="docutils literal"><span class="pre">getSliceCount</span></code> (or <code class="docutils literal"><span class="pre">getSize</span></code>) method.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; node.getCount()
+1
+&gt;&gt;&gt; node.getData(&#39;position&#39;, 1)
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;/home/andrew/src/python_modules/fabric/__init__.py&quot;, line 883, in getData
+    self._dg._executeQueuedCommands()
+  File &quot;/home/andrew/src/python_modules/fabric/__init__.py&quot;, line 460, in _executeQueuedCommands
+    self.__client.executeQueuedCommands()
+  File &quot;/home/andrew/src/python_modules/fabric/__init__.py&quot;, line 315, in executeQueuedCommands
+    raise Exception( &#39;|FABRIC_PRODUCT_NAME| exception: &#39; + result[ &#39;exception&#39; ] )
+Exception: |FABRIC_PRODUCT_NAME| exception: DG.verticies.getData(&#39;{&quot;sliceIndex&quot;: 1, &quot;memberName&quot;: ...&#39;): index (1) out of range (1)
+&gt;&gt;&gt; node.setCount(2)
+&gt;&gt;&gt; node.getCount()
+2
+&gt;&gt;&gt; vars(node.getData(&#39;position&#39;, 1))
+{&#39;y&#39;: 0, &#39;x&#39;: 0, &#39;z&#39;: 0}
+&gt;&gt;&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="node-dependencies">
+<h2>Node Dependencies<a class="headerlink" href="#node-dependencies" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Each node has zero or more named <em class="dfn">dependencies</em>; the dependency is another node.  If a node A has a dependency on another node B, then all of the operators of node A will run after all of those on node B have finished running.</p>
+<ul class="simple">
+<li>The name of a dependency must be a non-empty string.</li>
+<li>The name of the dependency is used to bind operators to the data in the dependency node</li>
+<li>Each dependency of a node must have a different name</li>
+<li>You cannot create a dependency loop between Nodes, ie. you cannot have Node A dependent on Node B at the same time as Node B is dependent on Node A.</li>
+</ul>
+<p>Dependencies are added using the <code class="docutils literal"><span class="pre">setDependency</span></code> method, and dependencies of a node are retrieved using the <code class="docutils literal"><span class="pre">getDependencies</span></code> method.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; anotherNode = fabricClient.DG.createNode(&quot;originalVertices&quot;)
+&gt;&gt;&gt; node.setDependency(anotherNode, &quot;original&quot;)
+&gt;&gt;&gt; node.getDependencies()
+{&#39;original&#39;: &lt;fabric._NODE object at 0x1050ffb10&gt;}
+&gt;&gt;&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="node-evaluation">
+<h2>Node Evaluation<a class="headerlink" href="#node-evaluation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Each node is either <em class="dfn">clean</em> or <em class="dfn">dirty</em>.  A node become dirty if any of the following happen:</p>
+<ul class="simple">
+<li>The node&#8217;s <code class="docutils literal"><span class="pre">setData</span></code> method is called</li>
+<li>Anything about the node changes (eg. added dependencies, added members)</li>
+<li>Any of the node&#8217;s dependencies becomes dirty</li>
+</ul>
+<p>Nodes can be <em class="dfn">evaluated</em>.  Evaluating a node does the following: if the node is clean, nothing happens.  Otherwise,</p>
+<ul class="simple">
+<li>All the dependencies of the node are evaluated</li>
+<li>All of the operators bound to the node are executed</li>
+<li>The node is marked as clean</li>
+</ul>
+<p>A node can be manually evaluated by calling the <cite>evaluate</cite> method.  Nodes are automatically evaluated when:</p>
+<ul class="simple">
+<li>A node is a dependency of another node that is evaluated</li>
+<li>An EventHandler (see below) has an operator bound to the data in the node, and the EventHandler is executed</li>
+</ul>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; op = fabricClient.DG.createOperator(&quot;offsetPosition&quot;)
+&gt;&gt;&gt; op.setEntryPoint(&quot;offset&quot;)
+&gt;&gt;&gt; op.setSourceCode(&quot;require Vec3; operator offset(io Vec3 position, io Vec3 newPosition) { newPosition = position + Vec3(1.0,1.0,1.0); }&quot;)
+&gt;&gt;&gt; binding = fabricClient.DG.createBinding()
+&gt;&gt;&gt; binding.setOperator(op)
+&gt;&gt;&gt; binding.setParameterLayout([&quot;self.position&quot;, &quot;self.newPosition&quot;])
+&gt;&gt;&gt; node.addMember(&quot;newPosition&quot;, &quot;Vec3&quot;)
+&gt;&gt;&gt; node.bindings.append(binding)
+&gt;&gt;&gt; vars(node.getData(&quot;position&quot;, 0))
+{&#39;y&#39;: 2, &#39;x&#39;: 1, &#39;z&#39;: 3}
+&gt;&gt;&gt; vars(node.getData( &quot;newPosition&quot;, 0 ))
+{&#39;y&#39;: 0, &#39;x&#39;: 0, &#39;z&#39;: 0}
+&gt;&gt;&gt; node.evaluate();
+&gt;&gt;&gt; vars(node.getData( &quot;newPosition&quot;, 0 ))
+{&#39;y&#39;: 3, &#39;x&#39;: 2, &#39;z&#39;: 4}
+&gt;&gt;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Nodes</a><ul>
+<li><a class="reference internal" href="#node-creation">Node Creation</a></li>
+<li><a class="reference internal" href="#node-members">Node Members</a></li>
+<li><a class="reference internal" href="#node-slice-counts">Node Slice Counts</a></li>
+<li><a class="reference internal" href="#node-dependencies">Node Dependencies</a></li>
+<li><a class="reference internal" href="#node-evaluation">Node Evaluation</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/DependencyGraphProgrammingGuide/nodes.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DependencyGraphProgrammingGuide/nodes.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

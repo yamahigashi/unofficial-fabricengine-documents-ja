@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>導入 &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="エクステンション・オーサリングガイド" href="index.html" />
+    <link rel="next" title="サンプルエクステンションのビルド" href="build.html" />
+    <link rel="prev" title="エクステンション・オーサリングガイド" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="build.html" title="サンプルエクステンションのビルド"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="エクステンション・オーサリングガイド"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">エクステンション・オーサリングガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="introduction">
+<h1>導入<a class="headerlink" href="#introduction" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="what-is-a-fabric-product-name-extension">
+<h2>Fabric Engine エクステンションとは？<a class="headerlink" href="#what-is-a-fabric-product-name-extension" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><em class="dfn">extension</em> とは Fabric Engine へ機能を追加する一連のファイル郡です。サードパーティライブラリから Fabric Engine アプリへと機能を公開することによく使います。あるいは C++ and/or KL で記述されたカスタムコードライブラリの提供にも使用します。</p>
+</div>
+<div class="section" id="types-of-extensions">
+<h2>Extension の類型<a class="headerlink" href="#types-of-extensions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>このガイドで記述するエクステンションにはまず2つの主要な類型があります：</p>
+<dl class="docutils">
+<dt>ネイティブコード・エクステンション</dt>
+<dd><p class="first last">ネイティブコード・エクステンションとは、KLオペレータで使用可能なコンパイルされたネイティブコードを含みます。これには、型, メソッド, 関数の名前を提供する KLコードを含む必要があります。C++ で記述し、コマンドラインユーティリティ <strong class="command">kl2edk</strong> によって生成されるヘッダファイルを使います。</p>
+</dd>
+<dt>KLオンリー・エクステンション</dt>
+<dd><p class="first last">KLオンリー・エクステンションは、型, メソッド, 関数を含みます。ネイティブコードはありません。KLオンリー・エクステンションとしてパッケージにまとめることは KLの型や関数のライブラリを提供するエレガント方法です。</p>
+</dd>
+</dl>
+<p>ネイティブコード・エクステンションも、KLオンリー・エクステンションも根本的には同じものです。実際既に提供されているエクステンションは、双方の任意の混合物であります。</p>
+</div>
+<div class="section" id="limitations">
+<h2>制限<a class="headerlink" href="#limitations" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric Engine のエクステンションメカニズムは KL言語に外部の機能を取り込む非常に強力な方法です。とはいえエクステンションを使用する際には気をつけなければならない制限がいくつかあります。</p>
+<p>ネイティブコードにより供される機能は、ネイティブコード自体がもつ制限がエクステンションにも適用されます。つまり：</p>
+<ul class="simple">
+<li><p class="first">KL のエラーからのプログラム保護機構（例えば配列の境界外アクセス）はネイティブコードには利きません。ネイティブコードをただす、エクステンション作者の責任です。とくにメモリ管理 ――オブジェクトのアロケーションと開放については細心の注意をはらってください。</p>
+</li>
+<li><p class="first">ネイティブコードは KLの最適化がかかりません。つまりネイティブコードの関数（ちょっとしたことをする小さい関数）を提供すると、関数の呼び出しにかかるオーバヘッドを発生させてしまいます。このような小さい関数であればネイティブコードではなく KLで書き直すほうがよいでしょう。可能な限りの最適化がかかります。</p>
+</li>
+<li><p class="first">ネイティブコードは GPUでは実行『不可能』です。あるエクステンション中のネイティブコードの呼びだしは、GPUからCPUフォールバックし実行されてしまいます。GPUでそのまま実行されるのと比し重大なパフォーマンス低下を引き起こします。</p>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">導入</a><ul>
+<li><a class="reference internal" href="#what-is-a-fabric-product-name-extension">Fabric Engine エクステンションとは？</a></li>
+<li><a class="reference internal" href="#types-of-extensions">Extension の類型</a></li>
+<li><a class="reference internal" href="#limitations">制限</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="index.html"
+                        title="前の章へ">エクステンション・オーサリングガイド</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="build.html"
+                        title="次の章へ">サンプルエクステンションのビルド</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/ExtensionAuthoringGuide/intro.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/ExtensionAuthoringGuide/intro.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="build.html" title="サンプルエクステンションのビルド"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="エクステンション・オーサリングガイド"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >エクステンション・オーサリングガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

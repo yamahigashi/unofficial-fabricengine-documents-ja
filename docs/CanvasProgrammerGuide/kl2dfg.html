@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>KL2DFG コマンドラインユーティリティ &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="Canvas プログラマーガイド" href="index.html" />
+    <link rel="next" title="Frequently Asked Questions" href="faq.html" />
+    <link rel="prev" title="Execute Ports" href="execute-ports.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="faq.html" title="Frequently Asked Questions"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="execute-ports.html" title="Execute Ports"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Canvas プログラマーガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="kl2dfg-command-line-utility">
+<span id="canvas-programmer-guide-kl2dfg"></span><h1>KL2DFG コマンドラインユーティリティ<a class="headerlink" href="#kl2dfg-command-line-utility" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>kl2dfg はコマンドラインEXEです。与えられた KL エクステンションから Canvas プリセットファイルを生成します。生成に成功すると <em class="dfn">kl2dfg.log</em> という名の処理結果を記載したファイルが出力先のフォルダに作成されます。成果物のプリセットを Canvas で使用するには  <span class="target" id="index-2"></span><code class="xref std std-envvar docutils literal"><span class="pre">FABRIC_DFG_PATH</span></code> 環境変数に指定したフォルダに配置します。もしくは、エクステンションフォルダ直下に <code class="code docutils literal"><span class="pre">dfgPresets</span></code> サブフォルダを用意しCanvasプリセットファイルをおきます。 <a class="reference internal" href="../ExtensionAuthoringGuide/fpm.html#eag-fpm"><span class="std std-ref">エクステンション・マニフェストファイル</span></a> により詳しい情報があります。</p>
+<p>KL2DFGを試すには、Favric環境変数が設定されたシェル（ <a class="reference internal" href="../GettingStartedGuide/licensing.html#gettingstarted-baseinstallation"><span class="std std-ref">Fabric Engine ライセンスのインストール</span></a> 参照）を開き、以下をタイプします。</p>
+<p><div class="highlight-bash"><div class="highlight"><pre><span></span>kl2dfg
+</pre></div>
+</div>
+<p>Result:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>kl2dfg can be used to generate preset files out of KL extensions.
+For more options use kl2dfg --help
+</pre></div>
+</div>
+</p>
+<p>kl2dfg はいくつかのオプションをサポートします。kl2dfg に <em class="dfn">help</em> フラグを追加し一覧を表示します。</p>
+<p><div class="highlight-bash"><div class="highlight"><pre><span></span>kl2dfg --help
+</pre></div>
+</div>
+<p>Result:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>kl2dfg can be used to generate preset files out of KL extensions.
+
+Usage:    kl2dfg <span class="o">[</span>options<span class="o">]</span> FPMFILE OUTPUTDIR
+Example:  kl2dfg Math.fpm.json /temp/presets/Math
+
+Valid options:
+  -list                 Lists all of the valid doxygen qualifiers.
+  -inheritance          Enables inheritance <span class="k">for</span> generated presets.
+  -polyThis             Enables polymorphism with respect to <span class="s1">&#39;this&#39;</span> <span class="k">for</span> generated presets.
+  -polyParams           Enables polymorphism with respect to parameters <span class="k">for</span> generated presets.
+  -genAllArrays         Automatically generates all array presets.
+  -addExecutePort       Automatically adds a leading execute port <span class="k">for</span> all presets.
+  -polyThisInTypeDir    Place <span class="s1">&#39;polyThis&#39;</span> presets in <span class="nb">type</span> directory.
+  -noPolyThisInFuncDir  Do not place <span class="s1">&#39;polyThis&#39;</span> presets in <span class="s1">&#39;Func&#39;</span> directory.
+</pre></div>
+</div>
+</p>
+<p>利用可能なオプション：</p>
+<div class="section" id="list">
+<h2>リスト（list）<a class="headerlink" href="#list" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>kl2dfg での振舞を指定する事のできる doxygen モディファイアのリストを提示します。関数内に doxygenスタイルのコメントとして Doxygen 修飾子を使用できます。以下に例を示します：</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="c1">/// \dfgPresetTitle MyPresetName</span>
+<span class="kd">function</span> <span class="kr">Boolean</span> <span class="nx">someFunction</span><span class="p">(</span><span class="nx">Scalar</span> <span class="nx">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>このようにすると、kl2dfgはその関数の名前ではなく、異なる別名をプリセットの名としてつかえます。修飾子の完全なリストを確認するには <em class="dfn">list</em> フラグををたて実行してください。</p>
+<p><div class="highlight-bash"><div class="highlight"><pre><span></span>kl2dfg -list
+</pre></div>
+</div>
+<p>Result:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>kl2dfg can be used to generate preset files out of KL extensions.
+
+The kl code can be annotated within doxygen style comments to control
+kl2dfg<span class="s1">&#39;s behavior. Find a list of doxygen qualifiers below:</span>
+
+<span class="s1">\dfgPresetCreate</span>
+<span class="s1">Forces creation of preset</span>
+
+<span class="s1">\dfgPresetOmit</span>
+<span class="s1">Avoids creation of preset, obsolete if function also has \internal</span>
+
+<span class="s1">\dfgPresetTitle &quot;title&quot;</span>
+<span class="s1">Overrides the title of the preset</span>
+
+<span class="s1">\dfgPresetFolder &quot;myFolder&quot;</span>
+<span class="s1">Relative path for the folder to use for the preset</span>
+
+<span class="s1">\dfgPresetCacheRule &quot;Never&quot;</span>
+<span class="s1">Sets up the cache rule to use for the preset</span>
+
+<span class="s1">\dfgPresetColor Color(255, 0, 0)</span>
+<span class="s1">Overdrives the preset body + header color</span>
+
+<span class="s1">\dfgPresetHeaderColor Color(0, 255, 0)</span>
+<span class="s1">Overdrives just the preset header color, can be combined with dfgPresetColor</span>
+
+<span class="s1">\dfgPresetTextColor Color(0, 255, 0)</span>
+<span class="s1">Overdrives the color of the text inside the node</span>
+
+<span class="s1">\dfgPresetDefault port Value</span>
+<span class="s1">Sets up the default value to use for a given input port</span>
+
+<span class="s1">\dfgPresetRange port (0.0, 1.0)</span>
+<span class="s1">Defines the range to use for sliders, works with Floats and Integers</span>
+
+<span class="s1">\dfgPresetCombo port (&quot;label1&quot;, &quot;label2&quot;, ...)</span>
+<span class="s1">Enables the use of a combo box in the ui, works for Integers and Strings</span>
+
+<span class="s1">\dfgPresetHidden port true</span>
+<span class="s1">Hides a given port from the UI when editing a node (or shows it if set to false)</span>
+
+<span class="s1">\dfgPresetTooltip</span>
+<span class="s1">  My elaborate tooltip description for the node.</span>
+<span class="s1">\enddfgPresetTooltip</span>
+<span class="s1">Shows a tooltip on the node. If this isn&#39;</span>t provided the plain text in the comment
+above the <span class="k">function</span> will be used <span class="k">for</span> the tooltip.
+
+<span class="se">\d</span>fgCollapsedState state
+Sets the default collapsed state <span class="k">for</span> a node. Can be 0, <span class="m">1</span> or 2.
+
+<span class="se">\d</span>fgDocUrl http:///www.mydomain.com/docs/mydoc.html
+Sets up documentation links <span class="k">for</span> the generated nodes.
+
+<span class="se">\d</span>fgAlwaysShowDaisyChainPorts <span class="nb">true</span>
+Ensures that the daisy chain ports on the right of input ports are always shown.
+
+<span class="se">\d</span>fgCreateArrayPreset
+If specified the array presets <span class="k">for</span> the given <span class="nb">type</span> / <span class="k">function</span> will be generated. This is independent of the -genAllArrays <span class="nb">command</span> line flag.
+
+<span class="se">\d</span>fgUseInheritance
+If specified on a KL <span class="nb">type</span> <span class="o">(</span>struct or object<span class="o">)</span> all inherited methods will also be generated as presets. This is independent of the -inheritance <span class="nb">command</span> line flag.
+
+<span class="se">\d</span>fgAddExecutePort
+If specified the <span class="k">function</span> preset will contain an execute port, which allows to daisy chain functions. This is independent of the -addExecutePort <span class="nb">command</span> line flag
+
+<span class="se">\d</span>fgArrayPexMargin 10000
+The margin used when switching from a linear loop to pex in array presets.
+
+<span class="se">\d</span>fgArrayPexDisable
+If <span class="nb">true</span> disables the pex calls.
+
+Examples:
+
+Exts/Math/RotationOrder.kl
+Exts/Math/RotationOrder/RotationOrder.canvas
+Exts/Geometry/PolygonMesh/AddTeapot.canvas
+</pre></div>
+</div>
+</p>
+</div>
+<div class="section" id="polythis">
+<h2>polyThis<a class="headerlink" href="#polythis" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>あるエクステンションに含まれる同じ表記（notation）をもつ複数のメソッド ―― 一般的な&#8221;this&#8221;型（あるいは返り型、以下の例では関数に関しては）―― に対し、kl2dfg は1つのプリセットを生成します。以下例示</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="kr">SInt32</span> <span class="nx">Vec3</span><span class="p">.</span><span class="nx">getMySum</span><span class="p">()</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+
+<span class="kd">function</span> <span class="kr">SInt32</span> <span class="nx">Vec4</span><span class="p">.</span><span class="nx">getMySum</span><span class="p">()</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>この例では１つの Canvas プリセットファイル、 <em class="dfn">Func.getMySum</em> が出力されます。 <em class="dfn">Vec3</em> と <em class="dfn">Vec4</em> ２つに別れたプリセットではありません。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last"><a class="reference internal" href="polymorphism.html#canvas-programmer-guide-polymorphism"><span class="std std-ref">多態性を持つノード（Polymorphic nodes）</span></a> に多態性の及ぼす重大性についての情報があります。</p>
+</div>
+</div>
+<div class="section" id="polyparams">
+<h2>polyParams<a class="headerlink" href="#polyparams" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>kl2dfg will generate only one preset for methods with the same notation within an extension, with respect to parameter types. For example:</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="kr">SInt32</span> <span class="nx">MyType</span><span class="p">.</span><span class="nx">someFunc</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+
+<span class="kd">function</span> <span class="kr">SInt32</span> <span class="nx">MyType</span><span class="p">.</span><span class="nx">someFunc</span><span class="p">(</span><span class="kr">Float32</span> <span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>一つの Canvasプリセットファイル、 <em class="dfn">MyType.someFunc</em> が出力され、ひとつ目の引数パラメータの型が多態となります。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last"><a class="reference internal" href="polymorphism.html#canvas-programmer-guide-polymorphism"><span class="std std-ref">多態性を持つノード（Polymorphic nodes）</span></a> に多態性の及ぼす重大性についての情報があります。</p>
+</div>
+</div>
+<div class="section" id="inheritance">
+<h2>継承（inheritance）<a class="headerlink" href="#inheritance" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>メソッドの継承を伴うプリセットの生成を有効にする例：</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">interface</span> <span class="nx">i</span> <span class="p">{</span>
+  <span class="kr">String</span> <span class="nx">getName</span><span class="p">();</span>
+<span class="p">};</span>
+
+<span class="kr">object</span> <span class="nx">a</span> <span class="o">:</span> <span class="nx">i</span> <span class="p">{</span>
+  <span class="kr">SInt32</span> <span class="nx">index</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">function</span> <span class="nx">a</span><span class="p">.</span><span class="nx">getName</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="s1">&#39;a&#39;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">index</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">object</span> <span class="nx">b</span> <span class="o">:</span> <span class="nx">a</span> <span class="p">{</span>
+<span class="p">};</span>
+
+<span class="kd">function</span> <span class="nx">b</span><span class="p">.</span><span class="nx">reportSomething</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nb">report</span><span class="p">(</span><span class="s1">&#39;something&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>継承を無効にしたプリセットの生成結果：</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>a.getName
+b.reportSomething
+</pre></div>
+</div>
+<p>継承を有効にしたプリセットの生成結果：</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>a.getName
+b.getName
+b.reportSomething
+</pre></div>
+</div>
+<p>プリセット毎にこの機能を有効にするには、 <em class="dfn">dfgUseInheritance</em> doxygen 修飾子を使用します。</p>
+</div>
+<div class="section" id="genallarrays">
+<h2>genAllArrays<a class="headerlink" href="#genallarrays" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>与えられたメソッドの、配列プリセットの生成を有効にします。これにより Canvas 内部で配列をより容易に扱えるようになります。この機能を各プリセット毎に有効にするには <em class="dfn">dfgCreateArrayPreset</em> doxygen 修飾子を使用します。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">この機能は将来の kl2dfg バージョンでは非推奨となる予定です。</p>
+</div>
+</div>
+<div class="section" id="addexecuteport">
+<h2>addExecutePort<a class="headerlink" href="#addexecuteport" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This option is deprecated, since as of version 2.2.0 all instance nodes in Canvas automatically have a first Execute port called &#8216;exec&#8217;.</p>
+</div>
+<p>Canvas プリセットでのデイジーチェーン（カスケード）を容易にするため、kl2dfg は Canvas プリセットの第一ポートとなるエクストラポートの追加をサポートしています。この機能をプリセット毎に使用するには <em class="dfn">dfgAddExecutePort</em> doxygen 修飾子を使用します。</p>
+</div>
+<div class="section" id="polythisintypedir">
+<h2>polyThisInTypeDir<a class="headerlink" href="#polythisintypedir" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>By default, presets that are polymorphic in &#8216;this&#8217; will only be placed in the
+generic &#8216;Func&#8217; subdirectory of the target directory.  Using this flag will
+also place them in the type directory for each type for which &#8216;this&#8217; applies.</p>
+</div>
+<div class="section" id="nopolythisinfuncdir">
+<h2>noPolyThisInFuncDir<a class="headerlink" href="#nopolythisinfuncdir" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>By default, presets that are polymorphic in &#8216;this&#8217; will be placed in the
+generic &#8216;Func&#8217; subdirectory of the target directory.  Using this flag will
+disable this behaviour.</p>
+</div>
+<div class="section" id="example">
+<h2>例<a class="headerlink" href="#example" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>全ての math プリセットを一時的な場所に生成します：</p>
+<p><div class="highlight-bash"><div class="highlight"><pre><span></span>kl2dfg <span class="nv">$FABRIC_DIR</span>/Exts/Builtin/Math/Math.fpm.json <span class="nv">$TEMP</span>
+</pre></div>
+</div>
+<p>Result:</p>
+<div class="highlight-bash"><div class="highlight"><pre>
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\r</span>elease<span class="se">\P</span>resets<span class="se">\D</span>FG
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\a</span>hmidou<span class="se">\F</span>abric-RBF<span class="se">\P</span>resets<span class="se">\D</span>FG
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\c</span>olorbleed-fabric-exts<span class="se">\P</span>resets<span class="se">\D</span>FG
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\c</span>oncord<span class="se">\P</span>resets<span class="se">\D</span>FG
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\F</span>abricCPS<span class="se">\P</span>resets<span class="se">\D</span>FG
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\F</span>FFBIK<span class="se">\P</span>resets<span class="se">\D</span>FG
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\K</span>raken<span class="se">\P</span>resets<span class="se">\D</span>FG
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\O</span>culus-2.0.0<span class="se">\s</span>tage<span class="se">\P</span>resets<span class="se">\D</span>FG
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\R</span>iggingToolbox<span class="se">\P</span>resets<span class="se">\D</span>FG
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\S</span>impLSystem<span class="se">\P</span>resets<span class="se">\D</span>FG
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\_</span>misc<span class="se">\P</span>resets<span class="se">\D</span>FG
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extensions <span class="o">{</span>Alembic:1.0.0,AlembicWrapper:1.3.0,Animation:1.1.0,AttributeHelpers:1.0.1,Bullet:1.0.2,BulletHelpers:1.0.0,Characters:1.1.0,Containers:1.1.1,DFGHelpers,DFGWrapper:1.1.0,FabricInterfaces:1.1.0,FabricSynchronization:1.1.0,Fbx:1.1.0,FbxHelpers:1.0.2,FileIO:1.3.0,Geometry:1.4.0,Images:1.0.2,InlineDrawing:1.4.0,JSON:1.0.0,Manipulation:1.1.0,Math:1.3.0,FabricOBJ:1.1.0,FabricOGL:1.1.0,OpenImageIO:1.0.2,OSOGL:1.1.0,Parameters:1.0.0,Singletons:1.1.0,FabricStatistics:1.1.0,Util:1.2.0<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\r</span>elease<span class="se">\E</span>xts
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Ignored extension directory <span class="s1">&#39;D:\fabric\release\Tests\Exts&#39;</span>: unable to open directory <span class="s1">&#39;D:\fabric\release\Tests\Exts&#39;</span>: The system cannot find the path specified. <span class="o">(</span>code <span class="m">3</span> <span class="o">[</span>0x3<span class="o">])</span>
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extensions <span class="o">{</span>CudaGL:1.0.0,CudaGLHelpers:1.0.0,SpliceInterfaces:1.0.0,FabricSynchronization:1.0.0,FabricVIDEO:1.0.0<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\a</span>hmidou<span class="se">\E</span>xts
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extensions <span class="o">{</span>MathUtils,Matrix,RBFSolver<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\a</span>hmidou<span class="se">\F</span>abric-RBF<span class="se">\E</span>xts
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>Curves<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\c</span>olorbleed-fabric-exts<span class="se">\E</span>xts
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>ParticleSystem<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\F</span>abricCPS<span class="se">\E</span>xts
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>FESRetopo<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\F</span>ESRetopo<span class="se">\E</span>xts
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>FABRIK<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\F</span>FFBIK<span class="se">\E</span>xts
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>GabanDeRetopo<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\G</span>abanDeRetopo<span class="se">\E</span>xts
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extensions <span class="o">{</span>Kraken,KrakenAnimation,KrakenForCanvas<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\K</span>raken<span class="se">\E</span>xts
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>Oculus:1.0.0<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\O</span>culus-2.0.0<span class="se">\s</span>tage<span class="se">\E</span>xts
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>Particles:0.1.0<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\P</span>articles20160324<span class="se">\P</span>articles<span class="se">\E</span>xts
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>petTool<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\P</span>etFactory<span class="se">\P</span>etfactoryExts
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>RiggingToolbox<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\R</span>iggingToolbox<span class="se">\E</span>xts
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>SimpLSystem:0.0.2<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\S</span>impLSystem<span class="se">\E</span>xts
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> IRCache: Not pruning since last prune was less than <span class="m">24</span> hours ago
+Error when loading extension: KLExtension: <span class="s1">&#39;release/Exts/Builtin/Math/Math&#39;</span> uses a non existing KL file <span class="s1">&#39;Math.kl&#39;</span>.
+</pre></div>
+</div>
+</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">KL2DFG コマンドラインユーティリティ</a><ul>
+<li><a class="reference internal" href="#list">リスト（list）</a></li>
+<li><a class="reference internal" href="#polythis">polyThis</a></li>
+<li><a class="reference internal" href="#polyparams">polyParams</a></li>
+<li><a class="reference internal" href="#inheritance">継承（inheritance）</a></li>
+<li><a class="reference internal" href="#genallarrays">genAllArrays</a></li>
+<li><a class="reference internal" href="#addexecuteport">addExecutePort</a></li>
+<li><a class="reference internal" href="#polythisintypedir">polyThisInTypeDir</a></li>
+<li><a class="reference internal" href="#nopolythisinfuncdir">noPolyThisInFuncDir</a></li>
+<li><a class="reference internal" href="#example">例</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="execute-ports.html"
+                        title="前の章へ">Execute Ports</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="faq.html"
+                        title="次の章へ">Frequently Asked Questions</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/CanvasProgrammerGuide/kl2dfg.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/CanvasProgrammerGuide/kl2dfg.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="faq.html" title="Frequently Asked Questions"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="execute-ports.html" title="Execute Ports"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Canvas プログラマーガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

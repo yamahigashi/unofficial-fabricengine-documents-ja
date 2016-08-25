@@ -1,0 +1,487 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fabric Engine 1.10.0 Release Notes &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fabric-engine-1-10-0-release-notes">
+<span id="relnotes-1-10-0"></span><h1>Fabric Engine 1.10.0 Release Notes<a class="headerlink" href="#fabric-engine-1-10-0-release-notes" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../_images/FE_logo_345_60.png"><img alt="../_images/FE_logo_345_60.png" src="../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 1.10.0</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc. All rights reserved.</div>
+</div>
+<div class="contents local topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#important-notes-read-me-first" id="id2">Important Notes - Read Me First!</a></li>
+<li><a class="reference internal" href="#downloads" id="id3">Downloads</a></li>
+<li><a class="reference internal" href="#major-changes-in-1-10-0" id="id4">Major Changes in 1.10.0</a><ul>
+<li><a class="reference internal" href="#fabric-splice" id="id5">Fabric Splice</a></li>
+<li><a class="reference internal" href="#fabric-engine-scene-graph" id="id6">Fabric Engine Scene Graph</a></li>
+<li><a class="reference internal" href="#fabric-engine-extensions" id="id7">Fabric Engine Extensions</a></li>
+<li><a class="reference internal" href="#fabric-engine-realtime-renderer" id="id8">Fabric Engine Realtime Renderer</a></li>
+<li><a class="reference internal" href="#sgcapi-changes" id="id9">SGCAPI Changes</a></li>
+<li><a class="reference internal" href="#core-changes" id="id10">Core Changes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installing-fabric-engine" id="id11">Installing Fabric Engine</a><ul>
+<li><a class="reference internal" href="#uninstall-previous-versions-of-fabric-engine-creation-platform" id="id12">Uninstall Previous Versions of Fabric Engine/Creation Platform</a></li>
+<li><a class="reference internal" href="#install-python" id="id13">Install Python</a><ul>
+<li><a class="reference internal" href="#installing-from-an-installer-package" id="id14">Installing from an Installer Package</a></li>
+<li><a class="reference internal" href="#installing-from-an-archive" id="id15">Installing from an Archive</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#test-fabric-engine" id="id16">Test Fabric Engine</a></li>
+<li><a class="reference internal" href="#install-sample-applications-demos" id="id17">Install Sample Applications (&#8220;Demos&#8221;)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#documentation" id="id18">Documentation</a></li>
+<li><a class="reference internal" href="#upgrading-applications-to-version-1-10-0" id="id19">Upgrading Applications to Version 1.10.0</a><ul>
+<li><a class="reference internal" href="#upgrading-apps-1-10-0-scene-graph" id="id20">Fabric Engine Scene Graph</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#optional-compiling-the-dcc-integrations" id="id21">Optional: Compiling the DCC Integrations</a></li>
+<li><a class="reference internal" href="#previous-release-notes" id="id22">Previous Release Notes</a></li>
+<li><a class="reference internal" href="#indices-and-tables" id="id23">Indices and Tables</a></li>
+</ul>
+</div>
+<div class="section" id="important-notes-read-me-first">
+<h2><a class="toc-backref" href="#id2">Important Notes - Read Me First!</a><a class="headerlink" href="#important-notes-read-me-first" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>Fabric Engine requires a video card and driver that support OpenGL 3.2 or later.</li>
+<li>Creation Platform has been rebranded as &#8216;Fabric Engine&#8217; and the &#8216;Fabric Engine Scene Graph&#8217;.  Because of this rebranding, it may be necessary to make slight changes to existing applications to make them work with 1.10.0.  See <a class="reference internal" href="#upgrading-apps-1-10-0-scene-graph"><span class="std std-ref">Fabric Engine Scene Graph</span></a> for more information.</li>
+<li>Because of the branding changes in version 1.10.0, we recommend that you <a class="reference internal" href="#installing-1-10-0-uninstall-previous"><span class="std std-ref">uninstall previous versions</span></a> before installing version 1.10.0.</li>
+<li>To install 1.10.0 only for the current user, select the &#8220;Advanced&#8221; option after accepting the EULA in the Window installer.</li>
+</ul>
+</div>
+<div class="section" id="downloads">
+<span id="downloads-1-10-0"></span><h2><a class="toc-backref" href="#id3">Downloads</a><a class="headerlink" href="#downloads" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>All downloads for Fabric Engine 1.10.0 can be obtained at <a class="reference external" href="http://dist.fabric-engine.com/FabricEngine/1.10.0/">http://dist.fabric-engine.com/FabricEngine/1.10.0/</a>.  For information on downloads for specific platforms, see <a class="reference internal" href="#installing-1-10-0"><span class="std std-ref">Installing Fabric Engine</span></a>.</p>
+</div>
+<div class="section" id="major-changes-in-1-10-0">
+<h2><a class="toc-backref" href="#id4">Major Changes in 1.10.0</a><a class="headerlink" href="#major-changes-in-1-10-0" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="fabric-splice">
+<h3><a class="toc-backref" href="#id5">Fabric Splice</a><a class="headerlink" href="#fabric-splice" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li>The major news for this release is the inclusion of the Splice API for the first time. Splice allows you to take advantage of Fabric from within other applications, including Maya, Softimage, Nuke and Arnold. To learn more about Splice, check out the full demo here: <a class="reference external" href="http://fabricengine.com/splice/">http://fabricengine.com/splice/</a></li>
+<li>The Splice plugins are available for download here: <a class="reference external" href="http://dist.fabric-engine.com/FabricSplice/1.10.0/">http://dist.fabric-engine.com/FabricSplice/1.10.0/</a></li>
+<li>Once you have Splice installed you can follow our video tutorials: <a class="reference external" href="https://vimeo.com/channels/fabrictraining">https://vimeo.com/channels/fabrictraining</a>. This is a great way for you to learn KL and start seeing benefit from Fabric immediately.&#8221;</li>
+</ul>
+</div>
+<div class="section" id="fabric-engine-scene-graph">
+<h3><a class="toc-backref" href="#id6">Fabric Engine Scene Graph</a><a class="headerlink" href="#fabric-engine-scene-graph" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li>Due to branding changes there are slight changes to the namespaces and object names used by the Fabric Engine Scene Graph; see <a class="reference internal" href="#upgrading-apps-1-10-0-scene-graph"><span class="std std-ref">Fabric Engine Scene Graph</span></a>.</li>
+</ul>
+</div>
+<div class="section" id="fabric-engine-extensions">
+<h3><a class="toc-backref" href="#id7">Fabric Engine Extensions</a><a class="headerlink" href="#fabric-engine-extensions" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li>A new Geometry KL-only extension now regroups the PolygonMesh, Lines, HierarchicalGrid and other related types</li>
+<li>The PolygonMesh object has been rewritten, and its interface has largely changed. The improvements include the support for:<ul>
+<li>incremental structural changes (modeling operations), such as splitPolygon, splitPoint, deletePolygon, mergeMesh<ul>
+<li>demonstrated by new sample Apps/Geometry/LinearSubdivideAndEmbossMesh.py</li>
+</ul>
+</li>
+<li>32-bits or 64-bits positions precision</li>
+<li>setting attribute values (UVs, normals...) at any moment</li>
+<li>raycast and getClosest queries:<ul>
+<li>returns a new Location type, allowing to read any PolygonMesh surface attribute (position, UVs...)</li>
+<li>accelerated by a dynamic octree (same as RTR&#8217;s full scene octree)</li>
+<li>demonstrated by new sample Apps/Geometry/MeshRaycast.py</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="fabric-engine-realtime-renderer">
+<h3><a class="toc-backref" href="#id8">Fabric Engine Realtime Renderer</a><a class="headerlink" href="#fabric-engine-realtime-renderer" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li>The RTR reference guide now includes a learning guide, in the form of tutorials with detailed explanations</li>
+<li>Support for a new DebugContext type for KL callbacks, allowing to dump the RTR pass function call stack and parameter stack anywhere in the passes</li>
+<li>Support for basic hardware instancing, using either texture-packed or attribute-packed instances shader parameters to encode instance-varying parameters<ul>
+<li>demonstrated by new sample Apps/Rendering/HardwareInstancing.py</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="sgcapi-changes">
+<h3><a class="toc-backref" href="#id9">SGCAPI Changes</a><a class="headerlink" href="#sgcapi-changes" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The SGCAPI was renamed from CPCAPI to be consistent with the rebranding of the SceneGraph from Creation Platform.</p>
+<p>The following lists changes relevant to code using the SCAPI</p>
+<blockquote>
+<div><ul class="simple">
+<li>The namespace used in the code was renamed from CreationPlatform to SGCAPI.</li>
+<li>The environment variable used to point to the install location of the SGCAPU was renamed from CPCAPI_DIR to SGCAPI_DIR</li>
+<li>The CreationPlatformAPI_x86_64.props file was renamed to SceneGraphAPI_x86_64.props</li>
+<li>The build lib is rename from CreationPlatformCAPI.lib to SceneGraphCAPI.lib</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="core-changes">
+<h3><a class="toc-backref" href="#id10">Core Changes</a><a class="headerlink" href="#core-changes" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul>
+<li><p class="first">Core memory and on-disk cache usage has dramatically improved</p>
+<ul class="simple">
+<li>The core uses about one half of the memory it did in version 1.9.0</li>
+<li>The core uses only about 10% of the on-disk cache that it used in version 1.9.0</li>
+</ul>
+</li>
+<li><p class="first">KL:</p>
+<ul>
+<li><p class="first">KL now supports constant expressions.  When several constants are
+involved in a constant expression, the result is constant.  This allows
+you to declare code such as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">const</span> <span class="n">UInt32</span> <span class="n">FlagBitIndex</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+<span class="n">const</span> <span class="n">UInt32</span> <span class="n">FlagBitMask</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">FlagBitIndex</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="../KLProgrammingGuide/globals.html#klpg-global-named-constants"><span class="std std-ref">名前付き定数</span></a> for more information.</p>
+</li>
+<li><p class="first">The <code class="docutils literal"><span class="pre">inline</span></code> keyword has be introduced, allowing explicit control of
+function and method inlining.  See <a class="reference internal" href="../KLProgrammingGuide/globals.html#inline"><span class="std std-ref">Inline 関数,メソッド</span></a>.</p>
+</li>
+<li><p class="first">The <code class="docutils literal"><span class="pre">use</span></code> keyword has be deprecated; use <code class="docutils literal"><span class="pre">require</span></code> instead.  See
+<a class="reference internal" href="../KLProgrammingGuide/globals.html#klpg-require"><span class="std std-ref">require による機能のインポート</span></a></p>
+</li>
+</ul>
+</li>
+<li><p class="first">The startup console output from the Core has been made less verbose and more
+readable.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="installing-fabric-engine">
+<span id="installing-1-10-0"></span><h2><a class="toc-backref" href="#id11">Installing Fabric Engine</a><a class="headerlink" href="#installing-fabric-engine" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric Engine runs on Windows 7 SP1 (both 32- and 64-bit), CentOS 6.3, Ubuntu 10.04 LTS, Ubuntu 12.04 LTS, and Mac OS X 10.7 &#8220;Lion&#8221; or later.</p>
+<div class="section" id="uninstall-previous-versions-of-fabric-engine-creation-platform">
+<span id="installing-1-10-0-uninstall-previous"></span><h3><a class="toc-backref" href="#id12">Uninstall Previous Versions of Fabric Engine/Creation Platform</a><a class="headerlink" href="#uninstall-previous-versions-of-fabric-engine-creation-platform" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>If you have installed a previous version of Fabric Engine
+(previously called Creation Platform) using an installer package, we recommend
+that you uninstall it before installing Fabric Engine
+1.10.0.  This is due to the branding changes the product has
+undergone: they may cause issues in detecting upgrades on certain platforms.</p>
+<ul class="simple">
+<li>To uninstall previous versions on Windows, use the &#8220;Programs and Features&#8221; control panel.</li>
+<li>To uninstall previous versions on Mac OS X, simply remove (or rename) the <code class="docutils literal"><span class="pre">/Library/FabricEngine</span></code> directory.</li>
+<li>To uninstall previous versions on CentOS, run (as an administrator): <code class="docutils literal"><span class="pre">sudo</span> <span class="pre">rpm</span> <span class="pre">-e</span> <span class="pre">creation-platform</span></code></li>
+<li>To uninstall previous versions on Ubuntu, run (as an administrator): <code class="docutils literal"><span class="pre">sudo</span> <span class="pre">dpkg</span> <span class="pre">-r</span> <span class="pre">creation-platform</span></code></li>
+</ul>
+</div>
+<div class="section" id="install-python">
+<h3><a class="toc-backref" href="#id13">Install Python</a><a class="headerlink" href="#install-python" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>If you don&#8217;t already have Python on your system, you need to install it first.</p>
+<ul>
+<li><p class="first">For Windows, you can get the latest version of Python 2.7 directly from <a class="reference external" href="http://python.org">http://python.org</a>. You will also need to add the Python folders, usually C:\Python27, and C:\Python27\Scripts, to your PATH environment variable.</p>
+<ul class="simple">
+<li>On 64-bit Windows, we also provide a build of Fabric Engine that works with Python 2.6.</li>
+</ul>
+</li>
+<li><p class="first">For CentOS 6.3, Ubuntu 10.04 LTS and Ubuntu 12.04 LTS, your system already came with the right version of Python installed.</p>
+</li>
+<li><p class="first">For OS X, Python 2.7 is automatically installed on your system as part of the base OS install.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">On Mac OS X you must use the system-installed version of Python found in
+<code class="docutils literal"><span class="pre">/usr/bin/python</span></code>. Using a different version of Python (installed via
+MacPorts or HomeBrew, for example) will result on a crash when trying to
+run any Fabric Engine application.</p>
+</div>
+</li>
+</ul>
+<p>Once the install is finished, make sure that you are able to open a command
+prompt and run python. Windows users will probably have to add the directory
+in which Python was installed (usually <code class="docutils literal"><span class="pre">c:\\Python27</span></code>) to their PATH environment
+variable.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">On previous Windows versions of Fabric Engine, it was possible
+to disable the installation of PySide in the Fabric Engine
+installer in order to use another version.  It is not longer possible
+to do this: instead, if you need to use another version of PySide simply
+follow the steps for <a class="reference internal" href="#installing-1-10-0-archive"><span class="std std-ref">installing from an archive</span></a> and then simply remove (or rename) the <code class="docutils literal"><span class="pre">FabricEngine/Python/&lt;PYTHON_VERSION&gt;/PySide</span></code> directory.</p>
+</div>
+<p>There are two ways of installing Fabric Engine: <a class="reference internal" href="#installing-1-10-0-package"><span class="std std-ref">from an installer package</span></a> or <a class="reference internal" href="#installing-1-10-0-archive"><span class="std std-ref">from an archive</span></a>.</p>
+<div class="section" id="installing-from-an-installer-package">
+<span id="installing-1-10-0-package"></span><h4><a class="toc-backref" href="#id14">Installing from an Installer Package</a><a class="headerlink" href="#installing-from-an-installer-package" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>Installing from an installer package is generally easier but is less flexible.
+We recommend this approach if you are evaluating Fabric Engine for a
+single user, you are fine with using the version of PySide that is bundled
+with Fabric Engine, and you only need to have a single version of
+Fabric Engine installed.</p>
+<p>From <a class="reference external" href="http://dist.fabric-engine.com/FabricEngine/1.10.0/">http://dist.fabric-engine.com/FabricEngine/1.10.0/</a>, download and install Fabric Engine for your platform.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">When selecting the 32-bit vs. 64-bit version to install on Windows, note that it is the &#8220;bitness&#8221; of Python, and not Windows, that matters.  To see if the version of Python you are using is 64-bit, simply run &#8220;python&#8221; from a command prompt.  If it has <code class="docutils literal"><span class="pre">64</span> <span class="pre">bit</span> <span class="pre">(AMD64)</span></code> somewhere in the first line it displays then it is 64-bit.</p>
+</div>
+<ul>
+<li><p class="first">On Windows 7 using 32-bit Python, the installer is <code class="docutils literal"><span class="pre">FabricEngine-1.10.0-Installer-Windows-32Bit-Python2.7.msi</span></code>. It is a .MSI file that can be run directly. Note that the installer is unsigned, so your browser may tell you it&#8217;s not safe to run it.</p>
+</li>
+<li><p class="first">On Windows 7 using 64-bit Python, the installer is <code class="docutils literal"><span class="pre">FabricEngine-1.10.0-Installer-Windows-64Bit-Python2.7.msi</span></code> (for Python 2.7) or <code class="docutils literal"><span class="pre">FabricEngine-1.10.0-Installer-Windows-64Bit-Python2.6.msi</span></code> (for Python 2.6). It is a .MSI file that can be run directly. Note that the installer is unsigned, so your browser may tell you it&#8217;s not safe to run it.</p>
+</li>
+<li><p class="first">On CentOS 6.3, the installer is <code class="docutils literal"><span class="pre">FabricEngine-1.10.0-Installer-CentOS-x86_64-Python2.6.rpm</span></code>. It is a .rpm package that can be installed using &#8216;rpm -i&#8217; or using a GUI tool.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">you must log out and log back in in order to get the environment variables set that Fabric Engine needs to run!</p>
+</div>
+</li>
+<li><p class="first">On Ubuntu 10.04 LTS, the installer is <code class="docutils literal"><span class="pre">FabricEngine-1.10.0-Installer-Ubuntu-amd64-Python2.6.deb</span></code>. It is a .deb package that can be installed using &#8216;dpkg -i&#8217; or using a GUI tool.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">you must log out and log back in in order to get the environment variables set that Fabric Engine needs to run!</p>
+</div>
+</li>
+<li><p class="first">On Ubuntu 12.04 LTS, the installer is <code class="docutils literal"><span class="pre">FabricEngine-1.10.0-Installer-Ubuntu-amd64-Python2.7.deb</span></code>. It is a .deb package that can be installed using &#8216;dpkg -i&#8217; or using a GUI tool.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">you must log out and log back in in order to get the environment variables set that Fabric Engine needs to run!</p>
+</div>
+</li>
+<li><p class="first">On Mac OS X Lion or Mountain Lion, the installer is <code class="docutils literal"><span class="pre">FabricEngine-1.10.0-Installer-MacOSX-64Bit-Python2.7.dmg</span></code>. It is an executable on a .dmg file that can be run directly from the mounted disk image.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">you must restart your system in order to get the environment variables set that Fabric Engine needs to run!</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="installing-from-an-archive">
+<span id="installing-1-10-0-archive"></span><h4><a class="toc-backref" href="#id15">Installing from an Archive</a><a class="headerlink" href="#installing-from-an-archive" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>Installing from an archive provides the most flexibility.  You can control the
+location of the install, use a custom version of PySide, and even install and
+use multiple versions of Fabric Engine on the same machine.</p>
+<p>From <a class="reference external" href="http://dist.fabric-engine.com/FabricEngine/1.10.0/">http://dist.fabric-engine.com/FabricEngine/1.10.0/</a>, download and install a Fabric Engine installer archive.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The filename begins with <code class="docutils literal"><span class="pre">FabricEngine-1.10.0-Installer</span></code></li>
+<li>For Windows, the archive filename ends with <code class="docutils literal"><span class="pre">.zip</span></code>.</li>
+<li>For Linux and Mac OS X, the archive filename ends with <code class="docutils literal"><span class="pre">.tar.bz2</span></code>.</li>
+</ul>
+</div></blockquote>
+<p>Be sure to pick the archive that matches the characteristics of your system
+(eg. Python 2.7 vs. Python 2.6, 32-bit vs. 64-bit).</p>
+<p>Unpack the archive in a location of your choosing, then edit the file <code class="docutils literal"><span class="pre">environment.bat</span></code> (Windows) or <code class="docutils literal"><span class="pre">environment.sh</span></code> (Mac OS X and Linux), changing <code class="docutils literal"><span class="pre">BASEDIR</span></code> to the directory into which you unpacked the archive.</p>
+<p>Whenever you want to use Fabric Engine, open up a console/terminal window and then execute the environment script:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Under Windows, run <code class="docutils literal"><span class="pre">PATH_TO_UNPACKED_ARCHIVE\environment.bat</span></code></li>
+<li>Under Mac OS X and Linux, run <code class="docutils literal"><span class="pre">source</span> <span class="pre">PATH_TO_UNPACKED_ARCHIVE/environment.sh</span></code></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="test-fabric-engine">
+<h3><a class="toc-backref" href="#id16">Test Fabric Engine</a><a class="headerlink" href="#test-fabric-engine" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The Fabric Engine installer ships with a simple application, HelloSceneGraph, that can be used to test the installation. To run HelloSceneGraph:</p>
+<ul class="simple">
+<li>On Windows:</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>Open a command prompt (cmd.exe)</li>
+<li>Change to the Fabric Engine install directory (usually <code class="docutils literal"><span class="pre">C:\\Program</span> <span class="pre">Files\\Fabric</span> <span class="pre">Engine</span></code> for per-machine installs and <code class="docutils literal"><span class="pre">C:\\Users\\&lt;USERNAME&gt;\\AppData\\Local\\Apps\\Fabric</span> <span class="pre">Engine</span></code> for per-user installs)</li>
+<li>Run <code class="docutils literal"><span class="pre">python</span> <span class="pre">Python\HelloFabric.py</span></code></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>On Ubuntu, open a shell and run <code class="docutils literal"><span class="pre">python</span> <span class="pre">/usr/lib/FabricEngine/Python/HelloFabric.py</span></code></li>
+<li>On CentOS, open a shell and run <code class="docutils literal"><span class="pre">python</span> <span class="pre">/usr/lib64/FabricEngine/Python/HelloFabric.py</span></code></li>
+<li>On Mac OS X, open Terminal and run <code class="docutils literal"><span class="pre">python</span> <span class="pre">/Library/FabricEngine/FABRIC_VERSION/Python/HelloFabric.py</span></code></li>
+</ul>
+</div>
+<div class="section" id="install-sample-applications-demos">
+<h3><a class="toc-backref" href="#id17">Install Sample Applications (&#8220;Demos&#8221;)</a><a class="headerlink" href="#install-sample-applications-demos" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>From <a class="reference external" href="http://dist.fabric-engine.com/FabricEngine/1.10.0/">http://dist.fabric-engine.com/FabricEngine/1.10.0/</a>, download the <code class="docutils literal"><span class="pre">FabricEngine-1.10.0-Demos.zip</span></code> file, which you can extract to a location of your choosing. The demos are located below the Apps subfolder of the created <code class="docutils literal"><span class="pre">FabricEngine-Demos-1.10.0</span></code> folder, and are identical for all platforms. These demos can be run using the python command; for example, <code class="docutils literal"><span class="pre">python</span> <span class="pre">Apps/GeometryDeformation.py</span></code>.</p>
+</div>
+</div>
+<div class="section" id="documentation">
+<span id="documentation-1-10-0"></span><h2><a class="toc-backref" href="#id18">Documentation</a><a class="headerlink" href="#documentation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Complete documentation for Fabric Engine can be <a class="reference internal" href="../index.html#top"><span class="std std-ref">found here</span></a>.</p>
+<p>After installing Fabric Engine, you can also find the documentation in the Start menu in Windows, the Applications menu in CentOS and Ubuntu, and through a link in the &#8216;/Applications/FabricEngine/1.10.0&#8217; folder in Mac OS X. The documentation can also be accessed from the &#8220;Help&#8221; menu of Fabric Engine applications.</p>
+</div>
+<div class="section" id="upgrading-applications-to-version-1-10-0">
+<span id="upgrading-apps-1-10-0"></span><h2><a class="toc-backref" href="#id19">Upgrading Applications to Version 1.10.0</a><a class="headerlink" href="#upgrading-applications-to-version-1-10-0" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="upgrading-apps-1-10-0-scene-graph">
+<span id="id1"></span><h3><a class="toc-backref" href="#id20">Fabric Engine Scene Graph</a><a class="headerlink" href="#upgrading-apps-1-10-0-scene-graph" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>In version 1.10.0, Creation Platform was rebranded as &#8216;Fabric Engine&#8217; (for the name of the whole product) and &#8216;Fabric Engine Scene Graph&#8217; (for the name of the Python scene graph).  Because of this rebranding, it may be necessary to make slight changes to existing Python scene graph applications to make them work with 1.10.0.</p>
+<ul class="simple">
+<li>The namespace used by the SceneGraph was renamed from <code class="docutils literal"><span class="pre">FabricEngine.CreationPlatform</span></code> to <code class="docutils literal"><span class="pre">FabricEngine.SceneGraph</span></code></li>
+<li><code class="docutils literal"><span class="pre">BaseCreationPlatformApplication</span></code> was renamed to <code class="docutils literal"><span class="pre">BaseSceneGraphApplication</span></code></li>
+<li><code class="docutils literal"><span class="pre">CreationPlatformApplication</span></code> was renamed to <code class="docutils literal"><span class="pre">SceneGraphApplication</span></code></li>
+<li>The fileLocation manager was updated to use new tokens for resolving files.<ul>
+<li>The token <code class="docutils literal"><span class="pre">$CP</span></code> was renamed to <code class="docutils literal"><span class="pre">$SG</span></code></li>
+<li>The token <code class="docutils literal"><span class="pre">$CPAPP</span></code> was renamed to <code class="docutils literal"><span class="pre">$SGAPP</span></code></li>
+<li>The token <code class="docutils literal"><span class="pre">$CPSCENE</span></code> was renamed to <code class="docutils literal"><span class="pre">$SGSCENE</span></code></li>
+</ul>
+</li>
+</ul>
+<p>Updating Scene Graph apps from version 1.9 to 1.10 is mostly a process of replacing the old names with the new ones.</p>
+<ul class="simple" id="compiling-1-10-0">
+<li>PolygonMesh functions were largely modified, please refer to files such as <code class="docutils literal"><span class="pre">PolygonMeshTorus.kl</span></code> or <code class="docutils literal"><span class="pre">OBJImporter.kl</span></code> for examples of usage.</li>
+<li>RTR shader parameter XML attribute <code class="docutils literal"><span class="pre">transformReferential</span></code> was renamed to <code class="docutils literal"><span class="pre">transformSpace</span></code></li>
+</ul>
+</div>
+</div>
+<div class="section" id="optional-compiling-the-dcc-integrations">
+<h2><a class="toc-backref" href="#id21">Optional: Compiling the DCC Integrations</a><a class="headerlink" href="#optional-compiling-the-dcc-integrations" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>In order to use the DCC integrations after you have installed Fabric Engine you will need to download the SGCAPI (Scene Graph C++ API) source files here: <a class="reference external" href="http://dist.fabric-engine.com/FabricEngine/1.10.0/FabricEngine-SGCAPI-1.10.0.zip">SGCAPI for Fabric Engine 1.10.0</a></p>
+<p>You will then need to consult the .. kl-extlist::
+DCCIG, in particular the section on &#8220;Installing and using the SGCAPI&#8221;. In there you will find instructions on how to compile and any necessary environment variables that must be set.</p>
+<p>The currently supported DCC integrations are:</p>
+<ul class="simple">
+<li>Maya 2013 on Windows 64-bit</li>
+<li>Maya 2013 on Linux 64-bit</li>
+<li>SoftImage 2013 on Windows 64-bit</li>
+</ul>
+<p>That&#8217;s it!</p>
+</div>
+<div class="section" id="previous-release-notes">
+<h2><a class="toc-backref" href="#id22">Previous Release Notes</a><a class="headerlink" href="#previous-release-notes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="1.9.0-beta.html#relnotes-1-9-0-beta"><span class="std std-ref">Creation Platform 1.9.0-beta Release Notes</span></a></li>
+<li><a class="reference internal" href="1.8.0-beta.html#relnotes-1-8-0-beta"><span class="std std-ref">Creation Platform 1.8.0-beta Release Notes</span></a></li>
+<li><a class="reference internal" href="1.7.3-beta.html#relnotes-1-7-3-beta"><span class="std std-ref">Creation Platform 1.7.3-beta Release Notes</span></a></li>
+</ul>
+</div>
+<div class="section" id="indices-and-tables">
+<span id="notes-1-10-0"></span><h2><a class="toc-backref" href="#id23">Indices and Tables</a><a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../genindex.html"><span class="std std-ref">索引</span></a></li>
+<li><a class="reference internal" href="../search.html"><span class="std std-ref">検索ページ</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Fabric Engine 1.10.0 Release Notes</a><ul>
+<li><a class="reference internal" href="#important-notes-read-me-first">Important Notes - Read Me First!</a></li>
+<li><a class="reference internal" href="#downloads">Downloads</a></li>
+<li><a class="reference internal" href="#major-changes-in-1-10-0">Major Changes in 1.10.0</a><ul>
+<li><a class="reference internal" href="#fabric-splice">Fabric Splice</a></li>
+<li><a class="reference internal" href="#fabric-engine-scene-graph">Fabric Engine Scene Graph</a></li>
+<li><a class="reference internal" href="#fabric-engine-extensions">Fabric Engine Extensions</a></li>
+<li><a class="reference internal" href="#fabric-engine-realtime-renderer">Fabric Engine Realtime Renderer</a></li>
+<li><a class="reference internal" href="#sgcapi-changes">SGCAPI Changes</a></li>
+<li><a class="reference internal" href="#core-changes">Core Changes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installing-fabric-engine">Installing Fabric Engine</a><ul>
+<li><a class="reference internal" href="#uninstall-previous-versions-of-fabric-engine-creation-platform">Uninstall Previous Versions of Fabric Engine/Creation Platform</a></li>
+<li><a class="reference internal" href="#install-python">Install Python</a><ul>
+<li><a class="reference internal" href="#installing-from-an-installer-package">Installing from an Installer Package</a></li>
+<li><a class="reference internal" href="#installing-from-an-archive">Installing from an Archive</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#test-fabric-engine">Test Fabric Engine</a></li>
+<li><a class="reference internal" href="#install-sample-applications-demos">Install Sample Applications (&#8220;Demos&#8221;)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#documentation">Documentation</a></li>
+<li><a class="reference internal" href="#upgrading-applications-to-version-1-10-0">Upgrading Applications to Version 1.10.0</a><ul>
+<li><a class="reference internal" href="#upgrading-apps-1-10-0-scene-graph">Fabric Engine Scene Graph</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#optional-compiling-the-dcc-integrations">Optional: Compiling the DCC Integrations</a></li>
+<li><a class="reference internal" href="#previous-release-notes">Previous Release Notes</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and Tables</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/ReleaseNotes/1.10.0.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/ReleaseNotes/1.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

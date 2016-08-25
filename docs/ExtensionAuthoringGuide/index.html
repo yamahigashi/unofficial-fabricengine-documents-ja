@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>エクステンション・オーサリングガイド &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="next" title="導入" href="intro.html" />
+    <link rel="prev" title="Python Programming Guide" href="../PythonGuide/index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="導入"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="../PythonGuide/index.html" title="Python Programming Guide"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="extension-authoring-guide">
+<span id="extrg"></span><h1>エクステンション・オーサリングガイド<a class="headerlink" href="#extension-authoring-guide" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../_images/FE_logo_345_60.png"><img alt="../_images/FE_logo_345_60.png" src="../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 2.3.0</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+</div>
+<div class="section" id="table-of-contents">
+<h2>目次<a class="headerlink" href="#table-of-contents" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">導入</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#what-is-a-fabric-product-name-extension">Fabric Engine エクステンションとは？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#types-of-extensions">Extension の類型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#limitations">制限</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="build.html">サンプルエクステンションのビルド</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="build.html#install-developer-tools">開発ツールのインストール</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html#copy-the-sample">サンプルをコピー</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html#build-the-sample">サンプルをビルド</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html#test-the-sample">サンプルをテスト</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sample.html">サンプルエクステンションの解説</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sample.html#helloworld-fpm-json"><code class="file docutils literal"><span class="pre">HelloWorld.fpm.json</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sample.html#helloworld-kl"><code class="file docutils literal"><span class="pre">HelloWorld.kl</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sample.html#helloworld-cpp"><code class="file docutils literal"><span class="pre">HelloWorld.cpp</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sample.html#test-py"><code class="file docutils literal"><span class="pre">test.py</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sample.html#sconstruct"><code class="file docutils literal"><span class="pre">SConstruct</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fpm.html">エクステンション・マニフェストファイル</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fpm.html#the-version-extension-versioning-specification-optional"><code class="code docutils literal"><span class="pre">version</span></code> ：エクステンション・バージョニングの指定（任意）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fpm.html#the-override-extension-versioning-override-optional"><code class="code docutils literal"><span class="pre">override</span></code> ：エクステンション・バージョニングの上書き（任意）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fpm.html#the-dfgpresets-canvas-presets-specification-optional"><code class="code docutils literal"><span class="pre">dfgPresets</span></code> ：Canvasプリセットの指定（任意）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fpm.html#the-libs-compiled-library-specification"><code class="code docutils literal"><span class="pre">libs</span></code> ：コンパイル済みライブラリの指定</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fpm.html#the-code-kl-source-code-specification"><code class="code docutils literal"><span class="pre">code</span></code> ：KLソースコードの指定</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cPlusPlusApis.html">C++ APIをラップしKLで使用するには</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cPlusPlusApis.html#overview">概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cPlusPlusApis.html#type-conversion">型の変換</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cPlusPlusApis.html#mapping-classes-to-objects">Class から Object へのマッピング</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cPlusPlusApis.html#memory-management">メモリ管理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cPlusPlusApis.html#mapping-public-methods">Publicメソッドのマッピング</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cPlusPlusApis.html#public-members">Publicメンバ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cPlusPlusApis.html#pure-data-container-structs">純粋なデータコンテナ構造体（Pure data container structs）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cPlusPlusApis.html#passing-arrays-from-kl-to-a-c-style-api">KLからC-スタイルのAPIへ配列を渡すには</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cPlusPlusApis.html#mapping-class-hierarchies">クラス階層のマッピング</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cPlusPlusApis.html#managing-data-ownership-and-bidirectional-relationships">データの所有権と双方向の関係を管理するには</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cPlusPlusApis.html#handling-dependencies-between-classes">クラス間の依存の取り扱い</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cPlusPlusApis.html#other-tips-and-tricks">便利な小技</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cPlusPlusApis.html#mapping-const-functions-to-kl-as-const-functions">const関数をKLのconst関数にマッピング</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cPlusPlusApis.html#cloning-objects-in-kl">KLでオブジェクトのクローン</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kl2edk.html"><strong class="command">kl2edk</strong> ユーティリティ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kl2edk.html#required-build-flags">必要なビルドフラグ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kl2edk.html#the-generated-header-files">生成されるヘッダファイル</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kl2edk.html#cpp-code-generation">Cppコードの生成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kl2edk.html#namespacing">Namespacing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kl2edk.html#the-fabricedk-h-header-file">The <code class="file docutils literal"><span class="pre">FabricEDK.h</span></code> Header File</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kl2edk.html#build-macros">Build Macros</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kl2edk.html#the-fabric-ext-export-function-definition-prefix">The <code class="code docutils literal"><span class="pre">FABRIC_EXT_EXPORT</span></code> Function Definition Prefix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kl2edk.html#debugging-and-error-handling-functions">Debugging and Error-Handling Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kl2edk.html#older-extensions-before-kl2edk">Older Extensions (before kl2edk)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="types.html">Types and Extensions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="types.html#simple-types">Simple Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="types.html#equivalences-for-simple-types">Equivalences for Simple Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#the-kl-datawrapper-ty-and-kl-constdatawrapper-ty-templates">The <code class="samp docutils literal"><span class="pre">KL::DataWrapper&lt;</span><em><span class="pre">Ty</span></em><span class="pre">&gt;</span></code> and <code class="samp docutils literal"><span class="pre">KL::ConstDataWrapper&lt;</span><em><span class="pre">Ty</span></em><span class="pre">&gt;</span></code> Templates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#complex-types">Complex Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="types.html#kl-string"><code class="code docutils literal"><span class="pre">KL::String</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#kl-variablearray-ty"><code class="samp docutils literal"><span class="pre">KL::VariableArray&lt;</span><em><span class="pre">Ty</span></em><span class="pre">&gt;</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#kl-fixedarray-ty-size"><code class="samp docutils literal"><span class="pre">KL::FixedArray&lt;</span><em><span class="pre">Ty</span></em><span class="pre">,</span> <em><span class="pre">size</span></em><span class="pre">&gt;</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#kl-externalarray-ty"><code class="samp docutils literal"><span class="pre">KL::ExternalArray&lt;</span><em><span class="pre">Ty</span></em><span class="pre">&gt;</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#kl-dict-keyty-valuety"><code class="samp docutils literal"><span class="pre">KL::Dict&lt;</span><em><span class="pre">KeyTy</span></em><span class="pre">,</span> <em><span class="pre">ValueTy</span></em><span class="pre">&gt;`</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#kl-object"><code class="code docutils literal"><span class="pre">KL::Object</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#user-defined-types">User-Defined Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="types.html#structures">Structures</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mapping-kl-structures-to-third-party-api-structures">Mapping KL Structures to Third-Party API Structures</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#interfaces">Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#objects">Objects</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cconv.html">公開関数の呼び出し規約（Calling Convention for Exported Functions）</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cconv.html#calling-convention-for-simple-types">Calling Convention for Simple Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cconv.html#calling-convention-for-complex-types">Calling Convention for Complex Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cconv.html#mixing-simple-and-complex-types">Mixing Simple and Complex Types</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reloading.html">エクステンションの再読み込み</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reloading.html#api-functions">API 関数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reloading.html#updating-kl-type-member-layout">KL型のメンバのレイアウトのアップデート</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reloading.html#updating-kl-source-code">KLソースコードのアップデート</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reloading.html#extension-dependencies">エクステンション間の依存</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reloading.html#changing-function-prototypes-or-adding-removing-functions">関数プロトタイプの変更、関数の追加と削除</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">エクステンション・オーサリングガイド</a><ul>
+<li><a class="reference internal" href="#table-of-contents">目次</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="../PythonGuide/index.html"
+                        title="前の章へ">Python Programming Guide</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="intro.html"
+                        title="次の章へ">導入</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/ExtensionAuthoringGuide/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/ExtensionAuthoringGuide/index.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="導入"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="../PythonGuide/index.html" title="Python Programming Guide"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

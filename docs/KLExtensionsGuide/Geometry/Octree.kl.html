@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Octree.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Geometry Extension’s Files" href="files.html" />
+    <link rel="next" title="OctreeInternal.kl" href="OctreeInternal.kl.html" />
+    <link rel="prev" title="Mat44Attribute.kl" href="Mat44Attribute.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="OctreeInternal.kl.html" title="OctreeInternal.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="Mat44Attribute.kl.html" title="Mat44Attribute.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Geometry エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Geometry Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="geometry-octree-kl">
+<span id="octree-kl"></span><span id="id1"></span><h1>Octree.kl<a class="headerlink" href="#geometry-octree-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="octree-object">
+<h3>Octree (object)<a class="headerlink" href="#octree-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="Octree.html#octree"><span class="std std-ref">Octree</span></a> type implements an octree spatial partition structure, which is equivalent
+of a &#8220;3D sort&#8221; of objects enabling fast searches among multiple objects in space.</p>
+<p class="plaintext">The <a class="reference internal" href="Octree.html#octree"><span class="std std-ref">Octree</span></a> subdivides the space in a sparse hierarchy of cells, in order to quickly
+isolate empty space. This then enables to perform queries such as raycast by testing
+only a portion of the objects.</p>
+<p class="plaintext">This <a class="reference internal" href="Octree.html#octree"><span class="std std-ref">Octree</span></a> implementation tries to provide a good balance between speed, memory usage
+and the ability to update incrementally. The ability to update incrementally implies
+that the octree has the ability to update only objects that changed. Additionally,
+octree&#8217;s construction can be done only partially while maintaining its valid state,
+which allows for a balance between construction and query time.</p>
+<p class="plaintext">Because <a class="reference internal" href="Octree.html#id54712"><span class="std std-ref">Octree.raycast</span></a> and <a class="reference internal" href="Octree.html#id54720"><span class="std std-ref">Octree.getClosest</span></a> need to be more precise
+than simple bounding volume intersection, these require specialized object intersections
+for the actual geometry (polygon, edge, geometry) to be implemented through the <a class="reference internal" href="RaycastResult.html#raycastresult"><span class="std std-ref">RaycastResult</span></a> and
+<a class="reference internal" href="ClosestResult.html#closestresult"><span class="std std-ref">ClosestResult</span></a> interfaces.</p>
+<p class="plaintext">All query (read) methods are thread-safe as long as the Octree is not modified (<a class="reference internal" href="Octree.html#id54639"><span class="std std-ref">Octree.updateObjectVolume</span></a>,
+<a class="reference internal" href="Octree.html#id54657"><span class="std std-ref">Octree.removeObject</span></a> and <a class="reference internal" href="Octree.html#id54708"><span class="std std-ref">Octree.prepare</span></a>).</p>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Octree.html#id114046"><span class="std std-ref">Octree</span></a>  ( in <a class="reference internal" href="Octree.html#octree"><span class="std std-ref">Octree</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Octree.html#id54610"><span class="std std-ref">Octree</span></a>  ( in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> maxDepth, in Boolean keepSubCellObjectList, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> smallestWorldCellSize )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Octree.html#id54601"><span class="std std-ref">Octree</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Octree.html#octree"><span class="std std-ref">Octree</span></a></td>
+<td><a class="reference internal" href="Octree.html#id114050"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Octree.html#id54720"><span class="std std-ref">getClosest</span></a> ? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> position, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> scaling, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> maxUnscaledDistance, io <a class="reference internal" href="SpatialQueryData.html#spatialquerydata"><span class="std std-ref">SpatialQueryData</span></a> data, io Ref&lt;<a class="reference internal" href="ClosestResult.html#closestresult"><span class="std std-ref">ClosestResult</span></a>&gt; result )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Octree.html#id54701"><span class="std std-ref">getLineIntersectedObjects</span></a> ? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> start, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> end, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> intersectionLineTypeEnum, io <a class="reference internal" href="SpatialQueryData.html#spatialquerydata"><span class="std std-ref">SpatialQueryData</span></a> data )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Box3.html#box3"><span class="std std-ref">Box3</span></a></td>
+<td><a class="reference internal" href="Octree.html#id54629"><span class="std std-ref">getObjectBBox</span></a> ? ( in Size index )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Octree.html#id54633"><span class="std std-ref">getObjectBSphere</span></a> ? ( in Size index, io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> center, io <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius )</td>
+</tr>
+<tr class="row-odd"><td>Size</td>
+<td><a class="reference internal" href="Octree.html#id54665"><span class="std std-ref">getObjectCount</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Octree.html#id54689"><span class="std std-ref">getObjectsInBBox</span></a> ? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> min, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> max, io <a class="reference internal" href="SpatialQueryData.html#spatialquerydata"><span class="std std-ref">SpatialQueryData</span></a> data )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Octree.html#id54695"><span class="std std-ref">getObjectsInBSphere</span></a> ? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> center, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius, io <a class="reference internal" href="SpatialQueryData.html#spatialquerydata"><span class="std std-ref">SpatialQueryData</span></a> data )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Box3.html#box3"><span class="std std-ref">Box3</span></a></td>
+<td><a class="reference internal" href="Octree.html#id54626"><span class="std std-ref">getWorldBBox</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Octree.html#id54619"><span class="std std-ref">incrementalUpdateObjectCount</span></a> ! ( in Size objectCount )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Octree.html#id54675"><span class="std std-ref">localBVolQuery</span></a> ? ( in <a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> transform, in <a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a> localBVol, out <a class="reference internal" href="../Containers/IndexSet.html#indexset"><span class="std std-ref">IndexSet</span></a> result )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Octree.html#id54668"><span class="std std-ref">localBVolQuery</span></a> ? ( in <a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> transform, in <a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a> localBVol, out <a class="reference internal" href="../Containers/IndexSet.html#indexset"><span class="std std-ref">IndexSet</span></a> result, in <a class="reference internal" href="../Containers/BitVector.html#bitvector"><span class="std std-ref">BitVector</span></a> objectMask )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="Octree.html#id54708"><span class="std std-ref">prepare</span></a> ! ( in Size approximateNumberOfQueries )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Octree.html#id54712"><span class="std std-ref">raycast</span></a> ? ( in <a class="reference internal" href="../Math/Ray.html#ray"><span class="std std-ref">Ray</span></a> ray, in Boolean doubleSided, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> maxDistance, io <a class="reference internal" href="SpatialQueryData.html#spatialquerydata"><span class="std std-ref">SpatialQueryData</span></a> data, io Ref&lt;<a class="reference internal" href="RaycastResult.html#raycastresult"><span class="std std-ref">RaycastResult</span></a>&gt; result )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Octree.html#id54657"><span class="std std-ref">removeObject</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Octree.html#id54651"><span class="std std-ref">updateObjectVolume</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> transform, in <a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a> localBVol )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="Octree.html#id54645"><span class="std std-ref">updateObjectVolume</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> center, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Octree.html#id54639"><span class="std std-ref">updateObjectVolume</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> min, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> max )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="Mat44Attribute.kl.html"
+                        title="前の章へ">Mat44Attribute.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="OctreeInternal.kl.html"
+                        title="次の章へ">OctreeInternal.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Geometry/Octree.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Geometry/Octree.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="OctreeInternal.kl.html" title="OctreeInternal.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="Mat44Attribute.kl.html" title="Mat44Attribute.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Geometry エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >Geometry Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

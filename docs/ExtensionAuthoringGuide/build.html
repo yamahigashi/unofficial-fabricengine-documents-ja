@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>サンプルエクステンションのビルド &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="エクステンション・オーサリングガイド" href="index.html" />
+    <link rel="next" title="サンプルエクステンションの解説" href="sample.html" />
+    <link rel="prev" title="導入" href="intro.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="sample.html" title="サンプルエクステンションの解説"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="導入"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">エクステンション・オーサリングガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="building-the-sample-extension">
+<h1>サンプルエクステンションのビルド<a class="headerlink" href="#building-the-sample-extension" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>はじめてのエクステンションのビルドを楽に行うため、 Fabric Engine インストーラでは自動でサンプルエクステンションをインストールします。ここからはじめましょう</p>
+<div class="section" id="install-developer-tools">
+<h2>開発ツールのインストール<a class="headerlink" href="#install-developer-tools" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>手始めに各自の開発プラットフォームに合わせ、適したツールをインストールしましょう。最小構成の場合、プラットフォームにあわせた C++ コンパイラと、ビルドツール <strong class="command">scons</strong> が必要です。</p>
+<p>プラットフォームによって開発ツールのインストール手順は変わります：</p>
+<ul class="simple">
+<li><p class="first">Windows： Visual Studio をインストール。Visual Studio 2013 を公式にサポートしますが他のバージョンでも動作します。</p>
+</li>
+<li><p class="first">Linux では Clang++ あるいは the GNU C++ コンパイラをインストールします。<code class="docutils literal"><span class="pre">clang</span></code>, <code class="docutils literal"><span class="pre">g++</span></code> ( Ubuntu では)として通常インストールしますね。</p>
+</li>
+<li><p class="first">OS X： XCode 5(we use 5.0.1)、OS X app storeより入手</p>
+</li>
+</ul>
+<p><strong class="command">scons</strong> ツールのインストールもプラットフォームに依ります。</p>
+<ul class="simple">
+<li><p class="first">Windows： <a class="reference external" href="http://scons.org">http://scons.org</a> より zipファイルをダウンロード展開. コマンドプロンプトから scons を含むフォルダへ移動,  <strong class="command">python setup.py install</strong> を実行。ディレクトリ <code class="file docutils literal"><span class="pre">c:\Python27\Scripts</span></code> の <code class="file docutils literal"><span class="pre">scons.py</span></code> を <code class="file docutils literal"><span class="pre">scons</span></code> にリネーム. 最後に,  <code class="file docutils literal"><span class="pre">c:\Python27\Scripts</span></code> が環境変数 <span class="target" id="index-4"></span><code class="xref std std-envvar docutils literal"><span class="pre">PATH</span></code> 中に存在することを確認。</p>
+</li>
+<li><p class="first">Linux： パッケージマネージャから <strong class="command">scons</strong> をインストールします。（例 <strong class="command">apt-get install scons</strong> ）</p>
+</li>
+<li><p class="first">OS X： <a class="reference external" href="http://scons.org/">http://scons.org/</a>. からzipファイルをダウンロードし展開, ターミナルを開き scons を含むフォルダへ移動, run <strong class="command">python setup.py install</strong> コマンドを実行。</p>
+</li>
+</ul>
+<p>正常に <strong class="command">scons</strong> をインストールできたかの確認を、コマンドプロンプトから（空のディレクトリで） <strong class="command">scons</strong> と実行することで行えます。以下の様な出力になるでしょう：</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>scons: *** No SConstruct file found.
+File &quot;/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/scons-2.2.0/SCons/Script/Main.py&quot;, line 905, in _main
+</pre></div>
+</div>
+</div>
+<div class="section" id="copy-the-sample">
+<h2>サンプルをコピー<a class="headerlink" href="#copy-the-sample" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>次のステップは、サンプルエクステンションのディレクトリをコピーです。サンプルエクステンションは <code class="file docutils literal"><span class="pre">$FABRIC_DIR/EDK/Samples/HelloWorld</span></code> にあります。 <code class="code docutils literal"><span class="pre">$FABRIC_DIR</span></code> は、環境変数 <span class="target" id="index-5"></span><code class="xref std std-envvar docutils literal"><span class="pre">FABRIC_DIR</span></code> であり、インストーラにより設定されます。（例えば） <strong class="command">cp -r</strong> コマンドによりディレクトリとコンテンツをコピーします。</p>
+</div>
+<div class="section" id="build-the-sample">
+<h2>サンプルをビルド<a class="headerlink" href="#build-the-sample" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>コピーしたサンプルのあるディレクトリでコマンドプロンプトから、 <strong class="command">scons</strong> と実行します。以下の様な出力になるでしょう：</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>scons: Reading SConscript files ...
+Running SCons with -j8
+scons: done reading SConscript files.
+scons: Building targets ...
+/Users/pzion/Fabric/SceneGraph/stage/Darwin/x86_64/Release/Tools/kl2edk -o HelloWorld.h HelloWorld.kl
+Compiling       HelloWorld.cpp
+SharedLibrary   libHelloWorld-Darwin-x86_64.dylib
+scons: done building targets.
+</pre></div>
+</div>
+</div>
+<div class="section" id="test-the-sample">
+<h2>サンプルをテスト<a class="headerlink" href="#test-the-sample" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>同じディレクトリで、 <strong class="command">python test.py</strong> と実行します。以下の様な出力になるでしょう：</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>[FABRIC:MT] |FABRIC_PRODUCT_NAME| version |FABRIC_VERSION|
+[FABRIC:MT] Registered extension {HelloWorld} in directory: .
+[FABRIC:MT] Registered extensions {BadVersion,UnitTest,FabricALEMBIC,FabricBULLET,FabricCIMG,FabricEXR,FabricFBX,FabricFILESTREAM,Geometry,FabricHDR,Images,FabricLIDAR,Math,FabricOBJ,FabricOPENCV,FabricOGL,FabricPNG,RTR,RTRAdaptors,FabricStringTools,FabricTEEM,FabricTGA,FabricVIDEO} in directory: /Users/pzion/Fabric/SceneGraph/stage/Darwin/x86_64/Release/Exts
+[FABRIC:MT] Compiled extension HelloWorld in 0.572ms
+[FABRIC:ID] Optimized extension HelloWorld in 7.398ms
+[FABRIC:MT:node:op] KL: Enter entry
+[FABRIC:MT:node:op] HelloWorld: Extension: Enter GetHelloWorldString
+[FABRIC:MT:node:op] HelloWorld: Extension: Leave GetHelloWorldString
+[FABRIC:MT:node:op] KL: GetHelloWorldString returned: Hello, world!
+[FABRIC:MT:node:op] KL: Leave entry
+Python got: Hello, world!
+</pre></div>
+</div>
+<p>この出力は、KLコードからの出力をしめし、エクステンションから呼ばれる関数の呼び出しやエクステンション自体の出力を示します。次節においてより詳しくサンプルエクステンションの動作について解説します。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">サンプルエクステンションのビルド</a><ul>
+<li><a class="reference internal" href="#install-developer-tools">開発ツールのインストール</a></li>
+<li><a class="reference internal" href="#copy-the-sample">サンプルをコピー</a></li>
+<li><a class="reference internal" href="#build-the-sample">サンプルをビルド</a></li>
+<li><a class="reference internal" href="#test-the-sample">サンプルをテスト</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="intro.html"
+                        title="前の章へ">導入</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="sample.html"
+                        title="次の章へ">サンプルエクステンションの解説</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/ExtensionAuthoringGuide/build.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/ExtensionAuthoringGuide/build.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="sample.html" title="サンプルエクステンションの解説"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="導入"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >エクステンション・オーサリングガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

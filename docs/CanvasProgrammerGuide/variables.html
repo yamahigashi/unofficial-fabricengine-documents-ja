@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>変数（Variable） &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="Canvas プログラマーガイド" href="index.html" />
+    <link rel="next" title="キャッシュ" href="caches.html" />
+    <link rel="prev" title="Blocks" href="cpg-blocks.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="caches.html" title="キャッシュ"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="cpg-blocks.html" title="Blocks"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Canvas プログラマーガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="variables">
+<span id="canvas-programmer-guide-variables"></span><h1>変数（Variable）<a class="headerlink" href="#variables" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">ユーザガイド内 <a class="reference internal" href="../CanvasUserGuide/variables.html#canvas-user-guide-variables"><span class="std std-ref">Variables</span></a> により平易な説明があります。</p>
+</div>
+<p>変数は、グラフ内で名前付きコンテナを宣言し使用するためのものです。変数は状態を表す値を保持し、グラフ評価をまたいで存在します。</p>
+<p>変数は様々に活用できます。</p>
+<ul class="simple">
+<li><p class="first">カウンターやシミュレーションなどのように、評価から次の評価へと値を更新していくような、グラフ所有の値の作成。</p>
+</li>
+<li><p class="first">ポートを削減します。サブグラフ深部へと共通のコンテクストデータを受け渡す（expose）ためのポート ―例えば <cite>currentFrameIndex</cite> のようなポートを減らします。たとえば親グラフをサブグラフのため親グラフの評価コンテクストで設定し、クロージャーを実装し、実現します。</p>
+</li>
+<li><p class="first">一意な、共有可能な値として使用する：KLオブジェクトは他のグラフからアクセス可能な変数として作られ、共有保存場所として使用できる。（  <a class="reference internal" href="#canvas-variables-scope"><span class="std std-ref">変数のスコープ</span></a> 参照）</p>
+</li>
+</ul>
+<p>グラフ評価間をまたぎ状態を保存、共有できる一方、値そのものはグラフに保存されません。グラフが読み込まれると、変数の値は常に初期値へとリセットされます。</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">変数は、より強力なグラフの作成に用いる事ができる一方、変数の「状態を持つ」という性質により、慎重に使用しないとデバッグや再現を困難にしてしまう恐れがあります。</p>
+</div>
+<div class="section" id="variable-nodes">
+<span id="canvas-variable-nodes"></span><h2>変数ノード（Variable nodes）<a class="headerlink" href="#variable-nodes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>読み取り（<em>get</em>）/ 書き込み（<em>set</em>）のため、変数は初めに <em>new variable</em> ノードとして宣言される必要があります。（ <a class="reference internal" href="#canvas-variable-creation"><span class="std std-ref">変数ノードの作成</span></a> 参照）変数ノードは、その変数の値を <em>get</em> / <em>set</em> するため実際の値のコンテナの在り処を保持します。</p>
+<p><em>new variable</em> ノードは初期値を決定する入力ポートを１つもちます。グラフ評価の一番初めに値を引いてきます。このノードは、ノードの現在の値を返し、 <em>get</em> ノード同様の振舞をします。ただし、 <em>new variable</em> の出力は効果的な変数の宣言のため、接続されている必要はありません。</p>
+<p><em>set</em> ノードは変数の値を変更し、新しい値を出力として返します。 <em>get</em> ノードは、変数の現在の値を返す出力ポートを１つのみ持ちます。 <em>set</em> と <em>get</em> の実行順もしくはポートの順は、極めて重要です。なぜなら <em>get</em> ノードの値は <em>set</em> ノードの前後どちらで実行されるかにより変化するためです。 <em>get</em> ノードが <em>set</em> ノードの左 ―つまり上流に接続されていると、 <em>set</em> より先に実行されることが保証されます。いっぽう、他の状況では実行順が期待通りになるか注意が必要です。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last"><em>get</em>、 <em>set</em> ノードが未宣言、もしくはアクセス不能な変数（ <a class="reference internal" href="#canvas-variables-scope"><span class="std std-ref">変数のスコープ</span></a> 参照）を参照してしまう場合、エラー
+、たとえば : <cite>Node &#8216;get&#8217;: unable to resolve var path &#8216;A&#8217;</cite> と表示されます。このエラーは変数がアクセス可能になると直ぐ解決されます。</p>
+</div>
+</div>
+<div class="section" id="creating-variable-nodes">
+<span id="canvas-variable-creation"></span><h2>変数ノードの作成<a class="headerlink" href="#creating-variable-nodes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Canvas アプリケーションでは、変数ノードは以下の方法で作成します。</p>
+<ul class="simple">
+<li><p class="first">Canvas グラフウィンドウより、右クリックのコンテキストメニューから：</p>
+<ul>
+<li><p class="first"><em>New Variable</em> により <em>New Variable</em> ダイアログが表示され、現在のグラフに新しい変数を定義します。</p>
+</li>
+<li><p class="first"><em>Read Variable (Get)</em> により <em>get variable</em> ノードを追加します。</p>
+</li>
+<li><p class="first"><em>Write Variable (Set)</em> により <em>set variable</em> ノードを追加します。</p>
+</li>
+</ul>
+</li>
+<li><p class="first">Canvas グラフウィンドより、  <em>Tab</em> キーを押し検索ウィジェットを開き：</p>
+<ul>
+<li><p class="first">&#8220;var.&#8221; とキー入力し、 <em>New Variable</em> ダイアログから現在のグラフに変数を定義します。</p>
+</li>
+<li><p class="first">&#8220;get.&#8221; とキー入力し、現在のグラフよりアクセス可能な変数一覧を得、必要な変数を選び <em>get</em> ノードを作成します。</p>
+</li>
+<li><p class="first">&#8220;set.&#8221; とキー入力し、現在のグラフよりアクセス可能な変数一覧を得、必要な変数を選び <em>set</em> ノードを作成します。</p>
+</li>
+</ul>
+</li>
+<li><p class="first">エクスプローラウィンドより、 <em>Variables</em> を開き、現在のグラフ中に存在する変数のパスを得ます。Canvas グラフウィンドにドラッグ・アンド・ドロップし、 <em>get variable</em> ノードをそのノードの <strong>absolute path</strong> 付で作成します。</p>
+</li>
+</ul>
+</div>
+<div class="section" id="variable-scope">
+<span id="canvas-variables-scope"></span><h2>変数のスコープ<a class="headerlink" href="#variable-scope" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>変数はその変数を定義（<em>new variable</em> ノード）したグラフからは常にアクセス可能な一方、それ以外のグラフからは、シンプルなスコープのルールに則ったアクセスが可能です。</p>
+<p><em>get</em> 、 <em>set</em> ノードを変数に紐付けるため、変数のパスはアクセス可能に解決される必要があります。初めに同じグラフ内の変数を検索します。見つからないと、親のグラフ内を検索し、トップグラフまで遡ります。</p>
+<p>それでも見つからない場合、変数のパスは <em>絶対パス</em> として解決されます。これはトップグラフから、そのノードの実際の宣言のあるパスです。例えば、 <cite>myGraph.mySubGraph.A</cite> となります。</p>
+<p>変数は現在のグラフから上に向かって検索されるので、 <em>クロージャー</em> の実装や、子グラフでのオーバーライドが可能になります。例えば、 <cite>Time</cite> 変数を最上位グラフで定義し、サブグラフではそれ独自の値で <cite>Time</cite> をリマップするよう実装できます。もちろん、 <em>get Time</em> ノードによりその time 取得できます。</p>
+<p>変数名はグラフの編集時に動的に解決されるため、プリセットではそのプリセット内部で変数 (<em>get</em> や <em>set</em> ノード)を宣言しないようにししましょう。変数は親のグラフ内で定義されることを想定しています。</p>
+</div>
+<div class="section" id="variable-versus-cache">
+<span id="canvas-variables-versus-cache"></span><h2>変数 vs キャッシュ<a class="headerlink" href="#variable-versus-cache" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>キャッシュノードも変数ノードも、グラフ中において状態を持つ値のコンテナとして作成されますが、以下の違いに留意してください：</p>
+<ul class="simple">
+<li><p class="first">キャッシュノードは、自身の入力ポートもしくはサブグラフが変更されると再計算されます。変数ノードでは、値は初めての評価時の初期化のみです。このように変数は、あるKLオブジェクトが、全グラフの評価において間違いなく再利用されることを期待し使用することができます。( <em>set variable</em> ノードで新しいオブジェクト割当をしていない場合)</p>
+</li>
+<li><p class="first">キャッシュノードは、パフォーマンスのためだけに使用するべきです。実際のグラフ評価に影響を与えてはいけません。一方、変数は、評価から次の評価へと変更を蓄積していくため、グラフの挙動に影響を与えます。</p>
+</li>
+</ul>
+</div>
+<div class="section" id="example">
+<span id="canvas-variables-example"></span><h2>例<a class="headerlink" href="#example" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>以下の例では <cite>GetElapsedSeconds</cite> プリセットが、 <cite>lastTicks</cite> 変数を現在の印として初期化します。すると各評価で、 <cite>lastTicks</cite> の値は新規更新される値と比較され、毎秒毎に別の値を出力します。</p>
+<img alt="../_images/canvasVariables_elapsedSeconds.png" src="../_images/canvasVariables_elapsedSeconds.png" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">変数（Variable）</a><ul>
+<li><a class="reference internal" href="#variable-nodes">変数ノード（Variable nodes）</a></li>
+<li><a class="reference internal" href="#creating-variable-nodes">変数ノードの作成</a></li>
+<li><a class="reference internal" href="#variable-scope">変数のスコープ</a></li>
+<li><a class="reference internal" href="#variable-versus-cache">変数 vs キャッシュ</a></li>
+<li><a class="reference internal" href="#example">例</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="cpg-blocks.html"
+                        title="前の章へ">Blocks</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="caches.html"
+                        title="次の章へ">キャッシュ</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/CanvasProgrammerGuide/variables.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/CanvasProgrammerGuide/variables.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="caches.html" title="キャッシュ"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="cpg-blocks.html" title="Blocks"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Canvas プログラマーガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

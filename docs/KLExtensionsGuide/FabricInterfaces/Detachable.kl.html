@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Detachable.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="FabricInterfaces Extension’s Files" href="files.html" />
+    <link rel="next" title="Persistable.kl" href="Persistable.kl.html" />
+    <link rel="prev" title="CurrPersistenceContext.kl" href="CurrPersistenceContext.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Persistable.kl.html" title="Persistable.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="CurrPersistenceContext.kl.html" title="CurrPersistenceContext.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >FabricInterfaces エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">FabricInterfaces Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fabricinterfaces-detachable-kl">
+<span id="detachable-kl"></span><span id="id1"></span><h1>Detachable.kl<a class="headerlink" href="#fabricinterfaces-detachable-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="interfaces">
+<h2>Interfaces<a class="headerlink" href="#interfaces" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="detachable-interface">
+<h3>Detachable (interface)<a class="headerlink" href="#detachable-interface" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="Detachable.html#detachable"><span class="std std-ref">Detachable</span></a> interface is used to enable KL objects respond to being put on the DCC undo stack.</p>
+<p class="plaintext">The <a class="reference internal" href="Detachable.html#detachable"><span class="std std-ref">Detachable</span></a> interface should be used on objects that cause side effects during evaluation
+and need to cleanup the side effects when they are deleted. Typically, objects that cause side effects use
+the <a class="reference internal" href="../Singletons/index.html#singletons-extension"><span class="std std-ref">Singletons エクステンション</span></a> to define global singleton values. The <span class="xref std std-ref">inline_drawing</span> and <a class="reference internal" href="../Manipulation/index.html#manipulation-extension"><span class="std std-ref">Manipulation エクステンション</span></a> use
+the <a class="reference internal" href="../Singletons/index.html#singletons-extension"><span class="std std-ref">Singletons エクステンション</span></a> to create side effects during evaluation.</p>
+<p class="plaintext">When an object is deleted in Maya, Softimage or 3dsmax, it is not immediately destroyed.
+Instead it is placed on the undo stack and is no longer evaluated. When the Splice container that
+contains the object is moved onto the undo stack, the &#8216;detach&#8217; method is invoked on the object to enable it to perform cleanup.</p>
+<div class="section" id="example">
+<h4>Example<a class="headerlink" href="#example" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>A custom Manipulator can be defined that handles mouse events. Manipulators are 
+free to interpret mouse events in any way they require.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">require</span> <span class="nx">Singletons</span><span class="p">;</span>
+
+<span class="kr">object</span> <span class="nx">MyGlobalObject</span> <span class="p">{</span>
+  <span class="nx">Scalar</span> <span class="nx">foo</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">object</span> <span class="nx">MyObject</span> <span class="o">:</span> <span class="nx">Detachable</span> <span class="p">{</span>
+  <span class="nx">MyGlobalObject</span> <span class="nx">myGlobalObject</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// MyObject can be added as a port in the DCC, which then sets up the global object.</span>
+<span class="kr">object</span> <span class="nx">MyObject</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">myGlobalObject</span> <span class="o">=</span> <span class="nx">MyGlobalObject</span><span class="p">();</span>
+  <span class="c1">// Set the MyGlobalObject as a value managed by the singletons extension. </span>
+  <span class="c1">// This is like creating a global variable that can then be accessed by anyone.</span>
+  <span class="nx">Singleton_set</span><span class="p">(</span><span class="s1">&#39;MyGlobalObject&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">myGlobalObject</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kr">object</span> <span class="o">~</span><span class="nx">MyObject</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// The object is destroyed only when the undo or redo stack is flushed or when it has reached the limit of undo steps.</span>
+<span class="p">}</span>
+
+<span class="c1">// The object has been restored, and can re-instate its side effects.</span>
+<span class="kd">function</span> <span class="nx">MyObject</span><span class="p">.</span><span class="nx">attach</span><span class="o">!</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">Singleton_set</span><span class="p">(</span><span class="s1">&#39;MyGlobalObject&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">myGlobalObject</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// The object has been deleted, and should clean up its side effects.</span>
+<span class="kd">function</span> <span class="nx">MyObject</span><span class="p">.</span><span class="nx">detach</span><span class="o">!</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">Singleton_remove</span><span class="p">(</span><span class="s1">&#39;MyGlobalObject&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+ -->
+<!-- Title: Detachable Pages: 1 -->
+<svg width="192pt" height="98pt"
+ viewBox="0.00 0.00 192.00 98.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 94)">
+<title>Detachable</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-94 189,-94 189,5 -4,5"/>
+<!-- Detachable -->
+<g id="node1" class="node"><title>Detachable</title>
+<a xlink:href="../FabricInterfaces/Detachable.html" xlink:title="Detachable">
+<polygon fill="#3fabd3" stroke="#3f3f3f" points="65.5,-63 0.5,-63 0.5,-27 65.5,-27 65.5,-63"/>
+<text text-anchor="middle" x="33" y="-42.5" font-family="Arial" font-size="10.00">Detachable</text>
+</a>
+</g>
+<!-- DrawingHandle -->
+<g id="node2" class="node"><title>DrawingHandle</title>
+<a xlink:href="../InlineDrawing/DrawingHandle.html" xlink:title="DrawingHandle">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="183.5,-90 102.5,-90 102.5,-54 183.5,-54 183.5,-90"/>
+<text text-anchor="middle" x="143" y="-69.5" font-family="Arial" font-size="10.00">DrawingHandle</text>
+</a>
+</g>
+<!-- DrawingHandle&#45;&gt;Detachable -->
+<g id="edge2" class="edge"><title>DrawingHandle&#45;&gt;Detachable</title>
+<path fill="none" stroke="#3f3f3f" d="M102.398,-62.0995C93.65,-59.9125 84.3581,-57.5895 75.5358,-55.3839"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="76.3789,-51.9871 65.8285,-52.9571 74.6811,-58.7781 76.3789,-51.9871"/>
+</g>
+<!-- Weightmap -->
+<g id="node4" class="node"><title>Weightmap</title>
+<a xlink:href="../Manipulation/Weightmap.html" xlink:title="Weightmap">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="176,-36 110,-36 110,-0 176,-0 176,-36"/>
+<text text-anchor="middle" x="143" y="-15.5" font-family="Arial" font-size="10.00">Weightmap</text>
+</a>
+</g>
+<!-- Weightmap&#45;&gt;Detachable -->
+<g id="edge4" class="edge"><title>Weightmap&#45;&gt;Detachable</title>
+<path fill="none" stroke="#3f3f3f" d="M109.889,-26.0278C99.1164,-28.7209 86.945,-31.7638 75.5548,-34.6113"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="74.6537,-31.2288 65.8012,-37.0497 76.3515,-38.0198 74.6537,-31.2288"/>
+</g>
+</g>
+</svg></p>
+</div>
+<div class="section" id="functions">
+<h4>Functions<a class="headerlink" href="#functions" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Detachable.html#id47793"><span class="std std-ref">attach</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Detachable.html#id47790"><span class="std std-ref">detach</span></a> ! ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="functions-in-detail">
+<h4>Functions in detail<a class="headerlink" href="#functions-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><p><p class="klcode"><a class="reference internal" href="Detachable.html#detachable"><span class="std std-ref">Detachable</span></a>.attach! ()</p>
+<p class="plaintext">Called by the Splice when the owning splice container is restored from then undo stack.</p>
+</p>
+<hr class="docutils" />
+<p><p class="klcode"><a class="reference internal" href="Detachable.html#detachable"><span class="std std-ref">Detachable</span></a>.detach! ()</p>
+<p class="plaintext">called by the Splice when the owning splice container is deleted and moved onto the undo stack.</p>
+</p>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="CurrPersistenceContext.kl.html"
+                        title="前の章へ">CurrPersistenceContext.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="Persistable.kl.html"
+                        title="次の章へ">Persistable.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/FabricInterfaces/Detachable.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/FabricInterfaces/Detachable.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Persistable.kl.html" title="Persistable.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="CurrPersistenceContext.kl.html" title="CurrPersistenceContext.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >FabricInterfaces エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >FabricInterfaces Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1289 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Canvas scripting interface &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Fabric for MODO" href="index.html" />
+    <link rel="next" title="Splice through OpenFX" href="../OFX/index.html" />
+    <link rel="prev" title="Installation" href="install.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../OFX/index.html" title="Splice through OpenFX"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Fabric for MODO</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="canvas-scripting-interface">
+<span id="fabricformodo-canvasscripting"></span><h1>Canvas scripting interface<a class="headerlink" href="#canvas-scripting-interface" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Fabric for MODO comes with a scripting interface which allows you to author graphs from, for example, Python scripts. Script commands are logged automatically when working with the UI, so most of the time you won&#8217;t need the reference below. You can just perform the work interactively and investigate the logged script steps in MODO&#8217;s &#8220;Command History&#8221;.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p>Commands in MODO either perform a task <em>or</em> return a value. This means that you cannot execute a command and get its return value at the same time. Instead there is a special command called <code class="docutils literal"><span class="pre">FabricCanvasGetResult</span></code> which returns the result of the last executed Fabric command.</p>
+<p>The following example uses the command <code class="docutils literal"><span class="pre">FabricCanvasAddFunc</span></code> to add an empty function node to a CanvasPI item and then the command <code class="docutils literal"><span class="pre">FabricCanvasGetResult</span></code> to get the return value of <code class="docutils literal"><span class="pre">FabricCanvasAddFunc</span></code>:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span></span><span class="n">lx</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;FabricCanvasAddFunc CanvasPI {} myLittleFunction {} 110 120&quot;</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;added a new function node called &quot;</span> <span class="o">+</span> <span class="n">lx</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;FabricCanvasGetResult ?&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fabriccanvasaddbackdrop">
+<h2>FabricCanvasAddBackDrop<a class="headerlink" href="#fabriccanvasaddbackdrop" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Adds a backdrop to a graph.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasAddBackDrop(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">title,</span> <span class="pre">xPos,</span> <span class="pre">yPos</span> <span class="pre">)</span></code></p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path for the new backdrop.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">title</span></code></p>
+<p>The title of the new backdrop, for example &#8220;recompute my normals&#8221;.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">xPos</span></code></p>
+<p>The x position for the new backdrop.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">yPos</span></code></p>
+<p>The y position for the new backdrop.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasaddblock">
+<h2>FabricCanvasAddBlock<a class="headerlink" href="#fabriccanvasaddblock" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Adds a block node to a graph.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">name</span> <span class="pre">=</span> <span class="pre">FabricCanvasAddBlock(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">desiredName,</span> <span class="pre">xPos,</span> <span class="pre">yPos</span> <span class="pre">)</span></code></p>
+<p><strong>Return value</strong></p>
+<p>The name of the new node.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path for the new node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">desiredName</span></code></p>
+<p>The title of the new node.</p>
+</li>
+</ul>
+</div></blockquote>
+<ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">xPos</span></code></p>
+<blockquote>
+<div><p>The x position for the new node.</p>
+</div></blockquote>
+</li>
+</ul>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">yPos</span></code></p>
+<p>The y position for the new node.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasaddblockport">
+<h2>FabricCanvasAddBlockPort<a class="headerlink" href="#fabriccanvasaddblockport" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Adds a port to a block node.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">name</span> <span class="pre">=</span> <span class="pre">FabricCanvasAddBlockPort(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">blockName,</span> <span class="pre">desiredPortName,</span> <span class="pre">portType,</span> <span class="pre">typeSpec,</span> <span class="pre">pathToConnect,</span> <span class="pre">connectType,</span> <span class="pre">extDep,</span> <span class="pre">metaData</span> <span class="pre">)</span></code></p>
+<p><strong>Return value</strong></p>
+<p>The name of the new port. Note that the name returned by the command might be different from the name specified via <code class="docutils literal"><span class="pre">desiredPortName</span></code> due to the internal naming rules used by Fabric Core.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the block to which the port will be added to.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">blockName</span></code></p>
+<p>The name of the block.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">desiredPortName</span></code></p>
+<p>The desired name for the port. If a port with the same name already exists then the name of the new port will be suffixed with a number, e.g. &#8220;2&#8221;, appended to its name.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">portType</span></code></p>
+<p>The port type: &#8220;In&#8221;, &#8220;Out&#8221; or &#8220;IO&#8221;.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">typeSpec</span></code></p>
+<p>The data type of the port, for example &#8220;Scalar&#8221;, &#8220;Vec3&#8221;, &#8220;PolygonMesh&#8221;.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">pathToConnect</span></code></p>
+<p>An optional path to an existing port. If specified, the new port will be connected to this port.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">connectType</span></code></p>
+<p>The connection type: &#8220;In&#8221;, &#8220;Out&#8221; or &#8220;IO&#8221;.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">extDep</span></code></p>
+<p>An optional extension dependency for the port.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">metaData</span></code></p>
+<p>Additional metadata, for example UI ranges or combo lists.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasaddfunc">
+<h2>FabricCanvasAddFunc<a class="headerlink" href="#fabriccanvasaddfunc" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Adds a function node to a graph.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">name</span> <span class="pre">=</span> <span class="pre">FabricCanvasAddFunc(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">title,</span> <span class="pre">initialCode,</span> <span class="pre">xPos,</span> <span class="pre">yPos</span> <span class="pre">)</span></code></p>
+<p><strong>Return value</strong></p>
+<p>The name of the new node.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path for the new function node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">title</span></code></p>
+<p>The title of the new function node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">initialCode</span></code></p>
+<p>The initial KL code of the new function node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">xPos</span></code></p>
+<p>The x position for the new node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">yPos</span></code></p>
+<p>The y position for the new node.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasaddget">
+<h2>FabricCanvasAddGet<a class="headerlink" href="#fabriccanvasaddget" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Adds a &#8216;get variable&#8217; node to a graph.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">name</span> <span class="pre">=</span> <span class="pre">FabricCanvasAddGet(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">desiredNodeName,</span> <span class="pre">varPath,</span> <span class="pre">xPos,</span> <span class="pre">yPos</span> <span class="pre">)</span></code></p>
+<p><strong>Return value</strong></p>
+<p>The name of the new node.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path for the new &#8216;get&#8217; node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">desiredNodeName</span></code></p>
+<p>The desired name for the new node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">varPath</span></code></p>
+<p>The path to the variable.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">xPos</span></code></p>
+<p>The x position for the new node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">yPos</span></code></p>
+<p>The y position for the new node.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasaddgraph">
+<h2>FabricCanvasAddGraph<a class="headerlink" href="#fabriccanvasaddgraph" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Adds a graph node to a graph.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">name</span> <span class="pre">=</span> <span class="pre">FabricCanvasAddGraph(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">title,</span> <span class="pre">xPos,</span> <span class="pre">yPos</span> <span class="pre">)</span></code></p>
+<p><strong>Return value</strong></p>
+<p>The name of the new node.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path for the new graph node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">title</span></code></p>
+<p>The title for the new node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">xPos</span></code></p>
+<p>The x position for the new node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">yPos</span></code></p>
+<p>The y position for the new node.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasaddinstblockport">
+<h2>FabricCanvasAddInstBlockPort<a class="headerlink" href="#fabriccanvasaddinstblockport" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Adds a port to a block instance.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">name</span> <span class="pre">=</span> <span class="pre">FabricCanvasAddInstBlockPort(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">instName,</span> <span class="pre">blockName,</span> <span class="pre">desiredPortName,</span> <span class="pre">typeSpec,</span> <span class="pre">pathToConnect,</span> <span class="pre">extDep,</span> <span class="pre">metaData</span> <span class="pre">)</span></code></p>
+<p><strong>Return value</strong></p>
+<p>The name of the new port. Note that the name returned by the command might be different from the name specified via <code class="docutils literal"><span class="pre">desiredPortName</span></code> due to the internal naming rules used by Fabric Core.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the block to which the port will be added to.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">instName</span></code></p>
+<p>The name of the instance.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">blockName</span></code></p>
+<p>The name of the block.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">desiredPortName</span></code></p>
+<p>The desired name for the port. If a port with the same name already exists then the name of the new port will be suffixed with a number, e.g. &#8220;2&#8221;, appended to its name.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">typeSpec</span></code></p>
+<p>The data type of the port, for example &#8220;Scalar&#8221;, &#8220;Vec3&#8221;, &#8220;PolygonMesh&#8221;.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">pathToConnect</span></code></p>
+<p>An optional path to an existing port. If specified, the new port will be connected to this port.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">extDep</span></code></p>
+<p>An optional extension dependency for the port.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">metaData</span></code></p>
+<p>Additional metadata, for example UI ranges or combo lists.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasaddinstport">
+<h2>FabricCanvasAddInstPort<a class="headerlink" href="#fabriccanvasaddinstport" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Adds a port to an instance node.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">name</span> <span class="pre">=</span> <span class="pre">FabricCanvasAddInstPort(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">instName,</span> <span class="pre">desiredPortName,</span> <span class="pre">portType,</span> <span class="pre">typeSpec,</span> <span class="pre">pathToConnect,</span> <span class="pre">connectType,</span> <span class="pre">extDep,</span> <span class="pre">metaData</span> <span class="pre">)</span></code></p>
+<p><strong>Return value</strong></p>
+<p>The name of the new port. Note that the name returned by the command might be different from the name specified via <code class="docutils literal"><span class="pre">desiredPortName</span></code> due to the internal naming rules used by Fabric Core.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the block to which the port will be added to.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">instName</span></code></p>
+<p>The name of the instance.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">desiredPortName</span></code></p>
+<p>The desired name for the port. If a port with the same name already exists then the name of the new port will be suffixed with a number, e.g. &#8220;2&#8221;, appended to its name.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">portType</span></code></p>
+<p>The port type: &#8220;In&#8221;, &#8220;Out&#8221; or &#8220;IO&#8221;.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">typeSpec</span></code></p>
+<p>The data type of the port, for example &#8220;Scalar&#8221;, &#8220;Vec3&#8221;, &#8220;PolygonMesh&#8221;.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">pathToConnect</span></code></p>
+<p>An optional path to an existing port. If specified, the new port will be connected to this port.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">connectType</span></code></p>
+<p>The connection type: &#8220;In&#8221;, &#8220;Out&#8221; or &#8220;IO&#8221;.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">extDep</span></code></p>
+<p>An optional extension dependency for the port.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">metaData</span></code></p>
+<p>Additional metadata, for example UI ranges or combo lists.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasaddport">
+<h2>FabricCanvasAddPort<a class="headerlink" href="#fabriccanvasaddport" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Adds a port to a node.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">name</span> <span class="pre">=</span> <span class="pre">FabricCanvasAddPort(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">desiredPortName,</span> <span class="pre">portType,</span> <span class="pre">typeSpec,</span> <span class="pre">portToConnect,</span> <span class="pre">extDep,</span> <span class="pre">uiMetadata</span> <span class="pre">)</span></code></p>
+<p><strong>Return value</strong></p>
+<p>The name of the new port. Note that the name returned by the command might be different from the name specified via <code class="docutils literal"><span class="pre">desiredPortName</span></code> due to the internal naming rules used by Fabric Core.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the node to which the port will be added to.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">desiredPortName</span></code></p>
+<p>The desired name for the port. If a port with the same name already exists then the name of the new port will be suffixed with a number, e.g. &#8220;2&#8221;, appended to its name.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">portType</span></code></p>
+<p>The port type: &#8220;In&#8221;, &#8220;Out&#8221; or &#8220;IO&#8221;.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">typeSpec</span></code></p>
+<p>The data type of the port, for example &#8220;Scalar&#8221;, &#8220;Vec3&#8221;, &#8220;PolygonMesh&#8221;.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">portToConnect</span></code></p>
+<p>An optional path to an existing port. If specified, the new port will be connected to this port.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">extDep</span></code></p>
+<p>An optional extension dependency for the port.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">uiMetadata</span></code></p>
+<p>Additional metadata, for example UI ranges or combo lists.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasaddset">
+<h2>FabricCanvasAddSet<a class="headerlink" href="#fabriccanvasaddset" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Adds a &#8216;set variable&#8217; node to a graph.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">name</span> <span class="pre">=</span> <span class="pre">FabricCanvasAddSet(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">desiredNodeName,</span> <span class="pre">varPath,</span> <span class="pre">xPos,</span> <span class="pre">yPos</span> <span class="pre">)</span></code></p>
+<p><strong>Return value</strong></p>
+<p>The name of the new node.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path for the new &#8216;set&#8217; node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">desiredNodeName</span></code></p>
+<p>The desired name for the new node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">varPath</span></code></p>
+<p>The path to the variable.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">xPos</span></code></p>
+<p>The x position for the new node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">yPos</span></code></p>
+<p>The y position for the new node.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasaddvar">
+<h2>FabricCanvasAddVar<a class="headerlink" href="#fabriccanvasaddvar" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Adds a variable node to a graph.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">name</span> <span class="pre">=</span> <span class="pre">FabricCanvasAddVar(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">desiredNodeName,</span> <span class="pre">dataType,</span> <span class="pre">extDep,</span> <span class="pre">xPos,</span> <span class="pre">yPos</span> <span class="pre">)</span></code></p>
+<p><strong>Return value</strong></p>
+<p>The name of the new node.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path for the new variable node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">desiredNodeName</span></code></p>
+<p>The desired name for the node/variable.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">dataType</span></code></p>
+<p>The data type of the variable, for example &#8220;Scalar&#8221;, &#8220;Integer&#8221;, &#8220;PolygonMesh&#8221;.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">extDep</span></code></p>
+<p>The names of one or more extensions the specified dataType depends to be loaded. For example, &#8220;PolygonMesh&#8221; requires the extension &#8220;Geometry&#8221;.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">xPos</span></code></p>
+<p>The x position for the new node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">yPos</span></code></p>
+<p>The y position for the new node.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasconnect">
+<h2>FabricCanvasConnect<a class="headerlink" href="#fabriccanvasconnect" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Connects two ports with each other.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasConnect(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">srcPortPath,</span> <span class="pre">dstPortPath</span> <span class="pre">)</span></code></p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the node inside of which the source and destination ports are located.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">srcPortPath</span></code></p>
+<p>The path of the source port.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">dstPortPath</span></code></p>
+<p>The path of the destination port.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasdisconnect">
+<h2>FabricCanvasDisconnect<a class="headerlink" href="#fabriccanvasdisconnect" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Removes connections between two ports.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasDisconnect(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">srcPortPath,</span> <span class="pre">dstPortPath</span> <span class="pre">)</span></code></p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the node inside of which the source and destination ports are located.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">srcPortPath</span></code></p>
+<p>The path(s) of the source port(s). If you have more than one path then you must separate them using <code class="docutils literal"><span class="pre">|</span></code> (vertical bar).</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">dstPortPath</span></code></p>
+<p>The path(s) of the destination port(s). If you have more than one path then you must separate them using <code class="docutils literal"><span class="pre">|</span></code> (vertical bar).</p>
+</li>
+</ul>
+</div></blockquote>
+<p><strong>Note</strong></p>
+<p>The amount of source and destination paths should be the same!</p>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasdismissloaddiags">
+<h2>FabricCanvasDismissLoadDiags<a class="headerlink" href="#fabriccanvasdismissloaddiags" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Dismisses load diagnostics.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasDismissLoadDiags(</span> <span class="pre">binding,</span> <span class="pre">diagIndices</span> <span class="pre">)</span></code></p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">diagIndices</span></code></p>
+<p>An array of load diagnostics indices.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvascreatepreset">
+<h2>FabricCanvasCreatePreset<a class="headerlink" href="#fabriccanvascreatepreset" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Create a new preset from an existing node.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">name</span> <span class="pre">=</span> <span class="pre">FabricCanvasCreatePreset(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">nodeName,</span> <span class="pre">presetDirPath,</span> <span class="pre">presetName</span> <span class="pre">)</span></code></p>
+<p><strong>Return value</strong></p>
+<p>The pathname where the new preset was saved on disk, or an empty string if the preset was not saved.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the node to which the port belongs to.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">nodeName</span></code></p>
+<p>The name of the node</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">presetDirPath</span></code></p>
+<p>The path to the directory in the preset tree where the preset should be located</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">presetName</span></code></p>
+<p>The name of the preset to be created</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvaseditport">
+<h2>FabricCanvasEditPort<a class="headerlink" href="#fabriccanvaseditport" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Edits an existing port. Use this to rename a port, change its data type, etc.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">name</span> <span class="pre">=</span> <span class="pre">FabricCanvasEditPort(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">oldPortName,</span> <span class="pre">desiredNewPortName,</span> <span class="pre">portType,</span> <span class="pre">typeSpec,</span> <span class="pre">extDep,</span> <span class="pre">uiMetadata</span> <span class="pre">)</span></code></p>
+<p><strong>Return value</strong></p>
+<p>The new name of the new port. Note that the name returned by the command might be different from the name specified via <code class="docutils literal"><span class="pre">desiredNewPortName</span></code> due to the internal naming rules used by Fabric Core.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the node to which the port belongs to.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">oldPortName</span></code></p>
+<p>The current name of the port.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">desiredNewPortName</span></code></p>
+<p>The desired new name for the port. If a port with the same name already exists then the name of the new port will be suffixed with a number, e.g. &#8220;2&#8221;, appended to its name.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">portType</span></code></p>
+<p>The port type: &#8220;In&#8221;, &#8220;Out&#8221; or &#8220;IO&#8221;.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">typeSpec</span></code></p>
+<p>The data type of the port, for example &#8220;Scalar&#8221;, &#8220;Vec3&#8221;, &#8220;PolygonMesh&#8221;.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">extDep</span></code></p>
+<p>NOT YET DOCUMENTED</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">uiMetadata</span></code></p>
+<p>NOT YET DOCUMENTED</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasexplodenode">
+<h2>FabricCanvasExplodeNode<a class="headerlink" href="#fabriccanvasexplodenode" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Explodes a node that contains a subgraph.
+All existing connections between ports are preserved.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">names</span> <span class="pre">=</span> <span class="pre">FabricCanvasExplodeNode(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">nodeName</span> <span class="pre">)</span></code></p>
+<p><strong>Return value</strong></p>
+<p>The names of the nodes that were inside of the node that got exploded.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the node containing the node to explode.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">nodeName</span></code></p>
+<p>The name of the node to explode.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasexportgraph">
+<h2>FabricCanvasExportGraph<a class="headerlink" href="#fabriccanvasexportgraph" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Exports the graph of an operator as a JSON file.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasExportGraph(</span> <span class="pre">OperatorName</span> <span class="pre">)</span></code></p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">OperatorName</span></code></p>
+<p>The name of a CanvasOp operator. Its graph will be exported as a JSON file.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasgetresult">
+<h2>FabricCanvasGetResult<a class="headerlink" href="#fabriccanvasgetresult" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Returns the result of the last Canvas command.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasGetResult(</span> <span class="pre">)</span></code></p>
+<p><strong>Example</strong></p>
+<p>The following script adds an empty function node to a CanvasPI item and then outputs the name of the newly created node.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">lx</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;FabricCanvasAddFunc CanvasPI {} myLittleFunction {} 110 120&quot;</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;added a new function node called &quot;</span> <span class="o">+</span> <span class="n">lx</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;FabricCanvasGetResult ?&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasimplodenodes">
+<h2>FabricCanvasImplodeNodes<a class="headerlink" href="#fabriccanvasimplodenodes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Creates a node containing the input nodes as a subgraph.
+All existing connections between ports are preserved.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">name</span> <span class="pre">=</span> <span class="pre">FabricCanvasImplodeNodes(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">nodeNames,</span> <span class="pre">desiredImplodedNodeName</span> <span class="pre">)</span></code></p>
+<p><strong>Return value</strong></p>
+<p>The name of the new node.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path where the nodes in nodeNames (see next parameter) are located.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">nodeNames</span></code></p>
+<p>The name(s) of the node(s) to implode. If you have more than one name then you must separate them using <code class="docutils literal"><span class="pre">|</span></code> (vertical bar), e.g. &#8220;GetSphere|GetSphere_2|DrawPolygonMesh|Add&#8221;.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">desiredImplodedNodeName</span></code></p>
+<p>The desired name for the new node that contains all the input nodes.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasimportgraph">
+<h2>FabricCanvasImportGraph<a class="headerlink" href="#fabriccanvasimportgraph" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Sets the graph of an operator from the content of a JSON file.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">result</span> <span class="pre">=</span> <span class="pre">FabricCanvasImportGraph(</span> <span class="pre">OperatorName</span> <span class="pre">)</span></code></p>
+<p><strong>Return value</strong></p>
+<p>&#8216;true&#8217; if the operator had to be recreated, else &#8216;false&#8217;.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">OperatorName</span></code></p>
+<p>The name of a CanvasOp operator. Its graph will be set from the graph contained in a JSON file.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">JSONFilePath</span></code></p>
+<p>The path + fielname + extension of the JSON file, e.g. &#8220;D:Tempmy_graph.canvas&#8221;</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasinstpreset">
+<h2>FabricCanvasInstPreset<a class="headerlink" href="#fabriccanvasinstpreset" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Adds a preset node to the graph.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">name</span> <span class="pre">=</span> <span class="pre">FabricCanvasInstPreset(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">presetPath,</span> <span class="pre">xPos,</span> <span class="pre">yPos</span> <span class="pre">)</span></code></p>
+<p><strong>Return value</strong></p>
+<p>The name of the new node.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path for the new preset node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">presetPath</span></code></p>
+<p>The path to the preset.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">xPos</span></code></p>
+<p>The x position for the new node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">yPos</span></code></p>
+<p>The y position for the new node.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasmovenodes">
+<h2>FabricCanvasMoveNodes<a class="headerlink" href="#fabriccanvasmovenodes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Moves the input node(s).</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasMoveNodes(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">nodeNames,</span> <span class="pre">xPoss,</span> <span class="pre">yPoss</span> <span class="pre">)</span></code></p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the node containing the nodes in nodeNames (see next parameter).</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">nodeNames</span></code></p>
+<p>The name(s) of the node(s) to move. If you have more than one name then you must separate them using <code class="docutils literal"><span class="pre">|</span></code> (vertical bar), e.g. &#8220;GetSphere|GetSphere_2|DrawPolygonMesh|Add&#8221;.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">xPoss</span></code></p>
+<p>The new x position(s) for the node(s). If you have more than one position you must separate them using <code class="docutils literal"><span class="pre">|</span></code> (vertical bar), e.g. &#8220;302|580|492|332&#8221;.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">yPoss</span></code></p>
+<p>The new y position(s) for the node(s). If you have more than one position you must separate them using <code class="docutils literal"><span class="pre">|</span></code> (vertical bar), e.g. &#8220;110|160|246|264&#8221;.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasopencanvas">
+<h2>FabricCanvasOpenCanvas<a class="headerlink" href="#fabriccanvasopencanvas" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Opens the Canvas graph editor for a given Canvas item.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasOpenCanvas(</span> <span class="pre">binding</span> <span class="pre">)</span></code></p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvaspaste">
+<h2>FabricCanvasPaste<a class="headerlink" href="#fabriccanvaspaste" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Pastes a text (i.e. a JSON string) into the graph.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">names</span> <span class="pre">=</span> <span class="pre">FabricCanvasPaste(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">text,</span> <span class="pre">xPos,</span> <span class="pre">yPos</span> <span class="pre">)</span></code></p>
+<p><strong>Return value</strong></p>
+<p>The names of the nodes that got pasted.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path where the new nodes will get pasted into.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">text</span></code></p>
+<p>The &#8220;text&#8221; to paste. Note: the &#8220;text&#8221; must be a JSON representation of a graph or subgraph.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">xPos</span></code></p>
+<p>The x position for the pasted node(s).</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">yPos</span></code></p>
+<p>The y position for the pasted node(s).</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasremovenodes">
+<h2>FabricCanvasRemoveNodes<a class="headerlink" href="#fabriccanvasremovenodes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Removes one or more nodes from the graph.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasRemoveNodes(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">nodeNames</span> <span class="pre">)</span></code></p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the node containing the nodes in nodeNames (see next parameter).</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">nodeNames</span></code></p>
+<p>The name(s) of the node(s) to remove. If you have more than one name then you must separate them using <code class="docutils literal"><span class="pre">|</span></code> (vertical bar), e.g. &#8220;GetSphere|GetSphere_2|DrawPolygonMesh|Add&#8221;.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasremoveport">
+<h2>FabricCanvasRemovePort<a class="headerlink" href="#fabriccanvasremoveport" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Removes a port from a graph or a node.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasRemovePort(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">portName</span> <span class="pre">)</span></code></p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the node with the port that is to be removed.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">portName</span></code></p>
+<p>The name of the port to remove.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasrenameport">
+<h2>FabricCanvasRenamePort<a class="headerlink" href="#fabriccanvasrenameport" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Renames a port.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">name</span> <span class="pre">=</span> <span class="pre">FabricCanvasRenamePort(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">oldPortName,</span> <span class="pre">desiredNewPortName</span> <span class="pre">)</span></code></p>
+<p><strong>Return value</strong></p>
+<p>The new name of the port.</p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the node with the port that is to be renamed.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">oldPortName</span></code></p>
+<p>The current name of the port.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">desiredNewPortName</span></code></p>
+<p>The desired new name for the port. If a port with the same name already exists then the new name of the port will have a number, e.g. &#8220;2&#8221;, appended to its name.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasreorderports">
+<h2>FabricCanvasReorderPorts<a class="headerlink" href="#fabriccanvasreorderports" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Reorders ports.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasReorderPorts(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">pathItem,</span> <span class="pre">indices</span> <span class="pre">)</span></code></p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the node with the ports that are to be reordered.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">itemPath</span></code></p>
+<p>The path to the item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">indices</span></code></p>
+<p>An array of indices that defines the new order for the ports.</p>
+<p>Example: say you have three ports. Then their indices are &#8220;0&#8221;, &#8220;1&#8221; and &#8220;2&#8221; and the current order of the ports is &#8220;[0, 1, 2]&#8221;. If you now wish to reorder the ports so that port 1 comes before port 0 you would call this command with the following indices: &#8220;[1, 0, 2]&#8221;.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvasresizebackdrop">
+<h2>FabricCanvasResizeBackDrop<a class="headerlink" href="#fabriccanvasresizebackdrop" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Resizes and repositions a backdrop.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasResizeBackDrop(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">backDropName,</span> <span class="pre">xPos,</span> <span class="pre">yPos,</span> <span class="pre">width,</span> <span class="pre">height</span> <span class="pre">)</span></code></p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the node containing the backdrop.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">backDropName</span></code></p>
+<p>The name of the backdrop.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">xPos</span></code></p>
+<p>The new x position of the backdrop.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">yPos</span></code></p>
+<p>The new y position of the backdrop.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">width</span></code></p>
+<p>The new width of the backdrop.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">height</span></code></p>
+<p>The new height of the backdrop.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvassetargvalue">
+<h2>FabricCanvasSetArgValue<a class="headerlink" href="#fabriccanvassetargvalue" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Sets the value of one of the graph&#8217;s ports (a.k.a. <em>arguments</em>). Note: these are the ports that are exposed to MODO.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasSetArgValue(</span> <span class="pre">binding,</span> <span class="pre">argName,</span> <span class="pre">typeName,</span> <span class="pre">valueJSON</span> <span class="pre">)</span></code></p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">argName</span></code></p>
+<p>The name of the port / argument.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">typeName</span></code></p>
+<p>The type of the parameter <code class="docutils literal"><span class="pre">valueJSON</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">valueJSON</span></code></p>
+<p>The actual value, as a JSON string.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvassetcode">
+<h2>FabricCanvasSetCode<a class="headerlink" href="#fabriccanvassetcode" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Sets the code of a (function) node.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasSetCode(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">code</span> <span class="pre">)</span></code></p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the function node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">code</span></code></p>
+<p>The KL code.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvassetextdeps">
+<h2>FabricCanvasSetExtDeps<a class="headerlink" href="#fabriccanvassetextdeps" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Sets the extension dependencies of a node.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasSetExtDeps(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">extDeps</span> <span class="pre">)</span></code></p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">extDeps</span></code></p>
+<p>The name(s) of the extensions for the node. If you want to specifiy more than one extension then you must separate them using <code class="docutils literal"><span class="pre">|</span></code> (vertical bar), e.g. &#8220;Alembic|Geometry|Math&#8221;.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvassetnodecomment">
+<h2>FabricCanvasSetNodeComment<a class="headerlink" href="#fabriccanvassetnodecomment" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Sets the comment of a node.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasSetNodeComment(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">nodeName,</span> <span class="pre">comment</span> <span class="pre">)</span></code></p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">nodeName</span></code></p>
+<p>The name of the node to add a comment to.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">comment</span></code></p>
+<p>The comment.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvaseditnode">
+<h2>FabricCanvasEditNode<a class="headerlink" href="#fabriccanvaseditnode" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Renames a node in a Canvas graph</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasEditNode(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">currentNodeName,</span> <span class="pre">desiredNodeName,</span> <span class="pre">uiMetadata</span> <span class="pre">)</span></code></p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">oldNodeName</span></code></p>
+<p>The current name of the node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">desiredNewNodeName</span></code></p>
+<p>The desired new name of the node.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">nodeMetadata</span></code></p>
+<p>NOT YET DOCUMENTED</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execMetadata</span></code></p>
+<p>NOT YET DOCUMENTED</p>
+</li>
+</ul>
+</div></blockquote>
+<p><strong>Returns</strong></p>
+<p>The actual new name of the node</p>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvassetportdefaultvalue">
+<h2>FabricCanvasSetPortDefaultValue<a class="headerlink" href="#fabriccanvassetportdefaultvalue" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Sets the default value of a port.</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasSetPortDefaultValue(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">portPath,</span> <span class="pre">typeName,</span> <span class="pre">valueJSON</span> <span class="pre">)</span></code></p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the node with the port.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">portPath</span></code></p>
+<p>The port path.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">typeName</span></code></p>
+<p>The type of the parameter <code class="docutils literal"><span class="pre">valueJSON</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">valueJSON</span></code></p>
+<p>The new default value, as a JSON string.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvassetrefvarpath">
+<h2>FabricCanvasSetRefVarPath<a class="headerlink" href="#fabriccanvassetrefvarpath" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>NOT YET DOCUMENTED</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasSetRefVarPath(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">refName,</span> <span class="pre">varPath</span> <span class="pre">)</span></code></p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div>NOT YET DOCUMENTED</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="fabriccanvassplitfrompreset">
+<h2>FabricCanvasSplitFromPreset<a class="headerlink" href="#fabriccanvassplitfrompreset" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div><p><strong>Description</strong></p>
+<p>Splits an executable (graph or function) from the preset it references</p>
+<p><strong>Scripting Syntax</strong></p>
+<p><code class="docutils literal"><span class="pre">FabricCanvasSplitFromPreset(</span> <span class="pre">binding,</span> <span class="pre">execPath</span> <span class="pre">)</span></code></p>
+<p><strong>Parameters</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">binding</span></code></p>
+<p>The name of a Canvas item.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">execPath</span></code></p>
+<p>The path of the node.</p>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Canvas scripting interface</a><ul>
+<li><a class="reference internal" href="#fabriccanvasaddbackdrop">FabricCanvasAddBackDrop</a></li>
+<li><a class="reference internal" href="#fabriccanvasaddblock">FabricCanvasAddBlock</a></li>
+<li><a class="reference internal" href="#fabriccanvasaddblockport">FabricCanvasAddBlockPort</a></li>
+<li><a class="reference internal" href="#fabriccanvasaddfunc">FabricCanvasAddFunc</a></li>
+<li><a class="reference internal" href="#fabriccanvasaddget">FabricCanvasAddGet</a></li>
+<li><a class="reference internal" href="#fabriccanvasaddgraph">FabricCanvasAddGraph</a></li>
+<li><a class="reference internal" href="#fabriccanvasaddinstblockport">FabricCanvasAddInstBlockPort</a></li>
+<li><a class="reference internal" href="#fabriccanvasaddinstport">FabricCanvasAddInstPort</a></li>
+<li><a class="reference internal" href="#fabriccanvasaddport">FabricCanvasAddPort</a></li>
+<li><a class="reference internal" href="#fabriccanvasaddset">FabricCanvasAddSet</a></li>
+<li><a class="reference internal" href="#fabriccanvasaddvar">FabricCanvasAddVar</a></li>
+<li><a class="reference internal" href="#fabriccanvasconnect">FabricCanvasConnect</a></li>
+<li><a class="reference internal" href="#fabriccanvasdisconnect">FabricCanvasDisconnect</a></li>
+<li><a class="reference internal" href="#fabriccanvasdismissloaddiags">FabricCanvasDismissLoadDiags</a></li>
+<li><a class="reference internal" href="#fabriccanvascreatepreset">FabricCanvasCreatePreset</a></li>
+<li><a class="reference internal" href="#fabriccanvaseditport">FabricCanvasEditPort</a></li>
+<li><a class="reference internal" href="#fabriccanvasexplodenode">FabricCanvasExplodeNode</a></li>
+<li><a class="reference internal" href="#fabriccanvasexportgraph">FabricCanvasExportGraph</a></li>
+<li><a class="reference internal" href="#fabriccanvasgetresult">FabricCanvasGetResult</a></li>
+<li><a class="reference internal" href="#fabriccanvasimplodenodes">FabricCanvasImplodeNodes</a></li>
+<li><a class="reference internal" href="#fabriccanvasimportgraph">FabricCanvasImportGraph</a></li>
+<li><a class="reference internal" href="#fabriccanvasinstpreset">FabricCanvasInstPreset</a></li>
+<li><a class="reference internal" href="#fabriccanvasmovenodes">FabricCanvasMoveNodes</a></li>
+<li><a class="reference internal" href="#fabriccanvasopencanvas">FabricCanvasOpenCanvas</a></li>
+<li><a class="reference internal" href="#fabriccanvaspaste">FabricCanvasPaste</a></li>
+<li><a class="reference internal" href="#fabriccanvasremovenodes">FabricCanvasRemoveNodes</a></li>
+<li><a class="reference internal" href="#fabriccanvasremoveport">FabricCanvasRemovePort</a></li>
+<li><a class="reference internal" href="#fabriccanvasrenameport">FabricCanvasRenamePort</a></li>
+<li><a class="reference internal" href="#fabriccanvasreorderports">FabricCanvasReorderPorts</a></li>
+<li><a class="reference internal" href="#fabriccanvasresizebackdrop">FabricCanvasResizeBackDrop</a></li>
+<li><a class="reference internal" href="#fabriccanvassetargvalue">FabricCanvasSetArgValue</a></li>
+<li><a class="reference internal" href="#fabriccanvassetcode">FabricCanvasSetCode</a></li>
+<li><a class="reference internal" href="#fabriccanvassetextdeps">FabricCanvasSetExtDeps</a></li>
+<li><a class="reference internal" href="#fabriccanvassetnodecomment">FabricCanvasSetNodeComment</a></li>
+<li><a class="reference internal" href="#fabriccanvaseditnode">FabricCanvasEditNode</a></li>
+<li><a class="reference internal" href="#fabriccanvassetportdefaultvalue">FabricCanvasSetPortDefaultValue</a></li>
+<li><a class="reference internal" href="#fabriccanvassetrefvarpath">FabricCanvasSetRefVarPath</a></li>
+<li><a class="reference internal" href="#fabriccanvassplitfrompreset">FabricCanvasSplitFromPreset</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="install.html"
+                        title="前の章へ">Installation</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="../OFX/index.html"
+                        title="次の章へ">Splice through OpenFX</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/DCCIntegrations/Modo/canvasscripting.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DCCIntegrations/Modo/canvasscripting.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../OFX/index.html" title="Splice through OpenFX"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Fabric for MODO</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

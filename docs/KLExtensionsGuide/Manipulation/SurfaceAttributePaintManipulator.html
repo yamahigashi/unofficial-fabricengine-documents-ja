@@ -1,0 +1,361 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SurfaceAttributePaintManipulator (object) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Manipulation Extension’s Types" href="types.html" />
+    <link rel="next" title="SurfaceAttributePaintManipulator_PaintData (struct)" href="SurfaceAttributePaintManipulator_PaintData.html" />
+    <link rel="prev" title="SliderGizmoHandler (object)" href="SliderGizmoHandler.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="SurfaceAttributePaintManipulator_PaintData.html" title="SurfaceAttributePaintManipulator_PaintData (struct)"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="SliderGizmoHandler.html" title="SliderGizmoHandler (object)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Manipulation エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" accesskey="U">Manipulation Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="surfaceattributepaintmanipulator-object">
+<span id="surfaceattributepaintmanipulator"></span><h1>SurfaceAttributePaintManipulator (object)<a class="headerlink" href="#surfaceattributepaintmanipulator-object" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="versionadded">
+<p><span class="versionmodified">バージョン 1.12.0 で追加.</span></p>
+</div>
+<p class="plaintext">The <a class="reference internal" href="#surfaceattributepaintmanipulator"><span class="std std-ref">SurfaceAttributePaintManipulator</span></a> enables the painting of a scalar
+vertex attribute on a <a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a>. These scalar attributes can be used
+to control the effects of custom deformers and the <a class="reference internal" href="#surfaceattributepaintmanipulator"><span class="std std-ref">SurfaceAttributePaintManipulator</span></a>
+can provide an artist workflow for defining these weightmaps.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="SurfacePaintManipulator.html#surfacepaintmanipulator"><span class="std std-ref">SurfacePaintManipulator</span></a></p>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>Click and drag with the Left mouse button to paint a paint stroke</li>
+<li>Click and drag with the Right mouse button to erase existing paint data.</li>
+<li>Click and drag with the Middle mouse button to smooth existing paint data.</li>
+<li>The mouse wheel can be used to resize the paint brush, except on platforms that do not support the mouse wheel.</li>
+<li>The &#8216;Ctrl&#8217; modifier key can be held during a left button mouse drag to resize the brush.</li>
+<li>The &#8216;Alt&#8217; modifier key can be held during a left button mouse drag to erase paint data.</li>
+<li>The &#8216;Shift&#8217; modifier key can be held during a left button mouse drag to smooth paint data.</li>
+</ul>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+ -->
+<!-- Title: SurfaceAttributePaintManipulator Pages: 1 -->
+<svg width="488pt" height="98pt"
+ viewBox="0.00 0.00 488.00 98.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 94)">
+<title>SurfaceAttributePaintManipulator</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-94 485,-94 485,5 -4,5"/>
+<!-- SurfaceAttributePaintManipulator -->
+<g id="node1" class="node"><title>SurfaceAttributePaintManipulator</title>
+<a xlink:href="../Manipulation/SurfaceAttributePaintManipulator.html" xlink:title="SurfaceAttributePaintManipulator">
+<polygon fill="#3fabd3" stroke="#3f3f3f" points="479.5,-63 320.5,-63 320.5,-27 479.5,-27 479.5,-63"/>
+<text text-anchor="middle" x="400" y="-42.5" font-family="Arial" font-size="10.00">SurfaceAttributePaintManipulator</text>
+</a>
+</g>
+<!-- SurfacePaintManipulator -->
+<g id="node3" class="node"><title>SurfacePaintManipulator</title>
+<a xlink:href="../Manipulation/SurfacePaintManipulator.html" xlink:title="SurfacePaintManipulator">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="284,-63 162,-63 162,-27 284,-27 284,-63"/>
+<text text-anchor="middle" x="223" y="-42.5" font-family="Arial" font-size="10.00">SurfacePaintManipulator</text>
+</a>
+</g>
+<!-- SurfaceAttributePaintManipulator&#45;&gt;SurfacePaintManipulator -->
+<g id="edge2" class="edge"><title>SurfaceAttributePaintManipulator&#45;&gt;SurfacePaintManipulator</title>
+<path fill="none" stroke="#3f3f3f" d="M320.458,-45C311.707,-45 302.835,-45 294.197,-45"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="294.186,-41.5001 284.186,-45 294.186,-48.5001 294.186,-41.5001"/>
+</g>
+<!-- ISurfacePaintManipulator -->
+<g id="node5" class="node"><title>ISurfacePaintManipulator</title>
+<a xlink:href="../Manipulation/ISurfacePaintManipulator.html" xlink:title="ISurfacePaintManipulator">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="125.5,-90 0.5,-90 0.5,-54 125.5,-54 125.5,-90"/>
+<text text-anchor="middle" x="63" y="-69.5" font-family="Arial" font-size="10.00">ISurfacePaintManipulator</text>
+</a>
+</g>
+<!-- SurfacePaintManipulator&#45;&gt;ISurfacePaintManipulator -->
+<g id="edge4" class="edge"><title>SurfacePaintManipulator&#45;&gt;ISurfacePaintManipulator</title>
+<path fill="none" stroke="#3f3f3f" d="M161.816,-55.2846C153.199,-56.7571 144.265,-58.2839 135.456,-59.7891"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="134.856,-56.3408 125.589,-61.4753 136.036,-63.2408 134.856,-56.3408"/>
+</g>
+<!-- Manipulator -->
+<g id="node7" class="node"><title>Manipulator</title>
+<a xlink:href="../Manipulation/Manipulator.html" xlink:title="Manipulator">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="96.5,-36 29.5,-36 29.5,-0 96.5,-0 96.5,-36"/>
+<text text-anchor="middle" x="63" y="-15.5" font-family="Arial" font-size="10.00">Manipulator</text>
+</a>
+</g>
+<!-- SurfacePaintManipulator&#45;&gt;Manipulator -->
+<g id="edge6" class="edge"><title>SurfacePaintManipulator&#45;&gt;Manipulator</title>
+<path fill="none" stroke="#3f3f3f" d="M161.816,-34.7154C143.472,-31.5807 123.692,-28.2005 106.75,-25.3055"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="107.054,-21.8067 96.6074,-23.5722 105.875,-28.7067 107.054,-21.8067"/>
+</g>
+</g>
+</svg></p>
+<div class="section" id="members">
+<h3>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="53%" />
+<col width="12%" />
+<col width="34%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../InlineDrawing/InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a>[]</td>
+<td>targetGeometries</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="SurfacePaintManipulator_StrokePoint.html#surfacepaintmanipulator-strokepoint"><span class="std std-ref">SurfacePaintManipulator_StrokePoint</span></a>[]</td>
+<td>strokePath</td>
+<td>The stroke points making up the current paint stroke.</td>
+</tr>
+<tr class="row-odd"><td>SurfacePaintManipulator_State</td>
+<td>state</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>brushSize</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>brushStrength</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>brushScaleSpeed</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>mouseDownBrushSize</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a></td>
+<td>mouseDownScreenPos</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../InlineDrawing/InlineMaterial.html#inlinematerial"><span class="std std-ref">InlineMaterial</span></a></td>
+<td>paintBrushMaterial</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../InlineDrawing/InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a></td>
+<td>paintBrush</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>portToDrive</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>hostName</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>graphName</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>evalID</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>attributeName</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Integer</td>
+<td>paintMode</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="SurfaceAttributePaintCommand.html#surfaceattributepaintcommand"><span class="std std-ref">SurfaceAttributePaintCommand</span></a></td>
+<td>command</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="29%" />
+<col width="71%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id116323"><span class="std std-ref">SurfaceAttributePaintManipulator</span></a>  ( in <a class="reference internal" href="#surfaceattributepaintmanipulator"><span class="std std-ref">SurfaceAttributePaintManipulator</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id72355"><span class="std std-ref">SurfaceAttributePaintManipulator</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id72362"><span class="std std-ref">addTargetGeometry</span></a> ! ( in <a class="reference internal" href="../InlineDrawing/InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#surfaceattributepaintmanipulator"><span class="std std-ref">SurfaceAttributePaintManipulator</span></a></td>
+<td><a class="reference internal" href="#id116327"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id72395"><span class="std std-ref">onPaint</span></a> ! ( io <a class="reference internal" href="MouseEvent.html#mouseevent"><span class="std std-ref">MouseEvent</span></a> mouseEvent, in <a class="reference internal" href="SurfacePaintManipulator_PointCollection.html#surfacepaintmanipulator-pointcollection"><span class="std std-ref">SurfacePaintManipulator_PointCollection</span></a> collectedPoints )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id72366"><span class="std std-ref">onStrokeBegin</span></a> ! ( io <a class="reference internal" href="MouseEvent.html#mouseevent"><span class="std std-ref">MouseEvent</span></a> mouseEvent )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id72370"><span class="std std-ref">onStrokeEnd</span></a> ! ( io <a class="reference internal" href="MouseEvent.html#mouseevent"><span class="std std-ref">MouseEvent</span></a> mouseEvent )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id72358"><span class="std std-ref">setAttributeName</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> attributeName )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="methods-in-detail">
+<h3>Methods in detail<a class="headerlink" href="#methods-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><span class="target" id="id116323"></span><p><p class="klcode"><a class="reference internal" href="#surfaceattributepaintmanipulator"><span class="std std-ref">SurfaceAttributePaintManipulator</span></a> ( in <a class="reference internal" href="#surfaceattributepaintmanipulator"><span class="std std-ref">SurfaceAttributePaintManipulator</span></a> other )</p>
+<p class="plaintext">copy constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id72355"></span><p><p class="klcode"><a class="reference internal" href="#surfaceattributepaintmanipulator"><span class="std std-ref">SurfaceAttributePaintManipulator</span></a> ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id72362"></span><p><p class="klcode"><a class="reference internal" href="#surfaceattributepaintmanipulator"><span class="std std-ref">SurfaceAttributePaintManipulator</span></a>.addTargetGeometry! ( in <a class="reference internal" href="../InlineDrawing/InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</p>
+<p class="plaintext">Add a new target geometry to the paint manipulator.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id116327"></span><p><p class="klcode"><a class="reference internal" href="#surfaceattributepaintmanipulator"><span class="std std-ref">SurfaceAttributePaintManipulator</span></a> <a class="reference internal" href="#surfaceattributepaintmanipulator"><span class="std std-ref">SurfaceAttributePaintManipulator</span></a>.clone? ()</p>
+<p class="plaintext">clone method</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id72395"></span><p><p class="klcode"><a class="reference internal" href="#surfaceattributepaintmanipulator"><span class="std std-ref">SurfaceAttributePaintManipulator</span></a>.onPaint! ( io <a class="reference internal" href="MouseEvent.html#mouseevent"><span class="std std-ref">MouseEvent</span></a> mouseEvent, in <a class="reference internal" href="SurfacePaintManipulator_PointCollection.html#surfacepaintmanipulator-pointcollection"><span class="std std-ref">SurfacePaintManipulator_PointCollection</span></a> collectedPoints )</p>
+<p class="plaintext">Called during the paint stroke for each mouse move event.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id72366"></span><p><p class="klcode"><a class="reference internal" href="#surfaceattributepaintmanipulator"><span class="std std-ref">SurfaceAttributePaintManipulator</span></a>.onStrokeBegin! ( io <a class="reference internal" href="MouseEvent.html#mouseevent"><span class="std std-ref">MouseEvent</span></a> mouseEvent )</p>
+<p class="plaintext">Called when the stroke starts when the user presses down the mouse button
+Adds the generated <a class="reference internal" href="SurfaceAttributePaintCommand.html#surfaceattributepaintcommand"><span class="std std-ref">SurfaceAttributePaintCommand</span></a> command to the Host undo stack.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id72370"></span><p><p class="klcode"><a class="reference internal" href="#surfaceattributepaintmanipulator"><span class="std std-ref">SurfaceAttributePaintManipulator</span></a>.onStrokeEnd! ( io <a class="reference internal" href="MouseEvent.html#mouseevent"><span class="std std-ref">MouseEvent</span></a> mouseEvent )</p>
+<p class="plaintext">Called when the stroke ends when the user releases the mouse button
+Adds the generated command to the <a class="reference internal" href="Host.html#host"><span class="std std-ref">Host</span></a> undo stack.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id72358"></span><p><p class="klcode"><a class="reference internal" href="#surfaceattributepaintmanipulator"><span class="std std-ref">SurfaceAttributePaintManipulator</span></a>.setAttributeName! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> attributeName )</p>
+</p>
+</p>
+</div>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="SliderGizmoHandler.html"
+                        title="前の章へ">SliderGizmoHandler (object)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="SurfaceAttributePaintManipulator_PaintData.html"
+                        title="次の章へ">SurfaceAttributePaintManipulator_PaintData (struct)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Manipulation/SurfaceAttributePaintManipulator.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Manipulation/SurfaceAttributePaintManipulator.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="SurfaceAttributePaintManipulator_PaintData.html" title="SurfaceAttributePaintManipulator_PaintData (struct)"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="SliderGizmoHandler.html" title="SliderGizmoHandler (object)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Manipulation エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" >Manipulation Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

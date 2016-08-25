@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>エクステンション・マニフェストファイル &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="エクステンション・オーサリングガイド" href="index.html" />
+    <link rel="next" title="C++ APIをラップしKLで使用" href="cPlusPlusApis.html" />
+    <link rel="prev" title="サンプルエクステンションの解説" href="sample.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="cPlusPlusApis.html" title="C++ APIをラップしKLで使用"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="sample.html" title="サンプルエクステンションの解説"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">エクステンション・オーサリングガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="the-extension-manifest-file">
+<span id="eag-fpm"></span><h1>エクステンション・マニフェストファイル<a class="headerlink" href="#the-extension-manifest-file" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Fabric Engine のエクステンションには必ずエクステンション・マニフェストファイルを含めます。このファイルは、ファイル名 <code class="file docutils literal"><em><span class="pre">ExtensionName</span></em><span class="pre">.fpm.json</span></code> の形式にします。エクステンション名を,定義に通り, マニフェストファイルのファイル名の一部とします。</p>
+<p>ファイル名が示すように、エクステンション・マニフェストファイルはJSON形式です。JSONフォーマットについては <a class="reference external" href="http://json.org/">http://json.org/</a> を参照してください。マニフェストファイルの内容は、２つのメンバを持った JSONオブジェクトです。それぞれ <code class="code docutils literal"><span class="pre">libs</span></code> と <code class="code docutils literal"><span class="pre">code</span></code> です。どちらの値も、文字列配列あるいはただの文字列です。ただの文字列の場合、要素イチの文字列配列と同じ扱いになります。 <code class="code docutils literal"><span class="pre">libs</span></code> メンバは必須ではありません。抜かして記述した場合、空リストとして扱われます。対して <code class="code docutils literal"><span class="pre">code</span></code> メンバは必須です。</p>
+<p>次はマニフェストファイルの例 <code class="file docutils literal"><em><span class="pre">ExtensionName</span></em><span class="pre">.fpm.json</span></code> です:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;libs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;OneLib&quot;</span><span class="p">,</span> <span class="s2">&quot;SecondLib&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;code&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;OneSourceFile.kl&quot;</span><span class="p">,</span> <span class="s2">&quot;AnotherSourceFile.kl&quot;</span><span class="p">,</span> <span class="s2">&quot;ThirdSourceFile.kl&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;dfgPresets&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;dir&quot;</span><span class="p">:</span> <span class="s2">&quot;DFG&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;presetPath&quot;</span><span class="p">:</span> <span class="s2">&quot;MyCompany.Exts.MyExtension&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="section" id="the-version-extension-versioning-specification-optional">
+<span id="exts-versioning"></span><h2><code class="code docutils literal"><span class="pre">version</span></code> ：エクステンション・バージョニングの指定（任意）<a class="headerlink" href="#the-version-extension-versioning-specification-optional" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="code docutils literal"><span class="pre">version</span></code> メンバでエクステンションのバージョンを指定します。&lt;メジャー, マイナー, リビジョンナンバー&gt; 形式です。</p>
+<p>KLから特定のバージョンを指定してエクステンションを読み込む方法については <a class="reference internal" href="../KLProgrammingGuide/globals.html#klpg-require-versioning"><span class="std std-ref">バージョン情報と共に require を使用する</span></a> を参照してください。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">この事項についてデモンストレートする Fabric Engine に付属のユニットテストが <code class="code docutils literal"><span class="pre">Test/Core/Python/ext-versions.py</span></code> にあります。</p>
+</div>
+</div>
+<div class="section" id="the-override-extension-versioning-override-optional">
+<h2><code class="code docutils literal"><span class="pre">override</span></code> ：エクステンション・バージョニングの上書き（任意）<a class="headerlink" href="#the-override-extension-versioning-override-optional" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="code docutils literal"><span class="pre">override</span></code> メンバエクステンションの上書き（オーバライド）キーを指定します。このキーは実行時に複数のバージョンの中からどのバージョンを使用するかの優先順位を決定するために使用します。このメンバを使用するかどうかは任意です。詳細については、 <a class="reference internal" href="../KLProgrammingGuide/globals.html#klpg-require-versioning"><span class="std std-ref">バージョン情報と共に require を使用する</span></a> を参照してください。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">この事項についてデモンストレートする Fabric Engine に付属のユニットテストが <code class="code docutils literal"><span class="pre">Test/Core/Python/ext-versions-override.py</span></code> にあります。</p>
+</div>
+</div>
+<div class="section" id="the-dfgpresets-canvas-presets-specification-optional">
+<h2><code class="code docutils literal"><span class="pre">dfgPresets</span></code> ：Canvasプリセットの指定（任意）<a class="headerlink" href="#the-dfgpresets-canvas-presets-specification-optional" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="code docutils literal"><span class="pre">dfgPresets</span></code> メンバは、エクステンションに付属する Canvasプリセットのディレクトリ,名前空間を指定するために用います。ディレクトリはマニフェストファイルからの相対パスで記述します。結果、presetPath下に Canvasプリセットの検索が絶対パスとして追加されます。このpresetPath とは Canvas内での名前空間として扱われ、上記の例では、プリセットが <code class="code docutils literal"><span class="pre">MyCompany.Exts.MyExtension</span></code> の配下に表示されます。</p>
+</div>
+<div class="section" id="the-libs-compiled-library-specification">
+<h2><code class="code docutils literal"><span class="pre">libs</span></code> ：コンパイル済みライブラリの指定<a class="headerlink" href="#the-libs-compiled-library-specification" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="code docutils literal"><span class="pre">libs</span></code> メンバでは、共有ライブラリ（例 DLL)のリストを指定します。共有ライブラリとはエクステンションに必要な機能を提供するコンパイルされたコードを含むものです。エクステンションが読み込まれると、この共有ライブラリも与えられた順序で読み込まれます。</p>
+<p>Fabric Engine core は共有ライブラリを読み込む際には、複数の名前で試行します。具体的にはライブラリ名 <code class="samp docutils literal"><em><span class="pre">LibName</span></em></code> の文字列配列を与えた場合、試行するファイル名：</p>
+<ol class="arabic simple">
+<li><p class="first"><code class="file docutils literal"><em><span class="pre">LibName</span></em><span class="pre">-Windows-</span><em><span class="pre">ARCH</span></em><span class="pre">.DLL</span></code> (Windows), <code class="file docutils literal"><span class="pre">lib</span><em><span class="pre">LibName</span></em><span class="pre">-Linux-</span><em><span class="pre">ARCH</span></em><span class="pre">.so</span></code> (Linux), <code class="file docutils literal"><span class="pre">lib</span><em><span class="pre">LibName</span></em><span class="pre">-Darwin-</span><em><span class="pre">ARCH</span></em><span class="pre">.dylib</span></code> (Mac OS X); <code class="samp docutils literal"><em><span class="pre">ARCH</span></em></code> はシステムアーキテクチャ,  <code class="docutils literal"><span class="pre">x86</span></code> か <code class="docutils literal"><span class="pre">x86_64</span></code> のどちらか</p>
+</li>
+<li><p class="first"><code class="file docutils literal"><em><span class="pre">LibName</span></em><span class="pre">.DLL</span></code> (Windows), <code class="file docutils literal"><span class="pre">lib</span><em><span class="pre">LibName</span></em><span class="pre">.so</span></code> (Linux), <code class="file docutils literal"><span class="pre">lib</span><em><span class="pre">LibName</span></em><span class="pre">.dylib</span></code> (Mac OS X)</p>
+</li>
+<li><p class="first"><code class="file docutils literal"><em><span class="pre">LibName</span></em></code> 単体で、接頭接尾語なし</p>
+</li>
+</ol>
+<p>どのケースでも、Fabric Engine core はエクステンション・マニフェストファイル <code class="file docutils literal"><em><span class="pre">ExtensionName</span></em><span class="pre">.fpm.json</span></code> に記載された共有ライブラリディレクトリから読み込もうとします。</p>
+</div>
+<div class="section" id="the-code-kl-source-code-specification">
+<h2><code class="code docutils literal"><span class="pre">code</span></code> ：KLソースコードの指定<a class="headerlink" href="#the-code-kl-source-code-specification" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="code docutils literal"><span class="pre">code</span></code> メンバでは、エクステンションに無くてはならないKLソースコードファイルのリストを指定します。これらソースコードは、KL文 <code class="samp docutils literal"><span class="pre">require</span> <em><span class="pre">ExtensionName</span></em><span class="pre">;</span></code> を他の KLソースファイルから使用した際に、読み込まれます。</p>
+<p>KLソースファイルは、エクステンション・マニフェストファイル <code class="file docutils literal"><em><span class="pre">ExtensionName</span></em><span class="pre">.fpm.json</span></code> を含むディレクトリから直接読み込まれます。読み込み（コンパイル）順は、 <code class="code docutils literal"><span class="pre">code</span></code> に指定する配列の順です。したがって、ソースファイルが他のソースに依存している場合、読み込み順が極めて重要になります。依存する側を後ろにします。例えば、あるソースファイルにある型を定義したとし、ほかの２番めソースでその型をどこか他の型や関数定義内で使うとした場合、その２番目のファイルは１番目のファイルの後におきます。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">エクステンション・マニフェストファイル</a><ul>
+<li><a class="reference internal" href="#the-version-extension-versioning-specification-optional"><code class="code docutils literal"><span class="pre">version</span></code> ：エクステンション・バージョニングの指定（任意）</a></li>
+<li><a class="reference internal" href="#the-override-extension-versioning-override-optional"><code class="code docutils literal"><span class="pre">override</span></code> ：エクステンション・バージョニングの上書き（任意）</a></li>
+<li><a class="reference internal" href="#the-dfgpresets-canvas-presets-specification-optional"><code class="code docutils literal"><span class="pre">dfgPresets</span></code> ：Canvasプリセットの指定（任意）</a></li>
+<li><a class="reference internal" href="#the-libs-compiled-library-specification"><code class="code docutils literal"><span class="pre">libs</span></code> ：コンパイル済みライブラリの指定</a></li>
+<li><a class="reference internal" href="#the-code-kl-source-code-specification"><code class="code docutils literal"><span class="pre">code</span></code> ：KLソースコードの指定</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="sample.html"
+                        title="前の章へ">サンプルエクステンションの解説</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="cPlusPlusApis.html"
+                        title="次の章へ">C++ APIをラップしKLで使用</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/ExtensionAuthoringGuide/fpm.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/ExtensionAuthoringGuide/fpm.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="cPlusPlusApis.html" title="C++ APIをラップしKLで使用"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="sample.html" title="サンプルエクステンションの解説"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >エクステンション・オーサリングガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

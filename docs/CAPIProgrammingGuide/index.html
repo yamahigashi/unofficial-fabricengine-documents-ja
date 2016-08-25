@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>CAPI プログラミングガイド &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="next" title="導入" href="intro.html" />
+    <link rel="prev" title="GPU Compute ガイド" href="../GPUCompute/index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="導入"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="../GPUCompute/index.html" title="GPU Compute ガイド"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="capi-programming-guide">
+<span id="capipg"></span><h1>CAPI プログラミングガイド<a class="headerlink" href="#capi-programming-guide" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../_images/FE_logo_345_60.png"><img alt="../_images/FE_logo_345_60.png" src="../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 2.3.0</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+</div>
+<div class="section" id="table-of-contents">
+<h2>目次<a class="headerlink" href="#table-of-contents" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">導入</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#one-api-two-interfaces">一つのAPI, 二つのインタフェース</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#work-in-progress">作業進行中</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#the-road-ahead">ここからさきは</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="build-env.html">CAPIビルド環境</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="build-env.html#capi-prerequisites">CAPIの事前準備</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-env.html#capi-files-and-the-fabric-dir-environment-variable">CAPIファイル と 環境変数 <code class="docutils literal"><span class="pre">FABRIC_DIR</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-env.html#capi-library-linking">CAPI ライブラリリンク</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-env.html#building-the-samples">サンプルのビルド</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-env.html#using-capi-with-other-build-systems-and-projects">CAPI を他のビルドシステムやプロジェクトから使用するには</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="c-interface.html">C言語インタフェース</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="c-interface.html#namespacing">名前空間</a></li>
+<li class="toctree-l2"><a class="reference internal" href="c-interface.html#object-lifecycles">オブジェクト生存サイクル</a></li>
+<li class="toctree-l2"><a class="reference internal" href="c-interface.html#c-interface-example">Cインタフェースの例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cpp-interface.html">C++言語インタフェース</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cpp-interface.html#namespacing">名前空間</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp-interface.html#object-lifecycles">オブジェクト生存サイクル</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp-interface.html#error-handling">エラーハンドリング</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpp-interface.html#example">用例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="clients.html">クライアントとアプリケーションの生存サイクル</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="clients.html#creating-a-client">クライアントの作成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clients.html#releasing-clients">クライアントの解放</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clients.html#manipulating-clients">クライアントの操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clients.html#api-reference-c">APIレファレンス - C</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clients.html#capi-clients-api-reference-cpp">APIレファレンス - C++</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="canvas.html">Canvas Core API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#canvas-core-api-in-python">Canvas Core API と Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#canvas-core-api-enums">Canvas Core API Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#canvas-core-api-classes">Canvas Core API クラス</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>索引<a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../genindex.html"><span class="std std-ref">索引</span></a></li>
+<li><a class="reference internal" href="../search.html"><span class="std std-ref">検索ページ</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">CAPI プログラミングガイド</a><ul>
+<li><a class="reference internal" href="#table-of-contents">目次</a></li>
+<li><a class="reference internal" href="#indices-and-tables">索引</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="../GPUCompute/index.html"
+                        title="前の章へ">GPU Compute ガイド</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="intro.html"
+                        title="次の章へ">導入</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/CAPIProgrammingGuide/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/CAPIProgrammingGuide/index.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="導入"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="../GPUCompute/index.html" title="GPU Compute ガイド"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

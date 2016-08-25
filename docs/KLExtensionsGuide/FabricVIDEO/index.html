@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fabric Video Extension &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fabric-video-extension">
+<span id="fabricvideo-extension"></span><h1>Fabric Video Extension<a class="headerlink" href="#fabric-video-extension" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../../_images/FE_logo_345_60.png"><img alt="../../_images/FE_logo_345_60.png" src="../../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 2.3.0</div>
+<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">FabricVIDEO</span></code> extension provides a very simple wrapping of the ffmpeg library. This only works with <a class="reference internal" href="../Math/RGB.html#rgb"><span class="std std-ref">RGB</span></a> byte video right now. The data type used both for reading and writing video is called <code class="xref std std-kl-ref docutils literal"><span class="pre">VideoHandle</span></code>.</p>
+<p><a class="reference external" href="https://www.ffmpeg.org/">https://www.ffmpeg.org/</a></p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">require</span> <span class="nx">FabricVIDEO</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">FileIO</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="nx">FilePath</span> <span class="nx">inputPath</span> <span class="o">=</span> <span class="nx">FilePath</span><span class="p">(</span><span class="s1">&#39;${FABRIC_SCENE_GRAPH_DIR}/Python/Apps/Resources/Video/bee_960.mov&#39;</span><span class="p">).</span><span class="nx">expandEnvVars</span><span class="p">();</span>
+  <span class="nx">FilePath</span> <span class="nx">outputPath</span> <span class="o">=</span> <span class="nx">FilePath</span><span class="p">(</span><span class="s1">&#39;${TEMP}/video.mpeg&#39;</span><span class="p">).</span><span class="nx">expandEnvVars</span><span class="p">();</span>
+
+  <span class="nx">VideoHandle</span> <span class="nx">videoIn</span><span class="p">,</span> <span class="nx">videoOut</span><span class="p">;</span>
+
+  <span class="c1">// open one for reading</span>
+  <span class="nx">videoIn</span><span class="p">.</span><span class="nx">openFileHandle</span><span class="p">(</span><span class="nx">inputPath</span><span class="p">.</span><span class="nx">string</span><span class="p">());</span>
+
+  <span class="c1">// open one for writing with the same dimensions</span>
+  <span class="nx">videoOut</span><span class="p">.</span><span class="nx">createFromFileHandle</span><span class="p">(</span><span class="nx">outputPath</span><span class="p">.</span><span class="nx">string</span><span class="p">(),</span> <span class="nx">videoIn</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">videoIn</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
+
+  <span class="c1">// allocate enough pixels</span>
+  <span class="nx">RGB</span> <span class="nx">pixels</span><span class="p">[];</span>
+  <span class="nx">pixels</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">videoIn</span><span class="p">.</span><span class="nx">width</span> <span class="o">*</span> <span class="nx">videoIn</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
+
+  <span class="c1">// copy 10 frames</span>
+  <span class="nx">Scalar</span> <span class="nx">time</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="nx">Size</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">videoIn</span><span class="p">.</span><span class="nx">getAllPixels</span><span class="p">(</span><span class="nx">pixels</span><span class="p">);</span>
+    <span class="nx">videoOut</span><span class="p">.</span><span class="nx">writeAllPixels</span><span class="p">(</span><span class="nx">pixels</span><span class="p">);</span>
+
+    <span class="c1">// step one frame</span>
+    <span class="nx">videoIn</span><span class="p">.</span><span class="nx">seekTime</span><span class="p">(</span><span class="nx">time</span><span class="p">);</span>
+    <span class="nx">time</span> <span class="o">+=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="nx">videoIn</span><span class="p">.</span><span class="nx">fps</span><span class="p">;</span>
+
+    <span class="c1">// report some pixel</span>
+    <span class="nb">report</span><span class="p">(</span><span class="nx">pixels</span><span class="p">[</span><span class="mi">400</span><span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="nx">videoIn</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
+  <span class="nx">videoOut</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
+
+  <span class="nb">report</span><span class="p">(</span><span class="s1">&#39;Written &#39;</span><span class="o">+</span><span class="nx">outputPath</span><span class="p">.</span><span class="nx">string</span><span class="p">());</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">outputPath</span><span class="p">.</span><span class="nx">exists</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+<span class="cm">(stdin):1:9: error: no extension or type named &#39;FabricVIDEO&#39;</span>
+
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<div class="section" id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and Tables<a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../../genindex.html"><span class="std std-ref">索引</span></a></li>
+<li><a class="reference internal" href="../../search.html"><span class="std std-ref">検索ページ</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Fabric Video Extension</a><ul>
+<li><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and Tables</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/FabricVIDEO/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/FabricVIDEO/index.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

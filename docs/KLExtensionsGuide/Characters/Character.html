@@ -1,0 +1,636 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Character (object) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Characters Extension’s Types" href="types.html" />
+    <link rel="next" title="ClipPose (object)" href="ClipPose.html" />
+    <link rel="prev" title="Bone (struct)" href="Bone.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="ClipPose.html" title="ClipPose (object)"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="Bone.html" title="Bone (struct)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Characters エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" accesskey="U">Characters Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="character-object">
+<span id="character"></span><h1>Character (object)<a class="headerlink" href="#character-object" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><p class="klbrief">An object defining a high level character.</p>
+<p class="plaintext">The <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a> object defining a characters by combining a skeleton, pose and a set of geometries to be deformed.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="Skeleton.html#skeleton"><span class="std std-ref">Skeleton</span></a>, <a class="reference internal" href="Pose.html#pose"><span class="std std-ref">Pose</span></a></p>
+</div>
+<p><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: character.kl</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Characters</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">(){</span>
+
+  <span class="c1">//////////////////////////////////</span>
+  <span class="c1">// Generate a chain of bones with a random shape.</span>
+  <span class="nx">Bone</span> <span class="nx">bones</span><span class="p">[];</span>
+  <span class="nx">bones</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+  <span class="nx">Xfo</span> <span class="nx">parentXfo</span><span class="p">();</span>
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">bones</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="nx">Bone</span> <span class="nx">bone</span><span class="p">;</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;Bone&quot;</span><span class="o">+</span><span class="nx">i</span><span class="p">;</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">parentIndex</span> <span class="o">=</span> <span class="nx">i</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+
+    <span class="c1">// compute the angles</span>
+    <span class="nx">Scalar</span> <span class="nx">random</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="nx">mathRandomScalar</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="nx">i</span><span class="p">);</span>
+    <span class="nx">Scalar</span> <span class="nx">xAngle</span> <span class="o">=</span> <span class="nx">sin</span><span class="p">(</span><span class="nx">random</span> <span class="o">*</span> <span class="mf">0.4</span> <span class="o">+</span> <span class="nx">Scalar</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.03</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">;</span>
+    <span class="nx">Scalar</span> <span class="nx">zAngle</span> <span class="o">=</span> <span class="nx">cos</span><span class="p">(</span><span class="mf">0.11</span> <span class="o">+</span> <span class="nx">Scalar</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">;</span>
+
+    <span class="nx">Scalar</span> <span class="nx">boneLength</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">;</span>
+    <span class="nx">Xfo</span> <span class="nx">xfo</span><span class="p">;</span>
+    <span class="nx">xfo</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="nx">boneLength</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">xfo</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEulerAngles</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="nx">xAngle</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="nx">zAngle</span><span class="p">));</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">referencePose</span> <span class="o">=</span> <span class="nx">parentXfo</span> <span class="o">*</span> <span class="nx">xfo</span><span class="p">;</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="nx">boneLength</span><span class="p">;</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">radius</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">setFlag</span><span class="p">(</span><span class="nx">BONEFLAG_DEFORMER</span><span class="p">);</span>
+    <span class="nx">bones</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">bone</span><span class="p">;</span>
+    <span class="nx">parentXfo</span> <span class="o">=</span> <span class="nx">bone</span><span class="p">.</span><span class="nx">referencePose</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">Skeleton</span> <span class="nx">skeleton</span> <span class="o">=</span> <span class="nx">Skeleton</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nx">bones</span><span class="p">);</span>
+  <span class="nx">Character</span> <span class="nx">character</span><span class="p">(</span><span class="s1">&#39;Clip&#39;</span><span class="p">);</span>
+  <span class="nx">character</span><span class="p">.</span><span class="nx">setSkeleton</span><span class="p">(</span><span class="nx">skeleton</span><span class="p">);</span>
+
+  <span class="nb">report</span><span class="p">(</span><span class="nx">character</span><span class="p">.</span><span class="nx">getDesc</span><span class="p">());</span>
+
+  <span class="nx">LocalBoundingVolume</span> <span class="nx">bvol</span> <span class="o">=</span> <span class="nx">character</span><span class="p">.</span><span class="nx">getBoundingVolume</span><span class="p">();</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">bvol</span><span class="p">);</span>
+
+
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">Character:{ </span>
+<span class="cm">  name: Clip </span>
+<span class="cm">  skeleton:  Skeleton { </span>
+<span class="cm">    name:  </span>
+<span class="cm">    bones:[ </span>
+<span class="cm">      Bone { </span>
+<span class="cm">        name: Bone0</span>
+<span class="cm">        length: +5.0</span>
+<span class="cm">        radius: +1.0</span>
+<span class="cm">        parent: -1</span>
+<span class="cm">        childIndices: [1]</span>
+<span class="cm">        mirrorBoneID: -1</span>
+<span class="cm">        flags: 8</span>
+<span class="cm">        color: {r:+1.0,g:+1.0,b:+0.0,a:+1.0}</span>
+<span class="cm">        referencePose: {tr:{x:+5.0,y:+0.0,z:+0.0},ori:{v:{x:-2.880096e-2,y:+1.432657e-3,z:+0.049659},w:+0.998291},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">      } </span>
+<span class="cm">      Bone { </span>
+<span class="cm">        name: Bone1</span>
+<span class="cm">        length: +5.0</span>
+<span class="cm">        radius: +1.0</span>
+<span class="cm">        parent: 0</span>
+<span class="cm">        childIndices: [2]</span>
+<span class="cm">        mirrorBoneID: -1</span>
+<span class="cm">        flags: 8</span>
+<span class="cm">        color: {r:+1.0,g:+1.0,b:+0.0,a:+1.0}</span>
+<span class="cm">        referencePose: {tr:{x:+9.974609,y:+0.495361,z:-2.860641e-2},ori:{v:{x:-0.040725,y:+2.859115e-3,z:+0.099121},w:+0.994262},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">      } </span>
+<span class="cm">      Bone { </span>
+<span class="cm">        name: Bone2</span>
+<span class="cm">        length: +5.0</span>
+<span class="cm">        radius: +1.0</span>
+<span class="cm">        parent: 1</span>
+<span class="cm">        childIndices: [3]</span>
+<span class="cm">        mirrorBoneID: -1</span>
+<span class="cm">        flags: 8</span>
+<span class="cm">        color: {r:+1.0,g:+1.0,b:+0.0,a:+1.0}</span>
+<span class="cm">        referencePose: {tr:{x:+14.87695,y:+1.479736,z:-0.097396},ori:{v:{x:-1.088905e-2,y:+0.634861e-2,z:+0.148193},w:+0.988891},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">      } </span>
+<span class="cm">      Bone { </span>
+<span class="cm">        name: Bone3</span>
+<span class="cm">        length: +5.0</span>
+<span class="cm">        radius: +1.0</span>
+<span class="cm">        parent: 2</span>
+<span class="cm">        childIndices: [4]</span>
+<span class="cm">        mirrorBoneID: -1</span>
+<span class="cm">        flags: 8</span>
+<span class="cm">        color: {r:+1.0,g:+1.0,b:+0.0,a:+1.0}</span>
+<span class="cm">        referencePose: {tr:{x:+19.65625,y:+2.944336,z:-0.17633},ori:{v:{x:+1.734161e-2,y:+0.965499e-2,z:+0.196716},w:+0.980224},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">      } </span>
+<span class="cm">      Bone { </span>
+<span class="cm">        name: Bone4</span>
+<span class="cm">        length: +5.0</span>
+<span class="cm">        radius: +1.0</span>
+<span class="cm">        parent: 3</span>
+<span class="cm">        childIndices: []</span>
+<span class="cm">        mirrorBoneID: -1</span>
+<span class="cm">        flags: 8</span>
+<span class="cm">        color: {r:+1.0,g:+1.0,b:+0.0,a:+1.0}</span>
+<span class="cm">        referencePose: {tr:{x:+24.26953,y:+4.874023,z:-0.236846},ori:{v:{x:+0.055099,y:+1.436615e-2,z:+0.244323},w:+0.968017},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">      } </span>
+<span class="cm">    ]</span>
+<span class="cm">  } </span>
+<span class="cm">  pose:  Pose { </span>
+<span class="cm">    xfos:[ </span>
+<span class="cm">    {tr:{x:+5.0,y:+0.0,z:+0.0},ori:{v:{x:-2.880096e-2,y:+1.432657e-3,z:+0.049659},w:+0.998291},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">    {tr:{x:+9.974609,y:+0.495361,z:-2.860641e-2},ori:{v:{x:-0.040725,y:+2.859115e-3,z:+0.099121},w:+0.994262},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">    {tr:{x:+14.87695,y:+1.479736,z:-0.097396},ori:{v:{x:-1.088905e-2,y:+0.634861e-2,z:+0.148193},w:+0.988891},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">    {tr:{x:+19.65625,y:+2.944336,z:-0.17633},ori:{v:{x:+1.734161e-2,y:+0.965499e-2,z:+0.196716},w:+0.980224},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">    {tr:{x:+24.26953,y:+4.874023,z:-0.236846},ori:{v:{x:+0.055099,y:+1.436615e-2,z:+0.244323},w:+0.968017},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">    ]</span>
+<span class="cm">  } </span>
+<span class="cm">  num geometries:0 </span>
+<span class="cm">  geometries:[ </span>
+<span class="cm">  ]</span>
+<span class="cm">}</span>
+<span class="cm">{type:1,pt1:{x:+0.0,y:+0.0,z:+0.0},pt2:{x:+0.0,y:+0.0,z:+0.0},sc1:-1.0,sc2:+0.0,sc3:+0.0,sc4:+0.0}</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</p>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+ -->
+<!-- Title: Character Pages: 1 -->
+<svg width="278pt" height="44pt"
+ viewBox="0.00 0.00 278.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>Character</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-40 275,-40 275,5 -4,5"/>
+<!-- Character -->
+<g id="node1" class="node"><title>Character</title>
+<a xlink:href="../Characters/Character.html" xlink:title="Character">
+<polygon fill="#3fabd3" stroke="#3f3f3f" points="157.5,-36 98.5,-36 98.5,-0 157.5,-0 157.5,-36"/>
+<text text-anchor="middle" x="128" y="-15.5" font-family="Arial" font-size="10.00">Character</text>
+</a>
+</g>
+<!-- ICharacter -->
+<g id="node3" class="node"><title>ICharacter</title>
+<a xlink:href="../Characters/ICharacter.html" xlink:title="ICharacter">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="61.5,-36 0.5,-36 0.5,-0 61.5,-0 61.5,-36"/>
+<text text-anchor="middle" x="31" y="-15.5" font-family="Arial" font-size="10.00">ICharacter</text>
+</a>
+</g>
+<!-- Character&#45;&gt;ICharacter -->
+<g id="edge2" class="edge"><title>Character&#45;&gt;ICharacter</title>
+<path fill="none" stroke="#3f3f3f" d="M98.4969,-18C90.169,-18 80.9083,-18 72.0077,-18"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="71.802,-14.5001 61.802,-18 71.802,-21.5001 71.802,-14.5001"/>
+</g>
+<!-- FbxCharacter -->
+<g id="node4" class="node"><title>FbxCharacter</title>
+<a xlink:href="../FbxHelpers/FbxCharacter.html" xlink:title="FbxCharacter">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="269.5,-36 194.5,-36 194.5,-0 269.5,-0 269.5,-36"/>
+<text text-anchor="middle" x="232" y="-15.5" font-family="Arial" font-size="10.00">FbxCharacter</text>
+</a>
+</g>
+<!-- FbxCharacter&#45;&gt;Character -->
+<g id="edge4" class="edge"><title>FbxCharacter&#45;&gt;Character</title>
+<path fill="none" stroke="#3f3f3f" d="M194.464,-18C185.753,-18 176.429,-18 167.629,-18"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="167.606,-14.5001 157.606,-18 167.606,-21.5001 167.606,-14.5001"/>
+</g>
+</g>
+</svg></p>
+<div class="section" id="members">
+<h2>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="26%" />
+<col width="11%" />
+<col width="63%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>name</td>
+<td>The name of the character.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a>[]</td>
+<td>geometries</td>
+<td>The array fo geometries that make up the character</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a>[]</td>
+<td>bindShapeTransforms</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a>[]</td>
+<td>skinningMatrices</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Skeleton.html#skeleton"><span class="std std-ref">Skeleton</span></a></td>
+<td>skeleton</td>
+<td>The <a class="reference internal" href="Skeleton.html#skeleton"><span class="std std-ref">Skeleton</span></a> defining the hierarchy of bones of the character.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="IPose.html#ipose"><span class="std std-ref">IPose</span></a></td>
+<td>pose</td>
+<td>The pose of the character.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a></td>
+<td>globalXfo</td>
+<td>The global transform of the character.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a>[]</td>
+<td>deformedGeometries</td>
+<td>The cache of deformed geometries that make up the character. When deforming on the CPU, we cache the cloned meshes here.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Geometry/LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a></td>
+<td>localBVol</td>
+<td>The bounding volume of the deformed character.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id111246"><span class="std std-ref">Character</span></a>  ( in <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id38900"><span class="std std-ref">Character</span></a>  ( in <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a> other, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> nameSuffix )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id38891"><span class="std std-ref">Character</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id111243"><span class="std std-ref">Character</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#character"><span class="std std-ref">Character</span></a></td>
+<td><a class="reference internal" href="#id111250"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a></td>
+<td><a class="reference internal" href="#id38946"><span class="std std-ref">getBindShapeTransform</span></a> ? ( in Index index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Geometry/LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a></td>
+<td><a class="reference internal" href="#id38953"><span class="std std-ref">getBoundingVolume</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a></td>
+<td><a class="reference internal" href="#id38956"><span class="std std-ref">getDeformedGeometry</span></a> ! ( in Index index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a></td>
+<td><a class="reference internal" href="#id38960"><span class="std std-ref">getDeformedMesh</span></a> ! ( in Index index )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id38989"><span class="std std-ref">getDesc</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> indent, in Boolean includeGeometries )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id38994"><span class="std std-ref">getDesc</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a></td>
+<td><a class="reference internal" href="#id38917"><span class="std std-ref">getGeometry</span></a> ? ( in Index index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a></td>
+<td><a class="reference internal" href="#id38939"><span class="std std-ref">getGlobalXfo</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a></td>
+<td><a class="reference internal" href="#id38921"><span class="std std-ref">getMesh</span></a> ? ( in Index index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id38905"><span class="std std-ref">getName</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Size</td>
+<td><a class="reference internal" href="#id38914"><span class="std std-ref">getNumGeometries</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="IPose.html#ipose"><span class="std std-ref">IPose</span></a></td>
+<td><a class="reference internal" href="#id38932"><span class="std std-ref">getPose</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ISkeleton.html#iskeleton"><span class="std std-ref">ISkeleton</span></a></td>
+<td><a class="reference internal" href="#id38925"><span class="std std-ref">getSkeleton</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a>[]</td>
+<td><a class="reference internal" href="#id38950"><span class="std std-ref">getSkinningMatrices</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a></td>
+<td><a class="reference internal" href="#id38911"><span class="std std-ref">getVersion</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id38908"><span class="std std-ref">incrementVersion</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id38997"><span class="std std-ref">setClipPoseTime</span></a> ! ( in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> time )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id38942"><span class="std std-ref">setGlobalXfo</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> globalXfo )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id38935"><span class="std std-ref">setPose</span></a> ! ( in <a class="reference internal" href="IPose.html#ipose"><span class="std std-ref">IPose</span></a> pose )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id38928"><span class="std std-ref">setSkeleton</span></a> ! ( in <a class="reference internal" href="Skeleton.html#skeleton"><span class="std std-ref">Skeleton</span></a> skeleton )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="methods-in-detail">
+<h2>Methods in detail<a class="headerlink" href="#methods-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><span class="target" id="id111246"></span><p><p class="klcode"><a class="reference internal" href="#character"><span class="std std-ref">Character</span></a> ( in <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a> other )</p>
+<p class="plaintext">copy constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38900"></span><p><p class="klcode"><a class="reference internal" href="#character"><span class="std std-ref">Character</span></a> ( in <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a> other, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> nameSuffix )</p>
+<p class="plaintext">This constructor is useful for creating instances of characters based
+on an existing instance. The constructed instance shares most of the data
+with the original instance, but maintains a unique pose(if it is a <a class="reference internal" href="ClipPose.html#clippose"><span class="std std-ref">ClipPose</span></a>)
+This enables the pose to be evaluated at different times to generate unique motion.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>other</td>
+<td>The source character to use in the clone.</td>
+</tr>
+<tr class="row-even"><td>nameSuffix</td>
+<td>The suffix to add to the name of the new character</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38891"></span><p><p class="klcode"><a class="reference internal" href="#character"><span class="std std-ref">Character</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</p>
+<p class="plaintext">Standard constructor taking a name</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>name</td>
+<td>The initial name of the character</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id111243"></span><p><p class="klcode"><a class="reference internal" href="#character"><span class="std std-ref">Character</span></a> ()</p>
+<p class="plaintext">default constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id111250"></span><p><p class="klcode"><a class="reference internal" href="#character"><span class="std std-ref">Character</span></a> <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.clone? ()</p>
+<p class="plaintext">clone method</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38946"></span><p><p class="klcode"><a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.getBindShapeTransform? ( in Index index )</p>
+<p class="plaintext">Returns the bind shape transform for the given geometry.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>the</td>
+<td>index of the geometry to return the bind shape transform for.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38953"></span><p><p class="klcode"><a class="reference internal" href="../Geometry/LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a> <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.getBoundingVolume? ()</p>
+<p class="plaintext">Returns the current bounding volume of the character.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38956"></span><p><p class="klcode"><a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.getDeformedGeometry! ( in Index index )</p>
+<p class="plaintext">Returns a deformed copy of one of the geometries stored in the character.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38960"></span><p><p class="klcode"><a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.getDeformedMesh! ( in Index index )</p>
+<p class="plaintext">Returns a deformed copy of one of the meshes stored in the character.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38989"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.getDesc? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> indent, in Boolean includeGeometries )</p>
+<p class="plaintext">Generates a Description string of this character.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="21%" />
+<col width="79%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>indent</td>
+<td>The indentation to use when generating the string.</td>
+</tr>
+<tr class="row-even"><td>includeGeometries</td>
+<td>An option to include the descs of the goemeties in the returned string.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38994"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.getDesc? ()</p>
+<p class="plaintext">Generates a Description string of this character.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38917"></span><p><p class="klcode"><a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.getGeometry? ( in Index index )</p>
+<p class="plaintext">Returns a geometry with the given index.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="16%" />
+<col width="84%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>index</td>
+<td>The index of the geometry to return.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38939"></span><p><p class="klcode"><a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.getGlobalXfo? ()</p>
+<p class="plaintext">Returns the global <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> of the character.
+The Global <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> is used to globally position the character. It is applied
+as an offset to the computed pose.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38921"></span><p><p class="klcode"><a class="reference internal" href="../Geometry/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.getMesh? ( in Index index )</p>
+<p class="plaintext">Returns a mesh with the given index.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>index</td>
+<td>The index of the mesh to return.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38905"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.getName? ()</p>
+<p class="plaintext">Returns the name of the character.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38914"></span><p><p class="klcode">Size <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.getNumGeometries? ()</p>
+<p class="plaintext">Returns the number of geometries this character is made up of</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38932"></span><p><p class="klcode"><a class="reference internal" href="IPose.html#ipose"><span class="std std-ref">IPose</span></a> <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.getPose? ()</p>
+<p class="plaintext">Returns the pose object for this character.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38925"></span><p><p class="klcode"><a class="reference internal" href="ISkeleton.html#iskeleton"><span class="std std-ref">ISkeleton</span></a> <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.getSkeleton? ()</p>
+<p class="plaintext">Returns the <a class="reference internal" href="Skeleton.html#skeleton"><span class="std std-ref">Skeleton</span></a> of this character.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38950"></span><p><p class="klcode"><a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a>[] <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.getSkinningMatrices? ()</p>
+<p class="plaintext">Returns the skinning matrices for the character based on the current pose.
+The skinning matrices combine the reference pose stored in the skeleton,
+the transforms in the pose structure, and the global <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> of character.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38911"></span><p><p class="klcode"><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a> <a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.getVersion? ()</p>
+<p class="plaintext">Returns the internal version counter.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38908"></span><p><p class="klcode"><a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.incrementVersion! ()</p>
+<p class="plaintext">Increments the internal version counter.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38997"></span><p><p class="klcode"><a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.setClipPoseTime! ( in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> time )</p>
+<p class="plaintext">changes the time on the clip pose</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38942"></span><p><p class="klcode"><a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.setGlobalXfo! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> globalXfo )</p>
+<p class="plaintext">Sets the global <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> of the character.
+The Global <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> is used to globally position the character. It is applied
+as an offset to the computed pose.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38935"></span><p><p class="klcode"><a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.setPose! ( in <a class="reference internal" href="IPose.html#ipose"><span class="std std-ref">IPose</span></a> pose )</p>
+<p class="plaintext">Sets a the pose object for this character.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38928"></span><p><p class="klcode"><a class="reference internal" href="#character"><span class="std std-ref">Character</span></a>.setSkeleton! ( in <a class="reference internal" href="Skeleton.html#skeleton"><span class="std std-ref">Skeleton</span></a> skeleton )</p>
+<p class="plaintext">Sets a new skeleton to be used for this character.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">The <a class="reference internal" href="Pose.html#pose"><span class="std std-ref">Pose</span></a> of the character will be reset when this method is called.</p>
+</div>
+</p>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="Bone.html"
+                        title="前の章へ">Bone (struct)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="ClipPose.html"
+                        title="次の章へ">ClipPose (object)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Characters/Character.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Characters/Character.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="ClipPose.html" title="ClipPose (object)"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="Bone.html" title="Bone (struct)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Characters エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" >Characters Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

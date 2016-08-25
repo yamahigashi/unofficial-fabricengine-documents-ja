@@ -1,0 +1,484 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Pose (object) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Characters Extension’s Types" href="types.html" />
+    <link rel="next" title="Skeleton (object)" href="Skeleton.html" />
+    <link rel="prev" title="ClipPose (object)" href="ClipPose.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Skeleton.html" title="Skeleton (object)"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="ClipPose.html" title="ClipPose (object)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Characters エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" accesskey="U">Characters Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pose-object">
+<span id="pose"></span><h1>Pose (object)<a class="headerlink" href="#pose-object" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><p class="klbrief">An object storing the pose of a <a class="reference internal" href="Character.html#character"><span class="std std-ref">Character</span></a></p>
+<p class="plaintext">The <a class="reference internal" href="#pose"><span class="std std-ref">Pose</span></a> object stores the pose of a character, based on a given skeleton.</p>
+<p class="plaintext">Custom <a class="reference internal" href="#pose"><span class="std std-ref">Pose</span></a> objects can be created that provide other methods for computing the
+pose of a character. For example, a pose object could pull the pose data directly
+from a cache file, or compute it using a simulation algorithm.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="Character.html#character"><span class="std std-ref">Character</span></a>, <a class="reference internal" href="Skeleton.html#skeleton"><span class="std std-ref">Skeleton</span></a></p>
+</div>
+<p><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: pose.kl</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Characters</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">(){</span>
+
+
+
+  <span class="c1">//////////////////////////////////</span>
+  <span class="c1">// Generate a chain of bones with a random shape.</span>
+  <span class="nx">Bone</span> <span class="nx">bones</span><span class="p">[];</span>
+  <span class="nx">bones</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+  <span class="nx">Xfo</span> <span class="nx">parentXfo</span><span class="p">();</span>
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">bones</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="nx">Bone</span> <span class="nx">bone</span><span class="p">;</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;Bone&quot;</span><span class="o">+</span><span class="nx">i</span><span class="p">;</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">parentIndex</span> <span class="o">=</span> <span class="nx">i</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+
+    <span class="c1">// compute the angles</span>
+    <span class="nx">Scalar</span> <span class="nx">random</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="nx">mathRandomScalar</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="nx">i</span><span class="p">);</span>
+    <span class="nx">Scalar</span> <span class="nx">xAngle</span> <span class="o">=</span> <span class="nx">sin</span><span class="p">(</span><span class="nx">random</span> <span class="o">*</span> <span class="mf">0.4</span> <span class="o">+</span> <span class="nx">Scalar</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.03</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">;</span>
+    <span class="nx">Scalar</span> <span class="nx">zAngle</span> <span class="o">=</span> <span class="nx">cos</span><span class="p">(</span><span class="mf">0.11</span> <span class="o">+</span> <span class="nx">Scalar</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">;</span>
+
+    <span class="nx">Scalar</span> <span class="nx">boneLength</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">;</span>
+    <span class="nx">Xfo</span> <span class="nx">xfo</span><span class="p">;</span>
+    <span class="nx">xfo</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="nx">boneLength</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">xfo</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEulerAngles</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="nx">xAngle</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="nx">zAngle</span><span class="p">));</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">referencePose</span> <span class="o">=</span> <span class="nx">parentXfo</span> <span class="o">*</span> <span class="nx">xfo</span><span class="p">;</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="nx">boneLength</span><span class="p">;</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">radius</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">setFlag</span><span class="p">(</span><span class="nx">BONEFLAG_DEFORMER</span><span class="p">);</span>
+    <span class="nx">bones</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">bone</span><span class="p">;</span>
+    <span class="nx">parentXfo</span> <span class="o">=</span> <span class="nx">bone</span><span class="p">.</span><span class="nx">referencePose</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">Skeleton</span> <span class="nx">skeleton</span> <span class="o">=</span> <span class="nx">Skeleton</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nx">bones</span><span class="p">);</span>
+  <span class="nx">Character</span> <span class="nx">character</span><span class="p">(</span><span class="s1">&#39;Clip&#39;</span><span class="p">);</span>
+  <span class="nx">character</span><span class="p">.</span><span class="nx">setSkeleton</span><span class="p">(</span><span class="nx">skeleton</span><span class="p">);</span>
+
+  <span class="nx">Pose</span> <span class="nx">pose</span><span class="p">(</span><span class="nx">skeleton</span><span class="p">);</span>
+  <span class="nx">character</span><span class="p">.</span><span class="nx">setPose</span><span class="p">(</span><span class="nx">pose</span><span class="p">);</span>
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">bones</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;Pose:&quot;</span> <span class="o">+</span> <span class="nx">skeleton</span><span class="p">.</span><span class="nx">getBone</span><span class="p">(</span><span class="nx">i</span><span class="p">).</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot; :&quot;</span> <span class="o">+</span> <span class="nx">pose</span><span class="p">.</span><span class="nx">getBoneXfo</span><span class="p">(</span><span class="nx">i</span><span class="p">));</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">Pose:Bone0 :{ori:{v:{x:-2.880228e-2,y:+1.432589e-3,z:+0.049656},w:+0.998349},tr:{x:+5.0,y:+0.0,z:+0.0},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">Pose:Bone1 :{ori:{v:{x:-0.040728,y:+2.859098e-3,z:+0.099126},w:+0.994236},tr:{x:+9.975321,y:+0.495335,z:-2.860452e-2},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">Pose:Bone2 :{ori:{v:{x:-1.088853e-2,y:+0.634854e-2,z:+0.148186},w:+0.988879},tr:{x:+14.87698,y:+1.479723,z:-0.097403},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">Pose:Bone3 :{ori:{v:{x:+1.734111e-2,y:+0.965453e-2,z:+0.196705},w:+0.980261},tr:{x:+19.65698,y:+2.944419,z:-0.176318},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+<span class="cm">Pose:Bone4 :{ori:{v:{x:+0.055097,y:+1.436532e-2,z:+0.244337},w:+0.968017},tr:{x:+24.26912,y:+4.874321,z:-0.236847},sc:{x:+1.0,y:+1.0,z:+1.0}}</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</p>
+<p><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: customPoseObject.kl</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Characters</span><span class="p">;</span>
+
+<span class="c1">// Custom poses enable character systems to be built that compute thier poses</span>
+<span class="c1">// is thier own way. A ragdoll simulation might pull the pose transforms directly </span>
+<span class="c1">// from Bullet, or a cache reader might load a pose from disk. The IPose interface</span>
+<span class="c1">// enables this integration of custom systems into the Fabric Engine scene.</span>
+<span class="kr">object</span> <span class="nx">CustomPose</span> <span class="o">:</span> <span class="nx">Pose</span> <span class="p">{</span>
+<span class="p">};</span>
+
+<span class="kd">function</span> <span class="nx">CustomPose</span><span class="p">(</span><span class="nx">Skeleton</span> <span class="nx">skeleton</span><span class="p">){</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">skeleton</span> <span class="o">=</span> <span class="nx">skeleton</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">version</span> <span class="o">=</span> <span class="nx">mathRandomInteger</span><span class="p">(</span><span class="mi">67842</span><span class="p">,</span> <span class="kr">UInt32</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">skeleton</span><span class="p">.</span><span class="nx">getVersion</span><span class="p">()));</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span>
+<span class="p">}</span>
+
+
+<span class="c1">/// Updates the internal cache for a given bone. </span>
+<span class="c1">/// \internal</span>
+<span class="kd">function</span> <span class="nx">CustomPose</span><span class="p">.</span><span class="nx">updateXfo</span><span class="o">!</span><span class="p">(</span><span class="kr">Index</span> <span class="nx">index</span><span class="p">){</span>
+  
+  <span class="nx">Scalar</span> <span class="nx">random</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="nx">mathRandomScalar</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="nx">index</span><span class="p">);</span>
+  <span class="nx">Scalar</span> <span class="nx">xAngle</span> <span class="o">=</span> <span class="nx">sin</span><span class="p">(</span><span class="nx">random</span> <span class="o">*</span> <span class="mf">0.4</span> <span class="o">+</span> <span class="nx">Scalar</span><span class="p">(</span><span class="nx">index</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.03</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">;</span>
+  <span class="nx">Scalar</span> <span class="nx">zAngle</span> <span class="o">=</span> <span class="nx">cos</span><span class="p">(</span><span class="mf">0.11</span> <span class="o">+</span> <span class="nx">Scalar</span><span class="p">(</span><span class="nx">index</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">;</span>
+
+  <span class="nx">Xfo</span> <span class="nx">xfo</span><span class="p">;</span>
+  <span class="nx">xfo</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="nx">mathRandomScalar</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="o">*</span> <span class="mf">5.0</span><span class="p">,</span> <span class="nx">mathRandomScalar</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="o">*</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+  <span class="nx">xfo</span><span class="p">.</span><span class="nx">ori</span><span class="p">.</span><span class="nx">setFromEulerAngles</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="nx">xAngle</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="nx">zAngle</span><span class="p">));</span>
+
+  <span class="k">this</span><span class="p">.</span><span class="nx">xfos</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span> <span class="o">=</span> <span class="nx">xfo</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">valid</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">/// Get the pose of a bone in the skeleton using its index.</span>
+<span class="c1">/// \note Lazily computes the pose if the cache is not valid.  </span>
+<span class="kd">function</span> <span class="nx">Xfo</span> <span class="nx">CustomPose</span><span class="p">.</span><span class="nx">getBoneXfo</span><span class="o">!</span><span class="p">(</span><span class="kr">Index</span> <span class="nx">index</span><span class="p">){</span>
+  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">valid</span><span class="p">[</span><span class="nx">index</span><span class="p">])</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">updateXfo</span><span class="p">(</span><span class="nx">index</span><span class="p">);</span>
+  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">xfos</span><span class="p">[</span><span class="nx">index</span><span class="p">];</span>
+<span class="p">}</span>
+
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">(){</span>
+
+  <span class="nx">Character</span> <span class="nx">character</span><span class="p">(</span><span class="s1">&#39;Procedural Pose&#39;</span><span class="p">);</span>
+
+
+  <span class="c1">//////////////////////////////////</span>
+  <span class="c1">// Generate a chain of bones with a random shape.</span>
+  <span class="nx">Bone</span> <span class="nx">bones</span><span class="p">[];</span>
+  <span class="nx">bones</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+  <span class="nx">Xfo</span> <span class="nx">parentXfo</span><span class="p">();</span>
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="mi">5</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="nx">Bone</span> <span class="nx">bone</span><span class="p">();</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;Bone&quot;</span><span class="o">+</span><span class="nx">i</span><span class="p">;</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">parentIndex</span> <span class="o">=</span> <span class="nx">i</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+
+    <span class="nx">Xfo</span> <span class="nx">xfo</span><span class="p">;</span>
+    <span class="nx">xfo</span><span class="p">.</span><span class="nx">tr</span> <span class="o">=</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">referencePose</span> <span class="o">=</span> <span class="nx">parentXfo</span> <span class="o">*</span> <span class="nx">xfo</span><span class="p">;</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">;</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">radius</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+    <span class="nx">bone</span><span class="p">.</span><span class="nx">setFlag</span><span class="p">(</span><span class="nx">BONEFLAG_DEFORMER</span><span class="p">);</span>
+    <span class="nx">bones</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">bone</span><span class="p">;</span>
+    <span class="nx">parentXfo</span> <span class="o">=</span> <span class="nx">bone</span><span class="p">.</span><span class="nx">referencePose</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">Skeleton</span> <span class="nx">skeleton</span> <span class="o">=</span> <span class="nx">Skeleton</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nx">bones</span><span class="p">);</span>
+  <span class="nx">character</span><span class="p">.</span><span class="nx">setSkeleton</span><span class="p">(</span><span class="nx">skeleton</span><span class="p">);</span>
+  <span class="nx">character</span><span class="p">.</span><span class="nx">setPose</span><span class="p">(</span><span class="nx">CustomPose</span><span class="p">(</span><span class="nx">skeleton</span><span class="p">));</span>
+
+  <span class="nx">Mat44</span> <span class="nx">skinningMatricies</span><span class="p">[]</span> <span class="o">=</span> <span class="nx">character</span><span class="p">.</span><span class="nx">getSkinningMatrices</span><span class="p">();</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">skinningMatricies</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">[{row0:{x:+0.995064,y:-0.099232,z:+0.0,t:-2.3679},row1:{x:+0.099066,y:+0.993409,z:+0.057651,t:+0.774196},row2:{x:-0.57209e-2,y:-0.057367,z:+0.998336,t:+2.860451e-2},row3:{x:+0.0,y:+0.0,z:+0.0,t:+1.0}},{row0:{x:+0.995075,y:-0.099117,z:-1.164153e-10,t:-7.850447},row1:{x:+0.099089,y:+0.994787,z:+2.407886e-2,t:-0.267534},row2:{x:-2.386645e-3,y:-2.396029e-2,z:+0.99971,t:+2.386645e-2},row3:{x:+0.0,y:+0.0,z:+0.0,t:+1.0}},{row0:{x:+0.995088,y:-0.098993,z:+0.0,t:-13.48693},row1:{x:+0.098819,y:+0.993333,z:-0.059358,t:-0.365168},row2:{x:+0.587611e-2,y:+0.059066,z:+0.998236,t:-0.088141},row3:{x:+0.0,y:+0.0,z:+0.0,t:+1.0}},{row0:{x:+0.995101,y:-0.098859,z:+0.0,t:-16.4809},row1:{x:+0.098704,y:+0.993536,z:-0.056054,t:+2.648208},row2:{x:+0.55415e-2,y:+0.055779,z:+0.998427,t:-0.11083},row3:{x:+0.0,y:+0.0,z:+0.0,t:+1.0}},{row0:{x:+0.995115,y:-0.098716,z:-2.328306e-10,t:-22.70404},row1:{x:+0.098434,y:+0.992281,z:-0.075418,t:-0.218665},row2:{x:+0.744506e-2,y:+0.07505,z:+0.997151,t:-0.186126},row3:{x:+0.0,y:+0.0,z:+0.0,t:+1.0}}]</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</p>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+ -->
+<!-- Title: Pose Pages: 1 -->
+<svg width="244pt" height="44pt"
+ viewBox="0.00 0.00 244.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>Pose</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-40 241,-40 241,5 -4,5"/>
+<!-- Pose -->
+<g id="node1" class="node"><title>Pose</title>
+<a xlink:href="../Characters/Pose.html" xlink:title="Pose">
+<polygon fill="#3fabd3" stroke="#3f3f3f" points="144,-36 90,-36 90,-0 144,-0 144,-36"/>
+<text text-anchor="middle" x="117" y="-15.5" font-family="Arial" font-size="10.00">Pose</text>
+</a>
+</g>
+<!-- IPose -->
+<g id="node3" class="node"><title>IPose</title>
+<a xlink:href="../Characters/IPose.html" xlink:title="IPose">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="54,-36 0,-36 0,-0 54,-0 54,-36"/>
+<text text-anchor="middle" x="27" y="-15.5" font-family="Arial" font-size="10.00">IPose</text>
+</a>
+</g>
+<!-- Pose&#45;&gt;IPose -->
+<g id="edge2" class="edge"><title>Pose&#45;&gt;IPose</title>
+<path fill="none" stroke="#3f3f3f" d="M89.5971,-18C81.6068,-18 72.6894,-18 64.1759,-18"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="64.081,-14.5001 54.081,-18 64.081,-21.5001 64.081,-14.5001"/>
+</g>
+<!-- ClipPose -->
+<g id="node4" class="node"><title>ClipPose</title>
+<a xlink:href="../Characters/ClipPose.html" xlink:title="ClipPose">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="236,-36 180,-36 180,-0 236,-0 236,-36"/>
+<text text-anchor="middle" x="208" y="-15.5" font-family="Arial" font-size="10.00">ClipPose</text>
+</a>
+</g>
+<!-- ClipPose&#45;&gt;Pose -->
+<g id="edge4" class="edge"><title>ClipPose&#45;&gt;Pose</title>
+<path fill="none" stroke="#3f3f3f" d="M179.813,-18C171.745,-18 162.778,-18 154.232,-18"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="154.105,-14.5001 144.105,-18 154.105,-21.5001 154.105,-14.5001"/>
+</g>
+</g>
+</svg></p>
+<div class="section" id="members">
+<h2>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="21%" />
+<col width="7%" />
+<col width="72%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="Skeleton.html#skeleton"><span class="std std-ref">Skeleton</span></a></td>
+<td>skeleton</td>
+<td>The skeleton that this pose is based on.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a>[]</td>
+<td>xfos</td>
+<td>The model space transforms for each bone in the skeleton</td>
+</tr>
+<tr class="row-odd"><td>Boolean[]</td>
+<td>valid</td>
+<td>A flag for each item in the array above indicating that the <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> has been computed.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a></td>
+<td>version</td>
+<td>The intenral version counter</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="21%" />
+<col width="79%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id111256"><span class="std std-ref">Pose</span></a>  ( in <a class="reference internal" href="#pose"><span class="std std-ref">Pose</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id38761"><span class="std std-ref">Pose</span></a>  ( in <a class="reference internal" href="Skeleton.html#skeleton"><span class="std std-ref">Skeleton</span></a> skeleton )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id111253"><span class="std std-ref">Pose</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pose"><span class="std std-ref">Pose</span></a></td>
+<td><a class="reference internal" href="#id111260"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a></td>
+<td><a class="reference internal" href="#id38778"><span class="std std-ref">getBoneXfo</span></a> ! ( in Index index )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id38787"><span class="std std-ref">getDesc</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> indent, in Boolean includeXfos )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id38792"><span class="std std-ref">getDesc</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a></td>
+<td><a class="reference internal" href="#id38768"><span class="std std-ref">getVersion</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id38765"><span class="std std-ref">incrementVersion</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id38771"><span class="std std-ref">reset</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id38782"><span class="std std-ref">setBoneXfo</span></a> ! ( in Index index, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="methods-in-detail">
+<h2>Methods in detail<a class="headerlink" href="#methods-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><span class="target" id="id111256"></span><p><p class="klcode"><a class="reference internal" href="#pose"><span class="std std-ref">Pose</span></a> ( in <a class="reference internal" href="#pose"><span class="std std-ref">Pose</span></a> other )</p>
+<p class="plaintext">copy constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38761"></span><p><p class="klcode"><a class="reference internal" href="#pose"><span class="std std-ref">Pose</span></a> ( in <a class="reference internal" href="Skeleton.html#skeleton"><span class="std std-ref">Skeleton</span></a> skeleton )</p>
+<p class="plaintext">Standard constructor taking a skeleton</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>skeleton</td>
+<td>The skeleton that the pose will be based on</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id111253"></span><p><p class="klcode"><a class="reference internal" href="#pose"><span class="std std-ref">Pose</span></a> ()</p>
+<p class="plaintext">default constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id111260"></span><p><p class="klcode"><a class="reference internal" href="#pose"><span class="std std-ref">Pose</span></a> <a class="reference internal" href="#pose"><span class="std std-ref">Pose</span></a>.clone? ()</p>
+<p class="plaintext">clone method</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38778"></span><p><p class="klcode"><a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> <a class="reference internal" href="#pose"><span class="std std-ref">Pose</span></a>.getBoneXfo! ( in Index index )</p>
+<p class="plaintext">Get the pose of a bone in the skeleton using its index.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Lazily computes the pose if the cache is not valid.</p>
+</div>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38787"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#pose"><span class="std std-ref">Pose</span></a>.getDesc? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> indent, in Boolean includeXfos )</p>
+<p class="plaintext">Generates a Description string of this pose.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>indent</td>
+<td>The indentation to use when generating the string.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38792"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#pose"><span class="std std-ref">Pose</span></a>.getDesc? ()</p>
+<p class="plaintext">Generates a Description string of this <a class="reference internal" href="#pose"><span class="std std-ref">Pose</span></a>.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38768"></span><p><p class="klcode"><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a> <a class="reference internal" href="#pose"><span class="std std-ref">Pose</span></a>.getVersion? ()</p>
+<p class="plaintext">Returns the internal version counter.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38765"></span><p><p class="klcode"><a class="reference internal" href="#pose"><span class="std std-ref">Pose</span></a>.incrementVersion! ()</p>
+<p class="plaintext">Increments the internal version counter.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38771"></span><p><p class="klcode"><a class="reference internal" href="#pose"><span class="std std-ref">Pose</span></a>.reset! ()</p>
+<p class="plaintext">Reset the pose back to the reference pose stored in the skeleton.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id38782"></span><p><p class="klcode"><a class="reference internal" href="#pose"><span class="std std-ref">Pose</span></a>.setBoneXfo! ( in Index index, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo )</p>
+<p class="plaintext">Set the pose of a bone in the skeleton using its index.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This marks the joint as valid.</p>
+</div>
+</p>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="ClipPose.html"
+                        title="前の章へ">ClipPose (object)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="Skeleton.html"
+                        title="次の章へ">Skeleton (object)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Characters/Pose.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Characters/Pose.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Skeleton.html" title="Skeleton (object)"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="ClipPose.html" title="ClipPose (object)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Characters エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" >Characters Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

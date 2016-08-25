@@ -1,0 +1,1002 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>BulletRigidBody (object) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Bullet Extension’s Types" href="types.html" />
+    <link rel="next" title="BulletRigidBodyConstructionInfo (struct)" href="BulletRigidBodyConstructionInfo.html" />
+    <link rel="prev" title="BulletPoint2PointConstraint (object)" href="BulletPoint2PointConstraint.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="BulletRigidBodyConstructionInfo.html" title="BulletRigidBodyConstructionInfo (struct)"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="BulletPoint2PointConstraint.html" title="BulletPoint2PointConstraint (object)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Bullet エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" accesskey="U">Bullet Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="bulletrigidbody-object">
+<span id="bulletrigidbody"></span><h1>BulletRigidBody (object)<a class="headerlink" href="#bulletrigidbody-object" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><p class="plaintext">The <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a> is the main class for rigid body objects. It is derived from <a class="reference internal" href="BulletICollisionObject.html#bulleticollisionobject"><span class="std std-ref">BulletICollisionObject</span></a>, so it keeps a pointer to a <a class="reference internal" href="BulletCollisionShape.html#bulletcollisionshape"><span class="std std-ref">BulletCollisionShape</span></a>.
+It is recommended for performance and memory use to share <a class="reference internal" href="BulletCollisionShape.html#bulletcollisionshape"><span class="std std-ref">BulletCollisionShape</span></a> objects whenever possible.
+There are 3 types of rigid bodies:
+- A) Dynamic rigid bodies, with positive mass. Motion is controlled by rigid body dynamics.
+- B) Fixed objects with zero mass. They are not moving (basically collision objects)
+- C) Kinematic objects, which are objects without mass, but the user can move them. There is on-way interaction, and Bullet calculates a velocity based on the timestep and previous and current world transform.
+Bullet automatically deactivates dynamic rigid bodies, when the velocity is below a threshold for a given time.
+Deactivated (sleeping) rigid bodies don&#8217;t take any processing time, except a minor broadphase collision detection impact (to allow active objects to activate/wake up sleeping objects)</p>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+ -->
+<!-- Title: BulletRigidBody Pages: 1 -->
+<svg width="240pt" height="44pt"
+ viewBox="0.00 0.00 240.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>BulletRigidBody</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-40 237,-40 237,5 -4,5"/>
+<!-- BulletRigidBody -->
+<g id="node1" class="node"><title>BulletRigidBody</title>
+<a xlink:href="../Bullet/BulletRigidBody.html" xlink:title="BulletRigidBody">
+<polygon fill="#3fabd3" stroke="#3f3f3f" points="232,-36 146,-36 146,-0 232,-0 232,-36"/>
+<text text-anchor="middle" x="189" y="-15.5" font-family="Arial" font-size="10.00">BulletRigidBody</text>
+</a>
+</g>
+<!-- BulletICollisionObject -->
+<g id="node3" class="node"><title>BulletICollisionObject</title>
+<a xlink:href="../Bullet/BulletICollisionObject.html" xlink:title="BulletICollisionObject">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="109.5,-36 0.5,-36 0.5,-0 109.5,-0 109.5,-36"/>
+<text text-anchor="middle" x="55" y="-15.5" font-family="Arial" font-size="10.00">BulletICollisionObject</text>
+</a>
+</g>
+<!-- BulletRigidBody&#45;&gt;BulletICollisionObject -->
+<g id="edge2" class="edge"><title>BulletRigidBody&#45;&gt;BulletICollisionObject</title>
+<path fill="none" stroke="#3f3f3f" d="M145.871,-18C137.628,-18 128.811,-18 120.04,-18"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="119.803,-14.5001 109.802,-18 119.802,-21.5001 119.803,-14.5001"/>
+</g>
+</g>
+</svg></p>
+<div class="section" id="members">
+<h2>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="71%" />
+<col width="25%" />
+<col width="4%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a></td>
+<td>pointer</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="BulletMotionState.html#bulletmotionstate"><span class="std std-ref">BulletMotionState</span></a></td>
+<td>__motionState</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="BulletCollisionShape.html#bulletcollisionshape"><span class="std std-ref">BulletCollisionShape</span></a></td>
+<td>__collisionShape</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Object[]</td>
+<td>__constraints</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="BulletBroadphaseProxy.html#bulletbroadphaseproxy"><span class="std std-ref">BulletBroadphaseProxy</span></a></td>
+<td>__broadphaseProxy</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Object</td>
+<td>__userPointer</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="29%" />
+<col width="71%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id110986"><span class="std std-ref">BulletRigidBody</span></a>  ( in <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33438"><span class="std std-ref">BulletRigidBody</span></a>  ( in <a class="reference internal" href="BulletRigidBodyConstructionInfo.html#bulletrigidbodyconstructioninfo"><span class="std std-ref">BulletRigidBodyConstructionInfo</span></a> constructionInfo )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id110983"><span class="std std-ref">BulletRigidBody</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id37106"><span class="std std-ref">__addConstraintRef</span></a> ! ( in <a class="reference internal" href="BulletTypedConstraint.html#bullettypedconstraint"><span class="std std-ref">BulletTypedConstraint</span></a> c )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33442"><span class="std std-ref">__construct</span></a> ! ( in <a class="reference internal" href="BulletRigidBodyConstructionInfo.html#bulletrigidbodyconstructioninfo"><span class="std std-ref">BulletRigidBodyConstructionInfo</span></a> constructionInfo )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33452"><span class="std std-ref">__destroy</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id37114"><span class="std std-ref">__removeConstraintRef</span></a> ! ( in <a class="reference internal" href="BulletTypedConstraint.html#bullettypedconstraint"><span class="std std-ref">BulletTypedConstraint</span></a> c )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33724"><span class="std std-ref">__setCollisionShape</span></a> ! ( in <a class="reference internal" href="BulletCollisionShape.html#bulletcollisionshape"><span class="std std-ref">BulletCollisionShape</span></a> collisionShape )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33644"><span class="std std-ref">__setMotionState</span></a> ! ( in <a class="reference internal" href="BulletMotionState.html#bulletmotionstate"><span class="std std-ref">BulletMotionState</span></a> motionState )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33633"><span class="std std-ref">__setNewBroadphaseProxy</span></a> ! ( in <a class="reference internal" href="BulletBroadphaseProxy.html#bulletbroadphaseproxy"><span class="std std-ref">BulletBroadphaseProxy</span></a> broadphaseProxy )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33752"><span class="std std-ref">activate</span></a> ! ( in Boolean forceActivation )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33749"><span class="std std-ref">activate</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id37102"><span class="std std-ref">addConstraintRef</span></a> ! ( in <a class="reference internal" href="BulletTypedConstraint.html#bullettypedconstraint"><span class="std std-ref">BulletTypedConstraint</span></a> c )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33524"><span class="std std-ref">applyCentralForce</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> force )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33555"><span class="std std-ref">applyCentralImpulse</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> impulse )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33495"><span class="std std-ref">applyDamping</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> timeStep )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33550"><span class="std std-ref">applyForce</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> force, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> rel_pos )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33468"><span class="std std-ref">applyGravity</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33563"><span class="std std-ref">applyImpulse</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> impulse, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> rel_pos )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33546"><span class="std std-ref">applyTorque</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> torque )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33559"><span class="std std-ref">applyTorqueImpulse</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> torque )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="#id33856"><span class="std std-ref">checkCollideWith</span></a> ? ( in <a class="reference internal" href="BulletICollisionObject.html#bulleticollisionobject"><span class="std std-ref">BulletICollisionObject</span></a> co )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="#id33662"><span class="std std-ref">checkCollideWithOverride</span></a> ? ( in <a class="reference internal" href="BulletICollisionObject.html#bulleticollisionobject"><span class="std std-ref">BulletICollisionObject</span></a> co )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33568"><span class="std std-ref">clearForces</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a></td>
+<td><a class="reference internal" href="#id110990"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="#id33615"><span class="std std-ref">computeAngularImpulseDenominator</span></a> ? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> axis )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="#id33610"><span class="std std-ref">computeImpulseDenominator</span></a> ? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pos, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> normal )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33745"><span class="std std-ref">forceActivationState</span></a> ! ( in Integer newState )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33605"><span class="std std-ref">getAabb</span></a> ! ( io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> aabbMin, io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> aabbMax )</td>
+</tr>
+<tr class="row-even"><td>Integer</td>
+<td><a class="reference internal" href="#id33731"><span class="std std-ref">getActivationState</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="#id33486"><span class="std std-ref">getAngularDamping</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="#id33656"><span class="std std-ref">getAngularFactor</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="#id33492"><span class="std std-ref">getAngularSleepingThreshold</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="#id33586"><span class="std std-ref">getAngularVelocity</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="#id33691"><span class="std std-ref">getAnisotropicFriction</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="BulletBroadphaseProxy.html#bulletbroadphaseproxy"><span class="std std-ref">BulletBroadphaseProxy</span></a></td>
+<td><a class="reference internal" href="#id33780"><span class="std std-ref">getBroadphaseHandle</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="BulletBroadphaseProxy.html#bulletbroadphaseproxy"><span class="std std-ref">BulletBroadphaseProxy</span></a></td>
+<td><a class="reference internal" href="#id33626"><span class="std std-ref">getBroadphaseProxy</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="#id33839"><span class="std std-ref">getCcdMotionThreshold</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="#id33842"><span class="std std-ref">getCcdSquareMotionThreshold</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="#id33832"><span class="std std-ref">getCcdSweptSphereRadius</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="#id33574"><span class="std std-ref">getCenterOfMassPosition</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a></td>
+<td><a class="reference internal" href="#id33580"><span class="std std-ref">getCenterOfMassTransform</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Integer</td>
+<td><a class="reference internal" href="#id33825"><span class="std std-ref">getCollisionFlags</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="BulletCollisionShape.html#bulletcollisionshape"><span class="std std-ref">BulletCollisionShape</span></a></td>
+<td><a class="reference internal" href="#id33728"><span class="std std-ref">getCollisionShape</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Integer</td>
+<td><a class="reference internal" href="#id33811"><span class="std std-ref">getCompanionId</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="BulletTypedConstraint.html#bullettypedconstraint"><span class="std std-ref">BulletTypedConstraint</span></a></td>
+<td><a class="reference internal" href="#id37118"><span class="std std-ref">getConstraintRef</span></a> ? ( in Integer index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="#id33705"><span class="std std-ref">getContactProcessingThreshold</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="#id33742"><span class="std std-ref">getDeactivationTime</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="#id33679"><span class="std std-ref">getDeltaAngularVelocity</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="#id33676"><span class="std std-ref">getDeltaLinearVelocity</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Integer</td>
+<td><a class="reference internal" href="#id33673"><span class="std std-ref">getFlags</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="#id33770"><span class="std std-ref">getFriction</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="#id33475"><span class="std std-ref">getGravity</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="#id33818"><span class="std std-ref">getHitFraction</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="#id33801"><span class="std std-ref">getInterpolationAngularVelocity</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="#id33798"><span class="std std-ref">getInterpolationLinearVelocity</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a></td>
+<td><a class="reference internal" href="#id33783"><span class="std std-ref">getInterpolationWorldTransform</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="#id33534"><span class="std std-ref">getInvInertiaDiagLocal</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Mat33.html#mat33"><span class="std std-ref">Mat33</span></a></td>
+<td><a class="reference internal" href="#id33513"><span class="std std-ref">getInvInertiaTensorWorld</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="#id33506"><span class="std std-ref">getInvMass</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Integer</td>
+<td><a class="reference internal" href="#id33804"><span class="std std-ref">getIslandTag</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="#id33483"><span class="std std-ref">getLinearDamping</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="#id33499"><span class="std std-ref">getLinearFactor</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="#id33489"><span class="std std-ref">getLinearSleepingThreshold</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="#id33583"><span class="std std-ref">getLinearVelocity</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="BulletMotionState.html#bulletmotionstate"><span class="std std-ref">BulletMotionState</span></a></td>
+<td><a class="reference internal" href="#id33637"><span class="std std-ref">getMotionState</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Integer</td>
+<td><a class="reference internal" href="#id33666"><span class="std std-ref">getNumConstraintRefs</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Object</td>
+<td><a class="reference internal" href="#id33428"><span class="std std-ref">getObject</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Quat.html#quat"><span class="std std-ref">Quat</span></a></td>
+<td><a class="reference internal" href="#id33577"><span class="std std-ref">getOrientation</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a></td>
+<td><a class="reference internal" href="#id33431"><span class="std std-ref">getPointer</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="#id33682"><span class="std std-ref">getPushVelocity</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="#id33763"><span class="std std-ref">getRestitution</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="#id33528"><span class="std std-ref">getTotalForce</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="#id33531"><span class="std std-ref">getTotalTorque</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="#id33685"><span class="std std-ref">getTurnVelocity</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Object</td>
+<td><a class="reference internal" href="#id33849"><span class="std std-ref">getUserPointer</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="#id33597"><span class="std std-ref">getVelocityInLocalPoint</span></a> ? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> rel_pos )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a></td>
+<td><a class="reference internal" href="#id33773"><span class="std std-ref">getWorldTransform</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="#id33698"><span class="std std-ref">hasAnisotropicFriction</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="#id33717"><span class="std std-ref">hasContactResponse</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33516"><span class="std std-ref">integrateVelocities</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> step )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="#id33756"><span class="std std-ref">isActive</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="#id33659"><span class="std std-ref">isInWorld</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="#id33711"><span class="std std-ref">isKinematicObject</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="#id33708"><span class="std std-ref">isStaticObject</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="#id33714"><span class="std std-ref">isStaticOrKinematicObject</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="#id33688"><span class="std std-ref">mergesSimulationIslands</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33459"><span class="std std-ref">predictIntegratedTransform</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> step, io <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> predictedTransform )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33455"><span class="std std-ref">proceedToTransform</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> newTrans )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id37110"><span class="std std-ref">removeConstraintRef</span></a> ! ( in <a class="reference internal" href="BulletTypedConstraint.html#bullettypedconstraint"><span class="std std-ref">BulletTypedConstraint</span></a> c )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33464"><span class="std std-ref">saveKinematicState</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> step )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33734"><span class="std std-ref">setActivationState</span></a> ! ( in Integer newState )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33652"><span class="std std-ref">setAngularFactor</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> angFac )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33648"><span class="std std-ref">setAngularFactor</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> angFac )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33593"><span class="std std-ref">setAngularVelocity</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> ang_vel )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33694"><span class="std std-ref">setAnisotropicFriction</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> anisotropicFriction )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33845"><span class="std std-ref">setCcdMotionThreshold</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> ccdMotionThreshold )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33835"><span class="std std-ref">setCcdSweptSphereRadius</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33520"><span class="std std-ref">setCenterOfMassTransform</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xform )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33828"><span class="std std-ref">setCollisionFlags</span></a> ! ( in Integer flags )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33720"><span class="std std-ref">setCollisionShape</span></a> ! ( in <a class="reference internal" href="BulletCollisionShape.html#bulletcollisionshape"><span class="std std-ref">BulletCollisionShape</span></a> collisionShape )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33814"><span class="std std-ref">setCompanionId</span></a> ! ( in Integer id )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33701"><span class="std std-ref">setContactProcessingThreshold</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> contactProcessingThreshold )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33478"><span class="std std-ref">setDamping</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> lin_damping, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> ang_damping )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33738"><span class="std std-ref">setDeactivationTime</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33669"><span class="std std-ref">setFlags</span></a> ! ( in Integer flags )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33766"><span class="std std-ref">setFriction</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> frict )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33471"><span class="std std-ref">setGravity</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> acceleration )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33821"><span class="std std-ref">setHitFraction</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> hitFraction )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33794"><span class="std std-ref">setInterpolationAngularVelocity</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> angvel )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33790"><span class="std std-ref">setInterpolationLinearVelocity</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> linvel )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33786"><span class="std std-ref">setInterpolationWorldTransform</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> trans )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33537"><span class="std std-ref">setInvInertiaDiagLocal</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> diagInvInertia )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33509"><span class="std std-ref">setInvMass</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> mass )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33807"><span class="std std-ref">setIslandTag</span></a> ! ( in Integer tag )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33502"><span class="std std-ref">setLinearFactor</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> linearFactor )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33589"><span class="std std-ref">setLinearVelocity</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> lin_vel )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33640"><span class="std std-ref">setMotionState</span></a> ! ( in <a class="reference internal" href="BulletMotionState.html#bulletmotionstate"><span class="std std-ref">BulletMotionState</span></a> motionState )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33629"><span class="std std-ref">setNewBroadphaseProxy</span></a> ! ( in <a class="reference internal" href="BulletBroadphaseProxy.html#bulletbroadphaseproxy"><span class="std std-ref">BulletBroadphaseProxy</span></a> broadphaseProxy )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33759"><span class="std std-ref">setRestitution</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> rest )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33541"><span class="std std-ref">setSleepingThresholds</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> linear, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> angular )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33852"><span class="std std-ref">setUserPointer</span></a> ! ( in Object userPointer )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33776"><span class="std std-ref">setWorldTransform</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> worldTrans )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33601"><span class="std std-ref">translate</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> v )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33619"><span class="std std-ref">updateDeactivation</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> timeStep )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33571"><span class="std std-ref">updateInertiaTensor</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="#id33623"><span class="std std-ref">wantsSleeping</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id33449"><span class="std std-ref">~BulletRigidBody</span></a>  ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="methods-in-detail">
+<h2>Methods in detail<a class="headerlink" href="#methods-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><span class="target" id="id110986"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a> ( in <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a> other )</p>
+<p class="plaintext">copy constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33438"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a> ( in <a class="reference internal" href="BulletRigidBodyConstructionInfo.html#bulletrigidbodyconstructioninfo"><span class="std std-ref">BulletRigidBodyConstructionInfo</span></a> constructionInfo )</p>
+<p class="plaintext"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a> constructor using construction info</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id110983"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a> ()</p>
+<p class="plaintext">default constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id37106"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.__addConstraintRef! ( in <a class="reference internal" href="BulletTypedConstraint.html#bullettypedconstraint"><span class="std std-ref">BulletTypedConstraint</span></a> c )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33442"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.__construct! ( in <a class="reference internal" href="BulletRigidBodyConstructionInfo.html#bulletrigidbodyconstructioninfo"><span class="std std-ref">BulletRigidBodyConstructionInfo</span></a> constructionInfo )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33452"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.__destroy! ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id37114"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.__removeConstraintRef! ( in <a class="reference internal" href="BulletTypedConstraint.html#bullettypedconstraint"><span class="std std-ref">BulletTypedConstraint</span></a> c )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33724"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.__setCollisionShape! ( in <a class="reference internal" href="BulletCollisionShape.html#bulletcollisionshape"><span class="std std-ref">BulletCollisionShape</span></a> collisionShape )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33644"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.__setMotionState! ( in <a class="reference internal" href="BulletMotionState.html#bulletmotionstate"><span class="std std-ref">BulletMotionState</span></a> motionState )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33633"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.__setNewBroadphaseProxy! ( in <a class="reference internal" href="BulletBroadphaseProxy.html#bulletbroadphaseproxy"><span class="std std-ref">BulletBroadphaseProxy</span></a> broadphaseProxy )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33752"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.activate! ( in Boolean forceActivation )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33749"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.activate! ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id37102"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.addConstraintRef! ( in <a class="reference internal" href="BulletTypedConstraint.html#bullettypedconstraint"><span class="std std-ref">BulletTypedConstraint</span></a> c )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33524"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.applyCentralForce! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> force )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33555"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.applyCentralImpulse! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> impulse )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33495"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.applyDamping! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> timeStep )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33550"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.applyForce! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> force, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> rel_pos )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33468"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.applyGravity! ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33563"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.applyImpulse! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> impulse, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> rel_pos )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33546"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.applyTorque! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> torque )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33559"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.applyTorqueImpulse! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> torque )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33856"></span><p><p class="klcode">Boolean <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.checkCollideWith? ( in <a class="reference internal" href="BulletICollisionObject.html#bulleticollisionobject"><span class="std std-ref">BulletICollisionObject</span></a> co )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33662"></span><p><p class="klcode">Boolean <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.checkCollideWithOverride? ( in <a class="reference internal" href="BulletICollisionObject.html#bulleticollisionobject"><span class="std std-ref">BulletICollisionObject</span></a> co )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33568"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.clearForces! ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id110990"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.clone? ()</p>
+<p class="plaintext">clone method</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33615"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.computeAngularImpulseDenominator? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> axis )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33610"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.computeImpulseDenominator? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pos, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> normal )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33745"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.forceActivationState! ( in Integer newState )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33605"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getAabb! ( io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> aabbMin, io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> aabbMax )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33731"></span><p><p class="klcode">Integer <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getActivationState? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33486"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getAngularDamping? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33656"></span><p><p class="klcode"><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getAngularFactor? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33492"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getAngularSleepingThreshold? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33586"></span><p><p class="klcode"><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getAngularVelocity? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33691"></span><p><p class="klcode"><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getAnisotropicFriction? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33780"></span><p><p class="klcode"><a class="reference internal" href="BulletBroadphaseProxy.html#bulletbroadphaseproxy"><span class="std std-ref">BulletBroadphaseProxy</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getBroadphaseHandle? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33626"></span><p><p class="klcode"><a class="reference internal" href="BulletBroadphaseProxy.html#bulletbroadphaseproxy"><span class="std std-ref">BulletBroadphaseProxy</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getBroadphaseProxy? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33839"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getCcdMotionThreshold? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33842"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getCcdSquareMotionThreshold? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33832"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getCcdSweptSphereRadius? ()</p>
+<p class="plaintext">Swept sphere radius (0.0 by default), see btConvexConvexAlgorithm:</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33574"></span><p><p class="klcode"><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getCenterOfMassPosition? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33580"></span><p><p class="klcode"><a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getCenterOfMassTransform? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33825"></span><p><p class="klcode">Integer <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getCollisionFlags? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33728"></span><p><p class="klcode"><a class="reference internal" href="BulletCollisionShape.html#bulletcollisionshape"><span class="std std-ref">BulletCollisionShape</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getCollisionShape? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33811"></span><p><p class="klcode">Integer <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getCompanionId? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id37118"></span><p><p class="klcode"><a class="reference internal" href="BulletTypedConstraint.html#bullettypedconstraint"><span class="std std-ref">BulletTypedConstraint</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getConstraintRef? ( in Integer index )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33705"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getContactProcessingThreshold? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33742"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getDeactivationTime? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33679"></span><p><p class="klcode"><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getDeltaAngularVelocity? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33676"></span><p><p class="klcode"><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getDeltaLinearVelocity? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33673"></span><p><p class="klcode">Integer <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getFlags? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33770"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getFriction? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33475"></span><p><p class="klcode"><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getGravity? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33818"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getHitFraction? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33801"></span><p><p class="klcode"><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getInterpolationAngularVelocity? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33798"></span><p><p class="klcode"><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getInterpolationLinearVelocity? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33783"></span><p><p class="klcode"><a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getInterpolationWorldTransform? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33534"></span><p><p class="klcode"><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getInvInertiaDiagLocal? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33513"></span><p><p class="klcode"><a class="reference internal" href="../Math/Mat33.html#mat33"><span class="std std-ref">Mat33</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getInvInertiaTensorWorld? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33506"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getInvMass? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33804"></span><p><p class="klcode">Integer <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getIslandTag? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33483"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getLinearDamping? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33499"></span><p><p class="klcode"><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getLinearFactor? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33489"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getLinearSleepingThreshold? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33583"></span><p><p class="klcode"><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getLinearVelocity? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33637"></span><p><p class="klcode"><a class="reference internal" href="BulletMotionState.html#bulletmotionstate"><span class="std std-ref">BulletMotionState</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getMotionState? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33666"></span><p><p class="klcode">Integer <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getNumConstraintRefs? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33428"></span><p><p class="klcode">Object <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getObject? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33577"></span><p><p class="klcode"><a class="reference internal" href="../Math/Quat.html#quat"><span class="std std-ref">Quat</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getOrientation? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33431"></span><p><p class="klcode"><a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getPointer? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33682"></span><p><p class="klcode"><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getPushVelocity? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33763"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getRestitution? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33528"></span><p><p class="klcode"><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getTotalForce? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33531"></span><p><p class="klcode"><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getTotalTorque? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33685"></span><p><p class="klcode"><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getTurnVelocity? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33849"></span><p><p class="klcode">Object <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getUserPointer? ()</p>
+<p class="plaintext">users can point to their objects, userPointer is not used by Bullet</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33597"></span><p><p class="klcode"><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getVelocityInLocalPoint? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> rel_pos )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33773"></span><p><p class="klcode"><a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.getWorldTransform? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33698"></span><p><p class="klcode">Boolean <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.hasAnisotropicFriction? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33717"></span><p><p class="klcode">Boolean <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.hasContactResponse? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33516"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.integrateVelocities! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> step )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33756"></span><p><p class="klcode">Boolean <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.isActive? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33659"></span><p><p class="klcode">Boolean <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.isInWorld? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33711"></span><p><p class="klcode">Boolean <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.isKinematicObject? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33708"></span><p><p class="klcode">Boolean <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.isStaticObject? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33714"></span><p><p class="klcode">Boolean <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.isStaticOrKinematicObject? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33688"></span><p><p class="klcode">Boolean <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.mergesSimulationIslands? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33459"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.predictIntegratedTransform! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> step, io <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> predictedTransform )</p>
+<p class="plaintext">continuous collision detection needs prediction</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33455"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.proceedToTransform! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> newTrans )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id37110"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.removeConstraintRef! ( in <a class="reference internal" href="BulletTypedConstraint.html#bullettypedconstraint"><span class="std std-ref">BulletTypedConstraint</span></a> c )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33464"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.saveKinematicState! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> step )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33734"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setActivationState! ( in Integer newState )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33652"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setAngularFactor! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> angFac )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33648"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setAngularFactor! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> angFac )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33593"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setAngularVelocity! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> ang_vel )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33694"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setAnisotropicFriction! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> anisotropicFriction )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33845"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setCcdMotionThreshold! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> ccdMotionThreshold )</p>
+<p class="plaintext">Don&#8217;t do continuous collision detection if the motion (in one step) is less then m_ccdMotionThreshold</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33835"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setCcdSweptSphereRadius! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius )</p>
+<p class="plaintext">Swept sphere radius (0.0 by default), see btConvexConvexAlgorithm:</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33520"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setCenterOfMassTransform! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xform )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33828"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setCollisionFlags! ( in Integer flags )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33720"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setCollisionShape! ( in <a class="reference internal" href="BulletCollisionShape.html#bulletcollisionshape"><span class="std std-ref">BulletCollisionShape</span></a> collisionShape )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33814"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setCompanionId! ( in Integer id )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33701"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setContactProcessingThreshold! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> contactProcessingThreshold )</p>
+<p class="plaintext">the constraint solver can discard solving contacts, if the distance is above this threshold. 0 by default.
+Note that using contacts with positive distance can improve stability. It increases, however, the chance of colliding with delegate contacts, such as &#8216;interior&#8217; triangle edges</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33478"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setDamping! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> lin_damping, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> ang_damping )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33738"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setDeactivationTime! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33669"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setFlags! ( in Integer flags )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33766"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setFriction! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> frict )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33471"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setGravity! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> acceleration )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33821"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setHitFraction! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> hitFraction )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33794"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setInterpolationAngularVelocity! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> angvel )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33790"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setInterpolationLinearVelocity! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> linvel )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33786"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setInterpolationWorldTransform! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> trans )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33537"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setInvInertiaDiagLocal! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> diagInvInertia )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33509"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setInvMass! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> mass )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33807"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setIslandTag! ( in Integer tag )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33502"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setLinearFactor! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> linearFactor )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33589"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setLinearVelocity! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> lin_vel )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33640"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setMotionState! ( in <a class="reference internal" href="BulletMotionState.html#bulletmotionstate"><span class="std std-ref">BulletMotionState</span></a> motionState )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33629"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setNewBroadphaseProxy! ( in <a class="reference internal" href="BulletBroadphaseProxy.html#bulletbroadphaseproxy"><span class="std std-ref">BulletBroadphaseProxy</span></a> broadphaseProxy )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33759"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setRestitution! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> rest )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33541"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setSleepingThresholds! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> linear, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> angular )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33852"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setUserPointer! ( in Object userPointer )</p>
+<p class="plaintext">users can point to their objects, userPointer is not used by Bullet</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33776"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.setWorldTransform! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> worldTrans )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33601"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.translate! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> v )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33619"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.updateDeactivation! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> timeStep )</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33571"></span><p><p class="klcode"><a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.updateInertiaTensor! ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33623"></span><p><p class="klcode">Boolean <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a>.wantsSleeping? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id33449"></span><p><p class="klcode">~ <a class="reference internal" href="#bulletrigidbody"><span class="std std-ref">BulletRigidBody</span></a> ()</p>
+</p>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="BulletPoint2PointConstraint.html"
+                        title="前の章へ">BulletPoint2PointConstraint (object)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="BulletRigidBodyConstructionInfo.html"
+                        title="次の章へ">BulletRigidBodyConstructionInfo (struct)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Bullet/BulletRigidBody.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Bullet/BulletRigidBody.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="BulletRigidBodyConstructionInfo.html" title="BulletRigidBodyConstructionInfo (struct)"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="BulletPoint2PointConstraint.html" title="BulletPoint2PointConstraint (object)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Bullet エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" >Bullet Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

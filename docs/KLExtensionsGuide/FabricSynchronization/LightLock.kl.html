@@ -1,0 +1,291 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>LightLock.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="FabricSynchronization Extension’s Files" href="files.html" />
+    <link rel="next" title="LightReadersWriterLock.kl" href="LightReadersWriterLock.kl.html" />
+    <link rel="prev" title="FewObjectsRecyclingAllocator.kl" href="FewObjectsRecyclingAllocator.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="LightReadersWriterLock.kl.html" title="LightReadersWriterLock.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="FewObjectsRecyclingAllocator.kl.html" title="FewObjectsRecyclingAllocator.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >FabricSynchronization エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">FabricSynchronization Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fabricsynchronization-lightlock-kl">
+<span id="lightlock-kl"></span><span id="id1"></span><h1>LightLock.kl<a class="headerlink" href="#fabricsynchronization-lightlock-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="lightlock-struct">
+<h3>LightLock (struct)<a class="headerlink" href="#lightlock-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">Simple, non-reentrant spin lock, which can be bracketed with a <a class="reference internal" href="LightLockBracket.html#lightlockbracket"><span class="std std-ref">LightLockBracket</span></a></p>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="59%" />
+<col width="34%" />
+<col width="7%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>lockVariable</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="29%" />
+<col width="71%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LightLock.html#id113408"><span class="std std-ref">LightLock</span></a>  ( in <a class="reference internal" href="LightLock.html#lightlock"><span class="std std-ref">LightLock</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LightLock.html#id113405"><span class="std std-ref">LightLock</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LightLock.html#id48230"><span class="std std-ref">acquire</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="LightLock.html#lightlock"><span class="std std-ref">LightLock</span></a></td>
+<td><a class="reference internal" href="LightLock.html#id113412"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="LightLock.html#id48224"><span class="std std-ref">locked</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="LightLock.html#id48227"><span class="std std-ref">locked_fetch</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LightLock.html#id48236"><span class="std std-ref">release</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="LightLock.html#id48233"><span class="std std-ref">tryAcquire</span></a> ! ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="mtlightlockbracket-struct">
+<h3>MTLightLockBracket (struct)<a class="headerlink" href="#mtlightlockbracket-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">Bracket for a <a class="reference internal" href="LightLock.html#lightlock"><span class="std std-ref">LightLock</span></a> which is only enabled if IsMultithreading() is true</p>
+<div class="section" id="id2">
+<h4>Members<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="63%" />
+<col width="28%" />
+<col width="9%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a></td>
+<td>data</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td>enabled</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id3">
+<h4>Methods<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="MTLightLockBracket.html#id113418"><span class="std std-ref">MTLightLockBracket</span></a>  ( in <a class="reference internal" href="MTLightLockBracket.html#mtlightlockbracket"><span class="std std-ref">MTLightLockBracket</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="MTLightLockBracket.html#id48267"><span class="std std-ref">MTLightLockBracket</span></a>  ( io <a class="reference internal" href="LightLock.html#lightlock"><span class="std std-ref">LightLock</span></a> lightLock )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="MTLightLockBracket.html#id113415"><span class="std std-ref">MTLightLockBracket</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="MTLightLockBracket.html#mtlightlockbracket"><span class="std std-ref">MTLightLockBracket</span></a></td>
+<td><a class="reference internal" href="MTLightLockBracket.html#id113422"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="MTLightLockBracket.html#id48274"><span class="std std-ref">~MTLightLockBracket</span></a>  ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="lightlockbracket-struct">
+<h3>LightLockBracket (struct)<a class="headerlink" href="#lightlockbracket-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">Bracket for a <a class="reference internal" href="LightLock.html#lightlock"><span class="std std-ref">LightLock</span></a></p>
+<div class="section" id="id4">
+<h4>Members<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="69%" />
+<col width="21%" />
+<col width="10%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a></td>
+<td>data</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id5">
+<h4>Methods<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LightLockBracket.html#id113428"><span class="std std-ref">LightLockBracket</span></a>  ( in <a class="reference internal" href="LightLockBracket.html#lightlockbracket"><span class="std std-ref">LightLockBracket</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LightLockBracket.html#id48247"><span class="std std-ref">LightLockBracket</span></a>  ( io <a class="reference internal" href="LightLock.html#lightlock"><span class="std std-ref">LightLock</span></a> lightLock )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LightLockBracket.html#id113425"><span class="std std-ref">LightLockBracket</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="LightLockBracket.html#lightlockbracket"><span class="std std-ref">LightLockBracket</span></a></td>
+<td><a class="reference internal" href="LightLockBracket.html#id113432"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LightLockBracket.html#id48254"><span class="std std-ref">~LightLockBracket</span></a>  ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="FewObjectsRecyclingAllocator.kl.html"
+                        title="前の章へ">FewObjectsRecyclingAllocator.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="LightReadersWriterLock.kl.html"
+                        title="次の章へ">LightReadersWriterLock.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/FabricSynchronization/LightLock.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/FabricSynchronization/LightLock.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="LightReadersWriterLock.kl.html" title="LightReadersWriterLock.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="FewObjectsRecyclingAllocator.kl.html" title="FewObjectsRecyclingAllocator.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >FabricSynchronization エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >FabricSynchronization Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

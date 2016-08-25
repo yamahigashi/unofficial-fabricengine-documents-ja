@@ -1,0 +1,436 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Color.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Math Extension’s Files" href="files.html" />
+    <link rel="next" title="Complex.kl" href="Complex.kl.html" />
+    <link rel="prev" title="Box3.kl" href="Box3.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Complex.kl.html" title="Complex.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="Box3.kl.html" title="Box3.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Math エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Math Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="math-color-kl">
+<span id="color-kl"></span><span id="id1"></span><h1>Color.kl<a class="headerlink" href="#math-color-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="color-struct">
+<h3>Color (struct)<a class="headerlink" href="#color-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="Color.html#color"><span class="std std-ref">color</span></a> type represents a 32 bit float 4 channel color value, storing the components ordered as red, green, blue and alpha.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="RGBA.html#rgba"><span class="std std-ref">RGBA</span></a>, <a class="reference internal" href="ARGB.html#argb"><span class="std std-ref">ARGB</span></a></p>
+</div>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Construct Color</span>
+<span class="cm">*/</span>
+
+<span class="nx">Color</span> <span class="nx">colorFromByte</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="nx">Color</span> <span class="nx">colorFromScalar</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+
+<span class="nx">Color</span> <span class="nx">blendColor</span> <span class="o">=</span> <span class="nx">colorFromByte</span><span class="p">.</span><span class="nx">linearInterpolate</span><span class="p">(</span><span class="nx">colorFromScalar</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="80%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>r</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>g</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>b</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>a</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id116445"><span class="std std-ref">Color</span></a>  ( in <a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74170"><span class="std std-ref">Color</span></a>  ( in <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74318"><span class="std std-ref">Color</span></a>  ( in Integer r, in Integer g, in Integer b )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74305"><span class="std std-ref">Color</span></a>  ( in Integer r, in Integer g, in Integer b, in Integer a )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74328"><span class="std std-ref">Color</span></a>  ( in <a class="reference internal" href="RGB.html#rgb"><span class="std std-ref">RGB</span></a> r )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74336"><span class="std std-ref">Color</span></a>  ( in <a class="reference internal" href="RGBA.html#rgba"><span class="std std-ref">RGBA</span></a> r )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74202"><span class="std std-ref">Color</span></a>  ( in SInt16 v )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74210"><span class="std std-ref">Color</span></a>  ( in <a class="reference internal" href="SInt32.html#sint32"><span class="std std-ref">SInt32</span></a> v )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74218"><span class="std std-ref">Color</span></a>  ( in <a class="reference internal" href="SInt64.html#sint64"><span class="std std-ref">SInt64</span></a> v )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74152"><span class="std std-ref">Color</span></a>  ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> r, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> g, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> b )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74139"><span class="std std-ref">Color</span></a>  ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> r, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> g, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> b, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> a )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74162"><span class="std std-ref">Color</span></a>  ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> v )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74292"><span class="std std-ref">Color</span></a>  ( in <a class="reference internal" href="UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> r, in <a class="reference internal" href="UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> g, in <a class="reference internal" href="UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> b )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74279"><span class="std std-ref">Color</span></a>  ( in <a class="reference internal" href="UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> r, in <a class="reference internal" href="UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> g, in <a class="reference internal" href="UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> b, in <a class="reference internal" href="UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> a )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74186"><span class="std std-ref">Color</span></a>  ( in <a class="reference internal" href="UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> v )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74194"><span class="std std-ref">Color</span></a>  ( in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> v )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74226"><span class="std std-ref">Color</span></a>  ( in <a class="reference internal" href="UInt64.html#uint64"><span class="std std-ref">UInt64</span></a> v )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74266"><span class="std std-ref">Color</span></a>  ( in <a class="reference internal" href="UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> r, in <a class="reference internal" href="UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> g, in <a class="reference internal" href="UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> b )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74253"><span class="std std-ref">Color</span></a>  ( in <a class="reference internal" href="UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> r, in <a class="reference internal" href="UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> g, in <a class="reference internal" href="UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> b, in <a class="reference internal" href="UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> a )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74178"><span class="std std-ref">Color</span></a>  ( in <a class="reference internal" href="UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> v )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74234"><span class="std std-ref">Color</span></a>  ( in <a class="reference internal" href="Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> v )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74242"><span class="std std-ref">Color</span></a>  ( in <a class="reference internal" href="Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> v )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74129"><span class="std std-ref">Color</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a></td>
+<td><a class="reference internal" href="Color.html#id74458"><span class="std std-ref">add</span></a> ? ( in <a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="Color.html#id74410"><span class="std std-ref">almostEqual</span></a> ? ( in <a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="Color.html#id74405"><span class="std std-ref">almostEqual</span></a> ? ( in <a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a> other, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> precision )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a></td>
+<td><a class="reference internal" href="Color.html#id116449"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="Color.html#id74414"><span class="std std-ref">component</span></a> ? ( in Size i )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a></td>
+<td><a class="reference internal" href="Color.html#id74470"><span class="std std-ref">divide</span></a> ? ( in <a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a> other )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a></td>
+<td><a class="reference internal" href="Color.html#id74478"><span class="std std-ref">divideScalar</span></a> ? ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="Color.html#id74401"><span class="std std-ref">equal</span></a> ? ( in <a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74381"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> v&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74352"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> v&lt;&gt;, in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> o )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74385"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> v[] )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74357"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> v[], in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> o )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74393"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74367"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v&lt;&gt;, in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> o )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74397"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v[] )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74372"><span class="std std-ref">get</span></a> ? ( io <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v[], in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> o )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Color.html#id74427"><span class="std std-ref">hash</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a></td>
+<td><a class="reference internal" href="Color.html#id74482"><span class="std std-ref">linearInterpolate</span></a> ? ( in <a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a> other, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> t )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a></td>
+<td><a class="reference internal" href="Color.html#id74466"><span class="std std-ref">multiply</span></a> ? ( in <a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a></td>
+<td><a class="reference internal" href="Color.html#id74474"><span class="std std-ref">multiplyScalar</span></a> ? ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74377"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> v&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74347"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> v&lt;&gt;, in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> o )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74389"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74362"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Float64.html#float64"><span class="std std-ref">Float64</span></a> v&lt;&gt;, in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> o )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74340"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> r, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> g, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> b, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> a )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74418"><span class="std std-ref">setComponent</span></a> ! ( in Size i, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> v )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74499"><span class="std std-ref">setFromHSV</span></a> ! ( in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> hue, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> saturation, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a></td>
+<td><a class="reference internal" href="Color.html#id74462"><span class="std std-ref">subtract</span></a> ? ( in <a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Color.html#id74493"><span class="std std-ref">toHSV</span></a> ? ( out <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> hue, out <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> saturation, out <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="RGB.html#rgb"><span class="std std-ref">RGB</span></a></td>
+<td><a class="reference internal" href="Color.html#id74490"><span class="std std-ref">toRGB</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="RGBA.html#rgba"><span class="std std-ref">RGBA</span></a></td>
+<td><a class="reference internal" href="Color.html#id74487"><span class="std std-ref">toRGBA</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="operators">
+<h4>Operators<a class="headerlink" href="#operators" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a></td>
+<td><a class="reference internal" href="Color.html#id74432"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="randomcolor">
+<h3>randomColor<a class="headerlink" href="#randomcolor" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a> randomColor ( in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> seed, in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> offset )</p>
+<p class="plaintext">Generates a random color based on a seed and offset</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>seed</td>
+<td>The seed to base the random number geration on.</td>
+</tr>
+<tr class="row-even"><td>offset</td>
+<td>The offset to use in the random number sequence.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</p>
+<p><div class="section" id="id2">
+<h3>randomColor<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a> randomColor ( in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> seed, in <a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> offset )</p>
+<p class="plaintext">Generates a random color based on a seed and offset</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>seed</td>
+<td>The seed to base the random number geration on.</td>
+</tr>
+<tr class="row-even"><td>offset</td>
+<td>The offset to use in the random number sequence.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</p>
+<p><div class="section" id="math-min">
+<h3>Math_min<a class="headerlink" href="#math-min" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="Vec4_d.html#vec4-d"><span class="std std-ref">Vec4_d</span></a> Math_min ( in <a class="reference internal" href="Vec4_d.html#vec4-d"><span class="std std-ref">Vec4_d</span></a> val1, in <a class="reference internal" href="Vec4_d.html#vec4-d"><span class="std std-ref">Vec4_d</span></a> val2 )</p>
+<p class="plaintext">Returns the minimum of two <a class="reference internal" href="Vec4_d.html#vec4-d"><span class="std std-ref">Vec4_d</span></a> values</p>
+</div>
+</p>
+<p><div class="section" id="math-max">
+<h3>Math_max<a class="headerlink" href="#math-max" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="Vec4_d.html#vec4-d"><span class="std std-ref">Vec4_d</span></a> Math_max ( in <a class="reference internal" href="Vec4_d.html#vec4-d"><span class="std std-ref">Vec4_d</span></a> val1, in <a class="reference internal" href="Vec4_d.html#vec4-d"><span class="std std-ref">Vec4_d</span></a> val2 )</p>
+<p class="plaintext">Returns the minimum of two <a class="reference internal" href="Vec4_d.html#vec4-d"><span class="std std-ref">Vec4_d</span></a> values</p>
+</div>
+</p>
+<p><div class="section" id="math-clamp">
+<h3>Math_clamp<a class="headerlink" href="#math-clamp" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> Math_clamp ( in <a class="reference internal" href="Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> val, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> minval, in <a class="reference internal" href="Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> maxval )</p>
+<p class="plaintext">Clamps a <a class="reference internal" href="Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> value by min and max</p>
+</div>
+</p>
+<p><div class="section" id="mathrandomcolor">
+<h3>mathRandomColor<a class="headerlink" href="#mathrandomcolor" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="Color.html#color"><span class="std std-ref">Color</span></a> mathRandomColor ( in Size seed, in Size index, in <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> min, in <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> max )</p>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="Box3.kl.html"
+                        title="前の章へ">Box3.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="Complex.kl.html"
+                        title="次の章へ">Complex.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Math/Color.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Math/Color.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Complex.kl.html" title="Complex.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="Box3.kl.html" title="Box3.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Math エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >Math Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

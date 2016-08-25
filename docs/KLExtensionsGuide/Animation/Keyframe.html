@@ -1,0 +1,315 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Keyframe (struct) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Animation Extension’s Types" href="types.html" />
+    <link rel="next" title="KeyframeTrack (object)" href="KeyframeTrack.html" />
+    <link rel="prev" title="ClipValues (object)" href="ClipValues.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="KeyframeTrack.html" title="KeyframeTrack (object)"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="ClipValues.html" title="ClipValues (object)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Animation エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" accesskey="U">Animation Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="keyframe-struct">
+<span id="keyframe"></span><h1>Keyframe (struct)<a class="headerlink" href="#keyframe-struct" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><p class="klbrief">A sequence of keyframes defining animation over time.</p>
+<p class="plaintext">The <a class="reference internal" href="#keyframe"><span class="std std-ref">keyframe</span></a> represents a single control key on an <a class="reference internal" href="KeyframeTrack.html#keyframetrack"><span class="std std-ref">keyframetrack</span></a>, which is essentially an animation curve. A <a class="reference internal" href="#keyframe"><span class="std std-ref">keyframe</span></a> provide various interpolation methods from <a class="reference internal" href="#keyframe"><span class="std std-ref">keyframe</span></a> to the next.</p>
+<p class="plaintext">When interpolating Bezier keyframes, the tangent values are defined as a gradient and fraction pair.
+The tangent x value is the fraction between this key and the next. A value of 0.333 generates a handle that stretches one third the distance from this key to the next.
+The tangent y value is the gradient of the handle. A value of 0.0 creates a flat handle, and a value of 1.0 generates a handle whose slope is 45 degrees.</p>
+<p class="plaintext">Storing keyframe handles as fractions and gradients is consistent with the major DCCs, and ensures that the curve shape is maintained as the keys are edited in the curve editor.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="KeyframeTrack.html#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a></p>
+</div>
+<p><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: keyframe.kl</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Animation</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">(){</span>
+
+    <span class="c1">// create two keys</span>
+    <span class="nx">Keyframe</span> <span class="nx">keyA</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nx">Vec2</span><span class="p">(</span><span class="o">-</span><span class="mf">0.333</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="nx">Vec2</span><span class="p">(</span><span class="o">-</span><span class="mf">0.333</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">));</span>
+    <span class="nx">Keyframe</span> <span class="nx">keyB</span><span class="p">(</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">);</span>
+
+    <span class="c1">// interpolate the keys for a given time</span>
+    <span class="nx">Scalar</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">keyA</span><span class="p">.</span><span class="nx">interpolate</span><span class="p">(</span><span class="nx">keyB</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">);</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;value:&quot;</span> <span class="o">+</span> <span class="nx">keyA</span><span class="p">.</span><span class="nx">interpolate</span><span class="p">(</span><span class="nx">keyB</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">value:+0.11778</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</p>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+ -->
+<!-- Title: Keyframe Pages: 1 -->
+<svg width="66pt" height="44pt"
+ viewBox="0.00 0.00 66.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>Keyframe</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-40 63,-40 63,5 -4,5"/>
+<!-- Keyframe -->
+<g id="node1" class="node"><title>Keyframe</title>
+<a xlink:href="../Animation/Keyframe.html" xlink:title="Keyframe">
+<polygon fill="#3fabd3" stroke="#3f3f3f" points="58,-36 0,-36 0,-0 58,-0 58,-36"/>
+<text text-anchor="middle" x="29" y="-15.5" font-family="Arial" font-size="10.00">Keyframe</text>
+</a>
+</g>
+</g>
+</svg></p>
+<div class="section" id="members">
+<h2>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="57%" />
+<col width="36%" />
+<col width="7%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>time</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>value</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>Integer</td>
+<td>interpolation</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a></td>
+<td>inTangent</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a></td>
+<td>outTangent</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id110626"><span class="std std-ref">Keyframe</span></a>  ( in <a class="reference internal" href="#keyframe"><span class="std std-ref">Keyframe</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24051"><span class="std std-ref">Keyframe</span></a>  ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24039"><span class="std std-ref">Keyframe</span></a>  ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> inTangent, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> outTangent )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24024"><span class="std std-ref">Keyframe</span></a>  ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> inTangent, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> outTangent, in Integer interpolation )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24059"><span class="std std-ref">Keyframe</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#keyframe"><span class="std std-ref">Keyframe</span></a></td>
+<td><a class="reference internal" href="#id110630"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id24072"><span class="std std-ref">getDesc</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> indent )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id24076"><span class="std std-ref">getDesc</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="#id24062"><span class="std std-ref">interpolate</span></a> ? ( in <a class="reference internal" href="#keyframe"><span class="std std-ref">Keyframe</span></a> key2, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> t )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="#id24067"><span class="std std-ref">linearInterpolate</span></a> ? ( in <a class="reference internal" href="#keyframe"><span class="std std-ref">Keyframe</span></a> key2, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> b )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="methods-in-detail">
+<h2>Methods in detail<a class="headerlink" href="#methods-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><span class="target" id="id110626"></span><p><p class="klcode"><a class="reference internal" href="#keyframe"><span class="std std-ref">Keyframe</span></a> ( in <a class="reference internal" href="#keyframe"><span class="std std-ref">Keyframe</span></a> other )</p>
+<p class="plaintext">copy constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24051"></span><p><p class="klcode"><a class="reference internal" href="#keyframe"><span class="std std-ref">Keyframe</span></a> ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</p>
+<p class="plaintext">constructor providing time and value. tangents are zero length, interpolation is set to linear.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24039"></span><p><p class="klcode"><a class="reference internal" href="#keyframe"><span class="std std-ref">Keyframe</span></a> ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> inTangent, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> outTangent )</p>
+<p class="plaintext">constructor providing time, value and both tangents. interpolation is set to bezier.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24024"></span><p><p class="klcode"><a class="reference internal" href="#keyframe"><span class="std std-ref">Keyframe</span></a> ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> inTangent, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> outTangent, in Integer interpolation )</p>
+<p class="plaintext">constructor providing time, value, both tangent and the interpolation type</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24059"></span><p><p class="klcode"><a class="reference internal" href="#keyframe"><span class="std std-ref">Keyframe</span></a> ()</p>
+<p class="plaintext">default constructor, time, value, tangents are zeroed. interpolation is linear.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id110630"></span><p><p class="klcode"><a class="reference internal" href="#keyframe"><span class="std std-ref">Keyframe</span></a> <a class="reference internal" href="#keyframe"><span class="std std-ref">Keyframe</span></a>.clone? ()</p>
+<p class="plaintext">clone method</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24072"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#keyframe"><span class="std std-ref">Keyframe</span></a>.getDesc? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> indent )</p>
+<p class="plaintext">Generates a Description string of this keyframe.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>indent</td>
+<td>The indentation to use when generating the string.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24076"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#keyframe"><span class="std std-ref">Keyframe</span></a>.getDesc? ()</p>
+<p class="plaintext">Generates a Description string of this keyframe.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24062"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> <a class="reference internal" href="#keyframe"><span class="std std-ref">Keyframe</span></a>.interpolate? ( in <a class="reference internal" href="#keyframe"><span class="std std-ref">Keyframe</span></a> key2, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> t )</p>
+<p class="plaintext">interpolates this key with another one provided a (absolute) time value</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24067"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> <a class="reference internal" href="#keyframe"><span class="std std-ref">Keyframe</span></a>.linearInterpolate? ( in <a class="reference internal" href="#keyframe"><span class="std std-ref">Keyframe</span></a> key2, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> b )</p>
+<p class="plaintext">interpolates this key with another one provided linear blend value (0.0 to 1.0)</p>
+</p>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="ClipValues.html"
+                        title="前の章へ">ClipValues (object)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="KeyframeTrack.html"
+                        title="次の章へ">KeyframeTrack (object)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Animation/Keyframe.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Animation/Keyframe.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="KeyframeTrack.html" title="KeyframeTrack (object)"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="ClipValues.html" title="ClipValues (object)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Animation エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" >Animation Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

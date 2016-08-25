@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>エクステンションの再読み込み &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="エクステンション・オーサリングガイド" href="index.html" />
+    <link rel="next" title="ラインセンス ガイド" href="../LicensingGuide/index.html" />
+    <link rel="prev" title="Calling Convention for Exported Functions" href="cconv.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../LicensingGuide/index.html" title="ラインセンス ガイド"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="cconv.html" title="Calling Convention for Exported Functions"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">エクステンション・オーサリングガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="extension-reloading">
+<span id="eag-reloading"></span><h1>エクステンションの再読み込み<a class="headerlink" href="#extension-reloading" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified">バージョン 1.13.0 で追加.</span></p>
+</div>
+<p>KLエクステンションコードは、Fabric EngineインスタンスがDCC上で実行中であろうと、スタンドアロンアプリケーションとして実行中であろうと、いつでも再読み込みができます。Canvas ノードの右クリックすると、そのノードの依存エクステンションのリロードオプションが表示されます。</p>
+<p>KLエクステンションの通常の再読み込みは以下のような状況で特に有用です。エクステンションの型, 関数プロトタイプのメモリ上での配置が不変に保ったまま、既存関数の実装をアップデートしたい場合。エクステンションの再読み込みは下記の注意事項に気をつけるかぎりにおいて安全です。</p>
+<div class="section" id="api-functions">
+<h2>API 関数<a class="headerlink" href="#api-functions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>KLエクステンションの再読み込みに関連する API関数コードは、C APIの <cite>FEC_ClientLoadExtension</cite>,  <cite>FEC_RegisterKLExtension</cite>  と、C++ and Python APIには <cite>Client::loadExtension()</cite>, <cite>RegisterKLExtension</cite> があります。これらの関数とそのパラメータについてのより詳しい情報は <a class="reference internal" href="../CAPIProgrammingGuide/clients.html#clients"><span class="std std-ref">クライアントとアプリケーションの生存サイクル</span></a> 参照してください。これらの関数の <cite>reload</cite> パラメータは比較的新しく追加されたものです。0に設定した場合: ――過去にユーザがそのエクステンションを読み込もうとしていた場合―― 関数は既に読み込み済であるとエラーを出力する。1に設定した場合: そのエクステンションはディスク （あるいは <cite>RegisterKLExtension</cite> 関数であれば指定したソースコード）より再読み込みされる。</p>
+</div>
+<div class="section" id="updating-kl-type-member-layout">
+<h2>KL型のメンバのレイアウトのアップデート<a class="headerlink" href="#updating-kl-type-member-layout" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>あるKLの型の、メモリ上での表現あるいはメンバのレイアウトは、エクステンションのリロードでは変更できません。そのようなことをしてしまうとエラーとなるでしょう。KL型のメモリ上の表現を変更するには、すべてのCoreクライアントをいったん落とし再起動しましょう。例えば、ある構造体 &#8216;MyStruct&#8217; にメンバを追加し、そのままリロードしてしまうと以下のようなエラーが発生します:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">FABRIC</span><span class="p">:</span><span class="n">MT</span><span class="p">]</span> <span class="p">[</span><span class="n">MyExt</span><span class="p">]</span> <span class="n">MyExt</span><span class="o">.</span><span class="n">kl</span><span class="p">:</span><span class="mi">2</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span> <span class="n">error</span><span class="p">:</span> <span class="nb">type</span> <span class="s1">&#39;MyStruct&#39;</span> <span class="n">already</span> <span class="n">registered</span> <span class="k">with</span> <span class="n">a</span> <span class="n">different</span> <span class="n">definition</span>
+<span class="p">[</span><span class="n">FABRIC</span><span class="p">:</span><span class="n">MT</span><span class="p">]</span> <span class="p">[</span><span class="n">MyExt</span><span class="p">]</span> <span class="n">Error</span> <span class="n">encountered</span> <span class="k">while</span> <span class="n">loading</span> <span class="n">extension</span><span class="p">;</span> <span class="n">extension</span> <span class="n">disabled</span>
+<span class="p">[</span><span class="n">FABRIC</span><span class="p">:</span><span class="n">MT</span><span class="p">]</span> <span class="p">[</span><span class="n">MyExt</span><span class="p">]</span> <span class="n">Error</span> <span class="n">description</span><span class="p">:</span> <span class="n">KL</span> <span class="nb">compile</span> <span class="n">failed</span><span class="p">:</span> <span class="nb">type</span> <span class="s1">&#39;MyStruct&#39;</span> <span class="n">already</span> <span class="n">registered</span> <span class="k">with</span> <span class="n">a</span> <span class="n">different</span> <span class="n">definition</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="updating-kl-source-code">
+<h2>KLソースコードのアップデート<a class="headerlink" href="#updating-kl-source-code" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>すべてのエクステンションのKLソースコードはエクステンションリロードするとアップデートされます。ただしいくつかの注意点があります。</p>
+<div class="section" id="extension-dependencies">
+<h3>エクステンション間の依存<a class="headerlink" href="#extension-dependencies" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>リロードをかけるエクステンションに他のものに依存がある場合、リロードするエクステンションの関数がどのように呼ばれるか ―― <cite>function</cite>, <cite>inline</cite> どちらのマークがついているかに応じて振る舞いが変わります。例えばエクステンション <cite>Foo</cite> 外貨のような場合:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">FooType</span>
+<span class="p">{</span>
+  <span class="n">Scalar</span> <span class="n">a</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">function</span> <span class="n">FooType</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">report</span><span class="p">(</span><span class="s1">&#39;called FooType.bar()&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">inline</span> <span class="n">FooType</span><span class="o">.</span><span class="n">foo</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">report</span><span class="p">(</span><span class="s1">&#39;called FooType.foo()&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>そしてエクステンション <cite>Bar</cite> が以下:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">require</span> <span class="n">Foo</span><span class="p">;</span>
+
+<span class="n">struct</span> <span class="n">BarType</span>
+<span class="p">{</span>
+  <span class="n">FooType</span> <span class="n">foo</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">function</span> <span class="n">BarType</span><span class="o">.</span><span class="n">myFunction</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">this</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">foo</span><span class="p">();</span>
+  <span class="n">this</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">bar</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><cite>foo()</cite>, <cite>bar()</cite> メソッドの実装を変更し <cite>Foo</cite> のソースコードをリロードすると、 <cite>Bar</cite> 型では非inlie関数である <cite>bar()</cite>　メソッドのみしか変更が反映されません。インライン関数 <cite>foo()</cite> の実装への候を反映するには、 <cite>Bar</cite> エクステンションの再コンパイルが必要です。さらにCore は自動で依存するエクステンションのリロードを行わないため、ユーザが手動でリロードをかけ再コンパイルを強制させます。</p>
+</div>
+<div class="section" id="changing-function-prototypes-or-adding-removing-functions">
+<h3>関数プロトタイプの変更、関数の追加と削除<a class="headerlink" href="#changing-function-prototypes-or-adding-removing-functions" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>あるエクステンション内で、A．既存KL関数のプロトタイプを変更する（パラメータの型の変更、パラメータの追加,削除など）B.関数を追加,削除する場合、このエクステンションに対するあたらしいKLコードは、新しい関数を使用可能です。ただし、エクステンションが依存する既存コードは古い関数プロトタイプへ参照したままとなり古い関数を使用してしまいます。依存エクステンションが、すでに目視不可能な存在しないKL関数を使用してしまい、多大な混乱を生じてしまいます。</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">エクステンションの再読み込み</a><ul>
+<li><a class="reference internal" href="#api-functions">API 関数</a></li>
+<li><a class="reference internal" href="#updating-kl-type-member-layout">KL型のメンバのレイアウトのアップデート</a></li>
+<li><a class="reference internal" href="#updating-kl-source-code">KLソースコードのアップデート</a><ul>
+<li><a class="reference internal" href="#extension-dependencies">エクステンション間の依存</a></li>
+<li><a class="reference internal" href="#changing-function-prototypes-or-adding-removing-functions">関数プロトタイプの変更、関数の追加と削除</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="cconv.html"
+                        title="前の章へ">Calling Convention for Exported Functions</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="../LicensingGuide/index.html"
+                        title="次の章へ">ラインセンス ガイド</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/ExtensionAuthoringGuide/reloading.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/ExtensionAuthoringGuide/reloading.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../LicensingGuide/index.html" title="ラインセンス ガイド"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="cconv.html" title="Calling Convention for Exported Functions"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >エクステンション・オーサリングガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

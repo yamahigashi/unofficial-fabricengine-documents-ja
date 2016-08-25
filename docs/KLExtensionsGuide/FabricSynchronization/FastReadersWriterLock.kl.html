@@ -1,0 +1,568 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>FastReadersWriterLock.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="FabricSynchronization Extension’s Files" href="files.html" />
+    <link rel="next" title="FewObjectsRecyclingAllocator.kl" href="FewObjectsRecyclingAllocator.kl.html" />
+    <link rel="prev" title="ComputeContext.kl" href="ComputeContext.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="FewObjectsRecyclingAllocator.kl.html" title="FewObjectsRecyclingAllocator.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="ComputeContext.kl.html" title="ComputeContext.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >FabricSynchronization エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">FabricSynchronization Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fabricsynchronization-fastreaderswriterlock-kl">
+<span id="fastreaderswriterlock-kl"></span><span id="id1"></span><h1>FastReadersWriterLock.kl<a class="headerlink" href="#fabricsynchronization-fastreaderswriterlock-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="readerswriterlock-writelock-struct">
+<h3>ReadersWriterLock_writeLock (struct)<a class="headerlink" href="#readerswriterlock-writelock-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="79%" />
+<col width="17%" />
+<col width="4%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Ref&lt;<a class="reference internal" href="FastReadersWriterLock.html#fastreaderswriterlock"><span class="std std-ref">FastReadersWriterLock</span></a>&gt;</td>
+<td>rwLock</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>threadIndex</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ReadersWriterLock_writeLock.html#id113328"><span class="std std-ref">ReadersWriterLock_writeLock</span></a>  ( in <a class="reference internal" href="ReadersWriterLock_writeLock.html#readerswriterlock-writelock"><span class="std std-ref">ReadersWriterLock_writeLock</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ReadersWriterLock_writeLock.html#id48811"><span class="std std-ref">ReadersWriterLock_writeLock</span></a>  ( in Ref&lt;<a class="reference internal" href="FastReadersWriterLock.html#fastreaderswriterlock"><span class="std std-ref">FastReadersWriterLock</span></a>&gt; rwLock )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ReadersWriterLock_writeLock.html#id48820"><span class="std std-ref">ReadersWriterLock_writeLock</span></a>  ( in Ref&lt;<a class="reference internal" href="FastReadersWriterLock.html#fastreaderswriterlock"><span class="std std-ref">FastReadersWriterLock</span></a>&gt; rwLock, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> priority )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ReadersWriterLock_writeLock.html#id113325"><span class="std std-ref">ReadersWriterLock_writeLock</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="ReadersWriterLock_writeLock.html#readerswriterlock-writelock"><span class="std std-ref">ReadersWriterLock_writeLock</span></a></td>
+<td><a class="reference internal" href="ReadersWriterLock_writeLock.html#id113332"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ReadersWriterLock_writeLock.html#id48825"><span class="std std-ref">init</span></a> ! ( in Ref&lt;<a class="reference internal" href="FastReadersWriterLock.html#fastreaderswriterlock"><span class="std std-ref">FastReadersWriterLock</span></a>&gt; rwLock, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> priority )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ReadersWriterLock_writeLock.html#id48833"><span class="std std-ref">~ReadersWriterLock_writeLock</span></a>  ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="multithreadreaderswriterlockbracket-struct">
+<h3>MultithreadReadersWriterLockBracket (struct)<a class="headerlink" href="#multithreadreaderswriterlockbracket-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">Brackets for propagating permissions to children threads under ParallelExecute.
+If a multithreading is started from an already locked <a class="reference internal" href="FastReadersWriterLock.html#fastreaderswriterlock"><span class="std std-ref">FastReadersWriterLock</span></a>
+this must be used to properly preserve the states.
+The <a class="reference internal" href="MultithreadReadersWriterLockBracket.html#multithreadreaderswriterlockbracket"><span class="std std-ref">MultithreadReadersWriterLockBracket</span></a> must be built by the thread starting the
+multithreading, and the <a class="reference internal" href="ThreadReadersWriterLockBracket.html#threadreaderswriterlockbracket"><span class="std std-ref">ThreadReadersWriterLockBracket</span></a> must be built by the
+associated worker thread.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Because of limitations on the thread pool behavior, this construct will not work properly under nested parallel execute (2+ levels)</p>
+</div>
+<div class="section" id="id2">
+<h4>Members<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="74%" />
+<col width="23%" />
+<col width="4%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Ref&lt;<a class="reference internal" href="FastReadersWriterLock.html#fastreaderswriterlock"><span class="std std-ref">FastReadersWriterLock</span></a>&gt;</td>
+<td>rwLock</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>threadId</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>parentReadDepth</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>parentWriteDepth</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id3">
+<h4>Methods<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="MultithreadReadersWriterLockBracket.html#id113338"><span class="std std-ref">MultithreadReadersWriterLockBracket</span></a>  ( in <a class="reference internal" href="MultithreadReadersWriterLockBracket.html#multithreadreaderswriterlockbracket"><span class="std std-ref">MultithreadReadersWriterLockBracket</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="MultithreadReadersWriterLockBracket.html#id48850"><span class="std std-ref">MultithreadReadersWriterLockBracket</span></a>  ( in Ref&lt;<a class="reference internal" href="FastReadersWriterLock.html#fastreaderswriterlock"><span class="std std-ref">FastReadersWriterLock</span></a>&gt; rwLock )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="MultithreadReadersWriterLockBracket.html#id113335"><span class="std std-ref">MultithreadReadersWriterLockBracket</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="MultithreadReadersWriterLockBracket.html#multithreadreaderswriterlockbracket"><span class="std std-ref">MultithreadReadersWriterLockBracket</span></a></td>
+<td><a class="reference internal" href="MultithreadReadersWriterLockBracket.html#id113342"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="MultithreadReadersWriterLockBracket.html#id48857"><span class="std std-ref">~MultithreadReadersWriterLockBracket</span></a>  ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="readerswriterlock-readlock-struct">
+<h3>ReadersWriterLock_readLock (struct)<a class="headerlink" href="#readerswriterlock-readlock-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id4">
+<h4>Members<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="79%" />
+<col width="17%" />
+<col width="4%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Ref&lt;<a class="reference internal" href="FastReadersWriterLock.html#fastreaderswriterlock"><span class="std std-ref">FastReadersWriterLock</span></a>&gt;</td>
+<td>rwLock</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>threadIndex</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id5">
+<h4>Methods<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ReadersWriterLock_readLock.html#id113348"><span class="std std-ref">ReadersWriterLock_readLock</span></a>  ( in <a class="reference internal" href="ReadersWriterLock_readLock.html#readerswriterlock-readlock"><span class="std std-ref">ReadersWriterLock_readLock</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ReadersWriterLock_readLock.html#id48787"><span class="std std-ref">ReadersWriterLock_readLock</span></a>  ( in Ref&lt;<a class="reference internal" href="FastReadersWriterLock.html#fastreaderswriterlock"><span class="std std-ref">FastReadersWriterLock</span></a>&gt; rwLock )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ReadersWriterLock_readLock.html#id113345"><span class="std std-ref">ReadersWriterLock_readLock</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ReadersWriterLock_readLock.html#readerswriterlock-readlock"><span class="std std-ref">ReadersWriterLock_readLock</span></a></td>
+<td><a class="reference internal" href="ReadersWriterLock_readLock.html#id113352"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ReadersWriterLock_readLock.html#id48798"><span class="std std-ref">~ReadersWriterLock_readLock</span></a>  ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="threadreaderswriterlockbracket-struct">
+<h3>ThreadReadersWriterLockBracket (struct)<a class="headerlink" href="#threadreaderswriterlockbracket-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">Brackets for propagating permissions from parent thread under ParallelExecute.
+If a multithreading is started from an already locked <a class="reference internal" href="FastReadersWriterLock.html#fastreaderswriterlock"><span class="std std-ref">FastReadersWriterLock</span></a>
+this must be used to properly preserve the states.
+The <a class="reference internal" href="MultithreadReadersWriterLockBracket.html#multithreadreaderswriterlockbracket"><span class="std std-ref">MultithreadReadersWriterLockBracket</span></a> must be built by the thread starting the
+multithreading, and the <a class="reference internal" href="ThreadReadersWriterLockBracket.html#threadreaderswriterlockbracket"><span class="std std-ref">ThreadReadersWriterLockBracket</span></a> must be built by the
+associated worker thread.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Because of limitations on the thread pool behavior, this construct will not work properly under nested parallel execute (2+ levels)</p>
+</div>
+<div class="section" id="id6">
+<h4>Members<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="74%" />
+<col width="23%" />
+<col width="4%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Ref&lt;<a class="reference internal" href="FastReadersWriterLock.html#fastreaderswriterlock"><span class="std std-ref">FastReadersWriterLock</span></a>&gt;</td>
+<td>rwLock</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>threadId</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>backupReadDepth</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>backupWriteDepth</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id7">
+<h4>Methods<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ThreadReadersWriterLockBracket.html#id48874"><span class="std std-ref">ThreadReadersWriterLockBracket</span></a>  ( in <a class="reference internal" href="MultithreadReadersWriterLockBracket.html#multithreadreaderswriterlockbracket"><span class="std std-ref">MultithreadReadersWriterLockBracket</span></a> parentBracket )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="ThreadReadersWriterLockBracket.html#id113358"><span class="std std-ref">ThreadReadersWriterLockBracket</span></a>  ( in <a class="reference internal" href="ThreadReadersWriterLockBracket.html#threadreaderswriterlockbracket"><span class="std std-ref">ThreadReadersWriterLockBracket</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ThreadReadersWriterLockBracket.html#id113355"><span class="std std-ref">ThreadReadersWriterLockBracket</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ThreadReadersWriterLockBracket.html#threadreaderswriterlockbracket"><span class="std std-ref">ThreadReadersWriterLockBracket</span></a></td>
+<td><a class="reference internal" href="ThreadReadersWriterLockBracket.html#id113362"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="ThreadReadersWriterLockBracket.html#id48881"><span class="std std-ref">~ThreadReadersWriterLockBracket</span></a>  ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="fastreaderswriterlock-object">
+<h3>FastReadersWriterLock (object)<a class="headerlink" href="#fastreaderswriterlock-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">Implement a readers-writer lock, with active waiting and priority management (0 = highest .. 3 = lowest).
+In order to be active, priority management must be initially enabled with <a class="reference internal" href="FastReadersWriterLock.html#id48706"><span class="std std-ref">FastReadersWriterLock.enableWritePriorities</span></a>.</p>
+<p class="plaintext">Guaranties are as follow:</p>
+<ul class="plaintext simple">
+<li>Locks are reentrant: a reader can nest a writer or reader lock, and vice versa</li>
+<li>Readers will wait for writers to finish, unless they have been waiting longer than these, or reader&#8217;s thread has higher priority than writers (synchronous VS asynchronous - <a class="reference internal" href="AsyncTaskQueue.html#asynctaskqueue"><span class="std std-ref">AsyncTaskQueue</span></a>)</li>
+<li>Writers will wait for readers to finish</li>
+<li>Writers will let yield to other queued writers with higher priority</li>
+<li>If an active reader requests a write lock, this write will happen before any other writes of lower priority</li>
+<li>If a reader requests a write of lower priority, other writes of equal or higher priority could happen first</li>
+</ul>
+<p class="plaintext">The logic is read-biased for speed of access when no writers, but write-biased for access priority.
+Going from read to write is allowed, but it doesn&#8217;t garantee that other writes might
+happen in-between (which is the case anyway since all readers could in theory ask to upgrade to write at the same time).</p>
+<p class="plaintext">For the control, we&#8217;re using one main atomic <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> which as 2 parts:</p>
+<ol class="plaintext upperalpha simple">
+<li>&#8220;how many are waiting to write or currently writing&#8221;</li>
+<li>&#8220;some reads might be happening or have happened recently&#8221; (one bit)</li>
+</ol>
+<p class="plaintext">Then, we use a &#8220;readDepth&#8221; and &#8220;writeDepth&#8221; per thread (allows, too, reentrency within a same thread).</p>
+<p class="plaintext">This allows the following optimizations.</p>
+<ul class="plaintext simple">
+<li>New readers set their &#8220;readDepth&#8221; to 1. Then, in one atomic operation, the readers get A) and set B).</li>
+</ul>
+<p class="plaintext">If no A), they go straight to their reading.
+If there is some A), they yield (set put back their &#8220;readDepth&#8221; to 0 and wait for no writers).</p>
+<ul class="plaintext simple">
+<li>In one atomic operation, new writers increment A) and get B). They then wait to get the write lock.</li>
+</ul>
+<p class="plaintext">Once a writer has the write lock, they check if there might be concurrent readers by fetching B)
+(and it clears B at the same time). If not, they go straight to write. Otherwise, it will
+actively wait for readers to finish by looping over their &#8220;readDepth&#8221;, until they are all done.</p>
+<div class="section" id="id8">
+<h4>Members<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="68%" />
+<col width="30%" />
+<col width="2%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="FastReadersWriterLock_perThreadStates.html#fastreaderswriterlock-perthreadstates"><span class="std std-ref">FastReadersWriterLock_perThreadStates</span></a>[]</td>
+<td>perThreadStates</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>waitingWritersCountAndSomeMightReadBit</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>Ref&lt;<a class="reference internal" href="AsyncTaskQueue.html#asynctaskqueue"><span class="std std-ref">AsyncTaskQueue</span></a>&gt;</td>
+<td>asyncTaskQueue</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>parallelWritingAllowedDepth</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LightLock.html#lightlock"><span class="std std-ref">LightLock</span></a></td>
+<td>writeLock</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>name</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>nextRequestOrder</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>nextWaitingReaderOrder</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>nextWaitingWriterOrder</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td>prioritiesEnabled</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>waitingPrioritiesBits</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a>[8]</td>
+<td>perPriorityCounts</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a></td>
+<td>writerWaitingWriterForReaders</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>debugCount</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id9">
+<h4>Methods<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id113318"><span class="std std-ref">FastReadersWriterLock</span></a>  ( in <a class="reference internal" href="FastReadersWriterLock.html#fastreaderswriterlock"><span class="std std-ref">FastReadersWriterLock</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48692"><span class="std std-ref">FastReadersWriterLock</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48699"><span class="std std-ref">FastReadersWriterLock</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48741"><span class="std std-ref">acquireRead</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> threadIndex )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48745"><span class="std std-ref">acquireRead</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48766"><span class="std std-ref">acquireWrite</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> priority )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48755"><span class="std std-ref">acquireWrite</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> threadIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> priority )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48763"><span class="std std-ref">acquireWrite</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="FastReadersWriterLock.html#fastreaderswriterlock"><span class="std std-ref">FastReadersWriterLock</span></a></td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id113322"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48760"><span class="std std-ref">currentThreadHasWriteLock</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48706"><span class="std std-ref">enableWritePriorities</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48702"><span class="std std-ref">init</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48721"><span class="std std-ref">isParallelWritingAllowed</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48718"><span class="std std-ref">readLockedByCurrentThread</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48724"><span class="std std-ref">readLocked_slow</span></a> ? ( in Boolean excludeThisThread )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48728"><span class="std std-ref">readLocked_slow</span></a> ? ( in Boolean excludeThisThread, io <a class="reference internal" href="FastReadersWriterLock_perThreadStates.html#fastreaderswriterlock-perthreadstates"><span class="std std-ref">FastReadersWriterLock_perThreadStates</span></a> offending, io <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> offendingIndex )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48734"><span class="std std-ref">releaseLocksBeforeThrow</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48748"><span class="std std-ref">releaseRead</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> threadIndex )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48752"><span class="std std-ref">releaseRead</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48770"><span class="std std-ref">releaseWrite</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> threadIndex )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48774"><span class="std std-ref">releaseWrite</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48709"><span class="std std-ref">writeLocked</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48715"><span class="std std-ref">writeLockedByCurrentThread</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="FastReadersWriterLock.html#id48712"><span class="std std-ref">writeLocked_fetch</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="ComputeContext.kl.html"
+                        title="前の章へ">ComputeContext.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="FewObjectsRecyclingAllocator.kl.html"
+                        title="次の章へ">FewObjectsRecyclingAllocator.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/FabricSynchronization/FastReadersWriterLock.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/FabricSynchronization/FastReadersWriterLock.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="FewObjectsRecyclingAllocator.kl.html" title="FewObjectsRecyclingAllocator.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="ComputeContext.kl.html" title="ComputeContext.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >FabricSynchronization エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >FabricSynchronization Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

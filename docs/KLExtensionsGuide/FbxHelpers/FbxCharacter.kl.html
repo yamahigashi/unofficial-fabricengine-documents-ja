@@ -1,0 +1,377 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>FbxCharacter.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="FbxHelpers Extension’s Files" href="files.html" />
+    <link rel="next" title="FbxClip.kl" href="FbxClip.kl.html" />
+    <link rel="prev" title="FbxArchiveReader.kl" href="FbxArchiveReader.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="FbxClip.kl.html" title="FbxClip.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="FbxArchiveReader.kl.html" title="FbxArchiveReader.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >FbxHelpers エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">FbxHelpers Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fbxhelpers-fbxcharacter-kl">
+<span id="fbxcharacter-kl"></span><span id="id1"></span><h1>FbxCharacter.kl<a class="headerlink" href="#fbxhelpers-fbxcharacter-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="fbxcharacter-object">
+<h3>FbxCharacter (object)<a class="headerlink" href="#fbxcharacter-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="FbxCharacter.html#fbxcharacter"><span class="std std-ref">FbxCharacter</span></a> object manages loading character data from an Fbx file.</p>
+<p>Check <a class="reference external" href="http://softimage.wiki.softimage.com/xsidocs/shape_anim_CreatingShapesintheShapeModelingConstructionModes.html">http://softimage.wiki.softimage.com/xsidocs/shape_anim_CreatingShapesintheShapeModelingConstructionModes.html</a>.</p>
+<p>If the Fbx file contains animation, and <a class="reference internal" href="FbxClip.html#fbxclip"><span class="std std-ref">FbxClip</span></a> object is automatically constructed and <a class="reference internal" href="../Characters/ClipPose.html#clippose"><span class="std std-ref">ClipPose</span></a>
+assigned to drive the pose of the character.</p>
+<p><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: fbxCharacter.kl</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Fbx</span><span class="p">,</span> <span class="nx">FbxHelpers</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">(){</span>
+
+  <span class="nx">FilePath</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">FilePath</span><span class="p">(</span><span class="s2">&quot;${FABRIC_SCENE_GRAPH_DIR}/Python/Apps/Resources/Fbx/BendyBox.fbx&quot;</span><span class="p">).</span><span class="nx">expandEnvVars</span><span class="p">();</span>
+  <span class="nx">FbxCharacter</span> <span class="nx">fbxCharacter</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">string</span><span class="p">());</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">fbxCharacter</span><span class="p">.</span><span class="nx">getDesc</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="kc">false</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">Error: Fbx: [FabricFBX]: Unable to initialize import on provided filePath : D:\fabric\release/Python/Apps/Resources/Fbx/BendyBox.fbx</span>
+<span class="cm">KL stack trace:</span>
+<span class="cm">[ST] 1 method.load.L.UO_FbxCharacter.R.ST() FbxCharacter.kl:167</span>
+<span class="cm">[ST] 2 create.L.OO_FbxCharacter.R.ST() FbxCharacter.kl:75</span>
+<span class="cm">[ST] 3 operator.entry() (stdin):11</span>
+<span class="cm">[ST] 4 kl.internal.entry.stub.cpu()</span>
+<span class="cm">Character:{ </span>
+<span class="cm">  name: BendyBox </span>
+<span class="cm">  skeleton:  Skeleton { </span>
+<span class="cm">    name: BendyBox </span>
+<span class="cm">    bones:[ </span>
+<span class="cm">    ]</span>
+<span class="cm">  } </span>
+<span class="cm">  pose:  Pose { </span>
+<span class="cm">    xfos:[ </span>
+<span class="cm">    ]</span>
+<span class="cm">  } </span>
+<span class="cm">  num geometries:0 </span>
+<span class="cm">}</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</p>
+<p>Geometries in the file that are bound to deformers are gathered and a union of all the deformers is generated. 
+This union is used to generate a <a class="reference internal" href="../Characters/Skeleton.html#skeleton"><span class="std std-ref">Skeleton</span></a>. 
+The skinning binding indices are remapped to index into the union of joints assigned to the skeleton. 
+This grouping of deformers means that only one pose value must be managed per character and the pose uploaded to the GPU during GPU based rendering. 
+All deformed geometries can then be deformed using the same computed pose texture on the GPU.</p>
+<p><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: fbxDeformingMesh.kl</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Fbx</span><span class="p">,</span> <span class="nx">FbxHelpers</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">(){</span>
+  <span class="nx">FilePath</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">FilePath</span><span class="p">(</span><span class="s2">&quot;${FABRIC_SCENE_GRAPH_DIR}/Python/Apps/Resources/Fbx/BendyBox.fbx&quot;</span><span class="p">).</span><span class="nx">expandEnvVars</span><span class="p">();</span>
+  <span class="nx">FbxCharacter</span> <span class="nx">fbxCharacter</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">string</span><span class="p">());</span>
+
+  <span class="nx">ClipPose</span> <span class="nx">pose</span> <span class="o">=</span> <span class="nx">fbxCharacter</span><span class="p">.</span><span class="nx">getPose</span><span class="p">();</span>
+  <span class="nx">Vec2</span> <span class="nx">timeRange</span> <span class="o">=</span> <span class="nx">pose</span><span class="p">.</span><span class="nx">getClip</span><span class="p">().</span><span class="nx">getTimeRange</span><span class="p">();</span>
+  <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;timeRange:&quot;</span> <span class="o">+</span> <span class="nx">timeRange</span><span class="p">);</span>
+
+  <span class="kr">Integer</span> <span class="nx">numSamples</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">numSamples</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="nx">Scalar</span> <span class="nx">time</span> <span class="o">=</span>  <span class="nx">Math_linearInterpolate</span><span class="p">(</span><span class="nx">timeRange</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">timeRange</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span> <span class="nx">Scalar</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="o">/</span><span class="nx">Scalar</span><span class="p">(</span><span class="nx">numSamples</span><span class="p">));</span>
+    
+    <span class="nx">pose</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="nx">time</span><span class="p">);</span>
+
+    <span class="c1">// Retrieve the deformed geom from the character</span>
+    <span class="nx">Geometry</span> <span class="nx">deformedGeom</span> <span class="o">=</span> <span class="nx">fbxCharacter</span><span class="p">.</span><span class="nx">getDeformedGeometry</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="nx">Vec3Attribute</span> <span class="nx">positionsAttribute</span> <span class="o">=</span> <span class="nx">deformedGeom</span><span class="p">.</span><span class="nx">getAttributes</span><span class="p">().</span><span class="nx">positionsAttribute</span><span class="p">;</span>
+    <span class="kr">String</span> <span class="nx">positionsStr</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">j</span><span class="o">&lt;</span><span class="mi">6</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">){</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">j</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+        <span class="nx">positionsStr</span> <span class="o">+=</span> <span class="s2">&quot;, &quot;</span><span class="p">;</span>
+      <span class="nx">positionsStr</span> <span class="o">+=</span> <span class="nx">positionsAttribute</span><span class="p">.</span><span class="nx">values</span><span class="p">[</span> <span class="nx">floor</span><span class="p">(</span><span class="nx">j</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="nx">positionsAttribute</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">size</span><span class="p">()))</span> <span class="p">];</span>
+    <span class="p">}</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;Deformed Position Values:&quot;</span> <span class="o">+</span> <span class="nx">positionsStr</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">Error: Fbx: [FabricFBX]: Unable to initialize import on provided filePath : D:\fabric\release/Python/Apps/Resources/Fbx/BendyBox.fbx</span>
+<span class="cm">KL stack trace:</span>
+<span class="cm">[ST] 1 method.load.L.UO_FbxCharacter.R.ST() FbxCharacter.kl:167</span>
+<span class="cm">[ST] 2 create.L.OO_FbxCharacter.R.ST() FbxCharacter.kl:75</span>
+<span class="cm">[ST] 3 operator.entry() (stdin):10</span>
+<span class="cm">[ST] 4 kl.internal.entry.stub.cpu()</span>
+<span class="cm">Error: ClipPose.kl:58:10: dereferenced null object</span>
+<span class="cm">KL stack trace:</span>
+<span class="cm">[ST] 1 kl.internal.String.SetErrorDataPtrAndLength.AS0()</span>
+<span class="cm">[ST] 2 function.setError.R.ST()</span>
+<span class="cm">[ST] 3 method.getClip.R.UO_ClipPose() ClipPose.kl:58</span>
+<span class="cm">[ST] 4 operator.entry() (stdin):13</span>
+<span class="cm">[ST] 5 kl.internal.entry.stub.cpu()</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</p>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="19%" />
+<col width="8%" />
+<col width="74%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>name</td>
+<td>The name of the character.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a>[]</td>
+<td>geometries</td>
+<td>The array fo geometries that make up the character</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a>[]</td>
+<td>bindShapeTransforms</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a>[]</td>
+<td>skinningMatrices</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Characters/Skeleton.html#skeleton"><span class="std std-ref">Skeleton</span></a></td>
+<td>skeleton</td>
+<td>The <a class="reference internal" href="../Characters/Skeleton.html#skeleton"><span class="std std-ref">Skeleton</span></a> defining the hierarchy of bones of the character.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Characters/IPose.html#ipose"><span class="std std-ref">IPose</span></a></td>
+<td>pose</td>
+<td>The pose of the character.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a></td>
+<td>globalXfo</td>
+<td>The global transform of the character.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a>[]</td>
+<td>deformedGeometries</td>
+<td>The cache of deformed geometries that make up the character. When deforming on the CPU, we cache the cloned meshes here.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Geometry/LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a></td>
+<td>localBVol</td>
+<td>The bounding volume of the deformed character.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>filePath</td>
+<td>the file path of the fbx file.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Fbx/FbxHandle.html#fbxhandle"><span class="std std-ref">FbxHandle</span></a></td>
+<td>handle</td>
+<td>The opened <a class="reference internal" href="../Fbx/FbxHandle.html#fbxhandle"><span class="std std-ref">FbxHandle</span></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/ImporterIdentifier.html#importeridentifier"><span class="std std-ref">ImporterIdentifier</span></a>[]</td>
+<td>identifiers</td>
+<td>All the identifiers extracted from the fbx file.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/ImporterIdentifier.html#importeridentifier"><span class="std std-ref">ImporterIdentifier</span></a>[]</td>
+<td>skinMeshIdentifiers</td>
+<td>The skinned mesh identifiers extracted from the fbx file.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/ImporterIdentifier.html#importeridentifier"><span class="std std-ref">ImporterIdentifier</span></a>[]</td>
+<td>deformerIdentifiers</td>
+<td>The deformer mesh identifiers extracted from the fbx file.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/ImporterIdentifier.html#importeridentifier"><span class="std std-ref">ImporterIdentifier</span></a>[]</td>
+<td>boneIdentifiers</td>
+<td>The final iunion of all identifiers used to generate the skeleton</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a>[]</td>
+<td>includedBones</td>
+<td>An array of joints which must be included in the skeleton</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a>[]</td>
+<td>includedSubtrees</td>
+<td>An array of joints whose subtrees must be included in the skeleton</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a>[<a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a>]</td>
+<td>chainColors</td>
+<td>A dictionary of colors to assign the bone chains. Only the root of a given chain needs to be specified, and all children willl be assigned the color. Colors can be overridden at any point in the hierarchy.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a>[<a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a>]</td>
+<td>suffixColors</td>
+<td>A dictionary of name suffixes used to generate bone colors. All joints whose names end in a specified suffix will be assigned the mapped color. The suffixColors override the chainColors.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="23%" />
+<col width="77%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FbxCharacter.html#id113546"><span class="std std-ref">FbxCharacter</span></a>  ( in <a class="reference internal" href="FbxCharacter.html#fbxcharacter"><span class="std std-ref">FbxCharacter</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FbxCharacter.html#id49196"><span class="std std-ref">FbxCharacter</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> filePath )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FbxCharacter.html#id49189"><span class="std std-ref">FbxCharacter</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="FbxCharacter.html#fbxcharacter"><span class="std std-ref">FbxCharacter</span></a></td>
+<td><a class="reference internal" href="FbxCharacter.html#id113550"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Index</td>
+<td><a class="reference internal" href="FbxCharacter.html#id49209"><span class="std std-ref">findGeometryIndex</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Box3.html#box3"><span class="std std-ref">Box3</span></a></td>
+<td><a class="reference internal" href="FbxCharacter.html#id49247"><span class="std std-ref">getBoundingBox</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Box3.html#box3"><span class="std std-ref">Box3</span></a></td>
+<td><a class="reference internal" href="FbxCharacter.html#id49243"><span class="std std-ref">getBoundingBoxAtIndex</span></a> ! ( in Index index )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="FbxCharacter.html#id49203"><span class="std std-ref">getFilePath</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Fbx/FbxHandle.html#fbxhandle"><span class="std std-ref">FbxHandle</span></a></td>
+<td><a class="reference internal" href="FbxCharacter.html#id49206"><span class="std std-ref">getHandle</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="FbxCharacter.html#id49213"><span class="std std-ref">initialized</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FbxCharacter.html#id49238"><span class="std std-ref">setupFromAnimatedPose</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> filePath, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> scaleFactor )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Characters/Character.html#character"><span class="std std-ref">Character</span></a></td>
+<td><a class="reference internal" href="FbxCharacter.html#id49200"><span class="std std-ref">toCharacter</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="FbxArchiveReader.kl.html"
+                        title="前の章へ">FbxArchiveReader.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="FbxClip.kl.html"
+                        title="次の章へ">FbxClip.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/FbxHelpers/FbxCharacter.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/FbxHelpers/FbxCharacter.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="FbxClip.kl.html" title="FbxClip.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="FbxArchiveReader.kl.html" title="FbxArchiveReader.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >FbxHelpers エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >FbxHelpers Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

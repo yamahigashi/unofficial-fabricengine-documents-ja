@@ -1,0 +1,441 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Mat33_c (struct) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Math Extension’s Types" href="types.html" />
+    <link rel="next" title="Mat33_cd (struct)" href="Mat33_cd.html" />
+    <link rel="prev" title="Mat33 (struct)" href="Mat33.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Mat33_cd.html" title="Mat33_cd (struct)"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="Mat33.html" title="Mat33 (struct)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Math エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" accesskey="U">Math Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="mat33-c-struct">
+<span id="mat33-c"></span><h1>Mat33_c (struct)<a class="headerlink" href="#mat33-c-struct" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><p class="plaintext">The <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> represents a 3 by 3 matrix. It uses <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> types for each of the 3 rows.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="Quat.html#quat"><span class="std std-ref">Quat</span></a>, <a class="reference internal" href="Mat44.html#mat44"><span class="std std-ref">Mat44</span></a></p>
+</div>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Vec4</span>
+<span class="cm">*/</span>
+
+<span class="c1">// create a matrix 3x3</span>
+<span class="nx">Vec3_c</span> <span class="nx">v0</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+<span class="nx">Vec3_c</span> <span class="nx">v1</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+<span class="nx">Vec3_c</span> <span class="nx">v2</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+<span class="nx">Mat33_c</span> <span class="nx">mat</span><span class="p">(</span><span class="nx">v0</span><span class="p">,</span> <span class="nx">v1</span><span class="p">,</span> <span class="nx">v2</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="section" id="fabric-engine-matrices-are-column-major-rather-than-row-major">
+<h2>Fabric Engine Matrices are column-major rather than row-major<a class="headerlink" href="#fabric-engine-matrices-are-column-major-rather-than-row-major" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Most DCCs follow a row-major convention for expressing their matrices which implies that
+multiplication of matrices occurs in the opposite order to those in Fabric Engine.</p>
+<p>In Maya and Softimage, to transform a point (P) by a matrix (WM), you would post-multiply the vector by the matrix 
+by placing it on the left side of the matrix.</p>
+<blockquote>
+<div>(P&#8217; = P x WM)</div></blockquote>
+<p>In Fabric Engine, to transform a point (P) by a matrix (WM), you would post-multiply it by placing it on the right hand side of the matrix.</p>
+<blockquote>
+<div>(P&#8217; = WM x P)</div></blockquote>
+<p>When multiplying matrices together, the order of the matrices is also swapped when compared to Maya/Softimage.</p>
+<p>To Transform a Matrix (M) into the space of a another matrix (WM), you would place the L on the right hand side of WM</p>
+<p>(M&#8217; = WM x M)</p>
+<p>In Maya, Softimage and 3dsmax, the order of the matrices in the multiplication would be swapped.</p>
+<p>(M&#8217; = M x WM)</p>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+ -->
+<!-- Title: Mat33_c Pages: 1 -->
+<svg width="62pt" height="44pt"
+ viewBox="0.00 0.00 62.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>Mat33_c</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-40 59,-40 59,5 -4,5"/>
+<!-- Mat33_c -->
+<g id="node1" class="node"><title>Mat33_c</title>
+<a xlink:href="../Math/Mat33_c.html" xlink:title="Mat33_c">
+<polygon fill="#3fabd3" stroke="#3f3f3f" points="54,-36 0,-36 0,-0 54,-0 54,-36"/>
+<text text-anchor="middle" x="27" y="-15.5" font-family="Arial" font-size="10.00">Mat33_c</text>
+</a>
+</g>
+</g>
+</svg></p>
+</div>
+<div class="section" id="members">
+<h2>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="73%" />
+<col width="18%" />
+<col width="9%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a></td>
+<td>row0</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a></td>
+<td>row1</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a></td>
+<td>row2</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id81887"><span class="std std-ref">Mat33_c</span></a>  ( in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _00, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _01, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _02, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _10, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _11, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _12, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _20, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _21, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _22 )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id116558"><span class="std std-ref">Mat33_c</span></a>  ( in <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id81905"><span class="std std-ref">Mat33_c</span></a>  ( in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> row0, in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> row1, in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> row2 )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id81872"><span class="std std-ref">Mat33_c</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a></td>
+<td><a class="reference internal" href="#id81999"><span class="std std-ref">add</span></a> ? ( in <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> other )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a></td>
+<td><a class="reference internal" href="#id82026"><span class="std std-ref">adjoint</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="#id81964"><span class="std std-ref">almostEqual</span></a> ? ( in <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="#id81959"><span class="std std-ref">almostEqual</span></a> ? ( in <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> other, in <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> precision )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a></td>
+<td><a class="reference internal" href="#id116562"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a></td>
+<td><a class="reference internal" href="#id82023"><span class="std std-ref">determinant</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a></td>
+<td><a class="reference internal" href="#id82019"><span class="std std-ref">divideComplex</span></a> ? ( in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="#id81955"><span class="std std-ref">equal</span></a> ? ( in <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="#id81972"><span class="std std-ref">hash</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a></td>
+<td><a class="reference internal" href="#id82029"><span class="std std-ref">inverse</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a></td>
+<td><a class="reference internal" href="#id82032"><span class="std std-ref">inverse_safe</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a></td>
+<td><a class="reference internal" href="#id82007"><span class="std std-ref">multiply</span></a> ? ( in <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a></td>
+<td><a class="reference internal" href="#id82011"><span class="std std-ref">multiplyComplex</span></a> ? ( in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> other )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a></td>
+<td><a class="reference internal" href="#id82015"><span class="std std-ref">multiplyVector</span></a> ? ( in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id81911"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _00, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _01, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _02, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _10, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _11, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _12, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _20, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _21, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _22 )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id81923"><span class="std std-ref">set</span></a> ! ( in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> row0, in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> row1, in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> row2 )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id81935"><span class="std std-ref">setColumns</span></a> ! ( in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> col0, in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> col1, in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> col2 )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id81947"><span class="std std-ref">setDiagonal</span></a> ! ( in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> v )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id81951"><span class="std std-ref">setDiagonal</span></a> ! ( in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> v )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id81944"><span class="std std-ref">setIdentity</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id81941"><span class="std std-ref">setNull</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id81929"><span class="std std-ref">setRows</span></a> ! ( in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> row0, in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> row1, in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> row2 )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a></td>
+<td><a class="reference internal" href="#id82003"><span class="std std-ref">subtract</span></a> ? ( in <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> other )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a></td>
+<td><a class="reference internal" href="#id82035"><span class="std std-ref">transpose</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="operators">
+<h2>Operators<a class="headerlink" href="#operators" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a></td>
+<td><a class="reference internal" href="#id81977"><span class="std std-ref">=</span></a> ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="methods-in-detail">
+<h2>Methods in detail<a class="headerlink" href="#methods-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><span class="target" id="id81887"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> ( in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _00, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _01, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _02, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _10, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _11, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _12, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _20, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _21, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _22 )</p>
+<p class="plaintext">Constructor from scalars</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id116558"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> ( in <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> other )</p>
+<p class="plaintext">copy constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id81905"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> ( in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> row0, in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> row1, in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> row2 )</p>
+<p class="plaintext">Constructor from vectors</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id81872"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id81999"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.add? ( in <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> other )</p>
+<p class="plaintext">Overload method for the add operator</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id82026"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.adjoint? ()</p>
+<p class="plaintext">Returns the adjoint matrix of this matrix</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id81964"></span><p><p class="klcode">Boolean <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.almostEqual? ( in <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> other )</p>
+<p class="plaintext">Returns true if this matrix is almost the same as another one
+(using a default precision)</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id81959"></span><p><p class="klcode">Boolean <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.almostEqual? ( in <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> other, in <a class="reference internal" href="Float32.html#float32"><span class="std std-ref">Float32</span></a> precision )</p>
+<p class="plaintext">Returns true if this matrix is almost equal to the given matrix within the provided precision range</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id116562"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.clone? ()</p>
+<p class="plaintext">clone method</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id82023"></span><p><p class="klcode"><a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.determinant? ()</p>
+<p class="plaintext">Returns the determinant of this matrix</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id82019"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.divideComplex? ( in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> other )</p>
+<p class="plaintext">Returns the division of this matrix and a scalar</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id81955"></span><p><p class="klcode">Boolean <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.equal? ( in <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> other )</p>
+<p class="plaintext">Returns true if this matrix is the same as another one</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id81972"></span><p><p class="klcode"><a class="reference internal" href="UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.hash? ()</p>
+<p class="plaintext">Hash for this value</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id82029"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.inverse? ()</p>
+<p class="plaintext">Returns the inverse matrix of this matrix</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id82032"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.inverse_safe? ()</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id82007"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.multiply? ( in <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> other )</p>
+<p class="plaintext">Overload method for the multiply operator</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id82011"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.multiplyComplex? ( in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> other )</p>
+<p class="plaintext">Returns the product of this matrix and a scalar</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id82015"></span><p><p class="klcode"><a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.multiplyVector? ( in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> other )</p>
+<p class="plaintext">Returns the product of this matrix and a vector</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id81911"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.set! ( in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _00, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _01, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _02, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _10, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _11, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _12, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _20, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _21, in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> _22 )</p>
+<p class="plaintext">Sets each component with a single scalar value.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id81923"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.set! ( in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> row0, in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> row1, in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> row2 )</p>
+<p class="plaintext">Setter from vectors</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id81935"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.setColumns! ( in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> col0, in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> col1, in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> col2 )</p>
+<p class="plaintext">Setter from vectors, column-wise</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id81947"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.setDiagonal! ( in <a class="reference internal" href="Complex.html#complex"><span class="std std-ref">Complex</span></a> v )</p>
+<p class="plaintext">setting the diagonal components of
+this matrix to a scalar</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id81951"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.setDiagonal! ( in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> v )</p>
+<p class="plaintext">setting the diagonal components of this
+matrix to the components of a vector</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id81944"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.setIdentity! ()</p>
+<p class="plaintext">setting this matrix to the identity matrix</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id81941"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.setNull! ()</p>
+<p class="plaintext">setting all components of the matrix to 0.0</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id81929"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.setRows! ( in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> row0, in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> row1, in <a class="reference internal" href="Vec3_c.html#vec3-c"><span class="std std-ref">Vec3_c</span></a> row2 )</p>
+<p class="plaintext">Setter from vectors, row-wise</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id82003"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.subtract? ( in <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> other )</p>
+<p class="plaintext">Overload method for the subtract operator</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id82035"></span><p><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> <a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a>.transpose? ()</p>
+<p class="plaintext">Returns the transposed matrix of this matrix</p>
+</p>
+</p>
+</div>
+<div class="section" id="operators-in-detail">
+<h2>Operators in detail<a class="headerlink" href="#operators-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><span class="target" id="id81977"></span><p class="klcode"><a class="reference internal" href="#mat33-c"><span class="std std-ref">Mat33_c</span></a> = ( <a class="reference internal" href="../Parameters/Param.html#param"><span class="std std-ref">Param</span></a> other )</p>
+<p class="plaintext">Adds another matrix to this one</p>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="Mat33.html"
+                        title="前の章へ">Mat33 (struct)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="Mat33_cd.html"
+                        title="次の章へ">Mat33_cd (struct)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Math/Mat33_c.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Math/Mat33_c.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Mat33_cd.html" title="Mat33_cd (struct)"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="Mat33.html" title="Mat33 (struct)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Math エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" >Math Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

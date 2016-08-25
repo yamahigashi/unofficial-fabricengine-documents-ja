@@ -1,0 +1,545 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>演算子・式 &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="KL プログラミングガイド" href="index.html" />
+    <link rel="next" title="文（Statements）" href="statements.html" />
+    <link rel="prev" title="関数と他のグローバルな宣言" href="globals.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="statements.html" title="文（Statements）"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="globals.html" title="関数と他のグローバルな宣言"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">KL プログラミングガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="operators-and-expressions">
+<span id="ops-exprs"></span><h1>演算子・式<a class="headerlink" href="#operators-and-expressions" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>この章では、KLでの受付可能な演算子、結果とし生じる式について説明します。一般的にKLは JavaScript、C言語と同じ演算子と式についての文法をもち、特に優先順位と結合規則は全く同一です。</p>
+<div class="section" id="operators">
+<span id="ops"></span><h2>演算子<a class="headerlink" href="#operators" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>KLは、JavaScriptやC言語と同様の基本的な演算子を持ちます。おおまかに分類すると  <a class="reference internal" href="#arithmetic-ops"><span class="std std-ref">算術演算子</span></a>, <a class="reference internal" href="#logical-ops"><span class="std std-ref">論理演算子</span></a>, <a class="reference internal" href="#bitwise-ops"><span class="std std-ref">ビット演算子</span></a> and <a class="reference internal" href="#ass-ops"><span class="std std-ref">代入演算子</span></a> です。</p>
+<div class="section" id="arithmetic-operators">
+<span id="arithmetic-ops"></span><h3>算術演算子<a class="headerlink" href="#arithmetic-operators" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="add-and-subtract">
+<h4>加算・減算<a class="headerlink" href="#add-and-subtract" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">+</span></code> もしくは <code class="docutils literal"><span class="pre">-</span></code> を２つの式の間に置くと、加算（ <em class="dfn">add</em> ）、減算（ <em class="dfn">subtract</em> ）２項演算子として扱います。これらの演算子は、全ての整数、浮動小数点数型に組み込みで定義され、通常の算術演算を実行します。ユーザ定義の、構造体あるいは他の型の組み合わせに対し、演算子のオーバーロードを適用することも可能です。例えば、左項にユーザ定義の <code class="docutils literal"><span class="pre">Rect</span></code> 、右項に <code class="docutils literal"><span class="pre">Point</span></code> をとるようなある演算子を定義することが可能です。</p>
+<p><code class="docutils literal"><span class="pre">+</span></code> 加算演算子 ( <code class="docutils literal"><span class="pre">-</span></code> 減算演算子ではなく)は、 整数・浮動小数点数型の組み込み定義されたものに加え、文字列型にも定義されています。２つの文字列を加算すると、２つの文字列を連結します。</p>
+</div>
+<div class="section" id="multiply-divide-and-remainder">
+<h4>乗算・除算、剰余<a class="headerlink" href="#multiply-divide-and-remainder" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">*</span></code>, <code class="docutils literal"><span class="pre">/</span></code>, <code class="docutils literal"><span class="pre">%</span></code> を２つの式の間に置くと、乗算、除算、剰余（ <em class="dfn">multiply</em>, <em class="dfn">divide</em> and <em class="dfn">remainder</em> ）２項演算子として扱います。これらの演算子は全ての整数・浮動小数点数型について組み込み定義され、通常の算術演算を行います。ユーザ定義の、構造体あるいは他の型の組み合わせに対し、演算子のオーバーロードを適用することも可能です。例えば、左項にユーザ定義の <code class="docutils literal"><span class="pre">Float32</span></code> 、右項に <code class="docutils literal"><span class="pre">Vec3</span></code> をとるようなある演算子を定義することが可能です。</p>
+</div>
+<div class="section" id="unary-plus-and-minus">
+<h4>単項のプラス・マイナス<a class="headerlink" href="#unary-plus-and-minus" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">+</span></code> または <code class="docutils literal"><span class="pre">-</span></code> 演算子を、整数・浮動小数点数式の直前に左辺になにも式を置かずおくと、 <em class="dfn">unary plus</em> 、 <em class="dfn">unary minus</em> 演算子として扱います。単項プラス演算子は値に対して何も作用しませんが、単項マイナス演算子は、符号なし整数式の場合:0、符号付き整数および符号付き浮動小数点数の場合:符号を反転させた値、を生成します。</p>
+</div>
+<div class="section" id="increment-and-decrement-operators">
+<h4>インクリメント・デクリメント演算子<a class="headerlink" href="#increment-and-decrement-operators" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">++</span></code> (インクリメント)、 <code class="docutils literal"><span class="pre">--</span></code> （デクリメント）演算子は、変数のひとつ加算、減算に用います。これらの演算子は以下の特徴があります。</p>
+<ul class="simple">
+<li><p class="first">変数、もしくは入出力パラメータ（io parameter）のみに使用可能です。式の値を変更するため定数や入力パラメータ（input parameter）は操作できません。</p>
+</li>
+<li><p class="first">整数値のみ操作できます。</p>
+</li>
+<li><p class="first">どの演算子も、変数に対し前置あるいは後置のどちらでも作用します。前置する場合、式の値は変数のインクリメント <em>後</em> の値となります。これは <em>prefix</em> インクリメント（デクリメント）と呼ばれます。後置する場合、式の値は変数のインクリメント <em>前</em> の値となります。これは <em>postfix</em> インクリメント（デクリメント）と呼ばれます。</p>
+</li>
+<li><p class="first">オーバーロード不可能です。</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="logical-operators">
+<span id="logical-ops"></span><h3>論理演算子<a class="headerlink" href="#logical-operators" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="equality-operators">
+<span id="equality-ops"></span><h4>等価演算子（Equality Operators）<a class="headerlink" href="#equality-operators" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">==</span></code> あるいは <code class="docutils literal"><span class="pre">!=</span></code> を２つの式の間におくと、 <em class="dfn">equal-to</em> あるいは <em class="dfn">not-equal-to</em> 2項演算子として扱います。2つまとめて等価演算子（ <em class="dfn">equality operators</em> ）と呼びます。</p>
+<p>等価演算子は、全ての整数・浮動小数点数型、 <code class="docutils literal"><span class="pre">Boolean</span></code> 、 <code class="docutils literal"><span class="pre">String</span></code> 型について組み込み定義されています。ユーザ定義の構造体や、特定のオブジェクト、型のコンビネーションに対してオーバーロードが可能です。</p>
+</div>
+<div class="section" id="identity-ops">
+<span id="identity-operators"></span><h4>同一性演算子（Identity Operators）<a class="headerlink" href="#identity-ops" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">===</span></code> あるいは <code class="docutils literal"><span class="pre">!==</span></code> を２つの式の間に置くと、 <em class="dfn">identical-to</em> あるいは <em class="dfn">not-identical-to</em> 2項演算子として扱います。２つまとめて同一性演算子 <em class="dfn">identity operators</em> と呼びます。</p>
+<p>同一性演算子は、 <a class="reference internal" href="types.html#klpg-types-objects"><span class="std std-ref">object 型</span></a> と <a class="reference internal" href="types.html#klpg-types-interfaces"><span class="std std-ref">interface types</span></a> 型のみに事前定義されています。２つのオブジェクト（もしくはインタフェース）が同じオブジェクトを参照するか ―つまり片方への変更がもう片方にも作用するかどうかをテストします。</p>
+</div>
+<div class="section" id="relational-operators">
+<span id="relational-ops"></span><h4>関係演算子（Relational Operators）<a class="headerlink" href="#relational-operators" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">&lt;</span></code>, <code class="docutils literal"><span class="pre">&lt;=</span></code>, <code class="docutils literal"><span class="pre">&gt;</span></code> or <code class="docutils literal"><span class="pre">&gt;=</span></code> を２つの式の間に置くと、<em class="dfn">less-than</em>, <em class="dfn">less-than-or-equal-to</em>, <em class="dfn">greater-than</em>, <em class="dfn">greater-than-or-equal-to</em> ２項演算子として扱います。まとめて関係演算子と呼びます。</p>
+<p>関係演算子は、全ての整数・浮動小数点数、文字列型に対し事前定義されています。ユーザ定義の構造体、型のコンビネーションに対してオーバーロードが可能です。</p>
+</div>
+<div class="section" id="logical-and">
+<h4>論理 AND<a class="headerlink" href="#logical-and" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">&amp;&amp;</span></code> を２つの式の間におくと、 <em class="dfn">logical AND</em> として扱います。論理AND 演算子は以下のように振る舞います。左オペランドを <code class="docutils literal"><span class="pre">Boolean</span></code> にキャストし <code class="docutils literal"><span class="pre">true</span></code> であれば、 演算子の結果は右オペランド、 <code class="docutils literal"><span class="pre">false</span></code> であれば結果は左オペランド。（左オペランドをキャストするということはつまり、左オペラントより <code class="docutils literal"><span class="pre">Boolean</span></code> の値がコンストラクトされるということです）</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">論理AND の動作はJavaScriptと同じですが、C言語とは異なります。Cでは、論理ANDの結果は常に整数です。（C++ では bool）</p>
+</div>
+<p>論理AND 演算子のオーバロードは不可能です。ただし、カスタム型（構造体）に対し、 <code class="docutils literal"><span class="pre">Boolean</span></code> コンストラクタを作成し、そのコンストラクタを左オペラントの型と同じ型をパラメータを１つとるように定義することで、論理AND を有効にすることはできます。</p>
+</div>
+<div class="section" id="logical-or">
+<h4>論理 OR<a class="headerlink" href="#logical-or" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">||</span></code>  を２つの式の間におくと、 <em class="dfn">logical OR</em> として扱います。論理 OR 演算子は以下のように振る舞います。左オペランドを <code class="docutils literal"><span class="pre">Boolean</span></code> にキャストし <code class="docutils literal"><span class="pre">true</span></code> であれば、 演算子の結果は左オペランド、 <code class="docutils literal"><span class="pre">false</span></code> であれば結果は右オペランド。（左オペランドをキャストするということはつまり、左オペラントより <code class="docutils literal"><span class="pre">Boolean</span></code> の値がコンストラクトされるということです）</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">論理OR の動作はJavaScriptと同じですが、C言語とは異なります。Cでは、論理ORの結果は常に整数です。（C++ では bool）</p>
+</div>
+<p>論理OR 演算子のオーバロードは不可能です。ただし、カスタム型（構造体）に対し、 <code class="docutils literal"><span class="pre">Boolean</span></code> コンストラクタを作成し、そのコンストラクタを左オペラントの型と同じ型をパラメータを１つとるように定義することで、論理OR を有効にすることはできます。</p>
+</div>
+<div class="section" id="logical-not">
+<h4>論理 NOT<a class="headerlink" href="#logical-not" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">!</span></code> （エクスクラメーションびっくりマーク）を式の前につけると、論理NOT <em class="dfn">logical NOT</em> 単項演算子として扱います。論理NOTは式の論理値を反転させます。具体的な挙動は、まず式から新たな <code class="docutils literal"><span class="pre">Boolean</span></code> 値をコンストラクトし、その論理値を反転します。したがって論理NOTは、式の型がそのパラメータの型と同じ、単一のパラメータをとる <code class="docutils literal"><span class="pre">Boolean</span></code> コンストラクタを持つどのような式にも使用可能です。</p>
+<p>論理NOT 演算子のオーバロードは不可能です。ただし、カスタム型（構造体）に対し、 <code class="docutils literal"><span class="pre">Boolean</span></code> コンストラクタを作成し、そのコンストラクタを左オペラントの型と同じ型をパラメータを１つとるように定義することで、論理NOT を有効にすることはできます。</p>
+</div>
+<div class="section" id="the-conditional-operator">
+<h4>条件演算子<a class="headerlink" href="#the-conditional-operator" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>３つの式を、 <code class="docutils literal"><span class="pre">?</span></code> （感嘆符）と <code class="docutils literal"><span class="pre">:</span></code> （コロン) により分割すると、条件演算子 <em class="dfn">conditional operator</em> (あるいは３項演算子 <em class="dfn">ternary operator</em>) として扱います。３項演算子は１つめのオペランドより <code class="docutils literal"><span class="pre">Boolean</span></code> をコンストラクト、その値が <code class="docutils literal"><span class="pre">true</span></code> であれば２番めのオペランド、 <code class="docutils literal"><span class="pre">false</span></code> であれば３番めのオペランドが結果となります。</p>
+<p>３項演算子をオーバーロードすることはできません。</p>
+</div>
+<div class="section" id="the-comma-operator">
+<h4>コンマ演算子<a class="headerlink" href="#the-comma-operator" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">,</span></code> (コンマ)により２つの式を分割すると、コンマ演算子 <em class="dfn">comma operator</em> として扱います。コンマ演算子は、最初に左側の式を評価し、結果を捨て、右側の式を評価します。右側の式の値がこの演算子の式の値となります。</p>
+<p>コンマ演算子をオーバーロードすることはできません。</p>
+</div>
+</div>
+<div class="section" id="bitwise-operators">
+<span id="bitwise-ops"></span><h3>ビット演算子<a class="headerlink" href="#bitwise-operators" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="bitwise-and-or-and-xor">
+<h4>ビット AND・OR・XOR<a class="headerlink" href="#bitwise-and-or-and-xor" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">&amp;</span></code>, <code class="docutils literal"><span class="pre">|</span></code>,  <code class="docutils literal"><span class="pre">^</span></code> を２つの式の間に置くと、それぞれ <em class="dfn">bitwise AND</em>, <em class="dfn">bitwise OR</em>, <em class="dfn">bitwise XOR</em> として扱います。</p>
+<p>ビット AND・OR・XOR は全ての整数型に事前定義されています。２つの値における通常のビット演算を行います。 <code class="docutils literal"><span class="pre">Boolean</span></code> 型にも事前定義されています。どちらも単一ビット 1 (true) あるいは 0 (false)であるかのように扱われます。</p>
+<p>ビット AND・OR・XOR はユーザ定義の構造体、型のコンビネーションに対しオーバーロード不可能です。</p>
+</div>
+<div class="section" id="bitwise-not">
+<h4>ビットNOT<a class="headerlink" href="#bitwise-not" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">~</span></code> (チルダ)を式の前に置くと、ビット NOT <em class="dfn">bitwise NOT</em> 単項演算子として扱います。</p>
+<p>ビット NOTは、全ての整数型に事前定義されています。。値のビット状態を反転させます。 <code class="docutils literal"><span class="pre">Boolean</span></code> 型にも事前定義されています。どちらも単一ビット 1 (true) あるいは 0 (false)であるかのように扱われます。</p>
+</div>
+<div class="section" id="left-and-right-shift">
+<h4>左・右シフト<a class="headerlink" href="#left-and-right-shift" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">&lt;&lt;</span></code> もしくは <code class="docutils literal"><span class="pre">&gt;&gt;</span></code> を２つの式の間に置くと、 <em class="dfn">left shift</em> もしくは <em class="dfn">right shift</em> ２項演算子として扱います。全ての整数型に事前定義されています。左側のオペランドを右側のオペランドに与えられたビット数によって、左・右ビットシフト行います。</p>
+<p>符号付き整数の値の右シフトは、左端のビットを符号ビットで埋めます。0ではありません。符号なし整数の値の右シフト、そして符号ありなし両方の整数の左シフトは、常に0で埋まります。</p>
+<p>シフト演算子はユーザ定義の型、さらに整数型以外のものでも、右側オペランドとしてオーバロードが可能です。</p>
+</div>
+</div>
+<div class="section" id="assignment-operators">
+<span id="ass-ops"></span><h3>代入演算子<a class="headerlink" href="#assignment-operators" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="direct-assignment-operator">
+<h4>直接代入演算子<a class="headerlink" href="#direct-assignment-operator" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">=</span></code> 演算子を2つの式の間に置くと、直接代入演算子 <em class="dfn">direct assignment operator</em> として扱います。直接代入演算子は全ての型で事前定義されています。 <a class="reference internal" href="types.html#klpg-types"><span class="std std-ref">KLの型システム</span></a> により詳しい代入の仕組みを参照してください。どのような型でもこの演算子のオーバロードが可能です。 <a class="reference internal" href="globals.html#overloading-direct-ass-op"><span class="std std-ref">直接代入のオーバロード</span></a> 参照</p>
+</div>
+<div class="section" id="compound-assignment-operators">
+<h4>複合代入演算子<a class="headerlink" href="#compound-assignment-operators" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>どのような算術、ビット（論理演算子は含めない）２項演算子も、 <code class="docutils literal"><span class="pre">=</span></code> と組み合わせて複合代入演算子  <em class="dfn">compound assignment operator</em> とすることができます。具体的には <code class="docutils literal"><span class="pre">+=</span></code>, <code class="docutils literal"><span class="pre">-=</span></code>, <code class="docutils literal"><span class="pre">*=</span></code>, <code class="docutils literal"><span class="pre">/=</span></code>, <code class="docutils literal"><span class="pre">%=</span></code>, <code class="docutils literal"><span class="pre">&lt;&lt;=</span></code>, <code class="docutils literal"><span class="pre">&gt;&gt;=</span></code>, <code class="docutils literal"><span class="pre">&amp;=</span></code>, <code class="docutils literal"><span class="pre">^=</span></code> and <code class="docutils literal"><span class="pre">|=</span></code></p>
+<p>複合代入演算子は、その型に対して事前定義されている２項演算子であれば、事前定義されています。複号代入演算子はオーバーロード可能です。左オペランドと右オペランドの型が違う場合でも可能です。 <a class="reference internal" href="globals.html#overloading-compound-ass-ops"><span class="std std-ref">複合代入演算子のオーバロード</span></a> を参照してください。</p>
+</div>
+</div>
+<div class="section" id="operators-and-polymorphism">
+<h3>演算子と多態性（Operators and Polymorphism）<a class="headerlink" href="#operators-and-polymorphism" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>演算子・オペレータの呼び出しは多態性に関して、関数呼び出しにおけるそれと同じルールが適用されます。あるオペレータが以下の条件 ―そのオペレータのパラメータの型とオペランドの型が厳密に一致しない場合、KLはそのオペレータの既存の実装の中から最適なものを探します。これにより例えば、整数と文字列を加算える事ができます。つまり、まず整数が文字列へとキャストされます。その文字列と文字列が連結されます。</p>
+<p>多態についてと、最適なもの探索ルールについてのさらなる情報は <a class="reference internal" href="globals.html#polymorphism"><span class="std std-ref">ポリモーフィズム</span></a> を参照してください。</p>
+</div>
+</div>
+<div class="section" id="expressions">
+<h2>式（Expressions）<a class="headerlink" href="#expressions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>KLには２種の式があります。単純式と複合式です。</p>
+<div class="section" id="simple-expressions">
+<span id="simple-exprs"></span><h3>単純式<a class="headerlink" href="#simple-expressions" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>単純式 <em class="dfn">Simple expressions</em> とはより複雑な式を導出するためのものです。単純式とは：</p>
+<ul class="simple">
+<li><p class="first">変数を参照するシンボルであり、関数の引数であり、あるいは定数であります。単純式の型は、参照するデータの実態（entity）の型となります。例：: <code class="docutils literal"><span class="pre">foo</span></code>, <code class="docutils literal"><span class="pre">myParam</span></code>, <code class="docutils literal"><span class="pre">mathPI</span></code>.   シンボルがどのように解決されるかは <a class="reference internal" href="#scope"><span class="std std-ref">スコープ規則</span></a> を参照してください。</p>
+</li>
+<li><p class="first">Boolean, integer, floating-point, string 定数。この単純式の方は、すなわち定数の型です。例：: <code class="docutils literal"><span class="pre">true</span></code>, <code class="docutils literal"><span class="pre">42</span></code>, <code class="docutils literal"><span class="pre">3.14159</span></code>, <code class="docutils literal"><span class="pre">FILE</span></code>, <code class="docutils literal"><span class="pre">LINE</span></code>.  <a class="reference internal" href="syntax.html#literal-constants"><span class="std std-ref">定数</span></a> を参照してください。</p>
+</li>
+</ul>
+</div>
+<div class="section" id="compound-expressions">
+<h3>複雑式<a class="headerlink" href="#compound-expressions" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>複雑式 <em class="dfn">Compound expressions</em> は <a class="reference internal" href="#simple-exprs"><span class="std std-ref">simple expressions</span></a> と（もしくは） <a class="reference internal" href="#ops"><span class="std std-ref">operators</span></a> を使用した複雑式により構成されます。</p>
+<p>以下のテーブルリストにすべての異なる複雑式を列挙します。複雑式は <em class="dfn">type</em> によりグループ分けされます。つまり、同じタイプに属するすべての式は、同じ順序であり同じ結合性を持ちます。以下のリストでは複雑式のタイプを優先順位の高いもの順に記載します。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="17%" />
+<col width="57%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">タイプ</p>
+</th>
+<th class="head"><p class="first last">結合規則</p>
+</th>
+<th class="head"><p class="first last">式（複数可）</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="6"><p class="first last">後置</p>
+</td>
+<td rowspan="6"><p class="first last">左から右</p>
+</td>
+<td><code class="samp docutils literal"><em><span class="pre">functionName</span></em><span class="pre">(</span><em><span class="pre">args</span></em><span class="pre">)</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em><span class="pre">[</span><em><span class="pre">expr</span></em><span class="pre">]</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em><span class="pre">.</span><em><span class="pre">member</span></em></code></td>
+</tr>
+<tr class="row-odd"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em><span class="pre">.</span><em><span class="pre">method</span></em><span class="pre">(</span><em><span class="pre">args</span></em><span class="pre">)</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em><span class="pre">++</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em><span class="pre">--</span></code></td>
+</tr>
+<tr class="row-even"><td rowspan="6"><p class="first last">前置</p>
+</td>
+<td rowspan="6"><p class="first last">右から左</p>
+</td>
+<td><code class="samp docutils literal"><span class="pre">+</span><em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-odd"><td><code class="samp docutils literal"><span class="pre">-</span><em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-even"><td><code class="samp docutils literal"><span class="pre">++</span><em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-odd"><td><code class="samp docutils literal"><span class="pre">--</span><em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-even"><td><code class="samp docutils literal"><span class="pre">!</span><em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-odd"><td><code class="samp docutils literal"><span class="pre">~</span><em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-even"><td rowspan="3"><p class="first last">乗法</p>
+</td>
+<td rowspan="3"><p class="first last">左から右</p>
+</td>
+<td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">*</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-odd"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">/</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">%</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-odd"><td rowspan="2"><p class="first last">加法</p>
+</td>
+<td rowspan="2"><p class="first last">左から右</p>
+</td>
+<td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">+</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">-</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-odd"><td rowspan="2"><p class="first last">シフト</p>
+</td>
+<td rowspan="2"><p class="first last">左から右</p>
+</td>
+<td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">&lt;&lt;</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">&gt;&gt;</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-odd"><td rowspan="4"><p class="first last">関係</p>
+</td>
+<td rowspan="4"><p class="first last">左から右</p>
+</td>
+<td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">&lt;</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">&lt;=</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-odd"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">&gt;</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">&gt;=</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-odd"><td rowspan="4"><p class="first last">等価</p>
+</td>
+<td rowspan="4"><p class="first last">左から右</p>
+</td>
+<td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">==</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">!=</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-odd"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">===</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">!==</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-odd"><td><p class="first last">ビット AND</p>
+</td>
+<td><p class="first last">左から右</p>
+</td>
+<td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">&amp;</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-even"><td><p class="first last">ビット XOR</p>
+</td>
+<td><p class="first last">左から右</p>
+</td>
+<td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">^</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-odd"><td><p class="first last">ビット OR</p>
+</td>
+<td><p class="first last">左から右</p>
+</td>
+<td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">|</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-even"><td><p class="first last">論理 AND</p>
+</td>
+<td><p class="first last">左から右</p>
+</td>
+<td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">&amp;&amp;</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-odd"><td><p class="first last">論理 OR</p>
+</td>
+<td><p class="first last">左から右</p>
+</td>
+<td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">||</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-even"><td><p class="first last">条件</p>
+</td>
+<td><p class="first last">右から左</p>
+</td>
+<td><code class="samp docutils literal"><em><span class="pre">expr</span></em><span class="pre">?</span> <em><span class="pre">expr</span></em><span class="pre">:</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-odd"><td rowspan="11"><p class="first last">代入</p>
+</td>
+<td rowspan="11"><p class="first last">右から左</p>
+</td>
+<td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">=</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">+=</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-odd"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">-=</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">*=</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-odd"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">/=</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">%=</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-odd"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">&lt;&lt;=</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">&gt;&gt;=</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-odd"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">&amp;=</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">^=</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-odd"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">|=</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+<tr class="row-even"><td><p class="first last">コンマ</p>
+</td>
+<td><p class="first last">左から右</p>
+</td>
+<td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">,</span> <em><span class="pre">expr</span></em></code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="controlling-order-of-operations">
+<h3>操作順の制御<a class="headerlink" href="#controlling-order-of-operations" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>操作の順序を明示的に制御することが可能です。式を <code class="docutils literal"><span class="pre">(</span></code> と <code class="docutils literal"><span class="pre">)</span></code> (括弧)で包みます。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Order of Operations</span>
+<span class="cm">*/</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nb">report</span><span class="p">(</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">5</span> <span class="p">);</span>
+  <span class="nb">report</span><span class="p">(</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">11</span>
+<span class="cm">16</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="scoping-rules">
+<span id="scope"></span><h2>スコープ規則<a class="headerlink" href="#scoping-rules" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>プログラミング言語におけるスコープ  <em class="dfn">scope</em> という用語は、プログラム中において変数・定数・関数が可視となる部分のこと指します。スコープがどのように機能するかの規則を、スコープ規則 <em class="dfn">scoping rules</em> と呼びます。また、スコープには変数の「ライフサイクル」を管理する役割があります。KLにおいては構造体の値に対するデストラクタの呼び出しの際参照されます。</p>
+<div class="section" id="types-of-scopes">
+<h3>スコープの種類<a class="headerlink" href="#types-of-scopes" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>KLには４種類のスコープが存在します。グローバルスコープ・関数スコープ・複雑文スコープ・一時スコープです。スコープはそれぞれの内に、ネスト <em class="dfn">nest</em> 可能です。KLプログラムが名前により変数を参照する際、コンパイラはどの変数が参照されているかを、現在のスコープから外側のスコープ（一番外側のスコープは通常グローバルスコープです）へと向かって探索し決定します。C言語どうよう、KLは静的スコープ ―― つまり参照されるその変数はコンパイル時（実行時ではない）に解決されていることを意味します。</p>
+<div class="section" id="the-global-scope">
+<span id="index-0"></span><h4>グローバルスコープ<a class="headerlink" href="#the-global-scope" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>グローバルスコープは、KLプログラムの最上位のスコープです。グローバルスコープにおいて可視である変数シンボルは、グローバル定数となります。関数やオペレータも同様です。グローバルスコープは常に、KLプログラム中のどこからでも最外側のスコープとなります。</p>
+</div>
+<div class="section" id="function-scope">
+<span id="index-1"></span><h4>関数スコープ<a class="headerlink" href="#function-scope" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>関数、あるいは関数リストエンティティが定義されると、関数スコープがグローバルスコープ内にネストして作成されます。関数への引数は関数スコープ内へと提供されます。関数スコープ内では、また、関数定義により関数本体を構成する複合文に対応した、複合文スコープを作成します。</p>
+</div>
+<div class="section" id="compound-statement-scope">
+<span id="scope-compound-statement"></span><span id="index-2"></span><h4>複合文スコープ<a class="headerlink" href="#compound-statement-scope" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">{</span></code> とそれに続く０個以上の文と <code class="docutils literal"><span class="pre">}</span></code> により、複合文と、新しい複合文スコープ <em class="dfn">compound statement scope</em> を導入します。（この複合文スコープが関数本体を構成する複合文にピッタリ対応する場合）そのスコープは、関数スコープ内にネストします。</p>
+<p>複合文の終端に制御が達する ―最後の文が実行されるか <code class="docutils literal"><span class="pre">return</span></code>, <code class="docutils literal"><span class="pre">break</span></code> or <code class="docutils literal"><span class="pre">continue</span></code> を通じて― と、対応するデストラクタを持つすべての構造体の値はデストラクタを実行します。</p>
+<p>ループ文内部において、ループインデックス変数を宣言は、複合文スコープの特殊なケースであることに注意が必要です。この場合、ループ本体が複合文であり、複合文スコープの対応はループの複合文内部にネストされます。</p>
+</div>
+<div class="section" id="temporary-scope">
+<span id="index-3"></span><h4>一時スコープ<a class="headerlink" href="#temporary-scope" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>コンストラクタが直接呼ばれ、一時的な値が作成される場合（ <a class="reference internal" href="globals.html#klpg-constructor-invocation-temporary"><span class="std std-ref">一時初期化</span></a> を参照）は常に、一時的な値を含むスコープが作成されます。このスコープは、その一時的な値を含む式をさらに包みます。つまり、その式の実行が終了すると、その一時的な値のデストラクタが（存在すれば）実行されることを意味します。</p>
+</div>
+</div>
+<div class="section" id="nested-scopes-example">
+<h3>ネストしたスコープの例<a class="headerlink" href="#nested-scopes-example" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>KLでのスコープのネストを正確に理解するため、以下の例に慎重に学んでください。</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">演算子・式</a><ul>
+<li><a class="reference internal" href="#operators">演算子</a><ul>
+<li><a class="reference internal" href="#arithmetic-operators">算術演算子</a><ul>
+<li><a class="reference internal" href="#add-and-subtract">加算・減算</a></li>
+<li><a class="reference internal" href="#multiply-divide-and-remainder">乗算・除算、剰余</a></li>
+<li><a class="reference internal" href="#unary-plus-and-minus">単項のプラス・マイナス</a></li>
+<li><a class="reference internal" href="#increment-and-decrement-operators">インクリメント・デクリメント演算子</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#logical-operators">論理演算子</a><ul>
+<li><a class="reference internal" href="#equality-operators">等価演算子（Equality Operators）</a></li>
+<li><a class="reference internal" href="#identity-ops">同一性演算子（Identity Operators）</a></li>
+<li><a class="reference internal" href="#relational-operators">関係演算子（Relational Operators）</a></li>
+<li><a class="reference internal" href="#logical-and">論理 AND</a></li>
+<li><a class="reference internal" href="#logical-or">論理 OR</a></li>
+<li><a class="reference internal" href="#logical-not">論理 NOT</a></li>
+<li><a class="reference internal" href="#the-conditional-operator">条件演算子</a></li>
+<li><a class="reference internal" href="#the-comma-operator">コンマ演算子</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bitwise-operators">ビット演算子</a><ul>
+<li><a class="reference internal" href="#bitwise-and-or-and-xor">ビット AND・OR・XOR</a></li>
+<li><a class="reference internal" href="#bitwise-not">ビットNOT</a></li>
+<li><a class="reference internal" href="#left-and-right-shift">左・右シフト</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#assignment-operators">代入演算子</a><ul>
+<li><a class="reference internal" href="#direct-assignment-operator">直接代入演算子</a></li>
+<li><a class="reference internal" href="#compound-assignment-operators">複合代入演算子</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#operators-and-polymorphism">演算子と多態性（Operators and Polymorphism）</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#expressions">式（Expressions）</a><ul>
+<li><a class="reference internal" href="#simple-expressions">単純式</a></li>
+<li><a class="reference internal" href="#compound-expressions">複雑式</a></li>
+<li><a class="reference internal" href="#controlling-order-of-operations">操作順の制御</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scoping-rules">スコープ規則</a><ul>
+<li><a class="reference internal" href="#types-of-scopes">スコープの種類</a><ul>
+<li><a class="reference internal" href="#the-global-scope">グローバルスコープ</a></li>
+<li><a class="reference internal" href="#function-scope">関数スコープ</a></li>
+<li><a class="reference internal" href="#compound-statement-scope">複合文スコープ</a></li>
+<li><a class="reference internal" href="#temporary-scope">一時スコープ</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#nested-scopes-example">ネストしたスコープの例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="globals.html"
+                        title="前の章へ">関数と他のグローバルな宣言</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="statements.html"
+                        title="次の章へ">文（Statements）</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/KLProgrammingGuide/ops-exprs.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLProgrammingGuide/ops-exprs.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="statements.html" title="文（Statements）"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="globals.html" title="関数と他のグローバルな宣言"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >KL プログラミングガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

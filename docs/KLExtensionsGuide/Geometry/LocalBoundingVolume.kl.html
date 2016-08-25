@@ -1,0 +1,407 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>LocalBoundingVolume.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Geometry Extension’s Files" href="files.html" />
+    <link rel="next" title="Mat33Attribute.kl" href="Mat33Attribute.kl.html" />
+    <link rel="prev" title="LinesModeling.kl" href="LinesModeling.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Mat33Attribute.kl.html" title="Mat33Attribute.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="LinesModeling.kl.html" title="LinesModeling.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Geometry エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Geometry Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="geometry-localboundingvolume-kl">
+<span id="localboundingvolume-kl"></span><span id="id1"></span><h1>LocalBoundingVolume.kl<a class="headerlink" href="#geometry-localboundingvolume-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="localboundingvolume-struct">
+<h3>LocalBoundingVolume (struct)<a class="headerlink" href="#localboundingvolume-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">A <a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a> is a union structure for expressing multiple simple bounding volume types, such as
+a box, a sphere, a cone, a pyramid and infinite.</p>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="12%" />
+<col width="3%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Integer</td>
+<td>type</td>
+<td>The type of bounding volume (LocalBoundingVolume_infinite, LocalBoundingVolume_bBox, LocalBoundingVolume_bSphere, LocalBoundingVolume_bCone, LocalBoundingVolume_bPyramid)</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td>pt1</td>
+<td>union; usage depends on bounding volume type</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td>pt2</td>
+<td>union; usage depends on bounding volume type</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>sc1</td>
+<td>union; usage depends on bounding volume type</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>sc2</td>
+<td>union; usage depends on bounding volume type</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>sc3</td>
+<td>union; usage depends on bounding volume type</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>sc4</td>
+<td>union; usage depends on bounding volume type</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="21%" />
+<col width="79%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id113959"><span class="std std-ref">LocalBoundingVolume</span></a>  ( in <a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id113956"><span class="std std-ref">LocalBoundingVolume</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id113963"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52980"><span class="std std-ref">getDesc</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52974"><span class="std std-ref">pyramidNearPlaneIntersectsBVol</span></a> ? ( in <a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> pyrTransform, in <a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a> localBVol, in <a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> transform )</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="box-methods">
+<h5>Box methods<a class="headerlink" href="#box-methods" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<table border="1" class="methodtable docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52748"><span class="std std-ref">bBoxAdd</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pt )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52755"><span class="std std-ref">bBoxAddBBox</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> min, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> max )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52790"><span class="std std-ref">bBoxAddTransformedBBox</span></a> ! ( in <a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a> other, in <a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> transform )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52760"><span class="std std-ref">bBoxContains</span></a> ? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> point )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52729"><span class="std std-ref">bBoxGetMax</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52726"><span class="std std-ref">bBoxGetMin</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52764"><span class="std std-ref">bBoxGetOrthographicMat44</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52752"><span class="std std-ref">bBoxGetVolume</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52740"><span class="std std-ref">bBoxInit</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> min, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> max )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52745"><span class="std std-ref">bBoxInit</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52736"><span class="std std-ref">bBoxSetMax</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> max )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52732"><span class="std std-ref">bBoxSetMin</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> min )</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="cone-methods">
+<h5>Cone methods<a class="headerlink" href="#cone-methods" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<table border="1" class="methodtable docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52906"><span class="std std-ref">bConeGetCosHalfAngle</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52900"><span class="std std-ref">bConeGetCutoff</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52922"><span class="std std-ref">bConeGetLocalDistanceVector</span></a> ? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> point )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52897"><span class="std std-ref">bConeGetRadAngle</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52903"><span class="std std-ref">bConeGetTanHalfAngle</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52917"><span class="std std-ref">bConeInit</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radAngle, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> cutoff )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52913"><span class="std std-ref">bConeSetCutoff</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> cutoff )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52909"><span class="std std-ref">bConeSetRadAngle</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radAngle )</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="pyramid-methods">
+<h5>Pyramid methods<a class="headerlink" href="#pyramid-methods" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<table border="1" class="methodtable docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52857"><span class="std std-ref">bPyramidGetFar</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52854"><span class="std std-ref">bPyramidGetNear</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52851"><span class="std std-ref">bPyramidGetNearHeight</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52848"><span class="std std-ref">bPyramidGetNearWidth</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52883"><span class="std std-ref">bPyramidGetPerspectiveMat44</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52876"><span class="std std-ref">bPyramidInit</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> nearWidth, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> nearHeight, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> near, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> far )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52872"><span class="std std-ref">bPyramidSetFar</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> far )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52868"><span class="std std-ref">bPyramidSetNear</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> near )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52864"><span class="std std-ref">bPyramidSetNearHeight</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> nearHeight )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52860"><span class="std std-ref">bPyramidSetNearWidth</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> nearWidth )</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="sphere-methods">
+<h5>Sphere methods<a class="headerlink" href="#sphere-methods" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<table border="1" class="methodtable docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52828"><span class="std std-ref">bSphereContains</span></a> ? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> point )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52812"><span class="std std-ref">bSphereGetCenter</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52837"><span class="std std-ref">bSphereGetLocalDistanceVector</span></a> ? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> point )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52806"><span class="std std-ref">bSphereGetRadius</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52809"><span class="std std-ref">bSphereGetSquaredRadius</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52823"><span class="std std-ref">bSphereInit</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> center, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52832"><span class="std std-ref">bSphereIntersectsBSphere</span></a> ? ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> center, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52815"><span class="std std-ref">bSphereSetCenter</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> center )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="LocalBoundingVolume.html#id52819"><span class="std std-ref">bSphereSetRadius</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius )</td>
+</tr>
+</tbody>
+</table>
+</div>
+</p>
+</div>
+</div>
+</p>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="transformedbboxgetvectors">
+<h3>transformedBBoxGetVectors<a class="headerlink" href="#transformedbboxgetvectors" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">transformedBBoxGetVectors ( in <a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> transform, in <a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a> localBVol, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> origin, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dX, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dY, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dZ )</p>
+<p class="plaintext">Transforms the bounding box and returns a transformed origin and axis (dX, dY, dZ) (<a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a> must be a box)</p>
+</div>
+</p>
+<p><div class="section" id="transformedbboxgetbbox">
+<h3>transformedBBoxGetBBox<a class="headerlink" href="#transformedbboxgetbbox" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">transformedBBoxGetBBox ( in <a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> transform, in <a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a> localBVol, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> min, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> max )</p>
+<p class="plaintext">Returns the global bounding box of a transformed bounding box (<a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a> must be a box)</p>
+</div>
+</p>
+<p><div class="section" id="transformedbspheregetbbox">
+<h3>transformedBSphereGetBBox<a class="headerlink" href="#transformedbspheregetbbox" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">transformedBSphereGetBBox ( in <a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> transform, in <a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a> localBVol, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> min, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> max )</p>
+<p class="plaintext">Returns the bounding box of a transformed sphere (<a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a> must be a sphere)</p>
+</div>
+</p>
+<p><div class="section" id="localbvolgetbsphere">
+<h3>localBVolGetBSphere<a class="headerlink" href="#localbvolgetbsphere" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">localBVolGetBSphere ( in <a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> transform, in <a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a> localBVol, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> bSphereCenter, out <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> bSphereSquaredRadius )</p>
+<p class="plaintext">Returns a bounding sphere englobing the transformed <a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a></p>
+</div>
+</p>
+<p><div class="section" id="localbvolgetbbox">
+<h3>localBVolGetBBox<a class="headerlink" href="#localbvolgetbbox" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">localBVolGetBBox ( in <a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> transform, in <a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a> localBVol, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> min, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> max )</p>
+<p class="plaintext">Returns a bounding box englobing the transformed <a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a></p>
+</div>
+</p>
+<p><div class="section" id="getsquareddistancetotransformedbvol">
+<h3>getSquaredDistanceToTransformedBVol<a class="headerlink" href="#getsquareddistancetotransformedbvol" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> getSquaredDistanceToTransformedBVol ( in <a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a> localBVol, in <a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> localBVolTransfo, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> globalPos )</p>
+<p class="plaintext">Returns the distance from a point to a transformed <a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a></p>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="LinesModeling.kl.html"
+                        title="前の章へ">LinesModeling.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="Mat33Attribute.kl.html"
+                        title="次の章へ">Mat33Attribute.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Geometry/LocalBoundingVolume.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Geometry/LocalBoundingVolume.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="Mat33Attribute.kl.html" title="Mat33Attribute.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="LinesModeling.kl.html" title="LinesModeling.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Geometry エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >Geometry Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

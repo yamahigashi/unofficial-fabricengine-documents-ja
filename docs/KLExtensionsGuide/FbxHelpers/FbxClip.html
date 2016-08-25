@@ -1,0 +1,429 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>FbxClip (object) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="FbxHelpers Extension’s Types" href="types.html" />
+    <link rel="next" title="FbxGeometry (object)" href="FbxGeometry.html" />
+    <link rel="prev" title="FbxCharacter (object)" href="FbxCharacter.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="FbxGeometry.html" title="FbxGeometry (object)"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="FbxCharacter.html" title="FbxCharacter (object)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >FbxHelpers エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" accesskey="U">FbxHelpers Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fbxclip-object">
+<span id="fbxclip"></span><h1>FbxClip (object)<a class="headerlink" href="#fbxclip-object" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><p class="plaintext">The <a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a> object manages loading animation data from an Fbx file and generating the curve values that can ben be evaluated to drive character poses.</p>
+<p><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: fbxClip.kl</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Fbx</span><span class="p">,</span> <span class="nx">FbxHelpers</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">(){</span>
+  <span class="c1">// Load an Fbx file to provide the clip data. </span>
+
+  <span class="nx">FilePath</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">FilePath</span><span class="p">(</span><span class="s2">&quot;${FABRIC_SCENE_GRAPH_DIR}/Python/Apps/Resources/Fbx/BendyBox.fbx&quot;</span><span class="p">).</span><span class="nx">expandEnvVars</span><span class="p">();</span>
+  <span class="nx">FbxClip</span> <span class="nx">fbxClip</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">string</span><span class="p">());</span>
+
+  <span class="c1">// Report a descrition string of the clip contents after loading.</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">fbxClip</span><span class="p">.</span><span class="nx">getDesc</span><span class="p">());</span>
+
+  <span class="c1">// Evaluate the clip over time, reporiting the generated clip values</span>
+  <span class="nx">Vec2</span> <span class="nx">timeRange</span> <span class="o">=</span> <span class="nx">fbxClip</span><span class="p">.</span><span class="nx">getTimeRange</span><span class="p">();</span>
+  <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;timeRange:&quot;</span> <span class="o">+</span> <span class="nx">timeRange</span><span class="p">);</span>
+  <span class="kr">Integer</span> <span class="nx">keyIndices</span><span class="p">[][];</span>
+  <span class="kr">Integer</span> <span class="nx">numSamples</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span><span class="nx">numSamples</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="nx">Scalar</span> <span class="nx">time</span> <span class="o">=</span> <span class="nx">Math_linearInterpolate</span><span class="p">(</span><span class="nx">timeRange</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">timeRange</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span> <span class="nx">Scalar</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="o">/</span><span class="nx">Scalar</span><span class="p">(</span><span class="nx">numSamples</span><span class="p">));</span>
+
+    <span class="nx">IClipValues</span> <span class="nx">clipValues</span> <span class="o">=</span> <span class="nx">fbxClip</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="nx">time</span><span class="p">,</span> <span class="nx">keyIndices</span><span class="p">);</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;time:&quot;</span> <span class="o">+</span> <span class="nx">time</span><span class="p">);</span>
+    <span class="nb">report</span><span class="p">(</span><span class="nx">clipValues</span><span class="p">.</span><span class="nx">getDesc</span><span class="p">());</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">Error: Fbx: [FabricFBX]: Unable to initialize import on provided filePath : D:\fabric\release/Python/Apps/Resources/Fbx/BendyBox.fbx</span>
+<span class="cm">KL stack trace:</span>
+<span class="cm">[ST] 1 method.openFile.L.UO_FbxClip.R.ST() FbxClip.kl:137</span>
+<span class="cm">[ST] 2 create.L.OO_FbxClip.R.ST() FbxClip.kl:37</span>
+<span class="cm">[ST] 3 operator.entry() (stdin):12</span>
+<span class="cm">[ST] 4 kl.internal.entry.stub.cpu()</span>
+<span class="cm">Error: No Animation Layers in File:D:\fabric\release/Python/Apps/Resources/Fbx/BendyBox.fbx</span>
+<span class="cm">KL stack trace:</span>
+<span class="cm">[ST] 1 kl.internal.String.SetErrorDataPtrAndLength.AS0()</span>
+<span class="cm">[ST] 2 function.setError.R.ST()</span>
+<span class="cm">[ST] 3 method.parseFCurves.L.UO_FbxClip() FbxClip.kl:156</span>
+<span class="cm">[ST] 4 create.L.OO_FbxClip.R.ST() FbxClip.kl:37</span>
+<span class="cm">[ST] 5 operator.entry() (stdin):12</span>
+<span class="cm">[ST] 6 kl.internal.entry.stub.cpu()</span>
+<span class="cm">FbxClip { </span>
+<span class="cm">  animationLayerName: </span>
+<span class="cm">  Clip:{ </span>
+<span class="cm">  }</span>
+<span class="cm">}</span>
+
+<span class="cm">timeRange:{x:+10000000,y:-10000000}</span>
+<span class="cm">time:+10000000</span>
+<span class="cm">ClipValues:{ </span>
+<span class="cm">}</span>
+<span class="cm">time:+6666666</span>
+<span class="cm">ClipValues:{ </span>
+<span class="cm">}</span>
+<span class="cm">time:+3333333</span>
+<span class="cm">ClipValues:{ </span>
+<span class="cm">}</span>
+<span class="cm">time:+0.0</span>
+<span class="cm">ClipValues:{ </span>
+<span class="cm">}</span>
+<span class="cm">time:-3333334</span>
+<span class="cm">ClipValues:{ </span>
+<span class="cm">}</span>
+<span class="cm">time:-6666666</span>
+<span class="cm">ClipValues:{ </span>
+<span class="cm">}</span>
+<span class="cm">time:-10000000</span>
+<span class="cm">ClipValues:{ </span>
+<span class="cm">}</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</p>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+ -->
+<!-- Title: FbxClip Pages: 1 -->
+<svg width="242pt" height="44pt"
+ viewBox="0.00 0.00 242.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>FbxClip</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-40 239,-40 239,5 -4,5"/>
+<!-- FbxClip -->
+<g id="node1" class="node"><title>FbxClip</title>
+<a xlink:href="../FbxHelpers/FbxClip.html" xlink:title="FbxClip">
+<polygon fill="#3fabd3" stroke="#3f3f3f" points="234,-36 180,-36 180,-0 234,-0 234,-36"/>
+<text text-anchor="middle" x="207" y="-15.5" font-family="Arial" font-size="10.00">FbxClip</text>
+</a>
+</g>
+<!-- Clip -->
+<g id="node3" class="node"><title>Clip</title>
+<a xlink:href="../Animation/Clip.html" xlink:title="Clip">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="144,-36 90,-36 90,-0 144,-0 144,-36"/>
+<text text-anchor="middle" x="117" y="-15.5" font-family="Arial" font-size="10.00">Clip</text>
+</a>
+</g>
+<!-- FbxClip&#45;&gt;Clip -->
+<g id="edge2" class="edge"><title>FbxClip&#45;&gt;Clip</title>
+<path fill="none" stroke="#3f3f3f" d="M179.597,-18C171.607,-18 162.689,-18 154.176,-18"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="154.081,-14.5001 144.081,-18 154.081,-21.5001 154.081,-14.5001"/>
+</g>
+<!-- IClip -->
+<g id="node5" class="node"><title>IClip</title>
+<a xlink:href="../Animation/IClip.html" xlink:title="IClip">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="54,-36 0,-36 0,-0 54,-0 54,-36"/>
+<text text-anchor="middle" x="27" y="-15.5" font-family="Arial" font-size="10.00">IClip</text>
+</a>
+</g>
+<!-- Clip&#45;&gt;IClip -->
+<g id="edge4" class="edge"><title>Clip&#45;&gt;IClip</title>
+<path fill="none" stroke="#3f3f3f" d="M89.5971,-18C81.6068,-18 72.6894,-18 64.1759,-18"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="64.081,-14.5001 54.081,-18 64.081,-21.5001 64.081,-14.5001"/>
+</g>
+</g>
+</svg></p>
+<div class="section" id="members">
+<h2>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="71%" />
+<col width="25%" />
+<col width="4%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>name</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Animation/ITrackSet.html#itrackset"><span class="std std-ref">ITrackSet</span></a>[<a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a>]</td>
+<td>trackSets</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>Integer[][]</td>
+<td>keyIndices</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>filePath</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Fbx/FbxHandle.html#fbxhandle"><span class="std std-ref">FbxHandle</span></a></td>
+<td>handle</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/ImporterIdentifier.html#importeridentifier"><span class="std std-ref">ImporterIdentifier</span></a>[]</td>
+<td>identifiers</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>animationLayerName</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id113556"><span class="std std-ref">FbxClip</span></a>  ( in <a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id49282"><span class="std std-ref">FbxClip</span></a>  ( in <a class="reference internal" href="../Fbx/FbxHandle.html#fbxhandle"><span class="std std-ref">FbxHandle</span></a> handle )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id49274"><span class="std std-ref">FbxClip</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> filePath )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id49265"><span class="std std-ref">FbxClip</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> filePath, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> scaleFactor )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id113553"><span class="std std-ref">FbxClip</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a></td>
+<td><a class="reference internal" href="#id113560"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id49295"><span class="std std-ref">getDesc</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> indent )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id49299"><span class="std std-ref">getDesc</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id49292"><span class="std std-ref">getFilePath</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Animation/Clip.html#clip"><span class="std std-ref">Clip</span></a></td>
+<td><a class="reference internal" href="#id49289"><span class="std std-ref">toClip</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Animation/IClip.html#iclip"><span class="std std-ref">IClip</span></a></td>
+<td><a class="reference internal" href="#id49286"><span class="std std-ref">toIClip</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="methods-in-detail">
+<h2>Methods in detail<a class="headerlink" href="#methods-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><span class="target" id="id113556"></span><p><p class="klcode"><a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a> ( in <a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a> other )</p>
+<p class="plaintext">copy constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id49282"></span><p><p class="klcode"><a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a> ( in <a class="reference internal" href="../Fbx/FbxHandle.html#fbxhandle"><span class="std std-ref">FbxHandle</span></a> handle )</p>
+<p class="plaintext">Constructor from a file handle. Construct a clip from an already open file handle.
+This enables a file handle already open to be used to construct a clip. The file handle might
+come from an <a class="reference internal" href="FbxCharacter.html#fbxcharacter"><span class="std std-ref">FbxCharacter</span></a> that was already constructed.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id49274"></span><p><p class="klcode"><a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> filePath )</p>
+<p class="plaintext">Constructor from a file path.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>filePath</td>
+<td>the path to the fbx file on disk to load</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id49265"></span><p><p class="klcode"><a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> filePath, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> scaleFactor )</p>
+<p class="plaintext">Constructor from a file path and scale factor.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">The scale factor can be used to scale animation to fit a character exported at a different scale factor.</p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>filePath</td>
+<td>the path to the fbx file on disk to load</td>
+</tr>
+<tr class="row-even"><td>scaleFactor</td>
+<td>The scale factor to apply to the animation data (obsolete)</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id113553"></span><p><p class="klcode"><a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a> ()</p>
+<p class="plaintext">default constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id113560"></span><p><p class="klcode"><a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a> <a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a>.clone? ()</p>
+<p class="plaintext">clone method</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id49295"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a>.getDesc? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> indent )</p>
+<p class="plaintext">Generates a Description string of this <a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a>.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>indent</td>
+<td>The indentation to use when generating the string.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id49299"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a>.getDesc? ()</p>
+<p class="plaintext">Generates a Description string of this <a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a>.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id49292"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a>.getFilePath? ()</p>
+<p class="plaintext">Returns the file path used to construct the <a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a></p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id49289"></span><p><p class="klcode"><a class="reference internal" href="../Animation/Clip.html#clip"><span class="std std-ref">Clip</span></a> <a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a>.toClip? ()</p>
+<p class="plaintext">returns this <a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a> as an <a class="reference internal" href="../Animation/Clip.html#clip"><span class="std std-ref">Clip</span></a></p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id49286"></span><p><p class="klcode"><a class="reference internal" href="../Animation/IClip.html#iclip"><span class="std std-ref">IClip</span></a> <a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a>.toIClip? ()</p>
+<p class="plaintext">returns this <a class="reference internal" href="#fbxclip"><span class="std std-ref">FbxClip</span></a> as an <a class="reference internal" href="../Animation/IClip.html#iclip"><span class="std std-ref">IClip</span></a></p>
+</p>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="FbxCharacter.html"
+                        title="前の章へ">FbxCharacter (object)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="FbxGeometry.html"
+                        title="次の章へ">FbxGeometry (object)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/FbxHelpers/FbxClip.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/FbxHelpers/FbxClip.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="FbxGeometry.html" title="FbxGeometry (object)"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="FbxCharacter.html" title="FbxCharacter (object)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >FbxHelpers エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" >FbxHelpers Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

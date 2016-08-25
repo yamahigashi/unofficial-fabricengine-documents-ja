@@ -1,0 +1,1072 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>KeyframeTrackSet (object) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Animation Extension’s Types" href="types.html" />
+    <link rel="next" title="QuatValue (struct)" href="QuatValue.html" />
+    <link rel="prev" title="KeyframeTrack (object)" href="KeyframeTrack.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="QuatValue.html" title="QuatValue (struct)"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="KeyframeTrack.html" title="KeyframeTrack (object)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Animation エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" accesskey="U">Animation Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="keyframetrackset-object">
+<span id="keyframetrackset"></span><h1>KeyframeTrackSet (object)<a class="headerlink" href="#keyframetrackset-object" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><p class="klbrief">A collection of tracks driving a single value.</p>
+<p class="plaintext">The <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> groups a collection of tracks together to drive the value of
+a <code class="xref std std-kl-ref docutils literal"><span class="pre">Math</span></code> type, such as Scalar, <code class="xref std std-kl-ref docutils literal"><span class="pre">Vec2,</span> <span class="pre">:kl-ref:`Vec3</span></code>, <a class="reference internal" href="../Math/Vec4.html#vec4"><span class="std std-ref">Vec4</span></a>, <a class="reference internal" href="../Math/Quat.html#quat"><span class="std std-ref">Quat</span></a>, <a class="reference internal" href="../Math/Euler.html#euler"><span class="std std-ref">Euler</span></a> or <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a>. A KeyframeTrackSet can
+contain zero or many tracks, each generated based on the specified Math type.</p>
+<p class="plaintext">KeyframeTrackSets are often bundled into Clips, which group together many values into
+a container that can drive the animation of a character.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="Clip.html#clip"><span class="std std-ref">Clip</span></a>, <a class="reference internal" href="KeyframeTrack.html#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a></p>
+</div>
+<p><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: keyframeTrackSet.kl</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Animation</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">(){</span>
+
+    <span class="nx">KeyframeTrackSet</span> <span class="nx">vec3TrackSet</span> <span class="o">=</span> <span class="nx">KeyframeTrackSet</span><span class="p">(</span><span class="s1">&#39;Vec3TrackSet&#39;</span><span class="p">,</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="nx">vec3TrackSet</span><span class="p">.</span><span class="nx">setTrackValues</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">));</span>
+    <span class="nx">vec3TrackSet</span><span class="p">.</span><span class="nx">setTrackValues</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">));</span>
+    <span class="nx">vec3TrackSet</span><span class="p">.</span><span class="nx">setTrackValues</span><span class="p">(</span><span class="mf">7.0</span><span class="p">,</span> <span class="nx">Vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">));</span>
+
+    <span class="kr">Integer</span> <span class="nx">keyIndices</span><span class="p">[];</span>
+    <span class="nx">Vec3</span> <span class="nx">value</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span><span class="mi">20</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="nx">Scalar</span> <span class="nx">time</span> <span class="o">=</span> <span class="nx">Math_linearInterpolate</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="nx">Scalar</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="o">/</span><span class="mf">20.0</span><span class="p">);</span>
+        <span class="nx">vec3TrackSet</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="nx">time</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">keyIndices</span><span class="p">);</span>
+        <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;time:&quot;</span> <span class="o">+</span> <span class="nx">time</span> <span class="o">+</span> <span class="s2">&quot; value:&quot;</span> <span class="o">+</span> <span class="nx">value</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">time:+0.0 value:{x:+0.0,y:+0.0,z:+0.0}</span>
+<span class="cm">time:+0.2 value:{x:+0.066666,y:+0.133333,z:+0.0}</span>
+<span class="cm">time:+0.4 value:{x:+0.133333,y:+0.266666,z:+0.0}</span>
+<span class="cm">time:+0.6 value:{x:+0.2,y:+0.4,z:+0.0}</span>
+<span class="cm">time:+0.8 value:{x:+0.266666,y:+0.533333,z:+0.0}</span>
+<span class="cm">time:+1.0 value:{x:+0.333333,y:+0.666666,z:+0.0}</span>
+<span class="cm">time:+1.2 value:{x:+0.4,y:+0.8,z:+0.0}</span>
+<span class="cm">time:+1.4 value:{x:+0.466666,y:+0.933333,z:+0.0}</span>
+<span class="cm">time:+1.6 value:{x:+0.533333,y:+1.066666,z:+0.0}</span>
+<span class="cm">time:+1.8 value:{x:+0.599999,y:+1.199999,z:+0.0}</span>
+<span class="cm">time:+2.0 value:{x:+0.666666,y:+1.333333,z:+0.0}</span>
+<span class="cm">time:+2.2 value:{x:+0.733333,y:+1.466666,z:+0.0}</span>
+<span class="cm">time:+2.4 value:{x:+0.8,y:+1.6,z:+0.0}</span>
+<span class="cm">time:+2.6 value:{x:+0.866666,y:+1.733333,z:+0.0}</span>
+<span class="cm">time:+2.8 value:{x:+0.933333,y:+1.866666,z:+0.0}</span>
+<span class="cm">time:+3.0 value:{x:+1.0,y:+2.0,z:+0.0}</span>
+<span class="cm">time:+3.2 value:{x:+0.95,y:+2.0,z:+0.15}</span>
+<span class="cm">time:+3.4 value:{x:+0.9,y:+2.0,z:+0.3}</span>
+<span class="cm">time:+3.6 value:{x:+0.85,y:+2.0,z:+0.449999}</span>
+<span class="cm">time:+3.8 value:{x:+0.8,y:+2.0,z:+0.599999}</span>
+<span class="cm">time:+4.0 value:{x:+0.75,y:+2.0,z:+0.75}</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</p>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+ -->
+<!-- Title: KeyframeTrackSet Pages: 1 -->
+<svg width="200pt" height="44pt"
+ viewBox="0.00 0.00 200.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>KeyframeTrackSet</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-40 197,-40 197,5 -4,5"/>
+<!-- KeyframeTrackSet -->
+<g id="node1" class="node"><title>KeyframeTrackSet</title>
+<a xlink:href="../Animation/KeyframeTrackSet.html" xlink:title="KeyframeTrackSet">
+<polygon fill="#3fabd3" stroke="#3f3f3f" points="191.5,-36 94.5,-36 94.5,-0 191.5,-0 191.5,-36"/>
+<text text-anchor="middle" x="143" y="-15.5" font-family="Arial" font-size="10.00">KeyframeTrackSet</text>
+</a>
+</g>
+<!-- ITrackSet -->
+<g id="node3" class="node"><title>ITrackSet</title>
+<a xlink:href="../Animation/ITrackSet.html" xlink:title="ITrackSet">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="58,-36 0,-36 0,-0 58,-0 58,-36"/>
+<text text-anchor="middle" x="29" y="-15.5" font-family="Arial" font-size="10.00">ITrackSet</text>
+</a>
+</g>
+<!-- KeyframeTrackSet&#45;&gt;ITrackSet -->
+<g id="edge2" class="edge"><title>KeyframeTrackSet&#45;&gt;ITrackSet</title>
+<path fill="none" stroke="#3f3f3f" d="M94.177,-18C85.5653,-18 76.6898,-18 68.3891,-18"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="68.2454,-14.5001 58.2454,-18 68.2453,-21.5001 68.2454,-14.5001"/>
+</g>
+</g>
+</svg></p>
+<div class="section" id="members">
+<h2>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="75%" />
+<col width="20%" />
+<col width="5%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>name</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>valueType</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>flags</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="KeyframeTrack.html#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>[]</td>
+<td>tracks</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id110643"><span class="std std-ref">KeyframeTrackSet</span></a>  ( in <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24202"><span class="std std-ref">KeyframeTrackSet</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24263"><span class="std std-ref">KeyframeTrackSet</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Euler.html#euler"><span class="std std-ref">Euler</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24251"><span class="std std-ref">KeyframeTrackSet</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Quat.html#quat"><span class="std std-ref">Quat</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24190"><span class="std std-ref">KeyframeTrackSet</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24215"><span class="std std-ref">KeyframeTrackSet</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24227"><span class="std std-ref">KeyframeTrackSet</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24239"><span class="std std-ref">KeyframeTrackSet</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24275"><span class="std std-ref">KeyframeTrackSet</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id110640"><span class="std std-ref">KeyframeTrackSet</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24301"><span class="std std-ref">addTrack</span></a> ! ( in <a class="reference internal" href="IKeyframeTrack.html#ikeyframetrack"><span class="std std-ref">IKeyframeTrack</span></a> track )</td>
+</tr>
+<tr class="row-even"><td>Integer</td>
+<td><a class="reference internal" href="#id24331"><span class="std std-ref">addTrack</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> defaultValue )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24298"><span class="std std-ref">clear</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24328"><span class="std std-ref">clearTracks</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a></td>
+<td><a class="reference internal" href="#id110647"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24373"><span class="std std-ref">evaluate</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Euler.html#euler"><span class="std std-ref">Euler</span></a> value, out Integer keyIndices[] )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24367"><span class="std std-ref">evaluate</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Quat.html#quat"><span class="std std-ref">Quat</span></a> value, out Integer keyIndices[] )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24337"><span class="std std-ref">evaluate</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value, out Integer keyIndices[] )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24343"><span class="std std-ref">evaluate</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> values[], out Integer keyIndices[] )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24349"><span class="std std-ref">evaluate</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> value, out Integer keyIndices[] )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24355"><span class="std std-ref">evaluate</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> value, out Integer keyIndices[] )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24361"><span class="std std-ref">evaluate</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> value, out Integer keyIndices[] )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24379"><span class="std std-ref">evaluate</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> value, out Integer keyIndices[] )</td>
+</tr>
+<tr class="row-even"><td>Integer</td>
+<td><a class="reference internal" href="#id24305"><span class="std std-ref">findTrack</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id24418"><span class="std std-ref">getDesc</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> indent, in Boolean includeTracks )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id24423"><span class="std std-ref">getDesc</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="#id24295"><span class="std std-ref">getFlags</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id24281"><span class="std std-ref">getName</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="#id24309"><span class="std std-ref">getNumTracks</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a></td>
+<td><a class="reference internal" href="#id24325"><span class="std std-ref">getTimeRange</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="IKeyframeTrack.html#ikeyframetrack"><span class="std std-ref">IKeyframeTrack</span></a></td>
+<td><a class="reference internal" href="#id24312"><span class="std std-ref">getTrack</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="IKeyframeTrack.html#ikeyframetrack"><span class="std std-ref">IKeyframeTrack</span></a></td>
+<td><a class="reference internal" href="#id24316"><span class="std std-ref">getTrack</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a>[]</td>
+<td><a class="reference internal" href="#id24415"><span class="std std-ref">getTrackNames</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id24284"><span class="std std-ref">getValueType</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24287"><span class="std std-ref">setFlag</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flag )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24320"><span class="std std-ref">setTrack</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="IKeyframeTrack.html#ikeyframetrack"><span class="std std-ref">IKeyframeTrack</span></a> track )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24405"><span class="std std-ref">setTrackValues</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Quat.html#quat"><span class="std std-ref">Quat</span></a> value )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24385"><span class="std std-ref">setTrackValues</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24390"><span class="std std-ref">setTrackValues</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> value )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24395"><span class="std std-ref">setTrackValues</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24400"><span class="std std-ref">setTrackValues</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> value )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24410"><span class="std std-ref">setTrackValues</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="#id24291"><span class="std std-ref">testFlag</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flag )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="methods-in-detail">
+<h2>Methods in detail<a class="headerlink" href="#methods-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><span class="target" id="id110643"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> ( in <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> other )</p>
+<p class="plaintext">copy constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24202"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</p>
+<p class="plaintext">Constructs a new <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> using the given name, and initializing the
+tracks with the given <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value. For a <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value, only a single track
+will be generated in the track set, and the color of that track will be set using
+the provided value.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>name</td>
+<td>The name of the track set, and the single contrained track.</td>
+</tr>
+<tr class="row-even"><td>color</td>
+<td>The color of the single track</td>
+</tr>
+<tr class="row-odd"><td>defaultValue</td>
+<td>The value to use to generate the tracks.</td>
+</tr>
+<tr class="row-even"><td>flags</td>
+<td>The flags value will be used to determine how the tracks should be generated.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24263"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Euler.html#euler"><span class="std std-ref">Euler</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</p>
+<p class="plaintext">Constructs a new <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> using the given name, and initializing the
+tracks with the given <a class="reference internal" href="../Math/Euler.html#euler"><span class="std std-ref">Euler</span></a> value. This value will be used to generate the number
+of tracks, thier names, and thier default values.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>name</td>
+<td>The name of the track set</td>
+</tr>
+<tr class="row-even"><td>defaultValue</td>
+<td>The value to use to generate the tracks.</td>
+</tr>
+<tr class="row-odd"><td>flags</td>
+<td>The flags value will be used to determine how the tracks should be generated.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24251"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Quat.html#quat"><span class="std std-ref">Quat</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</p>
+<p class="plaintext">Constructs a new <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> using the given name, and initializing the
+tracks with the given <a class="reference internal" href="../Math/Quat.html#quat"><span class="std std-ref">Quat</span></a> value. This value will be used to generate the number
+of tracks, thier names, and thier default values.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>name</td>
+<td>The name of the track set</td>
+</tr>
+<tr class="row-even"><td>defaultValue</td>
+<td>The value to use to generate the tracks.</td>
+</tr>
+<tr class="row-odd"><td>flags</td>
+<td>The flags value will be used to determine how the tracks should be generated.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24190"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</p>
+<p class="plaintext">Constructs a new empty <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>name</td>
+<td>The name of the <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.</td>
+</tr>
+<tr class="row-even"><td>flags</td>
+<td>The given flags value to use.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24215"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</p>
+<p class="plaintext">Constructs a new <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> using the given name, and initializing the
+tracks with the given <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> value. This value will be used to generate the number
+of tracks, thier names, and thier default values.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>name</td>
+<td>The name of the track set</td>
+</tr>
+<tr class="row-even"><td>defaultValue</td>
+<td>The value to use to generate the tracks.</td>
+</tr>
+<tr class="row-odd"><td>flags</td>
+<td>The flags value will be used to determine how the tracks should be generated.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24227"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</p>
+<p class="plaintext">Constructs a new <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> using the given name, and initializing the
+tracks with the given <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> value. This value will be used to generate the number
+of tracks, thier names, and thier default values.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>name</td>
+<td>The name of the track set</td>
+</tr>
+<tr class="row-even"><td>defaultValue</td>
+<td>The value to use to generate the tracks.</td>
+</tr>
+<tr class="row-odd"><td>flags</td>
+<td>The flags value will be used to determine how the tracks should be generated.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24239"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</p>
+<p class="plaintext">Constructs a new <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> using the given name, and initializing the
+tracks with the given <a class="reference internal" href="../Math/Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> value. This value will be used to generate the number
+of tracks, thier names, and thier default values.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>name</td>
+<td>The name of the track set</td>
+</tr>
+<tr class="row-even"><td>defaultValue</td>
+<td>The value to use to generate the tracks.</td>
+</tr>
+<tr class="row-odd"><td>flags</td>
+<td>The flags value will be used to determine how the tracks should be generated.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24275"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flags )</p>
+<p class="plaintext">Constructs a new <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> using the given name, and initializing the
+tracks with the given <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> value. This value will be used to generate the number
+of tracks, thier names, and thier default values.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>name</td>
+<td>The name of the track set</td>
+</tr>
+<tr class="row-even"><td>defaultValue</td>
+<td>The value to use to generate the tracks.</td>
+</tr>
+<tr class="row-odd"><td>flags</td>
+<td>The flags value will be used to determine how the tracks should be generated.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id110640"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> ()</p>
+<p class="plaintext">default constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24301"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.addTrack! ( in <a class="reference internal" href="IKeyframeTrack.html#ikeyframetrack"><span class="std std-ref">IKeyframeTrack</span></a> track )</p>
+<p class="plaintext">Adds a new track to the track set.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>track</td>
+<td>the new track to add</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24331"></span><p><p class="klcode">Integer <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.addTrack! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> defaultValue )</p>
+<p class="plaintext">Adds a new track to the <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a></p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>name</td>
+<td>The name the track will be found under in the tracks set.</td>
+</tr>
+<tr class="row-even"><td>color</td>
+<td>The color of the new track.</td>
+</tr>
+<tr class="row-odd"><td>defaultValue</td>
+<td>The default value to assign the track.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24298"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.clear! ()</p>
+<p class="plaintext">clears the content of the <a class="reference internal" href="KeyframeTrack.html#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a></p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24328"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.clearTracks! ()</p>
+<p class="plaintext">Removes all tracks in the <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id110647"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.clone? ()</p>
+<p class="plaintext">clone method</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24373"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.evaluate? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Euler.html#euler"><span class="std std-ref">Euler</span></a> value, out Integer keyIndices[] )</p>
+<p class="plaintext">Evaluates a single track into the given <a class="reference internal" href="../Math/Euler.html#euler"><span class="std std-ref">Euler</span></a> value.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">this method should be used on a <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> created using a <a class="reference internal" href="../Math/Euler.html#euler"><span class="std std-ref">Euler</span></a> value.</p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>time</td>
+<td>the time at which to evaluate the track.</td>
+</tr>
+<tr class="row-even"><td>value</td>
+<td>The value that will contain the result of the track evaluations</td>
+</tr>
+<tr class="row-odd"><td>keyIndices</td>
+<td>the cache of key indices used to accelerate subsequent track evaluations.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24367"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.evaluate? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Quat.html#quat"><span class="std std-ref">Quat</span></a> value, out Integer keyIndices[] )</p>
+<p class="plaintext">Evaluates a single track into the given <a class="reference internal" href="../Math/Quat.html#quat"><span class="std std-ref">Quat</span></a> value.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">this method should be used on a <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> created using a <a class="reference internal" href="../Math/Quat.html#quat"><span class="std std-ref">Quat</span></a> value.</p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>time</td>
+<td>the time at which to evaluate the track.</td>
+</tr>
+<tr class="row-even"><td>value</td>
+<td>The value that will contain the result of the track evaluations</td>
+</tr>
+<tr class="row-odd"><td>keyIndices</td>
+<td>the cache of key indices used to accelerate subsequent track evaluations.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24337"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.evaluate? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value, out Integer keyIndices[] )</p>
+<p class="plaintext">Evaluates a single track into the given <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">this method should be used on a <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> created using a <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value.</p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>time</td>
+<td>the time at which to evaluate the track.</td>
+</tr>
+<tr class="row-even"><td>value</td>
+<td>The value that will contain the result of the track evaluation</td>
+</tr>
+<tr class="row-odd"><td>keyIndices</td>
+<td>the cache of key indices used to accelerate subsequent track evaluations.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24343"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.evaluate? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> values[], out Integer keyIndices[] )</p>
+<p class="plaintext">Evaluates a single track into the given <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> values.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>time</td>
+<td>the time at which to evaluate the track.</td>
+</tr>
+<tr class="row-even"><td>value</td>
+<td>The values that will contain the result of the track evaluations</td>
+</tr>
+<tr class="row-odd"><td>keyIndices</td>
+<td>the cache of key indices used to accelerate subsequent track evaluations.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24349"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.evaluate? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> value, out Integer keyIndices[] )</p>
+<p class="plaintext">Evaluates a single track into the given <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> value.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">this method should be used on a <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> created using a <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> value.</p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>time</td>
+<td>the time at which to evaluate the track.</td>
+</tr>
+<tr class="row-even"><td>value</td>
+<td>The value that will contain the result of the track evaluations</td>
+</tr>
+<tr class="row-odd"><td>keyIndices</td>
+<td>the cache of key indices used to accelerate subsequent track evaluations.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24355"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.evaluate? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> value, out Integer keyIndices[] )</p>
+<p class="plaintext">Evaluates a single track into the given <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> value.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">this method should be used on a <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> created using a <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> value.</p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>time</td>
+<td>the time at which to evaluate the track.</td>
+</tr>
+<tr class="row-even"><td>value</td>
+<td>The value that will contain the result of the track evaluations</td>
+</tr>
+<tr class="row-odd"><td>keyIndices</td>
+<td>the cache of key indices used to accelerate subsequent track evaluations.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24361"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.evaluate? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> value, out Integer keyIndices[] )</p>
+<p class="plaintext">Evaluates a single track into the given <a class="reference internal" href="../Math/Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> value.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">this method should be used on a <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> created using a <a class="reference internal" href="../Math/Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> value.</p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>time</td>
+<td>the time at which to evaluate the track.</td>
+</tr>
+<tr class="row-even"><td>value</td>
+<td>The value that will contain the result of the track evaluations</td>
+</tr>
+<tr class="row-odd"><td>keyIndices</td>
+<td>the cache of key indices used to accelerate subsequent track evaluations.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24379"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.evaluate? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> value, out Integer keyIndices[] )</p>
+<p class="plaintext">Evaluates a single track into the given <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> value.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">this method should be used on a <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a> created using a <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> value.</p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>time</td>
+<td>the time at which to evaluate the track.</td>
+</tr>
+<tr class="row-even"><td>value</td>
+<td>The value that will contain the result of the track evaluations</td>
+</tr>
+<tr class="row-odd"><td>keyIndices</td>
+<td>the cache of key indices used to accelerate subsequent track evaluations.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24305"></span><p><p class="klcode">Integer <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.findTrack? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</p>
+<p class="plaintext">find a track by name, returning the track index.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>the</td>
+<td>name of the track to search for.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24418"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.getDesc? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> indent, in Boolean includeTracks )</p>
+<p class="plaintext">Generates a Description string of this <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>indent</td>
+<td>The indentation to use when generating the string.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24423"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.getDesc? ()</p>
+<p class="plaintext">Generates a Description string of this <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24295"></span><p><p class="klcode"><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.getFlags? ()</p>
+<p class="plaintext">Returns the flags value of the <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a></p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24281"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.getName? ()</p>
+<p class="plaintext">Returns the name of the <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24309"></span><p><p class="klcode"><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.getNumTracks? ()</p>
+<p class="plaintext">Returns the number of tracks stored in the <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a></p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24325"></span><p><p class="klcode"><a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.getTimeRange? ()</p>
+<p class="plaintext">Returns the time range defined by the first and last key in each track.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24312"></span><p><p class="klcode"><a class="reference internal" href="IKeyframeTrack.html#ikeyframetrack"><span class="std std-ref">IKeyframeTrack</span></a> <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.getTrack? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</p>
+<p class="plaintext">Returns a track by name</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24316"></span><p><p class="klcode"><a class="reference internal" href="IKeyframeTrack.html#ikeyframetrack"><span class="std std-ref">IKeyframeTrack</span></a> <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.getTrack? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</p>
+<p class="plaintext">Returns a track by index.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24415"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a>[] <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.getTrackNames? ()</p>
+<p class="plaintext">Returns an array of the names of the track sets in the clip.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24284"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.getValueType? ()</p>
+<p class="plaintext">Returns the value type of this <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.
+can be generated from the <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>. e.g. &#8216;<a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a>&#8216;, &#8216;<a class="reference internal" href="../Math/Euler.html#euler"><span class="std std-ref">Euler</span></a>&#8216;, &#8216;<a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a>&#8216;</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">The value type is a string giving the name of the data type that</p>
+</div>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24287"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.setFlag! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flag )</p>
+<p class="plaintext">Sets a binary flag to store with the track set.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="26%" />
+<col width="74%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>flag</td>
+<td>the flag to set</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24320"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.setTrack! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="IKeyframeTrack.html#ikeyframetrack"><span class="std std-ref">IKeyframeTrack</span></a> track )</p>
+<p class="plaintext">Replaces an existing track with a new track.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>name</td>
+<td>The name of the track to replace. Generates an error if the name does not match any existing tracks.</td>
+</tr>
+<tr class="row-even"><td>track</td>
+<td>The track to replace the existing one.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24405"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.setTrackValues! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Quat.html#quat"><span class="std std-ref">Quat</span></a> value )</p>
+<p class="plaintext">Sets the values of the contained tracks using the given value.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This method is used to generate keyframes on the tracks, or update existing keys if keys already exist at the given time</p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>time</td>
+<td>The time to set the new value</td>
+</tr>
+<tr class="row-even"><td>value</td>
+<td>The value to set on the tracks</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24385"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.setTrackValues! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</p>
+<p class="plaintext">Sets the values of the contained tracks using the given value.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This method is used to generate keyframes on the tracks, or update existing keys if keys already exist at the given time</p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>time</td>
+<td>The time to set the new value</td>
+</tr>
+<tr class="row-even"><td>value</td>
+<td>The value to set on the tracks</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24390"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.setTrackValues! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> value )</p>
+<p class="plaintext">Sets the values of the contained tracks using the given value.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This method is used to generate keyframes on the tracks, or update existing keys if keys already exist at the given time</p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>time</td>
+<td>The time to set the new value</td>
+</tr>
+<tr class="row-even"><td>value</td>
+<td>The value to set on the tracks</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24395"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.setTrackValues! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> value )</p>
+<p class="plaintext">Sets the values of the contained tracks using the given value.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This method is used to generate keyframes on the tracks, or update existing keys if keys already exist at the given time</p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>time</td>
+<td>The time to set the new value</td>
+</tr>
+<tr class="row-even"><td>value</td>
+<td>The value to set on the tracks</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24400"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.setTrackValues! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> value )</p>
+<p class="plaintext">Sets the values of the contained tracks using the given value.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This method is used to generate keyframes on the tracks, or update existing keys if keys already exist at the given time</p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>time</td>
+<td>The time to set the new value</td>
+</tr>
+<tr class="row-even"><td>value</td>
+<td>The value to set on the tracks</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24410"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.setTrackValues! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> value )</p>
+<p class="plaintext">Sets the values of the contained tracks using the given value.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This method is used to generate keyframes on the tracks, or update existing keys if keys already exist at the given time</p>
+</div>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>time</td>
+<td>The time to set the new value</td>
+</tr>
+<tr class="row-even"><td>value</td>
+<td>The value to set on the tracks</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24291"></span><p><p class="klcode">Boolean <a class="reference internal" href="#keyframetrackset"><span class="std std-ref">KeyframeTrackSet</span></a>.testFlag? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> flag )</p>
+<p class="plaintext">Tests the binary flags in the track set against the given flags value</p>
+</p>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="KeyframeTrack.html"
+                        title="前の章へ">KeyframeTrack (object)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="QuatValue.html"
+                        title="次の章へ">QuatValue (struct)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Animation/KeyframeTrackSet.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Animation/KeyframeTrackSet.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="QuatValue.html" title="QuatValue (struct)"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="KeyframeTrack.html" title="KeyframeTrack (object)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Animation エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" >Animation Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

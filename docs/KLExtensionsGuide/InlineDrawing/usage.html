@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Using the InlineDrawing extension &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="InlineDrawing エクステンション" href="index.html" />
+    <link rel="next" title="Transitioning from Pre-1.12.0 InlineDrawing" href="transition.html" />
+    <link rel="prev" title="Introduction" href="intro.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="transition.html" title="Transitioning from Pre-1.12.0 InlineDrawing"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">InlineDrawing エクステンション</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="using-the-inlinedrawing-extension">
+<span id="inlinedrawing-extension-usage"></span><h1>Using the InlineDrawing extension<a class="headerlink" href="#using-the-inlinedrawing-extension" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified">バージョン 1.12.0 で追加.</span></p>
+</div>
+<p>Inline Drawing can be used directly without any modification for OpenGL rendering. You can also extend it for other renderers by implementing against the extension&#8217;s KL interfaces. See the KL types shipped with the extension prefixed with OGL for reference code.</p>
+<p>To use the InlineDrawing in DCC integrations you can simply instantiate the <a class="reference internal" href="DrawingHandle.html#drawinghandle"><span class="std std-ref">DrawingHandle (object)</span></a> object. You should store the <a class="reference internal" href="DrawingHandle.html#drawinghandle"><span class="std std-ref">DrawingHandle (object)</span></a> on a port within the DCC. For example:</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">require</span> <span class="nx">InlineDrawing</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">myDrawOp</span><span class="p">(</span><span class="k">io</span> <span class="nx">DrawingHandle</span> <span class="nx">handle</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">InlineDrawing</span> <span class="nx">draw</span> <span class="o">=</span> <span class="nx">handle</span><span class="p">.</span><span class="nx">getDrawing</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Once that&#8217;s done you can define shaders. Shaders can be used for a series of materials, so you&#8217;ll only need one flat shader for example for anything rendered with it. Shaders can be registered by name, but usually you&#8217;ll want to use the same shader object for anything utilizing a surface shader, for example.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="c1">// create a surface shader</span>
+<span class="nx">InlineShader</span> <span class="nx">shader</span> <span class="o">=</span> <span class="nx">draw</span><span class="p">.</span><span class="nx">registerShader</span><span class="p">(</span><span class="nx">OGLSurfaceShader</span><span class="p">());</span>
+</pre></div>
+</div>
+<p>Now you can build the scene&#8217;s transforms. This is optional, of course you can draw shapes as well just using the draw&#8217;s root transform.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="c1">// create a small scene hierarchy</span>
+<span class="nx">InlineTransform</span> <span class="nx">rootTransform</span> <span class="o">=</span> <span class="nx">handle</span><span class="p">.</span><span class="nx">getRootTransform</span><span class="p">();</span>
+<span class="nx">StaticInlineTransform</span> <span class="nx">childA</span><span class="p">(</span><span class="s1">&#39;childA&#39;</span><span class="p">,</span> <span class="nx">Xfo</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)));</span>
+<span class="nx">StaticInlineTransform</span> <span class="nx">childB</span><span class="p">(</span><span class="s1">&#39;childB&#39;</span><span class="p">,</span> <span class="nx">Xfo</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)));</span>
+<span class="nx">rootTransform</span><span class="p">.</span><span class="nx">addChild</span><span class="p">(</span><span class="nx">childA</span><span class="p">);</span>
+<span class="nx">rootTransform</span><span class="p">.</span><span class="nx">addChild</span><span class="p">(</span><span class="nx">childB</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>After some transforms have been defined you can define some shapes.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="c1">// create a shape containing a sphere</span>
+<span class="nx">InlineDebugShape</span> <span class="nx">shape</span> <span class="o">=</span> <span class="nx">draw</span><span class="p">.</span><span class="nx">getShape</span><span class="p">(</span><span class="s1">&#39;debug&#39;</span><span class="p">);</span>
+<span class="k">if</span><span class="p">(</span><span class="nx">shape</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">shape</span> <span class="o">=</span> <span class="nx">InlineDebugShape</span><span class="p">(</span><span class="s1">&#39;debug&#39;</span><span class="p">);</span>
+  <span class="nx">draw</span><span class="p">.</span><span class="nx">registerShape</span><span class="p">(</span><span class="nx">shape</span><span class="p">);</span>
+  <span class="nx">shape</span><span class="p">.</span><span class="nx">drawTrianglesSphere</span><span class="p">(</span><span class="nx">Xfo</span><span class="p">(),</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">12</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>To draw shapes with given transforms, we can now define materials.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="c1">// create some materials</span>
+<span class="nx">InlineMaterial</span> <span class="nx">red</span> <span class="o">=</span> <span class="nx">shader</span><span class="p">.</span><span class="nx">getOrCreateMaterial</span><span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">);</span>
+<span class="nx">InlineMaterial</span> <span class="nx">green</span> <span class="o">=</span> <span class="nx">shader</span><span class="p">.</span><span class="nx">getOrCreateMaterial</span><span class="p">(</span><span class="s1">&#39;green&#39;</span><span class="p">);</span>
+<span class="nx">red</span><span class="p">.</span><span class="nx">setUniform</span><span class="p">(</span><span class="s1">&#39;u_diffuseColor&#39;</span><span class="p">,</span> <span class="nx">Color</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">));</span>
+<span class="nx">green</span><span class="p">.</span><span class="nx">setUniform</span><span class="p">(</span><span class="s1">&#39;u_diffuseColor&#39;</span><span class="p">,</span> <span class="nx">Color</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Finally we can push some instances into the materials, defining a combination of transforms and shapes. Note that you can also set this up the opposite way, by calling <em class="dfn">addMaterial</em> on the <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance (object)</span></a>.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="c1">// create some instances</span>
+<span class="nx">red</span><span class="p">.</span><span class="nx">addInstance</span><span class="p">(</span><span class="nx">SimpleInlineInstance</span><span class="p">(</span><span class="s1">&#39;redSphere&#39;</span><span class="p">,</span> <span class="nx">childA</span><span class="p">,</span> <span class="nx">shape</span><span class="p">));</span>
+<span class="nx">green</span><span class="p">.</span><span class="nx">addInstance</span><span class="p">(</span><span class="nx">SimpleInlineInstance</span><span class="p">(</span><span class="s1">&#39;greenSphere&#39;</span><span class="p">,</span> <span class="nx">childB</span><span class="p">,</span> <span class="nx">shape</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>In Maya, this results in the following:</p>
+<a class="reference internal image-reference" href="../../_images/inlinedrawing03.png"><img alt="../../_images/inlinedrawing03.png" src="../../_images/inlinedrawing03.png" style="width: 560px; height: 342px;" /></a>
+<p>If you want to render the same shape several times, there are two approaches. Either you create an inline transform for each instance, or you add Statictiple <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo (struct)</span></a> values into the transform. This is done using the <span class="xref std std-ref">staticinlinetransform</span>&#8216;s pushLocalXfo method.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="c1">// add some xfo values to the first transform</span>
+<span class="nx">childA</span><span class="p">.</span><span class="nx">pushLocalXfo</span><span class="p">(</span><span class="nx">Xfo</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">)));</span>
+<span class="nx">childA</span><span class="p">.</span><span class="nx">pushLocalXfo</span><span class="p">(</span><span class="nx">Xfo</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">)));</span>
+</pre></div>
+</div>
+<p>This then results in the red sphere being drawn three times.</p>
+<a class="reference internal image-reference" href="../../_images/inlinedrawing04.png"><img alt="../../_images/inlinedrawing04.png" src="../../_images/inlinedrawing04.png" style="width: 560px; height: 361px;" /></a>
+<p>Here&#8217;s the full source code once more (for easy testing in Maya, for example):</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">require</span> <span class="nx">InlineDrawing</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">myDrawOp</span><span class="p">(</span><span class="k">io</span> <span class="nx">DrawingHandle</span> <span class="nx">handle</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">InlineDrawing</span> <span class="nx">draw</span> <span class="o">=</span> <span class="nx">handle</span><span class="p">.</span><span class="nx">getDrawing</span><span class="p">();</span>
+
+  <span class="c1">// create a surface shader</span>
+  <span class="nx">InlineShader</span> <span class="nx">shader</span> <span class="o">=</span> <span class="nx">draw</span><span class="p">.</span><span class="nx">registerShader</span><span class="p">(</span><span class="nx">OGLSurfaceShader</span><span class="p">());</span>
+
+  <span class="c1">// create a small scene hierarchy</span>
+  <span class="nx">InlineTransform</span> <span class="nx">rootTransform</span> <span class="o">=</span> <span class="nx">handle</span><span class="p">.</span><span class="nx">getRootTransform</span><span class="p">();</span>
+  <span class="nx">StaticInlineTransform</span> <span class="nx">childA</span><span class="p">(</span><span class="s1">&#39;childA&#39;</span><span class="p">,</span> <span class="nx">Xfo</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)));</span>
+  <span class="nx">StaticInlineTransform</span> <span class="nx">childB</span><span class="p">(</span><span class="s1">&#39;childB&#39;</span><span class="p">,</span> <span class="nx">Xfo</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)));</span>
+  <span class="nx">rootTransform</span><span class="p">.</span><span class="nx">addChild</span><span class="p">(</span><span class="nx">childA</span><span class="p">);</span>
+  <span class="nx">rootTransform</span><span class="p">.</span><span class="nx">addChild</span><span class="p">(</span><span class="nx">childB</span><span class="p">);</span>
+
+  <span class="c1">// create a shape containing a sphere</span>
+  <span class="nx">InlineDebugShape</span> <span class="nx">shape</span> <span class="o">=</span> <span class="nx">draw</span><span class="p">.</span><span class="nx">getShape</span><span class="p">(</span><span class="s1">&#39;debug&#39;</span><span class="p">);</span>
+  <span class="k">if</span><span class="p">(</span><span class="nx">shape</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">shape</span> <span class="o">=</span> <span class="nx">InlineDebugShape</span><span class="p">(</span><span class="s1">&#39;debug&#39;</span><span class="p">);</span>
+    <span class="nx">draw</span><span class="p">.</span><span class="nx">registerShape</span><span class="p">(</span><span class="nx">shape</span><span class="p">);</span>
+    <span class="nx">shape</span><span class="p">.</span><span class="nx">drawTrianglesSphere</span><span class="p">(</span><span class="nx">Xfo</span><span class="p">(),</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">12</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// create some materials</span>
+  <span class="nx">InlineMaterial</span> <span class="nx">red</span> <span class="o">=</span> <span class="nx">shader</span><span class="p">.</span><span class="nx">getOrCreateMaterial</span><span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">);</span>
+  <span class="nx">InlineMaterial</span> <span class="nx">green</span> <span class="o">=</span> <span class="nx">shader</span><span class="p">.</span><span class="nx">getOrCreateMaterial</span><span class="p">(</span><span class="s1">&#39;green&#39;</span><span class="p">);</span>
+  <span class="nx">red</span><span class="p">.</span><span class="nx">setUniform</span><span class="p">(</span><span class="s1">&#39;u_diffuseColor&#39;</span><span class="p">,</span> <span class="nx">Color</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">));</span>
+  <span class="nx">green</span><span class="p">.</span><span class="nx">setUniform</span><span class="p">(</span><span class="s1">&#39;u_diffuseColor&#39;</span><span class="p">,</span> <span class="nx">Color</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">));</span>
+
+  <span class="c1">// create some instances</span>
+  <span class="nx">red</span><span class="p">.</span><span class="nx">addInstance</span><span class="p">(</span><span class="nx">SimpleInlineInstance</span><span class="p">(</span><span class="s1">&#39;redSphere&#39;</span><span class="p">,</span> <span class="nx">childA</span><span class="p">,</span> <span class="nx">shape</span><span class="p">));</span>
+  <span class="nx">green</span><span class="p">.</span><span class="nx">addInstance</span><span class="p">(</span><span class="nx">SimpleInlineInstance</span><span class="p">(</span><span class="s1">&#39;greenSphere&#39;</span><span class="p">,</span> <span class="nx">childB</span><span class="p">,</span> <span class="nx">shape</span><span class="p">));</span>
+
+  <span class="c1">// add some xfo values to the first transform</span>
+  <span class="nx">childA</span><span class="p">.</span><span class="nx">pushLocalXfo</span><span class="p">(</span><span class="nx">Xfo</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">)));</span>
+  <span class="nx">childA</span><span class="p">.</span><span class="nx">pushLocalXfo</span><span class="p">(</span><span class="nx">Xfo</span><span class="p">(</span><span class="nx">Vec3</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">)));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This example uses the <a class="reference internal" href="InlineDebugShape.html#inlinedebugshape"><span class="std std-ref">InlineDebugShape (object)</span></a>, but of course you can also use the more efficient shapes such as the <a class="reference internal" href="InlinePointsShape.html#inlinepointsshape"><span class="std std-ref">InlinePointsShape (object)</span></a> for large point clouds, <a class="reference internal" href="InlineLinesShape.html#inlinelinesshape"><span class="std std-ref">InlineLinesShape (object)</span></a> for rendering lines or fur, <a class="reference internal" href="InlineMeshShape.html#inlinemeshshape"><span class="std std-ref">InlineMeshShape (object)</span></a> for rendering polygons. Each of these takes the corresponding geometry object as the constructor argument. The corresponding shape adaptors version the used OpenGL buffers against the geometry attributes, so if you deform the original mesh, for example, the shape will automatically re-upload the positions and normals buffer to reflect the change. Please see each shape&#8217;s documentation page for a code sample.</p>
+<p>Since all main elements of the InlineDrawing system are interfaces, you can extend it with your own custom shapes, custom shaders etc. Furthermore you can use the <a class="reference internal" href="OGLInlineShader.html#oglinlineshader"><span class="std std-ref">OGLInlineShader (object)</span></a> directly in your KL code, which allows to edit the GLSL code within the KL code editor window. The <a class="reference internal" href="OGLInlineShader.html#oglinlineshader"><span class="std std-ref">OGLInlineShader (object)</span></a> can drive the vertex and fragment code, but optionally also the geometry and tessellation code. For this the <a class="reference internal" href="OGLInlineShader.html#oglinlineshader"><span class="std std-ref">OGLInlineShader (object)</span></a> provides methods to drive the code (for example setVertexCode, setFragmentCode, setGeometryCode etc). See the sample below for an alternative implementation of the flat shader.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="nx">InlineShader</span> <span class="nx">shader</span> <span class="o">=</span> <span class="nx">OGLInlineShader</span><span class="p">(</span>
+  <span class="s1">&#39;customFlat&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;</span>
+<span class="s1">    #version 150 //required for OSX support</span>
+
+<span class="s1">    uniform mat4 u_invViewMatrix;</span>
+<span class="s1">    uniform mat4 u_projection;</span>
+<span class="s1">    uniform mat4 u_modelMatrix;</span>
+
+<span class="s1">    in vec4 positions;</span>
+
+<span class="s1">    void main(){</span>
+<span class="s1">      gl_Position = u_projection * (u_invViewMatrix * (u_modelMatrix * positions));</span>
+<span class="s1">    }</span>
+<span class="s1">  &#39;</span><span class="p">,</span> <span class="s1">&#39;</span>
+<span class="s1">    #version 150 //required for OSX support</span>
+
+<span class="s1">    uniform vec4 u_color;</span>
+<span class="s1">    out vec4 out_fragColor;</span>
+
+<span class="s1">    void main(){</span>
+<span class="s1">      out_fragColor = u_color;</span>
+<span class="s1">    }</span>
+<span class="s1">  &#39;</span><span class="p">);</span>
+<span class="nx">shader</span><span class="p">.</span><span class="nx">defineUniform</span><span class="p">(</span><span class="nx">InlineUniform</span><span class="p">(</span><span class="s2">&quot;u_invViewMatrix&quot;</span><span class="p">,</span> <span class="nx">Mat44</span><span class="p">()));</span>
+<span class="nx">shader</span><span class="p">.</span><span class="nx">defineUniform</span><span class="p">(</span><span class="nx">InlineUniform</span><span class="p">(</span><span class="s2">&quot;u_projection&quot;</span><span class="p">,</span> <span class="nx">Mat44</span><span class="p">()));</span>
+<span class="nx">shader</span><span class="p">.</span><span class="nx">defineUniform</span><span class="p">(</span><span class="nx">InlineUniform</span><span class="p">(</span><span class="s2">&quot;u_modelMatrix&quot;</span><span class="p">,</span> <span class="nx">Mat44</span><span class="p">()));</span>
+<span class="nx">shader</span><span class="p">.</span><span class="nx">defineUniform</span><span class="p">(</span><span class="nx">InlineUniform</span><span class="p">(</span><span class="s1">&#39;u_color&#39;</span><span class="p">,</span> <span class="nx">Color</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)));</span>
+<span class="nx">shader</span><span class="p">.</span><span class="nx">defineAttribute</span><span class="p">(</span><span class="s1">&#39;positions&#39;</span><span class="p">,</span> <span class="s2">&quot;vec3&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="intro.html"
+                        title="前の章へ">Introduction</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="transition.html"
+                        title="次の章へ">Transitioning from Pre-1.12.0 InlineDrawing</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/InlineDrawing/usage.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/InlineDrawing/usage.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="transition.html" title="Transitioning from Pre-1.12.0 InlineDrawing"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >InlineDrawing エクステンション</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

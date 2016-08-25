@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Blocks &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="Canvas ユーザガイド" href="index.html" />
+    <link rel="next" title="Timeline ウィジェット" href="timeline.html" />
+    <link rel="prev" title="Value Editor" href="valueeditor.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="timeline.html" title="Timeline ウィジェット"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="valueeditor.html" title="Value Editor"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Canvas ユーザガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="versionadded" id="canvas-user-guide-blocks">
+<p><span class="versionmodified">バージョン 2.3.0 で追加.</span></p>
+</div>
+<div class="section" id="blocks">
+<h1>Blocks<a class="headerlink" href="#blocks" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Blocksとは、ユーザの用意したコードを、入れる器です。Blocksを使うことで、複雑なノードの実行様態をカスタマイズすることが可能です。さらには一歩踏み込み、自前のblockを組み込み動作するあたらしいプリセットを作成することもできます。</p>
+<p>Blocks を伝統的なプログラミング言語でのループと同様な操作に使用することができます。とはいえBlocksにはより強力な点があります。Blocksでは条件判定に使用したり、複数のblockを状態に応じて異なる振舞をさせることができます。</p>
+<p>参考として <code class="docutils literal"><span class="pre">Fabric.Compounds.Blocks.Geometry.PolygonMesh.Deform</span></code> プリセット(タブメニューから  <code class="docutils literal"><span class="pre">PolygonMesh.Deform</span></code> としてアクセス)では、 <code class="docutils literal"><span class="pre">mesh</span></code> ポートと <code class="docutils literal"><span class="pre">deform</span></code> block の2つをとります。 <code class="docutils literal"><span class="pre">deform</span></code> ブロックは deformation そのものです:</p>
+<img alt="../_images/cug_blocks_deform_preset.png" src="../_images/cug_blocks_deform_preset.png" />
+<p>ノードをシフト+ダブルクリックし、blockの定義に入ります。より詳しくは以下を参照  <em class="dfn">block instance</em>:</p>
+<img alt="../_images/cug_blocks_deform_preset_block_inst.png" src="../_images/cug_blocks_deform_preset_block_inst.png" />
+<p>中を見ると blockインスタンスには、既定の定義があることがわかります。この場合、単に <code class="docutils literal"><span class="pre">newPosition</span></code> のポート値を <code class="docutils literal"><span class="pre">originalPosition</span></code> ポートへと設定しています。実際には何もデフォーム行いません。しかしここから定義に変更を加えていき、望みのデフォーム効果を形作っていくことができます。</p>
+<p>blockインスタンスの定義とは、それぞれのデフォームノードに固有のものになります。つまり各デフォームノードに異なる変型を指定することができます。</p>
+<div class="section" id="fixed-block-ports">
+<h2>「固定」Blockポート<a class="headerlink" href="#fixed-block-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>blockインスタンスの中のポートで鍵アイコン付きのものを <em class="dfn">fixed block ports</em> と呼びます。これらのポートはプリセットにより定義され（例の場合では <code class="docutils literal"><span class="pre">Deforme</span></code> プリセット）ています。インスタンスで定義するものではありません。つまり名前の変更や追加、削除をインスタンスで行うことはできません。インスタンスが実行される時、プリセットから 固定inputポート, 固定IOポートが提供されそれらのポート値を受け取り、インスタンスの仕事を続行します。 <code class="docutils literal"><span class="pre">Deform</span></code> プリセットの例では、 <code class="docutils literal"><span class="pre">originalPosition</span></code> と <code class="docutils literal"><span class="pre">originalNormal</span></code> の値がblockインスタンスに提供され、インスタンスは実行結果である <code class="docutils literal"><span class="pre">newPosition</span></code> を <code class="docutils literal"><span class="pre">Deform</span></code> プリセットに提供します。</p>
+</div>
+<div class="section" id="exposing-block-ports">
+<h2>公開Blockポート<a class="headerlink" href="#exposing-block-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Blockインスタン中において、グラフを機能させるため blockの外部へとポートを外部公開することができます。たとえば、デフォメーションを  <code class="docutils literal"><span class="pre">amount</span></code> ポート一個で単純な押出変型を定義します:</p>
+<img alt="../_images/cug_blocks_deform_push.png" src="../_images/cug_blocks_deform_push.png" />
+<p>固定ポートで「ない」 <code class="docutils literal"><span class="pre">amount</span></code> ポートに注目してください。これが公開blockポートです。公開Blockポートは通常のblockポート同様動作します。つまり同じ多態性についての規則 (see <a class="reference internal" href="polymorphism.html#canvas-user-guide-polymorphism"><span class="std std-ref">Polymorphic （多態性）ノード</span></a>)に従います。ただしblockでは inputポートのみを外部公開とすることができます。 IOポートやoutputポートではできません。</p>
+<p>&#8220;Back&#8221; ボタンを押し直前のグラフへと戻ると先ほど公開したポートを確認できます。</p>
+<img alt="../_images/cug_blocks_deform_preset_exposed_port.png" src="../_images/cug_blocks_deform_preset_exposed_port.png" />
+<p><code class="docutils literal"><span class="pre">amount</span></code> が接続可能になっていることに着目ください。あたらしいblockインスタンスのヘッダーメニューからそのポートを作ることもできます。通常のノードのポートと一緒ですね。</p>
+</div>
+<div class="section" id="looking-inside-nodes-with-blocks">
+<h2>Blockのあるノードの見方<a class="headerlink" href="#looking-inside-nodes-with-blocks" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>素の状態では、blockインスタンスを一つ以上もつプリセットであれば、シフトを押しながらダブルクリックすることで blockインスタンスを編集できます。複数ある場合はマウス直下のインスタンスの編集になり、ノードの上方であれば、はじめのインスタンスを編集します。この挙動は、通常blockを用いたプリセットを使用している場合blockを編集したいであろうからです。ただし、ノード自身を見る(編集)ことも可能で、右クリックからコンテキストメニューを開き &#8220;Edit Node&#8221; を選びます。</p>
+</div>
+<div class="section" id="blocks-samples">
+<h2>Blocksのサンプル<a class="headerlink" href="#blocks-samples" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric は blocksの使用法に主眼おいた多数の用例を揃えています。 <code class="file docutils literal"><span class="pre">$FABRIC_DIR/Samples/Canvas/Blocks</span></code> を御覧ください。blockがどのようなものであるかの理解するにはこれらのサンプルシーンがどのようにして機能するかを調べることをお薦めします。</p>
+</div>
+<div class="section" id="blocks-presets">
+<h2>Blockプリセット<a class="headerlink" href="#blocks-presets" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric に同梱したプリセットには blockの利用に特化したものが多数あります。多くは <code class="docutils literal"><span class="pre">Fabric.Compounds.Blocks</span></code> 以下にあります。さらに、例に使用した <code class="docutils literal"><span class="pre">PolygonMesh.Deform</span></code> プリセットなど、幾つかは以下の場所にあります:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">Fabric.Core.Control.ForLoop</span></code></dt>
+<dd><p class="first last">単純な直列（serial）ループです。各ループの繰り返し処理に  <code class="docutils literal"><span class="pre">exec</span></code> ポートを引いてきます。</p>
+</dd>
+<dt><code class="docutils literal"><span class="pre">Fabric.Compounds.Blocks.Array.Filter</span></code></dt>
+<dd><p class="first last">ある配列の要素を条件に応じて除去します。条件は block として公開されます。</p>
+</dd>
+<dt><code class="docutils literal"><span class="pre">Fabric.Compounds.Blocks.Array.Modify</span></code></dt>
+<dd><p class="first last">既存の配列から1対1対応したあたらしい配列を作成します。他のプログラミングシステムではこの種の操作を &#8220;Map&#8221; と呼ぶことがあります。</p>
+</dd>
+<dt><code class="docutils literal"><span class="pre">Fabric.Compounds.Blocks.Math.Accumulate</span></code></dt>
+<dd><p class="first last">与えた繰り返し番号に基づき、値を新しい値に置き換えます。これは配列の作成や値の集計によく用いる操作です。他のプログラミングシステムではこの種の操作を &#8220;Fold&#8221; と呼ぶことがあります。</p>
+</dd>
+<dt><code class="docutils literal"><span class="pre">Fabric.Compounds.Blocks.Math.AccumulateWhile</span></code></dt>
+<dd><p class="first last"><code class="docutils literal"><span class="pre">Fabric.Compounds.Blocks.Math.Accumulate</span></code> とほぼ同じす。特定の条件（blockに公開）が真の間でのみ動作する点が違います。</p>
+</dd>
+<dt><code class="docutils literal"><span class="pre">Fabric.Compounds.Blocks.Array.AnyElementMatches</span></code></dt>
+<dd><p class="first last">配列要素の中に、blockのテストにマッチするものがあるかどうかをテストします。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="using-blocks-in-custom-graphs-and-functions">
+<h2>Blockのカスタムグラフ・関数での使用<a class="headerlink" href="#using-blocks-in-custom-graphs-and-functions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Blockはインラインもしくは公開プリセットであろうと、ユーザ独自のカスタムグラフ・関数において使用できます。詳しくは <a class="reference internal" href="../CanvasProgrammerGuide/cpg-blocks.html#canvas-programming-guide-blocks"><span class="std std-ref">Canvasプログラミングガイドの Block についての章</span></a> を参照してください。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Blocks</a><ul>
+<li><a class="reference internal" href="#fixed-block-ports">「固定」Blockポート</a></li>
+<li><a class="reference internal" href="#exposing-block-ports">公開Blockポート</a></li>
+<li><a class="reference internal" href="#looking-inside-nodes-with-blocks">Blockのあるノードの見方</a></li>
+<li><a class="reference internal" href="#blocks-samples">Blocksのサンプル</a></li>
+<li><a class="reference internal" href="#blocks-presets">Blockプリセット</a></li>
+<li><a class="reference internal" href="#using-blocks-in-custom-graphs-and-functions">Blockのカスタムグラフ・関数での使用</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="valueeditor.html"
+                        title="前の章へ">Value Editor</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="timeline.html"
+                        title="次の章へ">Timeline ウィジェット</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/CanvasUserGuide/cug-blocks.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/CanvasUserGuide/cug-blocks.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="timeline.html" title="Timeline ウィジェット"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="valueeditor.html" title="Value Editor"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Canvas ユーザガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

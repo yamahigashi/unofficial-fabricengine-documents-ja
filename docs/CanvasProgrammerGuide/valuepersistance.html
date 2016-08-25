@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ポートの値の永続化（Port value persistance） &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="Canvas プログラマーガイド" href="index.html" />
+    <link rel="next" title="Execute Ports" href="execute-ports.html" />
+    <link rel="prev" title="参照カウントされたデータ構造（Reference counted data structures）" href="referencetypes.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="execute-ports.html" title="Execute Ports"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="referencetypes.html" title="参照カウントされたデータ構造（Reference counted data structures）"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Canvas プログラマーガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="port-value-persistance">
+<span id="canvas-programmer-guide-valuepersistance"></span><h1>ポートの値の永続化（Port value persistance）<a class="headerlink" href="#port-value-persistance" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>ポートの値は特定の状況で永続化（be persisted / seved）させることができます。UI上で入力ポートが編集されると <cite>defaultValue</cite> がノードの入力ポートに関連付けられ、グラフとともに保存されるようになります。さらに最上位グラフのポートでは <cite>Edit Port -&gt; metadata -&gt; persist value</cite> ( <a class="reference internal" href="../CanvasUserGuide/graphview.html#canvas-user-guide-port-options"><span class="std std-ref">ポートのオプション</span></a> を参照) の操作を行うことで永続化させることができます。</p>
+<p>ポートの値を永続化させるには、その型のタイプにより異なるメカニズムをとります。</p>
+<ul>
+<li><p class="first">永続化されたKLオブジェクトの値は、 <cite>RTValToJSONEncoder</cite> と <cite>RTValFromJSONDecoder</cite> KLインターフェースを実装している必要があります。 <cite>String convertToString!()</cite> と <cite>Boolean convertFromString!(String data)</cite> メソッドをそれぞれ定義します。未実装の場合警告が表示されます。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">KLの変更、エクステンションのバージョンの変更によるデータの互換性は、バージョン管理システムが内蔵されていないので、ユーザもしくは、永続化されたKLやエクステンションの <cite>String</cite> などにより適切に処理される必要があります。</p>
+</div>
+</li>
+<li><p class="first">他のKL型（基底型、構造体、配列）はそれらのメンバデータを深い <cite>json</cite> 走査（deep json traversal）の結果として保存します。ユーザはオブジェクトメンバが深い走査されることに注意してください。</p>
+</li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="referencetypes.html"
+                        title="前の章へ">参照カウントされたデータ構造（Reference counted data structures）</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="execute-ports.html"
+                        title="次の章へ">Execute Ports</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/CanvasProgrammerGuide/valuepersistance.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/CanvasProgrammerGuide/valuepersistance.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="execute-ports.html" title="Execute Ports"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="referencetypes.html" title="参照カウントされたデータ構造（Reference counted data structures）"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Canvas プログラマーガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

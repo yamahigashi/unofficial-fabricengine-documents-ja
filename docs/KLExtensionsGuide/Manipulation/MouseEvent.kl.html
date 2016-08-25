@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>MouseEvent.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Manipulation Extension’s Files" href="files.html" />
+    <link rel="next" title="MouseWheelEvent.kl" href="MouseWheelEvent.kl.html" />
+    <link rel="prev" title="Manipulator.kl" href="Manipulator.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="MouseWheelEvent.kl.html" title="MouseWheelEvent.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="Manipulator.kl.html" title="Manipulator.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Manipulation エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Manipulation Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="manipulation-mouseevent-kl">
+<span id="mouseevent-kl"></span><span id="id1"></span><h1>MouseEvent.kl<a class="headerlink" href="#manipulation-mouseevent-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="mouseevent-object">
+<h3>MouseEvent (object)<a class="headerlink" href="#mouseevent-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">バージョン 1.12.0 で追加.</span></p>
+</div>
+<p class="plaintext"><a class="reference internal" href="MouseEvent.html#mouseevent"><span class="std std-ref">MouseEvent</span></a> object used to propagate mouse events into the Manipulation system.</p>
+<p class="plaintext">A given <a class="reference internal" href="MouseEvent.html#mouseevent"><span class="std std-ref">MouseEvent</span></a> object may be generated for a wide range of mouse events in the host application.
+The event type should always be checked for the exact type of the event.
+e.g. MouseEnter and MouseLeave are sent to the system as moue events from Maya and SoftImage.
+The mouse position is not valid in these 2 cases.
+In Qt 5 based applications, the MouseEnter event can be populated using the mouse position and other data.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p class="last"><a class="reference internal" href="BaseEvent.html#baseevent"><span class="std std-ref">BaseEvent</span></a></p>
+</div>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="9%" />
+<col width="6%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="Host.html#host"><span class="std std-ref">Host</span></a></td>
+<td>host</td>
+<td>The <a class="reference internal" href="Host.html#host"><span class="std std-ref">Host</span></a> object providing a method to query data about the host and propagate data back to the host.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../InlineDrawing/Viewport_Virtual.html#viewport-virtual"><span class="std std-ref">Viewport_Virtual</span></a></td>
+<td>viewport</td>
+<td>The viewport that was in focus when the event was generated.</td>
+</tr>
+<tr class="row-odd"><td>EventType</td>
+<td>eventType</td>
+<td>The id specifying the type of event.</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td>accepted</td>
+<td>A boolean flag indicating that the event has been accepted, and no should not be handled by other handlers or the host DCC application.</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td>redrawAllViewportsIfAccepted</td>
+<td>A boolean flag indicating if all viewports must be redrawn. If false, only event&#8217;s viewport must be redrawn.</td>
+</tr>
+<tr class="row-even"><td>ModiferKey</td>
+<td>modifiers</td>
+<td>The keyboard modifier keys that were held when the event occurred.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>dfgToolPath</td>
+<td>Path of the DFG node containing the tool. Uses to propagate the manipulated value throuht ports.</td>
+</tr>
+<tr class="row-even"><td>MouseButton</td>
+<td>button</td>
+<td>The button that caused the event.</td>
+</tr>
+<tr class="row-odd"><td>MouseButton</td>
+<td>buttons</td>
+<td>The button state when the event was generated. The button state is a combination of MouseButton_LeftButton, MouseButton_RightButton, MouseButton_MidButton using the OR operator. For mouse move events, this is all buttons that are pressed down. For mouse press and double click events this includes the button that caused the event. For mouse release events this excludes the button that caused the event.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a></td>
+<td>pos</td>
+<td>The cursor position in pixels, relative to the viewport that received the event.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="MouseEvent.html#id70431"><span class="std std-ref">MouseEvent</span></a>  ( in EventType eventType, in ModiferKey modifiers, in MouseButton button, in MouseButton buttons, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> pos, in <a class="reference internal" href="../InlineDrawing/Viewport_Virtual.html#viewport-virtual"><span class="std std-ref">Viewport_Virtual</span></a> viewport )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="MouseEvent.html#id116149"><span class="std std-ref">MouseEvent</span></a>  ( in <a class="reference internal" href="MouseEvent.html#mouseevent"><span class="std std-ref">MouseEvent</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="MouseEvent.html#id116146"><span class="std std-ref">MouseEvent</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="MouseEvent.html#mouseevent"><span class="std std-ref">MouseEvent</span></a></td>
+<td><a class="reference internal" href="MouseEvent.html#id116153"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="MouseEvent.html#id70440"><span class="std std-ref">getNormalizedCoords</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="Manipulator.kl.html"
+                        title="前の章へ">Manipulator.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="MouseWheelEvent.kl.html"
+                        title="次の章へ">MouseWheelEvent.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Manipulation/MouseEvent.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Manipulation/MouseEvent.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="MouseWheelEvent.kl.html" title="MouseWheelEvent.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="Manipulator.kl.html" title="Manipulator.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Manipulation エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >Manipulation Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

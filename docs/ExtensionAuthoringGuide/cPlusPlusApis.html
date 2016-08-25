@@ -1,0 +1,510 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>C++ APIをラップしKLで使用するには &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="エクステンション・オーサリングガイド" href="index.html" />
+    <link rel="next" title="kl2edk ユーティリティ" href="kl2edk.html" />
+    <link rel="prev" title="エクステンション・マニフェストファイル" href="fpm.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="kl2edk.html" title="kl2edk ユーティリティ"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="fpm.html" title="エクステンション・マニフェストファイル"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">エクステンション・オーサリングガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="wrapping-c-apis-for-use-in-kl">
+<span id="eag-cplusplusapis"></span><h1>C++ APIをラップしKLで使用するには<a class="headerlink" href="#wrapping-c-apis-for-use-in-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>このガイドでは、EDKを用いた「C++エクステンションをKLで使用するためのAPIのラッピング」を行う際、使用すべきベストプラクティスと、従うべき一般的な規則を紹介します。</p>
+<div class="section" id="overview">
+<h2>概要<a class="headerlink" href="#overview" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>KL言語は、他の言語から容易に移行してこられるようデザインされています。KLはハイレベルなシステム、例えば参照カウントされるコンテナ、インタフェースを備えています。</p>
+<p>あるAPIを KLにラッピングする目標とは、開発者が KL言語で作業 ―― そのAPIが公開されている C++ あるいは他の言語でのやり方と同じようにその APIを利用し作業できるようにすることです。一貫性のあるAPIのマッピングのおかげで、そのAPIに堪能なユーザが、新しい概念の習得の必要なくKLへ移行し素早く力を発揮することができるようなるのです。</p>
+<p>C++ API Code:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">getName</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>C++ Example Code:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">*</span><span class="n">val1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">A</span><span class="p">();</span>
+<span class="n">sprintf</span><span class="p">(</span><span class="n">val1</span><span class="o">-&gt;</span><span class="n">getName</span><span class="p">());</span>
+<span class="k">delete</span> <span class="n">val1</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>KL Example Code:</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="nx">A</span> <span class="nx">val1</span> <span class="o">=</span> <span class="nx">A</span><span class="p">();</span>
+<span class="nb">report</span><span class="p">(</span><span class="nx">val1</span><span class="p">.</span><span class="nx">getName</span><span class="p">());</span>
+<span class="nx">val1</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>よい具合にラップされたAPIであれば、C++のコードをほんの少しの変更でKLへ移植できます。C++に定義したクラスは、KLにも同じインタフェースをもち公開されます。つまり、C++と同じようにそのクラスに対し KLの型を作成したりメソッドを呼び出したりすることが可能です。一方 KLと C++ API間での違いは、おもに KLで利用可能なメモリマネジメントがより単純であること起因します。KLにはポインターやメモリアロケーションといった概念がありません。</p>
+<p>KLの型と直接重なるのであれば、APIの型を直接 KLの型へと「APIラッピングレイヤで」直接変換するとより良いでしょう。例えば、基本math型 ― 整数、浮動小数点数、ベクタ、クォータニオンといった型です。Fabric Engine にも mathライブラリ一式そろっているので、独自の math型をKLへと持っていくような余程の理由がない限り、シームレスな統合のため KLのmath型をAPIにより生成するべきです。</p>
+</div>
+<div class="section" id="type-conversion">
+<h2>型の変換<a class="headerlink" href="#type-conversion" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>あるAPIをC++ からKLへとマッピングする第一歩として、共通（common）なデータ型間での変換を行うユーティリティ関数一式用意します。これら関数は双方向の変換を実装し、値をKLからC++ APIへ push, また逆に値をAPIレイヤからKLへとpull することができるようにしましょう。</p>
+<p>利便性のためC++の  <code class="code docutils literal"><span class="pre">use</span> <span class="pre">namespace</span></code> 機能を利用し、型,関数のプリフィクシングを避けてもよいでしょう。</p>
+<p>Bullet統合からの参考コード</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="kr">inline</span> <span class="kt">bool</span> <span class="nf">vec3ToBtVector3</span><span class="p">(</span><span class="k">const</span> <span class="n">KL</span><span class="o">::</span><span class="n">Vec3</span> <span class="o">&amp;</span> <span class="n">from</span><span class="p">,</span> <span class="n">btVector3</span> <span class="o">&amp;</span> <span class="n">to</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">to</span><span class="p">.</span><span class="n">setX</span><span class="p">(</span><span class="n">from</span><span class="p">.</span><span class="n">x</span><span class="p">);</span>
+  <span class="n">to</span><span class="p">.</span><span class="n">setY</span><span class="p">(</span><span class="n">from</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+  <span class="n">to</span><span class="p">.</span><span class="n">setZ</span><span class="p">(</span><span class="n">from</span><span class="p">.</span><span class="n">z</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="kt">bool</span> <span class="nf">btVector3ToVec3</span><span class="p">(</span><span class="k">const</span> <span class="n">btVector3</span> <span class="o">&amp;</span> <span class="n">from</span><span class="p">,</span> <span class="n">KL</span><span class="o">::</span><span class="n">Vec3</span> <span class="o">&amp;</span> <span class="n">to</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">to</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">from</span><span class="p">.</span><span class="n">getX</span><span class="p">();</span>
+  <span class="n">to</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">from</span><span class="p">.</span><span class="n">getY</span><span class="p">();</span>
+  <span class="n">to</span><span class="p">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">from</span><span class="p">.</span><span class="n">getZ</span><span class="p">();</span>
+  <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>これらのユーティリティ関数は APIラッピングのキーコンポーネントとなります。可能な限り単純に, しかも効率的にすべきです。なぜなら、メソッドの引数を 『KLから C++ API型へ』マップするためこのユーティリティ関数を使用するため、一度のグラフ評価のたびに大量に呼ばれる可能性があるためです。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">KL型のメモリレイアウトと、C++ APIの型のメモリレイアウトが一致すると保証されている状況では、KL型はC++型へと単純にキャストすることができます。 <a class="reference internal" href="kl2edk.html#eag-kl2edk"><span class="std std-ref">kl2edk ユーティリティ</span></a> ユーティリティを使い、生成されたヘッダファイルをチェックし、KL型のメモリレイアウトが完全に一致するか検証できます。 <a class="reference internal" href="kl2edk.html#eag-kl2edk"><span class="std std-ref">kl2edk ユーティリティ</span></a> 参照</p>
+</div>
+</div>
+<div class="section" id="mapping-classes-to-objects">
+<h2>Class から Object へのマッピング<a class="headerlink" href="#mapping-classes-to-objects" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ある APIは 『1個の階層にまとめあげた、C++クラスのコレクション』として定義することができます。API利用者は、それらクラスをコンストラクトし、そのメソッドを呼び出すことができます。理想的には、API中に定義された 全class を KLの object にマップすべきです。KLオブジェクトのインスタンスは、C++クラスのインスタンスを表すべきです。この2つの間の関係は、&lt;KL objectのマッピングメソッド&gt; を通じ &lt;C++ラッパレイヤの staticメソッド&gt; へと管理されます。</p>
+<div class="section" id="memory-management">
+<h3>メモリ管理<a class="headerlink" href="#memory-management" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>KLにおいて、「オブジェクト」は参照カウントされます。したがい、あるオブジェクトへのすべての参照が失われることで、オブジェクトは破棄されます。KLのオブジェクトには、「コンストラクタ」と「デストラクタ」があり、オブジェクト生成、破棄のタイミングで呼びだされます。KLオブジェクトの生存期間とは、インスタンス化されたそのKLオブジェクトを表すC++クラスの生存期間の管理に充てられます。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">object</span> <span class="nx">ObjectA</span> <span class="p">{</span>
+  <span class="nx">Data</span> <span class="nx">pointer</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">ObjectA</span><span class="p">()</span> <span class="o">=</span> <span class="s2">&quot;ObjectA_construct&quot;</span><span class="p">;</span>
+<span class="kd">function</span> <span class="o">~</span><span class="nx">ObjectA</span><span class="p">()</span> <span class="o">=</span> <span class="s2">&quot;ObjectA_destroy&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>KLオブジェクトを、所有元クラスあるいはノードから少なくとも一度は参照されるようにし、オブジェクトが破棄されないようにします。オブジェクトへの参照を保持することで、そのオブジェクトが破棄されないことを保証でき、さらに実際に開放するべき時を制御することが可能となります。相互依存するようなシステムのクラスについては、下記の <a class="reference internal" href="#managing-data-ownership-and-bidirectional-relationships">データの所有権と双方向の関係を管理するには</a>  を参照してください。</p>
+</div>
+<div class="section" id="mapping-public-methods">
+<h3>Publicメソッドのマッピング<a class="headerlink" href="#mapping-public-methods" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>KL「から」C++へメソッドのマッピングを行うには、まずKLメソッドを定義し、C++ でそのメソッドが呼ばれるときに呼び出される static メソッドの名前も定義します。KLからC++へマップする必要があるのは、クラスのインタフェースを定義する publicメソッドのみです。これらのメソッドが、クラスの利用者が、そのクラスを活用する際に呼びださなければならないメソッドに該当します。KLオブジェクトとは、全proceted/privateメソッドの完全なマッピングをするの『ではなく』、ターゲットとなるクラスの pubilcインタフェースのマッピングを表します。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">object</span> <span class="nx">ObjectA</span> <span class="p">{</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">ObjectA</span><span class="p">.</span><span class="nx">methodA</span><span class="p">()</span> <span class="o">=</span> <span class="s2">&quot;ObjectA_methodA&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="public-members">
+<h3>Publicメンバ<a class="headerlink" href="#public-members" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Publicメンバの、KLからC++へのマッピングは自動ではありません。KLには「KLオブジェクトあるいは構造体」のメンバの値がいつ変わったかを検知し、「マップされたC++クラスあるいは構造体」へと自動で同期するような便利機能はありません。理想的には全ての、「構造体あるいはクラス」との相互作用は、Publicメソッドを通じ行いましょう。（例外として ‘Simple Data-Container Structs’ に例があります。）</p>
+</div>
+<div class="section" id="pure-data-container-structs">
+<h3>純粋なデータコンテナ構造体（Pure data container structs）<a class="headerlink" href="#pure-data-container-structs" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>場合によって、C++ APIには単純な構造体 ―コンストラクタあるいはメソッドへ多数の変数を受け渡す― を定義することもできます。この場合、対応するKL構造体の定義が可能で、全メンバをうめていきます。このようなKL構造体をメソッドへと受け渡す際には、C++のメソッドのマッピングは、手動による「KL構造体からC++構造体」への変換として扱うことが可能です。このようにして Math型はマップサれ、どのメンバも C++ APIの型へと単純に変換されています。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">struct</span>  <span class="nx">ClassAConstructionInfo</span>
+<span class="p">{</span>
+  <span class="nx">Scalar</span>      <span class="nx">foo</span><span class="p">;</span>
+  <span class="nx">Xfo</span>         <span class="nx">xfo</span><span class="p">;</span>
+  <span class="nx">Vec3</span>        <span class="nx">bar</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">FABRIC_EXT_EXPORT</span> <span class="kt">void</span> <span class="nf">ClassA_construct</span><span class="p">(</span>
+  <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">KL</span><span class="o">::</span><span class="n">Traits</span><span class="o">&lt;</span> <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">KL</span><span class="o">::</span><span class="n">ClassA</span> <span class="o">&gt;::</span><span class="n">IOParam</span> <span class="n">this_</span><span class="p">,</span>
+  <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">KL</span><span class="o">::</span><span class="n">Traits</span><span class="o">&lt;</span> <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">KL</span><span class="o">::</span><span class="n">ClassAConstructionInfo</span> <span class="o">&gt;::</span><span class="n">INParam</span> <span class="n">constructionInfo</span>
+<span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">ClassAConstructionInfo</span> <span class="n">info</span><span class="p">;</span>
+
+  <span class="n">scalarToFloat</span><span class="p">(</span><span class="n">constructionInfo</span><span class="p">.</span><span class="n">foo</span><span class="p">,</span> <span class="n">info</span><span class="p">.</span><span class="n">m_foo</span><span class="p">);</span>
+  <span class="n">xfoToTransform</span><span class="p">(</span><span class="n">constructionInfo</span><span class="p">.</span><span class="n">xfo</span><span class="p">,</span> <span class="n">info</span><span class="p">.</span><span class="n">m_xfo</span><span class="p">);</span>
+  <span class="n">vec3ToVector3</span><span class="p">(</span><span class="n">constructionInfo</span><span class="p">.</span><span class="n">bar</span><span class="p">,</span> <span class="n">info</span><span class="p">.</span><span class="n">m_bar</span><span class="p">);</span>
+
+  <span class="n">this_</span><span class="o">-&gt;</span><span class="n">pointer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ClassA</span><span class="p">(</span><span class="n">info</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="passing-arrays-from-kl-to-a-c-style-api">
+<h3>KLからC-スタイルのAPIへ配列を渡すには<a class="headerlink" href="#passing-arrays-from-kl-to-a-c-style-api" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>いくつかのC++ APIでは、とくにゲームランタイム向けとして開発されたAPIに顕著なのですが、「C++ での配列（例： std::vector）や、より高レベルの配列を表象するもの」を忌避し、かわりに「ポインタとカウンタ値」の組み合わせを使用しています。KLではポインタが公開されていないため、公開されるKL APIでは、C++メソッドの引数をKLに直接こうかいするのではなく、若干高レベルな操作を必要とします。ある一つの配列の値をメソッドに渡すと、メソッドのあるC++のラッピングするコード中で、引数を CスタイルのAPIのために展開します。これにより若干高レベルであるが KL中での利用が C++APIより容易な　APIを提供します。A:必要に応じて高レベルな関数シグネチャを受け入れること, B: C++ラッピングコードの中で引数のマッピングを提供すること、この二点は開発者の裁量に委ねられています。これらの関数で必要となるKLの引数を、kl2edk では自動で展開することができません。したがってこれらのメソッドは手動で実装しなければなりません。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">A</span><span class="p">.</span><span class="nx">setWeights</span><span class="p">(</span><span class="nx">Vec3</span> <span class="nx">weights</span><span class="p">[])</span> <span class="o">=</span> <span class="s1">&#39;A_setWeights&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">FABRIC_EXT_EXPORT</span> <span class="kt">void</span> <span class="nf">A_setWeights</span><span class="p">(</span>
+  <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">KL</span><span class="o">::</span><span class="n">Traits</span><span class="o">&lt;</span> <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">KL</span><span class="o">::</span><span class="n">A</span> <span class="o">&gt;::</span><span class="n">IOParam</span> <span class="n">this_</span><span class="p">,</span>
+  <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">KL</span><span class="o">::</span><span class="n">Traits</span><span class="o">&lt;</span> <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">KL</span><span class="o">::</span><span class="n">VariableArray</span><span class="o">&lt;</span> <span class="n">Fabric</span><span class="o">::</span><span class="n">EDK</span><span class="o">::</span><span class="n">KL</span><span class="o">::</span><span class="n">Float32</span> <span class="o">&gt;</span> <span class="o">&gt;::</span><span class="n">INParam</span> <span class="n">weights</span>
+<span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">A</span><span class="o">*</span> <span class="n">cThis_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">KLObjectToCPP</span><span class="o">&lt;</span><span class="n">KL</span><span class="o">::</span><span class="n">A</span><span class="p">,</span> <span class="n">A</span><span class="o">&gt;</span><span class="p">(</span><span class="n">this_</span><span class="p">,</span> <span class="n">cThis_</span><span class="p">)){</span>
+    <span class="n">setError</span><span class="p">(</span><span class="s">&quot;Error in A_setPositionsArray. unable to convert: this_&quot;</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">this_</span><span class="o">-&gt;</span><span class="n">pointer</span><span class="p">.</span><span class="n">setPositionsArray</span><span class="p">(</span><span class="n">weights</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="o">&amp;</span><span class="n">weights</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">C++のクラスで、渡された配列の値をデータの取り出しのみに使うのであれば、コールスタックが抜け次第、その配列を安全に破棄することができます。もしC++ API クラスでこの配列へのポインタを保持しているのであれば、その配列に関連づいたメモリを、KLオブジェクトから参照しなければなりません。クラスが破棄される前に、その配列が解放されてしまうことがないようにするためです。換言すると、KL中からのその配列への参照により、KLクラスが破棄される前に、その配列が KL により開放されないようにすることができます。C++クラスが、どこか他の場所に割当てられたメモリに依存しているのであれば常に、KLからのそのデータへの参照も設定しなければなりません。 <a class="reference internal" href="#managing-data-ownership-and-bidirectional-relationships">データの所有権と双方向の関係を管理するには</a> を参照してください。</p>
+</div>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">A</span><span class="p">.</span><span class="nx">setWeights</span><span class="p">(</span><span class="nx">Vec3</span> <span class="nx">weights</span><span class="p">[]){</span>
+   <span class="k">this</span><span class="p">.</span><span class="nx">__weights</span> <span class="o">=</span> <span class="nx">weights</span><span class="p">;</span>
+   <span class="k">this</span><span class="p">.</span><span class="nx">__setWeights</span><span class="p">(</span><span class="nx">weights</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">A</span><span class="p">.</span><span class="nx">__setWeights</span><span class="p">(</span><span class="nx">Vec3</span> <span class="nx">weights</span><span class="p">[])</span> <span class="o">=</span> <span class="s1">&#39;A_setWeights&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">組み込みの Bulletエクステンションでは、Bullet APIをこのように高レベルにラッピングしたものを実装しています。したがって KLの配列を、C++ API ではポインタとカウントが渡されるべきメソッドへと渡すことが可能となっています。提供されているBulletエクステンションのソースコードをご覧頂き、どのようにこれらが実装されているかの参考にしてください。</p>
+</div>
+</div>
+<div class="section" id="mapping-class-hierarchies">
+<h3>クラス階層のマッピング<a class="headerlink" href="#mapping-class-hierarchies" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>C++ APIは互いに継承しあう複数のクラスの階層として構築されることがあります。それに対しKLのオブジェクトは現状、基本オブジェクトの継承が不可能であり、それゆえ直接C++クラス階層をマッピングすることが無理となります。</p>
+<p>KLにはインタフェースシステムがあり、とあるクラスが実装しなければならない一連のメソッドを規定することができます。インタフェースは、C++での純粋な仮想クラスと似たものであるといえます。したがってメソッドの実装やメンバの値を持っていません。オブジェクトは複数のインタフェースを持つことができるので、クラス階層中の継承されているクラスをそれぞれ、別個インタフェースとして実装することで、オブジェクトでのクラス階層のサポートとすることができます。</p>
+<p>したがってどのKLオブジェクトも、クラス階層中のそれぞれのクラスを継承するために定義したインタフェースをサポートしなければなりません。</p>
+<p>C++ APIコード</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="c1">// A base class that implements a method called ‘getName’.</span>
+<span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">getName</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// A derived class that inherits from A.</span>
+<span class="k">class</span> <span class="nc">B</span> <span class="o">:</span> <span class="k">public</span> <span class="n">A</span> <span class="p">{</span>
+  <span class="n">method2</span><span class="p">(</span><span class="n">A</span> <span class="n">a</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>KLラッピングコード</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="c1">// The ‘A’ interface declares a method called ‘getName’.</span>
+<span class="c1">// Objects that support the ‘A’ interface must implement ‘getName’</span>
+<span class="kr">interface</span> <span class="nx">A</span> <span class="p">{</span>
+  <span class="kr">String</span> <span class="nx">getName</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// Object B supports the ‘A’ interface (can be automatically cast to A)</span>
+<span class="c1">// and so must implement all methods defined in ‘getName’.</span>
+<span class="kr">object</span> <span class="nx">B</span> <span class="o">:</span> <span class="nx">A</span> <span class="p">{</span>
+  <span class="nx">Data</span> <span class="nx">pointer</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Object B must implement its own methods, and all the methods inherited</span>
+<span class="c1">// from its interfaces.</span>
+<span class="kd">function</span> <span class="kr">String</span> <span class="nx">B</span><span class="p">.</span><span class="nx">getName</span><span class="p">()</span> <span class="o">=</span> <span class="s2">&quot;b_getName&quot;</span><span class="p">;</span>
+<span class="kd">function</span> <span class="nx">B</span><span class="p">.</span><span class="nx">method2</span><span class="p">(</span><span class="nx">A</span> <span class="nx">a</span><span class="p">)</span> <span class="o">=</span> <span class="s2">&quot;b_method1&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>C++ラッピングコード</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">FABRIC_EXT_EXPORT</span> <span class="kt">void</span> <span class="n">KL</span><span class="o">::</span><span class="n">String</span> <span class="n">b_getName</span><span class="p">(...){</span>
+  <span class="k">return</span> <span class="n">KL</span><span class="o">::</span><span class="n">String</span><span class="p">(</span><span class="n">this_</span><span class="p">.</span><span class="n">pointer</span><span class="o">-&gt;</span><span class="n">getName</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="n">FABRIC_EXT_EXPORT</span> <span class="kt">void</span> <span class="n">b_method1</span><span class="p">(</span>
+  <span class="n">KL</span><span class="o">::</span><span class="n">B</span><span class="o">::</span><span class="n">IOParam</span> <span class="n">this_</span><span class="p">,</span>
+  <span class="n">KL</span><span class="o">::</span><span class="n">A</span><span class="o">::</span><span class="n">INParam</span> <span class="n">a</span>
+<span class="p">){</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>KL用例コード</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="c1">// An instance of B can be created, and assigned to a reference of</span>
+<span class="c1">// type A interface.</span>
+<span class="nx">A</span> <span class="nx">val1</span> <span class="o">=</span> <span class="nx">B</span><span class="p">();</span>
+<span class="nb">report</span><span class="p">(</span><span class="nx">val1</span><span class="p">.</span><span class="nx">getName</span><span class="p">());</span>
+
+<span class="c1">// A new instance of type B is created and passed to the first.</span>
+<span class="c1">// method1 accepts a value of type A interface, so the B object is</span>
+<span class="c1">// automatically cast.</span>
+<span class="nx">A</span> <span class="nx">val2</span> <span class="o">=</span> <span class="nx">B</span><span class="p">();</span>
+<span class="nx">val1</span><span class="p">.</span><span class="nx">method1</span><span class="p">(</span><span class="nx">val2</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>とくに深いクラス階層では、多数のインタフェースが必要となります。継承チェーンを通じ公開する全publicメソッドは、leafオブジェクトによって直接実装する必要があります。。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">継承OKなKLオブジェクトの完全なサポートは、これらかのリリースに予定されています。C++階層のマッピングをより簡便にします。</p>
+</div>
+</div>
+<div class="section" id="managing-data-ownership-and-bidirectional-relationships">
+<h3>データの所有権と双方向の関係を管理するには<a class="headerlink" href="#managing-data-ownership-and-bidirectional-relationships" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>APIのうちいくつかでは、生存時間が相対的で、特定の順序で破棄すべきであるような、クラスを集めたものを用いることができます。KLを使用することで、システムにおけるそのようなオブジェクトの生存期間の管理に役立てることができ、常に想定通りの順序で破棄します。</p>
+<p>KLの Ref&lt;&gt; 機能とは 生のアンマネージドポインタのことです。Ref&lt;&gt; ポインタはオブジェクトの生存期間に影響を与えません。なのでバックポインタが必要なときに使用しましょう。</p>
+<p>注意： 仮に2つのクラスが互いに参照しあう場合、サイクリックな参照のせいでどちらも永遠に破棄されることがありません。オーナとなるオブジェクトが『所有』するオブジェクトを参照すべきです。この『所有される』オブジェクトから単純な『Ref』ポインタをオーナへと張ります。Refポインタは手動で維持すべきです。もしこのポインタが null にされることなく、オーナが破棄されてしまうとこのポインタはゴミと化し、アクセスしてしまうとクラッシュを引き起こします。いかなる状態であろうともコードを安定させるためには、クリーナップが必要となります。</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">object</span> <span class="nx">Slave</span> <span class="p">{</span>
+  <span class="nx">Data</span> <span class="nx">pointer</span><span class="p">;</span>
+  <span class="c1">// The slave maintains a raw pointer to the master(not a reference)</span>
+  <span class="c1">// Only if this pointer is valid is the slave in a valid state.</span>
+  <span class="nx">Ref</span><span class="o">&lt;</span><span class="nx">Owner</span><span class="o">&gt;</span> <span class="nx">master</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="kd">function</span> <span class="kr">Boolean</span> <span class="nx">Slave</span><span class="p">.</span><span class="nx">isValid</span><span class="p">(){</span>
+  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">master</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">object</span> <span class="nx">Master</span> <span class="p">{</span>
+  <span class="nx">Data</span> <span class="nx">pointer</span><span class="p">;</span>
+  <span class="nx">Slave</span> <span class="nx">slaves</span><span class="p">[];</span>
+<span class="p">};</span>
+<span class="kd">function</span> <span class="nx">Master</span><span class="p">.</span><span class="nx">addSlave</span><span class="p">(</span><span class="nx">Slave</span> <span class="nx">slave</span><span class="p">){</span>
+  <span class="nx">slave</span><span class="p">.</span><span class="nx">master</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">__addSlave</span><span class="p">(</span><span class="nx">slave</span><span class="p">);</span>
+  <span class="c1">// Maintain a reference to the slave so that it is not destoyed.</span>
+  <span class="c1">// The calling code may have only a stack-allocated reference to the slave.</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">slaves</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">slave</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">Master</span><span class="p">.</span><span class="nx">__addSlave</span><span class="p">(</span><span class="nx">Slave</span> <span class="nx">slave</span><span class="p">)</span> <span class="o">=</span> <span class="s2">&quot;Master_addSlave&quot;</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="o">~</span><span class="nx">Master</span><span class="p">(){</span>
+  <span class="c1">// By nulling the back-pointer on the slaves, they become invalid.</span>
+  <span class="c1">// This can be used to protect against evaluation</span>
+  <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="k">this</span><span class="p">.</span><span class="nx">slaves</span><span class="p">.</span><span class="nx">size</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">slaves</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">master</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">__destroy</span><span class="p">();</span>
+  <span class="c1">// removing all the references from the master to the slaves may cause all</span>
+  <span class="c1">// the slaves to be destroyed, unless another class references the slaves.</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">slaves</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">Master</span><span class="p">.</span><span class="nx">__destroy</span><span class="p">()</span> <span class="o">=</span> <span class="s2">&quot;Master_destroy&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="handling-dependencies-between-classes">
+<h3>クラス間の依存の取り扱い<a class="headerlink" href="#handling-dependencies-between-classes" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>クラス階層をKLにマップしたとき、クラス宣言間の依存もKLへとマップする必要があります。エクステンションのKLファイルを読み込むファルであるfpm.json ファイルがこの依存をマップする場所になります。</p>
+<p>C++コード クラスA</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">getName</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>C++コード クラスB</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;A.h&gt;;</span><span class="cp"></span>
+<span class="k">class</span> <span class="nc">B</span> <span class="p">{</span>
+  <span class="n">A</span><span class="o">*</span> <span class="n">m_a</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>KLコード オブジェクトA</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">object</span> <span class="nx">A</span> <span class="p">{</span>
+  <span class="nx">Data</span> <span class="nx">pointer</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>KLコード オブジェクトB</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">object</span> <span class="nx">B</span> <span class="p">{</span>
+  <span class="nx">Data</span> <span class="nx">pointer</span><span class="p">;</span>
+  <span class="nx">A</span> <span class="nx">a</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>結果の MyExt.fpm.json ファイル</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="p">{</span>
+ <span class="s2">&quot;libs&quot;</span><span class="o">:</span> <span class="p">[</span>
+  <span class="s2">&quot;MyExt&quot;</span>
+ <span class="p">],</span>
+ <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="p">[</span>
+  <span class="s2">&quot;A.kl&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;B.kl&quot;</span><span class="p">,</span>
+ <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>C++クラス間の依存を、KLオブジェクトの定義中にも反映させねばなりません。さらにC++クラス間の依存を、fpm.json ファイルによって読み込まれるクラスの順にも反映させる必要があります。</p>
+<p>注意: オブジェクトBがオブジェクトAへのKL参照を保持し、BよりもAの生存期間が長くなるようにします。Aが破棄される、あるいはBへの参照が開放される（AのみがBを参照する限り）とBが破棄されます。</p>
+</div>
+</div>
+<div class="section" id="other-tips-and-tricks">
+<h2>便利な小技<a class="headerlink" href="#other-tips-and-tricks" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="mapping-const-functions-to-kl-as-const-functions">
+<h3>const関数をKLのconst関数にマッピング<a class="headerlink" href="#mapping-const-functions-to-kl-as-const-functions" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>既定では、KLメソッドの戻す値は const です。非constな参照を引数に取り、処理結果をその引数に対して戻すようなメソッドを宣言したクラスを作成しても構いません。KL関数の宣言を、単純に関数名の末尾に &#8216;?&#8217; と付け足します。</p>
+<p>C++コード</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyCPPClass</span> <span class="p">{</span>
+   <span class="kt">void</span> <span class="n">doStuff</span><span class="p">(</span> <span class="n">Scalar</span><span class="o">&amp;</span> <span class="n">value</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>KLコード</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">object</span> <span class="nx">MyCPPClass</span> <span class="p">{</span>
+  <span class="nx">Data</span> <span class="nx">pointer</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">MyCPPClass</span><span class="p">.</span><span class="nx">doStuff</span><span class="o">?</span><span class="p">(</span><span class="k">io</span> <span class="nx">Scalar</span> <span class="nx">value</span><span class="p">)</span> <span class="o">=</span> <span class="s2">&quot;MyCPPClass_doStuff&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>C++コード</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyCPPClass</span> <span class="p">{</span>
+   <span class="kt">int</span> <span class="n">computeDataReturnCode</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>KLコード</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">object</span> <span class="nx">MyCPPClass</span> <span class="p">{</span>
+  <span class="nx">Data</span> <span class="nx">pointer</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">MyCPPClass</span><span class="p">.</span><span class="nx">computeDataReturnCode</span><span class="o">!</span><span class="p">(</span><span class="k">io</span> <span class="nx">Scalar</span> <span class="nx">value</span><span class="p">)</span> <span class="o">=</span> <span class="s2">&quot;MyCPPClass_computeDataReturnCode&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cloning-objects-in-kl">
+<h3>KLでオブジェクトのクローン<a class="headerlink" href="#cloning-objects-in-kl" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>なんらかのC++データを参照するKLオブジェクトを、KLでクローンする時には、C++クラスも一緒にクローンされることが期待されます。オブジェクトとC＋＋クラスの 1-1 マッピング対応を確実にします。</p>
+<p>KLコード</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">object</span> <span class="nx">MyObj</span> <span class="p">{</span>
+  <span class="kr">String</span> <span class="nx">s</span><span class="p">;</span>
+  <span class="c1">// …</span>
+<span class="p">};</span>
+<span class="kd">function</span> <span class="nx">MyObj</span> <span class="nx">MyObj</span><span class="p">.</span><span class="nx">clone</span><span class="p">()</span> <span class="o">=</span> <span class="s2">&quot;MyObj_clone&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>C++コード</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">FABRIC_EXT_EXPORT</span> <span class="kt">void</span> <span class="nf">MyObj_clone</span><span class="p">(</span>
+  <span class="n">KL</span><span class="o">::</span><span class="n">Traits</span><span class="o">&lt;</span> <span class="n">KL</span><span class="o">::</span><span class="n">MyObj</span> <span class="o">&gt;::</span><span class="n">Result</span> <span class="n">result</span><span class="p">,</span>
+  <span class="n">KL</span><span class="o">::</span><span class="n">Traits</span><span class="o">&lt;</span> <span class="n">KL</span><span class="o">::</span><span class="n">MyObj</span> <span class="o">&gt;::</span><span class="n">INParam</span> <span class="n">other</span>
+<span class="p">{</span>
+  <span class="c1">// The wrapped class must be cloned,</span>
+  <span class="c1">// and the cloned wrapper KL object must</span>
+  <span class="c1">// reference the newly constructed class.</span>
+  <span class="n">result</span><span class="o">-&gt;</span><span class="n">pointer</span> <span class="o">=</span> <span class="n">MyObj</span><span class="p">(</span><span class="n">other</span><span class="o">-&gt;</span><span class="n">pointer</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">C++ APIをラップしKLで使用するには</a><ul>
+<li><a class="reference internal" href="#overview">概要</a></li>
+<li><a class="reference internal" href="#type-conversion">型の変換</a></li>
+<li><a class="reference internal" href="#mapping-classes-to-objects">Class から Object へのマッピング</a><ul>
+<li><a class="reference internal" href="#memory-management">メモリ管理</a></li>
+<li><a class="reference internal" href="#mapping-public-methods">Publicメソッドのマッピング</a></li>
+<li><a class="reference internal" href="#public-members">Publicメンバ</a></li>
+<li><a class="reference internal" href="#pure-data-container-structs">純粋なデータコンテナ構造体（Pure data container structs）</a></li>
+<li><a class="reference internal" href="#passing-arrays-from-kl-to-a-c-style-api">KLからC-スタイルのAPIへ配列を渡すには</a></li>
+<li><a class="reference internal" href="#mapping-class-hierarchies">クラス階層のマッピング</a></li>
+<li><a class="reference internal" href="#managing-data-ownership-and-bidirectional-relationships">データの所有権と双方向の関係を管理するには</a></li>
+<li><a class="reference internal" href="#handling-dependencies-between-classes">クラス間の依存の取り扱い</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#other-tips-and-tricks">便利な小技</a><ul>
+<li><a class="reference internal" href="#mapping-const-functions-to-kl-as-const-functions">const関数をKLのconst関数にマッピング</a></li>
+<li><a class="reference internal" href="#cloning-objects-in-kl">KLでオブジェクトのクローン</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="fpm.html"
+                        title="前の章へ">エクステンション・マニフェストファイル</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="kl2edk.html"
+                        title="次の章へ"><strong class="command">kl2edk</strong> ユーティリティ</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/ExtensionAuthoringGuide/cPlusPlusApis.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/ExtensionAuthoringGuide/cPlusPlusApis.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="kl2edk.html" title="kl2edk ユーティリティ"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="fpm.html" title="エクステンション・マニフェストファイル"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >エクステンション・オーサリングガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

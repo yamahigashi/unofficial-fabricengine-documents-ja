@@ -1,0 +1,323 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>OpenImageTypeDesc.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="OpenImageIO Extension’s Files" href="files.html" />
+    <link rel="next" title="OpenImageIO Extension’s Types" href="types.html" />
+    <link rel="prev" title="OpenImageSpec.kl" href="OpenImageSpec.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="types.html" title="OpenImageIO Extension’s Types"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="OpenImageSpec.kl.html" title="OpenImageSpec.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >OpenImageIO エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">OpenImageIO Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="openimageio-openimagetypedesc-kl">
+<span id="openimagetypedesc-kl"></span><span id="id1"></span><h1>OpenImageTypeDesc.kl<a class="headerlink" href="#openimageio-openimagetypedesc-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="openimagetypedesc-object">
+<h3>OpenImageTypeDesc (object)<a class="headerlink" href="#openimagetypedesc-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">The <a class="reference internal" href="OpenImageTypeDesc.html#openimagetypedesc"><span class="std std-ref">OpenImageTypeDesc</span></a> represents a image type description within OpenImageIO. The image description is used
+when constructing and <a class="reference internal" href="OpenImageOutput.html#openimageoutput"><span class="std std-ref">OpenImageOutput</span></a> or reading from an <a class="reference internal" href="OpenImageInput.html#openimageinput"><span class="std std-ref">OpenImageInput</span></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Please refer to the official OpenImageIO documentation for more details (<a class="reference external" href="https://sites.google.com/site/openimageio/documentation">https://sites.google.com/site/openimageio/documentation</a>).</p>
+</div>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: OpenImageTypeDesc</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">OpenImageIO</span><span class="p">;</span>
+  
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+
+      
+        <span class="nx">OpenImageTypeDesc</span> <span class="nx">desc</span> <span class="o">=</span> <span class="nx">OpenImageTypeDescTypeFloat</span><span class="p">();</span>
+        <span class="nb">report</span><span class="p">(</span> <span class="nx">desc</span><span class="p">.</span><span class="nx">get_basetype</span><span class="p">()</span> <span class="p">);</span>
+        <span class="nb">report</span><span class="p">(</span> <span class="nx">desc</span><span class="p">.</span><span class="nx">get_aggregate</span><span class="p">()</span> <span class="p">);</span>
+        <span class="nb">report</span><span class="p">(</span> <span class="nx">desc</span><span class="p">.</span><span class="nx">get_vecsemantics</span><span class="p">()</span> <span class="p">);</span>
+      
+  
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">11</span>
+<span class="cm">1</span>
+<span class="cm">0</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="21%" />
+<col width="79%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id117403"><span class="std std-ref">OpenImageTypeDesc</span></a>  ( in <a class="reference internal" href="OpenImageTypeDesc.html#openimagetypedesc"><span class="std std-ref">OpenImageTypeDesc</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102825"><span class="std std-ref">OpenImageTypeDesc</span></a>  ( in OpenImage_BASETYPE btype, in OpenImage_AGGREGATE agg, in OpenImage_VECSEMANTICS xform )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102860"><span class="std std-ref">OpenImageTypeDesc</span></a>  ( in OpenImage_BASETYPE btype, in OpenImage_AGGREGATE agg, in OpenImage_VECSEMANTICS xform, in <a class="reference internal" href="../Math/SInt32.html#sint32"><span class="std std-ref">SInt32</span></a> arraylength )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102847"><span class="std std-ref">OpenImageTypeDesc</span></a>  ( in OpenImage_BASETYPE btype, in OpenImage_AGGREGATE agg, in <a class="reference internal" href="../Math/SInt32.html#sint32"><span class="std std-ref">SInt32</span></a> arraylength )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102836"><span class="std std-ref">OpenImageTypeDesc</span></a>  ( in OpenImage_BASETYPE btype, in <a class="reference internal" href="../Math/SInt32.html#sint32"><span class="std std-ref">SInt32</span></a> arraylength )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102871"><span class="std std-ref">OpenImageTypeDesc</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> typestring )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102807"><span class="std std-ref">OpenImageTypeDesc</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a></td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102925"><span class="std std-ref">basesize</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102910"><span class="std std-ref">c_str</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="OpenImageTypeDesc.html#openimagetypedesc"><span class="std std-ref">OpenImageTypeDesc</span></a></td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id117407"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a></td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102922"><span class="std std-ref">elementsize</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="OpenImageTypeDesc.html#openimagetypedesc"><span class="std std-ref">OpenImageTypeDesc</span></a></td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102919"><span class="std std-ref">elementtype</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102936"><span class="std std-ref">equivalent</span></a> ? ( in <a class="reference internal" href="OpenImageTypeDesc.html#openimagetypedesc"><span class="std std-ref">OpenImageTypeDesc</span></a> b )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a></td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102928"><span class="std std-ref">fromstring</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> typestring )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a></td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102882"><span class="std std-ref">get_aggregate</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/SInt32.html#sint32"><span class="std std-ref">SInt32</span></a></td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102903"><span class="std std-ref">get_arraylen</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a></td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102875"><span class="std std-ref">get_basetype</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a></td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102896"><span class="std std-ref">get_reserved</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a></td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102889"><span class="std std-ref">get_vecsemantics</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a></td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102913"><span class="std std-ref">numelements</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102816"><span class="std std-ref">reset</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102885"><span class="std std-ref">set_aggregate</span></a> ? ( in <a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102906"><span class="std std-ref">set_arraylen</span></a> ? ( in <a class="reference internal" href="../Math/SInt32.html#sint32"><span class="std std-ref">SInt32</span></a> value )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102878"><span class="std std-ref">set_basetype</span></a> ? ( in <a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102899"><span class="std std-ref">set_reserved</span></a> ? ( in <a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> value )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102892"><span class="std std-ref">set_vecsemantics</span></a> ? ( in <a class="reference internal" href="../Math/UInt16.html#uint16"><span class="std std-ref">UInt16</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt64.html#uint64"><span class="std std-ref">UInt64</span></a></td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102916"><span class="std std-ref">size</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102940"><span class="std std-ref">unarray</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="OpenImageTypeDesc.html#id102813"><span class="std std-ref">~OpenImageTypeDesc</span></a>  ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="openimagetypedesctypefloat">
+<h3>OpenImageTypeDescTypeFloat<a class="headerlink" href="#openimagetypedesctypefloat" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="OpenImageTypeDesc.html#openimagetypedesc"><span class="std std-ref">OpenImageTypeDesc</span></a> OpenImageTypeDescTypeFloat ()</p>
+</div>
+</p>
+<p><div class="section" id="openimagetypedesctypecolor">
+<h3>OpenImageTypeDescTypeColor<a class="headerlink" href="#openimagetypedesctypecolor" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="OpenImageTypeDesc.html#openimagetypedesc"><span class="std std-ref">OpenImageTypeDesc</span></a> OpenImageTypeDescTypeColor ()</p>
+</div>
+</p>
+<p><div class="section" id="openimagetypedesctypestring">
+<h3>OpenImageTypeDescTypeString<a class="headerlink" href="#openimagetypedesctypestring" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="OpenImageTypeDesc.html#openimagetypedesc"><span class="std std-ref">OpenImageTypeDesc</span></a> OpenImageTypeDescTypeString ()</p>
+</div>
+</p>
+<p><div class="section" id="openimagetypedesctypeint">
+<h3>OpenImageTypeDescTypeInt<a class="headerlink" href="#openimagetypedesctypeint" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="OpenImageTypeDesc.html#openimagetypedesc"><span class="std std-ref">OpenImageTypeDesc</span></a> OpenImageTypeDescTypeInt ()</p>
+</div>
+</p>
+<p><div class="section" id="openimagetypedesctypepoint">
+<h3>OpenImageTypeDescTypePoint<a class="headerlink" href="#openimagetypedesctypepoint" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="OpenImageTypeDesc.html#openimagetypedesc"><span class="std std-ref">OpenImageTypeDesc</span></a> OpenImageTypeDescTypePoint ()</p>
+</div>
+</p>
+<p><div class="section" id="openimagetypedesctypevector">
+<h3>OpenImageTypeDescTypeVector<a class="headerlink" href="#openimagetypedesctypevector" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="OpenImageTypeDesc.html#openimagetypedesc"><span class="std std-ref">OpenImageTypeDesc</span></a> OpenImageTypeDescTypeVector ()</p>
+</div>
+</p>
+<p><div class="section" id="openimagetypedesctypenormal">
+<h3>OpenImageTypeDescTypeNormal<a class="headerlink" href="#openimagetypedesctypenormal" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="OpenImageTypeDesc.html#openimagetypedesc"><span class="std std-ref">OpenImageTypeDesc</span></a> OpenImageTypeDescTypeNormal ()</p>
+</div>
+</p>
+<p><div class="section" id="openimagetypedesctypematrix">
+<h3>OpenImageTypeDescTypeMatrix<a class="headerlink" href="#openimagetypedesctypematrix" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="OpenImageTypeDesc.html#openimagetypedesc"><span class="std std-ref">OpenImageTypeDesc</span></a> OpenImageTypeDescTypeMatrix ()</p>
+</div>
+</p>
+<p><div class="section" id="openimagetypedesctypetimecode">
+<h3>OpenImageTypeDescTypeTimeCode<a class="headerlink" href="#openimagetypedesctypetimecode" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="OpenImageTypeDesc.html#openimagetypedesc"><span class="std std-ref">OpenImageTypeDesc</span></a> OpenImageTypeDescTypeTimeCode ()</p>
+</div>
+</p>
+<p><div class="section" id="openimagetypedesctypekeycode">
+<h3>OpenImageTypeDescTypeKeyCode<a class="headerlink" href="#openimagetypedesctypekeycode" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="OpenImageTypeDesc.html#openimagetypedesc"><span class="std std-ref">OpenImageTypeDesc</span></a> OpenImageTypeDescTypeKeyCode ()</p>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="OpenImageSpec.kl.html"
+                        title="前の章へ">OpenImageSpec.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="types.html"
+                        title="次の章へ">OpenImageIO Extension&#8217;s Types</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/OpenImageIO/OpenImageTypeDesc.kl.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/OpenImageIO/OpenImageTypeDesc.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="types.html" title="OpenImageIO Extension’s Types"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="OpenImageSpec.kl.html" title="OpenImageSpec.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >OpenImageIO エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >OpenImageIO Extension&#8217;s Files</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

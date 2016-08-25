@@ -1,0 +1,547 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>KeyframeTrack (object) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
+    <link rel="up" title="Animation Extension’s Types" href="types.html" />
+    <link rel="next" title="KeyframeTrackSet (object)" href="KeyframeTrackSet.html" />
+    <link rel="prev" title="Keyframe (struct)" href="Keyframe.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="KeyframeTrackSet.html" title="KeyframeTrackSet (object)"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="Keyframe.html" title="Keyframe (struct)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Animation エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" accesskey="U">Animation Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="keyframetrack-object">
+<span id="keyframetrack"></span><h1>KeyframeTrack (object)<a class="headerlink" href="#keyframetrack-object" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><p class="klbrief">A sequence of keyframes defining animation over time.</p>
+<p class="plaintext">The KeyframeTrack represents an animation curve storing a list of <a class="reference internal" href="Keyframe.html#keyframe"><span class="std std-ref">keyframe</span></a>.
+A <a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a> can be evaluated using a time parameter, generating a <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value.
+The keys in the keyframe track are always stored in chronological order.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参考</p>
+<p><a class="reference internal" href="Keyframe.html#keyframe"><span class="std std-ref">Keyframe</span></a></p>
+<p class="last"><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: keyframeTrack.kl</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Animation</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">(){</span>
+
+    <span class="nx">KeyframeTrack</span> <span class="nx">track</span> <span class="o">=</span> <span class="nx">KeyframeTrack</span><span class="p">(</span><span class="s1">&#39;track&#39;</span><span class="p">,</span> <span class="nx">Color</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">));</span>
+
+    <span class="nx">track</span><span class="p">.</span><span class="nx">addKey</span><span class="p">(</span><span class="nx">Keyframe</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nx">Vec2</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="nx">Vec2</span><span class="p">(</span><span class="mf">0.333</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)));</span>
+    <span class="nx">track</span><span class="p">.</span><span class="nx">addKey</span><span class="p">(</span><span class="nx">Keyframe</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">,</span> <span class="nx">Vec2</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">),</span> <span class="nx">Vec2</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">)));</span>
+    <span class="nx">track</span><span class="p">.</span><span class="nx">addKey</span><span class="p">(</span><span class="nx">Keyframe</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nx">Vec2</span><span class="p">(</span><span class="o">-</span><span class="mf">0.333</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="nx">Vec2</span><span class="p">(</span><span class="mf">0.333</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)));</span>
+
+    <span class="kr">Integer</span> <span class="nx">keyIndex</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span><span class="mi">20</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="nx">Scalar</span> <span class="nx">time</span> <span class="o">=</span> <span class="nx">Math_linearInterpolate</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="nx">Scalar</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="o">/</span><span class="mf">20.0</span><span class="p">);</span>
+        <span class="nx">Scalar</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">track</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="nx">time</span><span class="p">,</span> <span class="nx">keyIndex</span><span class="p">);</span>
+        <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;time:&quot;</span> <span class="o">+</span> <span class="nx">time</span> <span class="o">+</span> <span class="s2">&quot; value:&quot;</span> <span class="o">+</span> <span class="nx">value</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">time:+0.0 value:+0.0</span>
+<span class="cm">time:+0.2 value:+0.798225</span>
+<span class="cm">time:+0.4 value:+3.329768</span>
+<span class="cm">time:+0.6 value:+7.601063</span>
+<span class="cm">time:+0.8 value:+13.26752</span>
+<span class="cm">time:+1.0 value:+19.73493</span>
+<span class="cm">time:+1.2 value:+26.42404</span>
+<span class="cm">time:+1.4 value:+32.94145</span>
+<span class="cm">time:+1.6 value:+39.08389</span>
+<span class="cm">time:+1.8 value:+44.77364</span>
+<span class="cm">time:+2.0 value:+50.0</span>
+<span class="cm">time:+2.2 value:+53.83283</span>
+<span class="cm">time:+2.4 value:+55.0989</span>
+<span class="cm">time:+2.6 value:+53.45285</span>
+<span class="cm">time:+2.8 value:+48.63787</span>
+<span class="cm">time:+3.0 value:+40.68987</span>
+<span class="cm">time:+3.2 value:+30.27007</span>
+<span class="cm">time:+3.4 value:+18.94325</span>
+<span class="cm">time:+3.6 value:+8.941275</span>
+<span class="cm">time:+3.8 value:+2.278844</span>
+<span class="cm">time:+4.0 value:+0.0</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</p>
+</div>
+<p>One way to generate keyframes on a KeyframeTrack, is to call setValue on the keyframe track passing in a value
+to store. This value is used to either update an existing key if one exists at the specified time,
+or add a new key at the specified time in the track.</p>
+<blockquote>
+<div><div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: keyframeTrack_setValue.kl</span>
+<span class="cm">*/</span>
+
+<span class="kr">require</span> <span class="nx">Animation</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">(){</span>
+
+    <span class="nx">KeyframeTrack</span> <span class="nx">track</span> <span class="o">=</span> <span class="nx">KeyframeTrack</span><span class="p">(</span><span class="s1">&#39;track&#39;</span><span class="p">,</span> <span class="nx">Color</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">));</span>
+
+    <span class="nx">track</span><span class="p">.</span><span class="nx">setValue</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">track</span><span class="p">.</span><span class="nx">setValue</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">);</span>
+    <span class="nx">track</span><span class="p">.</span><span class="nx">setValue</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+    <span class="nx">track</span><span class="p">.</span><span class="nx">setValue</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">);</span> <span class="c1">// Update an existing key</span>
+
+    <span class="nb">report</span><span class="p">(</span><span class="nx">track</span><span class="p">.</span><span class="nx">getDesc</span><span class="p">());</span>
+
+    <span class="kr">Integer</span> <span class="nx">keyIndex</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span><span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="nx">Scalar</span> <span class="nx">time</span> <span class="o">=</span> <span class="nx">Math_linearInterpolate</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="nx">Scalar</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="o">/</span><span class="mf">10.0</span><span class="p">);</span>
+        <span class="nx">Scalar</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">track</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="nx">time</span><span class="p">,</span> <span class="nx">keyIndex</span><span class="p">);</span>
+        <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;time:&quot;</span> <span class="o">+</span> <span class="nx">time</span> <span class="o">+</span> <span class="s2">&quot; value:&quot;</span> <span class="o">+</span> <span class="nx">value</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Output:</span>
+
+<span class="cm">KeyframeTrack { </span>
+<span class="cm">  name: &quot;track&quot;,</span>
+<span class="cm">  color: {r:+1.0,g:+0.0,b:+0.0,a:+1.0},</span>
+<span class="cm">  defaultValue: +0.0,</span>
+<span class="cm">  numKeys:3,</span>
+<span class="cm">  keys:[ </span>
+<span class="cm">    Keyframe { </span>
+<span class="cm">      time: +0.0</span>
+<span class="cm">      value: +0.0</span>
+<span class="cm">      interpolation: Bezier</span>
+<span class="cm">      inTangent: {x:-0.333,y:+0.0}</span>
+<span class="cm">      outTangent: {x:+0.333,y:+0.0}</span>
+<span class="cm">    },</span>
+<span class="cm">    Keyframe { </span>
+<span class="cm">      time: +2.0</span>
+<span class="cm">      value: +20.0</span>
+<span class="cm">      interpolation: Bezier</span>
+<span class="cm">      inTangent: {x:-0.333,y:+0.0}</span>
+<span class="cm">      outTangent: {x:+0.333,y:+0.0}</span>
+<span class="cm">    },</span>
+<span class="cm">    Keyframe { </span>
+<span class="cm">      time: +4.0</span>
+<span class="cm">      value: +0.0</span>
+<span class="cm">      interpolation: Bezier</span>
+<span class="cm">      inTangent: {x:-0.333,y:+0.0}</span>
+<span class="cm">      outTangent: {x:+0.333,y:+0.0}</span>
+<span class="cm">    },</span>
+<span class="cm">  ]</span>
+<span class="cm">}</span>
+<span class="cm">time:+0.0 value:+0.0</span>
+<span class="cm">time:+0.4 value:+2.081786</span>
+<span class="cm">time:+0.8 value:+7.041295</span>
+<span class="cm">time:+1.2 value:+12.95853</span>
+<span class="cm">time:+1.6 value:+17.91809</span>
+<span class="cm">time:+2.0 value:+20.0</span>
+<span class="cm">time:+2.4 value:+17.91821</span>
+<span class="cm">time:+2.8 value:+12.9587</span>
+<span class="cm">time:+3.2 value:+7.041466</span>
+<span class="cm">time:+3.6 value:+2.0819</span>
+<span class="cm">time:+4.0 value:+0.0</span>
+
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+ -->
+<!-- Title: KeyframeTrack Pages: 1 -->
+<svg width="210pt" height="44pt"
+ viewBox="0.00 0.00 210.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>KeyframeTrack</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-40 207,-40 207,5 -4,5"/>
+<!-- KeyframeTrack -->
+<g id="node1" class="node"><title>KeyframeTrack</title>
+<a xlink:href="../Animation/KeyframeTrack.html" xlink:title="KeyframeTrack">
+<polygon fill="#3fabd3" stroke="#3f3f3f" points="202,-36 120,-36 120,-0 202,-0 202,-36"/>
+<text text-anchor="middle" x="161" y="-15.5" font-family="Arial" font-size="10.00">KeyframeTrack</text>
+</a>
+</g>
+<!-- IKeyframeTrack -->
+<g id="node3" class="node"><title>IKeyframeTrack</title>
+<a xlink:href="../Animation/IKeyframeTrack.html" xlink:title="IKeyframeTrack">
+<polygon fill="#b4ced8" stroke="#3f3f3f" points="84,-36 0,-36 0,-0 84,-0 84,-36"/>
+<text text-anchor="middle" x="42" y="-15.5" font-family="Arial" font-size="10.00">IKeyframeTrack</text>
+</a>
+</g>
+<!-- KeyframeTrack&#45;&gt;IKeyframeTrack -->
+<g id="edge2" class="edge"><title>KeyframeTrack&#45;&gt;IKeyframeTrack</title>
+<path fill="none" stroke="#3f3f3f" d="M119.735,-18C111.558,-18 102.853,-18 94.3525,-18"/>
+<polygon fill="#3f3f3f" stroke="#3f3f3f" points="94.1342,-14.5001 84.1341,-18 94.1341,-21.5001 94.1342,-14.5001"/>
+</g>
+</g>
+</svg></p>
+<div class="section" id="members">
+<h2>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="56%" />
+<col width="39%" />
+<col width="5%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>name</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a></td>
+<td>color</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td>defaultValue</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>defaultInterpolation</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Keyframe.html#keyframe"><span class="std std-ref">Keyframe</span></a>[]</td>
+<td>keys</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id110633"><span class="std std-ref">KeyframeTrack</span></a>  ( in <a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24122"><span class="std std-ref">KeyframeTrack</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24111"><span class="std std-ref">KeyframeTrack</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> defaultValue )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24098"><span class="std std-ref">KeyframeTrack</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> defaultInterpolation )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24130"><span class="std std-ref">KeyframeTrack</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24139"><span class="std std-ref">addKey</span></a> ! ( in <a class="reference internal" href="Keyframe.html#keyframe"><span class="std std-ref">Keyframe</span></a> key )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24143"><span class="std std-ref">addKey</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#id24136"><span class="std std-ref">clear</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a></td>
+<td><a class="reference internal" href="#id110637"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="#id24163"><span class="std std-ref">evaluate</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
+<td><a class="reference internal" href="#id24158"><span class="std std-ref">evaluate</span></a> ? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out Integer keyIndex )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id24167"><span class="std std-ref">getDesc</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> indent, in Boolean includeKeys )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id24172"><span class="std std-ref">getDesc</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="#id24133"><span class="std std-ref">getName</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="#id24153"><span class="std std-ref">setValue</span></a> ! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<div class="section" id="methods-in-detail">
+<h2>Methods in detail<a class="headerlink" href="#methods-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><span class="target" id="id110633"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a> ( in <a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a> other )</p>
+<p class="plaintext">copy constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24122"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color )</p>
+<p class="plaintext">constructor taking a track name, a color.
+0.0 is used as the default value along with bezier interpolation.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24111"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> defaultValue )</p>
+<p class="plaintext">constructor taking a track name, a color, the default value. bezier interpolation is used</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>name</td>
+<td>The name of the <a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>.</td>
+</tr>
+<tr class="row-even"><td>name</td>
+<td>The color of the <a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>. Used when displaying the track in a curve editor.</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>The value of the curve to use when it contains zero keyframes.</td>
+</tr>
+<tr class="row-even"><td>name</td>
+<td>The default interpollation method to assign new keys when they are generated.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24098"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a> ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> defaultValue, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> defaultInterpolation )</p>
+<p class="plaintext">constructor taking a track name, a color, the default value and the default key frame interpolation</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>name</td>
+<td>The name of the <a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>.</td>
+</tr>
+<tr class="row-even"><td>name</td>
+<td>The color of the <a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>. Used when displaying the track in a curve editor.</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>The value of the curve to use when it contains zero keyframes.</td>
+</tr>
+<tr class="row-even"><td>name</td>
+<td>The default interpollation method to assign new keys when they are generated.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24130"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a> ()</p>
+<p class="plaintext">default constructor</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24139"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>.addKey! ( in <a class="reference internal" href="Keyframe.html#keyframe"><span class="std std-ref">Keyframe</span></a> key )</p>
+<p class="plaintext">Adds a key frame to the track. The key is pushed
+to the end or injected depending on its
+time value, maintinging the chronological order of the keys.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24143"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>.addKey! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</p>
+<p class="plaintext">Adds a new key to the track at the given time and value.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24136"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>.clear! ()</p>
+<p class="plaintext">clears the content of the <a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>, removing all keyframes.
+The <a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a> will return the default value if evaluated.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id110637"></span><p><p class="klcode"><a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a> <a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>.clone? ()</p>
+<p class="plaintext">clone method</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24163"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> <a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>.evaluate? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time )</p>
+<p class="plaintext">Evaluate the curve at a given time without passing the cached keyindex.
+This method is slower because the keys array must be searched every update
+for the pair of keys to be interpolated. Provide a keyIndex cache to speed up evaluations</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>time</td>
+<td>The time to evaluate the track.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24158"></span><p><p class="klcode"><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> <a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>.evaluate? ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, out Integer keyIndex )</p>
+<p class="plaintext">Evaluate the curve at a given time returning the value of the track.
+speeds up subsequent evaluations by enabling incremental searching of the track
+for the next key in the sequence.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>time</td>
+<td>The time to evaluate the track.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24167"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>.getDesc? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> indent, in Boolean includeKeys )</p>
+<p class="plaintext">Generates a Description string of this <a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>indent</td>
+<td>The indentation to use when generating the string.</td>
+</tr>
+</tbody>
+</table>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24172"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>.getDesc? ()</p>
+<p class="plaintext">Generates a Description string of this <a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24133"></span><p><p class="klcode"><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> <a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>.getName? ()</p>
+<p class="plaintext">Returns the name of the <a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id24153"></span><p><p class="klcode"><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> <a class="reference internal" href="#keyframetrack"><span class="std std-ref">KeyframeTrack</span></a>.setValue! ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</p>
+<p class="plaintext">Set the value of the curve at a given time, potentially generating new keys,
+if a key does not exist at the given time, or</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>time</td>
+<td>The time to set the value of the track.</td>
+</tr>
+<tr class="row-even"><td>value</td>
+<td>The value to store in the track.</td>
+</tr>
+</tbody>
+</table>
+</p>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="Keyframe.html"
+                        title="前の章へ">Keyframe (struct)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="KeyframeTrackSet.html"
+                        title="次の章へ">KeyframeTrackSet (object)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Animation/KeyframeTrack.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Animation/KeyframeTrack.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="KeyframeTrackSet.html" title="KeyframeTrackSet (object)"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="Keyframe.html" title="Keyframe (struct)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Animation エクステンション</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" >Animation Extension&#8217;s Types</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

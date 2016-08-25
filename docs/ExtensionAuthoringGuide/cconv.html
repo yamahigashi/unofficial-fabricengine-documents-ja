@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>公開関数の呼び出し規約（Calling Convention for Exported Functions） &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="エクステンション・オーサリングガイド" href="index.html" />
+    <link rel="next" title="エクステンションの再読み込み" href="reloading.html" />
+    <link rel="prev" title="Types and Extensions" href="types.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="reloading.html" title="エクステンションの再読み込み"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="types.html" title="Types and Extensions"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">エクステンション・オーサリングガイド</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="calling-convention-for-exported-functions">
+<span id="cconv"></span><h1>公開関数の呼び出し規約（Calling Convention for Exported Functions）<a class="headerlink" href="#calling-convention-for-exported-functions" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">The use of the <strong class="command">kl2edk</strong> tool to generate the header file with the types and function prototypes corresponding to KL code has mostly made this section irrelevant, since you can now guarantee that you use the right calling convention for your extension functions by just copying the function prototypes from the generated header file.  However, we retain this section for reference and to help those looking for a deeper understanding of how KL interfaces with C++.</p>
+</div>
+<p>We saw in the <a class="reference internal" href="sample.html#eag-sample"><span class="std std-ref">サンプルエクステンションの解説</span></a> section that to return a string from a function exported to KL it was necessary to declare the C++ function signature with the return value as a first parameter and with the C++ function returning <code class="docutils literal"><span class="pre">void</span></code>.  In KL the function declaration was:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">String</span> <span class="n">GetHelloWorldString</span><span class="p">()</span> <span class="o">=</span> <span class="s2">&quot;GetHelloWorldString&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>whereas the function definition in C++ was:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">FABRIC_EXT_EXPORT</span> <span class="n">void</span> <span class="n">GetHelloWorldString</span><span class="p">(</span>
+  <span class="n">Fabric</span><span class="p">::</span><span class="n">EDK</span><span class="p">::</span><span class="n">KL</span><span class="p">::</span><span class="n">String</span> <span class="o">&amp;</span><span class="n">result</span>
+  <span class="p">)</span>
+<span class="p">{</span>
+  <span class="o">//</span> <span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In order to have the extension function called correctly from KL it is necessary in some cases to adjust the C++ function parameters and return type.  We refer to this as the <em>calling convention</em> for exported functions.</p>
+<p>The rules for the calling convention are dependent on the types of the function parameters and the return type.  For the purpose of the calling convention, there are two kinds of types: <em>simple</em> types and <em>complex</em> types.</p>
+<div class="section" id="calling-convention-for-simple-types">
+<span id="cconv-simple"></span><h2>Calling Convention for Simple Types<a class="headerlink" href="#calling-convention-for-simple-types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The simple types are the small, predefined types; they are:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">Boolean</span></code>;</li>
+<li>The integer types: <code class="docutils literal"><span class="pre">UInt8</span></code>, <code class="docutils literal"><span class="pre">SInt8</span></code>, <code class="docutils literal"><span class="pre">UInt16</span></code>, <code class="docutils literal"><span class="pre">SInt16</span></code>, <code class="docutils literal"><span class="pre">UInt32</span></code>, <code class="docutils literal"><span class="pre">SInt32</span></code>, <code class="docutils literal"><span class="pre">UInt64</span></code> and <code class="docutils literal"><span class="pre">SInt64</span></code>;</li>
+<li>The floating-point types: <code class="docutils literal"><span class="pre">Float32</span></code> and <code class="docutils literal"><span class="pre">Float64</span></code>; and</li>
+<li>The aliases for simple types: <code class="docutils literal"><span class="pre">Integer</span></code>, <code class="docutils literal"><span class="pre">Byte</span></code>, <code class="docutils literal"><span class="pre">Index</span></code>, <code class="docutils literal"><span class="pre">Size</span></code> and <code class="docutils literal"><span class="pre">Scalar</span></code>.</li>
+</ul>
+<p>See <a class="reference internal" href="types.html#types-simple"><span class="std std-ref">Simple Types</span></a> for more information about the simple types.</p>
+<p>Simple types are directly returned from C++ functions and are directly passed by value as <code class="docutils literal"><span class="pre">in</span></code> parameters:</p>
+<ul class="simple">
+<li>When a KL function returns a simple type the corresponding C++ function should also return the same simple type.</li>
+<li>When a KL function takes a simple type as an <code class="docutils literal"><span class="pre">in</span></code> parameter the C++ function should also take the same simple type by value.</li>
+<li>When a KL function takes a simple type as an <code class="docutils literal"><span class="pre">io</span></code> parameter the C++ function should take the same simple type by reference.</li>
+</ul>
+<p>For example, the KL function:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">KL</span> <span class="n">code</span>
+
+<span class="n">function</span> <span class="n">Boolean</span> <span class="n">SimpleTypeFunc</span><span class="p">(</span>
+  <span class="n">UInt32</span> <span class="n">inParam</span><span class="p">,</span>
+  <span class="n">io</span> <span class="n">Float32</span> <span class="n">ioParam</span>
+  <span class="p">)</span> <span class="o">=</span> <span class="s2">&quot;SimpleTypeFuncImpl&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>should have the C++ definition:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">C</span><span class="o">++</span> <span class="n">code</span>
+
+<span class="n">FABRIC_EXT_EXPORT</span> <span class="n">Fabric</span><span class="p">::</span><span class="n">EDK</span><span class="p">::</span><span class="n">KL</span><span class="p">::</span><span class="n">Boolean</span> <span class="n">SimpleTypeFuncImpl</span><span class="p">(</span>
+  <span class="n">Fabric</span><span class="p">::</span><span class="n">EDK</span><span class="p">::</span><span class="n">KL</span><span class="p">::</span><span class="n">UInt32</span> <span class="n">inParam</span><span class="p">,</span>
+  <span class="n">Fabric</span><span class="p">::</span><span class="n">EDK</span><span class="p">::</span><span class="n">KL</span><span class="p">::</span><span class="n">Float32</span> <span class="o">&amp;</span><span class="n">ioParam</span>
+  <span class="p">)</span>
+<span class="p">{</span>
+  <span class="o">//</span> <span class="o">...</span>
+  <span class="k">return</span> <span class="n">true</span><span class="p">;</span> <span class="o">//</span> <span class="n">directly</span> <span class="k">return</span> <span class="n">value</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="calling-convention-for-complex-types">
+<span id="cconv-complex"></span><h2>Calling Convention for Complex Types<a class="headerlink" href="#calling-convention-for-complex-types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The <a class="reference internal" href="types.html#types-complex"><span class="std std-ref">complex types</span></a> are all the types that are not simple types.  They include:</p>
+<ul class="simple">
+<li><a class="reference internal" href="types.html#types-string"><span class="std std-ref">KL::String</span></a></li>
+<li>All container types; see <a class="reference internal" href="types.html#types-container"><span class="std std-ref">KL::VariableArray&lt;Ty&gt;</span></a></li>
+<li>All user-defined types; see <a class="reference internal" href="types.html#types-user-defined"><span class="std std-ref">User-Defined Types</span></a></li>
+</ul>
+<p>Complex types are always passed by reference.  Furthermore, in the case they are returned from functions the return value should be stored into a hidden first reference parameter; the resulting function should return void.  In order to simplify the use of this convention, the typedefs <code class="docutils literal"><span class="pre">INParam</span></code>, <code class="docutils literal"><span class="pre">IOParam</span></code> and <code class="docutils literal"><span class="pre">RetVal</span></code> are provided for each built-in complex type; see</p>
+<p>In order to facilitate this, predefined complex types provide typedefs that help with this calling convention:</p>
+<p><code class="docutils literal"><span class="pre">KL::&lt;ComplexType&gt;::INParam</span></code></p>
+<blockquote>
+<div>The type of an <code class="docutils literal"><span class="pre">in</span></code> parameter from KL.</div></blockquote>
+<p><code class="docutils literal"><span class="pre">KL::&lt;ComplexType&gt;::IOParam</span></code></p>
+<blockquote>
+<div>The type of an <code class="docutils literal"><span class="pre">io</span></code> parameter from KL.</div></blockquote>
+<p><code class="docutils literal"><span class="pre">KL::&lt;ComplexType&gt;::Result</span></code></p>
+<blockquote>
+<div><p>The type of a &#8220;hidden return parameter&#8221; in KL.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">A hidden return parameter must always be the first parameter of the C++ function in which it is used.  This condition cannot be enforced by the <code class="docutils literal"><span class="pre">FabricEDK.h</span></code> header, therefore it is the programmer&#8217;s responsibility to ensure it is met.</p>
+</div>
+</div></blockquote>
+<p>If you wish to provide these same typedefs in your custom structure definitions, use the <code class="docutils literal"><span class="pre">FABRIC_EDK_COMPLEX_TYPE(TypeName)</span></code> macro as demonstrated below.</p>
+<p>For example, the following KL function declaration:</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">struct</span> <span class="nx">MyType</span> <span class="p">{</span>
+  <span class="kr">String</span> <span class="nx">st</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">function</span> <span class="kr">String</span> <span class="nx">myFunc</span><span class="p">(</span>
+  <span class="kr">UInt32</span> <span class="nx">uint32s</span><span class="p">[],</span>
+  <span class="k">io</span> <span class="kr">String</span> <span class="nx">dict</span><span class="p">[</span><span class="kr">UInt32</span><span class="p">],</span>
+  <span class="nx">MyType</span> <span class="nx">myType</span>
+  <span class="p">)</span> <span class="o">=</span> <span class="s2">&quot;MyFunc&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>should be represented by the following C++ function:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">MyType</span>
+<span class="p">{</span>
+  <span class="n">FABRIC_EDK_COMPLEX_TYPE</span><span class="p">(</span><span class="n">MyType</span><span class="p">)</span>
+
+  <span class="n">KL</span><span class="o">::</span><span class="n">String</span> <span class="n">st</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">FABRIC_EDK_EXPORT</span> <span class="kt">void</span> <span class="nf">MyFunc</span><span class="p">(</span>
+  <span class="n">KL</span><span class="o">::</span><span class="n">String</span><span class="o">::</span><span class="n">Result</span> <span class="n">result</span><span class="p">,</span> <span class="c1">// hidden return parameter</span>
+  <span class="n">KL</span><span class="o">::</span><span class="n">VariableArray</span><span class="o">&lt;</span><span class="n">KL</span><span class="o">::</span><span class="n">UInt32</span><span class="o">&gt;::</span><span class="n">INParam</span> <span class="n">uint32s</span><span class="p">,</span>
+  <span class="n">KL</span><span class="o">::</span><span class="n">Dict</span><span class="o">&lt;</span><span class="n">KL</span><span class="o">::</span><span class="n">UInt32</span><span class="p">,</span> <span class="n">KL</span><span class="o">::</span><span class="n">String</span><span class="o">&gt;::</span><span class="n">IOParam</span> <span class="n">dict</span><span class="p">,</span>
+  <span class="n">MyType</span><span class="o">::</span><span class="n">INParam</span> <span class="n">myType</span>
+  <span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mixing-simple-and-complex-types">
+<h2>Mixing Simple and Complex Types<a class="headerlink" href="#mixing-simple-and-complex-types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>It is perfectly acceptable (and common) to mix simple and complex types in extension functions; you must simply follow the rules for each type individually.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">公開関数の呼び出し規約（Calling Convention for Exported Functions）</a><ul>
+<li><a class="reference internal" href="#calling-convention-for-simple-types">Calling Convention for Simple Types</a></li>
+<li><a class="reference internal" href="#calling-convention-for-complex-types">Calling Convention for Complex Types</a></li>
+<li><a class="reference internal" href="#mixing-simple-and-complex-types">Mixing Simple and Complex Types</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="types.html"
+                        title="前の章へ">Types and Extensions</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="reloading.html"
+                        title="次の章へ">エクステンションの再読み込み</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/ExtensionAuthoringGuide/cconv.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/ExtensionAuthoringGuide/cconv.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="reloading.html" title="エクステンションの再読み込み"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="types.html" title="Types and Extensions"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >エクステンション・オーサリングガイド</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

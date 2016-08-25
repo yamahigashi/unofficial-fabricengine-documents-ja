@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Registered Types &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="registered-types">
+<span id="dgpg-registered-types"></span><h1>Registered Types<a class="headerlink" href="#registered-types" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Fabric Engine supports a <em class="dfn">registered types</em> system whereby user-defined compound types (ie. structures) are defined through JavaScript.  Once a type has been registered, it can be used to define members of Nodes and EventHandlers (see below) as well as used in KL code.</p>
+<div class="section" id="registering-a-new-type">
+<h2>Registering a New Type<a class="headerlink" href="#registering-a-new-type" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>To register a new type, call the <code class="docutils literal"><span class="pre">fabricClient.RT.registerType</span></code> function with the name of the type as the first parameter and the <em class="dfn">specification</em> object as the second parameter.  The specification object has the following members:</p>
+<p><code class="docutils literal"><span class="pre">members</span></code></p>
+<blockquote>
+<div><p>An object containing the members to be contained in the type.  The key names are the member names for the type and the key values are the names of already-registered types or built-in KL types (see the <a class="reference internal" href="../KLProgrammingGuide/index.html#klpg"><span class="std std-ref">KL プログラミングガイド</span></a> for more information on atomic types).</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">It is possible to append brackets to obtain variable- or fixed-length arrays as members, eg. <code class="docutils literal"><span class="pre">Scalar[2][2]</span></code>, <code class="docutils literal"><span class="pre">Scalar[][]</span></code> and <code class="docutils literal"><span class="pre">Scalar[2][][4]</span></code>.</p>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">constructor</span></code></p>
+<blockquote>
+<div>A JavaScript or Python constructor that is used to provide the JavaScript or Python &#8220;prototype&#8221; for objects values returned from the Fabric Engine core, as well as to provide a default value if none is given.</div></blockquote>
+<p><code class="docutils literal"><span class="pre">defaultValue</span></code></p>
+<blockquote>
+<div>(optional) The default value for the type.</div></blockquote>
+<p>klBindings</p>
+<blockquote>
+<div>(optional) KL code to include which provides operations involving the type, such as <a class="reference internal" href="../KLProgrammingGuide/globals.html#klpg-constructor"><span class="std std-ref">constructors</span></a>, methods and operators</div></blockquote>
+<p>To get an object containing information about all the currently-registered types, call <code class="docutils literal"><span class="pre">fabricClient.RT.getRegisteredTypes()</span></code>.</p>
+</div>
+<div class="section" id="example-of-type-registration">
+<h2>Example of Type Registration<a class="headerlink" href="#example-of-type-registration" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The following code registers a new Fabric Engine type <code class="docutils literal"><span class="pre">Vec3</span></code> and associates it with a Python type of the same name:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; # Registered types
+class Vec3():
+  def __init__( self, x = None, y = None, z = None ):
+    if type( x ) is float and type( y ) is float and type( z ) is float:
+      self.x = x
+      self.y = y
+      self.z = z
+    elif x is None and y is None and z is None:
+      self.x = 0
+      self.y = 0
+      self.z = 0
+    else:
+      raise Exception( &#39;Vec3: invalid arguments&#39; )
+
+&gt;&gt;&gt; vec3KLBindings = &quot;&quot;&quot;
+// Construct a Vec3 from three Scalars
+function Vec3(Scalar x, Scalar y, Scalar z) {
+  this.x = x;
+  this.y = y;
+  this.z = z;
+}
+// Add two Vec3s
+function Vec3 + (Vec3 a, Vec3 b) {
+  return Vec3(a.x + b.x, a.y + b.y, a.z + b.z);
+}
+&quot;&quot;&quot;
+
+&gt;&gt;&gt; vec3TypeDesc = {
+  &#39;members&#39;: [{&#39;x&#39;: &#39;Scalar&#39;}, {&#39;y&#39;: &#39;Scalar&#39;}, {&#39;z&#39;: &#39;Scalar&#39;}],
+  &#39;constructor&#39;: Vec3,
+  &#39;klBindings&#39;: {
+    &#39;filename&#39;: &quot;(inline)&quot;,
+    &#39;sourceCode&#39;: vec3KLBindings
+   }
+}
+
+&gt;&gt;&gt; fabricClient.RT.registerType(&#39;Vec3&#39;, vec3TypeDesc)
+
+&gt;&gt;&gt; fabricClient.RT.getRegisteredTypes()[&#39;Vec3&#39;]
+{u&#39;defaultValue&#39;: &lt;__main__.Vec3 instance at 0x7f73df6955f0&gt;, u&#39;internalType&#39;: u&#39;struct&#39;, u&#39;name&#39;: u&#39;Vec3&#39;, u&#39;members&#39;: [{u&#39;type&#39;: u&#39;Scalar&#39;, u&#39;name&#39;: u&#39;x&#39;}, {u&#39;type&#39;: u&#39;Scalar&#39;, u&#39;name&#39;: u&#39;y&#39;}, {u&#39;type&#39;: u&#39;Scalar&#39;, u&#39;name&#39;: u&#39;z&#39;}], u&#39;size&#39;: 12}
+&gt;&gt;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Registered Types</a><ul>
+<li><a class="reference internal" href="#registering-a-new-type">Registering a New Type</a></li>
+<li><a class="reference internal" href="#example-of-type-registration">Example of Type Registration</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/DependencyGraphProgrammingGuide/registered-types.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DependencyGraphProgrammingGuide/registered-types.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

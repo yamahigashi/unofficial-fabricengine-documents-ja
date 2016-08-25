@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Dependency Graph (非推奨) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="up" title="Core オーバービュー" href="index.html" />
+    <link rel="next" title="Map-Reduce" href="map-reduce.html" />
+    <link rel="prev" title="Canvas" href="canvas.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="map-reduce.html" title="Map-Reduce"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="canvas.html" title="Canvas"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Core オーバービュー</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="dependency-graph-deprecated">
+<h1>Dependency Graph (非推奨)<a class="headerlink" href="#dependency-graph-deprecated" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>The dependency graph model in Fabric Engine abstracts the concepts of thread management from the user, enabling any developer to create highly scalable multi-threaded applications.</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">Fabric Engine での dependency graph compute model は非推奨となりました。今後のバージョンで削除される予定です。Canvas モデルでの処理に切り替えてください。</p>
+</div>
+<div class="section" id="multi-threaded-evaluation">
+<h2>Multi-Threaded Evaluation<a class="headerlink" href="#multi-threaded-evaluation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Nodes are constructed using the developer’s preferred dynamic language, and the developer defines dependencies between those nodes. Operators are constructed and applied to the nodes in the graph. This combination of nodes, dependencies, and KL operators describes a complete workload made up of many tasks that can be distributed across available compute resources</p>
+</div>
+<div class="section" id="task-based-parallelism">
+<h2>Task-Based Parallelism<a class="headerlink" href="#task-based-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Each node in the dependency graph can have operators applied to it. Operators define how the data should be processed and when it is propagated through the graph. The binding of an operator to a node represents a task to be executed. During evaluation of the graph Fabric Engine can simultaneously evaluate nodes that do not have dependencies on each other.</p>
+</div>
+<div class="section" id="data-based-parallelism">
+<h2>Data-Based Parallelism<a class="headerlink" href="#data-based-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Each node in the dependency graph can be sliced. Each member contained in a node is duplicated according to the number of node slices. This enables nodes to define homogeneous data sets by storing large quantities of data across many slices. This enables data-based parallelism as operators bound to a node can be invoked for each slice in parallel.</p>
+</div>
+<div class="section" id="dynamic-graph-manipulation">
+<h2>Dynamic Graph Manipulation<a class="headerlink" href="#dynamic-graph-manipulation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric Engine systems can be modified at runtime, meaning that the behavior of a running application can be change based on such things as user input or network events. Between evaluations of the Core, the dynamic language can add or remove data, nodes, or operators. The structure of the graph can be changed causing different behavior. A validation is performed after modifications and then execution continues at full speed.</p>
+</div>
+<div class="section" id="event-graph">
+<h2>Event Graph<a class="headerlink" href="#event-graph" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The Event graph is used to sequence the execution of a set of operators through the construction of a tree structure. While the dependency graph is used for multi-threaded evaluation, the event graph is used for single-threaded evaluation. The event tree is built using a combination of a single event node and a tree of event handlers arranged in a tree structure below it. Evaluation always starts at the event node, then traverses the tree in a depth-first fashion. Operators are evaluated during descent and during ascent.</p>
+<p>Event handler nodes in the event tree can have nodes in the dependency graph bound to them. When an event is fired, the nodes in the dependency graph are bound to the event graph and are evaluated along with their dependencies. This system of binding the event tree to the dependency graph defines a dependency between the event tree and any number of nodes in the dependency graph. Firing the event will cause the bound sections of the dependency graph to be updated.</p>
+<div class="section" id="rendering">
+<h3>Rendering<a class="headerlink" href="#rendering" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The event graph is typically used to build rendering pipelines that draw to the screen using OpenGL. Each viewport in Fabric Engine provides a custom event node that is fired whenever the viewport needs to be rendered. This causes all of the operators in the tree to be evaluated in the sequence that is defined by the structure of the tree.</p>
+<p>The structure of the event graph and the sequential evaluation of this graph enable complex rendering configurations to be built. The resulting tree evaluates quickly and can be modified at runtime.</p>
+</div>
+<div class="section" id="custom-events">
+<h3>Custom Events<a class="headerlink" href="#custom-events" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Custom events can be constructed and tree structures built below them. These events can be fired from the host language, which causes the operators in the tree to evaluate and also returns data structures to the host language. This enables tools to query data in the graph that may be distributed across many nodes. In Fabric Engine, the event system is used to compute ray intersections with the geometry in the scene.</p>
+</div>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Complete documentation for working with the dependency graph is provided in the <a class="reference internal" href="../DependencyGraphProgrammingGuide/index.html#dgpg"><span class="std std-ref">Dependency Graph Programming Guide</span></a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Dependency Graph (非推奨)</a><ul>
+<li><a class="reference internal" href="#multi-threaded-evaluation">Multi-Threaded Evaluation</a></li>
+<li><a class="reference internal" href="#task-based-parallelism">Task-Based Parallelism</a></li>
+<li><a class="reference internal" href="#data-based-parallelism">Data-Based Parallelism</a></li>
+<li><a class="reference internal" href="#dynamic-graph-manipulation">Dynamic Graph Manipulation</a></li>
+<li><a class="reference internal" href="#event-graph">Event Graph</a><ul>
+<li><a class="reference internal" href="#rendering">Rendering</a></li>
+<li><a class="reference internal" href="#custom-events">Custom Events</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#documentation">Documentation</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="canvas.html"
+                        title="前の章へ">Canvas</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="map-reduce.html"
+                        title="次の章へ">Map-Reduce</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/CoreOverview/dependency-graph.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/CoreOverview/dependency-graph.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="map-reduce.html" title="Map-Reduce"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="canvas.html" title="Canvas"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Core オーバービュー</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2010-2016 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>
