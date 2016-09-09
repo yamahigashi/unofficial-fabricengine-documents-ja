@@ -60,7 +60,7 @@
   <div class="section" id="kl2dfg-command-line-utility">
 <span id="canvas-programmer-guide-kl2dfg"></span><h1>KL2DFG コマンドラインユーティリティ<a class="headerlink" href="#kl2dfg-command-line-utility" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>kl2dfg はコマンドラインEXEです。与えられた KL エクステンションから Canvas プリセットファイルを生成します。生成に成功すると <em class="dfn">kl2dfg.log</em> という名の処理結果を記載したファイルが出力先のフォルダに作成されます。成果物のプリセットを Canvas で使用するには  <span class="target" id="index-2"></span><code class="xref std std-envvar docutils literal"><span class="pre">FABRIC_DFG_PATH</span></code> 環境変数に指定したフォルダに配置します。もしくは、エクステンションフォルダ直下に <code class="code docutils literal"><span class="pre">dfgPresets</span></code> サブフォルダを用意しCanvasプリセットファイルをおきます。 <a class="reference internal" href="../ExtensionAuthoringGuide/fpm.html#eag-fpm"><span class="std std-ref">エクステンション・マニフェストファイル</span></a> により詳しい情報があります。</p>
-<p>KL2DFGを試すには、Favric環境変数が設定されたシェル（ <a class="reference internal" href="../GettingStartedGuide/licensing.html#gettingstarted-baseinstallation"><span class="std std-ref">Fabric Engine ライセンスのインストール</span></a> 参照）を開き、以下をタイプします。</p>
+<p>KL2DFGを試すには、Favric環境変数が設定されたシェル（ <a class="reference internal" href="../GettingStartedGuide/baseinstallation.html#gettingstarted-baseinstallation"><span class="std std-ref">Fabric Engine archiveのインストール</span></a> 参照）を開き、以下をタイプします。</p>
 <p><div class="highlight-bash"><div class="highlight"><pre><span></span>kl2dfg
 </pre></div>
 </div>
@@ -201,7 +201,7 @@ Exts/Geometry/PolygonMesh/AddTeapot.canvas
 </div>
 <div class="section" id="polyparams">
 <h2>polyParams<a class="headerlink" href="#polyparams" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>kl2dfg will generate only one preset for methods with the same notation within an extension, with respect to parameter types. For example:</p>
+<p>kl2dfg では、エクステンション内の、パラメータの型に関して、同じ表記をもつメソッドを１つのプリセットとして生成します。</p>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="kr">SInt32</span> <span class="nx">MyType</span><span class="p">.</span><span class="nx">someFunc</span><span class="p">(</span><span class="kr">Integer</span> <span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
 
 <span class="kd">function</span> <span class="kr">SInt32</span> <span class="nx">MyType</span><span class="p">.</span><span class="nx">someFunc</span><span class="p">(</span><span class="kr">Float32</span> <span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
@@ -261,21 +261,17 @@ b.reportSomething
 <h2>addExecutePort<a class="headerlink" href="#addexecuteport" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">This option is deprecated, since as of version 2.2.0 all instance nodes in Canvas automatically have a first Execute port called &#8216;exec&#8217;.</p>
+<p class="last">非推奨となったオプションです。バージョン2.2.0以降では Canvas中の全インスタンスノードは1番目のポートに自動で 「exec」の名前の Execute ポートが付属します。</p>
 </div>
 <p>Canvas プリセットでのデイジーチェーン（カスケード）を容易にするため、kl2dfg は Canvas プリセットの第一ポートとなるエクストラポートの追加をサポートしています。この機能をプリセット毎に使用するには <em class="dfn">dfgAddExecutePort</em> doxygen 修飾子を使用します。</p>
 </div>
 <div class="section" id="polythisintypedir">
 <h2>polyThisInTypeDir<a class="headerlink" href="#polythisintypedir" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>By default, presets that are polymorphic in &#8216;this&#8217; will only be placed in the
-generic &#8216;Func&#8217; subdirectory of the target directory.  Using this flag will
-also place them in the type directory for each type for which &#8216;this&#8217; applies.</p>
+<p>既定では、&#8217;this&#8217;中の多態プリセットは通常のターゲットディレクトリの &#8216;Func&#8217; サブディレクトリにのみ配置されます。このフラグを使用すると、&#8217;this&#8217; が適用される型のディレクトリそれぞれにに配置されるようになります。</p>
 </div>
 <div class="section" id="nopolythisinfuncdir">
 <h2>noPolyThisInFuncDir<a class="headerlink" href="#nopolythisinfuncdir" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>By default, presets that are polymorphic in &#8216;this&#8217; will be placed in the
-generic &#8216;Func&#8217; subdirectory of the target directory.  Using this flag will
-disable this behaviour.</p>
+<p>既定では、&#8217;this&#8217;中の多態プリセットは通常のターゲットディレクトリの &#8216;Func&#8217; サブディレクトリにのみ配置されます。このフラグを使用すると、この挙動を無効にします。</p>
 </div>
 <div class="section" id="example">
 <h2>例<a class="headerlink" href="#example" title="このヘッドラインへのパーマリンク">¶</a></h2>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Execute Ports &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>Execute ポート &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -58,53 +58,53 @@
           <div class="body" role="main">
             
   <div class="section" id="execute-ports">
-<span id="canvas-programmer-guide-execute-ports"></span><h1>Execute Ports<a class="headerlink" href="#execute-ports" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<p>Execute ports are a special type of port used to control execution of the graph.  For the most part execute ports and their connections appear like regular ports and connections in Canvas, but their behavior is somewhat different, as described below.</p>
-<p>An execute port is a port whose type is the built-in type <cite>Execute</cite>.  The type <cite>Execute</cite> is an empty type and carries no data; however, the core of Fabric Engine looks for ports of type <cite>Execute</cite> and uses them to control how Canvas graphs are executed.</p>
+<span id="canvas-programmer-guide-execute-ports"></span><h1>Execute ポート<a class="headerlink" href="#execute-ports" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Executeポートとは、ポートの特別な一種です。グラフの実行制御に使用します。Executeポートとその接続の大部分は、Canvas中の他の通常のポートと接続と同じようにみえます。が、振る舞い方は若干異なります。いかに述べていきましょう。</p>
+<p>Executeポートとは、ポート型が組み込み型である Execute型 であるポートです。『Execute型』とは、空の型でありデータを運ぶものではありません。しかし、Fabric Engineのコアはこの『Execute型』のポートを見つけると、Canvasグラフをどのように実行するかの制御にこのポートを使用します。</p>
 <div class="section" id="the-implicit-execute-port">
-<h2>The Implicit Execute Port<a class="headerlink" href="#the-implicit-execute-port" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Every instance node automatically has a port of type <cite>Execute</cite> called <cite>exec</cite>.  This is referred to as the <em class="dfn">implicit execute port</em>.  The implicit execute port does not appear alongside regular ports on nodes but rather is accessible through the node header:</p>
+<h2>暗黙の Executeポート<a class="headerlink" href="#the-implicit-execute-port" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>全てのインスタンスノードは自動的に『exec』と言う名の『Execute型の』ポートを持ちます。これを <em class="dfn">暗黙の Executeポート（implicit execute port）</em> と呼びます。暗黙のexecuteポートは、通常のポートとは別に表示され、ノードヘッダからアクセスできます。</p>
 <img alt="../_images/exec-1.png" src="../_images/exec-1.png" />
-<p>Once connected, the connection will also originate from or connect to the node header:</p>
+<p>一旦接続がなされると、接続線がノードヘッダから,あるいはノードヘッダへと伸びます。</p>
 <img alt="../_images/exec-2.png" src="../_images/exec-2.png" />
-<p>The implicit execute port is automatically &#8220;pulled&#8221; by a node before the node is executed.  This allows Canvas programmers to ensure that other nodes that are connected to it will be executed before the node is executed.</p>
+<p>暗黙のexecuteポートは、そのノードが実行される前に、ノードによって自動的に『引かれ（pulled）』ます。これにより Canvasプログラマが、そのノードへと接続されている他のノードが、そのノード実行前に確実に実行されることを保証できます。</p>
 </div>
 <div class="section" id="explicit-execute-ports">
-<span id="canvas-programmer-guide-execute-ports-explicit"></span><h2>Explicit Execute Ports<a class="headerlink" href="#explicit-execute-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>In addition to the implicit execute port, you can add explicit execute ports to a node by simply adding ports of type <cite>Execute</cite>:</p>
+<span id="canvas-programmer-guide-execute-ports-explicit"></span><h2>明示的な Executeポート<a class="headerlink" href="#explicit-execute-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>暗黙のexecuteポートに加え、明示的なexecuteポートをノードに加える事もできます。単純に <cite>Execute</cite> 型のポートを追加しましょう。</p>
 <img alt="../_images/exec-3.png" src="../_images/exec-3.png" />
-<p>In the above example, which is a Canvas function that implements a for loop, the <cite>body</cite> port has type <cite>Execute</cite>.</p>
-<p>In order to cause an implicit execute port to be executed, you simply wrap the name of of the port in the <cite>dfgExecute(...)</cite> construct as shown above.</p>
+<p>forループを実装したCanvas関数の上の例では、 <cite>body</cite> ポートが <cite>Execute</cite> 型を持ちます。</p>
+<p>暗黙のexecuteポートが実行されるようにするには、上の例のように <cite>dfgExecute(...)</cite> コンストラクタの中でポート名を単純にラップします。</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">Note that the <cite>dfgExecute(...)</cite> construct is optional; simply inserting the name of the implicit execute port as an expression will cause it to be executed.  The purpose of this is to allow certain polymorphic nodes such as <cite>Fabric.Core.Control.If</cite> to operate equally well when their ports have execute and non-execute types.</p>
+<p class="last"><cite>dfgExecute(...)</cite> コンストラクタを作るかどうかは任意です。暗黙のexecuteポートの名前を単純に、式として挿入すると、それが実行されます。この挙動の目的は、特定の多態ノード（例えば <cite>Fabric.Core.Control.If</cite> ）において、ノードのポートが execute型であったりなかったりしても、操作がどちらも同様にうまくいくようにするためです。</p>
 </div>
 </div>
 <div class="section" id="connections-to-and-from-execute-ports">
-<h2>Connections To and From Execute Ports<a class="headerlink" href="#connections-to-and-from-execute-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>In addition to connections between ports that both have type <cite>Execute</cite>, it is possible to connect from a port that has a type other than <cite>Execute</cite> to a port of type <cite>Execute</cite>:</p>
+<h2>Executeポートへの接続、Expertsポートからの接続<a class="headerlink" href="#connections-to-and-from-execute-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>『Execute型』どうしのポートの接続にくわえ、 <cite>Execute</cite> 以外の型ポートから <cite>Execute</cite> 型のポートへと接続を張ることができます。</p>
 <img alt="../_images/exec-4.png" src="../_images/exec-4.png" />
-<p>Such a connection simply pulls the port in question and discards the result.</p>
+<p>このような接続は、該当ポートを単純に引いてくるものの、結果は破棄します。</p>
 </div>
 <div class="section" id="multiple-connections-to-execute-ports">
-<h2>Multiple Connections to Execute Ports<a class="headerlink" href="#multiple-connections-to-execute-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Unlike regular ports, it is possible to have multiple connections to a single execute port:</p>
+<h2>Executeポートへの複数の接続<a class="headerlink" href="#multiple-connections-to-execute-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>通常のポートとは違い、一つの Executeポートに対し、複数の接続をすることが可能です:</p>
 <img alt="../_images/exec-5.png" src="../_images/exec-5.png" />
-<p>In the case of multiple connections, the order in which Canvas &#8220;pulls&#8221; the connected ports is not guaranteed; this is to enable (eventually) parallel evaluation of multiple branches.  If you wish to guarantee sequential evaluation, use one of the Execute.Merge presets.</p>
+<p>複数の接続を貼る場合、Canvasが『引いて』くる接続ポートの順序は保証されません。これは最終的には、複数の枝の並列実行を可能にするためです。直列実行を保証したい場合には、 <cite>Execute.Merge</cite> プリセットを使用します。</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">It is not currently possible in the Canvas interface to see the order of the connections; therefore it is recommended to lay out the nodes manually in the order of the connections so that it is obvious for someone reading the graph.  This will be fixed in a future version of Fabric.</p>
+<p class="last">現状の Canvasインタフェースでは、接続の順序を確認することができません。したがって、ノードの配置レイアウトを手動で接続順序と合わせることで、グラフを読むことになる人物にとって明らかになるようにしておくことをおすすめいたします。将来の Fabric のバージョンで修正予定です。</p>
 </div>
 </div>
 <div class="section" id="multiple-executions-of-execute-ports">
-<h2>Multiple Executions of Execute Ports<a class="headerlink" href="#multiple-executions-of-execute-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Unlike regular ports, if an implicit execute port is &#8220;pulled&#8221; multiple times, then it will be evaluated multiple times.  This allows you to create looping-type constructs using execute ports.</p>
-<p>Furthermore, whenever an execute port is pulled it will re-evaluate all the (execute and non-execute) ports behind the execute port.  In contrast, when a regular port is pulled it will only evaluate the ports behind it if they haven&#8217;t already been evaluated.</p>
-<p>It is possible to ensure that (execute and non-execute) ports are only pulled a single time by using a explicit <cite>Cache</cite> node.  Simply put the cache node in front of the nodes that you only want to have evaluated a single time.</p>
-<p>All of this is illustrated in the ForLoop.canvas example that ships with Fabric, located at <code class="file docutils literal"><span class="pre">$FABRIC_DIR/Samples/Canvas/ExecutePorts/ForLoop.canvas</span></code>.  In this example we use execute ports to execute a collection of nodes as the body of a loop, using a Canvas variable to track the iteration of the loop.</p>
+<h2>Executeポートの複数の実行<a class="headerlink" href="#multiple-executions-of-execute-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>通常のポートと違い、暗黙のexecuteポートが複数回『引かれる』場合、実際に複数回分、評価がまわります。これによりユーザ独自の ループ型 を executeポートを使用し作成することができます。</p>
+<p>さらに、executeポートが引かれる際はいつでも、そのexecuteの上流の全てのポート（execute, 非execute)が再評価されます。対照的に、通常のポートが引かれる場合は、評価済でない場合のみ、上流ポートの評価がなされます。</p>
+<p>明示的な <cite>Cache</cite> ノードを使うことで、(execute と 非execute) ポートが一度のみ引かれるようにすることが可能です。Cacheノードを、一度のみ評価を行いたいノードの手前に単純に配置します。</p>
+<p>Fabric 付属のサンプル ForLoop.canvas （  <code class="file docutils literal"><span class="pre">$FABRIC_DIR/Samples/Canvas/ExecutePorts/ForLoop.canvas</span></code>  ）で以上のことを実践しています。この用例では、executeポートを使いノード一式をループのボディとして実行し、Canvas変数をループ回数の追跡に用いています。</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">This example is meant to serve primarily as an example of how execute ports work; a future version of Fabric will introduce a feature called &#8220;blocks&#8221; that will provide a more natural way of looping over groups of nodes.</p>
+<p class="last">この用例では一義的には executeポートがどのように動作するかを示すものです; 将来のFabricのバージョンでは  &#8220;blocks&#8221; と呼ぶ機能を導入し、より自然なやり方で、ノードグループをループさせる事ができるようになります。</p>
 </div>
 </div>
 </div>
@@ -120,12 +120,12 @@
             </a></p>
   <h3><a href="../index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Execute Ports</a><ul>
-<li><a class="reference internal" href="#the-implicit-execute-port">The Implicit Execute Port</a></li>
-<li><a class="reference internal" href="#explicit-execute-ports">Explicit Execute Ports</a></li>
-<li><a class="reference internal" href="#connections-to-and-from-execute-ports">Connections To and From Execute Ports</a></li>
-<li><a class="reference internal" href="#multiple-connections-to-execute-ports">Multiple Connections to Execute Ports</a></li>
-<li><a class="reference internal" href="#multiple-executions-of-execute-ports">Multiple Executions of Execute Ports</a></li>
+<li><a class="reference internal" href="#">Execute ポート</a><ul>
+<li><a class="reference internal" href="#the-implicit-execute-port">暗黙の Executeポート</a></li>
+<li><a class="reference internal" href="#explicit-execute-ports">明示的な Executeポート</a></li>
+<li><a class="reference internal" href="#connections-to-and-from-execute-ports">Executeポートへの接続、Expertsポートからの接続</a></li>
+<li><a class="reference internal" href="#multiple-connections-to-execute-ports">Executeポートへの複数の接続</a></li>
+<li><a class="reference internal" href="#multiple-executions-of-execute-ports">Executeポートの複数の実行</a></li>
 </ul>
 </li>
 </ul>

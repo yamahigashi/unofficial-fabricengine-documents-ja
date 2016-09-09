@@ -20,7 +20,7 @@ msgstr ""
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:4
 msgid "Execute Ports"
-msgstr ""
+msgstr "Execute ポート"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:6
 msgid ""
@@ -29,6 +29,8 @@ msgid ""
 "like regular ports and connections in Canvas, but their behavior is "
 "somewhat different, as described below."
 msgstr ""
+"Executeポートとは、一種の特別なポートです。グラフの実行制御に使用します。Executeポートとその接続の大部分は、Canvas中の他の通常のポートと"
+"接続と同じようにみえます。が、振る舞い方は若干異なります。いかに述べていきましょう。"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:8
 msgid ""
@@ -37,10 +39,13 @@ msgid ""
 "of Fabric Engine looks for ports of type `Execute` and uses them to "
 "control how Canvas graphs are executed."
 msgstr ""
+"Executeポートとは、ポート型が組み込み型である Execute型 であるポートです。『Execute型』"
+"とは、空の型でありデータを運ぶものではありません。しかし、Fabric Engineのコアはこの『Execute型』"
+"のポートを見つけると、Canvasグラフをどのように実行するかの制御にこのポートを使用します。"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:11
 msgid "The Implicit Execute Port"
-msgstr ""
+msgstr "暗黙の Executeポート"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:13
 msgid ""
@@ -49,12 +54,15 @@ msgid ""
 "implicit execute port does not appear alongside regular ports on nodes "
 "but rather is accessible through the node header:"
 msgstr ""
+"全てのインスタンスノードは自動的に『exec』と言う名の『Execute型の』ポートを持ちます。これを :dfn:`暗黙の "
+"Executeポート（implicit execute port）` と呼びます。暗黙のexecuteポートは、通常のポートとは別に表示され、ノードヘッダか"
+"らアクセスできます。"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:17
 msgid ""
 "Once connected, the connection will also originate from or connect to the"
 " node header:"
-msgstr ""
+msgstr "一旦接続がなされると、接続線がノードヘッダから,あるいはノードヘッダへと伸びます。"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:21
 msgid ""
@@ -63,22 +71,25 @@ msgid ""
 "other nodes that are connected to it will be executed before the node is "
 "executed."
 msgstr ""
+"暗黙のexecuteポートは、そのノードが実行される前に、ノードによって自動的に『引かれ（pulled）』ます。これにより "
+"Canvasプログラマが、そのノードへと接続されている他のノードが、そのノード実行前に確実に実行されることを保証できます。"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:26
 msgid "Explicit Execute Ports"
-msgstr ""
+msgstr "明示的な Executeポート"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:28
 msgid ""
 "In addition to the implicit execute port, you can add explicit execute "
 "ports to a node by simply adding ports of type `Execute`:"
 msgstr ""
+"暗黙のexecuteポートに加え、明示的なexecuteポートをノードに加える事もできます。単純に `Execute` 型のポートを追加しましょう。"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:32
 msgid ""
 "In the above example, which is a Canvas function that implements a for "
 "loop, the `body` port has type `Execute`."
-msgstr ""
+msgstr "forループを実装したCanvas関数の上の例では、 `body` ポートが `Execute` 型を持ちます。"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:34
 msgid ""
@@ -86,6 +97,7 @@ msgid ""
 "wrap the name of of the port in the `dfgExecute(...)` construct as shown "
 "above."
 msgstr ""
+"暗黙のexecuteポートが実行されるようにするには、上の例のように `dfgExecute(...)` コンストラクタの中でポート名を単純にラップします。"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:38
 msgid ""
@@ -95,10 +107,13 @@ msgid ""
 "such as `Fabric.Core.Control.If` to operate equally well when their ports"
 " have execute and non-execute types."
 msgstr ""
+"`dfgExecute(...)` コンストラクタを作るかどうかは任意です。暗黙のexecuteポートの名前を単純に、式として挿入すると、それが実行されます"
+"。この挙動の目的は、特定の多態ノード（例えば `Fabric.Core.Control.If` ）において、ノードのポートが "
+"execute型であったりなかったりしても、操作がどちらも同様にうまくいくようにするためです。"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:41
 msgid "Connections To and From Execute Ports"
-msgstr ""
+msgstr "Executeポートへの接続、Expertsポートからの接続"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:43
 msgid ""
@@ -106,22 +121,23 @@ msgid ""
 "it is possible to connect from a port that has a type other than "
 "`Execute` to a port of type `Execute`:"
 msgstr ""
+"『Execute型』どうしのポートの接続にくわえ、 `Execute` 以外の型ポートから `Execute` 型のポートへと接続を張ることができます。"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:47
 msgid ""
 "Such a connection simply pulls the port in question and discards the "
 "result."
-msgstr ""
+msgstr "このような接続は、該当ポートを単純に引いてくるものの、結果は破棄します。"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:50
 msgid "Multiple Connections to Execute Ports"
-msgstr ""
+msgstr "Executeポートへの複数の接続"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:52
 msgid ""
 "Unlike regular ports, it is possible to have multiple connections to a "
 "single execute port:"
-msgstr ""
+msgstr "通常のポートとは違い、一つの Executeポートに対し、複数の接続をすることが可能です:"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:56
 msgid ""
@@ -130,6 +146,8 @@ msgid ""
 "parallel evaluation of multiple branches.  If you wish to guarantee "
 "sequential evaluation, use one of the Execute.Merge presets."
 msgstr ""
+"複数の接続を貼る場合、Canvasが『引いて』くる接続ポートの順序は保証されません。これは最終的には、複数の枝の並列実行を可能にするためです。直列実行を保証"
+"したい場合には、 `Execute.Merge` プリセットを使用します。"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:60
 msgid ""
@@ -139,10 +157,12 @@ msgid ""
 "someone reading the graph.  This will be fixed in a future version of "
 "Fabric."
 msgstr ""
+"現状の Canvasインタフェースでは、接続の順序を確認することができません。したがって、ノードの配置レイアウトを手動で接続順序と合わせることで、グラフを読"
+"むことになる人物にとって明らかになるようにしておくことをおすすめいたします。将来の Fabric のバージョンで修正予定です。"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:63
 msgid "Multiple Executions of Execute Ports"
-msgstr ""
+msgstr "Executeポートの複数の実行"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:65
 msgid ""
@@ -150,6 +170,8 @@ msgid ""
 "times, then it will be evaluated multiple times.  This allows you to "
 "create looping-type constructs using execute ports."
 msgstr ""
+"通常のポートと違い、暗黙のexecuteポートが複数回『引かれる』場合、実際に複数回分、評価がまわります。これによりユーザ独自の ループ型 を "
+"executeポートを使用し作成することができます。"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:67
 msgid ""
@@ -158,6 +180,8 @@ msgid ""
 "contrast, when a regular port is pulled it will only evaluate the ports "
 "behind it if they haven't already been evaluated."
 msgstr ""
+"さらに、executeポートが引かれる際はいつでも、そのexecuteの上流の全てのポート（execute, "
+"非execute)が再評価されます。対照的に、通常のポートが引かれる場合は、評価済でない場合のみ、上流ポートの評価がなされます。"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:69
 msgid ""
@@ -166,6 +190,8 @@ msgid ""
 "cache node in front of the nodes that you only want to have evaluated a "
 "single time."
 msgstr ""
+"明示的な `Cache` ノードを使うことで、(execute と 非execute) "
+"ポートが一度のみ引かれるようにすることが可能です。Cacheノードを、一度のみ評価を行いたいノードの手前に単純に配置します。"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:71
 msgid ""
@@ -175,6 +201,9 @@ msgid ""
 "example we use execute ports to execute a collection of nodes as the body"
 " of a loop, using a Canvas variable to track the iteration of the loop."
 msgstr ""
+"Fabric 付属のサンプル ForLoop.canvas （  :file:`$FABRIC_DIR/Samples/Canvas/ExecutePort"
+"s/ForLoop.canvas`  ）で以上のことを実践しています。この用例では、executeポートを使いノード一式をループのボディとして実行し、Can"
+"vas変数をループ回数の追跡に用いています。"
 
 #: ../../source/CanvasProgrammerGuide/execute-ports.rst:75
 msgid ""
@@ -183,4 +212,6 @@ msgid ""
 "\"blocks\" that will provide a more natural way of looping over groups of"
 " nodes."
 msgstr ""
+"この用例では一義的には executeポートがどのように動作するかを示すものです; 将来のFabricのバージョンでは  \"blocks\" "
+"と呼ぶ機能を導入し、より自然なやり方で、ノードグループをループさせる事ができるようになります。"
 
