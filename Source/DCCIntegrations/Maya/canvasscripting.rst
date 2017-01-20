@@ -15,6 +15,16 @@ For example this was copied out of the Maya script editor for creating a small g
     FabricCanvasAddPort -m "canvasNode1" -e "" -d "z" -p "In" -t "Scalar" -c "Vec3.z";
     FabricCanvasAddPort -m "canvasNode1" -e "" -d "result" -p "Out" -t "Vec3" -c "Vec3.result";
 
+FabricCanvasGetFabricVersion
+-------------------------------------
+
+Returns the Fabric version.
+
+.. code-block:: kl
+
+  FabricCanvasGetFabricVersion;
+  // Result: 2.3.0 // 
+
 FabricCanvasAddBackDrop
 -------------------------------------
 
@@ -193,12 +203,16 @@ Connects two pins / ports inside a Canvas graph.
 
   - -m, -mayaNode: The name of the Canvas maya node
   - -e, -execPath: The path of the node inside of Canvas to operate on
-  - -s, -srcPortPath: The path to the source (left) port / pin
-  - -d, -dstPortPath: The path to the destination (left) port / pin
+  - -s, -srcPortPath: The path(s) to the source (left) port(s) / pin(s)
+  - -d, -dstPortPath: The path(s) to the destination (left) port(s) / pin(s)
 
 .. code-block:: KL
 
   FabricCanvasConnect -m "canvasNode1" -e "" -s "Scalar.value" -d "Vec3.z";
+
+.. code-block:: KL
+
+  FabricCanvasConnect -m "canvasNode1" -e "" -s "Scalar.value|Scalar.value|Scalar.value" -d "Vec3.x|Vec3.y|Vec3.z";
 
 FabricCanvasDisconnect
 -------------------------------------
@@ -362,15 +376,19 @@ Removes a single or multiple nodes from the Canvas graph.
 FabricCanvasRemovePort
 -------------------------------------
 
-Removes a port from the Canvas graph.
+Removes port(s) from the Canvas graph.
 
   - -m, -mayaNode: The name of the Canvas maya node
   - -e, -execPath: The path of the node inside of Canvas to operate on
-  - -n, -portName: The name of the port to remove
+  - -n, -portName: The name of the port(s) to remove
 
 .. code-block:: KL
 
   FabricCanvasRemovePort -m "canvasNode1" -e "" -n "factor";
+
+.. code-block:: KL
+
+  FabricCanvasRemovePort -m "canvasNode1" -e "" -n "factorX|factorY|factorZ|resultXYZ";
 
 FabricCanvasRenamePort
 -------------------------------------
@@ -539,3 +557,72 @@ Dismisses one or more load diagnostics
 .. code-block:: KL
 
   FabricCanvasDismissLoadDiags -m "canvasNode1" -di "[3, 14]";
+
+FabricCanvasGetExecuteShared
+----------------------------
+
+Returns the current shared execution state.
+
+  - -m, -mayaNode: The name of the Canvas maya node
+
+.. code-block:: KL
+
+  FabricCanvasGetExecuteShared -m "canvasNode1";
+
+FabricCanvasSetExecuteShared
+----------------------------
+
+Enables/disables canvas nodes to be executed in parallel with the Maya parallel evaluation capabilities.
+
+  - -m, -mayaNode: The name of the Canvas maya node
+  - -e, -enable: 'true' to enable parallel evaluation, else 'false'
+
+.. code-block:: KL
+
+  FabricCanvasSetExecuteShared -m "canvasNode1" -e true;
+
+dfgImportJSON
+-------------
+
+Sets the graph of a canvas node either from a canvas file or from a JSON string.
+
+Note that one can only import graphs into empty Canvas nodes.
+
+  - -m, -mayaNode: The name of the Canvas maya node
+  - -p, -path: unused.
+  - -f, -filePath: The path and filename of a .canvas file.
+  - -j, -json: An optional JSON representation of a Canvas graph.
+  - -r, -referenced: 'true' set as reference.
+
+.. code-block:: KL
+
+  dfgImportJSON -m "canvasNode1" -f "C:/test.canvas";
+
+dfgExportJSON
+-------------
+
+Exports the graph of a canvas node as a .canvas file.
+
+  - -m, -mayaNode: The name of the Canvas maya node
+  - -p, -path: unused.
+  - -f, -filePath: The path and filename of the output .canvas file.
+
+.. code-block:: KL
+
+  dfgExportJSON -m "canvasNode1" -f "C:/test.canvas";
+
+dfgReloadJSON
+-------------
+
+Reloads the graph of a canvas node that references a .canvas file (see command "dfgImportJSON").
+
+  - -m, -mayaNode: The name of the Canvas maya node
+  - -p, -path: unused.
+  - -f, -filePath: unused.
+  - -j, -json: unused.
+  - -r, -referenced: unused.
+
+.. code-block:: KL
+
+  dfgReloadJSON -m "canvasNode1";
+

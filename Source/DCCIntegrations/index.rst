@@ -26,6 +26,7 @@ If you are not familiar with Canvas in general please see:
 
 Find the documentation for several DCC integrations below:
 
+- :ref:`3DSMAX`
 - :ref:`MAYA`
 - :ref:`MODO`
 - :ref:`SOFTIMAGE`
@@ -51,6 +52,7 @@ Guides and References
 The guides and references provide in-depth information on various aspects of Splice development
 
 - :ref:`WORKSHOPS`
+- :ref:`3DSMAX`
 - :ref:`MAYA`
 - :ref:`MODO`
 - :ref:`SOFTIMAGE`
@@ -69,6 +71,7 @@ All Guides and References (Alphabetical)
   troubleshooting
   Arnold/index
   KLTips/index
+  3dsmax/index
   Maya/index
   Modo/index
   OFX/index

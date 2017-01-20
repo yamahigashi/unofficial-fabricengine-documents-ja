@@ -21,6 +21,7 @@ Table of Contents
   types
   globals
   ops-exprs
+  scopes-namespaces
   statements
   map-reduce
 

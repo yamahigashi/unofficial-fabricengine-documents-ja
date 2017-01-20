@@ -56,6 +56,7 @@ Working with Arrays
 If an RTVal's type is an array type, you can use the array methods to work with it:
 
   - :cpp:func:`RTVal::isArray`
+  - :cpp:func:`RTVal::isVariableArray`
   - :cpp:func:`RTVal::getArraySize`
   - :cpp:func:`RTVal::getArrayElement`
   - :cpp:func:`RTVal::setArrayElement`
@@ -361,7 +362,12 @@ API Reference
   .. cpp:function::
     bool isArray() const
 
-    Return whether the RTVal that is of a type that is a fixed, variable or external array of some other type.  Use this to check if it's safe to perform array length and indexing calls.
+    Return whether the RTVal that is of a type that is a fixed, variable or external array of some other type.  Used to check if it's safe to perform array length and indexing calls.
+
+  .. cpp:function::
+    bool isVariableArray() const
+
+    Return whether the RTVal is a variable array of some other type. Used to check if it's safe to perform array resizing calls.
 
   .. cpp:function::
     bool isDict() const

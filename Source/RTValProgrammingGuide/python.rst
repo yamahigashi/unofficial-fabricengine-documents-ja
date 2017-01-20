@@ -17,8 +17,10 @@ For the rest of this section, we will assume that the client handle is referred 
   $ python
   >>> import FabricEngine.Core
   >>> client = FabricEngine.Core.createClient()
-  [FABRIC:MT] Fabric Core version 1.10.0
-  [FABRIC:MT] Registered extensions {BadVersion,UnitTest,FabricALEMBIC,FabricBULLET,FabricCIMG,FabricEXR,FabricFBX,FabricFILESTREAM,Geometry,FabricHDR,FabricLIDAR,Math,FabricOBJ,FabricOPENCV,FabricOGL,FabricPNG,FabricStringTools,FabricTEEM,FabricTGA,FabricVIDEO} in directory: /Users/pzion/Fabric/CreationPlatform/stage/Darwin/x86_64/Release/Exts
+  [FABRIC:MT] Fabric Engine version 2.4.0 (development)
+  [FABRIC:MT] Crash handler registered.
+  [FABRIC:MT] Loading DFG presets from C:\Users\helge\Fabric\Presets
+  [FABRIC:MT] Registered extensions {Alembic:1.1.0,AlembicImporter:1.0.0,AlembicWrapper:1.7.0,Animation:1.1.1,AttributeHelpers:1.0.1,BinPacking:1.0.0,Bullet:1.0.3,BulletHelpers:1.0.0,Characters:1.2.0,Containers:1.2.0,DFGWrapper:1.2.0,FabricInterfaces:1.1.0,FabricSynchronization:1.2.0,Fbx:1.2.1,FbxHelpers:1.1.0,FbxImporter:1.0.0,FileIO:1.3.1,FreeTypeGL:2.3.0,GenericImporter:1.0.0,Geometry:1.6.0,Images:2.1.0,InlineDrawing:1.6.0,JSON:1.1.0,LA:1.0.0,Manipulation:1.2.1,Math:1.5.0,FabricOBJ:1.1.0,ObjImporter:1.0.0,OGLWrappers:1.2.0,FabricOGL:1.1.0,OpenImageIO:1.1.0,OSOGL:1.1.0,Parameters:1.1.0,Singletons:1.1.2,FabricStatistics:1.1.1,Text:2.4.0,Util:1.4.1,ImageProcessing,RTR,RTRAdaptors,Multipede,Particles} in directory: ${FABRIC_DIR}\Exts
   >>>
 
 Using Derived Types

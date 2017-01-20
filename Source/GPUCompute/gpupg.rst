@@ -193,7 +193,7 @@ The copyTo() method can be used to transfer data between arrays, regardless of w
 Parameter Passing
 +++++++++++++++++
 
-Parameters to a KL GPU operator can be of any supported type and as with any normal KL operator they can be passed as ``in`` (the default) or ``io`` parameters. Shallow type parameters (such as an ``Integer`` or a ``struct``) will have their values copied to and from the GPU before and after each parallel operator invocation. Variable Arrays on the other hand will only have a pointer to their values passed into the operator. The backing memory for the Variable Array elements must live in memory accessible to the target device.
+Parameters to a KL GPU operator can be of any supported type and as with any normal KL operator they can be passed as ``in`` (the default) or ``io`` parameters. Shallow type parameters (such as an ``Integer`` or a ``struct``) will have their values copied to and from the GPU before and after each parallel operator invocation; passing these shallow types as ``in`` parameters has very little overhead, whereas passing them as ``io`` or ``out`` requires an allocation on the GPU and is much slower. Variable Arrays on the other hand will only have a pointer to their values passed into the operator. The backing memory for the Variable Array elements must live in memory accessible to the target device.
 
 In ``guarded`` mode, KL will perform checks on Variable Array parameters to ensure that their backing memory currently lives in an accessible memory space. If not a KL exception will be thrown to inform the user. As an example, the following KL code:
 

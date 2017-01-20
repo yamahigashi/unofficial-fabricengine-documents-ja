@@ -1,5 +1,10 @@
 .. _DG.zbug:
 
+Introduction
+===========
+
+zBug (pronounced zee-BUG) is a front end to the LLDB debugger (see http://lldb.llvm.org). It allows source-level debugging of KL programs under Linux. More details can be found in our `Fabric zBug repository <https://github.com/fabric-engine/zBug>`_ on github.
+
 Using zBug
 ==========
 

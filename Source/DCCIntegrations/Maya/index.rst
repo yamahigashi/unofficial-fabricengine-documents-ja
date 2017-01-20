@@ -30,6 +30,7 @@ Table of Contents
   canvas
   canvasscripting
   m2016
+  other
   pre-2.0
 
 Indices and Tables

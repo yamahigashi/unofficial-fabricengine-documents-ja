@@ -43,7 +43,10 @@ The documentation can also be downloaded as a zip from here: |DOCS_ZIP|
 
 .. rst-class:: indexblockb
 
-|    :strong:`Looking for information about the Fabric DCC integrations?`
+|    :strong:`Looking for information about the Fabric DCC integrations and Tools?`
+|
+|        :ref:`3DSMAX`
+|            The Fabric for 3ds Max integration
 |
 |        :ref:`MAYA`
 |            The Fabric for Maya integration
@@ -53,6 +56,14 @@ The documentation can also be downloaded as a zip from here: |DOCS_ZIP|
 |
 |        :ref:`SOFTIMAGE`
 |            The Fabric for Softimage integration
+|        
+|        |kraken_link|
+|            Kraken stand alone and DCC integrations
+
+.. erict 20161209: Using the raw html so we can open a blank window / tab instead.
+.. |kraken_link| raw:: html
+
+   <a href="http://fabric-engine.github.io/Kraken" target="_blank">Kraken Rigging Framework</a>
 
 .. rst-class:: indexblocka
 
@@ -82,9 +93,6 @@ The documentation can also be downloaded as a zip from here: |DOCS_ZIP|
 |
 |        :ref:`DG`
 |            Information about how to debug KL
-|
-|        :ref:`INSTG`
-|            A guide introducing the instrumentation functionality for KL
 |
 |        :ref:`GPUCompute`
 |            An introduction into GPU compute - how to use KL on the GPU
@@ -127,7 +135,6 @@ Table of contents
   MapReduceProgrammingGuide/index
   CoreOverview/index
   DebuggingGuide/index
-  InstrumentationGuide/index
   GPUCompute/index
   CAPIProgrammingGuide/index
   RTValProgrammingGuide/index

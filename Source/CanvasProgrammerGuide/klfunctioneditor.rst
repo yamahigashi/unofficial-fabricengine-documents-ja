@@ -79,4 +79,4 @@ There are several constructs that are specific to KL code that is used within Ca
   A string constant representing the path to the node being executed.
 
 ``dfgPullBlockPort``
-  Pull a block port.  For more information, see :ref:`canvas-programming-guide-blocks`.
+  Pull a block port. For more information, see :ref:`the blocks section of the Canvas Programming Guide <canvas-programming-guide-blocks>`

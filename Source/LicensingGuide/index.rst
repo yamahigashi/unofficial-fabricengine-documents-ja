@@ -180,8 +180,9 @@ Once the RLM server is restarted, the specified number of licenses will be avail
 Getting Help
 ============
 
-For further information regarding RLM licensing you can consult the RLM End-User Manual available here:
+For further information regarding RLM licensing you can consult either the License Administrators section on the Reprise website, which is the "definitive reference area" according to Reprise and/or the RLM End-User Manual:
 
+  http://www.reprisesoftware.com/admin/software-licensing.php
   http://www.reprisesoftware.com/RLM_Enduser.html
 
 For additional inquiries regarding licensing and |FABRIC_PRODUCT_NAME| please contact ``support@fabricengine.com``.

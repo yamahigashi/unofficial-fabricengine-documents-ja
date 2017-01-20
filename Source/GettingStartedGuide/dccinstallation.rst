@@ -7,6 +7,12 @@ As mentioned in the :ref:`GETTINGSTARTED_BASEINSTALLATION` section, |FABRIC_PROD
 
 .. note:: On Windows, with the standard prompt, use set instead of export. 
 
+Installing Fabric for 3ds Max
+---------------------------------------------------------------
+
+Fabric for 3ds Max is distributed as a .dlu plugin and is located in the folder ``<FABRIC-LOCATION>/DCC_Integrations``. Fabric for 3ds Max expects certain environment variables to be set. To simplify the process, a batch file is included in each Fabric3dsmax* folder. Running the batch file should set-up the plugin and launch 3ds Max.
+
+
 Installing Fabric for Maya
 -----------------------------------------------------
 
@@ -31,6 +37,8 @@ You can also use the `Maya.env <http://download.autodesk.com/global/docs/maya201
 Once in Maya, go to Window > Settings/Preferences > Plug-in Manager window to load the FabricMaya plugin.
 
 To make use of the python client the :envvar:`PYTHONPATH` is automatically extended with the :dfn:`Python/PYTHON_VERSION` subfolder of the Maya module. 
+
+.. note:: Maya comes with its own version of PySide (or PySide2 starting in Maya 2017). When launching maya from the console after source the fabric environment this might cause issues. If you experience any hick-ups concerning PySide inside of Maya when launching maya from the console please make sure that the Fabric folders are listed ``after`` the Maya related python folders in the :envvar:`PYTHONPATH`.
 
 Installing Fabric for MODO
 ---------------------------------------------------------------

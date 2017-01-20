@@ -72,5 +72,5 @@ All of this is illustrated in the ForLoop.canvas example that ships with Fabric,
 
 .. note::
 
-  This example is meant to serve primarily as an example of how execute ports work; a future version of Fabric will introduce a feature called "blocks" that will provide a more natural way of looping over groups of nodes.
+  This example is meant to serve primarily as an example of how execute ports work; For a more natural way of looping over groups of nodes please refer to :ref:`the blocks section of the Canvas Programming Guide <canvas-programming-guide-blocks>`
 
