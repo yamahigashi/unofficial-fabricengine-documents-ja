@@ -800,23 +800,23 @@ Unary operator overloads are subject to the following restrictions:
 Direct Assignment Overloads
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-KL provides a default direct assignment for custom types which simply assigns each of the members.  However, it is also possible to provide an overload for the direct assignment operator as shown in the example below::
+KL provides a default direct assignment for custom types which simply assigns each of the members.  However, it is also possible to provide an overload for the direct assignment operator as shown in the example below:
 
 .. kl-example:: Direct Assignment Overload
 
   struct A {
     UInt32 a;
   };
-
+  
   A(UInt32 x) {
     this.a = x;
   }
-
+  
   A.=(A a) {
     report("Performing assignment");
     this.a = 2 * a.a;
   }
-
+  
   operator entry() {
     A a1(42), a2(56);
     report("Before: a1 = " + a1 + ", a2 = " + a2);

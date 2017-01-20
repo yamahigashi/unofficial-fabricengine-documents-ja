@@ -431,7 +431,7 @@ At this point, it is safe again to iterate over all points or polygons using a s
 Internal data organization
 -------------------------------
 
-The internal data structure of the :kl-ref:`PolygonMesh` is very complex in order to allows both
+The internal data structure of the :kl-ref:`PolygonMesh` is very complex in order to allow both
 a low memory consumption and fast query and modeling operations. In order to achieve this,
 the structure does the following:
 

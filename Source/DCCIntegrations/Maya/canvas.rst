@@ -48,6 +48,7 @@ The following image shows the correct way to do it.
 
 **C (set)** set the new vertex positions on the mesh and put the changes back into the array meshes.
 
+.. note:: when building a *simulated* deformer, for example a foot step deformer, one must keep in mind that the :dfn:`canvasDeformer` resets the meshes input positions at every evaluation. This means that one must store the positions outside of the mesh, for example in a variable with the data type :dfn:`Vec[]`. We encourage you to take a look at one of the simulated Maya deformer samples to see how to build such graphs.
  
 Adding ports / attributes
 ----------------------------

@@ -28,6 +28,8 @@ Table of Contents
   cug-blocks
   timeline
   history
+  renderingoptions
+  configfiles
   variables
   caches
   polymorphism

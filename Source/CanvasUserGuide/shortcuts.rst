@@ -3,6 +3,9 @@
 Keyboard shortcuts
 ===============================
 
+.. note:: On macOS, users will use the command key instead of the control key.
+
+
 Canvas
 ----------------------
 
@@ -24,6 +27,9 @@ Canvas
 **CTRL+A**
   Select all nodes.
 
+**CTRL+D**
+  Deselect all nodes.
+
 **CTRL+Z**
   Undo.
 
@@ -42,7 +48,7 @@ Canvas
 **CTRL+R**
   Rearranges with an automatic layout will be applied to all the nodes at the left of the current selected node.
 
-**Middle mouse button or Alt + left mouse button or Space + left mouse button**
+**Middle mouse button or Alt + left mouse button**
   Pan graph.
 
 **Alt + right mouse button**
@@ -57,8 +63,14 @@ Canvas
 **F**
   Frame selected nodes.
 
+**Z**
+  Zoom functionality: pressing and holding 'Z' will frame all nodes. When releasing 'Z' the view will move to wherever the mouse was hovering over. Use this feature to make connections to off-screen nodes or to quickly navigate through the graph.
+
+**C**
+  Auto connect the selected node(s).
+
 **D**
-  Disconnect all ports of the selected node(s) or, if hovering over a connection, removes the connection (same as middle mouse button).
+  Remove connections to the selected node(s) or, if hovering over a connection, removes the connection.
 
 **U**
   Go up one level when inside a preset or node.
@@ -74,6 +86,21 @@ Canvas
 
 **Backspace/Del**
   Delete selected nodes.
+
+**Shift left click + drag on a node**
+  It will move the selected node and all its upstream nodes.
+  
+**Left click on port and drag to another port**
+  Create a connection between two ports.
+
+**Shift left click on port and drag to another port**
+  Create a connection between two ports. After the connection has been made the source port remains selected for creating a further connection.
+
+**CTRL left click on port and drag to another port**
+  Create a connection between two ports. After the connection has been made the source port jumps to the next available port and a new connection can be made.
+  
+**CTRL+Shift+Return**
+  Enables/disables the graph compilations.
   
 
 Fabric Standalone
@@ -94,7 +121,7 @@ Fabric Standalone
 **Q**
   Toggle Manipulation.
 
-**CTRL+G**
+**G**
   Display the Grid in the 3D viewport.
 
 **CTRL+0**

@@ -1,7 +1,7 @@
 Introduction
 ============
 
-|FABRIC_PRODUCT_NAME| provides functionality to aid in debugging applications written using |FABRIC_PRODUCT_NAME| and KL. The Fabric Engine debugger (called zBug and pronounced zee-bug) is based on `LLDB <http://lldb.llvm.org/>`_ and as such aims to provide all of the functionality found in exiting debugging software such as the Visual Studio debugger or gdb while adding support for debugging KL code. With zBug a user should be able to debug the full spectrum of code involved in a KL application, including debugging C/C++ extensions. Because of the support provided by LLDB zBug can also be used to debug pure C or C++ applications or extensions using the same UI.
+|FABRIC_PRODUCT_NAME| provides functionality to aid in debugging applications written using |FABRIC_PRODUCT_NAME| and KL. The Fabric Engine debugger (called zBug and pronounced zee-bug) is based on `LLDB <http://lldb.llvm.org/>`_ and as such aims to provide all of the functionality found in existing debugging software such as the Visual Studio debugger or gdb while adding support for debugging KL code. With zBug a user should be able to debug the full spectrum of code involved in a KL application, including debugging C/C++ extensions. Because of the support provided by LLDB zBug can also be used to debug pure C or C++ applications or extensions using the same UI.
 
 How Debugging Works
 -------------------

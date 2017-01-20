@@ -46,6 +46,15 @@ The provided value of ``reportUserdata`` will be passed as the first parameter t
 
 If a ``reportCallback`` is not provided (or is ``NULL``) then the Fabric Core will output the report statements to standard output.
 
+Aside from creating clients using the constructor or ``Client::Create`` clients can also be created as *singleton*. To save memory and manage a single unique client you can also use the ``Client::GetSingleton`` method::
+
+  // Creating a singleton client object - C++
+  Client client = FabricCore::Client::GetSingleton(
+    ReportCallback reportCallback,
+    void *reportUserdata,
+    ...
+    );
+
 Releasing Clients
 --------------------
 
@@ -472,6 +481,20 @@ There is also an :ref:`CAPI.clients.api-reference-c`.
   FabricCore::ClientOptimizationType_None
 
     Do not optimize KL code
+
+
+
+
+.. cpp:class:: FabricCore::Client : public FabricCore::Ref
+
+
+
+
+    .. c:function:: Client GetSingleton(ReportCallback reportCallback, void *reportUserdata, CreateOptions const *createOptions)
+
+      The Fabric Core can maintain a singleton instance of a Client for sharing between multiple Fabric Core users. The first time this function is called a Client instance will be created and any subsequent calls will return a handle to this same instance. The CreateOptions are only used if this is the first call to GetSingleton(), if the singleton already exists then this parameter is ignored.
+
+      :returns: A new reference to the singleton client object.
 
 
 

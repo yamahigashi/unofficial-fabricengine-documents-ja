@@ -414,7 +414,7 @@ The semantics of the ``String`` type in KL are important to understand.  Strings
 
 - Strings support the following operations and properties:
   
-  - They have a ``.length`` property which returns the number of characters in the string
+  - They have a ``.length()`` method which returns the number of characters in the string
   
   - The ``+=`` assignment operator is used to append another string to a given string
   
@@ -437,7 +437,7 @@ Example use of the ``String`` type::
   operator entry() {
     String a = "A string";
     report(a);
-    report("a has length " + a.length);
+    report("a has length " + a.length());
     String b = "Another string";
     report(b);
     String c = a + " and " + b;
@@ -830,7 +830,27 @@ As with most other types in KL object types support a method ``clone()`` that do
     report("obj2 = " + obj2);
   }
 
-.. _KPLG.object.inheritance:
+.. _KPLG.types.objects.refCount:
+
+The Object ``refCount()`` Method
+"""""""""""""""""""""""""""
+You can query the number of references pointing to a certain object by using the method ``refCount()``, as shown below: 
+
+.. kl-example:: Object Reference Count
+
+  object Foo
+  {
+  };
+
+  operator entry() 
+  {
+    Foo foo();
+    Foo newRef = foo;
+    Foo newRef1 = newRef;
+    report("foo ref count = " + foo.refCount());
+  }
+
+.. _KLPG.object.inheritance:
 
 Object inheritance
 """"""""""""""""""
@@ -991,7 +1011,7 @@ In the case that an expression is of type :code:`Type` then calling the ``<typeE
 
     Object abstractObject = obj1;
 
-    Obj obj2 = abstractObject.type.createNew();
+    Obj obj2 = abstractObject.type().createNew();
     report("obj2 = " + obj2);
   }
 
@@ -1287,18 +1307,18 @@ You can only do a few things with values of type :code:`Type`; they are primaril
       report("nullType.isA(Int1) = " + nullType.isA(Int1));
       report("nullType.isA(Int2) = " + nullType.isA(Int2));
       report("nullType.isA(Int3) = " + nullType.isA(Int3));
-      report("obj.type.isA(nullType) = " + obj.type.isA(nullType));
-      report("obj.type.isA(Obj) = " + obj.type.isA(Obj));
-      report("obj.type.isA(SubObj) = " + obj.type.isA(SubObj));
-      report("obj.type.isA(Int1) = " + obj.type.isA(Int1));
-      report("obj.type.isA(Int2) = " + obj.type.isA(Int2));
-      report("obj.type.isA(Int3) = " + obj.type.isA(Int3));
-      report("subObj.type.isA(nullType) = " + subObj.type.isA(nullType));
-      report("subObj.type.isA(Obj) = " + subObj.type.isA(Obj));
-      report("subObj.type.isA(SubObj) = " + subObj.type.isA(SubObj));
-      report("subObj.type.isA(Int1) = " + subObj.type.isA(Int1));
-      report("subObj.type.isA(Int2) = " + subObj.type.isA(Int2));
-      report("subObj.type.isA(Int3) = " + subObj.type.isA(Int3));
+      report("obj.type().isA(nullType) = " + obj.type().isA(nullType));
+      report("obj.type().isA(Obj) = " + obj.type().isA(Obj));
+      report("obj.type().isA(SubObj) = " + obj.type().isA(SubObj));
+      report("obj.type().isA(Int1) = " + obj.type().isA(Int1));
+      report("obj.type().isA(Int2) = " + obj.type().isA(Int2));
+      report("obj.type().isA(Int3) = " + obj.type().isA(Int3));
+      report("subObj.type().isA(nullType) = " + subObj.type().isA(nullType));
+      report("subObj.type().isA(Obj) = " + subObj.type().isA(Obj));
+      report("subObj.type().isA(SubObj) = " + subObj.type().isA(SubObj));
+      report("subObj.type().isA(Int1) = " + subObj.type().isA(Int1));
+      report("subObj.type().isA(Int2) = " + subObj.type().isA(Int2));
+      report("subObj.type().isA(Int3) = " + subObj.type().isA(Int3));
     }
 
 - You can obtain a description of the type by calling the method
@@ -1796,7 +1816,7 @@ Most values in KL have a built-in method called ``data`` that returns a value of
 
 Unlike pointers in C and C++, the values returned by ``data`` methods cannot be inspected or used in any expressions; the only thing which can be done is a cast to :code:`Boolean`, which will be :code:`true` if and only if the ``Data`` value points to a value whose size is greater than zero.  However, these ``Data`` values can be passed directly to external library functions provided by Fabric itself or Fabric extensions, where they are used as pointers to data in memory.
 
-.. note:: For values of type ``String``, the value returned by ``dataSize`` includes a null terminator that is automatically appended to the string by Fabric; this is so that the string data can be directly used in C library calls as a regular C string.  If you want to pass the number of characters in the string, pass ``string.length`` instead.
+.. note:: For values of type ``String``, the value returned by ``dataSize`` includes a null terminator that is automatically appended to the string by Fabric; this is so that the string data can be directly used in C library calls as a regular C string.  If you want to pass the number of characters in the string, pass ``string.length()`` instead.
 
 Example of ``Data`` values and the ``data`` and ``dataSize`` methods:
 

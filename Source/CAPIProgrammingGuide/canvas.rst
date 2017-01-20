@@ -165,14 +165,28 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: String getErrors() const
+    .. cpp:function:: String getErrors( bool recursive, bool connectedOnly ) const
 
       Returns the errors on the executable as a JSON array of strings.
 
 
 
 
-    .. cpp:function:: String getErrors() const
+    .. cpp:function:: String getErrors( bool recursive ) const
+
+      Returns the errors on the executable as a JSON array of strings.
+
+
+
+
+    .. cpp:function:: String getErrors( bool recursive, bool connectedOnly ) const
+
+      Returns the errors on the executable as a JSON array of strings.
+
+
+
+
+    .. cpp:function:: String getErrors( bool recursive ) const
 
       Returns the errors on the executable as a JSON array of strings.
 
@@ -1434,6 +1448,15 @@ Canvas Core API Classes
 
 
 
+    .. cpp:function:: char const *getExecPortName(char const *execPortPathCStr)
+
+      Get the name of the executable port given the port path
+
+      :param execPortPathCStr: The port path
+
+
+
+
     .. cpp:function:: char const *getExecFixedPortName(unsigned execPortIndex )
 
       Get the name of the ExecFixedPort at the given index.
@@ -1593,7 +1616,7 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: String getPresetGUID() const
+    .. cpp:function:: String getOrigPresetGUID() const
 
       Get the original preset GUID of the executable if it was an instance of a preset,
       but is no longer a preset; otherwise, returns the empty string.
@@ -1689,7 +1712,7 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: DFGBinding getBindingForID(uint32_t bindingID )
+    .. cpp:function:: DFGBinding getBindingID()
 
       Get the binding ID for the binding.  This can be used by :cpp:func:`FabricCore::DFGHost::getBindingForID` to obtain a handle to a given binding in situations where it is not possible to pass the binding as a DFGBinding object.
       
@@ -2027,7 +2050,7 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: bool maybeUndo()
+    .. cpp:function:: bool maybeRedo()
 
       Attempt to redo one Canvas Core command.
 
@@ -2060,6 +2083,16 @@ Canvas Core API Classes
       
       :param presetPath: The path to the preset in the preset tree
       :returns: The JSON description
+
+
+
+
+    .. cpp:function:: char const *getPresetMetadata( char const *presetPath, char const *key )
+
+      Get the metadata associated with the given key for the given preset.  Returns NULL if there is no metadata for the given key.
+      
+      :param presetPath: The path to the preset in the preset tree
+      :param key: The key for the metadata to be retrieved
 
 
 
@@ -2194,7 +2227,7 @@ Canvas Core API Classes
 
 
 
-    .. cpp:function:: void blockComps()
+    .. cpp:function:: void unblockComps()
 
       Unblock recompilations of DFGBindings.
 
@@ -2221,10 +2254,5 @@ Canvas Core API Classes
 
 
     .. cpp:function:: ~DFGNotifBracket()
-
-
-
-
-.. cpp:class:: FabricCore::Client : public FabricCore::Ref
 
 

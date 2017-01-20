@@ -44,6 +44,14 @@ FABRIC_FEATURE_CUDA_COMPUTE
 
 If non-zero this will cause the Fabric Core to attempt to load the CUDA and NVVM dynamic libraries on systems with supported Nvidia hardware in order to enable GPU compute. The libraries must be available in default system library paths or provided via the PATH environment variable on Windows or LD_LIBRARY_PATH on Linux. Error information will be printed to the console if the Core is unable to bind to the CUDA libraries when this variable is set.
 
+FABRIC_GPU_HEAP_SIZE
+++++++++++++++++++++
+
+.. versionadded:: 2.4.0
+  FABRIC_GPU_HEAP_SIZE
+
+Size (in MBytes) of the heap used by the GPU. Its default value is 16MB. We currently limit it to a maximum of 1024MB.
+
 FABRIC_GUARDED_GPU
 ++++++++++++++++++
 
@@ -86,7 +94,7 @@ FABRIC_CACHE_MAX_SIZE_MB
 .. versionadded:: 2.0.0
   FABRIC_CACHE_MAX_SIZE_MB
 
-This specifies the maximum amount, in megabytes, of cached KL code that should be stored (LLVM IR, object code and potentially CUDA PTX). The default is 250 megabytes.
+This specifies the maximum amount, in megabytes, of cached KL code that should be stored (LLVM IR, object code and potentially CUDA PTX). The default is 4096 megabytes.
 
 .. warn::
 
@@ -145,6 +153,11 @@ FABRIC_VERBOSE_IR_CACHE
 +++++++++++++++++++++++
 
 If non-zero, the Core will output additional information into the IR cache. It will output the source KL, the unoptimized IR for the given KL, and finally the optimized IR once optimization is complete. The files are named by cache key as with the existing cache files.
+
+FABRIC_USE_LEGACY_EXT_SHLIBS
+++++++++++++++++++++++++++++
+
+In older versions of Fabric, in addition to looking for LIBNAME-<os>-<arch>.DLL when trying to load shared libraries for extensions, Fabric would also try to load LIBNAME.DLL and LIBNAME.  Setting `FABRIC_USE_LEGACY_EXT_SHLIBS` to 1 re-enables this behaviour.
 
 Fabric Canvas
 --------------------

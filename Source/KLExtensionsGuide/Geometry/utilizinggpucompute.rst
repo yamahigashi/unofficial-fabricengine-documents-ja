@@ -1,6 +1,6 @@
 ﻿.. _polygonmeshstructure:
 
-Utilizing GPU commpute with Geometries
+Utilizing GPU compute with Geometries
 ======================================
 
 
@@ -26,7 +26,7 @@ Before a :kl-ref:`PolygonMesh` can be used in a GPU kernel, its topology data mu
 
 GPU Compute kernels do not support objects, meaning that it is not possible to pass into a GPU kernel the PolygonMesh, Lines, Points, or any of the various attribute types. Instead, the data contained within these object can be passed into GPU kernels.
 
-Each of the GeometryAttrbiutes owns data that can be passed into GPU Compute kernels. Most attributes have a member called 'values' which is an array of the data type supported by the :kl-ref:`GeometryAttribute`.
+Each of the GeometryAttributes owns data that can be passed into GPU Compute kernels. Most attributes have a member called 'values' which is an array of the data type supported by the :kl-ref:`GeometryAttribute`.
 
 
 .. kl-example:: Moving a polygonMesh to the GPU
@@ -102,9 +102,9 @@ Once the data is on the GPU, the same kernels that would normally be used on the
       Ref<Vec3Attribute> positionsAttr = mesh.getAttributes().getPositions();
 
       Vec3 positionsDoubleBuffer[];
-      positionsDoubleBuffer.resize(positionsAttr.values.size);
+      positionsDoubleBuffer.resize(positionsAttr.values.size());
 
-      noiseOp<<<positionsAttr.values.size@false>>>(positionsAttr.values, height);
+      noiseOp<<<positionsAttr.values.size()@false>>>(positionsAttr.values, height);
       
       UInt64 start = getCurrentTicks();
       for(UInt32 i=0; i<iterations; i++){
@@ -126,13 +126,13 @@ Once the data is on the GPU, the same kernels that would normally be used on the
       Ref<Vec3Attribute> positionsAttr = mesh.getAttributes().getPositions();
 
       Vec3 positionsDoubleBuffer[];
-      positionsDoubleBuffer.resize(positionsAttr.values.size);
+      positionsDoubleBuffer.resize(positionsAttr.values.size());
 
       mesh.convertToGPU();
       positionsAttr.convertToGPU();
       positionsDoubleBuffer.convertToGPU();
 
-      noiseOp<<<positionsAttr.values.size@true>>>(positionsAttr.values, height);
+      noiseOp<<<positionsAttr.values.size()@true>>>(positionsAttr.values, height);
 
       UInt64 start = getCurrentTicks();
       for(UInt32 i=0; i<iterations; i++){

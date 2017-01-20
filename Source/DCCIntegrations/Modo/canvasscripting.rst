@@ -530,11 +530,15 @@ FabricCanvasConnect
 
       - ``srcPortPath``
 
-        The path of the source port.
+        The path(s) of the source port(s). If you have more than one path then you must separate them using ``|`` (vertical bar).
 
       - ``dstPortPath``
 
-        The path of the destination port.
+        The path(s) of the destination port(s). If you have more than one path then you must separate them using ``|`` (vertical bar).
+
+    **Note**
+
+    The amount of source and destination paths should be the same!
 
 FabricCanvasDisconnect
 -----------------------------------
@@ -956,7 +960,7 @@ FabricCanvasRemovePort
 
     **Description**
 
-    Removes a port from a graph or a node.
+    Removes port(s) from a graph or a node.
 
     **Scripting Syntax**
 
@@ -974,7 +978,7 @@ FabricCanvasRemovePort
 
       - ``portName``
 
-        The name of the port to remove.
+        The name(s) of the port(s) to remove. If you have more than one port name then you must separate them using ``|`` (vertical bar).
 
 FabricCanvasRenamePort
 -----------------------------------

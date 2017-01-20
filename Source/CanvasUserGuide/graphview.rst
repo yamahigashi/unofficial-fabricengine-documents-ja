@@ -5,7 +5,7 @@ Canvas Graph View
 
 The Fabric Canvas Graph View interface is Fabric's node based editor. It lets you build graphs by adding and removing nodes, defining connections between them and creating new, custom nodes that contain either a subgraph, KL code or a combination of both.
 
-Canvas is available in all Fabric integrations, including tne Fabric Standalone (:file:`canvas.py`), and the way you work with it is the same no matter which host application you use.
+Canvas is available in all Fabric integrations, including the Fabric Standalone (:file:`canvas.py`), and the way you work with it is the same no matter which host application you use.
 
 Creating Nodes
 ----------------------
@@ -47,7 +47,7 @@ Nodes in Canvas provide a series of features through the UI:
 
   - Relaxation
 
-    If you press Ctrl+R hotkey with a node selected, an automatic layout will be applied to all its children nodes.
+    If you press Ctrl + R hotkey with a node selected, an automatic layout will be applied to all its children nodes.
 
     .. image:: /images/Canvas/userguide_05.jpg
 
@@ -103,9 +103,9 @@ When doing :dfn:`Create port` or :dfn:`Edit port`, additional port options can b
 
   - `opaque`: the port value should be handled as an opaque data type by the host application, which can allow to transport KL volatile objects between different host's graphs
 
-  - `hidden`: the port should be unkown by the host application
+  - `hidden`: the port should be unknown by the host application
 
-- The :dfn:`persist value` checkbox is only available for top level graphs. When checked, it indicates that the port value must be persisted (saved) with the graph, else re-loading the graph will reset the value to its default. See :ref:`canvas-programmer-guide-valuepersistance` for technical details about value persistance.
+- The :dfn:`persist value` checkbox is only available for top level graphs. When checked, it indicates that the port value must be persisted (saved) with the graph, else re-loading the graph will reset the value to its default. See :ref:`canvas-programmer-guide-valuepersistance` for technical details about value persistence.
 
   .. note:: The option is automatically set for edited values, or simple types reflected in the host application when in Maya or Softimage.
 
@@ -113,12 +113,15 @@ When doing :dfn:`Create port` or :dfn:`Edit port`, additional port options can b
 
 - The :dfn:`use combo` checkbox allows to set a list of combo box items for the UI, that will be mapped to 0..N-1 values
 
+- The :dfn:`use file filter` checkbox allows to define file type filtering for FilePath port dialogs
+
+
 .. note:: Port dialogs for the top level graph may offer additional features in a specific host application, such as Maya, for example.
 
 Reordering Ports
 --------------------
 
-Within a graph ports can be reodered simply by dragging them to their new position.  It is also possible to move all the input or output ports to the end of the port list through the right-click context menu.
+Within a graph ports can be reordered simply by dragging them to their new position.  It is also possible to move all the input or output ports to the end of the port list through the right-click context menu.
 
 Execute ports
 ----------------------
@@ -193,3 +196,64 @@ Any node in Canvas can contain comments. This is especially useful for users not
 .. image:: /images/Canvas/userguide_10.jpg
 
 .. note:: Comments can also be attached to Backdrops, which is useful to describe a whole section of nodes.
+
+Context menu
+----------------------
+
+.. image:: /images/Canvas/userguide_contextmenu.png
+
+Within the context menu, you can execute many of the aforementioned actions. Depending on the selected node, different actions will appear.
+
+Supported Actions:
+
+* Inspect: Inspects the selected node ports in the Value editor.
+
+* Edit Block '': Opens the definition of one of the block instance.
+
+* Edit Node: Opens the node definition.
+
+* Properties: Opens the properties dialog of the selected node.
+
+* Delete: Removes the selected node from the Graph View.
+
+* Copy: Copies a selection into the clipboard.
+
+* Cut: Cuts a selection into the clipboard.
+
+* Paste: Pastes a selection into the clipboard.
+
+* Select All: Selects all the nodes from the Graph View.
+
+* Remove connections to selected node(s): Removes in and out connections from the selected nodes.
+
+* Split from preset: Splits a preset.
+
+* Create preset: Creates a preset from a Selection.
+
+* Export graph: Exports a graph as a .canvas file.
+
+* Implode nodes: Creates a new node with a subgraph containing the selection of nodes.
+
+* Explode node: Removes the subgraph node and inserts all of its contained nodes into the current graph
+
+* Set comment: Sets a comment to the node instance.
+
+* Remove comment: Removes an existing comment of a node.
+
+* New Empty graph: Creates a new node which contains a subgraph.
+
+* New Empty Function: Creates a new KL function node .
+
+* New backdrop: Creates a new Backdrop node.
+
+* New variable: Creates a new Variable node.
+
+* Read variable (Get): Creates a new Variable Get node.
+
+* Write variable (Set): Creates a new Variable Set node.
+
+* New cache node: Creates a new Cache node.
+
+* New block: Creates a new block.
+
+* Reset zoom: Resets the zoom level.

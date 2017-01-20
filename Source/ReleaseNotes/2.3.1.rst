@@ -1,0 +1,122 @@
+.. _RELNOTES-2.3.1:
+
+Fabric Engine 2.3.1 Release Notes
+=================================================
+
+.. image:: /images/FE_logo_345_60.*
+   :width: 345px
+   :height: 60px
+
+| Fabric Engine version 2.3.1
+| Released October 2016
+| Copyright (c) 2010-2017 Fabric Software Inc. All rights reserved.
+
+About This Release
+------------------
+
+We have released Fabric Engine 2.3.1 in order to add support for Maya 2017 (including Update 1) and to add the Fabric for 3ds Max
+integration. We have taken this opportunity to include a few fixes for issues that were discovered after the release of 2.3.0.
+Please refer to the :ref:`RELNOTES-2.3.0`. for more additional information about the 2.3.0 release (for example, other known
+limitations).
+
+Supported Operating Systems, Integrations and GPUs
+--------------------------------------------------
+
+- **Fabric 2.3.1** is supported on Windows and Linux. OS X builds are provided but are not officially supported; official support on OS X will arrive in a subsequent release.
+- **Fabric for Maya** integration is supported for Autodesk Maya 2015, 2016 and 2017  and their corresponding service packs, extensions and updates on Windows and Linux (specifically including Maya 2016.5 and Maya 2017 Update 1). With the addition of support for Maya 2017, Maya 2014 is no longer supported.
+- **Fabric for 3ds Max** is supported for Autodesk 3ds Max 2015, 2016 and 2017 and their corresponding service packs, extensions and updates on Windows.
+- **Fabric for Softimage** integration is supported for Autodesk Softimage 2014 and 2015 and their corresponding service packs, extensions and updates on Windows.
+- **Fabric for MODO** integration is compatible with MODO 901 through to MODO 10.1 and is available on Windows, Linux and OS X.
+- GPU support is available on NVIDIA hardware. See the GPU Compute Guide in the documentation for more details.
+
+.. note:: Important note regarding gcc compiler version, Maya 2017 and Qt 5:
+
+ Should you need to recompile the Fabric for Maya integration and run it with Maya 2017, you must use gcc 4.8. The `VFX Reference Platform`_ recommends a patched version of 4.8.2 or 4.8.3; see `gcc footnote`_ for details. Previous gcc versions, such as gcc 4.4.7 from CentOS 5, are not supported as they will not correctly build the Fabric for Maya plugin in Maya 2017 (since it does not properly compile the construction of QSizePolicy types).
+
+.. _VFX Reference Platform: http://www.vfxplatform.com
+.. _gcc footnote: http://www.vfxplatform.com/#footnote-gcc
+
+Documentation
+-------------
+
+To learn more about Fabric Canvas, please see:
+
+- :ref:`CANVASUSERGUIDE`
+- :ref:`CANVASPROGRAMMERGUIDE`
+- :ref:`GETTINGSTARTED_INDEX`
+
+Also be sure to check out http://fabricengine.com/blog/ for articles and introductory how-to videos.
+
+Downloads
+---------
+
+All downloads for Fabric Engine 2.3.1 can be obtained at http://dist.fabric-engine.com/FabricEngine/2.3.1/.  For information on installation please refer to :ref:`GETTINGSTARTED_INDEX`.
+
+Support
+-------
+
+Fabric Engine 2.3.1 is available for free use under Evaluation, Studio or Educational licenses and is also available under commercial terms. Commercial customers are entitled to contact Fabric directly for Support. Non-commercial customers are encouraged to use the following options:
+
+- http://forums.fabricengine.com : Ask & answer questions within the Fabric community. This is where you should post your support issues.
+- mailto://bugs@fabricengine.com : If you have found a bug you can email us with clear steps to reproduce the issue (be sure to include details on what operating system and DCC application and their respective versions that you are using). Please note that we will respond only if additional information is required to resolve an issue with the Fabric platform.
+
+.. _knownissues-2.3.1:
+
+Known Issues, Limitations and Workarounds
+-----------------------------------------
+
+- **Limitation**: Versions of Maya 2016 prior to SP4 cause a crash with parallel eval and playback
+
+    Workaround: Use any version of Maya 2016 at is at least SP4 or any version of Maya 2017
+
+.. _fixes-2.3.1:
+
+List of Issues Addressed
+--------------------------------
+
+**Canvas**
+
+FE-7189 Old documentation referring to deprecated instrumentation was removed. For correct information, please see http://docs.fabric-engine.com/FabricEngine/2.3.0/HTML/KLExtensionsGuide/FabricStatistics/index.html
+
+FE-7166 Fixed a crash due to unresolved port types
+
+FE-7140 Fixed an issue related to duplicated GUIDs
+
+FE-7130 Removed default content on Array AnyElementMatches so it shows as polymorphic
+
+FE-7114 Expose Count attribute to ForLoop body block by default (having this static value around can reduce the calls to an input array's size)
+
+**Canvas UI**
+
+FE-7261	A minor visual bug in the TimeLineWidget (custom FPS) has been addressed
+
+**Presets**
+
+FE-7260	In a previous release, we removed the PASSIO preset. In hindsight, that was not such a good idea so we have added it back, renaming it to the more sensible name 'passthrough'
+
+FE-7234	Switch Case has been added to the presets to wrap the KL switch statement
+
+
+**Core**
+
+FE-7003	Atan and Atan2 have been added to the trig compounds
+
+FE-7101 A performance regression introduced between 2.1.0 and 2.2.0 has been fixed
+
+**Alembic**
+
+FE-7244	Houdini normals in curves are now handled by AlembicCurvesReader
+
+FE-7203	Alembic - Maya GPU caches  that use uniform sampling are now read correctly
+
+FE-7120  Alembic error messages have been improved
+
+**Fabric for Maya**
+
+FE-7145 To support Maya 2017, Fabric for Maya links against Qt 5 on Maya 2017 (all the other integrations and standalone remain on Qt 4). If you are building Fabric for Maya or a plugin that relies on it then you must link against Qt 5 for compatibility with Maya 2017 or against Qt 4 for earlier versions.
+
+FE-5923 Exposed ports in Fabric for Maya now inherit the port's value
+
+
+FE-6463, FE-7086, FE-7148 Issues with EvalContext that caused crashes in Maya 2016 in parallel eval mode have been fixed. The  fix required that string-based members of EvalContext be removed (except 'host' which is still available).  If you have code that was relying on any of the members that were removed, code changes will be required. See manipulation_drivingports.ma for an example of proper use.
+
