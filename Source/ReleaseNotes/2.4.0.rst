@@ -73,7 +73,7 @@ Finally, the Diagnostic window works better exposing and highlighting errors
 
 We have,of course, fixed many bugs as well, particularly in Fabric for Maya and Alembic.
 
-We have also added useful features like the Text extension to draw text and values into 3D space. This is a huge help when creating complex graphs and helps to visualize abstract data directly in the viewport.
+We have also added useful features like the Text extension to draw text and values into 3D space. This is a huge help when creating complex graphs and helps to visualize abstract data directly in the viewport. Check the samples available in the Samples/Canvas/InlineDrawing folder.
 
 On top of this, Morris the multipede sample is now part of the distribution. You cand find it in the ProductionSamples folder of each DCC or the Standalone.
 
@@ -111,6 +111,14 @@ Fabric Engine 2.4.0 is available for free use under Evaluation, Studio or Educat
 - http://forums.fabricengine.com : Ask & answer questions within the Fabric community. This is where you should post your support issues.
 - mailto://bugs@fabricengine.com : If you have found a bug you can email us with clear steps to reproduce the issue (be sure to include details on what operating system and DCC application and their respective versions that you are using). Please note that we will respond only if additional information is required to resolve an issue with the Fabric platform.
 
+.. _knownissues-2.4.0:
+
+Known Issues
+-------
+
+Fabric for Maya: Duplicating canvas nodes will give the following warning in the script editor: "No object matches name: __PrenotatoPerDuplicare_canvasNode1.saveData".
+
+Fabric for Maya: Using Gradients in the viewport with Fabric Viewport 2.0 is not supported.
 
 .. _changes-2.4.0:
 
@@ -118,6 +126,8 @@ Changes
 -------
 
 - Backdrops can now be created using the tab search
+- Middle mouse button does not longer disconnect connections. Use 'd' instead
+- Middle mouse button + mouse move on a node no longer moves the upstream nodes. Use Shift + left click instead
 - KL editor: cut/copy/paste of lines works the same as in Sublime or Visual Studio
 - The command 'FabricCanvasConnect' can now make several connections in one go
 - If the rotation order has been defined by String or set methods (such as setXYZ() ) you will have to adapt to the new rotation order change (where xyz actually means rotate x first). Also, Euler constructors now have a XYZ order (which is the old ZYX behavior) so it matches Maya
@@ -698,3 +708,5 @@ List of Issues Addressed
 [FE-7133] - Replaced custom Swap function with KL's built-in swap in fluid solver samples
 
 [FE-7769] - Added samples using the Kraken presets
+
+[FE-8009] - Added text extension inline drawing samples
