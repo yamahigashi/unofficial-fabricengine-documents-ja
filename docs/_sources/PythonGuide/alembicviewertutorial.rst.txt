@@ -1,0 +1,180 @@
+.. _ALEMBICVIEWERTUTORIAL:
+
+Alembic Viewer Tutorial
+=======================
+
+Introduction
+------------
+The new Python Bindings for the FabricUI allows users to work directly in Python and quickly prototype, iterate, and build custom applications around Fabric Engine. Python is the industry standard programming language for Technical Directors and Technical Artists in VFX. Its simple syntax makes it easier for users to pick up, learn and build tools with. In previous release of Fabric Engine, users would have to build custom applications using C++ which greatly increased the entry point for developing custom applications on top of Fabric Engine. Now, users can do this faster and more simply.
+
+This tutorial will result in users having built a small Alembic Viewer application that lists the Alembic archive files within a selected directory. User can select the Alembic files from the list and review their content in the 3D viewport while scrubbing through the timeline to see them in motion. We'll be creating this custom application based on the canvas.py and CanvasWindow.py files that are included with Fabric Engine. Additionally, we'll be creating a few custom PySide widgets implementing custom signals to execute commands in the graph and update the application with new data.
+
+Diving In
+---------
+The first step is to create a custom directory where your application will live. Copy the ``canvas.py`` and ``CanvasWindow.py`` files into your custom directory and rename them to logical names relating to your custom application. In our case we'll rename ``canvas.py`` to ``alembic_viewer.py`` and ``CanvasWindow.py`` to ``AlembicViewWindow.py``.
+
+It is recommended to create a custom launcher file (similar to the ``prompt.bat`` and ``prompt.sh`` that ship with Fabric) to allow users to easily run your application. This launcher file needs to call the environment.bat or environment.sh file that is shipped in the main directory of the Fabric Engine release folder. This makes sure that the Fabric Engine environment is setup so that the Fabric Engine client that will be running our application graph, can started. The parent directory of the custom application has to be added to the :envar:PYTHONPATH environment variable as well. This will ensure that the custom widgets will be available with Python import calls. Lastly the file should then launch the Python startup file. An example of the launcher script we ship is below.
+
+**alembic_viewer.bat**
+
+.. code-block:: shell
+
+    @ECHO OFF
+    ECHO ========================
+    ECHO Launching Alembic Viewer
+    ECHO ========================
+    ECHO.
+    REM ==================================
+    REM Calls the Fabric Environment .bat
+    REM ==================================
+
+    CALL %cd%\..\..\..\environment.bat
+
+    REM ==================================
+    REM Adds the parent directory to the
+    REM PYTHONPATH environment variable.
+    REM ==================================
+
+    set PYTHONPATH=%PYTHONPATH%;%cd%\..;
+
+    REM ==================================
+    REM Launches the Python application.
+    REM ==================================
+
+    call cmd /k "python alembic_viewer.py"
+
+    PAUSE
+
+**alembic_viewer.sh**
+
+.. code-block:: shell
+
+    # alembic_viewer.sh
+
+    echo "========================"
+    echo "Launching Alembic Viewer"
+    echo "========================"
+    echo ""
+
+    DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+    FABRIC_DIR=$DIR/../../..
+
+    source $FABRIC_DIR/environment.sh
+
+    PYTHONPATH=$DIR/../:$PYTHONPATH
+    export PYTHONPATH
+
+    python alembic_viewer.py
+
+
+Editing alembic_viewer.py
+-------------------------
+The ``alembic_viewer.py`` file will set up the QApplication instance, add the main window widget, and then display the UI. A few things need to be customized in this file to change what settings are used when launching the window. Remove the ``FabricStyle()`` class and import it from **<Insert new Python module name here>** in the Fabric Engine Python package. The following code snippet shows how this is done.
+
+.. code-block:: python
+
+    # FabricStyle() import
+
+    from FabricEngine.Canvas.FabricStyle import FabricStyle
+
+The custom window widget will need to be imported here as well. Although it hasn't been created yet, we know what it will be be named. The import for that should look like the following:
+
+.. code-block:: python
+
+    # AlembicViewerWindow() import
+    from AlembicViewer.AlembicViewerWindow import AlembicViewerWindow
+
+Continuing on, edit the ``app.setOrganizationName()``, ``app.setApplicationName()`` and ``app.setApplicationVersion()`` methods to the appropriate information regarding your application. These values are used to correctly store and retrieve custom settings for the application. It's important to set these so that the application has its own set of settings that will be independent from other applications.
+
+Remove the exec and script arguments from the option parser, as these won't be needed since our application is simply a viewer application. We will add an optional argument to the application so users can start the application with a particular directory loaded on start up. We add the `initDir` argument to the option parser with the following code:
+
+.. code-block:: python
+
+    # initDir option
+    opt_parser.add_option('-d', '--initDir',
+                          action='store',
+                          dest='initDir',
+                          help='Initial directory to load alembic files from.')
+
+Your application may need other arguments passed to it to launch correctly so add them as needed. The mainWin variable should be set to be an instance of the ``AlembicViewerWindow()`` class. The ``AlembicViewerWindow`` class will sub-class from the ``CanvasWindow()`` class and we'll define and pass the ``QSettings`` object in the ``__init__()`` method along with the setting for unguarded mode. We add a keyword argument to pass the initDir option from the OptionParser to the AlembicViewerWindow class as follows.
+
+.. code-block:: python
+
+    mainWin = AlembicViewerWindow(initDir=initDir)
+
+Lastly we load our custom ``AlembicViewer.canvas`` graph that our application relies on. The following snippet shows how to do it:
+
+.. code-block:: python
+
+    # load AlembicViewer.canvas
+    alembicViewerGraphPath = os.path.join(os.getcwd(), 'AlembicViewer.canvas')
+    mainWin.loadGraph(alembicViewerGraphPath)
+
+Editing AlembicViewerWindow.py
+------------------------------
+This file defines how the main user inteface (UI) appears to the user. Instances of some of the built-in widgets that are provided in the FabricUI Python Bindings are created and it also creates instances of your custom widgets. We can sub-class ``CanvasWindow`` to easily create our custom window class. We need to import the ``CanvasWindow`` class in the file header as follows:
+
+.. code-block:: python
+
+    from FabricEngine.Canvas.CanvasWindow import CanvasWindow
+
+
+We'll change the name of the class to ``AlembicViewerWindow`` and change the base class to ``CanvasWindow``.
+
+In the ``__init__()`` method, add the initDir argument and give it a default value of None ``initDir=None``. Then declare a class attribute ``self.initDir = initDir`` so our custom ``AlembicViewerUIWidget`` can look at this attribute and set the initial directory. We also create varaibles for settings, unguarded, and noopt that are passed into the call to the super class's ``__init__()`` method as follows:
+
+.. code-block:: python
+
+    settings = QtCore.QSettings()
+    unguarded = False
+    noopt = False
+    super(AlembicViewerWindow, self).__init__(settings, unguarded, noopt)
+
+To customize the look and feel of the application a custom stylesheet is defined in a ``widgetstylesheet`` variable and set using the setStyleSheet() method of the class. Lastly we set the ``windowTitle`` attribute to ``Fabric Engine - Alembic Viewer``.
+
+Remove all the other methods within the class except for the ``onFileNameChanged()``, ``_initDocks()``, ``_initMenus()``, and ``closeEvent`` methods. The rest will be inherited form the ``CanvasWindow`` class and will function as needed from there.
+
+Since users aren't ever going to open or change files, we can re-implement the ``onFileNameChanged()`` method and put a ``pass`` statement in it.
+
+Custom Docks and Menus
+----------------------
+Most of the work needed to customize the application is in the ``_initDocks()`` and ``_initMenus()`` methods. We need to do a check if the value of the ``self.initDir`` is none or that path doesn't exist. If neither, pass the current working directory or the Resources directory from the Fabric Engine release as the initial directory.
+
+.. code-block:: python
+
+    if self.initDir is None or os.path.exists(self.initDir) is False:
+        self.initDir = os.getcwd()
+        fabricDir = os.environ.get('FABRIC_DIR', None)
+        if fabricDir:
+            self.initDir = os.path.join(fabricDir, 'Resources')
+
+Then create a dockWidget which holds an instance of our ``AlembicViewerUIWidget()``. The initDir is passed as an argument to the instance of the AlembicViewerUIWidget. You'll notice below the creation of the dock widget, the signals from the ``AlembicViewerUIWidget`` are connected to custom methods we've added later on in the file. These connections are triggering the interaction between the custom widgets and the graph driving the application.
+
+Comment out the unnecessary dockWidgets such as the Canvas Graph, Value Editor, and the Script Editor as we don't want the users to have them available. You can uncomment these widgets later to do further development on the application to make it easier to debug.
+
+The ``_initMenus()`` method which sets up the main windows default menus can be cleared out. This will be customized many times to the application's needs and functionality. The menu code within standard ``CanvasWindow.py`` file can be used as a reference for user to build upon which has been done in this example.
+
+Close Event
+-----------
+Lastly, the ``cloneEvent()`` method will be re-implemented and will do everything that the ``CanvasWindow`` class's does except it won't prompt the user to save the file. The ``closeEvent()`` method should look as follows:
+
+.. code-block:: python
+
+    self.viewport.setManipulationActive(False)
+    self.settings.setValue("mainWindow/geometry", self.saveGeometry())
+    self.settings.setValue("mainWindow/state", self.saveState())
+
+    QtGui.QMainWindow.closeEvent(self, event)
+
+    self.client.close()
+
+    if os.path.exists(self.autosaveFilename):
+        os.remove(self.autosaveFilename)
+
+Custom Slots
+------------
+The last area to cover in this file is the custom slots that were added so that the signals from the custom widget can interact with the graph. You can see that the ``dfguiCommandHandler`` attribute which points to the instanced ``UICmdHandler()`` class is used to fire commands triggered from the signals. The ``UICmdHandler()`` class handles all commands that need to be fired from a UI to the graph and provides many methods for doing so. Review the ``UICmdHandler.py`` file provided within the FabricEngine Python package in the release folder for more details.
+
+Custom Widgets
+--------------
+There is nothing special to do in terms of creating custom widgets, other than ensuring that they have signals & slots setup to interact with the rest of the FabricUI widgets as needed This is up to the user to design and define. Users should review the ``AlembicFileListWidget.py`` and the ``AlembicViewerUIWidget.py`` files to see how these were implemented.

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Singletons Extension’s Free Functions &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>Singletons Extension’s Free Functions &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,10 +15,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.3.0',
+        VERSION:     '2.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -26,9 +27,9 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
-    <link rel="up" title="Singletons エクステンション" href="index.html" />
-    <link rel="next" title="Util エクステンション" href="../Util/index.html" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" />
+    <link rel="next" title="Text Extension" href="../Text/index.html" />
     <link rel="prev" title="Singletons.kl" href="Singletons.kl.html" /> 
   </head>
   <body role="document">
@@ -42,14 +43,14 @@
           <a href="../../py-modindex.html" title="Pythonモジュール索引"
              >モジュール</a> |</li>
         <li class="right" >
-          <a href="../Util/index.html" title="Util エクステンション"
+          <a href="../Text/index.html" title="Text Extension"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
           <a href="Singletons.kl.html" title="Singletons.kl"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Singletons エクステンション</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Singletons エクステンション</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -60,28 +61,33 @@
             
   <div class="section" id="singletons-extension-s-free-functions">
 <span id="singletons-extension-functions"></span><h1>Singletons Extension&#8217;s Free Functions<a class="headerlink" href="#singletons-extension-s-free-functions" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<p><span class="target" id="id105936"></span><p><p class="klcode">Object Singleton_get ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> key )</p>
+<p><span class="target" id="id109554"></span><p><p class="klcode">Ref&lt;Object&gt; GetOrCreateSingleton ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> key, in Type singletonObjectType )</p>
+<p class="plaintext">Checks if a singleton exists with this key. If not, a new object is created from the passed-in type.
+This allowa to create an Object only when possible.</p>
+</p>
+<hr class="docutils" />
+<span class="target" id="id109543"></span><p><p class="klcode">Object Singleton_get ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> key )</p>
 <p class="plaintext">retrieves a singleton</p>
 </p>
 <hr class="docutils" />
-<span class="target" id="id105922"></span><p><p class="klcode">Boolean Singleton_has ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> key )</p>
+<span class="target" id="id109529"></span><p><p class="klcode">Boolean Singleton_has ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> key )</p>
 <p class="plaintext">returns true if a singleton with a given name exists</p>
 </p>
 <hr class="docutils" />
-<span class="target" id="id105931"></span><p><p class="klcode">Object Singleton_init ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> key, in Object obj )</p>
+<span class="target" id="id109538"></span><p><p class="klcode">Object Singleton_init ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> key, in Object obj )</p>
 <p class="plaintext">inits a singleton: sets it only if &#8216;null&#8217;, and returns set value.
 The returned should be used if the singleton needs to be unique among threads.</p>
 </p>
 <hr class="docutils" />
-<span class="target" id="id105940"></span><p><p class="klcode">Boolean Singleton_remove ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> key )</p>
+<span class="target" id="id109547"></span><p><p class="klcode">Boolean Singleton_remove ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> key )</p>
 <p class="plaintext">deletes a singleton</p>
 </p>
 <hr class="docutils" />
-<span class="target" id="id105944"></span><p><p class="klcode">Singleton_removeAll ()</p>
+<span class="target" id="id109551"></span><p><p class="klcode">Singleton_removeAll ()</p>
 <p class="plaintext">deletes all known singletons</p>
 </p>
 <hr class="docutils" />
-<span class="target" id="id105926"></span><p><p class="klcode">Singleton_set ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> key, in Object obj )</p>
+<span class="target" id="id109533"></span><p><p class="klcode">Singleton_set ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> key, in Object obj )</p>
 <p class="plaintext">stores a singleton</p>
 </p>
 </p>
@@ -100,12 +106,12 @@ The returned should be used if the singleton needs to be unique among threads.</
   <p class="topless"><a href="Singletons.kl.html"
                         title="前の章へ">Singletons.kl</a></p>
   <h4>次のトピックへ</h4>
-  <p class="topless"><a href="../Util/index.html"
-                        title="次の章へ">Util エクステンション</a></p>
+  <p class="topless"><a href="../Text/index.html"
+                        title="次の章へ">Text Extension</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../../_sources/KLExtensionsGuide/Singletons/functions.txt"
+      <li><a href="../../_sources/KLExtensionsGuide/Singletons/functions.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Singletons/functions.html"
               rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
@@ -114,8 +120,8 @@ The returned should be used if the singleton needs to be unique among threads.</
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -135,19 +141,19 @@ The returned should be used if the singleton needs to be unique among threads.</
           <a href="../../py-modindex.html" title="Pythonモジュール索引"
              >モジュール</a> |</li>
         <li class="right" >
-          <a href="../Util/index.html" title="Util エクステンション"
+          <a href="../Text/index.html" title="Text Extension"
              >次へ</a> |</li>
         <li class="right" >
           <a href="Singletons.kl.html" title="Singletons.kl"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" >Singletons エクステンション</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Singletons エクステンション</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010-2016 Fabric Software Inc.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
     </div>
   </body>
 </html>

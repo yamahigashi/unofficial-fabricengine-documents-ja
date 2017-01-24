@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>BinPack2DContainer.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>BinPack2DContainer.kl &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,10 +15,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.3.0',
+        VERSION:     '2.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -26,7 +27,10 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" /> 
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" />
+    <link rel="next" title="BinPack2DCoord.kl" href="BinPack2DCoord.kl.html" />
+    <link rel="prev" title="BinPacking Extension’s Files" href="files.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -38,7 +42,16 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Pythonモジュール索引"
              >モジュール</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+        <li class="right" >
+          <a href="BinPack2DCoord.kl.html" title="BinPack2DCoord.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="BinPacking Extension’s Files"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >BinPacking Extension</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">BinPacking Extension&#8217;s Files</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -49,6 +62,104 @@
             
   <div class="section" id="binpacking-binpack2dcontainer-kl">
 <span id="binpack2dcontainer-kl"></span><span id="id1"></span><h1>BinPack2DContainer.kl<a class="headerlink" href="#binpacking-binpack2dcontainer-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="binpack2dcontainer-struct">
+<h3>BinPack2DContainer (struct)<a class="headerlink" href="#binpack2dcontainer-struct" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="plaintext">A <a class="reference internal" href="BinPack2DContainer.html#binpack2dcontainer"><span class="std std-ref">BinPack2DContainer</span></a> is used to place an array of packages. This is
+Useful for stacking boxes in a 2D space, for example. The <a class="reference internal" href="BinPack2DContainer.html#binpack2dcontainer"><span class="std std-ref">BinPack2DContainer</span></a>
+is used by the <a class="reference internal" href="../Geometry/Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> extension to create UV spaces, for example.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Place some packages</span>
+<span class="cm">*/</span>
+
+<span class="c1">// create a container</span>
+<span class="nx">BinPack2DContainer</span> <span class="nx">container</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">);</span>
+
+<span class="c1">// create some packages</span>
+<span class="nx">BinPack2DPackage</span> <span class="nx">packages</span><span class="p">[];</span>
+<span class="nx">packages</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">BinPack2DPackage</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">));</span>
+<span class="nx">packages</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">BinPack2DPackage</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">126</span><span class="p">,</span> <span class="mi">2</span><span class="p">));</span>
+<span class="nx">packages</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">BinPack2DPackage</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">));</span>
+
+<span class="nx">container</span><span class="p">.</span><span class="nx">Place</span><span class="p">(</span><span class="nx">packages</span><span class="p">);</span>
+
+<span class="nx">packages</span> <span class="o">=</span> <span class="nx">container</span><span class="p">.</span><span class="nx">GetPackages</span><span class="p">();</span>
+<span class="k">for</span><span class="p">(</span><span class="nx">Size</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">packages</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+  <span class="nb">report</span><span class="p">(</span><span class="nx">packages</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+</pre></div>
+</div>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="76%" />
+<col width="19%" />
+<col width="5%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="BinPack2DRegion.html#binpack2dregion"><span class="std std-ref">BinPack2DRegion</span></a></td>
+<td>region</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="BinPack2DRegion.html#binpack2dregion"><span class="std std-ref">BinPack2DRegion</span></a>[]</td>
+<td>regions</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>numRegions</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="BinPack2DPackage.html#binpack2dpackage"><span class="std std-ref">BinPack2DPackage</span></a>[]</td>
+<td>packages</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="BinPack2DContainer.html#id114666"><span class="std std-ref">BinPack2DContainer</span></a>  ( in <a class="reference internal" href="BinPack2DContainer.html#binpack2dcontainer"><span class="std std-ref">BinPack2DContainer</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="BinPack2DContainer.html#id31271"><span class="std std-ref">BinPack2DContainer</span></a>  ( in <a class="reference internal" href="../Math/SInt32.html#sint32"><span class="std std-ref">SInt32</span></a> w, in <a class="reference internal" href="../Math/SInt32.html#sint32"><span class="std std-ref">SInt32</span></a> h )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="BinPack2DContainer.html#id114663"><span class="std std-ref">BinPack2DContainer</span></a>  ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="BinPack2DPackage.html#binpack2dpackage"><span class="std std-ref">BinPack2DPackage</span></a>[]</td>
+<td><a class="reference internal" href="BinPack2DContainer.html#id31276"><span class="std std-ref">GetPackages</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="BinPack2DContainer.html#id31288"><span class="std std-ref">Place</span></a> ! ( in <a class="reference internal" href="BinPack2DPackage.html#binpack2dpackage"><span class="std std-ref">BinPack2DPackage</span></a> inPackage )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="BinPack2DContainer.html#id31284"><span class="std std-ref">Place</span></a> ! ( in <a class="reference internal" href="BinPack2DPackage.html#binpack2dpackage"><span class="std std-ref">BinPack2DPackage</span></a> packages[] )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="BinPack2DContainer.html#id31279"><span class="std std-ref">Place</span></a> ! ( in <a class="reference internal" href="BinPack2DPackage.html#binpack2dpackage"><span class="std std-ref">BinPack2DPackage</span></a> packages[], io <a class="reference internal" href="BinPack2DPackage.html#binpack2dpackage"><span class="std std-ref">BinPack2DPackage</span></a> remainder[] )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="BinPack2DContainer.html#id31292"><span class="std std-ref">Use</span></a> ! ( in <a class="reference internal" href="BinPack2DPackage.html#binpack2dpackage"><span class="std std-ref">BinPack2DPackage</span></a> inPackage, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> indexToConsume )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="BinPack2DContainer.html#binpack2dcontainer"><span class="std std-ref">BinPack2DContainer</span></a></td>
+<td><a class="reference internal" href="BinPack2DContainer.html#id114670"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
 </div>
 
 
@@ -60,10 +171,16 @@
             <p class="logo"><a href="../../index.html">
               <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
             </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="files.html"
+                        title="前の章へ">BinPacking Extension&#8217;s Files</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="BinPack2DCoord.kl.html"
+                        title="次の章へ">BinPack2DCoord.kl</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../../_sources/KLExtensionsGuide/BinPacking/BinPack2DContainer.kl.txt"
+      <li><a href="../../_sources/KLExtensionsGuide/BinPacking/BinPack2DContainer.kl.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/BinPacking/BinPack2DContainer.html"
               rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
@@ -72,8 +189,8 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -92,12 +209,21 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Pythonモジュール索引"
              >モジュール</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+        <li class="right" >
+          <a href="BinPack2DCoord.kl.html" title="BinPack2DCoord.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="BinPacking Extension’s Files"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >BinPacking Extension</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >BinPacking Extension&#8217;s Files</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010-2016 Fabric Software Inc.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
     </div>
   </body>
 </html>

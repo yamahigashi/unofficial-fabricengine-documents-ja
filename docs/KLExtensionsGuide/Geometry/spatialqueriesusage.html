@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>ジオメトリを用いた空間分析群(Spatial queries)の使用 &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>ジオメトリを用いた空間分析群(Spatial queries)の使用 &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,10 +15,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.3.0',
+        VERSION:     '2.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -26,9 +27,9 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
-    <link rel="up" title="Geometry エクステンション" href="index.html" />
-    <link rel="next" title="ジオメトリを用いたGPUコンピュートの利用" href="utilizinggpucompute.html" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" />
+    <link rel="next" title="Utilizing GPU compute with Geometries" href="utilizinggpucompute.html" />
     <link rel="prev" title="PolygonMesh’s structure" href="polygonmeshstructure.html" /> 
   </head>
   <body role="document">
@@ -42,14 +43,14 @@
           <a href="../../py-modindex.html" title="Pythonモジュール索引"
              >モジュール</a> |</li>
         <li class="right" >
-          <a href="utilizinggpucompute.html" title="ジオメトリを用いたGPUコンピュートの利用"
+          <a href="utilizinggpucompute.html" title="Utilizing GPU compute with Geometries"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
           <a href="polygonmeshstructure.html" title="PolygonMesh’s structure"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Geometry エクステンション</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Geometry エクステンション</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -60,11 +61,11 @@
             
   <div class="section" id="using-spatial-queries-with-geometries">
 <span id="spatialqueriesusage"></span><h1>ジオメトリを用いた空間分析群(Spatial queries)の使用<a class="headerlink" href="#using-spatial-queries-with-geometries" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<p>空間分析群はジオメトリックポジションに基づいて検索を行う一連の操作です。一般的な空間分析群には、線交点の発見( &#8216;raycast&#8217; )、最も近いサーフェースの発見( &#8216;getClosest&#8217; )またはスフィアのようなボリュームとの交差を検索することが含まれます。 <a class="reference internal" href="SpatialQueryable.html#spatialqueryable"><span class="std std-ref">SpatialQueryable</span></a> インターフェースは <a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> 、 <a class="reference internal" href="Lines.html#lines"><span class="std std-ref">Lines</span></a> や <a class="reference internal" href="Points.html#points"><span class="std std-ref">Points</span></a> といったような <a class="reference internal" href="Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> 型で様々な空間分析を実行することができます。</p>
+<p>空間分析群はジオメトリックポジションに基づいて検索を行う一連の操作です。一般的な空間分析群には、線交点の発見( &#8216;raycast&#8217; )、最も近いサーフェースの発見( &#8216;getClosest&#8217; )またはスフィアのようなボリュームとの交差を検索することが含まれます。 <a class="reference internal" href="SpatialQueryable.html#spatialqueryable"><span class="std std-ref">SpatialQueryable</span></a> インターフェースは <a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> 、 <a class="reference internal" href="../Multipede/Lines.html#lines"><span class="std std-ref">Lines</span></a> や <a class="reference internal" href="Points.html#points"><span class="std std-ref">Points</span></a> といったような <a class="reference internal" href="Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> 型で様々な空間分析を実行することができます。</p>
 <p>同じジオメトリ上で複数の空間分析が実行されるとき、高速化構造はパフォーマンスを大きく向上できます。 <a class="reference internal" href="Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> 型を組み込んだ <a class="reference internal" href="SpatialQueryable.html#spatialqueryable"><span class="std std-ref">SpatialQueryable</span></a> の実行は内部に高速化構造をキャッシュできます。高速化構造は分析を実行する前に更新し適切に準備する必要があります。詳細については <a class="reference internal" href="#spatialqueryaccelerationstructures"><span class="std std-ref">高速化構造</span></a> を参照してください。</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">ジオメトリ上での空間分析の実行は、ジオメトリの変更が無く、 <a class="reference internal" href="SpatialQueryable.html#id53094"><span class="std std-ref">SpatialQueryable.prepareForSpatialQueries</span></a> かもしくは <a class="reference internal" href="SpatialQueryable.html#id53099"><span class="std std-ref">SpatialQueryable.removeSpatialQueryAcceleration</span></a> の呼び出しがない場合に限りスレッドセーフです。</p>
+<p class="last">ジオメトリ上での空間分析の実行は、ジオメトリの変更が無く、 <a class="reference internal" href="SpatialQueryable.html#id55202"><span class="std std-ref">SpatialQueryable.prepareForSpatialQueries</span></a> かもしくは <a class="reference internal" href="SpatialQueryable.html#id55207"><span class="std std-ref">SpatialQueryable.removeSpatialQueryAcceleration</span></a> の呼び出しがない場合に限りスレッドセーフです。</p>
 </div>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm">** Example: Performing a simple shrink wrap deformer using SpatialQueryable</span>
@@ -115,22 +116,22 @@
 </div>
 <div class="section" id="using-the-spatialquery-object">
 <span id="spatialqueryobject"></span><h2>空間分析(SpatialQuery)オブジェクトの使用<a class="headerlink" href="#using-the-spatialquery-object" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p><a class="reference internal" href="SpatialQuery.html#id53074"><span class="std std-ref">SpatialQuery.getElementsInBBox</span></a> のような幾つかの分析は <a class="reference internal" href="SpatialQuery.html#spatialquery"><span class="std std-ref">SpatialQuery</span></a> オブジェクト経由でのみアクセス可能です。 <a class="reference internal" href="SpatialQuery.html#spatialquery"><span class="std std-ref">SpatialQuery</span></a> オブジェクトは <a class="reference internal" href="SpatialQueryable.html#id53102"><span class="std std-ref">SpatialQueryable.beginSpatialQuery</span></a> を呼び出すことで取得し、 <a class="reference internal" href="SpatialQueryable.html#id53105"><span class="std std-ref">SpatialQueryable.endSpatialQuery</span></a> の呼び出しによって解放されるまで一時的に使用される必要があります。</p>
+<p><a class="reference internal" href="SpatialQuery.html#id55182"><span class="std std-ref">SpatialQuery.getElementsInBBox</span></a> のような幾つかの分析は <a class="reference internal" href="SpatialQuery.html#spatialquery"><span class="std std-ref">SpatialQuery</span></a> オブジェクト経由でのみアクセス可能です。 <a class="reference internal" href="SpatialQuery.html#spatialquery"><span class="std std-ref">SpatialQuery</span></a> オブジェクトは <a class="reference internal" href="SpatialQueryable.html#id55210"><span class="std std-ref">SpatialQueryable.beginSpatialQuery</span></a> を呼び出すことで取得し、 <a class="reference internal" href="SpatialQueryable.html#id55213"><span class="std std-ref">SpatialQueryable.endSpatialQuery</span></a> の呼び出しによって解放されるまで一時的に使用される必要があります。</p>
 <p><a class="reference internal" href="SpatialQuery.html#spatialquery"><span class="std std-ref">SpatialQuery</span></a> オブジェクトが有効な状況は..</p>
 <ul class="simple">
-<li><p class="first">(同じスレッド内の) <a class="reference internal" href="SpatialQueryable.html#id53102"><span class="std std-ref">SpatialQueryable.beginSpatialQuery</span></a> と <a class="reference internal" href="SpatialQueryable.html#id53105"><span class="std std-ref">SpatialQueryable.endSpatialQuery</span></a> の間のローカルスコープ</p>
+<li><p class="first">(同じスレッド内の) <a class="reference internal" href="SpatialQueryable.html#id55210"><span class="std std-ref">SpatialQueryable.beginSpatialQuery</span></a> と <a class="reference internal" href="SpatialQueryable.html#id55213"><span class="std std-ref">SpatialQueryable.endSpatialQuery</span></a> の間のローカルスコープ</p>
 </li>
 <li><p class="first">ジオメトリが変更されていない</p>
 </li>
-<li><p class="first"><a class="reference internal" href="SpatialQueryable.html#id53094"><span class="std std-ref">SpatialQueryable.prepareForSpatialQueries</span></a> か <a class="reference internal" href="SpatialQueryable.html#id53099"><span class="std std-ref">SpatialQueryable.removeSpatialQueryAcceleration</span></a> が呼び出しが無い</p>
+<li><p class="first"><a class="reference internal" href="SpatialQueryable.html#id55202"><span class="std std-ref">SpatialQueryable.prepareForSpatialQueries</span></a> か <a class="reference internal" href="SpatialQueryable.html#id55207"><span class="std std-ref">SpatialQueryable.removeSpatialQueryAcceleration</span></a> が呼び出しが無い</p>
 </li>
-<li><p class="first"><a class="reference internal" href="SpatialQueryable.html#id53105"><span class="std std-ref">SpatialQueryable.endSpatialQuery</span></a> の呼び出しで解放されていない</p>
+<li><p class="first"><a class="reference internal" href="SpatialQueryable.html#id55213"><span class="std std-ref">SpatialQueryable.endSpatialQuery</span></a> の呼び出しで解放されていない</p>
 </li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
 <p><a class="reference internal" href="SpatialQuery.html#spatialquery"><span class="std std-ref">SpatialQuery</span></a> オブジェクトは1つまたは複数の分析を効率的に実行するために必要なスレッド固有の一時記憶を保持します。これらのオブジェクト群は、パフォーマンスの向上のために内部でリサイクルされます。</p>
-<p class="last"><a class="reference internal" href="SpatialQueryable.html#id53102"><span class="std std-ref">SpatialQueryable.beginSpatialQuery</span></a> の呼び出しはスレッド セーフですが、返された <a class="reference internal" href="SpatialQuery.html#spatialquery"><span class="std std-ref">SpatialQuery</span></a> オブジェクトはそうではありません (ローカルのみで使用すべきです)。</p>
+<p class="last"><a class="reference internal" href="SpatialQueryable.html#id55210"><span class="std std-ref">SpatialQueryable.beginSpatialQuery</span></a> の呼び出しはスレッド セーフですが、返された <a class="reference internal" href="SpatialQuery.html#spatialquery"><span class="std std-ref">SpatialQuery</span></a> オブジェクトはそうではありません (ローカルのみで使用すべきです)。</p>
 </div>
 <p>次の例では、 <a class="reference internal" href="SpatialQuery.html#spatialquery"><span class="std std-ref">SpatialQuery</span></a> の適切なマルチ スレッドの使用法を説明します。</p>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">require</span> <span class="nx">Geometry</span><span class="p">;</span>
@@ -171,7 +172,7 @@
 </div>
 <div class="section" id="geometrylocation-structure">
 <span id="geometrylocationstructure"></span><h2>ジオメトリロケーション構造<a class="headerlink" href="#geometrylocation-structure" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p><a class="reference internal" href="SpatialQueryable.html#id53109"><span class="std std-ref">SpatialQueryable.raycast</span></a> のようなメソッド群において、分析結果はサーフェース上の特定のポイント(位置)を指し、 <a class="reference internal" href="GeometryLocation.html#geometrylocation"><span class="std std-ref">GeometryLocation</span></a> 構造が返されます。 <a class="reference internal" href="GeometryLocation.html#geometrylocation"><span class="std std-ref">GeometryLocation</span></a> メンバーの内容と意味は、下記の各 <a class="reference internal" href="Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> 型で特有です。</p>
+<p><a class="reference internal" href="SpatialQueryable.html#id55217"><span class="std std-ref">SpatialQueryable.raycast</span></a> のようなメソッド群において、分析結果はサーフェース上の特定のポイント(位置)を指し、 <a class="reference internal" href="GeometryLocation.html#geometrylocation"><span class="std std-ref">GeometryLocation</span></a> 構造が返されます。 <a class="reference internal" href="GeometryLocation.html#geometrylocation"><span class="std std-ref">GeometryLocation</span></a> メンバーの内容と意味は、下記の各 <a class="reference internal" href="Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> 型で特有です。</p>
 <ul class="simple">
 <li><p class="first"><a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a>:ポリゴンメッシュ</p>
 <ul>
@@ -183,7 +184,7 @@
 </li>
 </ul>
 </li>
-<li><p class="first"><a class="reference internal" href="Lines.html#lines"><span class="std std-ref">Lines</span></a>:ライン群</p>
+<li><p class="first"><a class="reference internal" href="../Multipede/Lines.html#lines"><span class="std std-ref">Lines</span></a>:ライン群</p>
 <ul>
 <li><p class="first"><cite>index</cite> は線分のインデックスを保存します。</p>
 </li>
@@ -204,23 +205,23 @@
 <p class="first admonition-title">注釈</p>
 <p class="last"><a class="reference internal" href="GeometryLocation.html#geometrylocation"><span class="std std-ref">GeometryLocation</span></a> は特定のジオメトリ、または同一の構造( <cite>topology</cite> )において有効です。 <a class="reference internal" href="GeometryLocation.html#geometrylocation"><span class="std std-ref">GeometryLocation</span></a> は変形（アニメーション）中でも変動しません。</p>
 </div>
-<p><a class="reference internal" href="functions.html#id53166"><span class="std std-ref">GetAttributeAtLocation</span></a> ヘルパー関数群は <a class="reference internal" href="GeometryLocation.html#geometrylocation"><span class="std std-ref">GeometryLocation</span></a> に対するアトリビュート値を返すことができます。これらは <a class="reference internal" href="SpatialQueryable.html#id53122"><span class="std std-ref">SpatialQueryable.getLocationAttributeIndicesAndWeights</span></a> と、アトリビュートの <cite>getLinearCombination</cite> メソッドをシンプルに内包したものです。</p>
+<p><a class="reference internal" href="functions.html#id55328"><span class="std std-ref">GetAttributeAtLocation</span></a> ヘルパー関数群は <a class="reference internal" href="GeometryLocation.html#geometrylocation"><span class="std std-ref">GeometryLocation</span></a> に対するアトリビュート値を返すことができます。これらは <a class="reference internal" href="SpatialQueryable.html#id55230"><span class="std std-ref">SpatialQueryable.getLocationAttributeIndicesAndWeights</span></a> と、アトリビュートの <cite>getLinearCombination</cite> メソッドをシンプルに内包したものです。</p>
 </div>
 <div class="section" id="acceleration-structures">
 <span id="spatialqueryaccelerationstructures"></span><h2>高速化構造<a class="headerlink" href="#acceleration-structures" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>空間分析は <a class="reference internal" href="Octree.html#octree"><span class="std std-ref">Octree</span></a> や <a class="reference internal" href="SparseGrid.html#sparsegrid"><span class="std std-ref">SparseGrid</span></a> のような高速化構造の内部キャッシュを用いて実行できます。キャッシュされた高速化構造を持たない複数の分析を実行すると、特に複雑な形状において、非常に処理が遅くなることがあります。 <a class="reference internal" href="SpatialQueryable.html#spatialqueryable"><span class="std std-ref">SpatialQueryable</span></a> インタフェースを通した高速化構造を適切に使用するために、いくつかのルールに従う必要があります。</p>
-<p>内蔵のジオメトリ群( <a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> , <a class="reference internal" href="Lines.html#lines"><span class="std std-ref">Lines</span></a> , <a class="reference internal" href="Points.html#points"><span class="std std-ref">Points</span></a> )は none(つまり持たない)、 <a class="reference internal" href="Octree.html#octree"><span class="std std-ref">Octree</span></a> 、 <a class="reference internal" href="SparseGrid.html#sparsegrid"><span class="std std-ref">SparseGrid</span></a> のいずれかの高速化構造をサポートします。これらは  <a class="reference internal" href="SpatialQueryable.html#id53094"><span class="std std-ref">SpatialQueryable.prepareForSpatialQueries</span></a> オプションを使用して指定することができます。</p>
+<p>内蔵のジオメトリ群( <a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> , <a class="reference internal" href="../Multipede/Lines.html#lines"><span class="std std-ref">Lines</span></a> , <a class="reference internal" href="Points.html#points"><span class="std std-ref">Points</span></a> )は none(つまり持たない)、 <a class="reference internal" href="Octree.html#octree"><span class="std std-ref">Octree</span></a> 、 <a class="reference internal" href="SparseGrid.html#sparsegrid"><span class="std std-ref">SparseGrid</span></a> のいずれかの高速化構造をサポートします。これらは  <a class="reference internal" href="SpatialQueryable.html#id55202"><span class="std std-ref">SpatialQueryable.prepareForSpatialQueries</span></a> オプションを使用して指定することができます。</p>
 <p>高速化構造の初期設定は、あらゆる状況でうまく動作する <a class="reference internal" href="Octree.html#octree"><span class="std std-ref">Octree</span></a> です。どちらの高速化構造も、増分の更新（小さな変更、小さな更新コスト）をサポートしています。これら高速化構造の比較は <a class="reference internal" href="#octreesparsegridcompare"><span class="std std-ref">オクトリー(Octree ) vs スパースグリッド(SparseGrid)</span></a> を参照してください。</p>
-<p><a class="reference internal" href="SpatialQueryable.html#id53094"><span class="std std-ref">SpatialQueryable.prepareForSpatialQueries</span></a> メソッドは、後の分析(マルチスレッド可)の呼び出しを早めるために、高速化構造をインストールまたは更新します。もし <a class="reference internal" href="SpatialQueryable.html#id53094"><span class="std std-ref">SpatialQueryable.prepareForSpatialQueries</span></a> が最初またはジオメトリの変更後に呼び出されていない場合、ジオメトリはアトリビュートや構造のバージョンの変更を検出すると高速化を無効化し、パフォーマンスの低下につながります。</p>
+<p><a class="reference internal" href="SpatialQueryable.html#id55202"><span class="std std-ref">SpatialQueryable.prepareForSpatialQueries</span></a> メソッドは、後の分析(マルチスレッド可)の呼び出しを早めるために、高速化構造をインストールまたは更新します。もし <a class="reference internal" href="SpatialQueryable.html#id55202"><span class="std std-ref">SpatialQueryable.prepareForSpatialQueries</span></a> が最初またはジオメトリの変更後に呼び出されていない場合、ジオメトリはアトリビュートや構造のバージョンの変更を検出すると高速化を無効化し、パフォーマンスの低下につながります。</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last"><a class="reference internal" href="SpatialQueryable.html#id53094"><span class="std std-ref">SpatialQueryable.prepareForSpatialQueries</span></a> を <a class="reference internal" href="Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> 型が変更された後に再び呼び出すとき、高速化構造は増分の更新を行います。これは高速化構造が性能を向上させるために、変化に一致するように一部分だけを変更することを意味します。サーフェースの変形はフレーム間では通常小さなものなので、これは再生中に特に役立ちます。</p>
+<p class="last"><a class="reference internal" href="SpatialQueryable.html#id55202"><span class="std std-ref">SpatialQueryable.prepareForSpatialQueries</span></a> を <a class="reference internal" href="Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> 型が変更された後に再び呼び出すとき、高速化構造は増分の更新を行います。これは高速化構造が性能を向上させるために、変化に一致するように一部分だけを変更することを意味します。サーフェースの変形はフレーム間では通常小さなものなので、これは再生中に特に役立ちます。</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
 <p class="last">高速化構造は、コンパクトな配列の内部構成です。 <cite>unguarded</cite> モードでのKLコンパイルは、通常は空間分析を30％高速化します。</p>
 </div>
-<p><a class="reference internal" href="SpatialQueryable.html#id53099"><span class="std std-ref">SpatialQueryable.removeSpatialQueryAcceleration</span></a> は、加速構造を削除してメモリを解放できます。しかし、通常は（詳細については、メソッドの説明を参照）、このメソッドを呼び出すことをお勧めしません。</p>
+<p><a class="reference internal" href="SpatialQueryable.html#id55207"><span class="std std-ref">SpatialQueryable.removeSpatialQueryAcceleration</span></a> は、加速構造を削除してメモリを解放できます。しかし、通常は（詳細については、メソッドの説明を参照）、このメソッドを呼び出すことをお勧めしません。</p>
 <div class="section" id="octree-versus-sparsegrid">
 <span id="octreesparsegridcompare"></span><h3>オクトリー(Octree ) vs スパースグリッド(SparseGrid)<a class="headerlink" href="#octree-versus-sparsegrid" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>ここでは <a class="reference internal" href="Octree.html#octree"><span class="std std-ref">Octree</span></a> と <a class="reference internal" href="SparseGrid.html#sparsegrid"><span class="std std-ref">SparseGrid</span></a> を簡単に比較します。</p>
@@ -229,11 +230,11 @@
 </li>
 <li><p class="first">スパースグリッドの構築と更新は、オクトリーよりも多くの場合で2倍以上高速です。</p>
 </li>
-<li><p class="first"><a class="reference internal" href="SpatialQuery.html#id53055"><span class="std std-ref">SpatialQuery.raycast</span></a>: ジオメトリ・エレメント (ポリゴン、ポイント) が空間に比較的均一に分布する場合、スパースグリッドは約30%高速化することができますが、ジオメトリ・エレメントの密度が大幅に異なる場合は遅くなります。</p>
+<li><p class="first"><a class="reference internal" href="SpatialQuery.html#id55163"><span class="std std-ref">SpatialQuery.raycast</span></a>: ジオメトリ・エレメント (ポリゴン、ポイント) が空間に比較的均一に分布する場合、スパースグリッドは約30%高速化することができますが、ジオメトリ・エレメントの密度が大幅に異なる場合は遅くなります。</p>
 </li>
-<li><p class="first"><a class="reference internal" href="SpatialQuery.html#id53062"><span class="std std-ref">SpatialQuery.getClosest</span></a>: オクトリーは通常スパースグリッドよりもはるかに高速です。スパースグリッドは検索ポイントがジオメトリのサーフェスから離れている場合は特に遅くなります。</p>
+<li><p class="first"><a class="reference internal" href="SpatialQuery.html#id55170"><span class="std std-ref">SpatialQuery.getClosest</span></a>: オクトリーは通常スパースグリッドよりもはるかに高速です。スパースグリッドは検索ポイントがジオメトリのサーフェスから離れている場合は特に遅くなります。</p>
 </li>
-<li><p class="first"><a class="reference internal" href="SpatialQuery.html#id53074"><span class="std std-ref">SpatialQuery.getElementsInBBox</span></a> と <a class="reference internal" href="SpatialQuery.html#id53079"><span class="std std-ref">SpatialQuery.getElementsInBSphere</span></a>: 検索ボリュームがジオメトリ・エレメント間の距離に類似している場合や、ジオメトリ・エレメントが空間に比較的均一に分布している場合、スパースグリッドの方が速くなるでしょう。</p>
+<li><p class="first"><a class="reference internal" href="SpatialQuery.html#id55182"><span class="std std-ref">SpatialQuery.getElementsInBBox</span></a> と <a class="reference internal" href="SpatialQuery.html#id55187"><span class="std std-ref">SpatialQuery.getElementsInBSphere</span></a>: 検索ボリュームがジオメトリ・エレメント間の距離に類似している場合や、ジオメトリ・エレメントが空間に比較的均一に分布している場合、スパースグリッドの方が速くなるでしょう。</p>
 </li>
 </ul>
 </div>
@@ -267,11 +268,11 @@
                         title="前の章へ">PolygonMesh&#8217;s structure</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="utilizinggpucompute.html"
-                        title="次の章へ">ジオメトリを用いたGPUコンピュートの利用</a></p>
+                        title="次の章へ">Utilizing GPU compute with Geometries</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../../_sources/KLExtensionsGuide/Geometry/spatialqueriesusage.txt"
+      <li><a href="../../_sources/KLExtensionsGuide/Geometry/spatialqueriesusage.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Geometry/spatialqueriesusage.html"
               rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
@@ -280,8 +281,8 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -301,19 +302,19 @@
           <a href="../../py-modindex.html" title="Pythonモジュール索引"
              >モジュール</a> |</li>
         <li class="right" >
-          <a href="utilizinggpucompute.html" title="ジオメトリを用いたGPUコンピュートの利用"
+          <a href="utilizinggpucompute.html" title="Utilizing GPU compute with Geometries"
              >次へ</a> |</li>
         <li class="right" >
           <a href="polygonmeshstructure.html" title="PolygonMesh’s structure"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" >Geometry エクステンション</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Geometry エクステンション</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010-2016 Fabric Software Inc.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
     </div>
   </body>
 </html>

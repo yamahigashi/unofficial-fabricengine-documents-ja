@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Canvas scripting interface &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>Canvas scripting interface &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,10 +15,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.3.0',
+        VERSION:     '2.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -26,8 +27,8 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
-    <link rel="up" title="Fabric for MODO" href="index.html" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" />
     <link rel="next" title="Splice through OpenFX" href="../OFX/index.html" />
     <link rel="prev" title="Installation" href="install.html" /> 
   </head>
@@ -47,9 +48,9 @@
         <li class="right" >
           <a href="install.html" title="Installation"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Fabric for MODO</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Fabric for MODO</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -502,13 +503,15 @@
 <p>The path of the node inside of which the source and destination ports are located.</p>
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">srcPortPath</span></code></p>
-<p>The path of the source port.</p>
+<p>The path(s) of the source port(s). If you have more than one path then you must separate them using <code class="docutils literal"><span class="pre">|</span></code> (vertical bar).</p>
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">dstPortPath</span></code></p>
-<p>The path of the destination port.</p>
+<p>The path(s) of the destination port(s). If you have more than one path then you must separate them using <code class="docutils literal"><span class="pre">|</span></code> (vertical bar).</p>
 </li>
 </ul>
 </div></blockquote>
+<p><strong>Note</strong></p>
+<p>The amount of source and destination paths should be the same!</p>
 </div></blockquote>
 </div>
 <div class="section" id="fabriccanvasdisconnect">
@@ -874,7 +877,7 @@ All existing connections between ports are preserved.</p>
 <h2>FabricCanvasRemovePort<a class="headerlink" href="#fabriccanvasremoveport" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <blockquote>
 <div><p><strong>Description</strong></p>
-<p>Removes a port from a graph or a node.</p>
+<p>Removes port(s) from a graph or a node.</p>
 <p><strong>Scripting Syntax</strong></p>
 <p><code class="docutils literal"><span class="pre">FabricCanvasRemovePort(</span> <span class="pre">binding,</span> <span class="pre">execPath,</span> <span class="pre">portName</span> <span class="pre">)</span></code></p>
 <p><strong>Parameters</strong></p>
@@ -887,7 +890,7 @@ All existing connections between ports are preserved.</p>
 <p>The path of the node with the port that is to be removed.</p>
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">portName</span></code></p>
-<p>The name of the port to remove.</p>
+<p>The name(s) of the port(s) to remove. If you have more than one port name then you must separate them using <code class="docutils literal"><span class="pre">|</span></code> (vertical bar).</p>
 </li>
 </ul>
 </div></blockquote>
@@ -1241,7 +1244,7 @@ All existing connections between ports are preserved.</p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../../_sources/DCCIntegrations/Modo/canvasscripting.txt"
+      <li><a href="../../_sources/DCCIntegrations/Modo/canvasscripting.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DCCIntegrations/Modo/canvasscripting.html"
               rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
@@ -1250,8 +1253,8 @@ All existing connections between ports are preserved.</p>
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -1276,14 +1279,14 @@ All existing connections between ports are preserved.</p>
         <li class="right" >
           <a href="install.html" title="Installation"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" >Fabric for MODO</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Fabric for MODO</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010-2016 Fabric Software Inc.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
     </div>
   </body>
 </html>

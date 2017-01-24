@@ -1,0 +1,328 @@
+.. _RELNOTES-2.3.0:
+
+Fabric Engine 2.3.0 Release Notes
+=================================================
+
+.. image:: /images/FE_logo_345_60.*
+   :width: 345px
+   :height: 60px
+
+| Fabric Engine version 2.3.0
+| Released July 2016
+| Copyright (c) 2010-2017 Fabric Software Inc. All rights reserved.
+
+About This Release
+------------------
+
+This 2.3 release of Fabric Engine introduces Blocks, which fundamentally changes what is possible with Canvas while at the same time making Canvas even easier to use! See below for more on this and many other additions.
+
+**Blocks**
+
+Everything you thought you knew about Fabric is changed by Blocks. They take Canvas
+visual programming from "this is cool, but I wish I didn’t have to resort to writing code for some
+things" to "this is freaking awesome, now I can do it all graphically". We have included many samples in the Blocks folder and some presets that leverage the Block architecture such as:
+
+- ``ForLoop`` Traditional For Loop
+- ``AccumulateWhile`` A While which iterates over an array and accumulates the value of each iteration with an exit condition
+- ``Filter``  Filters an array based on a condition defined in the block 
+- ``Geometry Deform``  Iterates through the positions of a Geometry primitive and exposes a block to modify each of them
+- ``Image Modify``  Iterates through the pixels of an Image and exposes a block to modify each of them
+- ``AnyElementMatches`` Iterates over an array and tests a block on each element; as soon as an element matches, it returns true; otherwise it returns false
+
+There are two new sections in the documentation for Blocks and the What's New video also provides a good introduction and overview:
+
+- :ref:`The Blocks section of the Canvas User Guide <canvas-user-guide-blocks>`
+- :ref:`The Blocks section of the Canvas Programmer Guide <canvas-programming-guide-blocks>`
+- `What's New In Fabric Engine 2.3 video`_
+
+.. _What's New In Fabric Engine 2.3 video: https://vimeo.com/175280006
+
+
+**Revamped Function Node editor**
+
+Now you can create and edit ports in the Function Editor a much more visual workflow for removing, dragging and dropping and editing metadata. You can also create blocks which can be pulled within the KL editor.
+
+**UX Improvements**
+
+Apart than the new Function Node Editor, we have made many UI/UX Improvements including:
+
+- Middle mouse button navigation support
+- A recent file list in the File Menu
+- Improved positioning of the tab search widget
+- Improved color highlighting and font size on the log widget
+- Autoscrolling on the log widget
+- It is now possible to select the data type of a port inside a subgraph
+- Improved the contrast in the code completion window
+- Clicking on the sliders will set the value based on the clicked position
+- Improved Canvas header controls (to go back and split presets)
+- Ability to expose a port from the outside of a graph, or by clicking the header
+
+**Alembic improvements**
+
+We have improved the Alembic extensions with many bugfixes that make it more reliable and flexible.
+
+
+**Basic Linear Algebra Extension**
+
+A very basic library that adds support for complex numbers, arbitrary matrices with Cholesky decomposition, quadratic programming etc.
+
+
+**Increased stability in Fabric for Maya and Maya 2016 Extension 2 support**
+
+Fabric Engine 2.3.0 has fixed a number of Fabric for Maya issues and includes support for Maya 2016 Extension 2.
+
+
+Supported Operating Systems, Integrations and GPUs
+--------------------------------------------------
+
+- Fabric 2.3.0 is supported on Windows and Linux. OS X builds are provided but are not officially supported; official support on OS X will arrive in a subsequent release.
+- Fabric for Maya integration is supported for Autodesk Maya 2014, 2015 and 2016 and their corresponding service packs and extensions on Windows and Linux.
+- Fabric for Softimage integration is supported for Autodesk Softimage 2014 and 2015 and their corresponding service packs on Windows.
+- Fabric for MODO integration is compatible with MODO 901 through to MODO 10.1 and is available on Windows, Linux and OS X.
+- Fabric 2 GPU support is available on NVIDIA hardware. See the GPU Compute Guide in the documentation for more details.
+
+Documentation
+-------------
+
+To learn more about Fabric Canvas, please see:
+
+- :ref:`CANVASUSERGUIDE`
+- :ref:`CANVASPROGRAMMERGUIDE`
+- :ref:`GETTINGSTARTED_INDEX`
+
+Also be sure to check out http://fabricengine.com/blog/ for articles and introductory how-to videos.
+
+Downloads
+---------
+
+All downloads for Fabric Engine 2.3.0 can be obtained at http://dist.fabric-engine.com/FabricEngine/2.3.0/.  For information on installation please refer to :ref:`GETTINGSTARTED_INDEX`.
+
+Support
+-------
+
+Fabric Engine 2.3.0 is available for free use under Evaluation, Studio or Educational licenses and is also available under commercial terms. Commercial customers are entitled to contact Fabric directly for Support. Non-commercial customers are encouraged to use the following options:
+
+- http://forums.fabricengine.com : Ask & answer questions within the Fabric community. This is where you should post your support issues.
+- mailto://bugs@fabricengine.com : If you have found a bug you can email us with clear steps to reproduce the issue (be sure to include details on what operating system and DCC application and their respective versions that you are using). Please note that we will respond only if additional information is required to resolve an issue with the Fabric platform.
+
+.. _knownissues-2.3.0:
+
+Maya 2016 Ext 2 on OS X now requires using the "OpenGL Strict" profile. This is a change from previous versions of Maya 2016 and will cause the following error message to be displayed in the viewport: "Current drawing engine does not support legacy viewport." In order to allow Fabric's Inline Drawing to work you need set “OpenGL Legacy” mode in the Maya Windows Settings/Preferences dialogue. You will find it at the bottom of the Viewport 2.0 section. 
+
+
+.. _changes-2.3.0:
+
+Changes
+-------
+
+- Added canvas.bat and canvas.sh to make launching canvas easier.
+- The JSON extension API has changed which might lead in behaviour changee behaviour for existing code relying on it. 
+- New array presets Sum, Product, Average, Min, Max have been added.
+- New preset 'ReportInChunks' and new sample 'Miscellaneous/report_in_chunks' have been added.
+- We removed the menu items of the deprecated Splice nodes to tidy up the Fabric main menu. Note that these actions can still be accessed via MEL and Python.
+- The default framerate in Canvas Standalone is now '60.0 fps' rather than 'max fps'.
+- New menu items added to Fabric for Maya: 'Import/Export Graph' and 'Select Canvas Node/Item' to select the Maya Canvas node being displayed in Canvas.
+- "Open Documentation" now attempts to open the documentation locally first and, if that fails, it switches to the online version.
+- GenericValue.getValueType() was changed to return the Type instead of a String of that type. For arrays, this means that instead of returning "TypeArray" it will return "Type[]" if converted to a String.
+
+.. _fixes-2.3.0:
+
+List of Issues Addressed
+--------------------------------
+
+**General**
+
+[FE-6716] - Removed dll's and pdb file duplication on windows
+
+[FE-6663] - klHeapInUse can be used from python
+
+
+**Canvas**
+
+[FE-6613] - Undoing port data type of function nodes works properly now
+
+[FE-6764] - DFGBinding.setDirty()  call implemented to dirty Canvas Binding
+
+[FE-5806] - It is possible now to select the data type of a port inside a subgraph
+
+[FE-6796] - Canvas no longer crashes when middle clicking on ports
+
+[FE-6569] - Canvas no longer drops frames during playback
+
+[FE-6646] - Canvas on "max framerate" now plays back smoothly
+
+[FE-6701] - DFGExec::setPortDefaultValue was not working as expected
+
+[FE-6185] - Canvas no longer hangs when smoothing the 55k Kraken Alembic file
+
+[FE-7009] - Add preset UID hash table to find duplicate UIDs
+
+[FE-6667] - Removed node header context menu from GraphView
+
+[FE-6779] - The default Color value has an opaque alpha now
+
+
+**Canvas.py**
+
+[FE-6707] - eval function in ScriptEditor.py is now properly initialized
+
+[FE-6639] - Shortcuts for Value Editor and Log Messages were the same
+
+[FE-6634] - Side ports centered option didn’t have any effect
+
+[FE-6556] - --script argument now loads  the script in the editor window and executes it
+
+[FE-5829] - Recent files list in the File Menu implemented
+
+
+**Canvas UI**
+
+[FE-5733] - Improved Canvas Timeline widget size
+
+[FE-6599] - Improved look on OS X Retina displays
+
+[FE-6692] - Magnifying glass icon now works on windows within the standard prompt
+
+
+**Canvas UX**
+
+[FE-6575] - Inconsistency on allowed characters when specifying port names removed
+
+[FE-6793] - New function dialog has the “Create Function Node” title and “Node Name:” in front of the lineedit
+
+[FE-6563] - Log widget autoscrolls to the end when something gets logged
+
+[FE-5716] - Port order is now displayed correctly when undoing
+
+[FE-6597] - FPS option is now displayed as "..." instead of numbers
+
+[FE-6641] - Improved the contrast in code completion text
+
+[FE-6863] - Default timeline frame range is bigger
+
+[FE-6862] - Mouse click on timeline slider sets the slider to the clicked position
+
+[FE-6771] - Removed the dashed lines rendering on connections
+
+[FE-7010] - Changed script editor font size to make it similar than the log messages font size
+
+[FE-5412] - Better and unified colors on the log messaged widget
+
+[FE-6068] - Port dialog expands metadata tab if it has been set
+
+[FE-6228] - TAB search widget doesn’t jump back to the original position
+
+[FE-6733] - Hotkey for editing/entering node + hotkey for "Go back” created
+
+[FE-5528] - Locked Preset KL code editor view allows to be scrolled
+
+[FE-6317] - Middle mouse button navigation to the canvas graph implemented
+
+
+**Core**
+
+[FE-7090] - A performance regression in parallel evaluation has been fixed
+
+[FE-6778] - DFGBinding metadata no longer gets lost when using DFGHost::createBindingFromJSON
+
+
+**KL**
+
+[FE-6626] - Popping from an empty array no longer gives a strange error code
+
+[FE-6915] - KL compiler could claim value to not be IO when it was
+
+
+**Value Editor**
+
+[FE-6075] - Integer sliders now behave the same as scalar sliders
+
+[FE-6207] - Spinner on expanded types results in different values for the same port
+
+
+**Presets**
+
+[FE-4801] - Cylinder PolygonMesh primitive now has proper normals
+
+[FE-6588] - Connecting an empty FileBrowser preset no longer outputs FileIO: Conversion of null object failed message
+
+[FE-6625] - Array.pop preset implemented
+
+[FE-6903] - "DrawImage" had bad smooth range for the param "position"
+
+[FE-6780] - Array.GetArray's indices are of $INTTYPE$ now
+
+[FE-6696] - Setting quaternion on attribute SetValueArray works fine now
+
+[FE-6320] - Added a new constructor to DFGBindingWrapper to take a JSON string as input
+
+[FE-6250] - New array presets Sum, Product, Average, Min, Max
+
+
+**Extensions**
+
+[FE-5328] - Alembic: Reading color attributes were wrong in some cases
+
+[FE-6744] - Alembic: Curves Writer properly stores closed lines
+
+[FE-6665] - Alembic: Param reader now supports face varying attributes
+
+[FE-6637] - Alembic: StorepropertyArray was broken
+
+[FE-6848] - Alembic: Visibilities (boolean property) support
+
+[FE-6622] - Alembic: Integer values were incorrectly interpolated; this has been fixed
+
+[FE-6992] - Alembic: File now supports closed lines. But not clothes lines. Those are something quite different entirely.
+
+[FE-6620] - Alembic: Points support in Alembic.DrawContents
+
+[FE-6340] - Alembic: colorSets created in Maya are read Properly
+
+[FE-6518] - Alembic: Using more than 10K entries does not crash anymore
+
+[FE-6298] - JSON: General Improvements
+
+[FE-6811] - Geometry: Skinning Attribute getPairCount method was returning wrong values
+
+[FE-7019] - LR: Linear Algebra extension added and improved Math types
+
+
+**DCC Integrations General**
+
+[FE-6748] - Removed CTRL + Tab shortcut
+
+[FE-5991] - Segfault in SpliceAPI/DGGraphImpl.cpp:resolveEnvironmentVariables() fixed
+
+
+**Fabric for Maya**
+
+[FE-6700] - Removed Splice Legacy menu items
+
+[FE-6595] - Visual glitch with sliders in Maya 2016 fixed
+
+[FE-6803] - Added a FabricCanvasGetExecuteShared method
+
+[FE-6721] - There was a crash pressing Enter in KL editor
+
+[FE-6741] - Parallel evaluation mode was not persisted
+
+[FE-5244] - Added Load and Save Graph actions to the Canvas widget
+
+[FE-6242] - Added "Select in Maya" button in the Canvas Editor
+
+[FE-6612] - We now dirty Maya canvas nodes on scene / reference load
+
+
+**Fabric for Softimage**
+
+[FE-6788] - We now remove double slashes / backslashes when automatically setting EXTS/DFG paths
+
+
+**Fabric for Modo**
+
+[FE-7033] - Improve the look and feel of some UI elements
+
+[FE-6654] - We no longer abort setting Modo channels from DFG ports when encountering an unsupported format
+
+

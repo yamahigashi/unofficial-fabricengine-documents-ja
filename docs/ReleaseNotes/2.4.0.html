@@ -1,0 +1,500 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fabric Engine 2.4.0 リリースノート &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fabric-engine-2-4-0-release-notes">
+<span id="relnotes-2-4-0"></span><h1>Fabric Engine 2.4.0 リリースノート<a class="headerlink" href="#fabric-engine-2-4-0-release-notes" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<a class="reference internal image-reference" href="../_images/FE_logo_345_60.png"><img alt="../_images/FE_logo_345_60.png" src="../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
+<div class="line-block">
+<div class="line">Fabric Engine version 2.4.0</div>
+<div class="line">2017年1月吉日リリース</div>
+<div class="line">Copyright (c) 2010-2017 Fabric Software Inc. All rights reserved.</div>
+</div>
+<div class="section" id="about-this-release">
+<h2>このリリースについて<a class="headerlink" href="#about-this-release" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>この Fabric Engine 2.4 のリリースでは 以下5つの項目について改善を施しました：</p>
+<ul class="simple">
+<li>Kraken (キャラクタリギング)</li>
+<li>Namespaces（名前空間）</li>
+<li>Curves (曲線)</li>
+<li>Fabric for Maya のパフォーマンス最適化</li>
+<li>UI/UX の改良</li>
+</ul>
+<p><strong>Kraken</strong></p>
+<p>Kraken がディフォルトで Fabric 2.4に同梱されています！</p>
+<p>Kraken は Fabric Engine用のオープンソースのキャラクタリギングを提供します。異なるアニメーションアプリケーション間を横断し、同一の結果をもたらすような リグとソルバを使うことができ、それを定義することもできます。</p>
+<p>Kraken を使うことの利点：</p>
+<ul class="simple">
+<li>Maya や他のDCCアプリケーション間で一貫した結果をもたらすポータブルなリグ</li>
+<li>Maya や他のDCCアプリケーションに依存しない独自のリグツールの開発をサポート</li>
+<li>高度に複雑なリグを Fabric Engine内で効率よく評価</li>
+<li>簡単に使える Biped ワークフロー</li>
+<li>ノードベースの Krakenエディタが付属</li>
+<li>柔軟で、カスタマイズ可能で、拡張容易</li>
+<li>オープンソース</li>
+</ul>
+<p><strong>Namespaces（名前空間）</strong></p>
+<p><a class="reference internal" href="../KLProgrammingGuide/scopes-namespaces.html#scopes-namespaces"><span class="std std-ref">Namespaces（名前空間）</span></a> を Fabric Engineでサポートしました。Fabric での大規模な実装において 命名 を整理するのに役立ちます。これは期待通り動作です：つまり「名前」のスコープを制限することでエクステンション内での衝突を防ぎます。</p>
+<p><strong>Curves</strong></p>
+<p>ついにFabric Engine でカーブをネイティブにサポートしました。独自のコードを記述し、さまざまなカーブ種やシェイプを作成し使用する必要がなくなりました。カーブは最大で次数7 の NURBS （開閉どちらも）として定義可能です。ただ多くの場合、linear, cubic, Beziers として扱うことが多いでしょう。Alembic および Maya のカーブを適切に扱います。カーブをビューポートに描画（曲率、法線、接線のアトリビュートをサポート）し、パーセントをもとにカーブ長の取得や設定を行うような、いくつかのユーティリティメソッドが用意されています。</p>
+<p><strong>Fabric for Maya パフォーマンス最適化</strong></p>
+<p>Fabric Engine の Maya内での実行速度を最適化しました。一般的なケースにおいて、多くのMaya Canvasノードに6倍から8倍の高速化が見られました。（Fabric Core API に単一のエントリポイントを追加し、引数の変換の際データメンバを移動（traverse)するのではなく、メモリに直接アクセスを行うように変更しました。）</p>
+<p>さらに、新規ノード 「FabricConstraint」を追加しました。これは Mayaでの position, orientation, scale, parent 各コンストレインの機能を一つにまとめ、高度に最適化したものです。上級者向けに 「CanvasFuncNode」と 「CanvasFuncDeformer」を追加しました。通常の CanvasNode および CanvasDeformer に相当するより高速なノードです。（この二つのノードではグラフ機能を省き、KL関数エディタのみ公開します）</p>
+<p><strong>UI/UX 改善</strong></p>
+<p>Fabric Engine の日常での利用を継続しより容易にしています。このリリースではその一環として、ユーザインタフェースの一般的なクリーンナップを行いました。共通なスタイルシートを統合し、さらに Fabricの既定のスタイルをユーザ独自の設定ファイルで上書きすることができるようになりました。</p>
+<p>ビューポートのレンダオプションの編集可能にし、グラフビューでのワークフローの追加と改善も同様に行いました：</p>
+<ul class="simple">
+<li>「Z」ショートカットキーによるズーム機能</li>
+<li>「C」ショートカットによる自動ノード接続</li>
+<li>ポートフィールドをダブルクリックすることでノード（複数）のポート名を一括変更</li>
+<li>組み立てを容易にするため接続を張るための閾値を増加</li>
+<li>GUIDを適切に反映したプリセットのエクスポート</li>
+<li>エクスプローラでのプリセットのフルパスの表示と公開</li>
+<li>タブ検索でのプリセット探索を改善</li>
+</ul>
+<p>しあげに、Diagnostic （診断）ウィンドをよりよくするため、エラーを強調表示</p>
+<p><strong>その他</strong></p>
+<p>もちろん、多くのバグ修正（とくに Fabric For Maya や Alembic）を行いました</p>
+<p>また、たとえば Textエクステンション（3D空間にテキストで値を描画する）などのとても便利な機能を追加しました。複雑で大規模なグラフを作成する一助となり、抽象的なデータをビューポートに直視覚化するのに役立ちます。Samples/Canvas/InlineDrawing フォルダのサンプルを確認してください。</p>
+<p>集大成として、Morris the multipede がサンプルとして配布物に含まれます。DCCあるいは Standalene の ProductionSamples フォルダ以下にあります。</p>
+</div>
+<div class="section" id="supported-operating-systems-integrations-and-gpus">
+<h2>サポートするOS, DCC統合, GPU<a class="headerlink" href="#supported-operating-systems-integrations-and-gpus" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><strong>Fabric 2.4.0</strong> は Windows, Linux をサポートします。OS X はバイナリビルドが提供されますが公式にはサポートされません。ただしこれからのリリースでサポート予定です。</li>
+<li><strong>Fabric for Maya</strong>  統合では Windows/Linux 版 Autodesk Maya 2015, 2016, 2017 （とそれぞれのサービスパック、エクステンション）をサポートします。</li>
+<li><strong>Fabric for Softimage</strong>  統合版は Autodesk Softimage 2014、2015（SP版含むWindows版）をサポートします。</li>
+<li><strong>Fabric for MODO</strong> 統合版は MODO 901 から MODO 10.1 まで Windows, Linux, OS X版を利用可能です。</li>
+<li>GPU supportは NVIDIAハードウェアのみ利用可能です。詳細はGPUコンピューティングガイドを御覧ください。</li>
+</ul>
+</div>
+<div class="section" id="documentation">
+<h2>ドキュメント<a class="headerlink" href="#documentation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric Canvas の詳細については、こちらをどうぞ:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../CanvasUserGuide/index.html#canvasuserguide"><span class="std std-ref">Canvas ユーザガイド</span></a></li>
+<li><a class="reference internal" href="../CanvasProgrammerGuide/index.html#canvasprogrammerguide"><span class="std std-ref">Canvas プログラマーガイド</span></a></li>
+<li><a class="reference internal" href="../GettingStartedGuide/index.html#gettingstarted-index"><span class="std std-ref">Fabric Engine 入門</span></a></li>
+</ul>
+<p><a class="reference external" href="http://fabricengine.com/blog/">http://fabricengine.com/blog/</a> に記事と、how-to ビデオの紹介がありますのでチェックしてみてください。</p>
+</div>
+<div class="section" id="downloads">
+<h2>ダウンロード<a class="headerlink" href="#downloads" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric Engine 2.4.0 を取得するには <a class="reference external" href="http://dist.fabric-engine.com/FabricEngine/2.4.0/">http://dist.fabric-engine.com/FabricEngine/2.4.0/</a> から行えます。インストールについては <a class="reference internal" href="../GettingStartedGuide/index.html#gettingstarted-index"><span class="std std-ref">Fabric Engine 入門</span></a> を参照してください。</p>
+</div>
+<div class="section" id="support">
+<h2>サポート<a class="headerlink" href="#support" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric 2.4.0 は評価版、スタジオ版、教育版ライセンスの下、無償での利用が可能です。また商用条件に基づく利用も可能です。商用ライセンスをご利用の顧客の皆様は、私達Fabricへ直接連絡いただけます。非商用のお客様はサポートについて以下のオプションをとることをお勧めいたします。</p>
+<ul class="simple">
+<li><a class="reference external" href="http://forums.fabricengine.com">http://forums.fabricengine.com</a> :Fabric コミュニティによる Ask &amp; answer questions。サポートに関する問題を投稿する場です。</li>
+<li><a class="reference external" href="mailto://bugs&#37;&#52;&#48;fabricengine&#46;com">mailto://bugs<span>&#64;</span>fabricengine<span>&#46;</span>com</a> : もしバグを発見したら、明快な再現手段を付しEメールをください。(使用OSとDCCアプリ、それぞれのバージョンについての詳細も)Fabricからの返答は、Fabricプラットフォームの問題の解決にあたって追加情報を必要とする場合のみですので、ご了承ください。</li>
+</ul>
+</div>
+<div class="section" id="known-issues">
+<span id="knownissues-2-4-0"></span><h2>既知の問題点<a class="headerlink" href="#known-issues" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric for Maya: canvasノードの複製で、スクリプトエディタに以下の警告が表示されます： &#8220;No object matches name: __PrenotatoPerDuplicare_canvasNode1.saveData&#8221;</p>
+<p>Fabric for Maya: Fabric Viewport 2.0 ではビューポートの Gradients 表示に対応していません。</p>
+</div>
+<div class="section" id="changes">
+<span id="changes-2-4-0"></span><h2>変更点<a class="headerlink" href="#changes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>Backdrops をタブ検索から作成可能になりました</li>
+<li>マウス中ボタンでの接続解除を廃止、「d」ショートカットに</li>
+<li>マウス中ボタンドラッグでの上流ノードまるごと移動を廃止、かわりに Shift + 左クリック</li>
+<li>KL editor: 行単位の cut/copy/paste を Sublime や Visual Studio互換に</li>
+<li>&#8216;FabricCanvasConnect&#8217; コマンドで一度に複数の接続</li>
+<li>既存コードで回転順序（rotation order）を文字列あるいは setメソッド（setXYZ()）により定義している場合、新しい rotation order の変更(xyz が文字通り X が最初に回転)に追従する必要があります。同様に Euler コンストラクタも規定で XYZ の順になり、Mayaと一致します（いままでの挙動はZYXでした）</li>
+<li>Fabric for Maya: 配列アトリビュートは、他のポートに接続されている場合に限り自動でサイズ変更/設定かかります。DFGグラフ読み込み時に配列アトリビュートをポートから設定することはできません。</li>
+</ul>
+</div>
+<div class="section" id="list-of-issues-addressed">
+<span id="fixes-2-4-0"></span><h2>修正された不具合<a class="headerlink" href="#list-of-issues-addressed" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><strong>一般</strong></p>
+<p>[FE-5628] - environment.shに「Friendly Exports」を追加</p>
+<p>[FE-7487] - canvasGUIDReplace が Fabricディストリビューションに含まれていない</p>
+<p>[FE-5851] - FABRIC_GPU_HEAP_SIZE 環境変数を追加 共有 CPU/GPU heap サイズをメガバイトで指定</p>
+<p>[FE-6151] - 無視 Extension ディレクトリが常に reportされる</p>
+<p>[FE-7099] - SoftimageおよびModoプラグインから FabricCore * .pdbを削除</p>
+<p>[FE-7631] - プラグイン設定バッチファイルで空白スペース（「 」）をサポート</p>
+<p><strong>Canvas | Canvas.py</strong></p>
+<p>[FE-7366] - サブグラフ/ブロック内部でのエラー発生でノードを無効に</p>
+<p>[FE-7072] - Blockグラフ内で Dim接続が考慮されていなかった</p>
+<p>[FE-7130] - 配列 AnyElementMatches のディフォルト要素を削除、多態性として表示されるように</p>
+<p>[FE-7114] - Exposed Count attribute to ForLoop body block by default</p>
+<p>[FE-7065] - Generated Canvas cache invalidation code was too slow</p>
+<p>[FE-7144] - crash/exit when inspecting the properties of a backdrop</p>
+<p>[FE-6577] - renaming a graph does not update the graph view&#8217;s title bar</p>
+<p>[FE-7815] - Linux: save before quite dialog has a button whose text doesn&#8217;t fit</p>
+<p>[FE-7881] - add a hotkey to toggle &#8216;Disable graph compilations&#8217;</p>
+<p>[FE-7416] - Crash on Linux when adding a node with a port of undefined type $TYPE$</p>
+<p>[FE-5446] - &#8216;required extension&#8217; field: always has the focus + unable to clear it + weird behavior when using spaces</p>
+<p>[FE-7116] - Better ways of showing errors on nodes for unresolved types</p>
+<p>[FE-6949] - soft range interpreted as hard range for Vec3 (but works with the sliders)</p>
+<p>[FE-6865] - drawing glitch with backdrops that have a smaller width than their text</p>
+<p>[FE-5797] - Invoking Create Preset with the same name will overwrite the preset with a new GUID each time</p>
+<p>[FE-5509] - Connect multiple values into a custom sized array port</p>
+<p>[FE-5600] - Context menu action in a node to split from preset</p>
+<p>[FE-6252] - implement tracking of preset usage</p>
+<p>[FE-6386] - Rewrite keyboard handling code in FabricUI to use QActions</p>
+<p>[FE-6557] - Script editor support for UI actions (timeline, undo, redo)</p>
+<p>[FE-6726] - loading graph via &#8220;recent files&#8221; doesn&#8217;t display prompt &#8220;Do you want to lose your changes?&#8221;</p>
+<p>[FE-7439] - Dialogue Boxes should not have &#8220;python&#8221; as the window title</p>
+<p>[FE-7389] - Expose DFGController in canvas.py script editor</p>
+<p>[FE-7302] - API to get RT values for all the variables used in a graph</p>
+<p>[FE-7388] - Support dragging .canvas files to canvas.bat</p>
+<p>[FE-6676] - Python editor - control + (number pad) enter does not work</p>
+<p>[FE-7410] - IndexError: list index out of range on recent files</p>
+<p>[FE-7368] - In Canvas, the Error widget is not visible from the KL editor</p>
+<p>[FE-7125] - Double clicking on some errors can make to trigger more of the same errors</p>
+<p>[FE-6568] - lag when using drive ports in manipulation</p>
+<p>[FE-6904] - wrong values are displayed when using an illegal soft range</p>
+<p>[FE-7071] - collapsing a node affects all selected nodes when using the mouse</p>
+<p>[FE-7700] - Exposing a port as an input doesn&#8217;t persist the default value in the graph</p>
+<p>[FE-7742] - Support renaming of dataType for vars</p>
+<p>[FE-5857] - Expose Canvas global Camera settings</p>
+<p>[FE-6914] - &#8216;disable graph compilations&#8217; not working in canvas.py</p>
+<p>[FE-6938] - Expose updateTime as a python command (that appears in script editor)</p>
+<p>[FE-7151] - The DFG command &#8220;Connect&#8221; can  create  now several connections at once</p>
+<p>[FE-7250] - setRefVarPath command was not exposed in script editor</p>
+<p>[FE-7269] - Canvas sometimes was keeping the hand mouse icon when panning with alt + left mouse navigation</p>
+<p>[FE-7519] - Leak in Canvas when creating an array fixed</p>
+<p><strong>Canvas UI/UX</strong></p>
+<p>[FE-4731] - Backdrop creation within the tab search</p>
+<p>[FE-7928] - Select the node name in the node properties by default</p>
+<p>[FE-7886] - Different red colors in Log Messages window</p>
+<p>[FE-7699] - List <a href="#id1"><span class="problematic" id="id2">*</span></a>[] types as proper types in the edit port dialog datatype field</p>
+<p>[FE-7843] - UI polish</p>
+<p>[FE-6839] - CTRL+C should copy the current line in the function editor if no text is selected</p>
+<p>[FE-5239] - Canvas: Click and drag from labels to connect ports</p>
+<p>[FE-7295] - Graphview Zoom functionality with ‘z’</p>
+<p>[FE-7367] - add a &#8220;Deselect all&#8221; feature</p>
+<p>[FE-7395] - variable nodes should have a different color than the cache/clone/copy nodes</p>
+<p>[FE-4594] - Request to Improve port renaming/editing</p>
+<p>[FE-5726] - Ability to see full path on disk or if it is an embedded node for any node in the graph</p>
+<p>[FE-6752] - improve deletion of ports (add a &#8220;delete all ports&#8221; to the context menu)</p>
+<p>[FE-6836] - improved visual display of IO ports in Canvas</p>
+<p>[FE-6837] - implement a &#8220;duplicate port&#8221; feature</p>
+<p>[FE-6842] - improve manual connection of ports</p>
+<p>[FE-6844] - automatically connect ports of selected nodes</p>
+<p>[FE-6926] - Shift + double-clicking in an empty space &#8220;Goes up&#8221;</p>
+<p>[FE-7108] - direct ports renaming</p>
+<p>[FE-7109] - We need a better wire connection management</p>
+<p>[FE-6589] - Create a standard Canvas.qss file and move styling to this file for main app</p>
+<p>[FE-6777] - Canvas: control viewport background color?</p>
+<p>[FE-7691] - Add a warning message when the type of the port is not invalid</p>
+<p>[FE-7469] - File browser UI hint metadata</p>
+<p>[FE-7460] - Move FPS widget to the same line as timeline widget</p>
+<p>[FE-7459] - Use grey as a default background color in the viewport</p>
+<p>[FE-7473] - Disabled Input fields in UI need to be greyed out</p>
+<p>[FE-7300] - implement &#8220;reveal in preset explorer&#8221;</p>
+<p>[FE-7755] - crash when typing/deleting &#8221;..&#8221; in function editor</p>
+<p>[FE-5883] - Rename ports with F2 or Double Click</p>
+<p>[FE-6122] - Hide specialized math types from the explorer</p>
+<p>[FE-6123] - Allow to copy an error description to the clipboard</p>
+<p>[FE-6153] - the properties dialog of a preset should have all fields read-only except for the node name</p>
+<p>[FE-6163] - We should have an option to show the full preset path of a node</p>
+<p>[FE-7004] - CTRL+Z/Y should be disabled when the TAB search is visible</p>
+<p>[FE-7054] - After creating a new port, return focus to port name field</p>
+<p>[FE-7136] - Double clicking on a preset in the tree explorer should create an instance of it</p>
+<p>[FE-7243] - log &#8220;graph loaded &lt;filename&gt;&#8221; after a graph was loaded</p>
+<p>[FE-7211] - Preset Tooltips should be displayed when hovering on preset in explorer</p>
+<p>[FE-7268] - Remove Middle mouse button (MMB) to disconnect connections, select nodes nor move them</p>
+<p>[FE-7639] - DFG Port sliders only update when clicking out</p>
+<p><strong>Core</strong></p>
+<p>[FE-1888] - Missing exp2 function in externals</p>
+<p>[FE-3451] - Namespacing for extensions</p>
+<p>[FE-5990] - Increase the default cache size to 4GB</p>
+<p>[FE-7853] - List registered extensions via Python</p>
+<p>[FE-7140] - Duplicate preset GUID warning</p>
+<p>[FE-1992] - Add use of VersionHelpers.h for Windows in TargetInfo::GetHostCPUString()</p>
+<p>[FE-5641] - LLVM crashes with forward-declared objects which are never implemented</p>
+<p>[FE-7237] - SimpleLock error</p>
+<p>[FE-7246] - RTVal::setFloat64 argument is a float</p>
+<p>[FE-7484] - Bug when loading it in scenarios where there is not rtValFromJSONDecoder specified in the options</p>
+<p>[FE-7723] - error in extension code causes Canvas to crash</p>
+<p>[FE-7836] - FabricCore::GetRegisteredTypes_Variant : KL RTVal not registered</p>
+<p>[FE-6750] - add binding notification &#8220;newExecPortCreated&#8221;</p>
+<p>[FE-6775] - Create Presets exports duplicates definition and code</p>
+<p>[FE-7504] - DFGBinding::setArgValue_dataAndSize method added</p>
+<p>[FE-7664] - Added a const char <a href="#id3"><span class="problematic" id="id4">*</span></a>argUnaliasedTypeName parameter to the FEC_DFGBindingVisitArgs_CB parameters</p>
+<p>[FE-7735] - DFGBinding renameExts was not updating exec port typespecs</p>
+<p><strong>GPU Compute</strong></p>
+<p>[FE-7275] - Adding an argument to a GPU Kernel has a big overhead</p>
+<p>[FE-7375] - Increase the maximum memory set aside for the ScatterAlloc heap</p>
+<p>[FE-7067] - GPU Compute: different computational results for GPU and CPU operator</p>
+<p>[FE-7175] - PEX GPU compute fails if an operator is defined in the same file</p>
+<p>[FE-7229] - GPU Cuda 8.0 compatibility mode support</p>
+<p><strong>KL2EDK</strong></p>
+<p>[FE-7501] - kl2edk crashes for non-existing input file</p>
+<p><strong>KL2DFG</strong></p>
+<p>[FE-5887] - defining tooltips via &#8220;dfgPresetTooltip&#8221; doesn&#8217;t work correctly</p>
+<p>[FE-7756] - Enhanced to check if input variables calling KL methods are not null</p>
+<p><strong>KL</strong></p>
+<p>[FE-7684] - segmentation fault when string in KL code contains &#8220;i&#8221;.</p>
+<p>[FE-7385] - Object.refCount() doesn&#8217;t compile (but works on specific object types)</p>
+<p><strong>Value Editor</strong></p>
+<p>[FE-7489] - VEDialog.cpp doesn&#8217;t set window title</p>
+<p>[FE-7296] - Set to default right click action on Value editor not implemented, remove it</p>
+<p>[FE-6131] - Crash: External arrays shouldn&#8217;t have the same Value Editor representation as arrays</p>
+<p>[FE-6767] - View in the Value Editor unconnected IO ports</p>
+<p><strong>Presets</strong></p>
+<p>[FE-7737] - Remove Core/Data Pass* presets</p>
+<p>[FE-7816] - LinearInterpolate presets should have soft range 0.0 to 1.0</p>
+<p>[FE-7546] - Removed obsolete PolygonMesh/Deform/Turbulize preset and updated all samples</p>
+<p>[FE-7124] - Dict.Get preset always pulls default value port</p>
+<p>[FE-6526] - Quat.toEuler seems to be using wrong rotationorders</p>
+<p>[FE-6935] - &#8220;cannot cast&#8221; error with Quat.toEuler</p>
+<p>[FE-6324] - Default Port Values for some presets have been improved</p>
+<p>[FE-6936] - add back a working &#8220;Compounds.Simulate.Delta.DeltaXfo&#8221;</p>
+<p>[FE-7260] - Bring the Passthrough preset back</p>
+<p>[FE-7234] - Add Switch Case Presets</p>
+<p>[FE-7103] - Rewrite ClonePolygonMesh</p>
+<p>[FE-7003] - Atan- missing trig compounds</p>
+<p>[FE-7106] - isNan is now exposed as a preset</p>
+<p>[FE-7223] - Add preset for KeyframeTrack.addKey() that takes a Keyframe object</p>
+<p><strong>Extensions</strong></p>
+<p><strong>Alembic</strong></p>
+<p>[FE-7461] - Curves: import Alembic curves as the new Curves geometry, similar for export</p>
+<p>[FE-7930] - Convert Linear/Bezier Curves to Bezier/NURBS when writing to Alembic</p>
+<p>[FE-7929] - Fix the reading of Knots for a NURBS MultiCurve in AlembicCurvesReader</p>
+<p>[FE-7931] - In AlembicCurvesReader, update the topology only when needed</p>
+<p>[FE-7911] - Alembic Curves error with the following files</p>
+<p>[FE-7875] - Fix AlembicCurvesWriter.writeSample!( Ref&lt;Curves&gt; geom )</p>
+<p>[FE-7890] - Create a Maya unit test that displays the output of curves exported from KL</p>
+<p>[FE-7874] - Update Alembic presets (and samples?) with the new Geometry.Curves API</p>
+<p>[FE-7877] - Create an Alembic test file for Curves</p>
+<p>[FE-7873] - Create an Alembic Curves unit test</p>
+<p>[FE-7849] - AlembicDebugParser sample</p>
+<p>[FE-7217] - Slow performance on 100MB alembic file</p>
+<p>[FE-7667] - Alembic StorePropertyArray preset is broken</p>
+<p>[FE-7419] - Getting AlembicXformReaders is very slow, as is parsing the file in general</p>
+<p>[FE-6791] - AlembicCurvesReader does not read geometry attributes</p>
+<p>[FE-7253] - AlembicWrapper errors with changing point counts</p>
+<p>[FE-7244] - AlembicWrapper patch for Houdini normals in curves</p>
+<p>[FE-7203] - Alembic - Maya GPU caches read as static</p>
+<p>[FE-7120] - Alembic errors message is horribly confusing</p>
+<p>[FE-7121] - Crash in Alembic</p>
+<p>[FE-7115] - AlembicViewer.canvas doesn&#8217;t load properly if you double click the .sh from OS X/Linux</p>
+<p>[FE-7156] - Implemented an option to merge all alembic meshes but maintain the material face set stuff!</p>
+<p><strong>Animation</strong></p>
+<p>[FE-7676] - KeyframeTrack evaluation from Maya animCurve</p>
+<p><strong>Geometry</strong></p>
+<p>[FE-6697] - Add curve support</p>
+<p>[FE-7316] - the function Lines.addSphere() uses the X instead of the Y scale of the input Xfo</p>
+<p>[FE-7778] - Method added  to split meshes into chunks</p>
+<p>[FE-6974] - maxdistance of zero in getclosest method is not equal to SCALAR_INFINITE</p>
+<p>[FE-7110] - SkinningAttribute functions have the same name as the members. KL bug?</p>
+<p><strong>Inline Drawing</strong></p>
+<p>[FE-7507] - Share &#8220;shape adaptors&#8221; using Geometry meta-data</p>
+<p>[FE-7508] - Check InlineInstance/InlineShape/InlineMaterial ownership</p>
+<p>[FE-7509] - Don&#8217;t globally register InlineShape/InlineMaterial if they are unique</p>
+<p>[FE-7510] - Add &#8220;addDrawXX&#8221; methods to DrawingHandle.kl</p>
+<p>[FE-7693] - InlineDrawing presets, check that input DrawingHandle is not null</p>
+<p>[FE-7488] - Set InlineTextShape unique name</p>
+<p>[FE-7318] - Combined inline drawing compounds and ext presets</p>
+<p>[FE-7305] - Make DrawingHandle hide-able</p>
+<p>[FE-7333] - Display.Draw* presets always create a new debug shape</p>
+<p>[FE-7334] - Expose Methods in DrawingUtilityFunctions.kl</p>
+<p>[FE-7401] - BUG: bad glFormat for textures with 1 channel</p>
+<p>[FE-6954] - Inline Drawing double sided</p>
+<p>[FE-7169] - bug in InlineDebugShape.drawLineSegments()</p>
+<p>[FE-7860] - Display error in DrawingHandle.drawColoredXXXX if vertexColors attributes are not set</p>
+<p>[FE-6291] - Add internal consistency checks to geometries and use them before rendering in InlineDrawing</p>
+<p>[FE-7107] - Many inline drawing nodes return debug shape not a DrawingHandle</p>
+<p><strong>Freetype</strong></p>
+<p>[FE-4524] - implement support for freetype as KL extension, to use text within realtime rendering</p>
+<p><strong>Math</strong></p>
+<p>[FE-7113] - Add Two Plane Intersection code to default extensions</p>
+<p>[FE-7226] - Mat33 MultiplyScalar method incorrect result</p>
+<p><strong>Documentation</strong></p>
+<p>[FE-7496] - Update zBug manual with a pointer to the github repo</p>
+<p>[FE-7785] - Document dfg*JSON commands</p>
+<p>[FE-7770] - Kraken documentation</p>
+<p>[FE-7535] - String Type example typo: String.length() is a method, not a member</p>
+<p>[FE-7536] - The Type Type.isA() example seems broken, the output is all errors:</p>
+<p>[FE-7537] - Direct assignment overload: example is malformed</p>
+<p>[FE-7538] - Errors on Markdown parser</p>
+<p>[FE-7542] - Delete and Tab-search not working</p>
+<p>[FE-7761] - Document enableEvalContext hidden attribute</p>
+<p>[FE-6934] - Don&#8217;t exclude JSONDictValue.values member from docs</p>
+<p>[FE-7249] - No Documentation for .refCount() Method</p>
+<p>[FE-7210] - Added samples and documentation in CAPI on walking the DFG graph, finding connections etc</p>
+<p>[FE-7146] - Documented the context menu of the canvas graph</p>
+<p>[FE-7197] - Make clear in the documentation that running Maya from the command line after running environment.bat can break Pyside</p>
+<p>[FE-7190] - Add FabricCore::Client::GetSingleton to the documentation</p>
+<p><strong>Fabric for Maya</strong></p>
+<p>[FE-5378] - CanvasMaya: Canvas nodes should use Fabric icon in Outliner and Node Editor</p>
+<p>[FE-6643] - use Fabric viewport 2.0 for Maya inline drawing samples</p>
+<p>[FE-7314] - Ability to deactivate manipulation exposed</p>
+<p>[FE-7315] - Manipulation Tool image was not  appearing until a Fabric node has been created</p>
+<p>[FE-7387] - Opaque outputs don&#8217;t cause downstream evaluation in Maya</p>
+<p>[FE-7311] - Aliased values are not imported/inherited when loading a graph</p>
+<p>[FE-7335] - // Error: [Splice] rtVal: null reference // enabling tool in a new scene</p>
+<p>[FE-7678] - polygonMesh_push_plus_cubes geometry doesn&#8217;t update with the locator</p>
+<p>[FE-7462] - Reference replacement of maya files containing canvas nodes do not update correctly due to saveData reference edits</p>
+<p>[FE-7683] - &#8220;Reload Extension&#8221; unavailable in 2.4 canvas in Maya</p>
+<p>[FE-5402] - &#8220;Create Graph&#8221; Crashes Maya 2016 SP3 with GPU compute enabled</p>
+<p>[FE-5917] - export/import of a graph should keep the values exposed to the DCC</p>
+<p>[FE-6463] - Fix EvalContext (in Maya)</p>
+<p>[FE-6747] - changing the data type of a Canvas port doesn&#8217;t update the Maya plug</p>
+<p>[FE-7165] - Crash with parallel eval and playback</p>
+<p>[FE-7513] - bug deleting Canvas node from Maya</p>
+<p>[FE-7682] - Delete a DFG Port in Maya makes it crash</p>
+<p>[FE-7757] - Data loss in maya canvasNode import</p>
+<p>[FE-7823] - wrong int attribute clamping in maya</p>
+<p>[FE-7498] - lock the attribute &#8216;saveData&#8217; by default</p>
+<p>[FE-4618] - Optimized data conversion between Maya and Fabric</p>
+<p>[FE-6241] - Canvas window should display the name of the Maya canvas node it belongs to</p>
+<p>[FE-6815] - Command to get the Fabric version</p>
+<p>[FE-7158] - Added icons for Fabric nodes both in the outliner and the Node editor</p>
+<p>[FE-7119] - Removed Splice Deprecated DCC samples</p>
+<p>[FE-7272] - Menu entries don&#8217;t use the same captions as in the Standalone</p>
+<p>[FE-7309] - Added support for Vec2 and Vec2 Arrays</p>
+<p>[FE-7342] - Renamed Create Graph (Node) and Create Graph (Deformer)</p>
+<p>[FE-7357] - canvasFuncNode and canvasFuncDeformer new nodes added</p>
+<p>[FE-7369] - Disallow editing the soft/hard ranges on port attribute edition</p>
+<p>[FE-7528] - Canvas Mesh deformer not caching deformation over time</p>
+<p><strong>Fabric for Softimage</strong></p>
+<p>[FE-6849] - evaluation issues (lags and slow) in Softimage with Kraken</p>
+<p><strong>Fabric for 3ds Max</strong></p>
+<p>[FE-7567] - Slowdown with a simple graph that does some raycasting compared to maxscript</p>
+<p>[FE-7571] - Fabric controllers slow</p>
+<p>[FE-7577] - We should persist modifiers off-on state</p>
+<p>[FE-7579] - FabricMax Graph Update</p>
+<p>[FE-7580] - Undo and Redo shortcuts are not caught within the Fabric DFG window</p>
+<p>[FE-7587] - new wire dialog entries are added every time in the quad menus</p>
+<p>[FE-7590] - Memory consumption overhead growth high with the number of of Fabric nodes in the scene</p>
+<p>[FE-7643] - Get and set arbitrary mesh channels (vertex colors, weightmaps)</p>
+<p>[FE-7625] - Make directx default in the launcher</p>
+<p>[FE-7627] - Disable the OpenGL warning</p>
+<p><strong>Fabric for Modo</strong></p>
+<p>[FE-6652] - queue core notifications instead of ignoring</p>
+<p>[FE-7139] - VRay doesn&#8217;t render Canvas items</p>
+<p><strong>Production Samples</strong></p>
+<p>[FE-7867] - Multipede: replaced MultiCurve with native Curves</p>
+<p>[FE-7868] - Multipede: finalize particle system and flocking</p>
+<p>[FE-7869] - Multipede: update samples once Curves are used (and MultiCurve is removed)</p>
+<p>[FE-7870] - Multipede: make samples using the particle system and the flocking</p>
+<p>[FE-7871] - Multipede: make a rendering of one of the flocking samples</p>
+<p><strong>Samples</strong></p>
+<p>[FE-7686] - Added greeble_simple to SamplesCanvasProceduralGeometry</p>
+<p>[FE-7421] - AddedCurve Sample Graphs / Scenes</p>
+<p>[FE-7831] - Amplitude and frequency were swapped in sample &#8216;canvasDeformer_turbulize_blocks&#8217;</p>
+<p>[FE-7133] - Replaced custom Swap function with KL&#8217;s built-in swap in fluid solver samples</p>
+<p>[FE-7769] - Added samples using the Kraken presets</p>
+<p>[FE-8009] - Added text extension inline drawing samples</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Fabric Engine 2.4.0 リリースノート</a><ul>
+<li><a class="reference internal" href="#about-this-release">このリリースについて</a></li>
+<li><a class="reference internal" href="#supported-operating-systems-integrations-and-gpus">サポートするOS, DCC統合, GPU</a></li>
+<li><a class="reference internal" href="#documentation">ドキュメント</a></li>
+<li><a class="reference internal" href="#downloads">ダウンロード</a></li>
+<li><a class="reference internal" href="#support">サポート</a></li>
+<li><a class="reference internal" href="#known-issues">既知の問題点</a></li>
+<li><a class="reference internal" href="#changes">変更点</a></li>
+<li><a class="reference internal" href="#list-of-issues-addressed">修正された不具合</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/ReleaseNotes/2.4.0.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/ReleaseNotes/2.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
+    </div>
+  </body>
+</html>

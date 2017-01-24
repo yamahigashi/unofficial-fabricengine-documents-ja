@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>UInt32ArrayAllocator (struct) &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>UInt32ArrayAllocator (struct) &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,10 +15,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.3.0',
+        VERSION:     '2.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -26,8 +27,8 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
-    <link rel="up" title="Containers Extension’s Types" href="types.html" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" />
     <link rel="next" title="UInt32ArrayNoFree (struct)" href="UInt32ArrayNoFree.html" />
     <link rel="prev" title="ThreadsafeMetaDataContainer (object)" href="ThreadsafeMetaDataContainer.html" /> 
   </head>
@@ -47,10 +48,10 @@
         <li class="right" >
           <a href="ThreadsafeMetaDataContainer.html" title="ThreadsafeMetaDataContainer (object)"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" >Containers エクステンション</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="types.html" accesskey="U">Containers Extension&#8217;s Types</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Containers エクステンション</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" accesskey="U">Containers Extension&#8217;s Types</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -68,11 +69,11 @@ the owner can use a more compact encoding for the size. A simple way is to use t
 <p class="plaintext">Using a single buffer has multiple performance benefits, such as avoiding multiple heap allocation calls (slow),
 avoiding memory fragmentation (reduces global memory usage) and making the data access CPU cache friendly.
 This allocator is not threadsafe, but supporting a single thread avoids locking checks overhead.</p>
-<p class="plaintext">For performance reason, this allocator will only grow, unless <a class="reference internal" href="#id47478"><span class="std std-ref">UInt32ArrayAllocator.clear</span></a> or <a class="reference internal" href="#id47549"><span class="std std-ref">UInt32ArrayAllocator.recompact</span></a> is called.
-A proper usage of this allocator should call <a class="reference internal" href="#id47549"><span class="std std-ref">UInt32ArrayAllocator.recompact</span></a> when a large enough portion of the memory is unused (eg: 25% or 50%).</p>
+<p class="plaintext">For performance reason, this allocator will only grow, unless <a class="reference internal" href="#id47888"><span class="std std-ref">UInt32ArrayAllocator.clear</span></a> or <a class="reference internal" href="#id47959"><span class="std std-ref">UInt32ArrayAllocator.recompact</span></a> is called.
+A proper usage of this allocator should call <a class="reference internal" href="#id47959"><span class="std std-ref">UInt32ArrayAllocator.recompact</span></a> when a large enough portion of the memory is unused (eg: 25% or 50%).</p>
 <p class="plaintext">Although the <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a> is able to reused free storage by using simplified heap-like structure, the user that cares
 about memory usage should monitor the portion of unused data (internal fragmentation) and recompact it when this portion is large
-enough (eg: 50%). This can be done through a call to <a class="reference internal" href="#id47549"><span class="std std-ref">UInt32ArrayAllocator.recompact</span></a>, however the caller needs to remap all its indices
+enough (eg: 50%). This can be done through a call to <a class="reference internal" href="#id47959"><span class="std std-ref">UInt32ArrayAllocator.recompact</span></a>, however the caller needs to remap all its indices
 accordingly.</p>
 <p class="plaintext">For optimal performance, the array indices (keys) are not safeguarded. The user should do the safeguarding if required.</p>
 <div class="admonition note">
@@ -86,20 +87,21 @@ accordingly.</p>
 <p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+<!-- Generated by graphviz version 2.38.0 (20140413.2041)
  -->
 <!-- Title: UInt32ArrayAllocator Pages: 1 -->
 <svg width="114pt" height="44pt"
  viewBox="0.00 0.00 114.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
 <title>UInt32ArrayAllocator</title>
-<polygon fill="white" stroke="white" points="-4,5 -4,-40 111,-40 111,5 -4,5"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-40 110,-40 110,4 -4,4"/>
 <!-- UInt32ArrayAllocator -->
 <g id="node1" class="node"><title>UInt32ArrayAllocator</title>
-<a xlink:href="../Containers/UInt32ArrayAllocator.html" xlink:title="UInt32ArrayAllocator">
+<g id="a_node1"><a xlink:href="../Containers/UInt32ArrayAllocator.html" xlink:title="UInt32ArrayAllocator">
 <polygon fill="#3fabd3" stroke="#3f3f3f" points="106,-36 0,-36 0,-0 106,-0 106,-36"/>
 <text text-anchor="middle" x="53" y="-15.5" font-family="Arial" font-size="10.00">UInt32ArrayAllocator</text>
 </a>
+</g>
 </g>
 </g>
 </svg></p>
@@ -187,46 +189,46 @@ accordingly.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>&nbsp;</td>
-<td><a class="reference internal" href="#id112996"><span class="std std-ref">UInt32ArrayAllocator</span></a>  ( in <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a> other )</td>
+<td><a class="reference internal" href="#id117039"><span class="std std-ref">UInt32ArrayAllocator</span></a>  ( in <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a> other )</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
 <td><span class="xref std std-ref">UInt32ArrayAllocator</span>  ()</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
-<td><a class="reference internal" href="#id47520"><span class="std std-ref">allocate</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> allocateCount, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> reserveCount )</td>
+<td><a class="reference internal" href="#id47930"><span class="std std-ref">allocate</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> allocateCount, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> reserveCount )</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
-<td><a class="reference internal" href="#id47553"><span class="std std-ref">append</span></a> ! ( in <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a> other, io Size dataOffset )</td>
+<td><a class="reference internal" href="#id47963"><span class="std std-ref">append</span></a> ! ( in <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a> other, io Size dataOffset )</td>
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
-<td><a class="reference internal" href="#id47478"><span class="std std-ref">clear</span></a> ! ()</td>
+<td><a class="reference internal" href="#id47888"><span class="std std-ref">clear</span></a> ! ()</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a></td>
-<td><a class="reference internal" href="#id113000"><span class="std std-ref">clone</span></a> ? ()</td>
+<td><a class="reference internal" href="#id117043"><span class="std std-ref">clone</span></a> ? ()</td>
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
-<td><a class="reference internal" href="#id47481"><span class="std std-ref">copy</span></a> ! ( in <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a> src )</td>
+<td><a class="reference internal" href="#id47891"><span class="std std-ref">copy</span></a> ! ( in <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a> src )</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
-<td><a class="reference internal" href="#id47538"><span class="std std-ref">free</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> head, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> count )</td>
+<td><a class="reference internal" href="#id47948"><span class="std std-ref">free</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> head, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> count )</td>
 </tr>
 <tr class="row-odd"><td>Boolean</td>
-<td><a class="reference internal" href="#id47505"><span class="std std-ref">isUsed</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> i )</td>
+<td><a class="reference internal" href="#id47915"><span class="std std-ref">isUsed</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> i )</td>
 </tr>
 <tr class="row-even"><td>Size</td>
-<td><a class="reference internal" href="#id47485"><span class="std std-ref">memUsage</span></a> ? ()</td>
+<td><a class="reference internal" href="#id47895"><span class="std std-ref">memUsage</span></a> ? ()</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
-<td><a class="reference internal" href="#id47525"><span class="std std-ref">reallocate</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> head, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> prevCount, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> newCount, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> reserveCountIfShrinkOrMove )</td>
+<td><a class="reference internal" href="#id47935"><span class="std std-ref">reallocate</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> head, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> prevCount, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> newCount, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> reserveCountIfShrinkOrMove )</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
-<td><a class="reference internal" href="#id47549"><span class="std std-ref">recompact</span></a> ! ( io <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> oldIndexToNewIndex[] )</td>
+<td><a class="reference internal" href="#id47959"><span class="std std-ref">recompact</span></a> ! ( io <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> oldIndexToNewIndex[] )</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
-<td><a class="reference internal" href="#id47543"><span class="std std-ref">size</span></a> ? ()</td>
+<td><a class="reference internal" href="#id47953"><span class="std std-ref">size</span></a> ? ()</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
-<td><a class="reference internal" href="#id47546"><span class="std std-ref">unusedSize</span></a> ? ()</td>
+<td><a class="reference internal" href="#id47956"><span class="std std-ref">unusedSize</span></a> ? ()</td>
 </tr>
 </tbody>
 </table>
@@ -234,12 +236,12 @@ accordingly.</p>
 </div>
 <div class="section" id="methods-in-detail">
 <h2>Methods in detail<a class="headerlink" href="#methods-in-detail" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p><span class="target" id="id112996"></span><p><p class="klcode"><a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a> ( in <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a> other )</p>
+<p><span class="target" id="id117039"></span><p><p class="klcode"><a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a> ( in <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a> other )</p>
 <p class="plaintext">copy constructor</p>
 </p>
 <hr class="docutils" />
-<span class="target" id="id113006"></span><hr class="docutils" />
-<span class="target" id="id47520"></span><p><p class="klcode"><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.allocate! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> allocateCount, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> reserveCount )</p>
+<span class="target" id="id117049"></span><hr class="docutils" />
+<span class="target" id="id47930"></span><p><p class="klcode"><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.allocate! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> allocateCount, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> reserveCount )</p>
 <p class="plaintext">allocate an array of a certain allocated size, but can reserve a additional entries.</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
@@ -247,38 +249,38 @@ accordingly.</p>
 </div>
 </p>
 <hr class="docutils" />
-<span class="target" id="id47553"></span><p><p class="klcode"><a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.append! ( in <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a> other, io Size dataOffset )</p>
+<span class="target" id="id47963"></span><p><p class="klcode"><a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.append! ( in <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a> other, io Size dataOffset )</p>
 <p class="plaintext">appends one <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a> to this one while using a data offset</p>
 </p>
 <hr class="docutils" />
-<span class="target" id="id47478"></span><p><p class="klcode"><a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.clear! ()</p>
+<span class="target" id="id47888"></span><p><p class="klcode"><a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.clear! ()</p>
 <p class="plaintext">clears the managed array</p>
 </p>
 <hr class="docutils" />
-<span class="target" id="id113000"></span><p><p class="klcode"><a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a> <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.clone? ()</p>
+<span class="target" id="id117043"></span><p><p class="klcode"><a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a> <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.clone? ()</p>
 <p class="plaintext">clone method</p>
 </p>
 <hr class="docutils" />
-<span class="target" id="id47481"></span><p><p class="klcode"><a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.copy! ( in <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a> src )</p>
+<span class="target" id="id47891"></span><p><p class="klcode"><a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.copy! ( in <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a> src )</p>
 <p class="plaintext">copies another <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a> into this one</p>
 </p>
 <hr class="docutils" />
-<span class="target" id="id47538"></span><p><p class="klcode"><a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.free! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> head, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> count )</p>
+<span class="target" id="id47948"></span><p><p class="klcode"><a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.free! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> head, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> count )</p>
 <p class="plaintext">free the managed array given a head and a count</p>
 </p>
 <hr class="docutils" />
-<span class="target" id="id47505"></span><p><p class="klcode">Boolean <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.isUsed? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> i )</p>
+<span class="target" id="id47915"></span><p><p class="klcode">Boolean <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.isUsed? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> i )</p>
 <p class="plaintext">returns true if a given index is used</p>
 </p>
 <hr class="docutils" />
-<span class="target" id="id47485"></span><p><p class="klcode">Size <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.memUsage? ()</p>
+<span class="target" id="id47895"></span><p><p class="klcode">Size <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.memUsage? ()</p>
 </p>
 <hr class="docutils" />
-<span class="target" id="id47525"></span><p><p class="klcode"><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.reallocate! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> head, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> prevCount, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> newCount, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> reserveCountIfShrinkOrMove )</p>
+<span class="target" id="id47935"></span><p><p class="klcode"><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.reallocate! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> head, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> prevCount, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> newCount, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> reserveCountIfShrinkOrMove )</p>
 <p class="plaintext">reallocate the managed array, based on a previous head and count, as well as a new count and a minimum reserved count</p>
 </p>
 <hr class="docutils" />
-<span class="target" id="id47549"></span><p><p class="klcode"><a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.recompact! ( io <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> oldIndexToNewIndex[] )</p>
+<span class="target" id="id47959"></span><p><p class="klcode"><a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.recompact! ( io <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> oldIndexToNewIndex[] )</p>
 <p class="plaintext">recompact: will remove all unused data entries by compacting all data arrays, while maintaining their relative order.
 The caller needs to remap its data based on the returned index mapping (oldIndexToNewIndex).</p>
 <div class="admonition note">
@@ -287,11 +289,11 @@ The caller needs to remap its data based on the returned index mapping (oldIndex
 </div>
 </p>
 <hr class="docutils" />
-<span class="target" id="id47543"></span><p><p class="klcode"><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.size? ()</p>
+<span class="target" id="id47953"></span><p><p class="klcode"><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.size? ()</p>
 <p class="plaintext">returns the size of the array</p>
 </p>
 <hr class="docutils" />
-<span class="target" id="id47546"></span><p><p class="klcode"><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.unusedSize? ()</p>
+<span class="target" id="id47956"></span><p><p class="klcode"><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> <a class="reference internal" href="#uint32arrayallocator"><span class="std std-ref">UInt32ArrayAllocator</span></a>.unusedSize? ()</p>
 <p class="plaintext">returns the size of the array which is currently not in use</p>
 </p>
 </p>
@@ -317,7 +319,7 @@ The caller needs to remap its data based on the returned index mapping (oldIndex
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../../_sources/KLExtensionsGuide/Containers/UInt32ArrayAllocator.txt"
+      <li><a href="../../_sources/KLExtensionsGuide/Containers/UInt32ArrayAllocator.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Containers/UInt32ArrayAllocator.html"
               rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
@@ -326,8 +328,8 @@ The caller needs to remap its data based on the returned index mapping (oldIndex
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -352,15 +354,15 @@ The caller needs to remap its data based on the returned index mapping (oldIndex
         <li class="right" >
           <a href="ThreadsafeMetaDataContainer.html" title="ThreadsafeMetaDataContainer (object)"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" >Containers エクステンション</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="types.html" >Containers Extension&#8217;s Types</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Containers エクステンション</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="types.html" >Containers Extension&#8217;s Types</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010-2016 Fabric Software Inc.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
     </div>
   </body>
 </html>

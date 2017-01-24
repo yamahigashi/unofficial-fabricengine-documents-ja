@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Canvas inside of 3ds Max &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" />
+    <link rel="next" title="Fabric for Maya" href="../Maya/index.html" />
+    <link rel="prev" title="Installation" href="install.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../Maya/index.html" title="Fabric for Maya"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Fabric for 3ds Max</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="canvas-inside-of-3ds-max">
+<span id="fabricfor3dsmax-canvas"></span><h1>Canvas inside of 3ds Max<a class="headerlink" href="#canvas-inside-of-3ds-max" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<img alt="../../_images/3dsmax_splash.png" src="../../_images/3dsmax_splash.png" />
+<div class="section" id="fabric-menu">
+<h2>Fabric Menu<a class="headerlink" href="#fabric-menu" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<img alt="../../_images/3dsmax_menu.png" src="../../_images/3dsmax_menu.png" />
+<p>The Fabric menu exposes the actions to enable the Fabric native rendering in the 3ds Max viewport (it will only work when the viewport driver is set to OpenGL) and the Manipulation system.</p>
+</div>
+<div class="section" id="canvas-node-types">
+<h2>Canvas Node Types<a class="headerlink" href="#canvas-node-types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric for 3ds Max comes with three main nodes: a Geometry node (Fabric Mesh), a deformer modifier (Fabric Modifier and Fabric WSModifier) and a transform controller (Fabric Transform).
+There are some common operations to all these nodes:</p>
+<p>Opening the canvas editor, loading and saving graphs</p>
+<img alt="../../_images/3dsmax_common.png" src="../../_images/3dsmax_common.png" />
+</div>
+<div class="section" id="fabric-mesh">
+<h2>Fabric Mesh<a class="headerlink" href="#fabric-mesh" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<img alt="../../_images/3dsmax_fabricmesh.png" src="../../_images/3dsmax_fabricmesh.png" />
+<p>Fabric Mesh primitive is meant to output procedural geometry</p>
+<p>The Fabric Mesh has a predefined PolygonMesh outputValue out port where the geometry computations should go.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Currently, only geometric basic channels are exported (positions and uvs).</p>
+</div>
+</div>
+<div class="section" id="fabric-modifier">
+<h2>Fabric Modifier<a class="headerlink" href="#fabric-modifier" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<img alt="../../_images/3dsmax_modifier.png" src="../../_images/3dsmax_modifier.png" />
+<p>The Fabric Modifier has a predefined PolygonMesh baseMesh in port.</p>
+<p>Similar to the Fabric Mesh it also has a PolygonMesh outputValue out port where the output of the deformation should go.</p>
+<p>There is also a World space Modifier (Fabric WSModifier) which has a World Space Mat44 baseMeshTransform in port.</p>
+</div>
+<div class="section" id="fabric-transform">
+<h2>Fabric Transform<a class="headerlink" href="#fabric-transform" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<img alt="../../_images/3dsmax_controller.png" src="../../_images/3dsmax_controller.png" />
+<p>The Fabric Transform has a Mat44 parentValue in port that has the parent Matrix of the object and outputs a Mat44 outputValue.</p>
+<p>There are also Fabric Position and Fabric Rotation controllers.</p>
+<p>If you need even more fine-grained control of the transform you can also rely on the Fabric Float controller.</p>
+</div>
+<div class="section" id="adding-ports-parameters">
+<h2>Adding ports / parameters<a class="headerlink" href="#adding-ports-parameters" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<img alt="../../_images/3dsmax_params.png" src="../../_images/3dsmax_params.png" />
+<p>Exposed ports will appear in The Dynamic Params section of the Fabric node. These parameters act as normal 3ds Max parameters and can be animated, wired etc...</p>
+<p>For exposed ports, in the EditPort dialog, you can also set a 3ds max type equivalent for your port value.
+For example, if your input is a Mat44, you can set the input to either be Matrix3 (with no UI) or MaxNode. With MaxNode, you could hook a node directly into that port to set it&#8217;s transform.
+See some of the samples that make use of this functionality.</p>
+<img alt="../../_images/3dsmax_ports.png" src="../../_images/3dsmax_ports.png" />
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Exposed Array ports are only supported via MaxScript.</p>
+</div>
+</div>
+<div class="section" id="wiring-fabric-outputs">
+<h2>Wiring Fabric outputs<a class="headerlink" href="#wiring-fabric-outputs" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<img alt="../../_images/3dsmax_wire.png" src="../../_images/3dsmax_wire.png" />
+<p>Fabric allows to output an arbitrary number of output values. To be able to easily connect this outputs to other Fabric node inputs, Fabric for 3ds Max exposes a Wire Fabric Ports quad menu action that you can access by right clicking in an object. The workflow is identical
+to wiring a parameter. You select the out parameter in the input object, then click on the destination object and select the port you want to connect to. This connectivity happens outside 3ds Max so it is not visible in the Dope Sheet.</p>
+</div>
+<div class="section" id="real-time-rendering">
+<h2>Real-time Rendering<a class="headerlink" href="#real-time-rendering" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>You can draw into 3ds Max viewport directly from Canvas. For this you can use the <em class="dfn">EmptyDrawingHandle</em> node and consecutive nodes such as <em class="dfn">DrawingHandle.DrawPolygonMesh</em>. Please see the <code class="code docutils literal"><span class="pre">InlineDrawing</span></code> Canvas sample scenes for examples of this.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This feature requires the viewport driver to be set to OpenGL.</p>
+</div>
+</div>
+<div class="section" id="maxscript-support">
+<h2>Maxscript support<a class="headerlink" href="#maxscript-support" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fabric for 3ds Max has full Maxscript support. Enable the MacroRecorder to get a list of the generated commands. You can refer to the samples folder inside the plugin for a list of unit tests using the Maxscripting capabilities.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Canvas inside of 3ds Max</a><ul>
+<li><a class="reference internal" href="#fabric-menu">Fabric Menu</a></li>
+<li><a class="reference internal" href="#canvas-node-types">Canvas Node Types</a></li>
+<li><a class="reference internal" href="#fabric-mesh">Fabric Mesh</a></li>
+<li><a class="reference internal" href="#fabric-modifier">Fabric Modifier</a></li>
+<li><a class="reference internal" href="#fabric-transform">Fabric Transform</a></li>
+<li><a class="reference internal" href="#adding-ports-parameters">Adding ports / parameters</a></li>
+<li><a class="reference internal" href="#wiring-fabric-outputs">Wiring Fabric outputs</a></li>
+<li><a class="reference internal" href="#real-time-rendering">Real-time Rendering</a></li>
+<li><a class="reference internal" href="#maxscript-support">Maxscript support</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="install.html"
+                        title="前の章へ">Installation</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="../Maya/index.html"
+                        title="次の章へ">Fabric for Maya</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/DCCIntegrations/3dsmax/canvas.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DCCIntegrations/3dsmax/canvas.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="../Maya/index.html" title="Fabric for Maya"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Fabric for 3ds Max</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
+    </div>
+  </body>
+</html>

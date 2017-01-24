@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>InlineMaterial.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>InlineMaterial.kl &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,10 +15,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.3.0',
+        VERSION:     '2.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -26,8 +27,8 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
-    <link rel="up" title="InlineDrawing Extension’s Files" href="files.html" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" />
     <link rel="next" title="InlineMatrixArrayTexture.kl" href="InlineMatrixArrayTexture.kl.html" />
     <link rel="prev" title="InlineLinesShape.kl" href="InlineLinesShape.kl.html" /> 
   </head>
@@ -47,10 +48,10 @@
         <li class="right" >
           <a href="InlineLinesShape.kl.html" title="InlineLinesShape.kl"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" >InlineDrawing エクステンション</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">InlineDrawing Extension&#8217;s Files</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >InlineDrawing エクステンション</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">InlineDrawing Extension&#8217;s Files</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -65,31 +66,6 @@
 <h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><div class="section" id="inlinematerial-object">
 <h3>InlineMaterial (object)<a class="headerlink" href="#inlinematerial-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<div class="versionadded">
-<p><span class="versionmodified">バージョン 1.12.0 で追加.</span></p>
-</div>
-<p class="plaintext">The <a class="reference internal" href="InlineMaterial.html#inlinematerial"><span class="std std-ref">InlineMaterial</span></a> represents a collection of values for a given <a class="reference internal" href="InlineShader.html#inlineshader"><span class="std std-ref">InlineShader</span></a>. The <a class="reference internal" href="InlineMaterial.html#inlinematerial"><span class="std std-ref">InlineMaterial</span></a> also manages all <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> objects using that shader with the material&#8217;s settings.</p>
-<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
-<span class="cm">** Example: InlineMaterial</span>
-<span class="cm">*/</span>
-
-<span class="kr">require</span> <span class="nx">InlineDrawing</span><span class="p">;</span>
-  
-<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
-
-      <span class="nx">InlineMaterial</span> <span class="nx">mat</span> <span class="o">=</span> <span class="nx">InlineMaterial</span><span class="p">();</span>
-      <span class="nx">mat</span><span class="p">.</span><span class="nx">setUniform</span><span class="p">(</span><span class="s1">&#39;u_color&#39;</span><span class="p">,</span> <span class="nx">Color</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">));</span>
-      <span class="nx">mat</span><span class="p">.</span><span class="nx">setUniform</span><span class="p">(</span><span class="s1">&#39;u_factor&#39;</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">);</span>
-  
-<span class="p">}</span>
-
-<span class="cm">/*</span>
-<span class="cm">** Output:</span>
-
-
-<span class="cm">*/</span>
-</pre></div>
-</div>
 <div class="section" id="methods">
 <h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p><table border="1" class="methodtable docutils">
@@ -99,82 +75,85 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id115002"><span class="std std-ref">InlineMaterial</span></a>  ( in <a class="reference internal" href="InlineMaterial.html#inlinematerial"><span class="std std-ref">InlineMaterial</span></a> other )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id119300"><span class="std std-ref">InlineMaterial</span></a>  ( in <a class="reference internal" href="InlineMaterial.html#inlinematerial"><span class="std std-ref">InlineMaterial</span></a> other )</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66660"><span class="std std-ref">InlineMaterial</span></a>  ( in Ref&lt;Object&gt; shader, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69182"><span class="std std-ref">InlineMaterial</span></a>  ( in <a class="reference internal" href="InlineShader.html#inlineshader"><span class="std std-ref">InlineShader</span></a> shader, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66669"><span class="std std-ref">InlineMaterial</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69191"><span class="std std-ref">InlineMaterial</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66676"><span class="std std-ref">InlineMaterial</span></a>  ()</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69198"><span class="std std-ref">InlineMaterial</span></a>  ()</td>
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66697"><span class="std std-ref">addInstance</span></a> ! ( in <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69219"><span class="std std-ref">addInstance</span></a> ! ( in <a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a> instance )</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="InlineMaterial.html#inlinematerial"><span class="std std-ref">InlineMaterial</span></a></td>
-<td><a class="reference internal" href="InlineMaterial.html#id115006"><span class="std std-ref">clone</span></a> ? ()</td>
+<td><a class="reference internal" href="InlineMaterial.html#id119304"><span class="std std-ref">clone</span></a> ? ()</td>
 </tr>
 <tr class="row-odd"><td>Ref&lt;<a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a>&gt;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66712"><span class="std std-ref">getInstance</span></a> ? ( in Index index )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69237"><span class="std std-ref">getInstance</span></a> ? ( in Index index )</td>
 </tr>
 <tr class="row-even"><td>Size</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66709"><span class="std std-ref">getInstanceCount</span></a> ? ()</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69234"><span class="std std-ref">getInstanceCount</span></a> ? ()</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="InlineUniform.html#inlineuniform"><span class="std std-ref">InlineUniform</span></a></td>
-<td><a class="reference internal" href="InlineMaterial.html#id66770"><span class="std std-ref">getUniform</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69295"><span class="std std-ref">getUniform</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
 </tr>
 <tr class="row-even"><td>Boolean</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66689"><span class="std std-ref">hasInstance</span></a> ? ( io Ref&lt;<a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a>&gt; instance )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69211"><span class="std std-ref">hasInstance</span></a> ? ( io Ref&lt;<a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a>&gt; instance )</td>
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66679"><span class="std std-ref">init</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69201"><span class="std std-ref">init</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
 </tr>
 <tr class="row-even"><td>Boolean</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66778"><span class="std std-ref">isActive</span></a> ? ()</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69303"><span class="std std-ref">isActive</span></a> ? ()</td>
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66705"><span class="std std-ref">removeInstance</span></a> ! ( io Ref&lt;<a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a>&gt; instance )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69227"><span class="std std-ref">removeFromInstance</span></a> ! ( io Ref&lt;<a class="reference internal" href="InlineInstance.html#inlineinstance"><span class="std std-ref">InlineInstance</span></a>&gt; instance )</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66774"><span class="std std-ref">setActive</span></a> ! ( in Boolean active )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69231"><span class="std std-ref">removeFromShader</span></a> ! ()</td>
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66716"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="InlineUniform.html#inlineuniform"><span class="std std-ref">InlineUniform</span></a> uniform )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69299"><span class="std std-ref">setActive</span></a> ! ( in Boolean active )</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66745"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> value )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69241"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="InlineUniform.html#inlineuniform"><span class="std std-ref">InlineUniform</span></a> uniform )</td>
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66725"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> value )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69270"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> value )</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66765"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="InlineTexture.html#inlinetexture"><span class="std std-ref">InlineTexture</span></a> value )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69250"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> value )</td>
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66720"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in Integer value )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69290"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="InlineTexture.html#inlinetexture"><span class="std std-ref">InlineTexture</span></a> value )</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66755"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Mat33.html#mat33"><span class="std std-ref">Mat33</span></a> value )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69245"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in Integer value )</td>
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66760"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> value )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69280"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Mat33.html#mat33"><span class="std std-ref">Mat33</span></a> value )</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66740"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Quat.html#quat"><span class="std std-ref">Quat</span></a> value )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69285"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> value )</td>
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66730"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> value )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69265"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Quat.html#quat"><span class="std std-ref">Quat</span></a> value )</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66735"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> value )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69255"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> value )</td>
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66750"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> value )</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69260"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> value )</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
-<td><a class="reference internal" href="InlineMaterial.html#id66686"><span class="std std-ref">~InlineMaterial</span></a>  ()</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69275"><span class="std std-ref">setUniform</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Vec4.html#vec4"><span class="std std-ref">Vec4</span></a> value )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="InlineMaterial.html#id69208"><span class="std std-ref">~InlineMaterial</span></a>  ()</td>
 </tr>
 </tbody>
 </table>
@@ -204,7 +183,7 @@
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../../_sources/KLExtensionsGuide/InlineDrawing/InlineMaterial.kl.txt"
+      <li><a href="../../_sources/KLExtensionsGuide/InlineDrawing/InlineMaterial.kl.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/InlineDrawing/InlineMaterial.html"
               rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
@@ -213,8 +192,8 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -239,15 +218,15 @@
         <li class="right" >
           <a href="InlineLinesShape.kl.html" title="InlineLinesShape.kl"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" >InlineDrawing エクステンション</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="files.html" >InlineDrawing Extension&#8217;s Files</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >InlineDrawing エクステンション</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >InlineDrawing Extension&#8217;s Files</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010-2016 Fabric Software Inc.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
     </div>
   </body>
 </html>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Keyframe.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>Keyframe.kl &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,10 +15,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.3.0',
+        VERSION:     '2.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -26,8 +27,8 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
-    <link rel="up" title="Animation Extension’s Files" href="files.html" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" />
     <link rel="next" title="KeyframeTrack.kl" href="KeyframeTrack.kl.html" />
     <link rel="prev" title="ClipValues.kl" href="ClipValues.kl.html" /> 
   </head>
@@ -47,10 +48,10 @@
         <li class="right" >
           <a href="ClipValues.kl.html" title="ClipValues.kl"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" >Animation エクステンション</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Animation Extension&#8217;s Files</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Animation エクステンション</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Animation Extension&#8217;s Files</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -79,23 +80,37 @@ The tangent y value is the gradient of the handle. A value of 0.0 creates a flat
 <span class="cm">** Example: keyframe.kl</span>
 <span class="cm">*/</span>
 
-<span class="kr">require</span> <span class="nx">Animation</span><span class="p">;</span>
+<span class="kr">require</span> <span class="nx">Animation</span><span class="p">,</span> <span class="nx">Util</span><span class="p">;</span>
 
 <span class="kd">operator</span> <span class="nx">entry</span><span class="p">(){</span>
 
-    <span class="c1">// create two keys</span>
+    <span class="c1">// create two keys using Bezier Interpolation</span>
     <span class="nx">Keyframe</span> <span class="nx">keyA</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nx">Vec2</span><span class="p">(</span><span class="o">-</span><span class="mf">0.333</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="nx">Vec2</span><span class="p">(</span><span class="o">-</span><span class="mf">0.333</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">));</span>
     <span class="nx">Keyframe</span> <span class="nx">keyB</span><span class="p">(</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">);</span>
 
     <span class="c1">// interpolate the keys for a given time</span>
-    <span class="nx">Scalar</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">keyA</span><span class="p">.</span><span class="nx">interpolate</span><span class="p">(</span><span class="nx">keyB</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">);</span>
-    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;value:&quot;</span> <span class="o">+</span> <span class="nx">keyA</span><span class="p">.</span><span class="nx">interpolate</span><span class="p">(</span><span class="nx">keyB</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">));</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;Bezier Interpolation : value:&quot;</span> <span class="o">+</span> <span class="nx">unitTestPrint</span><span class="p">(</span><span class="nx">keyA</span><span class="p">.</span><span class="nx">interpolate</span><span class="p">(</span><span class="nx">keyB</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)));</span>
+
+    <span class="nx">keyA</span><span class="p">.</span><span class="nx">interpolation</span> <span class="o">=</span> <span class="nx">Keyframe_Interpolation_Linear</span><span class="p">;</span>
+    <span class="nx">keyB</span><span class="p">.</span><span class="nx">interpolation</span> <span class="o">=</span> <span class="nx">Keyframe_Interpolation_Linear</span><span class="p">;</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;Linear Interpolation : value:&quot;</span> <span class="o">+</span> <span class="nx">unitTestPrint</span><span class="p">(</span><span class="nx">keyA</span><span class="p">.</span><span class="nx">interpolate</span><span class="p">(</span><span class="nx">keyB</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)));</span>
+
+ 	<span class="nx">keyA</span><span class="p">.</span><span class="nx">interpolation</span> <span class="o">=</span> <span class="nx">Keyframe_Interpolation_Constant</span><span class="p">;</span>
+    <span class="nx">keyB</span><span class="p">.</span><span class="nx">interpolation</span> <span class="o">=</span> <span class="nx">Keyframe_Interpolation_Constant</span><span class="p">;</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;Constant Interpolation : value:&quot;</span> <span class="o">+</span> <span class="nx">unitTestPrint</span><span class="p">(</span><span class="nx">keyA</span><span class="p">.</span><span class="nx">interpolate</span><span class="p">(</span><span class="nx">keyB</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)));</span>
+
+    <span class="nx">keyA</span><span class="p">.</span><span class="nx">interpolation</span> <span class="o">=</span> <span class="nx">Keyframe_Interpolation_Constant_Next</span><span class="p">;</span>
+    <span class="nx">keyB</span><span class="p">.</span><span class="nx">interpolation</span> <span class="o">=</span> <span class="nx">Keyframe_Interpolation_Constant_Next</span><span class="p">;</span>
+    <span class="nb">report</span><span class="p">(</span><span class="s2">&quot;Constant_Next Interpolation : value:&quot;</span> <span class="o">+</span> <span class="nx">unitTestPrint</span><span class="p">(</span><span class="nx">keyA</span><span class="p">.</span><span class="nx">interpolate</span><span class="p">(</span><span class="nx">keyB</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)));</span>
 <span class="p">}</span>
 
 <span class="cm">/*</span>
 <span class="cm">** Output:</span>
 
-<span class="cm">value:+0.11778</span>
+<span class="cm">Bezier Interpolation : value:+0.117782</span>
+<span class="cm">Linear Interpolation : value:+0.080001</span>
+<span class="cm">Constant Interpolation : value:+0.0</span>
+<span class="cm">Constant_Next Interpolation : value:+4.0</span>
 
 <span class="cm">*/</span>
 </pre></div>
@@ -142,34 +157,34 @@ The tangent y value is the gradient of the handle. A value of 0.0 creates a flat
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>&nbsp;</td>
-<td><a class="reference internal" href="Keyframe.html#id110626"><span class="std std-ref">Keyframe</span></a>  ( in <a class="reference internal" href="Keyframe.html#keyframe"><span class="std std-ref">Keyframe</span></a> other )</td>
+<td><a class="reference internal" href="Keyframe.html#id114622"><span class="std std-ref">Keyframe</span></a>  ( in <a class="reference internal" href="Keyframe.html#keyframe"><span class="std std-ref">Keyframe</span></a> other )</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
-<td><a class="reference internal" href="Keyframe.html#id24051"><span class="std std-ref">Keyframe</span></a>  ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
+<td><a class="reference internal" href="Keyframe.html#id24254"><span class="std std-ref">Keyframe</span></a>  ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value )</td>
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
-<td><a class="reference internal" href="Keyframe.html#id24039"><span class="std std-ref">Keyframe</span></a>  ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> inTangent, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> outTangent )</td>
+<td><a class="reference internal" href="Keyframe.html#id24242"><span class="std std-ref">Keyframe</span></a>  ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> inTangent, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> outTangent )</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
-<td><a class="reference internal" href="Keyframe.html#id24024"><span class="std std-ref">Keyframe</span></a>  ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> inTangent, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> outTangent, in Integer interpolation )</td>
+<td><a class="reference internal" href="Keyframe.html#id24227"><span class="std std-ref">Keyframe</span></a>  ( in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> time, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> value, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> inTangent, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> outTangent, in Integer interpolation )</td>
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
-<td><a class="reference internal" href="Keyframe.html#id24059"><span class="std std-ref">Keyframe</span></a>  ()</td>
+<td><a class="reference internal" href="Keyframe.html#id24262"><span class="std std-ref">Keyframe</span></a>  ()</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="Keyframe.html#keyframe"><span class="std std-ref">Keyframe</span></a></td>
-<td><a class="reference internal" href="Keyframe.html#id110630"><span class="std std-ref">clone</span></a> ? ()</td>
+<td><a class="reference internal" href="Keyframe.html#id114626"><span class="std std-ref">clone</span></a> ? ()</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
-<td><a class="reference internal" href="Keyframe.html#id24072"><span class="std std-ref">getDesc</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> indent )</td>
+<td><a class="reference internal" href="Keyframe.html#id24275"><span class="std std-ref">getDesc</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> indent )</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
-<td><a class="reference internal" href="Keyframe.html#id24076"><span class="std std-ref">getDesc</span></a> ? ()</td>
+<td><a class="reference internal" href="Keyframe.html#id24279"><span class="std std-ref">getDesc</span></a> ? ()</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
-<td><a class="reference internal" href="Keyframe.html#id24062"><span class="std std-ref">interpolate</span></a> ? ( in <a class="reference internal" href="Keyframe.html#keyframe"><span class="std std-ref">Keyframe</span></a> key2, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> t )</td>
+<td><a class="reference internal" href="Keyframe.html#id24265"><span class="std std-ref">interpolate</span></a> ? ( in <a class="reference internal" href="Keyframe.html#keyframe"><span class="std std-ref">Keyframe</span></a> key2, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> t )</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a></td>
-<td><a class="reference internal" href="Keyframe.html#id24067"><span class="std std-ref">linearInterpolate</span></a> ? ( in <a class="reference internal" href="Keyframe.html#keyframe"><span class="std std-ref">Keyframe</span></a> key2, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> b )</td>
+<td><a class="reference internal" href="Keyframe.html#id24270"><span class="std std-ref">linearInterpolate</span></a> ? ( in <a class="reference internal" href="Keyframe.html#keyframe"><span class="std std-ref">Keyframe</span></a> key2, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> b )</td>
 </tr>
 </tbody>
 </table>
@@ -199,7 +214,7 @@ The tangent y value is the gradient of the handle. A value of 0.0 creates a flat
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../../_sources/KLExtensionsGuide/Animation/Keyframe.kl.txt"
+      <li><a href="../../_sources/KLExtensionsGuide/Animation/Keyframe.kl.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Animation/Keyframe.html"
               rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
@@ -208,8 +223,8 @@ The tangent y value is the gradient of the handle. A value of 0.0 creates a flat
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -234,15 +249,15 @@ The tangent y value is the gradient of the handle. A value of 0.0 creates a flat
         <li class="right" >
           <a href="ClipValues.kl.html" title="ClipValues.kl"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" >Animation エクステンション</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="files.html" >Animation Extension&#8217;s Files</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Animation エクステンション</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >Animation Extension&#8217;s Files</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010-2016 Fabric Software Inc.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
     </div>
   </body>
 </html>

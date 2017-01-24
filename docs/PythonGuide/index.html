@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Python Programming Guide &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>Python Programming Guide &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,10 +15,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.3.0',
+        VERSION:     '2.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -26,7 +27,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
     <link rel="next" title="エクステンション・オーサリングガイド" href="../ExtensionAuthoringGuide/index.html" />
     <link rel="prev" title="RTVals のC++アプリからの利用" href="../RTValProgrammingGuide/capi.html" /> 
   </head>
@@ -46,7 +48,7 @@
         <li class="right" >
           <a href="../RTValProgrammingGuide/capi.html" title="RTVals のC++アプリからの利用"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -59,8 +61,8 @@
 <span id="pythonpg"></span><h1>Python Programming Guide<a class="headerlink" href="#python-programming-guide" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <a class="reference internal image-reference" href="../_images/FE_logo_345_60.png"><img alt="../_images/FE_logo_345_60.png" src="../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
 <div class="line-block">
-<div class="line">Fabric Engine version 2.3.0</div>
-<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+<div class="line">Fabric Engine version 2.4.0</div>
+<div class="line">Copyright (c) 2010-2017 Fabric Software Inc.  All rights reserved.</div>
 </div>
 <div class="contents local topic" id="table-of-contents">
 <p class="topic-title first">Table of Contents</p>
@@ -263,8 +265,8 @@ closed.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.enableShortCuts">
-<code class="descname">enableShortCuts</code><span class="sig-paren">(</span><em>enabled</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.enableShortCuts" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.enableShortCutsAndUndoRedo">
+<code class="descname">enableShortCutsAndUndoRedo</code><span class="sig-paren">(</span><em>enabled</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.enableShortCutsAndUndoRedo" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Enables or disables shortcuts.</p>
 <p>enabled (bool): Whether or not to enable the shortcuts.</p>
 </dd></dl>
@@ -339,18 +341,6 @@ map to the timeline.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.onHotkeyPressed">
-<code class="descname">onHotkeyPressed</code><span class="sig-paren">(</span><em>key</em>, <em>modifiers</em>, <em>hotkey</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.onHotkeyPressed" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Callback for when a hot key is pressed.</p>
-<dl class="docutils">
-<dt>Arguments:</dt>
-<dd>key: Key that is pressed.
-modifiers: Modifiers that were pressed.
-hotkey (str): Hot key constant.</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
 <dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.onLoadGraph">
 <code class="descname">onLoadGraph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.onLoadGraph" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Callback for when users wish to load a graph from the UI.</p>
@@ -381,7 +371,7 @@ been emitted.</p>
 <dl class="method">
 <dt id="FabricEngine.Canvas.CanvasWindow.CanvasWindow.onPortManipulationRequested">
 <code class="descname">onPortManipulationRequested</code><span class="sig-paren">(</span><em>portName</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.CanvasWindow.CanvasWindow.onPortManipulationRequested" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Method to trigger value changes that are requested form manipulators
+<dd><p>Method to trigger value changes that are requested by manipulators
 in the viewport.</p>
 <dl class="docutils">
 <dt>Arguments:</dt>
@@ -525,7 +515,7 @@ generated using the UI.</p>
 
 <dl class="method">
 <dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoConnect">
-<code class="descname">dfgDoConnect</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>srcPort</em>, <em>dstPort</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoConnect" title="この定義へのパーマリンク">¶</a></dt>
+<code class="descname">dfgDoConnect</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>srcPorts</em>, <em>dstPorts</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoConnect" title="この定義へのパーマリンク">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -585,7 +575,7 @@ generated using the UI.</p>
 
 <dl class="method">
 <dt id="FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoRemovePort">
-<code class="descname">dfgDoRemovePort</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>portName</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoRemovePort" title="この定義へのパーマリンク">¶</a></dt>
+<code class="descname">dfgDoRemovePort</code><span class="sig-paren">(</span><em>binding</em>, <em>execPath</em>, <em>exec_</em>, <em>portNames</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.UICmdHandler.UICmdHandler.dfgDoRemovePort" title="この定義へのパーマリンク">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -762,7 +752,7 @@ maintained.</p>
 
 <dl class="method">
 <dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.connect">
-<code class="descname">connect</code><span class="sig-paren">(</span><em>execPath</em>, <em>srcPort</em>, <em>dstPort</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.connect" title="この定義へのパーマリンク">¶</a></dt>
+<code class="descname">connect</code><span class="sig-paren">(</span><em>execPath</em>, <em>packedSrcPorts</em>, <em>packedDstPorts</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.connect" title="この定義へのパーマリンク">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -832,7 +822,7 @@ maintained.</p>
 
 <dl class="method">
 <dt id="FabricEngine.Canvas.BindingWrapper.BindingWrapper.removePort">
-<code class="descname">removePort</code><span class="sig-paren">(</span><em>execPath</em>, <em>portName</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.removePort" title="この定義へのパーマリンク">¶</a></dt>
+<code class="descname">removePort</code><span class="sig-paren">(</span><em>execPath</em>, <em>packedPortNames</em><span class="sig-paren">)</span><a class="headerlink" href="#FabricEngine.Canvas.BindingWrapper.BindingWrapper.removePort" title="この定義へのパーマリンク">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1001,7 +991,7 @@ the available options will be diplayed before exiting.</p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/PythonGuide/index.txt"
+      <li><a href="../_sources/PythonGuide/index.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/PythonGuide/index.html"
               rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
@@ -1010,8 +1000,8 @@ the available options will be diplayed before exiting.</p>
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -1036,12 +1026,12 @@ the available options will be diplayed before exiting.</p>
         <li class="right" >
           <a href="../RTValProgrammingGuide/capi.html" title="RTVals のC++アプリからの利用"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010-2016 Fabric Software Inc.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
     </div>
   </body>
 </html>

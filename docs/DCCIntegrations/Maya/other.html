@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Other Goodies in Fabric for Maya &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" />
+    <link rel="next" title="Using the Splice Maya plugin (legacy)" href="pre-2.0.html" />
+    <link rel="prev" title="Using Fabric for Maya with Maya 2016" href="m2016.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="pre-2.0.html" title="Using the Splice Maya plugin (legacy)"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="m2016.html" title="Using Fabric for Maya with Maya 2016"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Fabric for Maya</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="other-goodies-in-fabric-for-maya">
+<span id="fabricformaya-other"></span><h1>Other Goodies in Fabric for Maya<a class="headerlink" href="#other-goodies-in-fabric-for-maya" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Aside the Canvas node there are a few other things that are shipped with Fabric for Maya.</p>
+<div class="section" id="the-fabricconstraint-node">
+<h2>The &#8220;FabricConstraint&#8221; node<a class="headerlink" href="#the-fabricconstraint-node" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<img alt="../../_images/userguide_34.jpg" src="../../_images/userguide_34.jpg" />
+<p>The node <em class="dfn">FabricConstraint</em> is a standard pose constraint, implemented as a Maya C++ node. It was implemented primarily to increase the performance of Kraken rigs, but it can be used in any Maya DG. The node&#8217;s output transformation is split into a <em class="dfn">Translate</em>, a <em class="dfn">Rotate</em> and a <em class="dfn">Scale</em> port, so it can also be used as a translation constraint, a rotation constraint, a scale constraint or any combination of the three.</p>
+<p>To add a <em class="dfn">FabricConstraint</em> node to your Maya scene you can use the Tab search inside Maya&#8217;s node editor or run the following MEL script:</p>
+<div class="highlight-MEL"><div class="highlight"><pre><span></span>createNode &quot;fabricConstraint&quot;;
+</pre></div>
+</div>
+<p>The node comes with the following input and output ports.</p>
+<dl class="docutils">
+<dt>Inputs:</dt>
+<dd><ul class="first last simple">
+<li><em class="dfn">Input</em> - the matrix of the constraining object.</li>
+<li><em class="dfn">Offset</em> - the matrix for the constrain offset.</li>
+<li><em class="dfn">Parent</em> - the matrix of the constrained object&#8217;s parent.</li>
+</ul>
+</dd>
+<dt>Outputs:</dt>
+<dd><ul class="first last simple">
+<li><em class="dfn">Translate</em> - the output translation.</li>
+<li><em class="dfn">Rotate</em> - the output rotation.</li>
+<li><em class="dfn">Scale</em> - the output scale.</li>
+</ul>
+</dd>
+</dl>
+<p>Finally the node has an input parameter called <em class="dfn">rotateOrder</em> to define the order of rotation.
+You can set the value of <em class="dfn">rotateOrder</em> either in Maya&#8217;s attribute editor or via scripting.</p>
+</div>
+<div class="section" id="the-canvasfuncnode-node">
+<h2>The &#8220;CanvasFuncNode&#8221; node<a class="headerlink" href="#the-canvasfuncnode-node" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>This node is the &#8216;techy&#8217; brother of the regular <em class="dfn">CanvasNode</em> node. With the <em class="dfn">CanvasFuncNode</em> you can only define ports and KL code, but no graph.</p>
+<p>To add a <em class="dfn">CanvasFuncNode</em> node to your Maya scene you can use the Tab search inside Maya&#8217;s node editor or run the following MEL script:</p>
+<div class="highlight-MEL"><div class="highlight"><pre><span></span>createNode &quot;canvasFuncNode&quot;;
+</pre></div>
+</div>
+<p>A new <em class="dfn">CanvasFuncNode</em> node is initially empty: it has no ports and no code other than the standard <em class="dfn">dfgEntry</em> block.</p>
+</div>
+<div class="section" id="the-canvasfuncdeformer-node">
+<h2>The &#8220;CanvasFuncDeformer&#8221; node<a class="headerlink" href="#the-canvasfuncdeformer-node" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>This node is the &#8216;techy&#8217; brother of the regular <em class="dfn">CanvasDeformer</em> node. With the <em class="dfn">CanvasFuncDeformer</em> you can only define ports and KL code, but no graph.</p>
+<p>To add a <em class="dfn">CanvasFuncDeformer</em> node to your Maya scene you can use the Tab search inside Maya&#8217;s node editor or run the following MEL script:</p>
+<div class="highlight-MEL"><div class="highlight"><pre><span></span>createNode &quot;canvasFuncDeformer&quot;;
+</pre></div>
+</div>
+<p>A new <em class="dfn">CanvasFuncDeformer</em> comes with a predefined <cite>meshes</cite> port of type <cite>PolygonMesh[]</cite> and no code other than the standard <em class="dfn">dfgEntry</em> block.</p>
+<p>Maya deformer nodes are somewhat special and they need to be connected with the source/target Maya mesh in a certain way. The easiest way to create a complete and working setup is to select the polygon mesh in your Maya scene and then to run the following MEL script:</p>
+<div class="highlight-MEL"><div class="highlight"><pre><span></span>string $sel[];
+$sel = `ls -selection -exactType transform`;
+$d=`deformer -type &quot;canvasFuncDeformer&quot;`;
+select -r $d;
+FabricCanvasSetCode -m $d -e &quot;&quot; -c &quot;dfgEntry \n{\n  if (meshes.size() &gt; 0)\n  {\n    Vec3 p[] = meshes[0].getAllPointPositions();\n\n    // add your KL code here to\n    // modify the positions in p[];\n\n    meshes[0].setAllPointPositions(p);\n  }\n}&quot;;
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-enableevalcontext-hidden-attribute">
+<h2>The &#8220;enableEvalContext&#8221; hidden attribute<a class="headerlink" href="#the-enableevalcontext-hidden-attribute" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Nodes have an attribute &#8220;enableEvalContext&#8221; which you can set to false. This will disable the evalContext functionality and should benefit the resulting performance.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Other Goodies in Fabric for Maya</a><ul>
+<li><a class="reference internal" href="#the-fabricconstraint-node">The &#8220;FabricConstraint&#8221; node</a></li>
+<li><a class="reference internal" href="#the-canvasfuncnode-node">The &#8220;CanvasFuncNode&#8221; node</a></li>
+<li><a class="reference internal" href="#the-canvasfuncdeformer-node">The &#8220;CanvasFuncDeformer&#8221; node</a></li>
+<li><a class="reference internal" href="#the-enableevalcontext-hidden-attribute">The &#8220;enableEvalContext&#8221; hidden attribute</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="m2016.html"
+                        title="前の章へ">Using Fabric for Maya with Maya 2016</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="pre-2.0.html"
+                        title="次の章へ">Using the Splice Maya plugin (legacy)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/DCCIntegrations/Maya/other.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DCCIntegrations/Maya/other.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="pre-2.0.html" title="Using the Splice Maya plugin (legacy)"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="m2016.html" title="Using Fabric for Maya with Maya 2016"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Fabric for Maya</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
+    </div>
+  </body>
+</html>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Geometry エクステンション &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>Geometry エクステンション &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,10 +15,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.3.0',
+        VERSION:     '2.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -26,10 +27,10 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
-    <link rel="up" title="KL エクステンションガイド" href="../index.html" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" />
     <link rel="next" title="PolygonMesh’s structure" href="polygonmeshstructure.html" />
-    <link rel="prev" title="FileIO Extension’s Free Functions" href="../FileIO/functions.html" /> 
+    <link rel="prev" title="GenericImporter Extension’s Free Functions" href="../GenericImporter/functions.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -45,10 +46,10 @@
           <a href="polygonmeshstructure.html" title="PolygonMesh’s structure"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="../FileIO/functions.html" title="FileIO Extension’s Free Functions"
+          <a href="../GenericImporter/functions.html" title="GenericImporter Extension’s Free Functions"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">KL エクステンションガイド</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">KL エクステンションガイド</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -61,19 +62,24 @@
 <span id="id1"></span><h1>Geometry エクステンション<a class="headerlink" href="#geometry-extension" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <a class="reference internal image-reference" href="../../_images/FE_logo_345_60.png"><img alt="../../_images/FE_logo_345_60.png" src="../../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
 <div class="line-block">
-<div class="line">Fabric Engine version 2.3.0</div>
-<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+<div class="line">Fabric Engine version 2.4.0</div>
+<div class="line">Copyright (c) 2010-2017 Fabric Software Inc.  All rights reserved.</div>
 </div>
-<p><code class="docutils literal"><span class="pre">Geometry</span></code> のエクステンションは、例えば <a class="reference internal" href="Points.html#points"><span class="std std-ref">Points</span></a>,や <a class="reference internal" href="Lines.html#lines"><span class="std std-ref">Lines</span></a>, <a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> といった一般的なジオメトリ型のKLでの実装を提供します。エクステンションは、これらジオメトリ型に共通する様々なコンポーネントやインターフェースを定義します。</p>
+<p>The <code class="docutils literal"><span class="pre">Geometry</span></code> extension provides a KL implementation of common geometry types, such as <a class="reference internal" href="Points.html#points"><span class="std std-ref">Points</span></a>, <a class="reference internal" href="../Multipede/Lines.html#lines"><span class="std std-ref">Lines</span></a>, <a class="reference internal" href="Curves.html#curves"><span class="std std-ref">Curves</span></a> and <a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a>.
+The extension additionally defines the various components and interfaces that are common to these geometry types.</p>
 <p>全てのジオメトリ型は <a class="reference internal" href="Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> インターフェースを実装しています。それらは、ポジションやUV、カラーといったコンポーネントに関連付けされているアトリビュート値を保持するために、 <a class="reference internal" href="GeometryAttributes.html#geometryattributes"><span class="std std-ref">GeometryAttributes</span></a> という単一のコンテナ（データ型）を使用します。これには、 <code class="xref std std-kl-ref docutils literal"><span class="pre">Vec3Attributes</span></code> や <code class="xref std std-kl-ref docutils literal"><span class="pre">ColorAttributes</span></code> といった様々なアトリビュート型があります。 <a class="reference internal" href="GeometryAttribute.html#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a> インターフェースが定義付けされている限り、カスタムした様々な型のアトリビュートをジオメトリに結合することが可能です。</p>
-<p>全てのジオメトリ型は、レイキャストや最接近点の取得といった空間分析を実行することが可能になる <a class="reference internal" href="SpatialQueryable.html#spatialqueryable"><span class="std std-ref">SpatialQueryable</span></a> インターフェースを実装しています。これは空間分析の速度を上げるためのジオメトリを内部で使用した <a class="reference internal" href="Octree.html#octree"><span class="std std-ref">Octree</span></a> と <a class="reference internal" href="SparseGrid.html#sparsegrid"><span class="std std-ref">SparseGrid</span></a> という2つの高速化構造を定義します。このインターフェースについての詳細は <a class="reference internal" href="spatialqueriesusage.html#spatialqueriesusage"><span class="std std-ref">ジオメトリを用いた空間分析群(Spatial queries)の使用</span></a> を参照してください。</p>
+<p>Most geometry types implement the <a class="reference internal" href="SpatialQueryable.html#spatialqueryable"><span class="std std-ref">SpatialQueryable</span></a> interface, which allows to perform spatial queries such
+as raycast or getClosest. This extension defines two spatial acceleration structures, the <a class="reference internal" href="Octree.html#octree"><span class="std std-ref">Octree</span></a> and the <a class="reference internal" href="SparseGrid.html#sparsegrid"><span class="std std-ref">SparseGrid</span></a>,
+which are being used internally by the geometries to accelerate the spatial queries. For <a class="reference internal" href="spatialqueriesusage.html#spatialqueriesusage"><span class="std std-ref">ジオメトリを用いた空間分析群(Spatial queries)の使用</span></a> for more details about</p>
 <blockquote>
 <div><p>.</p>
 </div></blockquote>
-<p>ジオメトリは、処理をGPU上で行うことで高いパフォーマンスを可能にするGPUコンピュートカーネルを利用することが出来ます。既存のコードは最小限の変更によってGPU上で実行できるようになります。GPUでジオメトリを使用する方法の詳細については、 <span class="xref std std-ref">utilizinggpucompute</span> を参照してください。</p>
+<p>Some geometries can be used in GPU compute kernels, enabling high performance geometry processing entirely on the GPU. With minimal changes, existing
+code can be modified to run on the GPU. See <span class="xref std std-ref">utilizinggpucompute</span> for more details about using Geometries in GPU compute kernels.</p>
 <div class="section" id="table-of-contents">
 <h2>目次<a class="headerlink" href="#table-of-contents" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">None</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="polygonmeshstructure.html">PolygonMesh&#8217;s structure</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="polygonmeshstructure.html#introduction">概要</a></li>
@@ -91,7 +97,7 @@
 <li class="toctree-l2"><a class="reference internal" href="spatialqueriesusage.html#acceleration-structures">高速化構造</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="utilizinggpucompute.html">ジオメトリを用いたGPUコンピュートの利用</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="utilizinggpucompute.html">Utilizing GPU compute with Geometries</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="utilizinggpucompute.html#introduction">導入部</a></li>
 <li class="toctree-l2"><a class="reference internal" href="utilizinggpucompute.html#polygonmesh">ポリゴンメッシュ</a></li>
 <li class="toctree-l2"><a class="reference internal" href="utilizinggpucompute.html#current-limitations">現在の制限</a></li>
@@ -102,6 +108,16 @@
 <li class="toctree-l2"><a class="reference internal" href="BaseGeometry.kl.html">BaseGeometry.kl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="BoundingVolumeHelpers.kl.html">BoundingVolumeHelpers.kl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ColorAttribute.kl.html">ColorAttribute.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Curve.kl.html">Curve.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Curves.kl.html">Curves.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CurvesBezier.kl.html">CurvesBezier.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CurvesEvaluation.kl.html">CurvesEvaluation.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CurvesLength.kl.html">CurvesLength.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CurvesLinear.kl.html">CurvesLinear.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CurvesModeling.kl.html">CurvesModeling.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CurvesNURBS.kl.html">CurvesNURBS.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CurvesSampling.kl.html">CurvesSampling.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CurvesStructure.kl.html">CurvesStructure.kl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="DrawElements.kl.html">DrawElements.kl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="DrawElementsLocation.kl.html">DrawElementsLocation.kl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="DrawElementsModeling.kl.html">DrawElementsModeling.kl</a></li>
@@ -135,6 +151,7 @@
 <li class="toctree-l2"><a class="reference internal" href="PolygonMeshModeling.kl.html">PolygonMeshModeling.kl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PolygonMeshPrimitives.kl.html">PolygonMeshPrimitives.kl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PolygonMeshTopologyAttributes.kl.html">PolygonMeshTopologyAttributes.kl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PolygonMeshUVLayouts.kl.html">PolygonMeshUVLayouts.kl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="QuatAttribute.kl.html">QuatAttribute.kl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="RGBAAttribute.kl.html">RGBAAttribute.kl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="RGBAttribute.kl.html">RGBAttribute.kl</a></li>
@@ -167,6 +184,10 @@
 <li class="toctree-l2"><a class="reference internal" href="BaseAttribute.html">BaseAttribute (object)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="BaseGeometry.html">BaseGeometry (object)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ColorAttribute.html">ColorAttribute (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Curve.html">Curve (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Curves.html">Curves (object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CurvesStructureChangeBracket.html">CurvesStructureChangeBracket (struct)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Curves_lengthComputeCache_tempBuffers.html">Curves_lengthComputeCache_tempBuffers (object)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="DrawElements.html">DrawElements (object)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="GeometryAttributes.html">GeometryAttributes (object)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="GeometryAttributesIterator.html">GeometryAttributesIterator (struct)</a></li>
@@ -234,15 +255,15 @@
 </ul>
 
   <h4>前のトピックへ</h4>
-  <p class="topless"><a href="../FileIO/functions.html"
-                        title="前の章へ">FileIO Extension&#8217;s Free Functions</a></p>
+  <p class="topless"><a href="../GenericImporter/functions.html"
+                        title="前の章へ">GenericImporter Extension&#8217;s Free Functions</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="polygonmeshstructure.html"
                         title="次の章へ">PolygonMesh&#8217;s structure</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../../_sources/KLExtensionsGuide/Geometry/index.txt"
+      <li><a href="../../_sources/KLExtensionsGuide/Geometry/index.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Geometry/index.html"
               rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
@@ -251,8 +272,8 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -275,15 +296,15 @@
           <a href="polygonmeshstructure.html" title="PolygonMesh’s structure"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="../FileIO/functions.html" title="FileIO Extension’s Free Functions"
+          <a href="../GenericImporter/functions.html" title="GenericImporter Extension’s Free Functions"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010-2016 Fabric Software Inc.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
     </div>
   </body>
 </html>

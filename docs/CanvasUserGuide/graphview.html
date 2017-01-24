@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Canvas Graph View &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>Canvas Graph View &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,10 +15,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.3.0',
+        VERSION:     '2.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -26,8 +27,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
-    <link rel="up" title="Canvas ユーザガイド" href="index.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
     <link rel="next" title="Value Editor" href="valueeditor.html" />
     <link rel="prev" title="Canvas ユーザガイド" href="index.html" /> 
   </head>
@@ -47,8 +48,8 @@
         <li class="right" >
           <a href="index.html" title="Canvas ユーザガイド"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Canvas ユーザガイド</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Canvas ユーザガイド</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -60,7 +61,7 @@
   <div class="section" id="canvas-graph-view">
 <span id="canvas-user-guide-graphview"></span><h1>Canvas Graph View<a class="headerlink" href="#canvas-graph-view" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>Fabric Canvas Graph View インターフェースは Fabric のノードベースエディタです。そこではノードの追加/削除、ノード間の接続を定義、あるいはサブグラフを含むようなカスタムノードや、KLコードを含むようなノードを新規作成しつつ、グラフを作成できます。</p>
-<p>Canvasは全ての Fabricの統合版、もちろんスタンドアロン版(<code class="file docutils literal"><span class="pre">canvas.py</span></code>)から利用できます。使用するホストアプリケーションによらず同じ操作で利用できます。</p>
+<p>Canvas is available in all Fabric integrations, including the Fabric Standalone (<code class="file docutils literal"><span class="pre">canvas.py</span></code>), and the way you work with it is the same no matter which host application you use.</p>
 <div class="section" id="creating-nodes">
 <h2>ノードの作成<a class="headerlink" href="#creating-nodes" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Canvasではノードの作成手段が多数あります。</p>
@@ -105,7 +106,7 @@
 <p>ノードのすべてのポートへは、ノードラベルすぐ横のヘッダをクリックすることでアクセスできます。ノードを折りたたんでいる場合に便利です。非プリセットノードではこのメニューから、新規のポートを外部公開することもできます。</p>
 </li>
 <li><p class="first">整列</p>
-<p>Ctrl+R キーショートカットにより、選択ノードとその子供を、自動再配置します。</p>
+<p>If you press Ctrl + R hotkey with a node selected, an automatic layout will be applied to all its children nodes.</p>
 <img alt="../_images/userguide_05.jpg" src="../_images/userguide_05.jpg" />
 </li>
 <li><p class="first">ズーム</p>
@@ -152,11 +153,10 @@
 </li>
 <li><p class="first"><cite>opaque</cite>: ポートの値は、ホストアプリケーションからは、不明なデータ型として扱われます。異なるホストアプリケーション間でグラフを共有する際、ホストの処理系には関与されたくないような不安定な ―volatile― KLオブジェクトをやりとりできます。</p>
 </li>
-<li><p class="first"><cite>hidden</cite>: このポートは、ホストアプリケーションからは不明となります。</p>
-</li>
+<li><cite>hidden</cite>: the port should be unknown by the host application</li>
 </ul>
 </li>
-<li><p class="first"><em class="dfn">persist value</em> チェックボックスはトップレベルのグラフでのみ現れます。チェックを入れるとポートの値がグラフと共にpersist ―永続化、保存― されることを示します。 チェックが入らない場合、再度グラフを読み込むとポートの値はディフォルトへとリセットされます。値の永続化についての技術的詳細は <a class="reference internal" href="../CanvasProgrammerGuide/valuepersistance.html#canvas-programmer-guide-valuepersistance"><span class="std std-ref">ポートの値の永続化（Port value persistance）</span></a> を参照してください。</p>
+<li><p class="first">The <em class="dfn">persist value</em> checkbox is only available for top level graphs. When checked, it indicates that the port value must be persisted (saved) with the graph, else re-loading the graph will reset the value to its default. See <a class="reference internal" href="../CanvasProgrammerGuide/valuepersistance.html#canvas-programmer-guide-valuepersistance"><span class="std std-ref">Port value persistence</span></a> for technical details about value persistence.</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
 <p class="last">Maya や Softimage では、このオプションは変更した値や単純な型に応じ自動で設定されます。</p>
@@ -166,6 +166,8 @@
 </li>
 <li><p class="first"><em class="dfn">use combo</em> チェックボックスでは、リスト表示のコンボボックスUI です。0..N-1 としてマップされます。</p>
 </li>
+<li><p class="first">The <em class="dfn">use file filter</em> checkbox allows to define file type filtering for FilePath port dialogs</p>
+</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
@@ -174,11 +176,11 @@
 </div>
 <div class="section" id="reordering-ports">
 <h2>ポートの再配置<a class="headerlink" href="#reordering-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>グラフ中のポートは、望みの場所へドラッグすることで再配置できます。また、inputあるいはoutput全てのポートは、右クリックのコンテキストメニューから一番下に移動させることができます。</p>
+<p>Within a graph ports can be reordered simply by dragging them to their new position.  It is also possible to move all the input or output ports to the end of the port list through the right-click context menu.</p>
 </div>
 <div class="section" id="execute-ports">
 <h2>Execute ポート<a class="headerlink" href="#execute-ports" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>いくつかのノードでは <em class="dfn">Execute</em> とよばれる特別なノードを提供しています。このノードはデータをやりとりすためではなく、特定のノード間を単にデイジーチェーンするためだけに存在し、実行フローの制御に使用します。プログラマガイド内の  <a class="reference internal" href="../CanvasProgrammerGuide/execute-ports.html#canvas-programmer-guide-execute-ports"><span class="std std-ref">Execute Ports</span></a> に詳細な情報があります。</p>
+<p>いくつかのノードでは <em class="dfn">Execute</em> とよばれる特別なノードを提供しています。このノードはデータをやりとりすためではなく、特定のノード間を単にデイジーチェーンするためだけに存在し、実行フローの制御に使用します。プログラマガイド内の  <a class="reference internal" href="../CanvasProgrammerGuide/execute-ports.html#canvas-programmer-guide-execute-ports"><span class="std std-ref">Execute ポート</span></a> に詳細な情報があります。</p>
 </div>
 <div class="section" id="subgraphs">
 <h2>サブグラフ<a class="headerlink" href="#subgraphs" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -231,6 +233,40 @@
 <p class="last">Backdropsにもコメントをつけることができます。ノードセクション全体に記述を行う場合に使用しましょう。</p>
 </div>
 </div>
+<div class="section" id="context-menu">
+<h2>Context menu<a class="headerlink" href="#context-menu" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<img alt="../_images/userguide_contextmenu.png" src="../_images/userguide_contextmenu.png" />
+<p>Within the context menu, you can execute many of the aforementioned actions. Depending on the selected node, different actions will appear.</p>
+<p>Supported Actions:</p>
+<ul class="simple">
+<li>Inspect: Inspects the selected node ports in the Value editor.</li>
+<li>Edit Block &#8216;&#8217;: Opens the definition of one of the block instance.</li>
+<li>Edit Node: Opens the node definition.</li>
+<li>Properties: Opens the properties dialog of the selected node.</li>
+<li>Delete: Removes the selected node from the Graph View.</li>
+<li>Copy: Copies a selection into the clipboard.</li>
+<li>Cut: Cuts a selection into the clipboard.</li>
+<li>Paste: Pastes a selection into the clipboard.</li>
+<li>Select All: Selects all the nodes from the Graph View.</li>
+<li>Remove connections to selected node(s): Removes in and out connections from the selected nodes.</li>
+<li>Split from preset: Splits a preset.</li>
+<li>Create preset: Creates a preset from a Selection.</li>
+<li>Export graph: Exports a graph as a .canvas file.</li>
+<li>Implode nodes: Creates a new node with a subgraph containing the selection of nodes.</li>
+<li>Explode node: Removes the subgraph node and inserts all of its contained nodes into the current graph</li>
+<li>Set comment: Sets a comment to the node instance.</li>
+<li>Remove comment: Removes an existing comment of a node.</li>
+<li>New Empty graph: Creates a new node which contains a subgraph.</li>
+<li>New Empty Function: Creates a new KL function node .</li>
+<li>New backdrop: Creates a new Backdrop node.</li>
+<li>New variable: Creates a new Variable node.</li>
+<li>Read variable (Get): Creates a new Variable Get node.</li>
+<li>Write variable (Set): Creates a new Variable Set node.</li>
+<li>New cache node: Creates a new Cache node.</li>
+<li>New block: Creates a new block.</li>
+<li>Reset zoom: Resets the zoom level.</li>
+</ul>
+</div>
 </div>
 
 
@@ -260,6 +296,7 @@
 <li><a class="reference internal" href="#custom-kl-nodes">カスタム KL ノード</a></li>
 <li><a class="reference internal" href="#backdrops">Backdrops</a></li>
 <li><a class="reference internal" href="#comments">コメント</a></li>
+<li><a class="reference internal" href="#context-menu">Context menu</a></li>
 </ul>
 </li>
 </ul>
@@ -273,7 +310,7 @@
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/CanvasUserGuide/graphview.txt"
+      <li><a href="../_sources/CanvasUserGuide/graphview.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/CanvasUserGuide/graphview.html"
               rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
@@ -282,8 +319,8 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -308,13 +345,13 @@
         <li class="right" >
           <a href="index.html" title="Canvas ユーザガイド"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" >Canvas ユーザガイド</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Canvas ユーザガイド</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010-2016 Fabric Software Inc.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
     </div>
   </body>
 </html>

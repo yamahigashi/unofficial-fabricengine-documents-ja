@@ -1,0 +1,162 @@
+.. _RELNOTES-1.14.2:
+
+Fabric Engine 1.14.2 Release Notes
+=================================================
+
+.. image:: /images/FE_logo_345_60.*
+   :width: 345px
+   :height: 60px
+
+| Fabric Engine version 1.14.2
+| Released Wednesday 17 December 2014
+| Copyright (c) 2010-2017 Fabric Software Inc. All rights reserved.
+
+.. contents:: Table of Contents
+  :local:
+
+Important Notes - Read Me First!
+--------------------------------
+
+- This is a bugfix release that is recommended for all users who are running version 1.14.1 or 1.14.0.  It addresses various issues including performance and stability improvements in the Splice Softimage plugin and several stability issues in backgroun compilation of KL code.  Please refer to the :ref:`documentation for 1.14.0 <RELNOTES-1.14.0>` for general information about the 1.14.0 release.
+
+.. _downloads-1.14.2:
+
+Downloads
+---------
+
+All downloads for Fabric Engine 1.14.2 can be obtained at http://fabricengine.com/get-fabric/.  For information on installation please refer to the :ref:`InstallationGuide`.
+
+Changes in Fabric Engine 1.14.2
+-------------------------------------
+
+Core
+++++++
+
+- Various stability improvements for background optimization.
+
+- getCoreIndex() has been replaced with getThreadIndex() and getThreadCount().  This fixes a rare bug where there would be an exception in SimpleLock.kl.
+
+- Converting a structure or object that contains a reference loop to a String no longer crashes; it instead outputs <LOOP> where the loop point occurs.
+
+- We are now more forgiving when parsing JSON; in particular, we allow for extra or missing commands in objects and arrays.
+
+- We now output and return JSON is a much friendly "pretty-printed" format
+
+- Fixed dead hang when exiting some DCC apps
+
+- Fixed KL compiler crash when declaring an invalid global constant
+
+Splice (General)
++++++++++++++++++++++
+
+- We now ship with PDBs on Windows to make it easier to see meaningful stack traces in Splice
+
+SpliceAPI
++++++++++++++
+
+- EvalContext now works with multiple Splice nodes
+
+SpliceMaya
+++++++++++++++++
+
+- Fix alignment of line numbers with source code
+
+- Disable KL reporting when destroying Splice/Core client
+
+- Added support for orthographic cameras
+
+- Changing the connections on a Splice Maya node could stop the node from evaluating; this has been fixed.
+
+- Fixed output attributes of Integer[] type
+
+- Switching scenes was sometimes causing old content to be displayed; this has been fixed
+
+- Native arrays inside compound attribute weren't working; fixed
+
+SpliceSoftimage
+++++++++++++++++++++++
+
+- Fixed calculation of InlineCamera FOV
+
+- The viewport aspect ratio was incorrect under certain conditions, causing the rendering to mismtach the Softimage viewport; fixed.
+
+- SpliceSoftimage error messages are now more useful
+
+-          When multiple output ports exist on a node, the node will only evaluate once. Previously the node would evaluate for every connected output port. This was obvious in  scenes because you would see a huge dump of reports for every single report statement in your KL code.
+-          Now only data that has changed in Softimage is transferred into Splice. In some cases, this will provide significant performance improvements.
+
+-          If ‘AlwaysEvaluate’ is off, then the node will not evaluate unless something changes. That means that nodes might stop playback when you turn off ‘Wlways Evaluate where they would have evaluated before. You now need a way to force the node to be dirty when time changes. The easiest way is to add a Scalar port and attach an expression operator pulling in the time value.
+
+-          The EvalContext value now accurately reflects the data that has changed in Softimage. You can use this value to determine if code must execute in KL. One example is checking if a filepath parameter has changed to see if the file must be re-loaded. Another is to check if a geometry has changed to know if the acceleration structures must be re-built.
+ 
+.. note::
+
+  -          ‘Always Evaluate’: This toggle on the Splice operator will revert the operator to its previous behavior. In the past this was defaulted to ‘true’ but now it defaults to ‘false’. To upgrade existing scenes, turn ‘AlwaysEvaluate’ off.
+
+  -          IO Mesh connections: If a port is connected to a mesh with an IO connection, then it will force the operator to evaluate. This is because when the operator evaluates, it modifies the mesh, meaning that on the next evaluation, the mesh will have changed, and so the operator must re-evaluate. Always connect to Meshes as ‘In’ or ‘Out’ if possible, except when writing a deformer operator.
+
+  -          All ICE data is flagged as changed when the ICE node changes. The finer level filtering of ICE data is possible if you see that as critical.
+
+SpliceStandalone
++++++++++++++++++++++
+
+- Added manipulation menu
+
+InlineDrawing Extension
++++++++++++++++++++++++
+
+- OGLVertexColorOverlayShader now supports customizing the name of the vertex colors attribute
+
+- OGLVertexColorOverlayShader now derives from OGLSurfaceOverlayShader so draws as an overlay
+
+Manipulation Extension
++++++++++++++++++++++++
+
+- When unregistering a manipulator it automatically be removed form the stack
+
+- GizmoManagers now destroy trier gizmos on destruction
+
+.. _knownissues-1.14.2:
+
+.. _documentation-1.14.2:
+
+Documentation
+-------------
+
+Complete documentation for Fabric Engine can be :ref:`found here <TOP>`.
+
+.. _upgrading-apps-1.14.2:
+
+Upgrading Applications to Version 1.14.2
+----------------------------------------------------
+
+Please see the :ref:`RELNOTES-1.13.0` for upgrading information.
+
+.. _notes-1.14.2:
+
+Previous Release Notes
+----------------------
+
+- :ref:`RELNOTES-1.14.1`
+
+- :ref:`RELNOTES-1.14.0`
+
+- :ref:`RELNOTES-1.13.0`
+
+- :ref:`RELNOTES-1.12.0`
+
+- :ref:`RELNOTES-1.11.4`
+
+- :ref:`RELNOTES-1.11.3`
+
+- :ref:`RELNOTES-1.11.2`
+
+- :ref:`RELNOTES-1.11.0`
+
+- :ref:`RELNOTES-1.10.0`
+
+- :ref:`RELNOTES-1.9.0-beta`
+
+- :ref:`RELNOTES-1.8.0-beta`
+
+- :ref:`RELNOTES-1.7.3-beta`

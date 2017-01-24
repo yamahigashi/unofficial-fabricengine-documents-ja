@@ -1,0 +1,10 @@
+.. _genericrgbarrayvalue:
+
+GenericRGBArrayValue (object)
+===========================================================================
+
+.. kl-type:: GenericRGBArrayValue
+  createrefs=1;
+  methods=1;
+  params=1;
+  members=1;

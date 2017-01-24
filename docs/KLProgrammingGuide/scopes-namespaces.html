@@ -1,0 +1,369 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Scopes and Namespaces &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="文（Statements）" href="statements.html" />
+    <link rel="prev" title="演算子・式" href="ops-exprs.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="statements.html" title="文（Statements）"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="ops-exprs.html" title="演算子・式"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">KL プログラミングガイド</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="scopes-and-namespaces">
+<span id="scopes-namespaces"></span><h1>Scopes and Namespaces<a class="headerlink" href="#scopes-and-namespaces" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>This chapter covers the topics of scoping rules and namespaces in KL.  These topics are related since they concern how types, functions and variables are visible within KL programs.</p>
+<div class="section" id="scoping-rules">
+<span id="scope"></span><h2>Scoping Rules<a class="headerlink" href="#scoping-rules" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The term <em class="dfn">scope</em> in programming languages refers to the parts of a program in which variables, constants and functions are visible; the rules that govern how scopes work are referred to as <em class="dfn">scoping rules</em>.  Scopes are also responsible for managing the &#8220;lifecycle&#8221; of variables; in the case of KL, this refers to when destructors are called for structure values.</p>
+<div class="section" id="types-of-scopes">
+<h3>Types of Scopes<a class="headerlink" href="#types-of-scopes" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>In KL, there are four kinds scopes: the global scope, function scopes, compound statement scopes and temporary scopes.  Scopes <em class="dfn">nest</em> inside each other; when a KL program refers to a variable by name, the compiler determines which variable is being referred to by searching from the current innermost scope outwards through the nested scopes to the outermost scope (which is always the global scope).  Like C, KL is a statically-scoped language, meaning that the exact variable that is being referred to is resolved at compile time (and not at run time).</p>
+<div class="section" id="the-global-scope">
+<span id="index-0"></span><h4>The Global Scope<a class="headerlink" href="#the-global-scope" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>The global scope is the top-level scope of a KL program.  The symbols that are visible in the global scope are global constants as well as functions and operators.  The global scope is always the outermost scope at any point in a KL program.</p>
+</div>
+<div class="section" id="function-scope">
+<span id="index-1"></span><h4>Function Scope<a class="headerlink" href="#function-scope" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>Whenever a function or other function-list entity is defined, a function scope is created that is nested inside the global scope.  The arguments to the function are provided within the function scope.  Within the function scope, a function definition also creates a compound statement scope corresponding to the compound statement that constitutes the body of the function.</p>
+</div>
+<div class="section" id="compound-statement-scope">
+<span id="scope-compound-statement"></span><span id="index-2"></span><h4>Compound Statement Scope<a class="headerlink" href="#compound-statement-scope" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>Any time that a <code class="docutils literal"><span class="pre">{</span></code> followed by zero or more statements followed by <code class="docutils literal"><span class="pre">}</span></code> is used to introduce a compound statement, a new <em class="dfn">compound statement scope</em> is introduced.  Compound statement scopes are nested inside function scopes (when they correspond to the compound statement that constitutes the body of a function) or inside other compound statement scopes.</p>
+<p>When control reaches the end of a compound statement (by executing the last statement or via the <code class="docutils literal"><span class="pre">return</span></code>, <code class="docutils literal"><span class="pre">break</span></code> or <code class="docutils literal"><span class="pre">continue</span></code> statements), any structure values that have corresponding destructors will have those destructors executed.</p>
+<p>Note that declaring a loop index variable inside a loop statement is a special case of a compound statement scope.  In the case that the loop body is a compound statement, the corresponding compound statement scope is nested inside the loop&#8217;s compound statement scope.</p>
+</div>
+<div class="section" id="temporary-scope">
+<span id="index-3"></span><h4>Temporary Scope<a class="headerlink" href="#temporary-scope" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>Any time that a constructor is directly invoked to create a temporary value (see <a class="reference internal" href="globals.html#klpg-constructor-invocation-temporary"><span class="std std-ref">一時初期化</span></a>), a scope is created to contain the temporary value.  The scope encloses the surrounding expression of the temporary value; this means that when the surrounding expression is finished execution, the temporary value&#8217;s destructor, if it exists, is executed.</p>
+</div>
+</div>
+<div class="section" id="nested-scopes-example">
+<h3>Nested Scopes Example<a class="headerlink" href="#nested-scopes-example" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>For a precise understanding of the nesting of KL scopes, study the following example carefully.</p>
+</div>
+</div>
+<div class="section" id="namespaces">
+<span id="id1"></span><h2>Namespaces<a class="headerlink" href="#namespaces" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified">バージョン 2.4.0 で追加.</span></p>
+</div>
+<p>A common problem in large software systems is ensuring the uniqueness of the names of types and global functions.   For example, there could be two different places that define a type <code class="docutils literal"><span class="pre">Logger</span></code> because two different parts of the system have a need for a logging object; however, defining two different types with the same name will create an error in KL because it wouldn&#8217;t be possible to figure out which type was being referred to when <code class="docutils literal"><span class="pre">Logger</span></code> was used.  In KL, a common manifestation of this problem is when two different KL extensions define types or functions with the same name.</p>
+<p>As an example, consider the following code:</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: Type and Function Name Collisions</span>
+<span class="cm">*/</span>
+
+<span class="c1">//////////////////////////////////////////////</span>
+<span class="c1">// In some part of the code, we have a type named Logger and a CreateLogger</span>
+<span class="c1">// function.</span>
+
+<span class="kr">struct</span> <span class="nx">Logger</span> <span class="p">{</span>
+  <span class="kr">Integer</span> <span class="nx">fd</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="nx">Logger</span> <span class="nx">CreateLogger</span><span class="p">(</span><span class="kr">String</span> <span class="nx">filename</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+<span class="c1">//////////////////////////////////////////////</span>
+
+<span class="c1">//////////////////////////////////////////////</span>
+<span class="c1">// In some other part of the code, we have a different type Logger and</span>
+<span class="c1">// a different function CreateLogger</span>
+
+<span class="kr">struct</span> <span class="nx">Logger</span> <span class="p">{</span>
+  <span class="nx">FileHandle</span> <span class="nx">fh</span><span class="p">;</span>
+  <span class="kr">Integer</span> <span class="nx">level</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="nx">Logger</span> <span class="nx">CreateLogger</span><span class="p">(</span><span class="kr">String</span> <span class="nx">filename</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+<span class="c1">//////////////////////////////////////////////</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">Logger</span> <span class="nx">l</span> <span class="o">=</span> <span class="nx">CreateLogger</span><span class="p">(</span><span class="s2">&quot;output.log&quot;</span><span class="p">);</span>  <span class="c1">// will result in a compilation error</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Note that it&#8217;s not necessary for all the code to be in a single file for there to be an issue; the two different definitions for <code class="docutils literal"><span class="pre">Logger</span></code> and <code class="docutils literal"><span class="pre">CreateLogger</span></code> could be in different files and could be located in different extensions.</p>
+<p>In order to avoid problems with global names types and functions colliding, KL provides support for namespaces.  A <em class="dfn">namespace</em> is a named collection of types and functions that are referred to using a prefix to ensure that names of the types and functions do not collide with other types and functions of the same name.  To declare that types and/or functions belong in a namespace named <code class="docutils literal"><span class="pre">Name</span></code>, simply encode them in a <em class="dfn">namespace block</em> as follows:</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: namespace</span>
+<span class="cm">*/</span>
+
+<span class="nx">namespace</span> <span class="nx">NamespaceName</span> <span class="p">{</span>
+<span class="c1">// functions and types in the namespace</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Then, to refer to functions and types in this namespace, use the syntax <code class="docutils literal"><span class="pre">NamespaceName::TypeName</span></code> or <code class="docutils literal"><span class="pre">NamespaceName::FunctionName</span></code>.  The following example shows namespaces used to resolve the name collisions in the example above:</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: namespace</span>
+<span class="cm">*/</span>
+
+<span class="c1">//////////////////////////////////////////////</span>
+<span class="nx">namespace</span> <span class="nx">Transaction</span> <span class="p">{</span>
+
+<span class="kr">struct</span> <span class="nx">Logger</span> <span class="p">{</span>
+  <span class="kr">Integer</span> <span class="nx">fd</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="nx">Logger</span> <span class="nx">CreateLogger</span><span class="p">(</span><span class="kr">String</span> <span class="nx">filename</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="p">}</span>
+<span class="c1">//////////////////////////////////////////////</span>
+
+<span class="c1">//////////////////////////////////////////////</span>
+<span class="nx">namespace</span> <span class="nx">Util</span> <span class="p">{</span>
+
+<span class="kr">struct</span> <span class="nx">Logger</span> <span class="p">{</span>
+  <span class="nx">FileHandle</span> <span class="nx">fh</span><span class="p">;</span>
+  <span class="kr">Integer</span> <span class="nx">level</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="nx">Logger</span> <span class="nx">CreateLogger</span><span class="p">(</span><span class="kr">String</span> <span class="nx">filename</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="p">}</span>
+<span class="c1">//////////////////////////////////////////////</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">Transaction</span><span class="o">::</span><span class="nx">Logger</span> <span class="nx">l</span> <span class="o">=</span> <span class="nx">Transaction</span><span class="o">::</span><span class="nx">CreateLogger</span><span class="p">(</span><span class="s2">&quot;output.log&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If you know you will only need to be using the types and/or functions from one of the namespaces, you can use the <code class="docutils literal"><span class="pre">using</span> <span class="pre">namespace</span> <span class="pre">NamespaceName;</span></code> global declaration to ensure that the <code class="docutils literal"><span class="pre">NamespaceName::</span></code> prefix is not needed (although it can still be used).  The following example modifies the last example to use <cite>using</cite>:</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: using namespace</span>
+<span class="cm">*/</span>
+
+<span class="c1">//////////////////////////////////////////////</span>
+<span class="nx">namespace</span> <span class="nx">Transaction</span> <span class="p">{</span>
+
+<span class="kr">struct</span> <span class="nx">Logger</span> <span class="p">{</span>
+  <span class="kr">Integer</span> <span class="nx">fd</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="nx">Logger</span> <span class="nx">CreateLogger</span><span class="p">(</span><span class="kr">String</span> <span class="nx">filename</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="p">}</span>
+<span class="c1">//////////////////////////////////////////////</span>
+
+<span class="c1">//////////////////////////////////////////////</span>
+<span class="nx">namespace</span> <span class="nx">Util</span> <span class="p">{</span>
+
+<span class="kr">struct</span> <span class="nx">Logger</span> <span class="p">{</span>
+  <span class="nx">FileHandle</span> <span class="nx">fh</span><span class="p">;</span>
+  <span class="kr">Integer</span> <span class="nx">level</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="nx">Logger</span> <span class="nx">CreateLogger</span><span class="p">(</span><span class="kr">String</span> <span class="nx">filename</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="p">}</span>
+<span class="c1">//////////////////////////////////////////////</span>
+
+<span class="nx">using</span> <span class="nx">namespace</span> <span class="nx">Transaction</span><span class="p">;</span>
+
+<span class="kd">operator</span> <span class="nx">entry</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// because of the &#39;using namespace Transaction&#39; global declaration,</span>
+  <span class="c1">// we don&#39;t need to prefix these with Transaction::</span>
+  <span class="nx">Logger</span> <span class="nx">l</span> <span class="o">=</span> <span class="nx">CreateLogger</span><span class="p">(</span><span class="s2">&quot;output.log&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For code within a namespace, it is not necessary to use the namespace prefix to access other types and/or functions in that namespace.  So, for example, the following code is correct:</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: namespace</span>
+<span class="cm">*/</span>
+
+<span class="nx">namespace</span> <span class="nx">Foo</span> <span class="p">{</span>
+
+<span class="kr">struct</span> <span class="nx">MyType</span> <span class="p">{</span> <span class="cm">/*...*/</span> <span class="p">};</span>
+
+<span class="c1">// Note that we don&#39;t need to specify Foo::MyType here in either case:</span>
+<span class="nx">MyType</span> <span class="nx">SomeFunc</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">MyType</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nx">SomeOtherFunc</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">MyType</span> <span class="nx">mt</span> <span class="o">=</span> <span class="nx">SomeFunc</span><span class="p">();</span> <span class="c1">// nor do we here</span>
+<span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Several important details on the use of namespaces:</p>
+<ul class="simple">
+<li>It is possible to have two or more namespace blocks with the same namespace name.  In this case, all of the types and functions among all the blocks are included in the namespace.</li>
+<li>It is possible to nest namespaces.  For example, if we have the nested namespace blocks:</li>
+</ul>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: namespace</span>
+<span class="cm">*/</span>
+
+<span class="nx">namespace</span> <span class="nx">Foo</span> <span class="p">{</span>
+<span class="nx">namespace</span> <span class="nx">Bar</span> <span class="p">{</span>
+<span class="kr">struct</span> <span class="nx">MyType</span> <span class="p">{</span> <span class="cm">/*...*/</span> <span class="p">};</span>
+<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Then you can refer to <code class="docutils literal"><span class="pre">MyType</span></code> through <code class="docutils literal"><span class="pre">Foo::Bar::MyType</span></code>.</p>
+<ul class="simple">
+<li>It is possible to have multiple <code class="docutils literal"><span class="pre">using</span> <span class="pre">namespace</span> <span class="pre">...;</span></code> global declarations; however, it is also possible that doing so will reintroduce name collisions, eg. if we had instead declared <code class="docutils literal"><span class="pre">using</span> <span class="pre">namespace</span> <span class="pre">Transaction,</span> <span class="pre">Util;</span></code> in the example above.</li>
+<li>The &#8220;scope&#8221; of a <code class="docutils literal"><span class="pre">using</span> <span class="pre">namespace</span> <span class="pre">...;</span></code> global declaration is the file in which it is used.  Therefore, you will need to repeat the declaration in each file that needs it.</li>
+</ul>
+</div>
+<div class="section" id="autonamespacing-of-extensions">
+<h2>Autonamespacing of Extensions<a class="headerlink" href="#autonamespacing-of-extensions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>In order to ease the use of namespaces with KL extensions, Fabric supports a feature to automatically place the types and functions of an extension into a namespace whose name is the name of the extension.</p>
+<p>When an extension is declared to be &#8220;autonamespaced&#8221;, all of its functions and types are automatically placed into a namespace whose name is the name of the extension.  Furthermore, whenever <code class="docutils literal"><span class="pre">require</span> <span class="pre">ExtName;</span></code> is used in KL code, there is an implicit <code class="docutils literal"><span class="pre">using</span> <span class="pre">namespace</span> <span class="pre">ExtName;</span></code> that happens at the point of the require statement.</p>
+<p>For backwards compatibility with previous versions of Fabric this feature is disabled by default.  To enable autonamespacing of an extension, add an <code class="docutils literal"><span class="pre">autoNamespace</span></code> member with value <code class="docutils literal"><span class="pre">true</span></code> to the <code class="docutils literal"><span class="pre">ExtName.fpm.json</span></code> file, eg:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ExtName.kl&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;autoNamespace&quot;</span><span class="p">:</span> <span class="n">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Scopes and Namespaces</a><ul>
+<li><a class="reference internal" href="#scoping-rules">Scoping Rules</a><ul>
+<li><a class="reference internal" href="#types-of-scopes">Types of Scopes</a><ul>
+<li><a class="reference internal" href="#the-global-scope">The Global Scope</a></li>
+<li><a class="reference internal" href="#function-scope">Function Scope</a></li>
+<li><a class="reference internal" href="#compound-statement-scope">Compound Statement Scope</a></li>
+<li><a class="reference internal" href="#temporary-scope">Temporary Scope</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#nested-scopes-example">Nested Scopes Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#namespaces">Namespaces</a></li>
+<li><a class="reference internal" href="#autonamespacing-of-extensions">Autonamespacing of Extensions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="ops-exprs.html"
+                        title="前の章へ">演算子・式</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="statements.html"
+                        title="次の章へ">文（Statements）</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/KLProgrammingGuide/scopes-namespaces.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLProgrammingGuide/scopes-namespaces.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="statements.html" title="文（Statements）"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="ops-exprs.html" title="演算子・式"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >KL プログラミングガイド</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
+    </div>
+  </body>
+</html>

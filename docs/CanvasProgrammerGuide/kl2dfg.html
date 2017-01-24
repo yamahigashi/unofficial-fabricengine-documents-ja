@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>KL2DFG コマンドラインユーティリティ &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>KL2DFG コマンドラインユーティリティ &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,10 +15,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.3.0',
+        VERSION:     '2.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -26,10 +27,10 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
-    <link rel="up" title="Canvas プログラマーガイド" href="index.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
     <link rel="next" title="Frequently Asked Questions" href="faq.html" />
-    <link rel="prev" title="Execute Ports" href="execute-ports.html" /> 
+    <link rel="prev" title="Execute ポート" href="execute-ports.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -45,10 +46,10 @@
           <a href="faq.html" title="Frequently Asked Questions"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="execute-ports.html" title="Execute Ports"
+          <a href="execute-ports.html" title="Execute ポート"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Canvas プログラマーガイド</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Canvas プログラマーガイド</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -60,7 +61,7 @@
   <div class="section" id="kl2dfg-command-line-utility">
 <span id="canvas-programmer-guide-kl2dfg"></span><h1>KL2DFG コマンドラインユーティリティ<a class="headerlink" href="#kl2dfg-command-line-utility" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>kl2dfg はコマンドラインEXEです。与えられた KL エクステンションから Canvas プリセットファイルを生成します。生成に成功すると <em class="dfn">kl2dfg.log</em> という名の処理結果を記載したファイルが出力先のフォルダに作成されます。成果物のプリセットを Canvas で使用するには  <span class="target" id="index-2"></span><code class="xref std std-envvar docutils literal"><span class="pre">FABRIC_DFG_PATH</span></code> 環境変数に指定したフォルダに配置します。もしくは、エクステンションフォルダ直下に <code class="code docutils literal"><span class="pre">dfgPresets</span></code> サブフォルダを用意しCanvasプリセットファイルをおきます。 <a class="reference internal" href="../ExtensionAuthoringGuide/fpm.html#eag-fpm"><span class="std std-ref">エクステンション・マニフェストファイル</span></a> により詳しい情報があります。</p>
-<p>KL2DFGを試すには、Favric環境変数が設定されたシェル（ <a class="reference internal" href="../GettingStartedGuide/baseinstallation.html#gettingstarted-baseinstallation"><span class="std std-ref">Fabric Engine archiveのインストール</span></a> 参照）を開き、以下をタイプします。</p>
+<p>KL2DFGを試すには、Favric環境変数が設定されたシェル（ <a class="reference internal" href="../GettingStartedGuide/licensing.html#gettingstarted-baseinstallation"><span class="std std-ref">Fabric Engine ライセンスのインストール</span></a> 参照）を開き、以下をタイプします。</p>
 <p><div class="highlight-bash"><div class="highlight"><pre><span></span>kl2dfg
 </pre></div>
 </div>
@@ -136,6 +137,15 @@ kl2dfg<span class="s1">&#39;s behavior. Find a list of doxygen qualifiers below:
 
 <span class="s1">\dfgPresetDefault port Value</span>
 <span class="s1">Sets up the default value to use for a given input port</span>
+
+<span class="s1">\dfgPresetType port Type</span>
+<span class="s1">Overrides the KL port type a given input port</span>
+
+<span class="s1">\dfgReturnIfNull</span>
+<span class="s1">If specified, the function preset will return if the object calling the function is null </span>
+
+<span class="s1">\dfgThrowExceptionIfNull</span>
+<span class="s1">If specified, the function preset will throw an exception if the object calling the function is null </span>
 
 <span class="s1">\dfgPresetRange port (0.0, 1.0)</span>
 <span class="s1">Defines the range to use for sliders, works with Floats and Integers</span>
@@ -280,33 +290,11 @@ b.reportSomething
 </pre></div>
 </div>
 <p>Result:</p>
-<div class="highlight-bash"><div class="highlight"><pre>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">[</span>FABRIC:MT<span class="o">]</span> Fabric Engine version 2.4.0 <span class="o">(</span>development<span class="o">)</span>
 <span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\r</span>elease<span class="se">\P</span>resets<span class="se">\D</span>FG
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\a</span>hmidou<span class="se">\F</span>abric-RBF<span class="se">\P</span>resets<span class="se">\D</span>FG
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\c</span>olorbleed-fabric-exts<span class="se">\P</span>resets<span class="se">\D</span>FG
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\c</span>oncord<span class="se">\P</span>resets<span class="se">\D</span>FG
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\F</span>abricCPS<span class="se">\P</span>resets<span class="se">\D</span>FG
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\F</span>FFBIK<span class="se">\P</span>resets<span class="se">\D</span>FG
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\K</span>raken<span class="se">\P</span>resets<span class="se">\D</span>FG
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\O</span>culus-2.0.0<span class="se">\s</span>tage<span class="se">\P</span>resets<span class="se">\D</span>FG
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\R</span>iggingToolbox<span class="se">\P</span>resets<span class="se">\D</span>FG
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\S</span>impLSystem<span class="se">\P</span>resets<span class="se">\D</span>FG
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\_</span>misc<span class="se">\P</span>resets<span class="se">\D</span>FG
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extensions <span class="o">{</span>Alembic:1.0.0,AlembicWrapper:1.3.0,Animation:1.1.0,AttributeHelpers:1.0.1,Bullet:1.0.2,BulletHelpers:1.0.0,Characters:1.1.0,Containers:1.1.1,DFGHelpers,DFGWrapper:1.1.0,FabricInterfaces:1.1.0,FabricSynchronization:1.1.0,Fbx:1.1.0,FbxHelpers:1.0.2,FileIO:1.3.0,Geometry:1.4.0,Images:1.0.2,InlineDrawing:1.4.0,JSON:1.0.0,Manipulation:1.1.0,Math:1.3.0,FabricOBJ:1.1.0,FabricOGL:1.1.0,OpenImageIO:1.0.2,OSOGL:1.1.0,Parameters:1.0.0,Singletons:1.1.0,FabricStatistics:1.1.0,Util:1.2.0<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\r</span>elease<span class="se">\E</span>xts
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Ignored extension directory <span class="s1">&#39;D:\fabric\release\Tests\Exts&#39;</span>: unable to open directory <span class="s1">&#39;D:\fabric\release\Tests\Exts&#39;</span>: The system cannot find the path specified. <span class="o">(</span>code <span class="m">3</span> <span class="o">[</span>0x3<span class="o">])</span>
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extensions <span class="o">{</span>CudaGL:1.0.0,CudaGLHelpers:1.0.0,SpliceInterfaces:1.0.0,FabricSynchronization:1.0.0,FabricVIDEO:1.0.0<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\a</span>hmidou<span class="se">\E</span>xts
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extensions <span class="o">{</span>MathUtils,Matrix,RBFSolver<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\a</span>hmidou<span class="se">\F</span>abric-RBF<span class="se">\E</span>xts
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>Curves<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\c</span>olorbleed-fabric-exts<span class="se">\E</span>xts
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>ParticleSystem<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\F</span>abricCPS<span class="se">\E</span>xts
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>FESRetopo<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\F</span>ESRetopo<span class="se">\E</span>xts
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>FABRIK<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\F</span>FFBIK<span class="se">\E</span>xts
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>GabanDeRetopo<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\G</span>abanDeRetopo<span class="se">\E</span>xts
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extensions <span class="o">{</span>Kraken,KrakenAnimation,KrakenForCanvas<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\K</span>raken<span class="se">\E</span>xts
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>Oculus:1.0.0<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\O</span>culus-2.0.0<span class="se">\s</span>tage<span class="se">\E</span>xts
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>Particles:0.1.0<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\P</span>articles20160324<span class="se">\P</span>articles<span class="se">\E</span>xts
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>petTool<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\P</span>etFactory<span class="se">\P</span>etfactoryExts
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>RiggingToolbox<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\R</span>iggingToolbox<span class="se">\E</span>xts
-<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extension <span class="o">{</span>SimpLSystem:0.0.2<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\E</span>xts<span class="se">\S</span>impLSystem<span class="se">\E</span>xts
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Loading DFG presets from D:<span class="se">\f</span>abric<span class="se">\r</span>elease<span class="se">\T</span>ools<span class="se">\K</span>raken<span class="se">\P</span>resets<span class="se">\D</span>FG
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extensions <span class="o">{</span>Alembic:1.1.0,AlembicImporter:1.0.0,AlembicWrapper:1.7.0,Animation:1.1.1,AttributeHelpers:1.0.1,BinPacking:1.0.0,Bullet:1.0.3,BulletHelpers:1.0.0,Characters:1.2.0,Containers:1.2.0,DFGWrapper:1.2.0,FabricInterfaces:1.1.0,FabricSynchronization:1.2.0,Fbx:1.2.1,FbxHelpers:1.1.0,FbxImporter:1.0.0,FileIO:1.3.1,FreeTypeGL:2.3.0,GenericImporter:1.0.0,Geometry:1.6.0,Images:2.1.0,InlineDrawing:1.6.0,JSON:1.1.0,LA:1.0.0,Manipulation:1.2.1,Math:1.5.0,FabricOBJ:1.1.0,ObjImporter:1.0.0,OGLWrappers:1.2.0,FabricOGL:1.1.0,OpenImageIO:1.1.0,OSOGL:1.1.0,Parameters:1.1.0,Singletons:1.1.2,FabricStatistics:1.1.1,Text:2.4.0,Util:1.4.1<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\r</span>elease<span class="se">\E</span>xts
+<span class="o">[</span>FABRIC:MT<span class="o">]</span> Registered extensions <span class="o">{</span>Kraken:1.2.0,KrakenAnimation,KrakenForCanvas<span class="o">}</span> in directory: D:<span class="se">\f</span>abric<span class="se">\r</span>elease<span class="se">\T</span>ools<span class="se">\K</span>raken<span class="se">\E</span>xts
 <span class="o">[</span>FABRIC:MT<span class="o">]</span> IRCache: Not pruning since last prune was less than <span class="m">24</span> hours ago
 Error when loading extension: KLExtension: <span class="s1">&#39;release/Exts/Builtin/Math/Math&#39;</span> uses a non existing KL file <span class="s1">&#39;Math.kl&#39;</span>.
 </pre></div>
@@ -342,14 +330,14 @@ Error when loading extension: KLExtension: <span class="s1">&#39;release/Exts/Bu
 
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="execute-ports.html"
-                        title="前の章へ">Execute Ports</a></p>
+                        title="前の章へ">Execute ポート</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="faq.html"
                         title="次の章へ">Frequently Asked Questions</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/CanvasProgrammerGuide/kl2dfg.txt"
+      <li><a href="../_sources/CanvasProgrammerGuide/kl2dfg.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/CanvasProgrammerGuide/kl2dfg.html"
               rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
@@ -358,8 +346,8 @@ Error when loading extension: KLExtension: <span class="s1">&#39;release/Exts/Bu
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -382,15 +370,15 @@ Error when loading extension: KLExtension: <span class="s1">&#39;release/Exts/Bu
           <a href="faq.html" title="Frequently Asked Questions"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="execute-ports.html" title="Execute Ports"
+          <a href="execute-ports.html" title="Execute ポート"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" >Canvas プログラマーガイド</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Canvas プログラマーガイド</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010-2016 Fabric Software Inc.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
     </div>
   </body>
 </html>

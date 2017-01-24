@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>クライアントとアプリケーションの生存サイクル &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>クライアントとアプリケーションの生存サイクル &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,10 +15,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.3.0',
+        VERSION:     '2.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -26,8 +27,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
-    <link rel="up" title="CAPI プログラミングガイド" href="index.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
     <link rel="next" title="Canvas Core API" href="canvas.html" />
     <link rel="prev" title="C++言語インタフェース" href="cpp-interface.html" /> 
   </head>
@@ -47,8 +48,8 @@
         <li class="right" >
           <a href="cpp-interface.html" title="C++言語インタフェース"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">CAPI プログラミングガイド</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">CAPI プログラミングガイド</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -91,6 +92,15 @@
 </div>
 <p><code class="docutils literal"><span class="pre">reportUserdata</span></code> へ与える値は、提供されるコールバック関数の第一引数として渡されます。 <code class="docutils literal"><span class="pre">stringData</span></code>, <code class="docutils literal"><span class="pre">stringLength</span></code>  パラメータは report内容の C文字列（改行 ―newlineを含めない）とその文字列の長さを示します。</p>
 <p><code class="docutils literal"><span class="pre">reportCallback</span></code> を指定しない場合（あるいは  <code class="docutils literal"><span class="pre">NULL</span></code> を渡す場合）、Fabric Core は report文を標準出力へ出力します。</p>
+<p>Aside from creating clients using the constructor or <code class="docutils literal"><span class="pre">Client::Create</span></code> clients can also be created as <em>singleton</em>. To save memory and manage a single unique client you can also use the <code class="docutils literal"><span class="pre">Client::GetSingleton</span></code> method:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Creating a singleton client object - C++</span>
+<span class="n">Client</span> <span class="n">client</span> <span class="o">=</span> <span class="n">FabricCore</span><span class="o">::</span><span class="n">Client</span><span class="o">::</span><span class="n">GetSingleton</span><span class="p">(</span>
+  <span class="n">ReportCallback</span> <span class="n">reportCallback</span><span class="p">,</span>
+  <span class="kt">void</span> <span class="o">*</span><span class="n">reportUserdata</span><span class="p">,</span>
+  <span class="p">...</span>
+  <span class="p">);</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="releasing-clients">
 <h2>クライアントの解放<a class="headerlink" href="#releasing-clients" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -656,7 +666,7 @@ void <code class="descname">FEC_ClientSupportsGPUCompute</code><span class="sig-
 <p><a class="reference internal" href="#capi-clients-api-reference-c"><span class="std std-ref">APIレファレンス - C</span></a> もあります。</p>
 <dl class="type">
 <dt id="_CPPv2N10FabricCore10FabricCore22ClientOptimizationTypeE">
-<span id="FabricCore::FabricCore::ClientOptimizationType"></span><em class="property">type </em><code class="descclassname">FabricCore::</code><code class="descname">ClientOptimizationType</code><a class="headerlink" href="#_CPPv2N10FabricCore10FabricCore22ClientOptimizationTypeE" title="この定義へのパーマリンク">¶</a></dt>
+<span id="FabricCore::FabricCore::ClientOptimizationType"></span><em class="property">type </em><code class="descclassname">FabricCore::</code><code class="descname">ClientOptimizationType</code><a class="headerlink" href="#_CPPv2N10FabricCore10FabricCore22ClientOptimizationTypeE" title="この定義へのパーマリンク">¶</a><br /></dt>
 <dd><p>KLのバックグラウンド最適化のモードを示すタイプ, Clientコンストラクタによりクライアントを作成する際に指定する。以下の3つのうちのどれか:</p>
 <p>FabricCore::ClientOptimizationType_Background</p>
 <blockquote>
@@ -669,9 +679,29 @@ void <code class="descname">FEC_ClientSupportsGPUCompute</code><span class="sig-
 <p>FabricCore::ClientOptimizationType_None</p>
 <blockquote>
 <div><p>KLコードの最適化を行わない</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N10FabricCore10FabricCore6ClientE">
+<span id="FabricCore::FabricCore::Client"></span><em class="property">class </em><code class="descclassname">FabricCore::</code><code class="descname">Client</code> : <em class="property">public</em> FabricCore::Ref<a class="headerlink" href="#_CPPv2N10FabricCore10FabricCore6ClientE" title="この定義へのパーマリンク">¶</a><br /></dt>
+<dd><dl class="function">
+<dt id="c.GetSingleton">
+Client <code class="descname">GetSingleton</code><span class="sig-paren">(</span>ReportCallback<em>&nbsp;reportCallback</em>, void<em>&nbsp;*reportUserdata</em>, CreateOptions const<em>&nbsp;*createOptions</em><span class="sig-paren">)</span><a class="headerlink" href="#c.GetSingleton" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>The Fabric Core can maintain a singleton instance of a Client for sharing between multiple Fabric Core users. The first time this function is called a Client instance will be created and any subsequent calls will return a handle to this same instance. The CreateOptions are only used if this is the first call to GetSingleton(), if the singleton already exists then this parameter is ignored.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">戻り値:</th><td class="field-body">A new reference to the singleton client object.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="function">
-<dt id="_CPPv2N10FabricCore18registerExtensionsEPc">
-<span id="FabricCore::registerExtensions__cCP"></span>void <code class="descclassname"></code><code class="descname">registerExtensions</code><span class="sig-paren">(</span>char <em class="property">const</em> *<em>pathnameCStr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N10FabricCore18registerExtensionsEPc" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv2N10FabricCore10FabricCore6Client18registerExtensionsEPc">
+<span id="FabricCore::FabricCore::Client::registerExtensions__cCP"></span>void <code class="descclassname"></code><code class="descname">registerExtensions</code><span class="sig-paren">(</span>char <em class="property">const</em> *<em>pathnameCStr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N10FabricCore10FabricCore6Client18registerExtensionsEPc" title="この定義へのパーマリンク">¶</a><br /></dt>
 <dd><p>指定したディレクトリ以下のエクステンションを登録</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -683,7 +713,6 @@ void <code class="descname">FEC_ClientSupportsGPUCompute</code><span class="sig-
 </table>
 </dd></dl>
 
-</div></blockquote>
 </dd></dl>
 
 </div>
@@ -719,7 +748,7 @@ void <code class="descname">FEC_ClientSupportsGPUCompute</code><span class="sig-
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/CAPIProgrammingGuide/clients.txt"
+      <li><a href="../_sources/CAPIProgrammingGuide/clients.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/CAPIProgrammingGuide/clients.html"
               rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
@@ -728,8 +757,8 @@ void <code class="descname">FEC_ClientSupportsGPUCompute</code><span class="sig-
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -754,13 +783,13 @@ void <code class="descname">FEC_ClientSupportsGPUCompute</code><span class="sig-
         <li class="right" >
           <a href="cpp-interface.html" title="C++言語インタフェース"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" >CAPI プログラミングガイド</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >CAPI プログラミングガイド</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010-2016 Fabric Software Inc.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
     </div>
   </body>
 </html>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>ジオメトリを用いたGPUコンピュートの利用 &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>Utilizing GPU compute with Geometries &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,10 +15,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.3.0',
+        VERSION:     '2.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -26,8 +27,8 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
-    <link rel="up" title="Geometry エクステンション" href="index.html" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" />
     <link rel="next" title="Geometry Extension’s Files" href="files.html" />
     <link rel="prev" title="ジオメトリを用いた空間分析群(Spatial queries)の使用" href="spatialqueriesusage.html" /> 
   </head>
@@ -47,9 +48,9 @@
         <li class="right" >
           <a href="spatialqueriesusage.html" title="ジオメトリを用いた空間分析群(Spatial queries)の使用"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Geometry エクステンション</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Geometry エクステンション</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -58,8 +59,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="utilizing-gpu-commpute-with-geometries">
-<span id="polygonmeshstructure"></span><h1>ジオメトリを用いたGPUコンピュートの利用<a class="headerlink" href="#utilizing-gpu-commpute-with-geometries" title="このヘッドラインへのパーマリンク">¶</a></h1>
+  <div class="section" id="utilizing-gpu-compute-with-geometries">
+<span id="polygonmeshstructure"></span><h1>Utilizing GPU compute with Geometries<a class="headerlink" href="#utilizing-gpu-compute-with-geometries" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="section" id="introduction">
 <h2>導入部<a class="headerlink" href="#introduction" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>GPUコンピュートは、現在比較的容易にジオメトリデフォメーションの計算のために使用することができます。</p>
@@ -71,7 +72,7 @@
 <p><a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> は、GPU上へ移動しGPUコンピュートカーネルに渡すことができる <a class="reference internal" href="PolygonMeshTopology.html#polygonmeshtopology"><span class="std std-ref">PolygonMeshTopology</span></a> 型の &#8216;topology&#8217; と呼ばれるメンバーを所有しています。</p>
 <p><a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> をGPUカーネルで使用する前に、そのトポロジーデータをGPUに移動する必要があります。ジオメトリが所有する各 :kl-ref:<a href="#id1"><span class="problematic" id="id2">`</span></a>GeometryAttribute&#8217; もまた使用する前にGPUに個別に移動する必要があります。</p>
 <p>GPUコンピュートカーネルはオブジェクト群をサポートしておらず、ポリゴンメッシュやライン群、ポイント群、または様々なアトリビュート型をGPUカーネルへ渡せないことを意味します。代わりに、これらのオブジェクトに含まれるデータはGPUカーネルに渡すことができます。</p>
-<p>各ジオメトリアトリビュートは、GPUコンピュートカーネルに渡すことができるデータを所有しています。大半のアトリビュートは <a class="reference internal" href="GeometryAttribute.html#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a> をサポートするデータ型の配列である&#8217;values&#8217;と呼ばれるメンバーを持っています。</p>
+<p>Each of the GeometryAttributes owns data that can be passed into GPU Compute kernels. Most attributes have a member called &#8216;values&#8217; which is an array of the data type supported by the <a class="reference internal" href="GeometryAttribute.html#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.</p>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm">** Example: Moving a polygonMesh to the GPU</span>
 <span class="cm">*/</span>
@@ -253,9 +254,9 @@
     <span class="nx">Ref</span><span class="o">&lt;</span><span class="nx">Vec3Attribute</span><span class="o">&gt;</span> <span class="nx">positionsAttr</span> <span class="o">=</span> <span class="nx">mesh</span><span class="p">.</span><span class="nx">getAttributes</span><span class="p">().</span><span class="nx">getPositions</span><span class="p">();</span>
 
     <span class="nx">Vec3</span> <span class="nx">positionsDoubleBuffer</span><span class="p">[];</span>
-    <span class="nx">positionsDoubleBuffer</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">size</span><span class="p">);</span>
+    <span class="nx">positionsDoubleBuffer</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">size</span><span class="p">());</span>
 
-    <span class="nx">noiseOp</span><span class="o">&lt;&lt;&lt;</span><span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">size</span><span class="err">@</span><span class="kc">false</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">,</span> <span class="nx">height</span><span class="p">);</span>
+    <span class="nx">noiseOp</span><span class="o">&lt;&lt;&lt;</span><span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">size</span><span class="p">()</span><span class="err">@</span><span class="kc">false</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">,</span> <span class="nx">height</span><span class="p">);</span>
 
     <span class="kr">UInt64</span> <span class="nx">start</span> <span class="o">=</span> <span class="nx">getCurrentTicks</span><span class="p">();</span>
     <span class="k">for</span><span class="p">(</span><span class="kr">UInt32</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">iterations</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
@@ -277,13 +278,13 @@
     <span class="nx">Ref</span><span class="o">&lt;</span><span class="nx">Vec3Attribute</span><span class="o">&gt;</span> <span class="nx">positionsAttr</span> <span class="o">=</span> <span class="nx">mesh</span><span class="p">.</span><span class="nx">getAttributes</span><span class="p">().</span><span class="nx">getPositions</span><span class="p">();</span>
 
     <span class="nx">Vec3</span> <span class="nx">positionsDoubleBuffer</span><span class="p">[];</span>
-    <span class="nx">positionsDoubleBuffer</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">size</span><span class="p">);</span>
+    <span class="nx">positionsDoubleBuffer</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">size</span><span class="p">());</span>
 
     <span class="nx">mesh</span><span class="p">.</span><span class="nx">convertToGPU</span><span class="p">();</span>
     <span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">convertToGPU</span><span class="p">();</span>
     <span class="nx">positionsDoubleBuffer</span><span class="p">.</span><span class="nx">convertToGPU</span><span class="p">();</span>
 
-    <span class="nx">noiseOp</span><span class="o">&lt;&lt;&lt;</span><span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">size</span><span class="err">@</span><span class="kc">true</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">,</span> <span class="nx">height</span><span class="p">);</span>
+    <span class="nx">noiseOp</span><span class="o">&lt;&lt;&lt;</span><span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">size</span><span class="p">()</span><span class="err">@</span><span class="kc">true</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="nx">positionsAttr</span><span class="p">.</span><span class="nx">values</span><span class="p">,</span> <span class="nx">height</span><span class="p">);</span>
 
     <span class="kr">UInt64</span> <span class="nx">start</span> <span class="o">=</span> <span class="nx">getCurrentTicks</span><span class="p">();</span>
     <span class="k">for</span><span class="p">(</span><span class="kr">UInt32</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">iterations</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
@@ -301,11 +302,9 @@
 
 <span class="cm">/*</span>
 <span class="cm">** Output:</span>
-<span class="cm">(stdin):49:5: error: must use parentheses to call methods</span>
-<span class="cm">(stdin):51:5: error: must use parentheses to call methods</span>
-<span class="cm">(stdin):73:5: error: must use parentheses to call methods</span>
-<span class="cm">(stdin):79:5: error: must use parentheses to call methods</span>
 
+<span class="cm">pointCount: 1262301 CPU Time: +15.77495295209293</span>
+<span class="cm">pointCount: 1262301 GPU Time: +16.52023172576436</span>
 
 <span class="cm">*/</span>
 </pre></div>
@@ -430,7 +429,9 @@
 
 <span class="cm">/*</span>
 <span class="cm">** Output:</span>
-<span class="cm">(stdin):47:3: error: must use parentheses to call methods</span>
+<span class="cm">(stdin):47:20: error: must use parentheses to call methods</span>
+<span class="cm">(stdin):64:3: error: must use parentheses to call methods</span>
+<span class="cm">(stdin):67:5: error: incorrect type (expected &#39;SkinningAttributeData&#39;, actual &#39;Data&#39;)</span>
 
 
 <span class="cm">*/</span>
@@ -463,7 +464,7 @@
             </a></p>
   <h3><a href="../../index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">ジオメトリを用いたGPUコンピュートの利用</a><ul>
+<li><a class="reference internal" href="#">Utilizing GPU compute with Geometries</a><ul>
 <li><a class="reference internal" href="#introduction">導入部</a></li>
 <li><a class="reference internal" href="#polygonmesh">ポリゴンメッシュ</a><ul>
 <li><a class="reference internal" href="#setting-attribute-values">アトリビュート値の設定</a></li>
@@ -484,7 +485,7 @@
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../../_sources/KLExtensionsGuide/Geometry/utilizinggpucompute.txt"
+      <li><a href="../../_sources/KLExtensionsGuide/Geometry/utilizinggpucompute.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Geometry/utilizinggpucompute.html"
               rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
@@ -493,8 +494,8 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -519,14 +520,14 @@
         <li class="right" >
           <a href="spatialqueriesusage.html" title="ジオメトリを用いた空間分析群(Spatial queries)の使用"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" >Geometry エクステンション</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Geometry エクステンション</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010-2016 Fabric Software Inc.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
     </div>
   </body>
 </html>

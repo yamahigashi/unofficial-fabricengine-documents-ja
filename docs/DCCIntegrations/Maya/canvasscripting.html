@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Canvasスクリプティング・インターフェース &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>Canvasスクリプティング・インターフェース &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,10 +15,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.3.0',
+        VERSION:     '2.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -26,8 +27,8 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
-    <link rel="up" title="Fabric for Maya" href="index.html" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" />
     <link rel="next" title="Using Fabric for Maya with Maya 2016" href="m2016.html" />
     <link rel="prev" title="Maya内部のCanvas" href="canvas.html" /> 
   </head>
@@ -47,9 +48,9 @@
         <li class="right" >
           <a href="canvas.html" title="Maya内部のCanvas"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Fabric for Maya</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Fabric for Maya</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -68,6 +69,14 @@
 <span class="nx">FabricCanvasAddPort</span> <span class="o">-</span><span class="nx">m</span> <span class="s2">&quot;canvasNode1&quot;</span> <span class="o">-</span><span class="nx">e</span> <span class="s2">&quot;&quot;</span> <span class="o">-</span><span class="nx">d</span> <span class="s2">&quot;z&quot;</span> <span class="o">-</span><span class="nx">p</span> <span class="s2">&quot;In&quot;</span> <span class="o">-</span><span class="nx">t</span> <span class="s2">&quot;Scalar&quot;</span> <span class="o">-</span><span class="nx">c</span> <span class="s2">&quot;Vec3.z&quot;</span><span class="p">;</span>
 <span class="nx">FabricCanvasAddPort</span> <span class="o">-</span><span class="nx">m</span> <span class="s2">&quot;canvasNode1&quot;</span> <span class="o">-</span><span class="nx">e</span> <span class="s2">&quot;&quot;</span> <span class="o">-</span><span class="nx">d</span> <span class="s2">&quot;result&quot;</span> <span class="o">-</span><span class="nx">p</span> <span class="s2">&quot;Out&quot;</span> <span class="o">-</span><span class="nx">t</span> <span class="s2">&quot;Vec3&quot;</span> <span class="o">-</span><span class="nx">c</span> <span class="s2">&quot;Vec3.result&quot;</span><span class="p">;</span>
 </pre></div>
+</div>
+<div class="section" id="fabriccanvasgetfabricversion">
+<h2>FabricCanvasGetFabricVersion<a class="headerlink" href="#fabriccanvasgetfabricversion" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Returns the Fabric version.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="nx">FabricCanvasGetFabricVersion</span><span class="p">;</span>
+<span class="c1">// Result: 2.3.0 //</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="fabriccanvasaddbackdrop">
 <h2>FabricCanvasAddBackDrop<a class="headerlink" href="#fabriccanvasaddbackdrop" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -325,13 +334,14 @@
 </li>
 <li><p class="first">-e, -execPath: 操作の対象となるCanvas内のノードのパス</p>
 </li>
-<li><p class="first">-s, -srcPortPath: 接続元（左）のポート/ピンのパス</p>
-</li>
-<li><p class="first">-d, -dstPortPath: 接続先（左）のポート/ピンのパス</p>
-</li>
+<li>-s, -srcPortPath: The path(s) to the source (left) port(s) / pin(s)</li>
+<li>-d, -dstPortPath: The path(s) to the destination (left) port(s) / pin(s)</li>
 </ul>
 </div></blockquote>
 <div class="highlight-KL"><div class="highlight"><pre><span></span>FabricCanvasConnect -m &quot;canvasNode1&quot; -e &quot;&quot; -s &quot;Scalar.value&quot; -d &quot;Vec3.z&quot;;
+</pre></div>
+</div>
+<div class="highlight-KL"><div class="highlight"><pre><span></span>FabricCanvasConnect -m &quot;canvasNode1&quot; -e &quot;&quot; -s &quot;Scalar.value|Scalar.value|Scalar.value&quot; -d &quot;Vec3.x|Vec3.y|Vec3.z&quot;;
 </pre></div>
 </div>
 </div>
@@ -535,17 +545,20 @@ FabricCanvasRemoveNodes -m &quot;canvasNode1&quot; -e &quot;&quot; -n &quot;Scal
 </div>
 <div class="section" id="fabriccanvasremoveport">
 <h2>FabricCanvasRemovePort<a class="headerlink" href="#fabriccanvasremoveport" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Canvasグラフからポートを削除します。</p>
+<p>Removes port(s) from the Canvas graph.</p>
 <blockquote>
 <div><ul class="simple">
 <li><p class="first">-m, -mayaNode: Canvas maya ノードの名前</p>
 </li>
 <li><p class="first">-e, -execPath: 操作の対象となるCanvas内のノードのパス</p>
 </li>
-<li>-n, -portName: The name of the port to remove</li>
+<li>-n, -portName: The name of the port(s) to remove</li>
 </ul>
 </div></blockquote>
 <div class="highlight-KL"><div class="highlight"><pre><span></span>FabricCanvasRemovePort -m &quot;canvasNode1&quot; -e &quot;&quot; -n &quot;factor&quot;;
+</pre></div>
+</div>
+<div class="highlight-KL"><div class="highlight"><pre><span></span>FabricCanvasRemovePort -m &quot;canvasNode1&quot; -e &quot;&quot; -n &quot;factorX|factorY|factorZ|resultXYZ&quot;;
 </pre></div>
 </div>
 </div>
@@ -766,6 +779,83 @@ FabricCanvasRemoveNodes -m &quot;canvasNode1&quot; -e &quot;&quot; -n &quot;Scal
 </pre></div>
 </div>
 </div>
+<div class="section" id="fabriccanvasgetexecuteshared">
+<h2>FabricCanvasGetExecuteShared<a class="headerlink" href="#fabriccanvasgetexecuteshared" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Returns the current shared execution state.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">-m, -mayaNode: Canvas maya ノードの名前</p>
+</li>
+</ul>
+</div></blockquote>
+<div class="highlight-KL"><div class="highlight"><pre><span></span>FabricCanvasGetExecuteShared -m &quot;canvasNode1&quot;;
+</pre></div>
+</div>
+</div>
+<div class="section" id="fabriccanvassetexecuteshared">
+<h2>FabricCanvasSetExecuteShared<a class="headerlink" href="#fabriccanvassetexecuteshared" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Enables/disables canvas nodes to be executed in parallel with the Maya parallel evaluation capabilities.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">-m, -mayaNode: Canvas maya ノードの名前</p>
+</li>
+<li>-e, -enable: &#8216;true&#8217; to enable parallel evaluation, else &#8216;false&#8217;</li>
+</ul>
+</div></blockquote>
+<div class="highlight-KL"><div class="highlight"><pre><span></span>FabricCanvasSetExecuteShared -m &quot;canvasNode1&quot; -e true;
+</pre></div>
+</div>
+</div>
+<div class="section" id="dfgimportjson">
+<h2>dfgImportJSON<a class="headerlink" href="#dfgimportjson" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Sets the graph of a canvas node either from a canvas file or from a JSON string.</p>
+<p>Note that one can only import graphs into empty Canvas nodes.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">-m, -mayaNode: Canvas maya ノードの名前</p>
+</li>
+<li>-p, -path: unused.</li>
+<li>-f, -filePath: The path and filename of a .canvas file.</li>
+<li>-j, -json: An optional JSON representation of a Canvas graph.</li>
+<li>-r, -referenced: &#8216;true&#8217; set as reference.</li>
+</ul>
+</div></blockquote>
+<div class="highlight-KL"><div class="highlight"><pre><span></span>dfgImportJSON -m &quot;canvasNode1&quot; -f &quot;C:/test.canvas&quot;;
+</pre></div>
+</div>
+</div>
+<div class="section" id="dfgexportjson">
+<h2>dfgExportJSON<a class="headerlink" href="#dfgexportjson" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Exports the graph of a canvas node as a .canvas file.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">-m, -mayaNode: Canvas maya ノードの名前</p>
+</li>
+<li>-p, -path: unused.</li>
+<li>-f, -filePath: The path and filename of the output .canvas file.</li>
+</ul>
+</div></blockquote>
+<div class="highlight-KL"><div class="highlight"><pre><span></span>dfgExportJSON -m &quot;canvasNode1&quot; -f &quot;C:/test.canvas&quot;;
+</pre></div>
+</div>
+</div>
+<div class="section" id="dfgreloadjson">
+<h2>dfgReloadJSON<a class="headerlink" href="#dfgreloadjson" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Reloads the graph of a canvas node that references a .canvas file (see command &#8220;dfgImportJSON&#8221;).</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">-m, -mayaNode: Canvas maya ノードの名前</p>
+</li>
+<li>-p, -path: unused.</li>
+<li>-f, -filePath: unused.</li>
+<li>-j, -json: unused.</li>
+<li>-r, -referenced: unused.</li>
+</ul>
+</div></blockquote>
+<div class="highlight-KL"><div class="highlight"><pre><span></span>dfgReloadJSON -m &quot;canvasNode1&quot;;
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -780,6 +870,7 @@ FabricCanvasRemoveNodes -m &quot;canvasNode1&quot; -e &quot;&quot; -n &quot;Scal
   <h3><a href="../../index.html">目次</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Canvasスクリプティング・インターフェース</a><ul>
+<li><a class="reference internal" href="#fabriccanvasgetfabricversion">FabricCanvasGetFabricVersion</a></li>
 <li><a class="reference internal" href="#fabriccanvasaddbackdrop">FabricCanvasAddBackDrop</a></li>
 <li><a class="reference internal" href="#fabriccanvasaddblock">FabricCanvasAddBlock</a></li>
 <li><a class="reference internal" href="#fabriccanvasaddblockport">FabricCanvasAddBlockPort</a></li>
@@ -816,6 +907,11 @@ FabricCanvasRemoveNodes -m &quot;canvasNode1&quot; -e &quot;&quot; -n &quot;Scal
 <li><a class="reference internal" href="#fabriccanvassetrefvarpath">FabricCanvasSetRefVarPath</a></li>
 <li><a class="reference internal" href="#fabriccanvassplitfrompreset">FabricCanvasSplitFromPreset</a></li>
 <li><a class="reference internal" href="#fabriccanvasdismissloaddiags">FabricCanvasDismissLoadDiags</a></li>
+<li><a class="reference internal" href="#fabriccanvasgetexecuteshared">FabricCanvasGetExecuteShared</a></li>
+<li><a class="reference internal" href="#fabriccanvassetexecuteshared">FabricCanvasSetExecuteShared</a></li>
+<li><a class="reference internal" href="#dfgimportjson">dfgImportJSON</a></li>
+<li><a class="reference internal" href="#dfgexportjson">dfgExportJSON</a></li>
+<li><a class="reference internal" href="#dfgreloadjson">dfgReloadJSON</a></li>
 </ul>
 </li>
 </ul>
@@ -829,7 +925,7 @@ FabricCanvasRemoveNodes -m &quot;canvasNode1&quot; -e &quot;&quot; -n &quot;Scal
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../../_sources/DCCIntegrations/Maya/canvasscripting.txt"
+      <li><a href="../../_sources/DCCIntegrations/Maya/canvasscripting.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DCCIntegrations/Maya/canvasscripting.html"
               rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
@@ -838,8 +934,8 @@ FabricCanvasRemoveNodes -m &quot;canvasNode1&quot; -e &quot;&quot; -n &quot;Scal
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -864,14 +960,14 @@ FabricCanvasRemoveNodes -m &quot;canvasNode1&quot; -e &quot;&quot; -n &quot;Scal
         <li class="right" >
           <a href="canvas.html" title="Maya内部のCanvas"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" >Fabric for Maya</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Fabric for Maya</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010-2016 Fabric Software Inc.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
     </div>
   </body>
 </html>

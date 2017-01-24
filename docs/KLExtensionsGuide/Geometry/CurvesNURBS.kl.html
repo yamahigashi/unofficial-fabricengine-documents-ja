@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>CurvesNURBS.kl &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" />
+    <link rel="next" title="CurvesSampling.kl" href="CurvesSampling.kl.html" />
+    <link rel="prev" title="CurvesModeling.kl" href="CurvesModeling.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="CurvesSampling.kl.html" title="CurvesSampling.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="CurvesModeling.kl.html" title="CurvesModeling.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Geometry エクステンション</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Geometry Extension&#8217;s Files</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="geometry-curvesnurbs-kl">
+<span id="curvesnurbs-kl"></span><span id="id1"></span><h1>CurvesNURBS.kl<a class="headerlink" href="#geometry-curvesnurbs-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="evaluatenurbsbasis">
+<h3>EvaluateNurbsBasis<a class="headerlink" href="#evaluatenurbsbasis" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">EvaluateNurbsBasis ( in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> order, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> knots&lt;&gt;, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> t, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> N&lt;&gt; )</p>
+<p class="plaintext">Translation of OpenNURBS&#8217;s ON_EvaluateNurbsBasis (simplified).</p>
+<p class="plaintext">Modification:
+- t_k and k_t use the last entries of N, so N is expected to be of size order*(order+2) instead of size order*order.
+- We assume N to be already zeroed (KL initializes memory)</p>
+<p class="plaintext">Evaluate B-spline basis functions</p>
+<p class="plaintext">INPUT:
+order &gt;= 1
+d = degree = order - 1
+knot[]
+array of length 2*d.
+Generally, knot[0] &lt;= ... &lt;= knot[d-1] &lt; knot[d] &lt;= ... &lt;= knot[2*d-1].
+N[]
+array of length order*order</p>
+<p class="plaintext">OUTPUT:
+If &#8220;N&#8221; were declared as double N[order][order], then</p>
+<p class="plaintext">k
+N[d-k][i] = N (t) = value of i-th degree k basis function.
+i
+where 0 &lt;= k &lt;= d and k &lt;= i &lt;= d.</p>
+<p class="plaintext">In particular, N[0], ..., N[d] - values of degree d basis functions.
+The &#8220;lower left&#8221; triangle is not initialized.</p>
+<p class="plaintext">Actually, the above is true when knot[d-1] &lt;= t &lt; knot[d].  Otherwise, the
+value returned is the value of the polynomial that agrees with N_i^k on the
+half open domain [ knot[d-1], knot[d] )</p>
+</div>
+</p>
+<p><div class="section" id="evaluatenurbsbasis-uniformknots">
+<h3>EvaluateNurbsBasis_uniformKnots<a class="headerlink" href="#evaluatenurbsbasis-uniformknots" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">EvaluateNurbsBasis_uniformKnots ( in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> order, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> t, in <a class="reference internal" href="../Math/SInt32.html#sint32"><span class="std std-ref">SInt32</span></a> minSpanIndex, in <a class="reference internal" href="../Math/SInt32.html#sint32"><span class="std std-ref">SInt32</span></a> maxSpanIndex, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> N&lt;&gt; )</p>
+<p class="plaintext">EvaluateNurbsBasis_uniformKnots: optimizes EvaluateNurbsBasis for uniform knot cases, where knot span deltas are either 1 or 0 (at start/end).
+minSpanIndex and maxSpanIndex: in the range [0..degree*2-1], the indices from which the knot spans are 0 (min=0 and max=degree*2-1 if none)
+Timings showed that this version gives a 40% speed increase over EvaluateNurbsBasis in optimized KL</p>
+</div>
+</p>
+<p><div class="section" id="evaluatenurbsbasisderivatives">
+<h3>EvaluateNurbsBasisDerivatives<a class="headerlink" href="#evaluatenurbsbasisderivatives" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode">EvaluateNurbsBasisDerivatives ( in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> order, in Boolean implicitKnots, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> implicitKnots_minSpanIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> implicitKnots_maxSpanIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> knots&lt;&gt;, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> der_count, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> N&lt;&gt;, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> dkArr&lt;&gt; )</p>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="CurvesModeling.kl.html"
+                        title="前の章へ">CurvesModeling.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="CurvesSampling.kl.html"
+                        title="次の章へ">CurvesSampling.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Geometry/CurvesNURBS.kl.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Geometry/CurvesNURBS.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="CurvesSampling.kl.html" title="CurvesSampling.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="CurvesModeling.kl.html" title="CurvesModeling.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Geometry エクステンション</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >Geometry Extension&#8217;s Files</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
+    </div>
+  </body>
+</html>

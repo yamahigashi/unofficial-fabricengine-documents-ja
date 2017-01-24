@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>DrawingUtilityFunctions.kl &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>DrawingUtilityFunctions.kl &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,10 +15,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.3.0',
+        VERSION:     '2.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -26,8 +27,8 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
-    <link rel="up" title="InlineDrawing Extension’s Files" href="files.html" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" />
     <link rel="next" title="GeometryAttributeRTRAdaptor.kl" href="GeometryAttributeRTRAdaptor.kl.html" />
     <link rel="prev" title="DrawingHandle.kl" href="DrawingHandle.kl.html" /> 
   </head>
@@ -47,10 +48,10 @@
         <li class="right" >
           <a href="DrawingHandle.kl.html" title="DrawingHandle.kl"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" >InlineDrawing エクステンション</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">InlineDrawing Extension&#8217;s Files</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >InlineDrawing エクステンション</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">InlineDrawing Extension&#8217;s Files</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -65,7 +66,30 @@
 <h2>Functions<a class="headerlink" href="#functions" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><div class="section" id="getorcreatelines">
 <h3>getOrCreateLines<a class="headerlink" href="#getorcreatelines" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p class="klcode"><a class="reference internal" href="InlineLinesShape.html#inlinelinesshape"><span class="std std-ref">InlineLinesShape</span></a> getOrCreateLines ( io <a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> rootTransform, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color )</p>
+<p class="klcode"><a class="reference internal" href="InlineLinesShape.html#inlinelinesshape"><span class="std std-ref">InlineLinesShape</span></a> getOrCreateLines ( io <a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> rootTransform, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo )</p>
+<p class="plaintext">Looks under the given transform for a child wth the given name and returns it, else sets up a new lines shape with the given name.
+If the shape already exists under the given name, the color will be updated to the color value provided.</p>
+<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Example: getOrCreateLines :nooutput:</span>
+<span class="cm">*/</span>
+
+<span class="nx">DrawingHandle</span> <span class="nx">handle</span><span class="p">(</span><span class="s1">&#39;DrawingHandle&#39;</span><span class="p">);</span>
+
+<span class="nx">InlineTransform</span> <span class="nx">root</span> <span class="o">=</span> <span class="nx">handle</span><span class="p">.</span><span class="nx">getRootTransform</span><span class="p">();</span>
+
+<span class="nx">InlineLinesShape</span> <span class="nx">linesShape</span> <span class="o">=</span> <span class="nx">getOrCreateLines</span><span class="p">(</span><span class="nx">rootTransform</span><span class="p">,</span> <span class="s1">&#39;MyLines&#39;</span><span class="p">,</span> <span class="nx">Color</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">));</span>
+
+<span class="c1">// Clear the linse and re-generate the shape based on the current evaluation data. </span>
+<span class="nx">Lines</span> <span class="nx">lines</span> <span class="o">=</span> <span class="nx">linesShape</span><span class="p">.</span><span class="nx">getLines</span><span class="p">();</span>
+<span class="nx">lines</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
+<span class="nx">lines</span><span class="p">.</span><span class="nx">addLine</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span> <span class="nx">end</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</p>
+<p><div class="section" id="id2">
+<h3>getOrCreateLines<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="InlineLinesShape.html#inlinelinesshape"><span class="std std-ref">InlineLinesShape</span></a> getOrCreateLines ( io <a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> rootTransform, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo )</p>
 <p class="plaintext">Looks under the given transform for a child wth the given name and returns it, else sets up a new lines shape with the given name.
 If the shape already exists under the given name, the color will be updated to the color value provided.</p>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
@@ -417,12 +441,12 @@ If the shape already exists under the given name, the color will be updated to t
 </p>
 <p><div class="section" id="drawxfo">
 <h3>drawXfo<a class="headerlink" href="#drawxfo" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p class="klcode"><a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> drawXfo ( io <a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> rootTransform, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> colorBlend )</p>
+<p class="klcode"><a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> drawXfo ( io <a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> rootTransform, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo )</p>
 <p class="plaintext">Draws an <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> using 3 colored arrows. The size of the displayed <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> is driven by the scale factor of the xfo parameter.</p>
 <table border="1" class="paramtable docutils">
 <colgroup>
-<col width="13%" />
-<col width="87%" />
+<col width="14%" />
+<col width="86%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>rootTransform</td>
@@ -433,41 +457,6 @@ If the shape already exists under the given name, the color will be updated to t
 </tr>
 <tr class="row-odd"><td>xfo</td>
 <td>The transform of the shape relative to the provided root transform.</td>
-</tr>
-<tr class="row-even"><td>color</td>
-<td>The color of the generated shape.</td>
-</tr>
-<tr class="row-odd"><td>colorBlend</td>
-<td>A factor that controls how much the axes are colored X=red, Y=green, Z=blue or the provided color.</td>
-</tr>
-</tbody>
-</table>
-</div>
-</p>
-<p><div class="section" id="id2">
-<h3>drawXfo<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p class="klcode"><a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> drawXfo ( io <a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> rootTransform, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> colorBlend )</p>
-<p class="plaintext">Draws an <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> using 3 colored arrows. The size of the displayed <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> is driven by the scale factor of the xfo parameter.</p>
-<table border="1" class="paramtable docutils">
-<colgroup>
-<col width="13%" />
-<col width="87%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>rootTransform</td>
-<td>The <a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> which will own the generated shape object.</td>
-</tr>
-<tr class="row-even"><td>name</td>
-<td>The name of the generated shape object.</td>
-</tr>
-<tr class="row-odd"><td>xfo</td>
-<td>The transform of the shape relative to the provided root transform.</td>
-</tr>
-<tr class="row-even"><td>color</td>
-<td>The color of the generated shape.</td>
-</tr>
-<tr class="row-odd"><td>colorBlend</td>
-<td>A factor that controls how much the axes are colored X=red, Y=green, Z=blue or the provided color.</td>
 </tr>
 </tbody>
 </table>
@@ -475,12 +464,12 @@ If the shape already exists under the given name, the color will be updated to t
 </p>
 <p><div class="section" id="id3">
 <h3>drawXfo<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p class="klcode"><a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> drawXfo ( io <a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> rootTransform, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> colorBlend )</p>
+<p class="klcode"><a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> drawXfo ( io <a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> rootTransform, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo )</p>
 <p class="plaintext">Draws an <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> using 3 colored arrows. The size of the displayed <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> is driven by the scale factor of the xfo parameter.</p>
 <table border="1" class="paramtable docutils">
 <colgroup>
-<col width="13%" />
-<col width="87%" />
+<col width="14%" />
+<col width="86%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>rootTransform</td>
@@ -492,11 +481,28 @@ If the shape already exists under the given name, the color will be updated to t
 <tr class="row-odd"><td>xfo</td>
 <td>The transform of the shape relative to the provided root transform.</td>
 </tr>
-<tr class="row-even"><td>color</td>
-<td>The color of the generated shape.</td>
+</tbody>
+</table>
+</div>
+</p>
+<p><div class="section" id="id4">
+<h3>drawXfo<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> drawXfo ( io <a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> rootTransform, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo )</p>
+<p class="plaintext">Draws an <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> using 3 colored arrows. The size of the displayed <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> is driven by the scale factor of the xfo parameter.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>rootTransform</td>
+<td>The <a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> which will own the generated shape object.</td>
 </tr>
-<tr class="row-odd"><td>colorBlend</td>
-<td>A factor that controls how much the axes are colored X=red, Y=green, Z=blue or the provided color.</td>
+<tr class="row-even"><td>name</td>
+<td>The name of the generated shape object.</td>
+</tr>
+<tr class="row-odd"><td>xfo</td>
+<td>The transform of the shape relative to the provided root transform.</td>
 </tr>
 </tbody>
 </table>
@@ -504,12 +510,12 @@ If the shape already exists under the given name, the color will be updated to t
 </p>
 <p><div class="section" id="drawxfoarray">
 <h3>drawXfoArray<a class="headerlink" href="#drawxfoarray" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p class="klcode"><a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> drawXfoArray ( io <a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> rootTransform, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfos[], in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> colorBlend )</p>
+<p class="klcode"><a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> drawXfoArray ( io <a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> rootTransform, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfos[] )</p>
 <p class="plaintext">Draws an array of Xfos using 3 colored arrows. The size of the displayed <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> is driven by the scale factor of the xfo parameter.</p>
 <table border="1" class="paramtable docutils">
 <colgroup>
-<col width="13%" />
-<col width="87%" />
+<col width="14%" />
+<col width="86%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>rootTransform</td>
@@ -520,41 +526,6 @@ If the shape already exists under the given name, the color will be updated to t
 </tr>
 <tr class="row-odd"><td>xfos</td>
 <td>The transforms of the generated xfos relative to the provided root transform.</td>
-</tr>
-<tr class="row-even"><td>color</td>
-<td>The color of the generated xfos.</td>
-</tr>
-<tr class="row-odd"><td>colorBlend</td>
-<td>A factor that controls how much the axes are colored X=red, Y=green, Z=blue or the provided color.</td>
-</tr>
-</tbody>
-</table>
-</div>
-</p>
-<p><div class="section" id="id4">
-<h3>drawXfoArray<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p class="klcode"><a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> drawXfoArray ( io <a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> rootTransform, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfos[], in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> colorBlend )</p>
-<p class="plaintext">Draws an array of Xfos using 3 colored arrows. The size of the displayed <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> is driven by the scale factor of the xfo parameter.</p>
-<table border="1" class="paramtable docutils">
-<colgroup>
-<col width="13%" />
-<col width="87%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>rootTransform</td>
-<td>The <a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> which will own the generated shape object.</td>
-</tr>
-<tr class="row-even"><td>name</td>
-<td>The name of the generated shape object.</td>
-</tr>
-<tr class="row-odd"><td>xfos</td>
-<td>The transforms of the generated xfos relative to the provided root transform.</td>
-</tr>
-<tr class="row-even"><td>color</td>
-<td>The color of the generated xfos.</td>
-</tr>
-<tr class="row-odd"><td>colorBlend</td>
-<td>A factor that controls how much the axes are colored X=red, Y=green, Z=blue or the provided color.</td>
 </tr>
 </tbody>
 </table>
@@ -562,12 +533,12 @@ If the shape already exists under the given name, the color will be updated to t
 </p>
 <p><div class="section" id="id5">
 <h3>drawXfoArray<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p class="klcode"><a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> drawXfoArray ( io <a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> rootTransform, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfos[], in <a class="reference internal" href="../Math/Color.html#color"><span class="std std-ref">Color</span></a> color, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> colorBlend )</p>
+<p class="klcode"><a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> drawXfoArray ( io <a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> rootTransform, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfos[] )</p>
 <p class="plaintext">Draws an array of Xfos using 3 colored arrows. The size of the displayed <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> is driven by the scale factor of the xfo parameter.</p>
 <table border="1" class="paramtable docutils">
 <colgroup>
-<col width="13%" />
-<col width="87%" />
+<col width="14%" />
+<col width="86%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>rootTransform</td>
@@ -579,11 +550,28 @@ If the shape already exists under the given name, the color will be updated to t
 <tr class="row-odd"><td>xfos</td>
 <td>The transforms of the generated xfos relative to the provided root transform.</td>
 </tr>
-<tr class="row-even"><td>color</td>
-<td>The color of the generated xfos.</td>
+</tbody>
+</table>
+</div>
+</p>
+<p><div class="section" id="id6">
+<h3>drawXfoArray<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p class="klcode"><a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> drawXfoArray ( io <a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> rootTransform, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name, in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfos[] )</p>
+<p class="plaintext">Draws an array of Xfos using 3 colored arrows. The size of the displayed <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> is driven by the scale factor of the xfo parameter.</p>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>rootTransform</td>
+<td>The <a class="reference internal" href="InlineTransform.html#inlinetransform"><span class="std std-ref">InlineTransform</span></a> which will own the generated shape object.</td>
 </tr>
-<tr class="row-odd"><td>colorBlend</td>
-<td>A factor that controls how much the axes are colored X=red, Y=green, Z=blue or the provided color.</td>
+<tr class="row-even"><td>name</td>
+<td>The name of the generated shape object.</td>
+</tr>
+<tr class="row-odd"><td>xfos</td>
+<td>The transforms of the generated xfos relative to the provided root transform.</td>
 </tr>
 </tbody>
 </table>
@@ -646,7 +634,7 @@ If the shape already exists under the given name, the color will be updated to t
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../../_sources/KLExtensionsGuide/InlineDrawing/DrawingUtilityFunctions.kl.txt"
+      <li><a href="../../_sources/KLExtensionsGuide/InlineDrawing/DrawingUtilityFunctions.kl.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/InlineDrawing/DrawingUtilityFunctions.html"
               rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
@@ -655,8 +643,8 @@ If the shape already exists under the given name, the color will be updated to t
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -681,15 +669,15 @@ If the shape already exists under the given name, the color will be updated to t
         <li class="right" >
           <a href="DrawingHandle.kl.html" title="DrawingHandle.kl"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" >InlineDrawing エクステンション</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="files.html" >InlineDrawing Extension&#8217;s Files</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >InlineDrawing エクステンション</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >InlineDrawing Extension&#8217;s Files</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010-2016 Fabric Software Inc.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
     </div>
   </body>
 </html>

@@ -1,0 +1,404 @@
+.. _RELNOTES-2.2.0:
+
+Fabric Engine 2.2.0 Release Notes
+=================================================
+
+.. image:: /images/FE_logo_345_60.*
+   :width: 345px
+   :height: 60px
+
+| Fabric Engine version 2.2.0
+| Released May 2016
+| Copyright (c) 2010-2017 Fabric Software Inc. All rights reserved.
+
+About This Release
+------------------
+
+Fabric Engine 2.2  is focused on improving accessibility and addressing popular feature requests while also fixing a bunch of quirks and bugs. All of which adds up to a better everyday Fabric experience.  Listed below are some highlights. Check out this `What's New In Fabric Engine 2.2 video`_ for a quick tour.
+
+.. _What's New In Fabric Engine 2.2 video: https://vimeo.com/166058984
+ 
+
+- Python! Canvas has been converted to a Python app making it straightforward to create purpose-built applications. Using the source code to the Canvas python files, you can automate the creation and modification of Canvas graphs without needing to know C++. 
+- A simple Alembic Asset Viewer application is included as an example of how ``canvas.py`` can be modified to create a new app. See below for more details.
+- We’ve also integrated a Script Editor complete with syntax highlighting of Python code that makes it really convenient to edit scripts within the ``canvas.py`` standalone.
+- For KL programmers, we’ve added code completion within Canvas. We’ve got lots of ideas on how to continue to improve this, but it’s pretty handy as-is so we thought we’d share it as soon as possible. 
+- Starting Fabric Engine 2.2 is about twice as fast as before.
+- Drag-and-drop port reordering. You asked for it. We added it. You’ll love it.
+- Execute Ports allow you to control execution of parts of a Canvas graph.  For example, an "If" node can use execute ports on its "then" and "else" connections to decide between two different parts of the graph to be executed. They can also be used to support simple looping. A more complete solution for looping in Canvas is in the works.
+- Fabric for MODO! We are pleased to promote the MODO integration from Beta to officially supported and distributed as part of Fabric Engine 2.2. The Fabric for MODO plugin is compatible with MODO 901 through to MODO 10.0 and is available on Windows, Linux and OS X. Now tools that you build in Fabric can run in Maya, Softimage or MODO.
+- We fixed over 250 issues (the most relevant are listed below).
+
+Supported Operating Systems, Integrations and GPUs
+--------------------------------------------------
+
+- Fabric 2.2 is supported on Windows and Linux. OS X builds are provided but are not officially supported; official support on OS X will arrive in a subsequent release.
+- Fabric for Maya integration is supported for Autodesk Maya 2014, 2015 and 2016 and their corresponding service packs and extensions on Windows and Linux. Maya 2016 Extension 2 was released too close to the release of Fabric 2.2 for us to be able to support it. Watch the daily builds for an update. OS X support will follow in a subsequent release. There is a known issue where certain sample scenes fail when Maya 2016 is in Parallel Evaluation mode. This problem was resolved by Autodesk in Maya 2016 SP4.
+- Fabric for Softimage integration is supported for Autodesk Softimage 2014 and 2015 and their corresponding service packs on Windows.
+- Fabric for MODO integration is compatible with MODO 901 through to MODO 10.0 and is available on Windows, Linux and OS X.
+- Fabric 2 GPU support is available on NVIDIA hardware. See the GPU Compute Guide in the documentation for more details.
+
+Documentation
+-------------
+
+To learn more about Fabric Canvas, please see:
+
+- :ref:`CANVASUSERGUIDE`
+- :ref:`CANVASPROGRAMMERGUIDE`
+- :ref:`GETTINGSTARTED_INDEX`
+
+Also be sure to check out http://fabricengine.com/blog/ for articles and introductory how-to videos.
+
+Downloads
+---------
+
+All downloads for Fabric Engine 2 can be obtained at http://dist.fabric-engine.com/FabricEngine/2.2.0/.  For information on installation please refer to :ref:`GETTINGSTARTED_INDEX`.
+
+Support
+-------
+
+Fabric Engine 2.2 is available for free use under Evaluation, Studio or Educational licenses and is also available under commercial terms. Commercial customers are entitled to contact Fabric directly for Support. Non-commercial customers are encouraged to use the following options:
+
+- http://forums.fabricengine.com : Ask & answer questions within the Fabric community. This is where you should post your support issues.
+- mailto://bugs@fabricengine.com : If you have found a bug you can email us with clear steps to reproduce the issue (be sure to include details on what operating system and DCC application and their respective versions that you are using). Please note that we will respond only if additional information is required to resolve an issue with the Fabric platform.
+
+.. _changes-2.2.0:
+
+Changes
+-------
+
+**Python**
+
+For more information on setup and running the new ``canvas.py`` see the :ref:`GETTINGSTARTED_STANDALONE`.
+
+A simple Alembic Asset Viewer application is provided as an example of how source files to ``canvas.py`` can be modified to create your own application with minimal changes. This `Fabric Apps With Python video`_ walks you through the process.
+
+.. _Fabric Apps With Python video: https://vimeo.com/165860125
+
+**Script Editor**
+
+The new Script Editor includes syntax highlighting and can execute python code. The Script Editor also echoes the python commands reflecting the Canvas actions in the graph, allowing you to create scripts that programmatically create Canvas graphs. These scripts can be loaded inside ``canvas.py`` by using the ``-s`` flag. 
+
+
+**KL Code Completion**
+
+The KL Editor code window offers basic code completion of objects and methods. Typing Ctrl-spacebar brings up the code completion menu (i.e: If you're on a new line and type "V" it will bring up a list with objects that start with "V" like Vec2, Vec3, etc). The code completion will also list the methods of an object and their signature.
+
+
+**Drag-and-Drop port reordering**
+
+You can now drag-and-drop exposed ports directly to reorder them instead of relying on the context menu.
+
+
+**Execute Ports**
+
+We have included two samples showcasing the use of execute ports:
+
+- ``ForLoop.canvas`` shows the execution of different subgraphs blocks within an Execute.Merge4 node driven by a For node.
+- ``ForLoop_KochCurve.canvas`` renders a Koch snowflake curve by iterating the subdivision of a line using the Koch curve construction rules (and storing the intermediate results for each iteration in a var). See :ref:`canvas-programmer-guide-execute-ports-explicit` for more information on Execute Ports.
+
+
+**Fabric for MODO**
+
+As of Fabric Engine 2.2 the MODO integration is now officially supported and distributed as part of the installation inage. The Fabric for MODO plugin is compatible with MODO 901 through to MODO 10.0 and available on Windows, Linux and OS X.  For more details, see the :ref:`MODO` documentation and this `Fabric for MODO introductory video`_.
+
+.. _Fabric for MODO introductory video: https://vimeo.com/155506576
+
+
+.. note:: ``canvas.py`` **Is Replacing** ``canvas.exe``
+ 
+ Please use ``canvas.py`` to launch Canvas (see the :ref:`GETTINGSTARTED_STANDALONE` for details). The C++ canvas executable is being provided for a brief transitional period since it is now deprecated. It will be removed in a future version, most likely the next feature release. They are functionally identical (with the exception of the addition of the Script Editor for Python to ``canvas.py``).
+
+.. _knownissues-2.2.0:
+
+Known Issues, Limitations and Workarounds
+-----------------------------------------
+
+- **Limitation**: Saving Presets won’t include the attached comment (FE-4900)
+
+    Workaround: Use the node tooltip property instead 
+
+
+**Fabric for MODO Limitations**
+
+- Support for Fabric’s Inline Drawing requires changes to MODO. We are working with The Foundry to provide a way for Fabric to draw into the MODO viewport in future releases of MODO and Fabric for MODO.
+
+- The procedural mesh item (CanvasPI) does not yet support meshes as input (outputs however are supported). We plan to support Input Mesh Ports in a future release of Fabric for MODO [FABMODO-29]
+
+- Per-polygon normals are not yet implemented. [FABMODO-17]
+
+- The evaluation context's data and the associated presets ("EvalContext") are currently not set in Fabric for Modo and return empty values. [FABMODO-15]
+
+
+.. _fixes-2.2.0:
+
+List of Notable Issues Addressed
+--------------------------------
+
+**General**
+
+[FE-6204] - Upgraded to Qt 4.8 on all platforms
+
+[FE-6497] - AlembicViewer use case example
+
+
+
+
+
+**Canvas**
+
+[FE-5896] - Port Connections now respect priorPortNameMap
+
+[FE-6034] - Fixed some Canvas ports & Casting issues
+
+[FE-6278] - PolygonMesh array can be used in a variable now
+
+[FE-6404] - Fixed a double Evaluation when redoing in the history stack a port connection
+
+[FE-6410] - Changing a port name after imploding a graph doesn’t crash anymore
+
+[FE-6443] - Fixed a Double Execution On File Open
+
+[FE-6451] - Drag and drop support for port reordering
+
+[FE-6457] - Crash on close before the Fabric Client is closed (Singleton extension)
+
+[FE-6475] - Connecting outputs to both Execute Ports and custom ports was forbidden
+
+[FE-6494] - Incorrectness in execute ports
+
+
+
+
+
+**Canvas UI**
+
+[FE-6485] - Undoing a disconnect now reconnects ports in the right order
+
+[FE-6493] - Fixed drawing glitches when collapsing/expanding nodes and hovering over them
+
+[FE-6128] - Drawing glitch when collapsing the node ports
+
+[FE-6574] - Renaming ports with long names now resize the side panel properly
+
+
+
+**Canvas UX**
+
+[FE-5228] - Undoing move commands now respects the zoom
+
+[FE-5835] - Disconnect node ports and connections easily with the shorcut “D”
+
+
+
+
+
+**Core**
+
+[FE-5586] - getKLJSONAST returning NOT decodable data
+
+[FE-5849] - DFG parameters created in C++ are reset when the graph loads
+
+[FE-6188] - New laggy interactions in Canvas Maya (DFGBinding recompilations)
+
+[FE-6342] - Cache being pruned incorrectly
+
+[FE-6347] - Extension reloading always work
+
+[FE-6362] - Problem with CUDA 6.5 on Windows fixed
+
+[FE-3989] - CUDA 7 framework is supported now
+
+[FE-6366] - KL RTVal strings convert correctly to KL String
+
+[FE-6369] - Exposing execute ports doesn’t force an additional evaluation anymore
+
+[FE-6371] - Crash fixed creating new ports in a function node after undoing a graph implode operation
+
+[FE-6373] - Creating a new port shows Execute in the list of the available datatypes
+
+[FE-6495] - Crash fixed with Map reduce in PEX
+
+[FE-6513] - Fixed errors when imploding a node that has an output connected to an Execute Port
+
+[FE-6540] - Canvas no longer crashes with bad parameters
+
+[FE-5855] - Execute Port On All Nodes
+
+[FE-5714] - Added more build info to the Fabric Core
+
+[FE-4763] - Code completion added
+
+[FE-5009] - Script Editor added
+
+[FE-6177] - Log memory usage during testing to identify leaks
+
+[FE-6422] - Increased the default Fabric max cache to 4GB
+
+[FE-6456] - Make "KL heap in use" message optional
+
+[FE-6467] - Added --noopt arg to Canvas
+
+[FE-6482] - Crash fixed compiling core interfaces for type on non-main thread
+
+
+
+
+
+**Python Bindings**
+
+[FE-6382] - Crash fixed when assigning a direct value to an RTVal dict inside python
+
+[FE-6396] - Crash fixed when getting/setting RTVal in python wrapped C++ class
+
+[FE-5730] - Improved RTVal handling in FabricUI Pyside
+
+[FE-5864] - Python Bindings for FabricUI
+
+[FE-6390] - Added GetRegisteredTypeIsObject() to Python API
+
+[FE-6484] - Crash fixed accessing "empty" RTVal from python bindings
+
+
+
+
+
+**KL**
+
+[FE-6116] - dfgNodePath constant string added to get the unique node name of the current node
+
+[FE-6372] - Added == operator for Ref<> types
+
+[FE-6400] - dfgExec() construct added for Execute Ports
+
+
+
+
+
+**Value Editor**
+
+[FE-6269] - Fixed double evaluation when modifying the Canvas graph
+
+[FE-6405] - Fixed double evaluation using a spinboxe
+
+
+
+
+
+**Presets**
+
+[FE-6033] - Extension versioning works properly with Canvas Presets
+
+[FE-6273] - Pow node was not working due to an incorrect port
+
+[FE-6300] - Removed PassIO and PassIn presets
+
+
+
+
+
+**Extensions**
+
+[FE-6102] - Polygon mesh allocator error fixed when merging many of tiny meshes
+
+[FE-6275] - OGLLinesShader now resets properly the light to the camera position on each draw
+
+[FE-6564] - Alembic doesn’t crash anymore when reading certain Houdini point clouds
+
+[FE-6591] - Alembic now supports Vec4 tgypes
+
+[FE-6192] - Fixed some signatures in the PolygonMesh object
+
+[FE-6221] - Crash fixed with RecomputePointNormals()
+
+[FE-6299] - Minor changes to FileIO
+
+[FE-6305] - Fix for UndoRedoCommand in the manipulation extension
+
+[FE-6359] - Fix Attribute Helper extension to support attribute compounds with lines
+
+[FE-6350] - Fixed a bug in the SparseGrid object from the Geometry Extension
+
+[FE-6352] - Fixed computation of normal transforms to support shearing
+
+
+
+
+
+**Fabric for Maya**
+
+[FE-6133] - Fixed inverted normal issues with Viewport 2 
+
+[FE-6166] - Fixed FabricMaya Manipulation samples errors
+
+[FE-6169] - Creating out port no longer screws undo stack
+
+[FE-6220] - Soft and hard ranges are  respected again in exposed ports
+
+[FE-6231] - Unnecessary "Unhandled DataType 'DrawingHandle'" error removed
+
+[FE-6009] - Checkbox is more visible and less dark
+
+[FE-6074] - Moved libFabricMaya*.lib to the lib folder
+
+[FE-6232] - Split from Preset text is more visible
+
+[FE-6312] - Removed the deprecated old dfgMayaNode
+
+[FE-6409] - Canvas deformer now uses setArgValue_lockType() instead of setArgValue()
+
+[FE-6486] - Fixed depth buffer issues with Viewport 2.0 (By creating a Fabric Viewport 2.0)
+
+[FE-6492] - Warning messages when creating a canvas deformer
+
+
+
+
+
+**Fabric for Softimage**
+
+[FE-6375] - Vertex UVs and Vertex Colors are properly calculated
+
+[FE-6515] - Softimage now shows Core or Compounds presets when launched via a custom .bat file
+
+[FE-6587] - Fabric Python Dir is now appended to the PYTHONPATH var
+
+
+
+
+
+**Documentation**
+
+[FE-6277] - Long names for the keyword arguments in commands are now properly documented
+
+[FE-6244] - Fixed FabricCanvasEditPort documentation
+
+[FE-6272] - Document RTVal to show how to create Arrays
+
+[FE-6276] - Better documented the need of having to connect an output of the canvasNode to a maya node so canvasNode gets evaluated.
+
+[FE-6356] - Fixed errors in FabricInterfaces/PersistenceContext.html
+
+[FE-6306] - Fixed Broken code in docs about type comparisons
+
+[FE-6354] - FABRIC_VERSION was not resolved in globals.html#fabric-version-pre-defined-constants
+
+[FE-6580] - Fixed Quaternion template doc typos 
+
+
+
+
+
+**Fabric for Modo**
+
+[FE-6401] - strange crash (modo) / PolygonMesh errors (standalone)
+
+
+
+
+
+**Samples**
+
+[FE-6399] - fix DNA helix samples and presets
+
+[FE-6628] - Added Koch snowflake sample to showcase the execute ports

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>GPU Compute プログラミングガイド &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>GPU Compute プログラミングガイド &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,10 +15,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.3.0',
+        VERSION:     '2.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -26,7 +27,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" /> 
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -38,7 +40,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Pythonモジュール索引"
              >モジュール</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -241,7 +243,7 @@
 </div>
 <div class="section" id="parameter-passing">
 <h2><a class="toc-backref" href="#id10">Parameter Passing</a><a class="headerlink" href="#parameter-passing" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>KLのGPUオペレータへ渡すパラメータは、サポートされている全ての型を、通常のKLオペレータ同様、<code class="docutils literal"><span class="pre">in</span></code> （ディフォルト）あるいは <code class="docutils literal"><span class="pre">io</span></code> として受け渡すことができます。例えば、 <code class="docutils literal"><span class="pre">Integer</span></code> や <code class="docutils literal"><span class="pre">struct</span></code> のような shallow type では、各並列実行の呼び出し毎にGPUへの入出力に値のコピーが行われます。一方可変長配列では、オペレータへの受け渡しには、ただ値のポインターを使用するだけとなります。可変長配列の要素のメモリ確保先は、ターゲットとなるデバイス上からアクセス可能な場所に存在する必要があります。</p>
+<p>Parameters to a KL GPU operator can be of any supported type and as with any normal KL operator they can be passed as <code class="docutils literal"><span class="pre">in</span></code> (the default) or <code class="docutils literal"><span class="pre">io</span></code> parameters. Shallow type parameters (such as an <code class="docutils literal"><span class="pre">Integer</span></code> or a <code class="docutils literal"><span class="pre">struct</span></code>) will have their values copied to and from the GPU before and after each parallel operator invocation; passing these shallow types as <code class="docutils literal"><span class="pre">in</span></code> parameters has very little overhead, whereas passing them as <code class="docutils literal"><span class="pre">io</span></code> or <code class="docutils literal"><span class="pre">out</span></code> requires an allocation on the GPU and is much slower. Variable Arrays on the other hand will only have a pointer to their values passed into the operator. The backing memory for the Variable Array elements must live in memory accessible to the target device.</p>
 <p><code class="docutils literal"><span class="pre">guarded</span></code> モードでは KL は可変長配列パラメータの確保先が、メモリ空間からアクセス可能であるか確認します。もし不可能であれば、そのことをユーザに例外の送信を通じてしらせます。例えば、以下のKLコードのでは：</p>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm">** Example: GPU Compute - Memory</span>
@@ -297,7 +299,7 @@
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/GPUCompute/gpupg.txt"
+      <li><a href="../_sources/GPUCompute/gpupg.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/GPUCompute/gpupg.html"
               rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
@@ -306,8 +308,8 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -326,12 +328,12 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Pythonモジュール索引"
              >モジュール</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010-2016 Fabric Software Inc.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
     </div>
   </body>
 </html>

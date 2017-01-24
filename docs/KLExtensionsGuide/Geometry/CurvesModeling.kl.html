@@ -1,0 +1,892 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>CurvesModeling.kl &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" />
+    <link rel="next" title="CurvesNURBS.kl" href="CurvesNURBS.kl.html" />
+    <link rel="prev" title="CurvesLinear.kl" href="CurvesLinear.kl.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="CurvesNURBS.kl.html" title="CurvesNURBS.kl"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="CurvesLinear.kl.html" title="CurvesLinear.kl"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Geometry エクステンション</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">Geometry Extension&#8217;s Files</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="geometry-curvesmodeling-kl">
+<span id="curvesmodeling-kl"></span><span id="id1"></span><h1>CurvesModeling.kl<a class="headerlink" href="#geometry-curvesmodeling-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="curves-object">
+<h3>Curves (object)<a class="headerlink" href="#curves-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The Curves geometry is a Curve container, which can hold one or multiple curves of various types.
+Currently supported types include linear, Bezier and NURBS curves. Bezier and NURBS can have 
+rational weights, and NURBS can have explicit knots. All curves can be
+open or closed, and NURBS can be periodic.</p>
+<p>Individual curves are assigned a <cite>curveIndex</cite> that allows to access their individual parameters. 
+In order to ease the access to a single curve, the Curve class wraps the <cite>&lt;Curves, curveIndex&gt;</cite> pair, 
+and provides the same methods in the context of that curve.</p>
+<p>To increase performance with many curves, attributes of all curves, such as point positions, are regrouped in a single GeometryAttributes buffer.
+Similarly, the definitions of all curves is regrouped in big arrays, allowing to create and interactively draw thousands of curves.
+The <a class="reference internal" href="Curves.html#id60082"><span class="std std-ref">Curves.getAttributeIndex</span></a> method provides a mapping from a curve sub-point to a global GeometryAttributes index.</p>
+<p>The draw sampling precision can be controlled by method <a class="reference internal" href="Curves.html#id59891"><span class="std std-ref">Curves.setDrawSamplesPerSpan</span></a>, and the default is 8 samples
+per span. GeometryAttribute values, such as UVs and colors, will be interpolated with curve interpolation, with the same
+weights as the points. To improve interactive display performance of deforming curves, regular sampled curve data can be created
+and cached with the method <a class="reference internal" href="Curves.html#id61142"><span class="std std-ref">Curves.getUpdatedSampling</span></a>. Curve interpolation weights are pre-computed and cached
+globally for optimal multithreaded computation speed.</p>
+<p>Note: Methods that read Curve parameters, get or set their attributes are thread safe. Methods that modify the curve set or their topology (eg: <a class="reference internal" href="Curve.html#id60638"><span class="std std-ref">Curve.addPoints</span></a>) are not thread safe.</p>
+<p>Next, we will give more details about the supported curve types.</p>
+<div class="section" id="linear-curves">
+<h4>Linear curves<a class="headerlink" href="#linear-curves" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>A linear curve is defining line segments that join each curve points. An additional segment is added from the last to the first point if it is closed.
+The parametric domain of a linear curve goes from [0..number of segments-1] (<a class="reference internal" href="Curves.html#id59984"><span class="std std-ref">Curves.getDomain</span></a>).</p>
+<p>Mathematically, tangents are constant over segments, and there is no curvature. However, in order to have more continuous values, smoothed
+tangents can be computed so they are interpolated between line segments. This behavior is enabled by default, but can be changed with the
+method <a class="reference internal" href="Curves.html#id59895"><span class="std std-ref">Curves.smoothLinearCurveTangents</span></a>.</p>
+</div>
+<div class="section" id="bezier-curves">
+<h4>Bezier curves<a class="headerlink" href="#bezier-curves" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>Bezier curves are defined as pieces, and the curve shape for each of these pieces is influenced by <cite>N</cite> points (<cite>N</cite> = order = curve degree + 1).
+Each piece corresponds to one curve span, and the curve&#8217;s parametric domain is defined from [0.. number of pieces-1] (<a class="reference internal" href="Curves.html#id59984"><span class="std std-ref">Curves.getDomain</span></a>).</p>
+<p>An open Bezier curve of degree D (D = <cite>order-1</cite>) with N pieces has D*N+1 points.
+A closed Bezier curve of degree D with N pieces has D*N points.
+Note that, while it is possible to create a Bezier curve with any number of points, last points that are not forming a complete piece are
+ignored until more points are added to complete it.</p>
+<p>While the curve is continuous inside a piece, curve&#8217;s smoothness at the pieces&#8217; boundary depends on the alignment of previous and next points,
+which can be interpreted as &#8220;tangent points&#8221;.</p>
+</div>
+<div class="section" id="nurbs-curves">
+<h4>NURBS curves<a class="headerlink" href="#nurbs-curves" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>NURBS (Non-Uniform Rational B-Spline) curves are a superset of Bezier curves, which can define a curve that can be smooth over
+an arbitrary number of points (no intrinsic concept of &#8220;pieces&#8221; like Bezier curves).</p>
+<p>Similarly to the Bezier curve, each NURBS curve span (curve section) is influenced by order (degree of the curve + 1) points.
+When moving from a span to the next one, the set of influencing points changes. For example, if the current span was influenced
+by points [A,B,C,D], the next span will be influenced by points [B,C,D,E]. At the span boundary, the weight of A becomes zero, while 
+the weight of E becomes non-zero.</p>
+<p>There exists three forms of NURBS:</p>
+<ul class="simple">
+<li>An open curve (<cite>curveForm_open</cite>) will clamp the curve to the first and last point positions. Curve&#8217;s evaluated position at the beginning of the
+parametric domain will be the same as point 0, and its position at the end of the parametric domain will be the same as point N-1.
+Unless specific conditions are set, the curve will not pass by other points, and will evolve between them.
+The number of curve spans (sections) can be computed as the number of points (P) minus degree (D): P - D.
+For example, a cubic open curve (degree 3) of 5 points will have 2 spans.</li>
+<li>A closed curve (<cite>curveForm_closed</cite>) will clamp the curve start and end at point 0. Curve&#8217;s evaluated position at the beginning and the end of the
+parametric domain will be the same as point 0. Unless the first and last points are properly aligned, the curve will not be smooth at point 0.
+Unless specific conditions are set, the curve will not pass by other points, and will evolve between them.
+The number of curve spans (sections) can be computed as the number of points (P) minus degree (D) plus one: P - D + 1. 
+For example, a cubic closed curve (degree 3) of 5 points will have 2 spans.
+Note: As opposed to Maya, the closed curve points don&#8217;t include the repeated point.</li>
+<li>A periodic curve (<cite>curveForm_periodic</cite>) will be defined as if the points defined a circular list. As such, the curve will be smooth everywhere,
+since it is not clamped to end points. Unless specific conditions are set, the curve will pass by no points, and will evolve between them.
+The number of curve spans (sections) is equal to the number of points (exluding the repeated points).
+For example, a cubic periodic curve (degree 3) of 5 points will have 5 spans.
+Note: As opposed to Maya, the periodic curve points don&#8217;t include the D repeated points.</li>
+</ul>
+<p>Additionally to points, NURBS curves&#8217; definition include a notion of a knot vector. In most cases, the default knot vector is desired and
+the user doesn&#8217;t have to worry about the notion of knots. Knot values will be automatically created internally to match curve&#8217;s number of points
+and form (open, closed, periodic). Non-default knot values is mostly useful for preserving curve definition when importing from
+other software. The knot vector defines the parametric interval for each span. For example, this can allow to have the &#8220;U&#8221; parameter
+change more slowly depending on the knot vector (eg: knots [-2, -1, 0, 0.5, 2.0, 3.0...]). The number of knots depends strictly of the number
+of points and the degree of the curve:</p>
+<ul class="simple">
+<li>Open curve: the number of knots (K) equals the number of points (P) plus degree (D) - 1: K = P + D - 1</li>
+<li>Closed curve: the number of knots equals the number of points (P) plus degree (D) - 2: K = P + D - 2
+Note: As opposed to Maya, the closed curve points don&#8217;t include the repeated point.</li>
+<li>Closed curve: the number of knots equals the number of points (P) plus 2*degree (2*D) - 1: K = P + 2*D - 1
+Note: As opposed to Maya, the periodic curve points don&#8217;t include the D repeated point.</li>
+</ul>
+<p>Note: Non-uniform knots are often used to express a Bezier in NURBS form. While this will work, it is better to create a Bezier curve instead, for optimal performance.</p>
+</div>
+<div class="section" id="rational-curves">
+<h4>Rational curves<a class="headerlink" href="#rational-curves" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>NURBS and Bezier curves can have rational weights. By default, points are associated with a weight of 1.0. However, it is possible to assign
+a different weight to each point (<code class="xref std std-kl-ref docutils literal"><span class="pre">Curves.setPointPosition(</span> <span class="pre">UInt32,</span> <span class="pre">UInt32,</span> <span class="pre">Vec3_d,</span> <span class="pre">Float32</span> <span class="pre">)</span></code>). The weight is interpreted
+relatively to other points that influence a span. Points of higher weight will attract the curve closer to them, while points
+with smaller weight will have less influence on curve&#8217;s trajectory.</p>
+<p>The rational weights for all curves are stored in a ScalarAttribute named &#8220;rationalWeights&#8221;. This attribute
+is created only if a weight != 1.0 is set.</p>
+<p>A homogeneous coordinate is a 4D coordinate where XYZ are pre-multiplied with the weight: (w*x, w*y, w*z, w).</p>
+<p>Before setting rational weights != 1.0 in parallel, ensure that the &#8220;rationalWeights&#8221; ScalarAttribute exists by calling <code class="xref std std-kl-ref docutils literal"><span class="pre">ensureRationalWeightsAttributeExists</span></code> before the parallel evaluation.</p>
+</div>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="24%" />
+<col width="9%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="GeometryAttributes.html#geometryattributes"><span class="std std-ref">GeometryAttributes</span></a></td>
+<td>attributes</td>
+<td>Container for all attributes.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>debugName</td>
+<td>Name that will be printed in descriptions.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>structureVersion</td>
+<td>Version of the geometry structure itself, excluding the <a class="reference internal" href="GeometryAttributes.html#geometryattributes"><span class="std std-ref">GeometryAttributes</span></a> content.</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td>computeGPUBoundingVolume</td>
+<td>If positions are on the GPU: if true, the bounding volume is computed, else an infinite bbox is returned.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Containers/ThreadsafeMetaDataContainer.html#threadsafemetadatacontainer"><span class="std std-ref">ThreadsafeMetaDataContainer</span></a></td>
+<td>metaData</td>
+<td>Container for holding various user data (<a class="reference internal" href="Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> specific), such as the BoundingBox cache data, or raycast acceleration structures and data (<a class="reference internal" href="Octree.html#octree"><span class="std std-ref">Octree</span></a>).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="CurvesStructure.html#curvesstructure"><span class="std std-ref">CurvesStructure</span></a></td>
+<td>data</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>memType</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Ref&lt;<a class="reference internal" href="Vec3Attribute.html#vec3attribute"><span class="std std-ref">Vec3Attribute</span></a>&gt;</td>
+<td>positionsAttribute</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>Ref&lt;<a class="reference internal" href="Vec3_dAttribute.html#vec3-dattribute"><span class="std std-ref">Vec3_dAttribute</span></a>&gt;</td>
+<td>positionsAttribute_d</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Ref&lt;<a class="reference internal" href="ScalarAttribute.html#scalarattribute"><span class="std std-ref">ScalarAttribute</span></a>&gt;</td>
+<td>weightsAttribute</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>drawSamplesPerSpan</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a></td>
+<td>drawThickness</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>topoChangesBracket</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Curves_lengthComputeCache.html#curves-lengthcomputecache"><span class="std std-ref">Curves_lengthComputeCache</span></a></td>
+<td>lengthComputeCache</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../FabricSynchronization/LockedInitialize.html#lockedinitialize"><span class="std std-ref">LockedInitialize</span></a></td>
+<td>lengthComputeCacheInit</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id59812"><span class="std std-ref">Curves</span></a>  ( in Boolean float64Positions )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id118052"><span class="std std-ref">Curves</span></a>  ( in <a class="reference internal" href="Curves.html#curves"><span class="std std-ref">Curves</span></a> other )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id59804"><span class="std std-ref">Curves</span></a>  ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> debugName )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id59797"><span class="std std-ref">Curves</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59885"><span class="std std-ref">allCurvesPointRange</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id59868"><span class="std std-ref">applyTransform</span></a> ! ( in <a class="reference internal" href="../Math/Mat44.html#mat44"><span class="std std-ref">Mat44</span></a> transform )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id59872"><span class="std std-ref">applyTransform</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> transform )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Curves.html#curves"><span class="std std-ref">Curves</span></a></td>
+<td><a class="reference internal" href="Curves.html#id118056"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id59852"><span class="std std-ref">convertToCPU</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id59849"><span class="std std-ref">convertToGPU</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id59825"><span class="std std-ref">copy</span></a> ! ( in <a class="reference internal" href="Curves.html#curves"><span class="std std-ref">Curves</span></a> src )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id59829"><span class="std std-ref">copy</span></a> ! ( in <a class="reference internal" href="Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> src )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id59906"><span class="std std-ref">copyCurve</span></a> ! ( in Ref&lt;<a class="reference internal" href="Curves.html#curves"><span class="std std-ref">Curves</span></a>&gt; sourceCurves, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> sourceCurveIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> targetCurveIndex, in Boolean createMissingSourceAttributes )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id59919"><span class="std std-ref">copyCurve</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> sourceCurveIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> targetCurveIndex )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59882"><span class="std std-ref">curveCount</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Size</td>
+<td><a class="reference internal" href="Curves.html#id59858"><span class="std std-ref">elementCount</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60043"><span class="std std-ref">endStructureChanges</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a>[]</td>
+<td><a class="reference internal" href="Curves.html#id60101"><span class="std std-ref">getAllPointPositions</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59865"><span class="std std-ref">getBoundingVolume</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60214"><span class="std std-ref">getCurvatureAtNormalizedParam</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> normalizedParam )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60209"><span class="std std-ref">getCurvatureAtParam</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> param )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60558"><span class="std std-ref">getCurve</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59968"><span class="std std-ref">getCurveType</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59972"><span class="std std-ref">getCurveTypeString</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59837"><span class="std std-ref">getDebugName</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59980"><span class="std std-ref">getDegree</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60238"><span class="std std-ref">getDerivativeAtNormalizedParam</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> normalizedParam )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60233"><span class="std std-ref">getDerivativeAtParam</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> param )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60250"><span class="std std-ref">getDerivativesAtNormalizedParam</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> normalizedParam, io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dU, io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dUU )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60243"><span class="std std-ref">getDerivativesAtParam</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> param, io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dU, io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> dUU )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59984"><span class="std std-ref">getDomain</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="LocalBoundingVolume.html#localboundingvolume"><span class="std std-ref">LocalBoundingVolume</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59861"><span class="std std-ref">getElementBoundingVolume</span></a> ? ( in Size index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59855"><span class="std std-ref">getMemType</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>Ref&lt;<a class="reference internal" href="../Containers/ThreadsafeMetaDataContainer.html#threadsafemetadatacontainer"><span class="std std-ref">ThreadsafeMetaDataContainer</span></a>&gt;</td>
+<td><a class="reference internal" href="Curves.html#id59846"><span class="std std-ref">getMetaData</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60194"><span class="std std-ref">getNormalAtNormalizedParam</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> normalizedParam )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60189"><span class="std std-ref">getNormalAtParam</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> param )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59976"><span class="std std-ref">getOrder</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60264"><span class="std std-ref">getPointIndicesAndWeightsAtNormalizedParam</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> normalizedParam, io <a class="reference internal" href="LocalL8UInt32Array.html#locall8uint32array"><span class="std std-ref">LocalL8UInt32Array</span></a> pointIndices, io <a class="reference internal" href="../Containers/LocalL8ScalarArray.html#locall8scalararray"><span class="std std-ref">LocalL8ScalarArray</span></a> pointWeights )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60279"><span class="std std-ref">getPointIndicesAndWeightsAtNormalizedParam</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> normalizedParam, io <a class="reference internal" href="LocalL8UInt32Array.html#locall8uint32array"><span class="std std-ref">LocalL8UInt32Array</span></a> pointIndices, io <a class="reference internal" href="../Containers/LocalL8ScalarArray.html#locall8scalararray"><span class="std std-ref">LocalL8ScalarArray</span></a> pointWeights, io <a class="reference internal" href="../Containers/LocalL8ScalarArray.html#locall8scalararray"><span class="std std-ref">LocalL8ScalarArray</span></a> derivativePointWeights )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60257"><span class="std std-ref">getPointIndicesAndWeightsAtParam</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> param, io <a class="reference internal" href="LocalL8UInt32Array.html#locall8uint32array"><span class="std std-ref">LocalL8UInt32Array</span></a> pointIndices, io <a class="reference internal" href="../Containers/LocalL8ScalarArray.html#locall8scalararray"><span class="std std-ref">LocalL8ScalarArray</span></a> pointWeights )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60271"><span class="std std-ref">getPointIndicesAndWeightsAtParam</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> param, io <a class="reference internal" href="LocalL8UInt32Array.html#locall8uint32array"><span class="std std-ref">LocalL8UInt32Array</span></a> pointIndices, io <a class="reference internal" href="../Containers/LocalL8ScalarArray.html#locall8scalararray"><span class="std std-ref">LocalL8ScalarArray</span></a> pointWeights, io <a class="reference internal" href="../Containers/LocalL8ScalarArray.html#locall8scalararray"><span class="std std-ref">LocalL8ScalarArray</span></a> derivativePointWeights )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60097"><span class="std std-ref">getPointPosition</span></a> ? ( in Size point )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60174"><span class="std std-ref">getPositionAtNormalizedParam</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> normalizedParam )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3_d.html#vec3-d"><span class="std std-ref">Vec3_d</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60184"><span class="std std-ref">getPositionAtNormalizedParam_d</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> normalizedParam )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60169"><span class="std std-ref">getPositionAtParam</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> param )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3_d.html#vec3-d"><span class="std std-ref">Vec3_d</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60179"><span class="std std-ref">getPositionAtParam_d</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> param )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59843"><span class="std std-ref">getStructureVersion</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60226"><span class="std std-ref">getTangentAndCurvatureAtNormalizedParam</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> normalizedParam, io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> tangent, io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> curvature )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60219"><span class="std std-ref">getTangentAndCurvatureAtParam</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> param, io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> tangent, io <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> curvature )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60204"><span class="std std-ref">getTangentAtNormalizedParam</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> normalizedParam )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60199"><span class="std std-ref">getTangentAtParam</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> param )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59840"><span class="std std-ref">getVersion</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="Curves.html#id59876"><span class="std std-ref">hasFloat64Positions</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60166"><span class="std std-ref">incrementPointPositionsVersion</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="Curves.html#id60046"><span class="std std-ref">isRemoved</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59929"><span class="std std-ref">mergeCurves</span></a> ! ( in <a class="reference internal" href="Curves.html#curves"><span class="std std-ref">Curves</span></a> sourceCurves[], in Boolean createMissingSourceAttributes )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59924"><span class="std std-ref">mergeCurves</span></a> ! ( in Ref&lt;<a class="reference internal" href="Curves.html#curves"><span class="std std-ref">Curves</span></a>&gt; sourceCurves, in Boolean createMissingSourceAttributes )</td>
+</tr>
+<tr class="row-even"><td>Size</td>
+<td><a class="reference internal" href="Curves.html#id59938"><span class="std std-ref">pointCount</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60576"><span class="std std-ref">pushCurve</span></a> ! ( in <a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a> sourceCurve, in Boolean createMissingSourceAttributes )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59913"><span class="std std-ref">pushCurve</span></a> ! ( in Ref&lt;<a class="reference internal" href="Curves.html#curves"><span class="std std-ref">Curves</span></a>&gt; sourceCurves, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> sourceCurveIndex, in Boolean createMissingSourceAttributes )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id59994"><span class="std std-ref">reservePoints</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> pointCount )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60150"><span class="std std-ref">setAllPointPositions</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> positions[] )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60019"><span class="std std-ref">setCurveCount</span></a> ! ( in Size curveCount )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id59891"><span class="std std-ref">setDrawSamplesPerSpan</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> samples )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id59902"><span class="std std-ref">setDrawThickness</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> pixels )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60145"><span class="std std-ref">setPointPosition</span></a> ! ( in Size point, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> position )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id59895"><span class="std std-ref">smoothLinearCurveTangents</span></a> ! ( in Boolean enable )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="Curves.html#id59899"><span class="std std-ref">smoothedLinearCurveTangents</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="nurbs-methods">
+<h5>NURBS methods<a class="headerlink" href="#nurbs-methods" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<table border="1" class="methodtable docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60921"><span class="std std-ref">addNURBS</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> pointCount, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> degree, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> curveForm )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60940"><span class="std std-ref">addNURBS</span></a> ! ( in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> degree, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> curveForm, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> knots&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60933"><span class="std std-ref">addNURBS</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> rationalWeights&lt;&gt;, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> degree, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> curveForm )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60953"><span class="std std-ref">addNURBS</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> rationalWeights&lt;&gt;, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> degree, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> curveForm, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> knots&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60927"><span class="std std-ref">addNURBS</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> degree, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> curveForm )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60946"><span class="std std-ref">addNURBS</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> degree, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> curveForm, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> knots&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60440"><span class="std std-ref">addNURBSIndex</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> pointCount, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> degree, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> curveForm )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60466"><span class="std std-ref">addNURBSIndex</span></a> ! ( in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> degree, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> curveForm, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> knots&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60452"><span class="std std-ref">addNURBSIndex</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> rationalWeights&lt;&gt;, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> degree, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> curveForm )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60479"><span class="std std-ref">addNURBSIndex</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> rationalWeights&lt;&gt;, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> degree, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> curveForm, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> knots&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60446"><span class="std std-ref">addNURBSIndex</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> degree, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> curveForm )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60472"><span class="std std-ref">addNURBSIndex</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> degree, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> curveForm, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> knots&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60491"><span class="std std-ref">getNURBSKnot</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> knotIndex )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60487"><span class="std std-ref">getNURBSKnotCount</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a>[]</td>
+<td><a class="reference internal" href="Curves.html#id60496"><span class="std std-ref">getNURBSKnots</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="Curves.html#id60429"><span class="std std-ref">isPeriodic</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60500"><span class="std std-ref">setNURBSKnot</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> knotIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> knotValue )</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="attributes-methods">
+<h5>Attributes methods<a class="headerlink" href="#attributes-methods" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<table border="1" class="methodtable docutils">
+<colgroup>
+<col width="59%" />
+<col width="41%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Ref&lt;<a class="reference internal" href="GeometryAttributes.html#geometryattributes"><span class="std std-ref">GeometryAttributes</span></a>&gt;</td>
+<td><a class="reference internal" href="Curves.html#id59879"><span class="std std-ref">getAttributes</span></a> ? ()</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="bezier-methods">
+<h5>Bezier methods<a class="headerlink" href="#bezier-methods" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<table border="1" class="methodtable docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60867"><span class="std std-ref">addBezier</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> pieceCount, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> degree, in Boolean isClosed )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60879"><span class="std std-ref">addBezier</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> rationalWeights&lt;&gt;, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> degree, in Boolean isClosed )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60873"><span class="std std-ref">addBezier</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> degree, in Boolean isClosed )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60378"><span class="std std-ref">addBezierIndex</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> pieceCount, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> degree, in Boolean isClosed )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60390"><span class="std std-ref">addBezierIndex</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> rationalWeights&lt;&gt;, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> degree, in Boolean isClosed )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60384"><span class="std std-ref">addBezierIndex</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in <a class="reference internal" href="../Math/UInt8.html#uint8"><span class="std std-ref">UInt8</span></a> degree, in Boolean isClosed )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60902"><span class="std std-ref">addCubicBezier</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> pieceCount, in Boolean isClosed )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60907"><span class="std std-ref">addCubicBezier</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in Boolean isClosed )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60912"><span class="std std-ref">addCubicBezier</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> rationalWeights&lt;&gt;, in Boolean isClosed )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60413"><span class="std std-ref">addCubicBezierIndex</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> pieceCount, in Boolean isClosed )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60418"><span class="std std-ref">addCubicBezierIndex</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in Boolean isClosed )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60423"><span class="std std-ref">addCubicBezierIndex</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> rationalWeights&lt;&gt;, in Boolean isClosed )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60886"><span class="std std-ref">addQuadraticBezier</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> pieceCount, in Boolean isClosed )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60891"><span class="std std-ref">addQuadraticBezier</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in Boolean isClosed )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60896"><span class="std std-ref">addQuadraticBezier</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> rationalWeights&lt;&gt;, in Boolean isClosed )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60397"><span class="std std-ref">addQuadraticBezierIndex</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> pieceCount, in Boolean isClosed )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60402"><span class="std std-ref">addQuadraticBezierIndex</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in Boolean isClosed )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60407"><span class="std std-ref">addQuadraticBezierIndex</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> rationalWeights&lt;&gt;, in Boolean isClosed )</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="debugging-methods">
+<h5>Debugging methods<a class="headerlink" href="#debugging-methods" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<table border="1" class="methodtable docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60334"><span class="std std-ref">getCurveDesc</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in Boolean withAttributes, in Boolean useUnitTestPrint )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60327"><span class="std std-ref">getCurveDescInternal</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in Boolean withAttributes, in Boolean useUnitTestPrint, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> indent )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60345"><span class="std std-ref">getDesc</span></a> ? ( in Boolean withAttributes )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60340"><span class="std std-ref">getDesc</span></a> ? ( in Boolean withAttributes, in Boolean useUnitTestPrint )</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="length-methods">
+<h5>Length methods<a class="headerlink" href="#length-methods" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<table border="1" class="methodtable docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60293"><span class="std std-ref">getCurveLength</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60307"><span class="std std-ref">getLengthFromParameter</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> param )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60312"><span class="std std-ref">getLengthRatioFromNormalizedParameter</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> normalizedParam )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60302"><span class="std std-ref">getNormalizedParameterFromLengthRatio</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> ratio )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60297"><span class="std std-ref">getParameterFromLength</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> length )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60287"><span class="std std-ref">setLengthComputeParameters</span></a> ! ( in Boolean preciseMode, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> initialSamplesPerSpan, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> preciseModeTolerance )</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="linear-methods">
+<h5>Linear methods<a class="headerlink" href="#linear-methods" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<table border="1" class="methodtable docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60857"><span class="std std-ref">addLinearCurve</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> pointCount, in Boolean isClosed )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60862"><span class="std std-ref">addLinearCurve</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in Boolean isClosed )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60355"><span class="std std-ref">addLinearCurveIndex</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> pointCount, in Boolean isClosed )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60360"><span class="std std-ref">addLinearCurveIndex</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in Boolean isClosed )</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="modeling-methods">
+<h5>Modeling methods<a class="headerlink" href="#modeling-methods" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<table border="1" class="methodtable docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59999"><span class="std std-ref">addPoints</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> addedPointCount )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60004"><span class="std std-ref">addPoints</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt; )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60009"><span class="std std-ref">addPoints</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> pointPositions&lt;&gt;, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> rationalWeights&lt;&gt; )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60050"><span class="std std-ref">beginStructureChanges</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60032"><span class="std std-ref">closeCurve</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60028"><span class="std std-ref">openCurve</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60023"><span class="std std-ref">openOrCloseCurve</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in Boolean open )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60015"><span class="std std-ref">removeCurve</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex )</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="point-methods">
+<h5>Point methods<a class="headerlink" href="#point-methods" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<table border="1" class="methodtable docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60157"><span class="std std-ref">ensureRationalWeightsAttributeExists</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60082"><span class="std std-ref">getAttributeIndex</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curvePointIndex )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59934"><span class="std std-ref">getFirstPointIndex</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec4.html#vec4"><span class="std std-ref">Vec4</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60104"><span class="std std-ref">getHomogeneousPointPosition</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curvePointIndex )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec4_d.html#vec4-d"><span class="std std-ref">Vec4_d</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60114"><span class="std std-ref">getHomogeneousPointPosition_d</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curvePointIndex )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59941"><span class="std std-ref">getPointCount</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id59945"><span class="std std-ref">getPointCount</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in Boolean includeRepeatedPoints )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60077"><span class="std std-ref">getPointIndex</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curvePointIndex )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60087"><span class="std std-ref">getPointPosition</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curvePointIndex )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Vec3_d.html#vec3-d"><span class="std std-ref">Vec3_d</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60092"><span class="std std-ref">getPointPosition_d</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curvePointIndex )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id59954"><span class="std std-ref">getPointRange</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, io <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> firstPoint, io <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> pointsEnd )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id60109"><span class="std std-ref">getRationalWeight</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curvePointIndex )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="Curves.html#id59950"><span class="std std-ref">isRational</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60119"><span class="std std-ref">setPointPosition</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curvePointIndex, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> position )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60125"><span class="std std-ref">setPointPosition</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curvePointIndex, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> position, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> rationalWeight )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60132"><span class="std std-ref">setPointPosition_d</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curvePointIndex, in <a class="reference internal" href="../Math/Vec3_d.html#vec3-d"><span class="std std-ref">Vec3_d</span></a> position )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60138"><span class="std std-ref">setPointPosition_d</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curvePointIndex, in <a class="reference internal" href="../Math/Vec3_d.html#vec3-d"><span class="std std-ref">Vec3_d</span></a> position, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> rationalWeight )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id60160"><span class="std std-ref">setRationalWeight</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curvePointIndex, in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> weight )</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="primitives-methods">
+<h5>Primitives methods<a class="headerlink" href="#primitives-methods" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<table border="1" class="methodtable docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id61297"><span class="std std-ref">addLine</span></a> ! ( in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> start, in <a class="reference internal" href="../Math/Vec3.html#vec3"><span class="std std-ref">Vec3</span></a> end )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id61302"><span class="std std-ref">addLinearArc</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius, in <a class="reference internal" href="../Math/Vec2.html#vec2"><span class="std std-ref">Vec2</span></a> angleMinMax, in Integer detail )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="Curve.html#curve"><span class="std std-ref">Curve</span></a></td>
+<td><a class="reference internal" href="Curves.html#id61309"><span class="std std-ref">addLinearCircle</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius, in Size detail )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="Curves.html#id61315"><span class="std std-ref">addLinearSphere</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> radius, in Size detail )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="Curves.html#id61321"><span class="std std-ref">addRectangle</span></a> ! ( in <a class="reference internal" href="../Math/Xfo.html#xfo"><span class="std std-ref">Xfo</span></a> xfo, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> length, in <a class="reference internal" href="../Math/Scalar.html#scalar"><span class="std std-ref">Scalar</span></a> width )</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="sampling-methods">
+<h5>Sampling methods<a class="headerlink" href="#sampling-methods" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<table border="1" class="methodtable docutils">
+<colgroup>
+<col width="23%" />
+<col width="77%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Ref&lt;<a class="reference internal" href="Curves_samplingData.html#curves-samplingdata"><span class="std std-ref">Curves_samplingData</span></a>&gt;</td>
+<td><a class="reference internal" href="Curves.html#id61142"><span class="std std-ref">getUpdatedSampling</span></a> ? ( in Boolean computeSampledTangents )</td>
+</tr>
+<tr class="row-even"><td>Ref&lt;<a class="reference internal" href="GeometryAttribute.html#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>&gt;</td>
+<td><a class="reference internal" href="Curves.html#id61169"><span class="std std-ref">updateAttributeSampling</span></a> ! ( io Ref&lt;<a class="reference internal" href="Curves_samplingData.html#curves-samplingdata"><span class="std std-ref">Curves_samplingData</span></a>&gt; samplingData, in Ref&lt;<a class="reference internal" href="GeometryAttribute.html#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>&gt; attribute )</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="topology-methods">
+<h5>Topology methods<a class="headerlink" href="#topology-methods" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<table border="1" class="methodtable docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="Curves.html#id59960"><span class="std std-ref">isClosed</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="Curves.html#id59964"><span class="std std-ref">isOpen</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> curveIndex )</td>
+</tr>
+</tbody>
+</table>
+</div>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="CurvesLinear.kl.html"
+                        title="前の章へ">CurvesLinear.kl</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="CurvesNURBS.kl.html"
+                        title="次の章へ">CurvesNURBS.kl</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/Geometry/CurvesModeling.kl.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Geometry/CurvesModeling.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="CurvesNURBS.kl.html" title="CurvesNURBS.kl"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="CurvesLinear.kl.html" title="CurvesLinear.kl"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Geometry エクステンション</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >Geometry Extension&#8217;s Files</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
+    </div>
+  </body>
+</html>

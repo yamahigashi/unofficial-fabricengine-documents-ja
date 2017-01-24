@@ -1,0 +1,244 @@
+.. _RELNOTES-1.9.0-beta:
+
+Creation Platform 1.9.0-beta Release Notes
+=================================================================================
+
+.. image:: /images/FE_logo_345_60.*
+   :width: 345px
+   :height: 60px
+
+| Creation Platform version 1.9.0-beta
+| Copyright (c) 2010-2017 Fabric Software Inc. All rights reserved.
+
+Important Notes - Read Me First!
+--------------------------------
+
+- Creation Platform requires a video card and driver that support OpenGL 3.2 or later.
+
+- To install 1.9.0-beta only for the current user, select the "Advanced" option after accepting the EULA in the Window installer.
+
+.. _downloads-1.9.0-beta:
+
+Downloads
+---------
+
+- Creation Platform 1.9.0-beta Installers
+
+  - `Windows 64-bit with Python 2.7 <http://dist.fabric-engine.com/CreationPlatform/1.9.0-beta/CreationPlatform-1.9.0-beta-Windows-64Bit-Python2.7.msi>`_
+
+    - Requires Windows 7 SP1 or above.
+
+  - `Windows 64-bit with Python 2.6 <http://dist.fabric-engine.com/CreationPlatform/1.9.0-beta/CreationPlatform-1.9.0-beta-Windows-64Bit-Python2.6.msi>`_
+
+    - Requires Windows 7 SP1 or above.
+
+  - `Windows 32-bit with Python 2.7 <http://dist.fabric-engine.com/CreationPlatform/1.9.0-beta/CreationPlatform-1.9.0-beta-Windows-32Bit-Python2.7.msi>`_
+
+    - Requires Windows 7 SP1 or above.
+
+  - `Mac OSX 64-bit with Python 2.7 <http://dist.fabric-engine.com/CreationPlatform/1.9.0-beta/CreationPlatform-1.9.0-beta-MacOSX-64Bit.dmg>`_
+
+    - Requires Mac OS X 10.7 "Lion" or above.
+
+  - `Ubuntu 64-bit with Python 2.7 <http://dist.fabric-engine.com/CreationPlatform/1.9.0-beta/CreationPlatform-1.9.0-beta-Ubuntu-amd64-Python2.7.deb>`_
+
+    - Built on Ubuntu 12.04.
+
+  - `Ubuntu 64-bit with Python 2.6 <http://dist.fabric-engine.com/CreationPlatform/1.9.0-beta/CreationPlatform-1.9.0-beta-Ubuntu-amd64-Python2.6.deb>`_
+
+    - Built on Ubuntu 10.04.
+
+  - `CentOS 64-bit with Python 2.6 <http://dist.fabric-engine.com/CreationPlatform/1.9.0-beta/CreationPlatform-1.9.0-beta-CentOS-x86_64-Python2.6.rpm>`_
+
+    - Built on CentOS 6.3.
+
+- `Demo Applications for Creation Platform 1.9.0-beta <http://dist.fabric-engine.com/CreationPlatform/1.9.0-beta/CreationPlatform-1.9.0-beta-Demos.zip>`_
+
+  - All platforms.
+
+- `DCC Integrations for Creation Platform 1.9.0-beta <http://dist.fabric-engine.com/CreationPlatform/1.9.0-beta/CreationPlatform-SGCAPI-1.9.0-beta.zip>`_
+
+  - All platforms.
+
+Table of Contents
+-----------------
+
+- :ref:`notes-1.9.0-beta`
+
+- :ref:`installing-1.9.0-beta`
+
+- :ref:`documentation-1.9.0-beta`
+
+- :ref:`compiling-1.9.0-beta`
+
+- Previous release notes:
+
+  - :ref:`RELNOTES-1.8.0-beta`
+
+  - :ref:`RELNOTES-1.7.3-beta`
+
+.. _notes-1.9.0-beta:
+
+Release Notes for 1.9.0-beta
+-------------------------------------------------------------
+
+Creation Platform Changes
++++++++++++++++++++++++++++++++++++
+
+- A tarball package with scriptable environment variables is now available for CentOS, which allows installing the Creation Platform files in an arbitrary location on the filesystem.
+
+- Enable overriding of Materials. Used to apply a custom material to geometry imported using Fbx or other importers that setup materials. 
+
+Extensions
+^^^^^^^^^^^^^^^^^
+
+- The Math types have been migrated to the extension system as a KL-only extension. This enables Extensions to use the Math types, without needing to re-declare types as they were in the past. It also enables tools like Splice to use the same Math library as Creation Platform. 
+
+Realtime renderer
+^^^^^^^^^^^^^^^^^
+
+- Support for stochastic motion blur and depth of field, based on "Real-Time Stochastic Rasterization on Conventional GPU Architectures" (McGuire, 2010). The original method was improved and adapted to our deferred rendering pipeline, and coupled to a post-processing blur effect we developed. These effects can be enabled using the ``stochastic_*`` options from the Viewport, and by adjusting the ``lensRadius`` and ``focalDistance`` parameters of the Camera.
+
+- Basic support for super sampling anti-aliasing (careful: costly for GPU memory and performance)
+
+- RTR passes language was enhanced with various minor features, such as the ability to reuse or share render targets.
+
+- Material operators were optimized to reduce compile times.
+
+Core Changes
++++++++++++++++++++++++++++++++++++++++++++
+
+- Upgraded LLVM to version 3.3.
+
+- Upgraded from old LLVM JIT execution engine to new MCJIT.
+
+- Added LLVM ObjectCache support to allow caching optimized machine code which provides:
+
+  - Reduced startup times as machine code generation no longer needs to occur.
+
+  - Reduced memory use as LLVM IR modules are no longer processed.
+
+  - Background optimization for unchanged KL code only needs to occur once.
+
+- Initial LLVM Dwarf debugging support for KL code with gdb on Linux and OSX.
+
+- Reduced KL code optimization times by allowing background KL code optimization to occur across all threads.
+
+- Bug fixes to Core crash handler to prevent spurious crash reports.
+
+- Added 'trace operators' flag to Fabric Engine core client creation to allow brute-force debugging of crashes within KL code under Windows.
+
+- Added support KL-only extensions.  A Creation Platform core client can now provide KL code as an extension that is available to other KL code through the "require" statement.  Previously, it was only possible to provide extensions by installing an external extension in the extensions directory.
+
+- Introduced support for RTVals.  An RTVal is a typed value that belongs to the Creation Platform core, and can have methods called on it as well as have its members accessed.  RTVals allow direct use of the KL language without using the dependency graph.  RTVals are currently undocumented and will be greatly expanded in the next version of Creation Platform.
+
+- Several minor KL syntax changes.  See the :ref:`KL Programming Guide <KLPG>` for details.
+
+  - The "use" statement has been deprecated; use "require" instead.  See :ref:`KLPG.require`.
+  
+  - The "executeParallel" construct has been deprecated; use the triple-angle-bracket call syntax instead.  See :ref:`KLPG.parallel-execution-statement`.
+
+.. _installing-1.9.0-beta:
+
+Installing Creation Platform
+---------------------------------------
+
+Creation Platform runs on Windows 7 SP1 (both 32- and 64-bit), CentOS 6.3, Ubuntu 10.04 LTS, Ubuntu 12.04 LTS, and Mac OS X 10.7 "Lion" or later.
+
+**Install Python**
+
+If you don't already have Python on your system, you need to install it first.
+
+- For Windows, you can get the latest version of Python 2.7 directly from http://python.org. You will also need to add the Python folders, usually C:\\Python27, and C:\\Python27\\Scripts, to your PATH environment variable.
+
+  - On 64-bit Windows, we also provide a build of Creation Platform that works with Python 2.6.
+
+- For CentOS 6.3, Ubuntu 10.04 LTS and Ubuntu 12.04 LTS, your system already came with the right version of Python installed.
+
+- For OS X, Python 2.7 is automatically installed on your system as part of the base OS install.
+
+  - IMPORTANT NOTE: On Mac OSX you must use the system-installed version of Python found in /usr/bin/python. Using a different version of Python (installed via MacPorts or HomeBrew for example) will result on a crash when trying to run any Creation Platform application.
+
+Once the install is finished, make sure that you are able to open a command prompt and run python. Windows users will probably have to add the directory in which Python was installed (usually c:\\Python27) to their PATH environment variable.
+
+NOTE: On Windows, you may continue to use the official build of PySide, leaving it installed; however, we have experienced stability issues with the official build that are fixed in the version that is installed with Creation Platform. If you still want to use the official PySide build, use the "Advanced" option in the Creation Platform installer to deselect the PySide module before proceeding with installation.
+Install Creation Platform
+
+From the :ref:`downloads-1.9.0-beta` section, download and install Creation Platform for your platform.
+
+- On Windows 7 32-bit, the installer is CreationPlatform-1.9.0-beta-Windows-32Bit-Python2.7.msi. It is a .MSI file that can be run directly. Note that the installer is unsigned, so your browser may tell you it's not safe to run it.
+
+- On Windows 7 64-bit, the installer is CreationPlatform-1.9.0-beta-Windows-64Bit-Python2.7.msi (for Python 2.7) or CreationPlatform-1.7.3-beta-Windows-64Bit-Python2.6.msi (for Python 2.6). It is a .MSI file that can be run directly. Note that the installer is unsigned, so your browser may tell you it's not safe to run it.
+
+- On CentOS 6.3, the installer is CreationPlatform-1.9.0-beta-CentOS-x86_64-Python2.6.rpm. It is a .rpm package that can be installed using 'rpm -i' or using a GUI tool.
+
+  - IMPORTANT NOTE: you must log out and log back in in order to get the environment variables set that Creation Platform needs to run!
+
+- On Ubuntu 10.04 LTS, the installer is CreationPlatform-1.9.0-beta-Ubuntu-amd64-Python2.6.deb. It is a .deb package that can be installed using 'dpkg -i' or using a GUI tool.
+
+  - IMPORTANT NOTE: you must log out and log back in in order to get the environment variables set that Creation Platform needs to run!
+
+- On Ubuntu 12.04 LTS, the installer is CreationPlatform-1.9.0-beta-Ubuntu-amd64-Python2.7.deb. It is a .deb package that can be installed using 'dpkg -i' or using a GUI tool.
+
+  - IMPORTANT NOTE: you must log out and log back in in order to get the environment variables set that Creation Platform needs to run!
+
+- On Mac OS X Lion or Mountain Lion, the installer is CreationPlatform-1.9.0-beta-MacOSX-64Bit.dmg. It is an executable on a .dmg file that can be run directly from the mounted disk image.
+
+  - IMPORTANT NOTE: you must restart your system in order to get the environment variables set that Creation Platform needs to run!
+
+**Test Creation Platform**
+
+The Creation Platform installer ships with a simple application, HelloSceneGraph, that can be used to test the installation. To run HelloSceneGraph:
+
+-  On Windows:
+
+  - Open a command prompt (cmd.exe)
+
+  - Change to the Creation Platform install directory (usually C:\\Program Files\\Creation Platform for per-machine installs and C:\\Users\\<USERNAME>\\AppData\\Local\\Apps\\Creation Platform for per-user installs)
+
+  - Run python Utils\HelloSceneGraph.pyw
+
+- On Ubuntu, open a shell and run python /usr/lib/creation-platform/Python/HelloSceneGraph.pyw
+
+- On CentOS, open a shell and run python /usr/lib64/creation-platform/Python/HelloSceneGraph.pyw
+
+- On Mac OS X, open Terminal and run hello-creation
+
+**Install Sample Applications ("Demos")**
+
+From the :ref:`downloads-1.9.0-beta` section, download the CreationPlatform-1.9.0-beta-Demos.zip file, which you can extract to a location of your choosing. The demos are located below the Apps subfolder of the created CreationPlatform-Demos-1.9.0-beta folder, and are identical for all platforms. These demos can be run using the python command; for example, python Apps/GeometryDeformation.py.
+
+.. _documentation-1.9.0-beta:
+
+Documentation
+-------------
+
+Complete documentation for Creation Platform can be found in :ref:`TOP`.
+
+After installing Creation Platform, you can also find the documentation in the Start menu in Windows, the Applications menu in CentOS and Ubuntu, and through a link in the '/Applications/Creation Platform' folder in Mac OS X. The documentation can be accessed from the "Help" menu of Creation Platform applications.
+
+.. _compiling-1.9.0-beta:
+
+Optional: Compiling the DCC Integrations
+----------------------------------------
+
+In order to use the DCC integrations after you have installed Creation Platform you will need to download the SGCAPI (Creation Platform C++ API) source files here: `SGCAPI for Creation Platform 1.9.0-beta <http://dist.fabric-engine.com/CreationPlatform/1.9.0-beta/CreationPlatform-SGCAPI-1.9.0-beta.zip>`_
+
+You will then need to consult the .. kl-extlist::
+DCCIG, in particular the section on "Installing and using the SGCAPI". In there you will find instructions on how to compile and any necessary environment variables that must be set.
+
+The currently supported DCC integrations are:
+
+- Maya 2013 on Windows 64-bit
+
+- Maya 2013 on Linux 64-bit
+
+- SoftImage 2013 on Windows 64-bit
+
+That's it!
+
+Indices and Tables
+------------------
+
+* :ref:`genindex`
+* :ref:`search`

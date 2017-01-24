@@ -3,163 +3,159 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fabric Engine 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-06 18:56+0900\n"
+"POT-Creation-Date: 2017-01-23 12:42+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.3.4\n"
 
-#: ..\..\source\GPUCompute\gpupg.rst:4
+#: ../../source/GPUCompute/gpupg.rst:4
 msgid "GPU Compute Programming Guide"
 msgstr "GPU Compute プログラミングガイド"
 
-#: ..\..\source\GPUCompute\gpupg.rst:0
+#: ../../source/GPUCompute/gpupg.rst
 msgid "Table of Contents"
 msgstr "目次"
 
-#: ..\..\source\GPUCompute\gpupg.rst:9
+#: ../../source/GPUCompute/gpupg.rst:9
 msgid ""
 "This document provides an outline of KL programing with GPU Compute "
 "(currently for Nvidia CUDA hardware) covering some details of its "
 "implementation in addition to explaining how it can be used in KL code. "
-"Everything in this document assumes that the user has correctly enabled CUDA"
-" GPU compute support as outlined in the :ref:`GPUCompute`."
+"Everything in this document assumes that the user has correctly enabled "
+"CUDA GPU compute support as outlined in the :ref:`GPUCompute`."
 msgstr ""
 "この文書では KLで GPU Compute を行うための ―現在NVIDIAデバイスのみで動作します― "
-"実装の詳細についてと、それらをどのようにKLから使用するか、概要を示します。以下に書かれる全ては :ref:`GPUCompute` で示したように "
-"CUDA GPU サポート機能を正しく有効にしたものとします。"
+"実装の詳細についてと、それらをどのようにKLから使用するか、概要を示します。以下に書かれる全ては :ref:`GPUCompute` "
+"で示したように CUDA GPU サポート機能を正しく有効にしたものとします。"
 
-#: ..\..\source\GPUCompute\gpupg.rst:11
+#: ../../source/GPUCompute/gpupg.rst:11
 msgid ""
 "As GPU compute is still a relatively new feature there may be additional "
-"changes in its API as it evolves and we are always interested in feedback "
-"and suggestions from end users."
-msgstr ""
-"GPUコンピューティングは比較的に新しい機能であり、APIの追加や進化がこれからもやってくる可能性があります。私たちは、エンドユーザからのフィードバックや提案に"
-"常に耳を傾けます。"
+"changes in its API as it evolves and we are always interested in feedback"
+" and suggestions from end users."
+msgstr "GPUコンピューティングは比較的に新しい機能であり、APIの追加や進化がこれからもやってくる可能性があります。私たちは、エンドユーザからのフィードバックや提案に常に耳を傾けます。"
 
-#: ..\..\source\GPUCompute\gpupg.rst:16
+#: ../../source/GPUCompute/gpupg.rst:16
 msgid "KL Example"
 msgstr ""
 
-#: ..\..\source\GPUCompute\gpupg.rst:18
+#: ../../source/GPUCompute/gpupg.rst:18
 msgid ""
-"The following is an example of KL code using GPU compute and is provided as "
-"a starting point to further discussion. This particular code shows the "
-"syntax used to invoke an operator on the GPU but is not an example of an "
-"algorithm that is particularly well-suited to GPU execution."
-msgstr ""
-"以下に、GPUコンピューティングを使用するKLコードを示し、さらなる議論の土台とします。ただし以下に示すコードはGPU上で実行可能ではありますが、とくにGP"
-"Uに適したアルゴリズムの例というわけではありません。"
+"The following is an example of KL code using GPU compute and is provided "
+"as a starting point to further discussion. This particular code shows the"
+" syntax used to invoke an operator on the GPU but is not an example of an"
+" algorithm that is particularly well-suited to GPU execution."
+msgstr "以下に、GPUコンピューティングを使用するKLコードを示し、さらなる議論の土台とします。ただし以下に示すコードはGPU上で実行可能ではありますが、とくにGPUに適したアルゴリズムの例というわけではありません。"
 
-#: ..\..\source\GPUCompute\gpupg.rst:47
+#: ../../source/GPUCompute/gpupg.rst:47
 msgid "Invoking a GPU Operator"
 msgstr "GPU Operator の呼び出し"
 
-#: ..\..\source\GPUCompute\gpupg.rst:49
+#: ../../source/GPUCompute/gpupg.rst:49
 msgid ""
 "GPU compute functionality is accessed in KL via the standard :ref:`KLPG"
-".parallel-execution-statement` syntax on an operator plus an @ followed by a"
-" Boolean that evaluates to ``true``. Passing no parameter or ``false`` after"
-" the @ symbol will invoke the operator on the CPU."
+".parallel-execution-statement` syntax on an operator plus an @ followed "
+"by a Boolean that evaluates to ``true``. Passing no parameter or "
+"``false`` after the @ symbol will invoke the operator on the CPU."
 msgstr ""
 "GPUコンピューティング機能は、KLの標準的な並列実行記法 :ref:`KLPG.parallel-execution-statement` "
-"のオペレーターに @真偽値 ``true`` を後置することで有効となります。 @パラメータを指定しないか、@パラメータ直後に ``false`` "
-"と評価されるものを置くと、オペレータはGPUではなくCPUでの呼び出しとなります。"
+"のオペレーターに @真偽値 ``true`` を後置することで有効となります。 @パラメータを指定しないか、@パラメータ直後に ``false``"
+" と評価されるものを置くと、オペレータはGPUではなくCPUでの呼び出しとなります。"
 
-#: ..\..\source\GPUCompute\gpupg.rst:51
+#: ../../source/GPUCompute/gpupg.rst:51
 msgid ""
-"On machines with no CUDA support, or where CUDA support has not been enabled"
-" or failed to load, passing an @true parameter to a :ref:`KLPG.parallel-"
-"execution-statement` call will invoke the operator in a simulated GPU "
-"environment on the CPU, which can sometimes be useful for testing. A message"
-" will be printed each time an operator is invoked in this way to ensure that"
-" the user is aware that this code is not running on the GPU despite the "
-"@true PEX call:"
+"On machines with no CUDA support, or where CUDA support has not been "
+"enabled or failed to load, passing an @true parameter to a :ref:`KLPG"
+".parallel-execution-statement` call will invoke the operator in a "
+"simulated GPU environment on the CPU, which can sometimes be useful for "
+"testing. A message will be printed each time an operator is invoked in "
+"this way to ensure that the user is aware that this code is not running "
+"on the GPU despite the @true PEX call:"
 msgstr ""
 "CUDAをサポートしない機器、もしくはCUDAを無効としたか、読み込みに失敗した環境で、並列実行記法に @true "
-"パラメータを与え実行すると、GPUでの実行とはならず、CPU上でGPU環境をシミュレートしてのオペレータ呼び出しとなる。これは特にテストに有用である。この擬"
-"似環境での実行では、operatorを @true で呼び出したにもかかわらず、コードがGPUで実行されていないことのユーザーへの告知としては以下のメッセー"
-"ジが表示されます："
+"パラメータを与え実行すると、GPUでの実行とはならず、CPU上でGPU環境をシミュレートしてのオペレータ呼び出しとなる。これは特にテストに有用である。この擬似環境での実行では、operatorを"
+" @true で呼び出したにもかかわらず、コードがGPUで実行されていないことのユーザーへの告知としては以下のメッセージが表示されます："
 
-#: ..\..\source\GPUCompute\gpupg.rst:58
+#: ../../source/GPUCompute/gpupg.rst:58
 msgid "Type Support"
 msgstr "型のサポート"
 
-#: ..\..\source\GPUCompute\gpupg.rst:60
+#: ../../source/GPUCompute/gpupg.rst:60
 msgid ""
 "Not all KL types are supported on the GPU and in particular ``object``, "
 "``interface``, and ``MapReduce`` operators are currently unsupported. KL "
 "will output an error if a user tries to run an operator that uses one of "
 "these types on the GPU. In addition ``Dict`` and ``String`` types cannot "
-"currently be passed as parameters to a GPU operator, though a GPU operator "
-"may make use of them internally. These limitations around types may be "
-"removed in an upcoming version based on feedback and relevant use cases."
+"currently be passed as parameters to a GPU operator, though a GPU "
+"operator may make use of them internally. These limitations around types "
+"may be removed in an upcoming version based on feedback and relevant use "
+"cases."
 msgstr ""
-"KLの型全てがGPU上で使用可能なわけではありません。とくに ``object``、 ``interface`` そして ``MapReduce`` "
-"は現在サポートされません。GPU上ではサポートされない型を走らせようとすると、KLはエラーを出力します。ただし、``Dict`` や ``String`` "
-"はGPUオペレータに対しパラメータとして受け渡す事はできないが、オペレータ内部で使用することはできます。これらの型についての制約は、使用実態のフィードバック"
-"や、妥当性によって今後のバージョンで撤廃されえます。"
+"KLの型全てがGPU上で使用可能なわけではありません。とくに ``object``、 ``interface`` そして "
+"``MapReduce`` "
+"は現在サポートされません。GPU上ではサポートされない型を走らせようとすると、KLはエラーを出力します。ただし、``Dict`` や "
+"``String`` "
+"はGPUオペレータに対しパラメータとして受け渡す事はできないが、オペレータ内部で使用することはできます。これらの型についての制約は、使用実態のフィードバックや、妥当性によって今後のバージョンで撤廃されえます。"
 
-#: ..\..\source\GPUCompute\gpupg.rst:62
+#: ../../source/GPUCompute/gpupg.rst:62
 msgid ""
 "The KL type that is most relevant to running operators on the GPU is the "
 "Variable Array as this maps most directly to use cases where the GPU "
-"operates in parallel on a large set (or sets) of input data. These variable "
-"arrays will often contain elements of a complex struct type, such as a :kl-"
-"ref:`Vec3` or an :kl-ref:`Xfo`. See the ``input`` and ``output`` arrays in "
-"the :ref:`gpupg-example`."
+"operates in parallel on a large set (or sets) of input data. These "
+"variable arrays will often contain elements of a complex struct type, "
+"such as a :kl-ref:`Vec3` or an :kl-ref:`Xfo`. See the ``input`` and "
+"``output`` arrays in the :ref:`gpupg-example`."
 msgstr ""
-"GPUで実行するオペレータにとって、最適な型は、可変長配列（Variable Array）"
-"です。GPUオペレータを並列実行する際、大規模な入力データ（または複数のデータ群）を、直接可変長配列としてマップし、使用する。これらの可変長配列には、より複"
-"雑な型 ― :kl-ref:`Vec3` や :kl-ref:`Xfo` を含むことが多いでしょう。 ``input`` 、 ``output`` "
+"GPUで実行するオペレータにとって、最適な型は、可変長配列（Variable "
+"Array）です。GPUオペレータを並列実行する際、大規模な入力データ（または複数のデータ群）を、直接可変長配列としてマップし、使用する。これらの可変長配列には、より複雑な型"
+" ― :kl-ref:`Vec3` や :kl-ref:`Xfo` を含むことが多いでしょう。 ``input`` 、 ``output`` "
 "に配列を用いた例については :ref:`gpupg-example` を参照してください。"
 
-#: ..\..\source\GPUCompute\gpupg.rst:65
+#: ../../source/GPUCompute/gpupg.rst:65
 msgid "Memory Management"
 msgstr "Memory マネジメント"
 
-#: ..\..\source\GPUCompute\gpupg.rst:67
+#: ../../source/GPUCompute/gpupg.rst:67
 msgid ""
 "There are four types of memory made available in GPU compute so that the "
 "user can choose the type most suited to their needs. The three types are:"
 msgstr "GPUコンピューティングでは、4つのメモリー利用モードがある。ユーザーは必要に応じ、最適なものを選択できる。このうち3つのモードは："
 
-# backing をどう訳すか
-# ここでは確保先とした
-#: ..\..\source\GPUCompute\gpupg.rst:69
+#: ../../source/GPUCompute/gpupg.rst:69
 msgid ""
-"*CPU*: Standard CPU memory, allocated on the heap via malloc(). This is the "
-"default backing memory for all types created on the CPU."
+"*CPU*: Standard CPU memory, allocated on the heap via malloc(). This is "
+"the default backing memory for all types created on the CPU."
 msgstr ""
-"*CPU*: 標準的なCPUメモリ。malloc() より heap 領域に確保される。CPU上に作成される全ての型のメモリ確保先のディフォルトです。"
+"*CPU*: 標準的なCPUメモリ。malloc() より heap "
+"領域に確保される。CPU上に作成される全ての型のメモリ確保先のディフォルトです。"
 
-#: ..\..\source\GPUCompute\gpupg.rst:71
+#: ../../source/GPUCompute/gpupg.rst:71
 msgid ""
-"*GPU*: Standard GPU-allocated memory. This type of memory is accessible only"
-" on the GPU and attempting to access it on the CPU will result in an error "
-"(in ``guarded`` mode) or a crash (in ``unguarded`` mode)."
+"*GPU*: Standard GPU-allocated memory. This type of memory is accessible "
+"only on the GPU and attempting to access it on the CPU will result in an "
+"error (in ``guarded`` mode) or a crash (in ``unguarded`` mode)."
 msgstr ""
 "*GPU*: 標準的なGPUに確保されるメモリ。GPUのみからアクセスが可能であり、CPUからアクセスを行うと、 ``guarded`` "
 "モードではエラーが返り ``unguarded`` モードではクラッシュする。"
 
-#: ..\..\source\GPUCompute\gpupg.rst:73
+#: ../../source/GPUCompute/gpupg.rst:73
 msgid ""
-"*SVM*: SVM stands for Shared Virtual Memory and in the CUDA case represents "
-"what is referred to as CUDA Managed Memory. This type of memory is "
-"accessible both on the CPU and the GPU and data transfers are managed "
-"transparently by the Nvidia driver. This type of memory is easiest for new "
-"users as it does not require the user to track where memory lives. More "
-"experienced users however may require more fine-grained control."
+"*SVM*: SVM stands for Shared Virtual Memory and in the CUDA case "
+"represents what is referred to as CUDA Managed Memory. This type of "
+"memory is accessible both on the CPU and the GPU and data transfers are "
+"managed transparently by the Nvidia driver. This type of memory is "
+"easiest for new users as it does not require the user to track where "
+"memory lives. More experienced users however may require more fine-"
+"grained control."
 msgstr ""
 "*SVM*: Shared Virtual Memory を意味する。CUDAでは、CUDA Managed Memory "
-"と呼ばれるものを指す。この種のメモリは、CPUからもGPUからもアクセスが可能である。NVIDIAのドライバによりデータは透過的に転送される。このため、メモ"
-"リが実際にはどこに存在すべきか知るひつようのないような新参利用者にとって、一番簡単なメモリモードとなる。ただし、経験豊富なユーザーにとっては、よりきめ細やか"
-"な制御を必要とする可能性がある。"
+"と呼ばれるものを指す。この種のメモリは、CPUからもGPUからもアクセスが可能である。NVIDIAのドライバによりデータは透過的に転送される。このため、メモリが実際にはどこに存在すべきか知るひつようのないような新参利用者にとって、一番簡単なメモリモードとなる。ただし、経験豊富なユーザーにとっては、よりきめ細やかな制御を必要とする可能性がある。"
 
-#: ..\..\source\GPUCompute\gpupg.rst:75
+#: ../../source/GPUCompute/gpupg.rst:75
 msgid ""
 "*GLBuffer*: GLBuffer is memory that was loaded into an OpenGL buffer and "
 "then bound for use in GPU compute operators. This type of memory will be "
@@ -168,168 +164,171 @@ msgstr ""
 "*GLBuffer*: OpenGLバッファーとして読み込まれ、GPUオペレータでの処理に費やされるメモリ。この種のメモリーについては、以下の "
 ":ref:`gpupg-gl-binding` セクションで詳述します。"
 
-#: ..\..\source\GPUCompute\gpupg.rst:78
+#: ../../source/GPUCompute/gpupg.rst:78
 msgid "Changing Memory Backing"
 msgstr "Memory 確保先の変更"
 
-# shallow type 
-#: ..\..\source\GPUCompute\gpupg.rst:80
+#: ../../source/GPUCompute/gpupg.rst:80
 msgid ""
-"All KL types support several methods to change where their backing memory "
-"lives. For most types (including all shallow types) these methods are a no-"
-"op as their backing memory is not owned by them. However in the case of "
-"Variable Arrays these methods change where the member elements of the "
+"All KL types support several methods to change where their backing memory"
+" lives. For most types (including all shallow types) these methods are a "
+"no-op as their backing memory is not owned by them. However in the case "
+"of Variable Arrays these methods change where the member elements of the "
 "Variable Array are stored. The three relevant methods are:"
 msgstr ""
-"KLの全ての型はメモリの確保先を変更するため、いくつかの関数（method）をサポートしている。多くの型 ― shallow type を含む ― "
-"ではこれらの変更メソッドはその型自体が、メモリを所持している訳ではないので実際には操作が実行されない。しかし、可変長配列の場合では、これらの変更のためのメソ"
-"ッドは、その配列の要素が格納されている場所を、変更する。関連する３つのメッドは次の通り："
+"KLの全ての型はメモリの確保先を変更するため、いくつかの関数（method）をサポートしている。多くの型 ― shallow type を含む ―"
+" "
+"ではこれらの変更メソッドはその型自体が、メモリを所持している訳ではないので実際には操作が実行されない。しかし、可変長配列の場合では、これらの変更のためのメソッドは、その配列の要素が格納されている場所を、変更する。関連する３つのメッドは次の通り："
 
-#: ..\..\source\GPUCompute\gpupg.rst:82
+#: ../../source/GPUCompute/gpupg.rst:82
 msgid "``myVar.convertToCPU()``"
 msgstr ""
 
-#: ..\..\source\GPUCompute\gpupg.rst:84
+#: ../../source/GPUCompute/gpupg.rst:84
 msgid "``myVar.convertToGPU()``"
 msgstr ""
 
-#: ..\..\source\GPUCompute\gpupg.rst:86
+#: ../../source/GPUCompute/gpupg.rst:86
 msgid "``myVar.convertToSVM()``"
 msgstr ""
 
-#: ..\..\source\GPUCompute\gpupg.rst:88
+#: ../../source/GPUCompute/gpupg.rst:88
 msgid ""
 "These methods convert the backing memory of the type to one of the three "
 "types of memory discussed above."
 msgstr "これらのメソッドは、メモリ確保先をあるモードから他の3つのモードに変換します。"
 
-#: ..\..\source\GPUCompute\gpupg.rst:91
+#: ../../source/GPUCompute/gpupg.rst:91
 msgid "GL Binding"
 msgstr ""
 
-#: ..\..\source\GPUCompute\gpupg.rst:93
+#: ../../source/GPUCompute/gpupg.rst:93
 msgid ""
 "There is an additional conversion method convertToGLBuffer() on Variable "
-"Arrays that allows converting their backing memory into a GL buffer which "
-"can be used in rendering in addition to GPU compute. This method requires "
-"that a valid GL context be bound at the time it's called and will otherwise "
-"result in an exception:"
+"Arrays that allows converting their backing memory into a GL buffer which"
+" can be used in rendering in addition to GPU compute. This method "
+"requires that a valid GL context be bound at the time it's called and "
+"will otherwise result in an exception:"
 msgstr ""
-"可変長配列にはさらに convertToGLBuffer() メソッドによる変換メソッドがあります。GPUコンピューティングだけではなく、さらには描画にも使"
-"用可能な GLバッファとして格納されます。このメソッドを呼ぶ際には、有効なGLコンテキストにバインドする必要があります。そうでない場合、以下の例外が発生しま"
-"す："
+"可変長配列にはさらに convertToGLBuffer() "
+"メソッドによる変換メソッドがあります。GPUコンピューティングだけではなく、さらには描画にも使用可能な "
+"GLバッファとして格納されます。このメソッドを呼ぶ際には、有効なGLコンテキストにバインドする必要があります。そうでない場合、以下の例外が発生します："
 
-#: ..\..\source\GPUCompute\gpupg.rst:99
+#: ../../source/GPUCompute/gpupg.rst:99
 msgid "A short example of using GL binding is provided here:"
 msgstr "GL binding の短いですが利用例："
 
-#: ..\..\source\GPUCompute\gpupg.rst:121
+#: ../../source/GPUCompute/gpupg.rst:121
 msgid ""
-"The parameters passed to convertToGLBuffer() are the same as the `target` "
-"and `usage` parameters normally passed to a `glBufferData()` call and can "
-"have the same values."
+"The parameters passed to convertToGLBuffer() are the same as the `target`"
+" and `usage` parameters normally passed to a `glBufferData()` call and "
+"can have the same values."
 msgstr ""
 "convertToGLBuffer() に渡すパラメータは、通常 `glBufferData()` に渡す `target`, `usage` "
 "パラメータと同じで、同じ値です。"
 
-#: ..\..\source\GPUCompute\gpupg.rst:124
+#: ../../source/GPUCompute/gpupg.rst:124
 msgid "Determining Array Memory Location"
 msgstr "Array Memory の確保先の決定"
 
-#: ..\..\source\GPUCompute\gpupg.rst:126
+#: ../../source/GPUCompute/gpupg.rst:126
 msgid ""
-"KL provides a mechanism to determine where a given Variable Array's elements"
-" currently live using the getElementsMemType() method. A short example of "
-"its use is outlined here:"
+"KL provides a mechanism to determine where a given Variable Array's "
+"elements currently live using the getElementsMemType() method. A short "
+"example of its use is outlined here:"
 msgstr ""
 "KLでは、可変長配列の要素が現在どこに存在するのかについて、 getElementsMemType() "
 "メソッドを使い、明らかにすることができます。ここでは簡単な使用例で説明します："
 
-#: ..\..\source\GPUCompute\gpupg.rst:144
+#: ../../source/GPUCompute/gpupg.rst:144
 msgid "Memory and Resizing Arrays"
 msgstr ""
 
-#: ..\..\source\GPUCompute\gpupg.rst:146
+#: ../../source/GPUCompute/gpupg.rst:146
 msgid ""
 "When using GPU compute the array resize() method resizes the allocated "
-"memory on the device where the memory resides. GL buffer-bound arrays can "
-"not be resized via the resize() method and will throw an error."
+"memory on the device where the memory resides. GL buffer-bound arrays can"
+" not be resized via the resize() method and will throw an error."
 msgstr ""
 "GPU処理をおこなう際、配列の resize() メソッドを使用するとメモリが存在するGPUデバイス上の確保されたメモリをリサイズします。GL "
 "buffer にバインドされた配列では、 resize() メソッドを使用することはできません。エラーが投げられます。"
 
-#: ..\..\source\GPUCompute\gpupg.rst:148
+#: ../../source/GPUCompute/gpupg.rst:148
 msgid ""
-"For memory types that are accessible on the CPU (CPU and SVM), the elements "
-"in a newly-resized array will be initialized using the default constructor "
-"for the element type of the array (for example initialized with the Vec3() "
-"constructor). For GPU memory the elements in a newly-resized array will be "
-"initialized to zeros. This is an important distinction to be aware of as it "
-"represents a difference in behavior between CPU and GPU arrays."
+"For memory types that are accessible on the CPU (CPU and SVM), the "
+"elements in a newly-resized array will be initialized using the default "
+"constructor for the element type of the array (for example initialized "
+"with the Vec3() constructor). For GPU memory the elements in a newly-"
+"resized array will be initialized to zeros. This is an important "
+"distinction to be aware of as it represents a difference in behavior "
+"between CPU and GPU arrays."
 msgstr ""
-"CPUからアクセス可能なメモリ―つまり CPU, SVM メモリでは、新規にサイズ変更された配列は、その配列の要素をその要素のディフォルトコンストラクタに使"
-"用し初期化します。（例： Vec3() コンストラクタによる初期化）GPUメモリでは、新規にサイズ変更された配列では、ゼロに初期化します。これは、CPUとG"
-"PUでの配列の動作の違いを示すものとして、極めて重要な差異となります。"
+"CPUからアクセス可能なメモリ―つまり CPU, SVM "
+"メモリでは、新規にサイズ変更された配列は、その配列の要素をその要素のディフォルトコンストラクタに使用し初期化します。（例： Vec3() "
+"コンストラクタによる初期化）GPUメモリでは、新規にサイズ変更された配列では、ゼロに初期化します。これは、CPUとGPUでの配列の動作の違いを示すものとして、極めて重要な差異となります。"
 
-#: ..\..\source\GPUCompute\gpupg.rst:171
+#: ../../source/GPUCompute/gpupg.rst:171
 msgid "The copyTo() Array Method"
 msgstr ""
 
-#: ..\..\source\GPUCompute\gpupg.rst:173
+#: ../../source/GPUCompute/gpupg.rst:173
 msgid ""
-"The copyTo() method can be used to transfer data between arrays, regardless "
-"of where their memory is located. The method will resize the destination "
-"array to be of the same size as the source array. Memory location for the "
-"destination array will remain unchanged."
+"The copyTo() method can be used to transfer data between arrays, "
+"regardless of where their memory is located. The method will resize the "
+"destination array to be of the same size as the source array. Memory "
+"location for the destination array will remain unchanged."
 msgstr ""
-"copyTo() メソッドは、メモリ確保先に関係なく配列間でデータを転送に使用することができます。このメソッドは、転送先配列を転送元配列と同じサイズになるよ"
-"うリサイズします。転送先配列のメモリ確保先は不変なママです。"
+"copyTo() "
+"メソッドは、メモリ確保先に関係なく配列間でデータを転送に使用することができます。このメソッドは、転送先配列を転送元配列と同じサイズになるようリサイズします。転送先配列のメモリ確保先は不変なママです。"
 
-#: ..\..\source\GPUCompute\gpupg.rst:194
+#: ../../source/GPUCompute/gpupg.rst:194
 msgid "Parameter Passing"
 msgstr ""
 
-#: ..\..\source\GPUCompute\gpupg.rst:196
+#: ../../source/GPUCompute/gpupg.rst:196
+#, fuzzy
 msgid ""
-"Parameters to a KL GPU operator can be of any supported type and as with any"
-" normal KL operator they can be passed as ``in`` (the default) or ``io`` "
-"parameters. Shallow type parameters (such as an ``Integer`` or a ``struct``)"
-" will have their values copied to and from the GPU before and after each "
-"parallel operator invocation. Variable Arrays on the other hand will only "
-"have a pointer to their values passed into the operator. The backing memory "
-"for the Variable Array elements must live in memory accessible to the target"
-" device."
+"Parameters to a KL GPU operator can be of any supported type and as with "
+"any normal KL operator they can be passed as ``in`` (the default) or "
+"``io`` parameters. Shallow type parameters (such as an ``Integer`` or a "
+"``struct``) will have their values copied to and from the GPU before and "
+"after each parallel operator invocation; passing these shallow types as "
+"``in`` parameters has very little overhead, whereas passing them as "
+"``io`` or ``out`` requires an allocation on the GPU and is much slower. "
+"Variable Arrays on the other hand will only have a pointer to their "
+"values passed into the operator. The backing memory for the Variable "
+"Array elements must live in memory accessible to the target device."
 msgstr ""
-"KLのGPUオペレータへ渡すパラメータは、サポートされている全ての型を、通常のKLオペレータ同様、``in`` （ディフォルト）あるいは ``io`` "
-"として受け渡すことができます。例えば、 ``Integer`` や ``struct`` のような shallow type "
-"では、各並列実行の呼び出し毎にGPUへの入出力に値のコピーが行われます。一方可変長配列では、オペレータへの受け渡しには、ただ値のポインターを使用するだけとな"
-"ります。可変長配列の要素のメモリ確保先は、ターゲットとなるデバイス上からアクセス可能な場所に存在する必要があります。"
+"KLのGPUオペレータへ渡すパラメータは、サポートされている全ての型を、通常のKLオペレータ同様、``in`` （ディフォルト）あるいは "
+"``io`` として受け渡すことができます。例えば、 ``Integer`` や ``struct`` のような shallow type "
+"では、各並列実行の呼び出し毎にGPUへの入出力に値のコピーが行われます。一方可変長配列では、オペレータへの受け渡しには、ただ値のポインターを使用するだけとなります。可変長配列の要素のメモリ確保先は、ターゲットとなるデバイス上からアクセス可能な場所に存在する必要があります。"
 
-#: ..\..\source\GPUCompute\gpupg.rst:198
+#: ../../source/GPUCompute/gpupg.rst:198
 msgid ""
-"In ``guarded`` mode, KL will perform checks on Variable Array parameters to "
-"ensure that their backing memory currently lives in an accessible memory "
-"space. If not a KL exception will be thrown to inform the user. As an "
-"example, the following KL code:"
+"In ``guarded`` mode, KL will perform checks on Variable Array parameters "
+"to ensure that their backing memory currently lives in an accessible "
+"memory space. If not a KL exception will be thrown to inform the user. As"
+" an example, the following KL code:"
 msgstr ""
-"``guarded`` モードでは KL は可変長配列パラメータの確保先が、メモリ空間からアクセス可能であるか確認します。もし不可能であれば、そのことをユー"
-"ザに例外の送信を通じてしらせます。例えば、以下のKLコードのでは："
+"``guarded`` モードでは KL "
+"は可変長配列パラメータの確保先が、メモリ空間からアクセス可能であるか確認します。もし不可能であれば、そのことをユーザに例外の送信を通じてしらせます。例えば、以下のKLコードのでは："
 
-#: ..\..\source\GPUCompute\gpupg.rst:212
+#: ../../source/GPUCompute/gpupg.rst:212
 msgid "Will result in the error message:"
 msgstr "これはエラーメッセージなります："
 
-#: ..\..\source\GPUCompute\gpupg.rst:218
+#: ../../source/GPUCompute/gpupg.rst:218
 msgid ""
 "Adding a ``convertToGPU()`` or ``convertToSVM()`` method call to the "
-"``input`` and ``output`` parameters will resolve the error, as seen in the "
-":ref:`gpupg-example`."
+"``input`` and ``output`` parameters will resolve the error, as seen in "
+"the :ref:`gpupg-example`."
 msgstr ""
 "付け加えると、 ``input`` や ``output`` を ``convertToGPU()`` や ``convertToSVM()`` "
 "メソッドを呼びこのエラーを解決することができます :ref:`gpupg-example` を参照してください。"
 
-#: ..\..\source\GPUCompute\gpupg.rst:220
+#: ../../source/GPUCompute/gpupg.rst:220
 msgid ""
-"In ``unguarded`` mode KL code that uses device and CPU memory incorrectly "
-"will crash."
+"In ``unguarded`` mode KL code that uses device and CPU memory incorrectly"
+" will crash."
 msgstr "``unguarded`` モードでは、デバイスや、CPUメモリを正しく使わないとクラッシュを引き起こします。"
+

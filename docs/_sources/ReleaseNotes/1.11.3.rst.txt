@@ -1,0 +1,183 @@
+.. _RELNOTES-1.11.3:
+
+Fabric Engine 1.11.3 Release Notes
+=================================================================================
+
+.. image:: /images/FE_logo_345_60.*
+   :width: 345px
+   :height: 60px
+
+| Fabric Engine version 1.11.3
+| Copyright (c) 2010-2017 Fabric Software Inc. All rights reserved.
+
+.. contents:: Table of Contents
+  :local:
+
+Important Notes - Read Me First!
+--------------------------------
+
+- Fabric Engine requires a video card and driver that support OpenGL 3.2 or later.
+
+- We no longer support Ubuntu for Linux installs due to a lack of interest.  The only officially supported Linux build of Fabric Engine is for CentOS 6.3.
+
+- We no longer support 32-bit Windows due to a lack of interest.  The supported Windows platforms are now 64-bit with either Python 2.7 or Python 2.6.
+
+- These notes assume you either do not have Fabric Engine installed or have version 1.11.0 or newer installed.  If you have an older version installed, you should remove it first before installing 1.11.3; see :ref:`RELNOTES-1.11.0` for more information on how to do this.
+
+.. _downloads-1.11.3:
+
+Downloads
+---------
+
+All downloads for Fabric Engine 1.11.3 can be obtained at http://dist.fabric-engine.com/FabricEngine/1.11.3/.  For information on downloads for specific platforms, see :ref:`installing-1.11.3`.
+
+Major Changes in 1.11.3
+-------------------------------------------------------------
+
+Fabric Engine Extensions
++++++++++++++++++++++++++++++++++++++++++++
+
+- OpenImageIO support has been added as an extension.
+
+.. _installing-1.11.3:
+
+Installing Fabric Engine
+---------------------------------------
+
+Fabric Engine runs on Windows 7 SP1 64-bit, CentOS 6.3 64-bit, and Mac OS X 10.7 "Lion" or later.
+
+.. _installing-1.11.3.uninstall-previous:
+
+Install Python
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+If you don't already have Python on your system, you need to install it first.
+
+- For Windows, you can get the latest version of Python 2.7 directly from http://python.org. You will also need to add the Python folders, usually C:\\Python27, and C:\\Python27\\Scripts, to your PATH environment variable.
+
+  - On 64-bit Windows, we also provide a build of Fabric Engine that works with Python 2.6.
+
+- For CentOS 6.3, your system already came with the right version of Python installed.
+
+- For OS X, Python 2.7 is automatically installed on your system as part of the base OS install.
+
+  .. note::
+    
+    On Mac OS X you must use the system-installed version of Python found in ``/usr/bin/python``. Using a different version of Python (installed via MacPorts or Homebrew, for example) will result on a crash when trying to run any Fabric Engine application.
+
+Once the install is finished, make sure that you are able to open a command prompt and run :command:`python`. Windows users will probably have to add the directory in which Python was installed (usually :file:`c:\\Python27`) to their :envvar:`PATH` environment variable.
+
+.. note::
+  
+  On previous Windows versions of Fabric Engine, it was possible
+  to disable the installation of PySide in the Fabric Engine
+  installer in order to use another version.  It is not longer possible
+  to do this: instead, if you need to use another version of PySide simply
+  follow the steps for :ref:`installing from an archive <installing-1.11.3.archive>` and then simply remove (or rename) the ``FabricEngine/Python/<PYTHON_VERSION>/PySide`` directory.
+
+There are two ways of installing Fabric Engine: :ref:`from an installer package <installing-1.11.3.package>` or :ref:`from an archive <installing-1.11.3.archive>`.
+
+.. _installing-1.11.3.package:
+
+Installing from an Installer Package
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Installing from an installer package is generally easier but is less flexible. We recommend this approach if you are evaluating Fabric Engine for a single user, you are fine with using the version of PySide that is bundled with Fabric Engine, and you only need to have a single version of Fabric Engine installed.
+
+From http://dist.fabric-engine.com/FabricEngine/1.11.3/, download and install Fabric Engine for your platform.
+
+- On Windows 7 using 64-bit Python, the installer is ``FabricEngine-1.11.3-InstallerPackage-Windows-64Bit-Python2.7.msi`` (for Python 2.7) or ``FabricEngine-1.11.3-InstallerPackage-Windows-64Bit-Python2.6.msi`` (for Python 2.6). It is a .MSI file that can be run directly. Note that the installer is unsigned, so your browser may tell you it's not safe to run it.
+
+- On CentOS 6.3, the installer is ``FabricEngine-1.11.3-InstallerPackage-CentOS-x86_64-Python2.6.rpm``. It is a .rpm package that can be installed using 'rpm -i' or using a GUI tool.
+
+  .. note:: you must log out and log back in in order to get the environment variables set that Fabric Engine needs to run!
+
+- On Mac OS X Lion or later, the installer is ``FabricEngine-1.11.3-InstallerPackage-MacOSX-64Bit-Python2.7.dmg``. It is an executable on a .dmg file that can be run directly from the mounted disk image.
+
+  .. note:: you must restart your system in order to get the environment variables set that Fabric Engine needs to run!
+
+.. _installing-1.11.3.archive:
+
+Installing from an Archive
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Installing from an archive provides the most flexibility.  You can control the location of the install, use a custom version of PySide, and even install and use multiple versions of Fabric Engine on the same machine.
+
+From http://dist.fabric-engine.com/FabricEngine/1.11.3/, download and install a Fabric Engine installer archive.
+  
+  - The filename begins with ``FabricEngine-1.11.3-InstallerArchive-``
+  
+  - For Windows, the archive filename ends with ``.zip``.
+  
+  - For Linux and Mac OS X, the archive filename ends with ``.tar.bz2``.
+
+Be sure to pick the archive that matches the characteristics of your system
+(eg. Python 2.7 vs. Python 2.6).
+
+Unpack the archive in a location of your choosing, then edit the file ``environment.bat`` (Windows) or ``environment.sh`` (Mac OS X and Linux), changing ``BASEDIR`` to the directory into which you unpacked the archive.
+
+Whenever you want to use Fabric Engine, open up a console/terminal window and then execute the environment script:
+
+  - Under Windows, run ``PATH_TO_UNPACKED_ARCHIVE\environment.bat``
+  
+  - Under Mac OS X and Linux, run ``source PATH_TO_UNPACKED_ARCHIVE/environment.sh``
+
+Test Fabric Engine
++++++++++++++++++++++++++++++++++++++
+
+The Fabric Engine installer ships with a simple application, HelloSceneGraph, that can be used to test the installation. To run HelloSceneGraph:
+
+-  On Windows:
+
+  - Open a command prompt (cmd.exe)
+
+  - Change to the Fabric Engine install directory (usually ``C:\\Program Files\\Fabric Engine`` for per-machine installs and ``C:\\Users\\<USERNAME>\\AppData\\Local\\Apps\\Fabric Engine`` for per-user installs)
+
+  - Run ``python Python\HelloFabric.py``
+
+- On CentOS, open a shell and run ``python /usr/lib64/FabricEngine/Python/HelloFabric.py``
+
+- On Mac OS X, open Terminal and run ``python /Library/FabricEngine/FABRIC_VERSION/Python/HelloFabric.py``
+
+Install Sample Applications ("Demos")
++++++++++++++++++++++++++++++++++++++
+
+From http://dist.fabric-engine.com/FabricEngine/1.11.3/, download the ``FabricEngine-1.11.3-Demos.zip`` file, which you can extract to a location of your choosing. The demos are located below the Apps subfolder of the created ``FabricEngine-Demos-1.11.3`` folder, and are identical for all platforms. These demos can be run using the python command; for example, ``python Apps/GeometryDeformation.py``.
+
+Optional: Installing Fabric Splice
++++++++++++++++++++++++++++++++++++++
+
+Once Fabric Engine has been installed, you can install Fabric Splice.  Splice downloads are available at http://dist.fabric-engine.com/FabricSplice/1.11.3/.
+
+.. _documentation-1.11.3:
+
+Documentation
+-------------
+
+Complete documentation for Fabric Engine can be :ref:`found here <TOP>`.
+
+After installing Fabric Engine, you can also find the documentation in the Start menu in Windows, the Applications menu in CentOS, and through a link in the '/Applications/FabricEngine/1.11.3' folder in Mac OS X. The documentation can also be accessed from the "Help" menu of Fabric Engine applications.
+
+.. _upgrading-apps-1.11.3:
+
+Upgrading Applications to Version 1.11.3
+----------------------------------------------------
+
+Applications written for 1.11.2 should work without modification in 1.11.3.
+
+Previous Release Notes
+----------------------
+
+- :ref:`RELNOTES-1.11.2`
+
+- :ref:`RELNOTES-1.11.0`
+
+- :ref:`RELNOTES-1.10.0`
+
+- :ref:`RELNOTES-1.9.0-beta`
+
+- :ref:`RELNOTES-1.8.0-beta`
+
+- :ref:`RELNOTES-1.7.3-beta`
+
+.. _notes-1.11.3:

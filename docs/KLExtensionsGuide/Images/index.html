@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Images エクステンション &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>Images エクステンション &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,10 +15,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.3.0',
+        VERSION:     '2.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -26,8 +27,8 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
-    <link rel="up" title="KL エクステンションガイド" href="../index.html" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" />
     <link rel="next" title="Images Extension’s Files" href="files.html" />
     <link rel="prev" title="Geometry Extension’s Free Functions" href="../Geometry/functions.html" /> 
   </head>
@@ -47,8 +48,8 @@
         <li class="right" >
           <a href="../Geometry/functions.html" title="Geometry Extension’s Free Functions"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">KL エクステンションガイド</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">KL エクステンションガイド</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -61,78 +62,30 @@
 <span id="id1"></span><h1>Images エクステンション<a class="headerlink" href="#images-extension" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <a class="reference internal image-reference" href="../../_images/FE_logo_345_60.png"><img alt="../../_images/FE_logo_345_60.png" src="../../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
 <div class="line-block">
-<div class="line">Fabric Engine version 2.3.0</div>
-<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+<div class="line">Fabric Engine version 2.4.0</div>
+<div class="line">Copyright (c) 2010-2017 Fabric Software Inc.  All rights reserved.</div>
 </div>
-<p>The Images extension is a new class to support image data in Fabric Engine.
-It will totally replace the <span class="xref std std-ref">Images</span> extension in the official new release.</p>
-<p>The Images extension defines two type of images :</p>
-<ul class="simple">
-<li>The <code class="xref std std-kl-ref docutils literal"><span class="pre">Image32Bits</span></code>, <code class="xref std std-kl-ref docutils literal"><span class="pre">Image32BitsRGBA</span></code>, <code class="xref std std-kl-ref docutils literal"><span class="pre">Image8BitsRGB</span></code> and <code class="xref std std-kl-ref docutils literal"><span class="pre">Image8BitsRGBA</span></code> classes that define 2D buffer-specialized images. They can be used to open most of the images and are suitable for texturing operations.</li>
-<li>The <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> class that defines a generic 2D or 3D image of any type (uint8, half, float) containing any numbers of channels. Most of the time, an image contains 3 or 4 channels : R,G,B (A) that define a pass, usually called the beauty or main pass. However, an image (.exr or .tiff) can have any numbers of channels, organized as passes (<a class="reference external" href="http://3drender.com/light/compositing/index.html">http://3drender.com/light/compositing/index.html</a>). The <a class="reference internal" href="ImagePasses.html#imagepasses"><span class="std std-ref">ImagePasses</span></a> allows to define and extract passes from an existing image and its pixel data is casted in 32 bits float that makes it suitable for image-processing.</li>
-</ul>
+<p>The Images extension provides a collection of types for managing pixel data. An Image2D can be loaded using the OpenImageIO extension, and then sampled using Scalar u and v coordinates.</p>
 <div class="section" id="table-of-contents">
 <h2>目次<a class="headerlink" href="#table-of-contents" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">None</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="files.html">Images Extension&#8217;s Files</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="BaseImage.kl.html">BaseImage.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BaseImagePasses.kl.html">BaseImagePasses.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ChannelsPasses.kl.html">ChannelsPasses.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CubeMap.kl.html">CubeMap.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="IPArithmetic.kl.html">IPArithmetic.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="IPBaseFilter.kl.html">IPBaseFilter.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="IPBilateralFilter.kl.html">IPBilateralFilter.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="IPComposition.kl.html">IPComposition.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="IPGaussianFilter.kl.html">IPGaussianFilter.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="IPHistogram.kl.html">IPHistogram.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="IPInterpolation.kl.html">IPInterpolation.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="IPStochastic.kl.html">IPStochastic.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="IPTransform.kl.html">IPTransform.kl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Image2D.kl.html">Image2D.kl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Image2DColor.kl.html">Image2DColor.kl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Image2DDCCConversion.kl.html">Image2DDCCConversion.kl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Image2DRGB.kl.html">Image2DRGB.kl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Image2DRGBA.kl.html">Image2DRGBA.kl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Image2DScalar.kl.html">Image2DScalar.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageBuffer.kl.html">ImageBuffer.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageColor.kl.html">ImageColor.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageFloat32.kl.html">ImageFloat32.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageFloat64.kl.html">ImageFloat64.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageOIIO.kl.html">ImageOIIO.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImagePasses.kl.html">ImagePasses.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageRGB.kl.html">ImageRGB.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageRGBA.kl.html">ImageRGBA.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageTransform.kl.html">ImageTransform.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageUInt16.kl.html">ImageUInt16.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageUInt32.kl.html">ImageUInt32.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageUInt64.kl.html">ImageUInt64.kl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageUInt8.kl.html">ImageUInt8.kl</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="types.html">Images Extension&#8217;s Types</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="BaseImage.html">BaseImage (object)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="BaseImagePasses.html">BaseImagePasses (object)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ChannelPass.html">ChannelPass (struct)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ChannelsPasses.html">ChannelsPasses (object)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CubeMap.html">CubeMap (object)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Histogram.html">Histogram (struct)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Image2D.html">Image2D (object)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Image2DColor.html">Image2DColor (object)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Image2DRGB.html">Image2DRGB (object)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Image2DRGBA.html">Image2DRGBA (object)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Image2DScalar.html">Image2DScalar (object)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageColor.html">ImageColor (object)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageFloat32.html">ImageFloat32 (object)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageFloat64.html">ImageFloat64 (object)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImagePasses.html">ImagePasses (object)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageRGB.html">ImageRGB (object)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageRGBA.html">ImageRGBA (object)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageUInt16.html">ImageUInt16 (object)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageUInt32.html">ImageUInt32 (object)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageUInt64.html">ImageUInt64 (object)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImageUInt8.html">ImageUInt8 (object)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="IntegralHistogram.html">IntegralHistogram (struct)</a></li>
 </ul>
 </li>
 </ul>
@@ -174,7 +127,7 @@ It will totally replace the <span class="xref std std-ref">Images</span> extensi
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../../_sources/KLExtensionsGuide/Images/index.txt"
+      <li><a href="../../_sources/KLExtensionsGuide/Images/index.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/Images/index.html"
               rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
@@ -183,8 +136,8 @@ It will totally replace the <span class="xref std std-ref">Images</span> extensi
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -209,13 +162,13 @@ It will totally replace the <span class="xref std std-ref">Images</span> extensi
         <li class="right" >
           <a href="../Geometry/functions.html" title="Geometry Extension’s Free Functions"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010-2016 Fabric Software Inc.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
     </div>
   </body>
 </html>

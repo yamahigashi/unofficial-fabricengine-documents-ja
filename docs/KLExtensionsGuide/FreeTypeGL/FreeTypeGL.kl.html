@@ -1,0 +1,422 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>FreeTypeGL.kl &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" />
+    <link rel="next" title="FreeTypeGL Extension’s Types" href="types.html" />
+    <link rel="prev" title="FreeTypeGL Extension’s Files" href="files.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="types.html" title="FreeTypeGL Extension’s Types"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="FreeTypeGL Extension’s Files"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >FreeTypeGL Extension</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" accesskey="U">FreeTypeGL Extension&#8217;s Files</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="freetypegl-freetypegl-kl">
+<span id="freetypegl-kl"></span><span id="id1"></span><h1>FreeTypeGL.kl<a class="headerlink" href="#freetypegl-freetypegl-kl" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><div class="section" id="freetypeatlas-object">
+<h3>FreeTypeAtlas (object)<a class="headerlink" href="#freetypeatlas-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">バージョン 2.4.0 で追加.</span></p>
+</div>
+<p class="plaintext"><a class="reference internal" href="FreeTypeGL.html#freetypegl"><span class="std std-ref">FreeTypeGL</span></a> extension wraps the C++ freeType-gl library in KL to draw in OpenGL 2D primitives such as text or lines.
+<a class="reference external" href="https://github.com/rougier/freetype-gl">https://github.com/rougier/freetype-gl</a></p>
+<p class="plaintext">Because the <a class="reference internal" href="FreeTypeGL.html#freetypegl"><span class="std std-ref">FreeTypeGL</span></a> extension can be used with any OpenGL version/implementation, it doesn&#8217;t expose freeType-gl high level api.
+Indeed, freeType-gl relies on OpenGL 1.2, and the managment of the OpenGL buffers (insertion/push) is limited.
+Instead, the <a class="reference internal" href="FreeTypeGL.html#freetypegl"><span class="std std-ref">FreeTypeGL</span></a> extension exposes the low level methods, and OpenGL calls (such as buffer binding)   are left to specialized classes.
+See <a class="reference internal" href="../Text/BaseTextGL.html#basetextgl"><span class="std std-ref">BaseTextGL</span></a>, <code class="xref std std-kl-ref docutils literal"><span class="pre">BaseAtlasGL</span></code> for a complete examples.</p>
+<div class="section" id="members">
+<h4>Members<a class="headerlink" href="#members" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="39%" />
+<col width="16%" />
+<col width="44%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>fontPath</td>
+<td>Path of the used font.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td>glyphs</td>
+<td>List of glyphs character.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="8%" />
+<col width="92%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id117751"><span class="std std-ref">FreeTypeAtlas</span></a>  ( in <a class="reference internal" href="FreeTypeAtlas.html#freetypeatlas"><span class="std std-ref">FreeTypeAtlas</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id117748"><span class="std std-ref">FreeTypeAtlas</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id50972"><span class="std std-ref">clear</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="FreeTypeAtlas.html#freetypeatlas"><span class="std std-ref">FreeTypeAtlas</span></a></td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id117755"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id50942"><span class="std std-ref">createAtlas</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> width, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> height )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id50975"><span class="std std-ref">createFont</span></a> ! ( in <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> size, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> path )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id50989"><span class="std std-ref">createGlyphs</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> glyphs )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id50980"><span class="std std-ref">fontIsValid</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id50968"><span class="std std-ref">getData</span></a> ? ( io <a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a> data )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id50963"><span class="std std-ref">getDimensions</span></a> ? ( io <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> width, io <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> height )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id50986"><span class="std std-ref">getFontPath</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a></td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id50983"><span class="std std-ref">getFontSize</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a></td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id51001"><span class="std std-ref">getGlyphAdvance</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> glyph )</td>
+</tr>
+<tr class="row-even"><td>Boolean</td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id51021"><span class="std std-ref">getGlyphAttributes</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> current, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> previous, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> kerning, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> advance, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> ox, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> oy, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> width, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> height, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> s0, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> s1, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> t0, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> t1 )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id51005"><span class="std std-ref">getGlyphDimension</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> glyph, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> oX, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> oY, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> width, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> height )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a></td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id50996"><span class="std std-ref">getGlyphKerning</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> current, in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> previous )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id51013"><span class="std std-ref">getGlyphTextureIndices</span></a> ? ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> glyph, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> s0, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> s1, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> t0, io <a class="reference internal" href="../Math/Float32.html#float32"><span class="std std-ref">Float32</span></a> t1 )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a></td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id50993"><span class="std std-ref">getGlyphs</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id50956"><span class="std std-ref">getTextureID</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id50939"><span class="std std-ref">init</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id50953"><span class="std std-ref">isValid</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id50959"><span class="std std-ref">setTextureID</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> id )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeAtlas.html#id50950"><span class="std std-ref">~FreeTypeAtlas</span></a>  ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+<p><div class="section" id="freetypegl-object">
+<h3>FreeTypeGL (object)<a class="headerlink" href="#freetypegl-object" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id2">
+<h4>Members<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<table border="1" class="paramtable docutils">
+<colgroup>
+<col width="30%" />
+<col width="23%" />
+<col width="47%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>indexSize</td>
+<td>Size of the index.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>vertexSize</td>
+<td>Size of the vertex.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>maxVerticesCount</td>
+<td>Number max of vertices per element.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td>elementCount</td>
+<td>Number of element to draw.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id3">
+<h4>Methods<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><table border="1" class="methodtable docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id117761"><span class="std std-ref">FreeTypeGL</span></a>  ( in <a class="reference internal" href="FreeTypeGL.html#freetypegl"><span class="std std-ref">FreeTypeGL</span></a> other )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id117758"><span class="std std-ref">FreeTypeGL</span></a>  ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51084"><span class="std std-ref">allocAndSetVerticesSize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> elementCount, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> maxVerticesCount )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51079"><span class="std std-ref">allocVertices</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> elementCount, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> maxVerticesCount )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51089"><span class="std std-ref">clearVertices</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="FreeTypeGL.html#freetypegl"><span class="std std-ref">FreeTypeGL</span></a></td>
+<td><a class="reference internal" href="FreeTypeGL.html#id117765"><span class="std std-ref">clone</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51072"><span class="std std-ref">createVertices</span></a> ! ( in <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> attributes, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> mode, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> vertexSize, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> indexSize )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51051"><span class="std std-ref">delete</span></a> ! ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/SInt32.html#sint32"><span class="std std-ref">SInt32</span></a></td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51177"><span class="std std-ref">getAttributeIndex</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51172"><span class="std std-ref">getAttributeName</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, io <a class="reference internal" href="../Util/String.html#string"><span class="std std-ref">String</span></a> name )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51202"><span class="std std-ref">getAttributePointer</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, io <a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a> data )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51194"><span class="std std-ref">getAttributeSize</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51198"><span class="std std-ref">getAttributeStride</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51186"><span class="std std-ref">getAttributeType</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51069"><span class="std std-ref">getElementCount</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51127"><span class="std std-ref">getGPUISize</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51124"><span class="std std-ref">getGPUVSize</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51060"><span class="std std-ref">getIndexSize</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51168"><span class="std std-ref">getIndicesData</span></a> ? ( io <a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a> data )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51141"><span class="std std-ref">getIndicesID</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51066"><span class="std std-ref">getMaxVerticesCount</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51114"><span class="std std-ref">getMode</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51155"><span class="std std-ref">getNumberIndices</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51161"><span class="std std-ref">getNumberIndicesItems</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51152"><span class="std std-ref">getNumberVertices</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51158"><span class="std std-ref">getNumberVerticesItems</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51117"><span class="std std-ref">getState</span></a> ? ()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51063"><span class="std std-ref">getVertexSize</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51164"><span class="std std-ref">getVerticesData</span></a> ? ( io <a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a> data )</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a></td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51138"><span class="std std-ref">getVerticesID</span></a> ? ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51048"><span class="std std-ref">init</span></a> ! ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51103"><span class="std std-ref">insertVerticesList</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> verticesCount, in <a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a> vertices, in <a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a> indices )</td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51190"><span class="std std-ref">isAttributeNormalized</span></a> ? ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51092"><span class="std std-ref">pushVertices</span></a> ! ( in <a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a> vertices, in <a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a> indices )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51097"><span class="std std-ref">pushVerticesList</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> verticesCount, in <a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a> vertices, in <a class="reference internal" href="../Util/Data.html#data"><span class="std std-ref">Data</span></a> indices )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51181"><span class="std std-ref">setAttributeIndex</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> index, in <a class="reference internal" href="../Math/SInt32.html#sint32"><span class="std std-ref">SInt32</span></a> attrIndex )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51134"><span class="std std-ref">setGPUISize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51130"><span class="std std-ref">setGPUVSize</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> size )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51148"><span class="std std-ref">setIndicesID</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> id )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51110"><span class="std std-ref">setMode</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> mode )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51120"><span class="std std-ref">setState</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> state )</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51144"><span class="std std-ref">setVerticesID</span></a> ! ( in <a class="reference internal" href="../Math/UInt32.html#uint32"><span class="std std-ref">UInt32</span></a> id )</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="FreeTypeGL.html#id51057"><span class="std std-ref">~FreeTypeGL</span></a>  ()</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</p>
+</div>
+</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/FE_logo_211_37.png" alt="Logo"/>
+            </a></p>
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="files.html"
+                        title="前の章へ">FreeTypeGL Extension&#8217;s Files</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="types.html"
+                        title="次の章へ">FreeTypeGL Extension&#8217;s Types</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/KLExtensionsGuide/FreeTypeGL/FreeTypeGL.kl.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLExtensionsGuide/FreeTypeGL/FreeTypeGL.html"
+              rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Pythonモジュール索引"
+             >モジュール</a> |</li>
+        <li class="right" >
+          <a href="types.html" title="FreeTypeGL Extension’s Types"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="FreeTypeGL Extension’s Files"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >KL エクステンションガイド</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >FreeTypeGL Extension</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="files.html" >FreeTypeGL Extension&#8217;s Files</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
+    </div>
+  </body>
+</html>

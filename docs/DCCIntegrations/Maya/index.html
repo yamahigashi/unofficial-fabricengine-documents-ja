@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Fabric for Maya &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>Fabric for Maya &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,10 +15,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.3.0',
+        VERSION:     '2.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -26,10 +27,10 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../../index.html" />
-    <link rel="up" title="Fabric Engine DCC 統合" href="../index.html" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" />
     <link rel="next" title="はじめに" href="intro.html" />
-    <link rel="prev" title="Splice KL Tips" href="../KLTips/index.html" /> 
+    <link rel="prev" title="Canvas inside of 3ds Max" href="../3dsmax/canvas.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -45,10 +46,10 @@
           <a href="intro.html" title="はじめに"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="../KLTips/index.html" title="Splice KL Tips"
+          <a href="../3dsmax/canvas.html" title="Canvas inside of 3ds Max"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Fabric Engine DCC 統合</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Fabric Engine DCC 統合</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -61,8 +62,8 @@
 <span id="maya"></span><h1>Fabric for Maya<a class="headerlink" href="#fabric-for-maya" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <a class="reference internal image-reference" href="../../_images/FE_logo_345_60.png"><img alt="../../_images/FE_logo_345_60.png" src="../../_images/FE_logo_345_60.png" style="width: 345px; height: 60px;" /></a>
 <div class="line-block">
-<div class="line">Fabric Engine version 2.3.0</div>
-<div class="line">Copyright (c) 2010-2016, Fabric Software Inc.  All rights reserved.</div>
+<div class="line">Fabric Engine version 2.4.0</div>
+<div class="line">Copyright (c) 2010-2017 Fabric Software Inc.  All rights reserved.</div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
@@ -77,6 +78,7 @@
 <div class="section" id="table-of-contents">
 <h2>目次<a class="headerlink" href="#table-of-contents" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">None</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">はじめに</a></li>
 <li class="toctree-l1"><a class="reference internal" href="canvas.html">Maya内部のCanvas</a><ul>
@@ -94,6 +96,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="canvasscripting.html">Canvasスクリプティング・インターフェース</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="canvasscripting.html#fabriccanvasgetfabricversion">FabricCanvasGetFabricVersion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="canvasscripting.html#fabriccanvasaddbackdrop">FabricCanvasAddBackDrop</a></li>
 <li class="toctree-l2"><a class="reference internal" href="canvasscripting.html#fabriccanvasaddblock">FabricCanvasAddBlock</a></li>
 <li class="toctree-l2"><a class="reference internal" href="canvasscripting.html#fabriccanvasaddblockport">FabricCanvasAddBlockPort</a></li>
@@ -130,12 +133,24 @@
 <li class="toctree-l2"><a class="reference internal" href="canvasscripting.html#fabriccanvassetrefvarpath">FabricCanvasSetRefVarPath</a></li>
 <li class="toctree-l2"><a class="reference internal" href="canvasscripting.html#fabriccanvassplitfrompreset">FabricCanvasSplitFromPreset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="canvasscripting.html#fabriccanvasdismissloaddiags">FabricCanvasDismissLoadDiags</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvasscripting.html#fabriccanvasgetexecuteshared">FabricCanvasGetExecuteShared</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvasscripting.html#fabriccanvassetexecuteshared">FabricCanvasSetExecuteShared</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvasscripting.html#dfgimportjson">dfgImportJSON</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvasscripting.html#dfgexportjson">dfgExportJSON</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvasscripting.html#dfgreloadjson">dfgReloadJSON</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="m2016.html">Using Fabric for Maya with Maya 2016</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="m2016.html#enabling-parallel-evaluation-for-canvas-nodes">Canvasノードの並列評価の有効化</a></li>
 <li class="toctree-l2"><a class="reference internal" href="m2016.html#enabling-parallel-evaluation-for-splice-nodes">Spliceノードの並列評価の有効化</a></li>
 <li class="toctree-l2"><a class="reference internal" href="m2016.html#enabling-shared-execution-by-default">共有実行を標準で有効にする</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="other.html">Other Goodies in Fabric for Maya</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="other.html#the-fabricconstraint-node">The &#8220;FabricConstraint&#8221; node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="other.html#the-canvasfuncnode-node">The &#8220;CanvasFuncNode&#8221; node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="other.html#the-canvasfuncdeformer-node">The &#8220;CanvasFuncDeformer&#8221; node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="other.html#the-enableevalcontext-hidden-attribute">The &#8220;enableEvalContext&#8221; hidden attribute</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pre-2.0.html">Using the Splice Maya plugin (legacy)</a><ul>
@@ -187,15 +202,15 @@
 </ul>
 
   <h4>前のトピックへ</h4>
-  <p class="topless"><a href="../KLTips/index.html"
-                        title="前の章へ">Splice KL Tips</a></p>
+  <p class="topless"><a href="../3dsmax/canvas.html"
+                        title="前の章へ">Canvas inside of 3ds Max</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="intro.html"
                         title="次の章へ">はじめに</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../../_sources/DCCIntegrations/Maya/index.txt"
+      <li><a href="../../_sources/DCCIntegrations/Maya/index.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/DCCIntegrations/Maya/index.html"
               rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
@@ -204,8 +219,8 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -228,15 +243,15 @@
           <a href="intro.html" title="はじめに"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="../KLTips/index.html" title="Splice KL Tips"
+          <a href="../3dsmax/canvas.html" title="Canvas inside of 3ds Max"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Fabric Engine DCC 統合</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010-2016 Fabric Software Inc.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
     </div>
   </body>
 </html>

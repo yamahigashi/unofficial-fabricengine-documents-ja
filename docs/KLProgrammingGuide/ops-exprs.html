@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>演算子・式 &mdash; Fabric Engine 2.3.0 Unofficial Documentation (ja)</title>
+    <title>演算子・式 &#8212; Fabric Engine 2.4.0 Unofficial Documentation (ja)</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,10 +15,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.3.0',
+        VERSION:     '2.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -26,9 +27,9 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Fabric Engine 2.3.0 Unofficial Documentation (ja)" href="../index.html" />
-    <link rel="up" title="KL プログラミングガイド" href="index.html" />
-    <link rel="next" title="文（Statements）" href="statements.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="Scopes and Namespaces" href="scopes-namespaces.html" />
     <link rel="prev" title="関数と他のグローバルな宣言" href="globals.html" /> 
   </head>
   <body role="document">
@@ -42,13 +43,13 @@
           <a href="../py-modindex.html" title="Pythonモジュール索引"
              >モジュール</a> |</li>
         <li class="right" >
-          <a href="statements.html" title="文（Statements）"
+          <a href="scopes-namespaces.html" title="Scopes and Namespaces"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
           <a href="globals.html" title="関数と他のグローバルな宣言"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">KL プログラミングガイド</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">KL プログラミングガイド</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -189,7 +190,7 @@
 <span id="simple-exprs"></span><h3>単純式<a class="headerlink" href="#simple-expressions" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>単純式 <em class="dfn">Simple expressions</em> とはより複雑な式を導出するためのものです。単純式とは：</p>
 <ul class="simple">
-<li><p class="first">変数を参照するシンボルであり、関数の引数であり、あるいは定数であります。単純式の型は、参照するデータの実態（entity）の型となります。例：: <code class="docutils literal"><span class="pre">foo</span></code>, <code class="docutils literal"><span class="pre">myParam</span></code>, <code class="docutils literal"><span class="pre">mathPI</span></code>.   シンボルがどのように解決されるかは <a class="reference internal" href="#scope"><span class="std std-ref">スコープ規則</span></a> を参照してください。</p>
+<li><p class="first">変数を参照するシンボルであり、関数の引数であり、あるいは定数であります。単純式の型は、参照するデータの実態（entity）の型となります。例：: <code class="docutils literal"><span class="pre">foo</span></code>, <code class="docutils literal"><span class="pre">myParam</span></code>, <code class="docutils literal"><span class="pre">mathPI</span></code>.   シンボルがどのように解決されるかは <a class="reference internal" href="scopes-namespaces.html#scope"><span class="std std-ref">Scoping Rules</span></a> を参照してください。</p>
 </li>
 <li><p class="first">Boolean, integer, floating-point, string 定数。この単純式の方は、すなわち定数の型です。例：: <code class="docutils literal"><span class="pre">true</span></code>, <code class="docutils literal"><span class="pre">42</span></code>, <code class="docutils literal"><span class="pre">3.14159</span></code>, <code class="docutils literal"><span class="pre">FILE</span></code>, <code class="docutils literal"><span class="pre">LINE</span></code>.  <a class="reference internal" href="syntax.html#literal-constants"><span class="std std-ref">定数</span></a> を参照してください。</p>
 </li>
@@ -391,36 +392,6 @@
 </div>
 </div>
 </div>
-<div class="section" id="scoping-rules">
-<span id="scope"></span><h2>スコープ規則<a class="headerlink" href="#scoping-rules" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>プログラミング言語におけるスコープ  <em class="dfn">scope</em> という用語は、プログラム中において変数・定数・関数が可視となる部分のこと指します。スコープがどのように機能するかの規則を、スコープ規則 <em class="dfn">scoping rules</em> と呼びます。また、スコープには変数の「ライフサイクル」を管理する役割があります。KLにおいては構造体の値に対するデストラクタの呼び出しの際参照されます。</p>
-<div class="section" id="types-of-scopes">
-<h3>スコープの種類<a class="headerlink" href="#types-of-scopes" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>KLには４種類のスコープが存在します。グローバルスコープ・関数スコープ・複雑文スコープ・一時スコープです。スコープはそれぞれの内に、ネスト <em class="dfn">nest</em> 可能です。KLプログラムが名前により変数を参照する際、コンパイラはどの変数が参照されているかを、現在のスコープから外側のスコープ（一番外側のスコープは通常グローバルスコープです）へと向かって探索し決定します。C言語どうよう、KLは静的スコープ ―― つまり参照されるその変数はコンパイル時（実行時ではない）に解決されていることを意味します。</p>
-<div class="section" id="the-global-scope">
-<span id="index-0"></span><h4>グローバルスコープ<a class="headerlink" href="#the-global-scope" title="このヘッドラインへのパーマリンク">¶</a></h4>
-<p>グローバルスコープは、KLプログラムの最上位のスコープです。グローバルスコープにおいて可視である変数シンボルは、グローバル定数となります。関数やオペレータも同様です。グローバルスコープは常に、KLプログラム中のどこからでも最外側のスコープとなります。</p>
-</div>
-<div class="section" id="function-scope">
-<span id="index-1"></span><h4>関数スコープ<a class="headerlink" href="#function-scope" title="このヘッドラインへのパーマリンク">¶</a></h4>
-<p>関数、あるいは関数リストエンティティが定義されると、関数スコープがグローバルスコープ内にネストして作成されます。関数への引数は関数スコープ内へと提供されます。関数スコープ内では、また、関数定義により関数本体を構成する複合文に対応した、複合文スコープを作成します。</p>
-</div>
-<div class="section" id="compound-statement-scope">
-<span id="scope-compound-statement"></span><span id="index-2"></span><h4>複合文スコープ<a class="headerlink" href="#compound-statement-scope" title="このヘッドラインへのパーマリンク">¶</a></h4>
-<p><code class="docutils literal"><span class="pre">{</span></code> とそれに続く０個以上の文と <code class="docutils literal"><span class="pre">}</span></code> により、複合文と、新しい複合文スコープ <em class="dfn">compound statement scope</em> を導入します。（この複合文スコープが関数本体を構成する複合文にピッタリ対応する場合）そのスコープは、関数スコープ内にネストします。</p>
-<p>複合文の終端に制御が達する ―最後の文が実行されるか <code class="docutils literal"><span class="pre">return</span></code>, <code class="docutils literal"><span class="pre">break</span></code> or <code class="docutils literal"><span class="pre">continue</span></code> を通じて― と、対応するデストラクタを持つすべての構造体の値はデストラクタを実行します。</p>
-<p>ループ文内部において、ループインデックス変数を宣言は、複合文スコープの特殊なケースであることに注意が必要です。この場合、ループ本体が複合文であり、複合文スコープの対応はループの複合文内部にネストされます。</p>
-</div>
-<div class="section" id="temporary-scope">
-<span id="index-3"></span><h4>一時スコープ<a class="headerlink" href="#temporary-scope" title="このヘッドラインへのパーマリンク">¶</a></h4>
-<p>コンストラクタが直接呼ばれ、一時的な値が作成される場合（ <a class="reference internal" href="globals.html#klpg-constructor-invocation-temporary"><span class="std std-ref">一時初期化</span></a> を参照）は常に、一時的な値を含むスコープが作成されます。このスコープは、その一時的な値を含む式をさらに包みます。つまり、その式の実行が終了すると、その一時的な値のデストラクタが（存在すれば）実行されることを意味します。</p>
-</div>
-</div>
-<div class="section" id="nested-scopes-example">
-<h3>ネストしたスコープの例<a class="headerlink" href="#nested-scopes-example" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>KLでのスコープのネストを正確に理解するため、以下の例に慎重に学んでください。</p>
-</div>
-</div>
 </div>
 
 
@@ -474,17 +445,6 @@
 <li><a class="reference internal" href="#controlling-order-of-operations">操作順の制御</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#scoping-rules">スコープ規則</a><ul>
-<li><a class="reference internal" href="#types-of-scopes">スコープの種類</a><ul>
-<li><a class="reference internal" href="#the-global-scope">グローバルスコープ</a></li>
-<li><a class="reference internal" href="#function-scope">関数スコープ</a></li>
-<li><a class="reference internal" href="#compound-statement-scope">複合文スコープ</a></li>
-<li><a class="reference internal" href="#temporary-scope">一時スコープ</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#nested-scopes-example">ネストしたスコープの例</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -493,12 +453,12 @@
   <p class="topless"><a href="globals.html"
                         title="前の章へ">関数と他のグローバルな宣言</a></p>
   <h4>次のトピックへ</h4>
-  <p class="topless"><a href="statements.html"
-                        title="次の章へ">文（Statements）</a></p>
+  <p class="topless"><a href="scopes-namespaces.html"
+                        title="次の章へ">Scopes and Namespaces</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/KLProgrammingGuide/ops-exprs.txt"
+      <li><a href="../_sources/KLProgrammingGuide/ops-exprs.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     <li><a href="http://docs.fabric-engine.com/FabricEngine/latest/HTML/KLProgrammingGuide/ops-exprs.html"
               rel="nofollow">原文公式ページへ移動 (goto official page)</a></li>
@@ -507,8 +467,8 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -528,18 +488,18 @@
           <a href="../py-modindex.html" title="Pythonモジュール索引"
              >モジュール</a> |</li>
         <li class="right" >
-          <a href="statements.html" title="文（Statements）"
+          <a href="scopes-namespaces.html" title="Scopes and Namespaces"
              >次へ</a> |</li>
         <li class="right" >
           <a href="globals.html" title="関数と他のグローバルな宣言"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.3.0 Unofficial Documentation (ja)</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" >KL プログラミングガイド</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Fabric Engine 2.4.0 Unofficial Documentation (ja)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >KL プログラミングガイド</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010-2016 Fabric Software Inc.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+        &#169; Copyright 2010-2017 Fabric Software Inc.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1 で生成しました。
     </div>
   </body>
 </html>
