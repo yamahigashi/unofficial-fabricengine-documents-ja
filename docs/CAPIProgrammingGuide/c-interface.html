@@ -90,10 +90,8 @@ void <code class="descname">FEC_EnableDebug</code><span class="sig-paren">(</spa
 <h3>参照カウントされるオブジェクト<a class="headerlink" href="#reference-counted-objects" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Cインタフェースにある「高レベルオブジェクト」は全て参照カウントされます。以下を含みます：</p>
 <ul class="simple">
-<li><p class="first">Clients (<a class="reference internal" href="clients.html#c.FEC_ClientRef" title="FEC_ClientRef"><code class="xref c c-type docutils literal"><span class="pre">FEC_ClientRef</span></code></a>; <a class="reference internal" href="clients.html#clients"><span class="std std-ref">クライアントとアプリケーションの生存サイクル</span></a> 参照)</p>
-</li>
-<li><p class="first">Nodes, Operators, Bindings, Events, EventHandlers (<code class="xref c c-type docutils literal"><span class="pre">FEC_NodeRef</span></code>, <code class="xref c c-type docutils literal"><span class="pre">FEC_BindingRef</span></code>, etc.;  <span class="xref std std-ref">dg-objects</span> 参照)</p>
-</li>
+<li>Clients (<a class="reference internal" href="clients.html#c.FEC_ClientRef" title="FEC_ClientRef"><code class="xref c c-type docutils literal"><span class="pre">FEC_ClientRef</span></code></a>; <a class="reference internal" href="clients.html#clients"><span class="std std-ref">クライアントとアプリケーションの生存サイクル</span></a> 参照)</li>
+<li>Nodes, Operators, Bindings, Events, EventHandlers (<code class="xref c c-type docutils literal"><span class="pre">FEC_NodeRef</span></code>, <code class="xref c c-type docutils literal"><span class="pre">FEC_BindingRef</span></code>, etc.;  <span class="xref std std-ref">dg-objects</span> 参照)</li>
 </ul>
 <p>参照カウントされるオブジェクトは全て、型 <a class="reference internal" href="#c.FEC_Ref" title="FEC_Ref"><code class="xref c c-type docutils literal"><span class="pre">FEC_Ref</span></code></a> の基本オブジェクトの 『インスタンス』です。さらに名前末尾に <code class="docutils literal"><span class="pre">Ref</span></code> と付与されています。参照カウントされるオブジェクトは常に、 <em>Create</em> あるいは <em>CreateWith...</em> (例 <a class="reference internal" href="clients.html#c.FEC_ClientCreate" title="FEC_ClientCreate"><code class="xref c c-func docutils literal"><span class="pre">FEC_ClientCreate()</span></code></a>) とつけ作成します。不要になったのであればそのオブジェクトの <a class="reference internal" href="#c.FEC_RefRelease" title="FEC_RefRelease"><code class="xref c c-func docutils literal"><span class="pre">FEC_RefRelease()</span></code></a> 関数をプログラマの責務として呼びだします。実行時の <a class="reference internal" href="#c.FEC_RefRelease" title="FEC_RefRelease"><code class="xref c c-func docutils literal"><span class="pre">FEC_RefRelease()</span></code></a> 呼び出し失敗は、全参照カウントオブジェクトはメモリ、リソースリークを引き起こします。</p>
 <div class="section" id="api-reference">
@@ -138,8 +136,7 @@ int <code class="descname">FEC_RefIsNull</code><span class="sig-paren">(</span><
 <p>Variants は常に <code class="docutils literal"><span class="pre">FEC_VariantInit...</span></code> ではじまる呼び出しを使用し作成します。同様 <code class="docutils literal"><span class="pre">FEC_VariantDispose()</span></code> ではじまる呼び出しにより（必要なくなったら）破棄します。参照カウントオブジェクトと同じように不要となったら必ず <code class="docutils literal"><span class="pre">FEC_VariantDispose</span></code> を呼びます。さもないとメモリ、リソースリークをひきおこします。</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">このルールに特記すべき例外はありません: variant が nullである場合（つまり <code class="docutils literal"><span class="pre">FEC_VariantIsNull()</span></code> が true を返す）のであれば、<code class="docutils literal"><span class="pre">FEC_VariantDispose</span></code> を呼ぶ必要はありません。（まだ安全ではあります）エラーハンドリングのコードを単純化できます。</p>
-</div>
+このルールに特記すべき例外はありません: variant が nullである場合（つまり <code class="docutils literal"><span class="pre">FEC_VariantIsNull()</span></code> が true を返す）のであれば、<code class="docutils literal"><span class="pre">FEC_VariantDispose</span></code> を呼ぶ必要はありません。（まだ安全ではあります）エラーハンドリングのコードを単純化できます。</div>
 </div>
 <div class="section" id="error-handling">
 <span id="capi-c-interface-error-handling"></span><h3>エラーハンドリング<a class="headerlink" href="#error-handling" title="このヘッドラインへのパーマリンク">¶</a></h3>
@@ -153,8 +150,7 @@ char const *<code class="descname">FEC_GetLastExceptionCString</code><span class
 <dd><p>最終例外を C文字列として戻す, 例外が存在しないのであれば NULL を返す.</p>
 <div class="admonition warning">
 <p class="first admonition-title">警告</p>
-<p class="last">この関数が返す値は, コール後大半の CAPI関数 ― <a class="reference internal" href="#c.FEC_ClearLastException" title="FEC_ClearLastException"><code class="xref c c-func docutils literal"><span class="pre">FEC_ClearLastException()</span></code></a> を含むで非値（つまりなくなる）となる.</p>
-</div>
+この関数が返す値は, コール後大半の CAPI関数 ― <a class="reference internal" href="#c.FEC_ClearLastException" title="FEC_ClearLastException"><code class="xref c c-func docutils literal"><span class="pre">FEC_ClearLastException()</span></code></a> を含むで非値（つまりなくなる）となる.</div>
 </dd></dl>
 
 <dl class="function">
@@ -169,8 +165,7 @@ void <code class="descname">FEC_ClearLastException</code><span class="sig-paren"
 <dd><p>最終例外をクリアする. <a class="reference internal" href="#c.FEC_GetLastExceptionCString" title="FEC_GetLastExceptionCString"><code class="xref c c-func docutils literal"><span class="pre">FEC_GetLastExceptionCString()</span></code></a> は NULL を返す. 最終例外がないのであれば何もなさない.</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">この関数の呼び出し後は <a class="reference internal" href="#c.FEC_GetLastExceptionCString" title="FEC_GetLastExceptionCString"><code class="xref c c-func docutils literal"><span class="pre">FEC_GetLastExceptionCString()</span></code></a> の返す値は無効(invalid)なものとなる.</p>
-</div>
+この関数の呼び出し後は <a class="reference internal" href="#c.FEC_GetLastExceptionCString" title="FEC_GetLastExceptionCString"><code class="xref c c-func docutils literal"><span class="pre">FEC_GetLastExceptionCString()</span></code></a> の返す値は無効(invalid)なものとなる.</div>
 </dd></dl>
 
 </div>

@@ -109,8 +109,7 @@
 <p>これらのユーティリティ関数は APIラッピングのキーコンポーネントとなります。可能な限り単純に, しかも効率的にすべきです。なぜなら、メソッドの引数を 『KLから C++ API型へ』マップするためこのユーティリティ関数を使用するため、一度のグラフ評価のたびに大量に呼ばれる可能性があるためです。</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">KL型のメモリレイアウトと、C++ APIの型のメモリレイアウトが一致すると保証されている状況では、KL型はC++型へと単純にキャストすることができます。 <a class="reference internal" href="kl2edk.html#eag-kl2edk"><span class="std std-ref">kl2edk ユーティリティ</span></a> ユーティリティを使い、生成されたヘッダファイルをチェックし、KL型のメモリレイアウトが完全に一致するか検証できます。 <a class="reference internal" href="kl2edk.html#eag-kl2edk"><span class="std std-ref">kl2edk ユーティリティ</span></a> 参照</p>
-</div>
+KL型のメモリレイアウトと、C++ APIの型のメモリレイアウトが一致すると保証されている状況では、KL型はC++型へと単純にキャストすることができます。 <a class="reference internal" href="kl2edk.html#eag-kl2edk"><span class="std std-ref">kl2edk ユーティリティ</span></a> ユーティリティを使い、生成されたヘッダファイルをチェックし、KL型のメモリレイアウトが完全に一致するか検証できます。 <a class="reference internal" href="kl2edk.html#eag-kl2edk"><span class="std std-ref">kl2edk ユーティリティ</span></a> 参照</div>
 </div>
 <div class="section" id="mapping-classes-to-objects">
 <h2>Class から Object へのマッピング<a class="headerlink" href="#mapping-classes-to-objects" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -192,8 +191,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">C++のクラスで、渡された配列の値をデータの取り出しのみに使うのであれば、コールスタックが抜け次第、その配列を安全に破棄することができます。もしC++ API クラスでこの配列へのポインタを保持しているのであれば、その配列に関連づいたメモリを、KLオブジェクトから参照しなければなりません。クラスが破棄される前に、その配列が解放されてしまうことがないようにするためです。換言すると、KL中からのその配列への参照により、KLクラスが破棄される前に、その配列が KL により開放されないようにすることができます。C++クラスが、どこか他の場所に割当てられたメモリに依存しているのであれば常に、KLからのそのデータへの参照も設定しなければなりません。 <a class="reference internal" href="#managing-data-ownership-and-bidirectional-relationships">データの所有権と双方向の関係を管理するには</a> を参照してください。</p>
-</div>
+C++のクラスで、渡された配列の値をデータの取り出しのみに使うのであれば、コールスタックが抜け次第、その配列を安全に破棄することができます。もしC++ API クラスでこの配列へのポインタを保持しているのであれば、その配列に関連づいたメモリを、KLオブジェクトから参照しなければなりません。クラスが破棄される前に、その配列が解放されてしまうことがないようにするためです。換言すると、KL中からのその配列への参照により、KLクラスが破棄される前に、その配列が KL により開放されないようにすることができます。C++クラスが、どこか他の場所に割当てられたメモリに依存しているのであれば常に、KLからのそのデータへの参照も設定しなければなりません。 <a class="reference internal" href="#managing-data-ownership-and-bidirectional-relationships">データの所有権と双方向の関係を管理するには</a> を参照してください。</div>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">A</span><span class="p">.</span><span class="nx">setWeights</span><span class="p">(</span><span class="nx">Vec3</span> <span class="nx">weights</span><span class="p">[]){</span>
    <span class="k">this</span><span class="p">.</span><span class="nx">__weights</span> <span class="o">=</span> <span class="nx">weights</span><span class="p">;</span>
    <span class="k">this</span><span class="p">.</span><span class="nx">__setWeights</span><span class="p">(</span><span class="nx">weights</span><span class="p">);</span>
@@ -203,8 +201,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">組み込みの Bulletエクステンションでは、Bullet APIをこのように高レベルにラッピングしたものを実装しています。したがって KLの配列を、C++ API ではポインタとカウントが渡されるべきメソッドへと渡すことが可能となっています。提供されているBulletエクステンションのソースコードをご覧頂き、どのようにこれらが実装されているかの参考にしてください。</p>
-</div>
+組み込みの Bulletエクステンションでは、Bullet APIをこのように高レベルにラッピングしたものを実装しています。したがって KLの配列を、C++ API ではポインタとカウントが渡されるべきメソッドへと渡すことが可能となっています。提供されているBulletエクステンションのソースコードをご覧頂き、どのようにこれらが実装されているかの参考にしてください。</div>
 </div>
 <div class="section" id="mapping-class-hierarchies">
 <h3>クラス階層のマッピング<a class="headerlink" href="#mapping-class-hierarchies" title="このヘッドラインへのパーマリンク">¶</a></h3>
@@ -271,8 +268,7 @@
 <p>とくに深いクラス階層では、多数のインタフェースが必要となります。継承チェーンを通じ公開する全publicメソッドは、leafオブジェクトによって直接実装する必要があります。。</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">継承OKなKLオブジェクトの完全なサポートは、これらかのリリースに予定されています。C++階層のマッピングをより簡便にします。</p>
-</div>
+継承OKなKLオブジェクトの完全なサポートは、これらかのリリースに予定されています。C++階層のマッピングをより簡便にします。</div>
 </div>
 <div class="section" id="managing-data-ownership-and-bidirectional-relationships">
 <h3>データの所有権と双方向の関係を管理するには<a class="headerlink" href="#managing-data-ownership-and-bidirectional-relationships" title="このヘッドラインへのパーマリンク">¶</a></h3>

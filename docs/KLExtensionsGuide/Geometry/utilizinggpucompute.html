@@ -69,8 +69,8 @@
 </div>
 <div class="section" id="polygonmesh">
 <span id="polygonmeshcomponents"></span><h2>ポリゴンメッシュ<a class="headerlink" href="#polygonmesh" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p><a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> は、GPU上へ移動しGPUコンピュートカーネルに渡すことができる <a class="reference internal" href="PolygonMeshTopology.html#polygonmeshtopology"><span class="std std-ref">PolygonMeshTopology</span></a> 型の &#8216;topology&#8217; と呼ばれるメンバーを所有しています。</p>
-<p><a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> をGPUカーネルで使用する前に、そのトポロジーデータをGPUに移動する必要があります。ジオメトリが所有する各 :kl-ref:<a href="#id1"><span class="problematic" id="id2">`</span></a>GeometryAttribute&#8217; もまた使用する前にGPUに個別に移動する必要があります。</p>
+<p><a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> は、GPU上へ移動しGPUコンピュートカーネルに渡すことができる <a class="reference internal" href="PolygonMeshTopology.html#polygonmeshtopology"><span class="std std-ref">PolygonMeshTopology</span></a> 型の &#8216;topology&#8217; と呼ばれるメンバーを所有しています。</p>
+<p><a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> をGPUカーネルで使用する前に、そのトポロジーデータをGPUに移動する必要があります。ジオメトリが所有する各 :kl-ref:<a href="#id1"><span class="problematic" id="id2">`</span></a>GeometryAttribute&#8217; もまた使用する前にGPUに個別に移動する必要があります。</p>
 <p>GPUコンピュートカーネルはオブジェクト群をサポートしておらず、ポリゴンメッシュやライン群、ポイント群、または様々なアトリビュート型をGPUカーネルへ渡せないことを意味します。代わりに、これらのオブジェクトに含まれるデータはGPUカーネルに渡すことができます。</p>
 <p>Each of the GeometryAttributes owns data that can be passed into GPU Compute kernels. Most attributes have a member called &#8216;values&#8217; which is an array of the data type supported by the <a class="reference internal" href="GeometryAttribute.html#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a>.</p>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
@@ -444,10 +444,8 @@
 <p>現在のGPUコンピュートのインフラは、以下の制限があります。</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">アトリビュートのサイズはGPUコンピュート動作中に変更することはできません。ポリゴンメッシュトポロジーでサポートしているメソッド群だけが値を変更できますが、アトリビュートの共有情報は変更しないでください。</p>
-</li>
-<li><p class="first">オブジェクト群はまだGPUでサポートされておらず、単純な型と構造体と配列だけがGPUコンピュートカーネルで使用することができます。</p>
-</li>
+<li>アトリビュートのサイズはGPUコンピュート動作中に変更することはできません。ポリゴンメッシュトポロジーでサポートしているメソッド群だけが値を変更できますが、アトリビュートの共有情報は変更しないでください。</li>
+<li>オブジェクト群はまだGPUでサポートされておらず、単純な型と構造体と配列だけがGPUコンピュートカーネルで使用することができます。</li>
 </ul>
 </div></blockquote>
 </div>

@@ -72,19 +72,15 @@
 <p>RTVal は以下のうちどれかにより作成します：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">RTVal を  <a class="reference internal" href="#_CPPv2N10FabricCore5RTValE" title="FabricCore::RTVal"><code class="xref cpp cpp-class docutils literal"><span class="pre">RTVal</span></code></a> クラスの <code class="code docutils literal"><span class="pre">Construct...</span></code> メソッドを呼び、コンストラクト</p>
-</li>
-<li><p class="first"><a class="reference internal" href="#_CPPv2N10FabricCore5RTValE" title="FabricCore::RTVal"><code class="xref cpp cpp-class docutils literal"><span class="pre">RTVal</span></code></a> クラスのメソッドを、既存のRTVal ――例えば構造体、オブジェクト、配列、辞書などの型―― メンバ（もしくは要素）の値を得るために呼ぶ。大抵の場合、戻りRTVal はメンバ（もしくは要素）データのコピーになります。</p>
-</li>
-<li><p class="first">DGノード (もしくは他のDGContainer)のメンバの値を、 <a class="reference internal" href="#_CPPv2N10FabricCore11DGContainer19getMemberSliceValueEPc8uint32_t" title="FabricCore::DGContainer::getMemberSliceValue"><code class="xref cpp cpp-func docutils literal"><span class="pre">DGContainer::getMemberSliceValue()</span></code></a>  を呼び出し、得ます。</p>
-</li>
+<li>RTVal を  <a class="reference internal" href="#_CPPv2N10FabricCore5RTValE" title="FabricCore::RTVal"><code class="xref cpp cpp-class docutils literal"><span class="pre">RTVal</span></code></a> クラスの <code class="code docutils literal"><span class="pre">Construct...</span></code> メソッドを呼び、コンストラクト</li>
+<li><a class="reference internal" href="#_CPPv2N10FabricCore5RTValE" title="FabricCore::RTVal"><code class="xref cpp cpp-class docutils literal"><span class="pre">RTVal</span></code></a> クラスのメソッドを、既存のRTVal ――例えば構造体、オブジェクト、配列、辞書などの型―― メンバ（もしくは要素）の値を得るために呼ぶ。大抵の場合、戻りRTVal はメンバ（もしくは要素）データのコピーになります。</li>
+<li>DGノード (もしくは他のDGContainer)のメンバの値を、 <a class="reference internal" href="#_CPPv2N10FabricCore11DGContainer19getMemberSliceValueEPc8uint32_t" title="FabricCore::DGContainer::getMemberSliceValue"><code class="xref cpp cpp-func docutils literal"><span class="pre">DGContainer::getMemberSliceValue()</span></code></a>  を呼び出し、得ます。</li>
 </ul>
 </div></blockquote>
 <p>RTValのコピーをコンストラクトするには、 <a class="reference internal" href="#_CPPv2N10FabricCore5RTVal9ConstructER7ContextPc8uint32_tP5RTVal" title="FabricCore::RTVal::Construct"><code class="xref cpp cpp-func docutils literal"><span class="pre">RTVal::Construct()</span></code></a> メソッドを使用します。既存の RTVal を唯一の引数としてわたします。</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">これらの方法による RTVal のコンストラクトは、KLでのコピーコンストラクションと同じです。つまり 参照渡し（pass-by-reference）では、可変長配列や辞書型は、RTValがそれらをコピーしようと、同じ通底するデータを参照したままとなります。データをコピーするのであれば、 <a class="reference internal" href="#_CPPv2N10FabricCore5RTVal10callMethodEPcPc8uint32_tP5RTVal" title="FabricCore::RTVal::callMethod"><code class="xref cpp cpp-func docutils literal"><span class="pre">RTVal::callMethod()</span></code></a> を呼び出し、 <code class="code docutils literal"><span class="pre">clone</span></code> メソッドを呼びます。</p>
-</div>
+これらの方法による RTVal のコンストラクトは、KLでのコピーコンストラクションと同じです。つまり 参照渡し（pass-by-reference）では、可変長配列や辞書型は、RTValがそれらをコピーしようと、同じ通底するデータを参照したままとなります。データをコピーするのであれば、 <a class="reference internal" href="#_CPPv2N10FabricCore5RTVal10callMethodEPcPc8uint32_tP5RTVal" title="FabricCore::RTVal::callMethod"><code class="xref cpp cpp-func docutils literal"><span class="pre">RTVal::callMethod()</span></code></a> を呼び出し、 <code class="code docutils literal"><span class="pre">clone</span></code> メソッドを呼びます。</div>
 </div>
 <div class="section" id="obtaining-c-equivalents-for-simple-rtval-data">
 <h3>C++ で 単純なRTValデータの同等物を得る<a class="headerlink" href="#obtaining-c-equivalents-for-simple-rtval-data" title="このヘッドラインへのパーマリンク">¶</a></h3>
@@ -565,8 +561,7 @@
 <dd><p>構造体,あるいはオブジェクト型の RTVal に含まれる名前付きメンバの参照である RTVal を返す. RTVal が構造体あるいはオブジェクト型でない場合, あるいは <code class="code docutils literal"><span class="pre">memberNameCString</span></code> メンバが存在しない場合例外が発生.</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">参照するものが構造体の生存と合わなくなることにより起こることに対しての責任は呼び出し側にあります。</p>
-</div>
+参照するものが構造体の生存と合わなくなることにより起こることに対しての責任は呼び出し側にあります。</div>
 </dd></dl>
 
 <dl class="function">
@@ -601,8 +596,7 @@
 <dd><p>JSON形式の値の description を表す 新規の <code class="code docutils literal"><span class="pre">String</span></code> 型の RTVal を返す.</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">全ての型で動作するわけではありません！</p>
-</div>
+全ての型で動作するわけではありません！</div>
 </dd></dl>
 
 <dl class="function">
@@ -611,8 +605,7 @@
 <dd><p><code class="code docutils literal"><span class="pre">getJSON</span></code> メソッドで取得できる RTVal の JSON description の値を設定.</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">全ての型で動作するわけではありません！</p>
-</div>
+全ての型で動作するわけではありません！</div>
 </dd></dl>
 
 </dd></dl>

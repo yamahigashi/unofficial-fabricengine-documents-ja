@@ -65,61 +65,41 @@
 <h2>ロケータを線形補完で動かす<a class="headerlink" href="#driving-a-locator-linear-interpolation" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>このチュートリアルでは、Canvasを使用してのロケータ位置の動かし方を学びます。RiggingへCanvasを利用する最初の一歩となるでしょう。 Fabric Engine ではMayaで利用可能なカスタムノードを移植可能性の高いポータブルなソリューションとして提供しているので、アプリケーションをまたいでの柔軟なアニメーションシステムを作成できます。</p>
 <ul class="simple">
-<li><p class="first">新規シーンを開きます。</p>
-</li>
-<li><p class="first">３つロケータを作成します。うち２つはどこか重ならないよう架空の直線を引くように作ります。</p>
-</li>
-<li><p class="first">Fabric のトップメニュー「Fabric -&gt; Create Graph」 よりcanvasNode を作成します。</p>
-</li>
-<li><p class="first">作成されたcanvasNode を選択、Mayaのアトリビュートエディタにある Open Canvas ボタンをクリックし、Canvas UIを表示します。</p>
-</li>
-<li><p class="first">&#8220;Func.LinearInterpolate&#8221;(&#8220;Exts.Math.Func.LinearInterpolate&#8221;) ノードを挿入します。</p>
-</li>
-<li><p class="first">&#8220;this&#8221;ポートを入力側に暴露し外部公開（Expose）します。</p>
-</li>
-<li><p class="first">暴露したポートを右クリックし、&#8221;Edit&#8221;を選びます。</p>
-</li>
-<li><p class="first">データ型を&#8221;Vec3&#8221;に変更しOKを押します。先ほど黒であったポートが黄色に変わります。これはポートのデータ型が&#8221;Vec3&#8221;に変わったことを示しています。</p>
-</li>
-<li><p class="first">&#8220;other&#8221; と &#8220;ｔ&#8221; ポートを入力側, &#8220;result&#8221; を出力側に暴露します。ここまででグラフは以下のようになっているでしょう:</p>
-</li>
+<li>新規シーンを開きます。</li>
+<li>３つロケータを作成します。うち２つはどこか重ならないよう架空の直線を引くように作ります。</li>
+<li>Fabric のトップメニュー「Fabric -&gt; Create Graph」 よりcanvasNode を作成します。</li>
+<li>作成されたcanvasNode を選択、Mayaのアトリビュートエディタにある Open Canvas ボタンをクリックし、Canvas UIを表示します。</li>
+<li>&#8220;Func.LinearInterpolate&#8221;(&#8220;Exts.Math.Func.LinearInterpolate&#8221;) ノードを挿入します。</li>
+<li>&#8220;this&#8221;ポートを入力側に暴露し外部公開（Expose）します。</li>
+<li>暴露したポートを右クリックし、&#8221;Edit&#8221;を選びます。</li>
+<li>データ型を&#8221;Vec3&#8221;に変更しOKを押します。先ほど黒であったポートが黄色に変わります。これはポートのデータ型が&#8221;Vec3&#8221;に変わったことを示しています。</li>
+<li>&#8220;other&#8221; と &#8220;ｔ&#8221; ポートを入力側, &#8220;result&#8221; を出力側に暴露します。ここまででグラフは以下のようになっているでしょう:</li>
 </ul>
 <img alt="../_images/12_maya_tut_00.png" src="../_images/12_maya_tut_00.png" />
 <ul class="simple">
-<li><p class="first">Mayaのノードエディタ上で、動いている２つのロケータの translateアトリビュートを canvasNodeの Vec3入力ポートにそれぞれ接続します。</p>
-</li>
-<li><p class="first">canvasNodeのresult アトリビュートを第三のロケータのtranslateアトリビュートに接続します。ここまでの操作で以下の図のようになっているはずです。</p>
-</li>
+<li>Mayaのノードエディタ上で、動いている２つのロケータの translateアトリビュートを canvasNodeの Vec3入力ポートにそれぞれ接続します。</li>
+<li>canvasNodeのresult アトリビュートを第三のロケータのtranslateアトリビュートに接続します。ここまでの操作で以下の図のようになっているはずです。</li>
 </ul>
 <img alt="../_images/12_maya_tut_01.png" src="../_images/12_maya_tut_01.png" />
 <ul class="simple">
-<li><p class="first">canvasNode の 『t』アトリビュートの値により、第三ロケータの位置が他ロケータの２点間を取ることがわかります。</p>
-</li>
-<li><p class="first">それでは &#8220;locator1&#8221; をビューポート上で移動させてみましょう。</p>
-</li>
+<li>canvasNode の 『t』アトリビュートの値により、第三ロケータの位置が他ロケータの２点間を取ることがわかります。</li>
+<li>それでは &#8220;locator1&#8221; をビューポート上で移動させてみましょう。</li>
 </ul>
 </div>
 <div class="section" id="procedural-mesh">
 <h2>プロシージャルメッシュ<a class="headerlink" href="#procedural-mesh" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>このチュートリアルでは、Mayaを用いてプロシージャルメッシュを生成する手法を学びます。これは非常に強力な概念であり、再利用性の高い、またAlembicや、Bulletのソフトボディシミュレーションを組み合わせたようなアセットの作成を可能とします。まずはこのチュートリアルでそれらの基本からはじめましょう。</p>
 <ul class="simple">
-<li><p class="first">新規シーンを開きます。</p>
-</li>
-<li><p class="first">Mayaノードエディタ上に、新規メッシュノードと canvasNodeを呼び出します。</p>
-</li>
-<li><p class="first">作成されたcanvasNode を選択、Mayaのアトリビュートエディタにある Open Canvas ボタンをクリックし、Canvas UIを表示します。</p>
-</li>
-<li><p class="first">右サイドパネルを右クリックし、『outMesh』という名のPolygonMesh型の出力ポートを作成します。</p>
-</li>
-<li><p class="first">ノードエディタ上で、canvasNodeの『outMesh』アトリビュートとMayaのmeshノードの『inMesh』アトリビュートを接続します。図のようになります。</p>
-</li>
+<li>新規シーンを開きます。</li>
+<li>Mayaノードエディタ上に、新規メッシュノードと canvasNodeを呼び出します。</li>
+<li>作成されたcanvasNode を選択、Mayaのアトリビュートエディタにある Open Canvas ボタンをクリックし、Canvas UIを表示します。</li>
+<li>右サイドパネルを右クリックし、『outMesh』という名のPolygonMesh型の出力ポートを作成します。</li>
+<li>ノードエディタ上で、canvasNodeの『outMesh』アトリビュートとMayaのmeshノードの『inMesh』アトリビュートを接続します。図のようになります。</li>
 </ul>
 <img alt="../_images/13_maya_tut_01.png" src="../_images/13_maya_tut_01.png" />
 <ul class="simple">
-<li><p class="first">CanvasのUIより、『GetSphere』ノードを挿入し、メッシュノードのmesh出力ポートに接続します。</p>
-</li>
-<li><p class="first">GetSphere ノードにある他のパラメータを Maya のアトリビュートエディタから変更し設定をためせるように外部公開（Expose）します。</p>
-</li>
+<li>CanvasのUIより、『GetSphere』ノードを挿入し、メッシュノードのmesh出力ポートに接続します。</li>
+<li>GetSphere ノードにある他のパラメータを Maya のアトリビュートエディタから変更し設定をためせるように外部公開（Expose）します。</li>
 </ul>
 <img alt="../_images/13_maya_tut_02.png" src="../_images/13_maya_tut_02.png" />
 </div>
@@ -127,33 +107,21 @@
 <h2>リアルタイムレンダリングを用いたデバッグ<a class="headerlink" href="#debug-realtime-rendering" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>このチュートリアルでは、 Fabric Engine の レンダリングシステムの InlineDrawing を活用法を学びます。Maya のビューポートへ直接描画することができ、デバッグに必要な軸や線、点といった補助情報を付加する場合非常に便利です。</p>
 <ul class="simple">
-<li><p class="first">新規シーンを開きます。</p>
-</li>
-<li><p class="first">Mayaのノードエディタを開き、ロケータとcanvasNode を挿入します。</p>
-</li>
-<li><p class="first">作成されたcanvasNode を選択、Mayaのアトリビュートエディタにある Open Canvas ボタンをクリックし、Canvas UIを表示します。</p>
-</li>
-<li><p class="first">右サイドパネルを右クリックし、名前を『evaluateMe』型を『Vec3』の出力ポートを作成します。</p>
-</li>
-<li><p class="first">ノードエディタ上で、canvasNodeの『evaluateMe』アトリビュートと、ロケータの『translate』アトリビュートを接続します。この接続はMayaにロケータの描画毎にCanvasグラフの評価を強制させるためです。</p>
-</li>
-<li><p class="first">Canvas UIに戻り、EmptyDrawingHandle ノードを作成します。</p>
-</li>
-<li><p class="first">GetEmptyDebugShape を追加し、 DrawingHandle と接続します。</p>
-</li>
-<li><p class="first">DrawSegmentedLine ノードを追加し、DebugShape に接続します。</p>
-</li>
-<li><p class="first">result ポートをグラフの出力に外部公開（Expose）します。</p>
-</li>
-<li><p class="first">DrawSegmentedLine ノードの &#8220;from&#8221;と&#8221;to&#8221; の入力ポートをグラフの入力として外部公開します。</p>
-</li>
-<li><p class="first">DrawSegmentedLine ノードをダブルクリックし、セグメントを１２に設定します。ここまでの操作で以下のようになっているはずです。</p>
-</li>
+<li>新規シーンを開きます。</li>
+<li>Mayaのノードエディタを開き、ロケータとcanvasNode を挿入します。</li>
+<li>作成されたcanvasNode を選択、Mayaのアトリビュートエディタにある Open Canvas ボタンをクリックし、Canvas UIを表示します。</li>
+<li>右サイドパネルを右クリックし、名前を『evaluateMe』型を『Vec3』の出力ポートを作成します。</li>
+<li>ノードエディタ上で、canvasNodeの『evaluateMe』アトリビュートと、ロケータの『translate』アトリビュートを接続します。この接続はMayaにロケータの描画毎にCanvasグラフの評価を強制させるためです。</li>
+<li>Canvas UIに戻り、EmptyDrawingHandle ノードを作成します。</li>
+<li>GetEmptyDebugShape を追加し、 DrawingHandle と接続します。</li>
+<li>DrawSegmentedLine ノードを追加し、DebugShape に接続します。</li>
+<li>result ポートをグラフの出力に外部公開（Expose）します。</li>
+<li>DrawSegmentedLine ノードの &#8220;from&#8221;と&#8221;to&#8221; の入力ポートをグラフの入力として外部公開します。</li>
+<li>DrawSegmentedLine ノードをダブルクリックし、セグメントを１２に設定します。ここまでの操作で以下のようになっているはずです。</li>
 </ul>
 <img alt="../_images/14_maya_tut_02.png" src="../_images/14_maya_tut_02.png" />
 <ul class="simple">
-<li><p class="first">Mayaのアトリビュートエディタより &#8220;from&#8221; と &#8220;to&#8221; の値を変更してみましょう。赤い点線が２点間に描画されます。</p>
-</li>
+<li>Mayaのアトリビュートエディタより &#8220;from&#8221; と &#8220;to&#8221; の値を変更してみましょう。赤い点線が２点間に描画されます。</li>
 </ul>
 <img alt="../_images/14_maya_tut_03.png" src="../_images/14_maya_tut_03.png" />
 </div>

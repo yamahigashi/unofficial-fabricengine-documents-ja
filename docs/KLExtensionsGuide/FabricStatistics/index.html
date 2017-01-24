@@ -76,8 +76,7 @@
 <p>もし <a class="reference internal" href="StatisticSource.html#statisticsource"><span class="std std-ref">StatisticSource</span></a> がそれら自身 <a class="reference internal" href="StatisticSource.html#statisticsource"><span class="std std-ref">StatisticSource</span></a> のサブオブジェクト群を持っている場合、（例：「ポリゴンメッシュ」は「ジオメトリアトリビュートコンテナ」を持っている）この関係は <a class="reference internal" href="functions.html#id109648"><span class="std std-ref">AddStatisticsChild</span></a> 関数の呼び出しによって明示的に記録される必要があります。</p>
 <div class="admonition warning">
 <p class="first admonition-title">警告</p>
-<p class="last">デストラクタでのオブジェクトの登録解除の失敗は、FabricStatisticsエクステンションがリーク(他にもオブジェクトが破棄されない)を回避するためのオブジェクトの <cite>Ref&lt;&gt;</cite> (所有しない)を維持するので、クラッシュの原因となります。またしても、これは <a class="reference internal" href="StatisticsAutoRegisterMember.html#statisticsautoregistermember"><span class="std std-ref">StatisticsAutoRegisterMember</span></a> ヘルパーの使用で回避できます。</p>
-</div>
+デストラクタでのオブジェクトの登録解除の失敗は、FabricStatisticsエクステンションがリーク(他にもオブジェクトが破棄されない)を回避するためのオブジェクトの <cite>Ref&lt;&gt;</cite> (所有しない)を維持するので、クラッシュの原因となります。またしても、これは <a class="reference internal" href="StatisticsAutoRegisterMember.html#statisticsautoregistermember"><span class="std std-ref">StatisticsAutoRegisterMember</span></a> ヘルパーの使用で回避できます。</div>
 <p><a class="reference internal" href="StatisticSource.html#id109625"><span class="std std-ref">StatisticSource.getStatistics</span></a> メソッドを経たオブジェクトによって返された統計は <a class="reference internal" href="StatisticRecord.html#statisticrecord"><span class="std std-ref">StatisticRecord</span></a> で埋め込まれた単純な名前と値のペアです。サポートされる統計値の型は`文字列`、<a href="#id1"><span class="problematic" id="id2">`</span></a>SInt64`と`Float64`が含まれます。とはいえ返される統計値は任意(例：&#8217;イメージ&#8217;では&#8217;幅&#8217;と&#8217;高さ&#8217;で返す)にできますが、それぞれ標準のフィールドがあります。</p>
 <ul class="simple">
 <li>「名前」( <cite>Statistic_Name</cite> 定数): 統計レポート内でオブジェクトを識別する最善の方法として、名前を与えておくべきです。</li>
@@ -144,8 +143,7 @@
 <p>レポートはいくつかの統計の合計を生成できます(例:メモリ)。オブジェクト階層を合計するための統計のリストは、 <a class="reference internal" href="functions.html#id109676"><span class="std std-ref">GetStatisticStrings</span></a> のような関数の <cite>ColumnsToSum</cite> 引数によって提供されます。</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last"><a class="reference internal" href="FabricStatistics_RTValWrapper.html#fabricstatistics-rtvalwrapper"><span class="std std-ref">FabricStatistics_RTValWrapper</span></a> オブジェクトは <cite>FabricStatistics</cite> のグローバル関数群をシンプルにラップし、それらは <cite>RTVals</cite> を通じてアクセスすることができます。(グローバル関数は制限のためアクセス不可です)</p>
-</div>
+<a class="reference internal" href="FabricStatistics_RTValWrapper.html#fabricstatistics-rtvalwrapper"><span class="std std-ref">FabricStatistics_RTValWrapper</span></a> オブジェクトは <cite>FabricStatistics</cite> のグローバル関数群をシンプルにラップし、それらは <cite>RTVals</cite> を通じてアクセスすることができます。(グローバル関数は制限のためアクセス不可です)</div>
 </div>
 <div class="section" id="profiling">
 <span id="fabricstatisticsprofiling"></span><h2>プロファイリング<a class="headerlink" href="#profiling" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -192,13 +190,13 @@
 <span class="cm">/*</span>
 <span class="cm">** Output:</span>
 
-<span class="cm">function main(): duration=750.7493500 ms, startTime=+1.200777e-6&#39;, threadIndex:0</span>
-<span class="cm">  function sub1(): duration=500.4995327 ms, startTime=+0.250067&#39;, threadIndex:0</span>
-<span class="cm">    function sub2(): duration=250.2497621 ms, startTime=+0.500083&#39;, threadIndex:0</span>
+<span class="cm">function main(): duration=750.7493779 ms, startTime=+1.500971e-6&#39;, threadIndex:0</span>
+<span class="cm">  function sub1(): duration=500.4995432 ms, startTime=+0.250085&#39;, threadIndex:0</span>
+<span class="cm">    function sub2(): duration=250.2497660 ms, startTime=+0.500107&#39;, threadIndex:0</span>
 
-<span class="cm">{level:0,frame:0,label:&quot;function main()&quot;,startTime:+1.200777503433473e-6,duration:+0.750100790261694,sourceName:&quot;&quot;,threadIndex:0}</span>
-<span class="cm">{level:1,frame:0,label:&quot;function sub1()&quot;,startTime:+2.500679189775379e-1,duration:+0.500033171478532,sourceName:&quot;&quot;,threadIndex:0}</span>
-<span class="cm">{level:2,frame:0,label:&quot;function sub2()&quot;,startTime:+0.5000833039393,duration:+2.500123830180041e-1,sourceName:&quot;&quot;,threadIndex:0}</span>
+<span class="cm">{level:0,frame:0,label:&quot;function main()&quot;,startTime:+1.500971879291841e-6,duration:+0.750128708338649,sourceName:&quot;&quot;,threadIndex:0}</span>
+<span class="cm">{level:1,frame:0,label:&quot;function sub1()&quot;,startTime:+2.500856304457135e-1,duration:+0.500043678281687,sourceName:&quot;&quot;,threadIndex:0}</span>
+<span class="cm">{level:2,frame:0,label:&quot;function sub2()&quot;,startTime:+0.500107319489369,duration:+2.500162855448903e-1,sourceName:&quot;&quot;,threadIndex:0}</span>
 
 <span class="cm">*/</span>
 </pre></div>

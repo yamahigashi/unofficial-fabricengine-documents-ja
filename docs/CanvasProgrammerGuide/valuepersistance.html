@@ -63,14 +63,11 @@
 <p>ポートの値は特定の状況で永続化（be persisted / seved）させることができます。UI上で入力ポートが編集されると <cite>defaultValue</cite> がノードの入力ポートに関連付けられ、グラフとともに保存されるようになります。さらに最上位グラフのポートでは <cite>Edit Port -&gt; metadata -&gt; persist value</cite> ( <a class="reference internal" href="../CanvasUserGuide/graphview.html#canvas-user-guide-port-options"><span class="std std-ref">ポートのオプション</span></a> を参照) の操作を行うことで永続化させることができます。</p>
 <p>ポートの値を永続化させるには、その型のタイプにより異なるメカニズムをとります。</p>
 <ul>
-<li><p class="first">永続化されたKLオブジェクトの値は、 <cite>RTValToJSONEncoder</cite> と <cite>RTValFromJSONDecoder</cite> KLインターフェースを実装している必要があります。 <cite>String convertToString!()</cite> と <cite>Boolean convertFromString!(String data)</cite> メソッドをそれぞれ定義します。未実装の場合警告が表示されます。</p>
-<div class="admonition note">
+<li>永続化されたKLオブジェクトの値は、 <cite>RTValToJSONEncoder</cite> と <cite>RTValFromJSONDecoder</cite> KLインターフェースを実装している必要があります。 <cite>String convertToString!()</cite> と <cite>Boolean convertFromString!(String data)</cite> メソッドをそれぞれ定義します。未実装の場合警告が表示されます。<div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">KLの変更、エクステンションのバージョンの変更によるデータの互換性は、バージョン管理システムが内蔵されていないので、ユーザもしくは、永続化されたKLやエクステンションの <cite>String</cite> などにより適切に処理される必要があります。</p>
-</div>
+KLの変更、エクステンションのバージョンの変更によるデータの互換性は、バージョン管理システムが内蔵されていないので、ユーザもしくは、永続化されたKLやエクステンションの <cite>String</cite> などにより適切に処理される必要があります。</div>
 </li>
-<li><p class="first">他のKL型（基底型、構造体、配列）はそれらのメンバデータを深い <cite>json</cite> 走査（deep json traversal）の結果として保存します。ユーザはオブジェクトメンバが深い走査されることに注意してください。</p>
-</li>
+<li>他のKL型（基底型、構造体、配列）はそれらのメンバデータを深い <cite>json</cite> 走査（deep json traversal）の結果として保存します。ユーザはオブジェクトメンバが深い走査されることに注意してください。</li>
 </ul>
 </div>
 

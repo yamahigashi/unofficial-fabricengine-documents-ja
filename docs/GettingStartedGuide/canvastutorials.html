@@ -66,18 +66,12 @@
 <p>このチュートリアルでは、ノードの作成、ポートへの接続、値の型指定のないポート ―黒色に表示される― への割り当てについて説明します。</p>
 <p>ノードとポートはCanvasにおいて中核をなす概念です。学ぶにつれより複雑なグラフを構築できるようになっているでしょう。つまり複数のノードを適切に取り扱い、ワークフローの簡略化とパフォーマンスの改善を図るツールを作成する力を手に入れているのです。</p>
 <ul class="simple">
-<li><p class="first"><em class="dfn">Fabric Standalone</em> (see <a class="reference internal" href="firststeps.html#gettingstarted-firststeps"><span class="std std-ref">Fabric Canvas 最初のステップ</span></a>)を起動</p>
-</li>
-<li><p class="first">reportノード(Func.Report)を作成 ― タブキーを押し <em>rep</em> とためしに入力します</p>
-</li>
-<li><p class="first">値ポートの入力、出力ともにExpose につなぎ暴露します。（ <cite>report</cite> ノードの左をドラッグし左パネルの Expose ポートへつなぎます。右側についても同様につなぎます）</p>
-</li>
-<li><p class="first">入力ポート（型を持たない）を右クリックし <cite>Edit</cite> を選択し <cite>data type</cite> を <em>Float32</em> に設定します。</p>
-</li>
-<li><p class="first">ログウィンドを表示します(<em>Window</em> -&gt; <em>Log Messages</em>)</p>
-</li>
-<li><p class="first">左パネルをダブルクリックし、外部公開（Expose）するポートをバリューエディタ上に表示し検閲します。value_2 のスライダを左右にドラッグし、ログウィンドに記録されるかを確認します。</p>
-</li>
+<li><em class="dfn">Fabric Standalone</em> (see <a class="reference internal" href="firststeps.html#gettingstarted-firststeps"><span class="std std-ref">Fabric Canvas 最初のステップ</span></a>)を起動</li>
+<li>reportノード(Func.Report)を作成 ― タブキーを押し <em>rep</em> とためしに入力します</li>
+<li>値ポートの入力、出力ともにExpose につなぎ暴露します。（ <cite>report</cite> ノードの左をドラッグし左パネルの Expose ポートへつなぎます。右側についても同様につなぎます）</li>
+<li>入力ポート（型を持たない）を右クリックし <cite>Edit</cite> を選択し <cite>data type</cite> を <em>Float32</em> に設定します。</li>
+<li>ログウィンドを表示します(<em>Window</em> -&gt; <em>Log Messages</em>)</li>
+<li>左パネルをダブルクリックし、外部公開（Expose）するポートをバリューエディタ上に表示し検閲します。value_2 のスライダを左右にドラッグし、ログウィンドに記録されるかを確認します。</li>
 </ul>
 <img alt="../_images/08_canvas_tut_01.png" src="../_images/08_canvas_tut_01.png" />
 </div>
@@ -85,38 +79,28 @@
 <h2>初めての数値演算<a class="headerlink" href="#first-math-formula" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>このチュートリアルでは、２つのベクタを線形補完し、結果をオリジナルのベクタに加算します。この機能を１つのグラフとしカプセル化してみましょう。Mathノードはほとんどのリギングやシムレーション作業にとって重要な基礎となります。まずは簡単なものの作成からはじめてみましょう。</p>
 <ul class="simple">
-<li><p class="first">通常の Func.LinearInterpolate ノードを作成します。するとノードは赤く表示されます。ノードの型が未定義なため、評価されないのです。</p>
-</li>
+<li>通常の Func.LinearInterpolate ノードを作成します。するとノードは赤く表示されます。ノードの型が未定義なため、評価されないのです。</li>
 </ul>
 <img alt="../_images/09_canvas_tut_02_1.png" src="../_images/09_canvas_tut_02_1.png" />
 <ul class="simple">
-<li><p class="first"><em>this</em>, <em>other</em> and <em>t</em>  ポートを入力として外部公開（Expose）します。</p>
-</li>
+<li><em>this</em>, <em>other</em> and <em>t</em>  ポートを入力として外部公開（Expose）します。</li>
 </ul>
 <img alt="../_images/09_canvas_tut_02_2.png" src="../_images/09_canvas_tut_02_2.png" />
 <ul class="simple">
-<li><p class="first">thisポートの型を Vec3 に編集しましょう。this、otherポートが黄色になります。</p>
-</li>
+<li>thisポートの型を Vec3 に編集しましょう。this、otherポートが黄色になります。</li>
 </ul>
 <img alt="../_images/09_canvas_tut_02_3.png" src="../_images/09_canvas_tut_02_3.png" />
 <ul class="simple">
-<li><p class="first">Add ノード(Math.Add)を呼び出します。</p>
-</li>
-<li><p class="first">LinearInterpolate ノードの result をAddノードの <em>lhs</em> につなぎます。</p>
-</li>
-<li><p class="first">LinearInterpolateノードの <em>this</em> を Addノードの <em>rhs</em> に接続します。</p>
-</li>
-<li><p class="first">Addノードの result ポートをサイドバーにつなぎ外部公開（Expose）します。</p>
-</li>
+<li>Add ノード(Math.Add)を呼び出します。</li>
+<li>LinearInterpolate ノードの result をAddノードの <em>lhs</em> につなぎます。</li>
+<li>LinearInterpolateノードの <em>this</em> を Addノードの <em>rhs</em> に接続します。</li>
+<li>Addノードの result ポートをサイドバーにつなぎ外部公開（Expose）します。</li>
 </ul>
 <img alt="../_images/09_canvas_tut_02_4.png" src="../_images/09_canvas_tut_02_4.png" />
 <ul class="simple">
-<li><p class="first">LinearInterpolate、Addノード両方を選択します。</p>
-</li>
-<li><p class="first">どちらかを右クリックし <em>Implode Nodes</em> し名前を <em>MyFormula</em> にします。</p>
-</li>
-<li><p class="first">左パネルをダブルクリックし、外部公開ポートを検閲し、バリューエディタから <em>t</em> スライダで 値を埋めます。</p>
-</li>
+<li>LinearInterpolate、Addノード両方を選択します。</li>
+<li>どちらかを右クリックし <em>Implode Nodes</em> し名前を <em>MyFormula</em> にします。</li>
+<li>左パネルをダブルクリックし、外部公開ポートを検閲し、バリューエディタから <em>t</em> スライダで 値を埋めます。</li>
 </ul>
 <img alt="../_images/09_canvas_tut_02.png" src="../_images/09_canvas_tut_02.png" />
 </div>
@@ -124,23 +108,16 @@
 <h2>Geometryに命を与える<a class="headerlink" href="#animated-geometry" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>このチュートリアルでは、プロシージャルジオメトリの作成と描画を行います。Canvasはジオメトリをこねくる回すことができ、ジオメトリの操作はとてもパワフルな概念です。このチュートリアルではとてもシンプルなサンプルを示しますが、Alembicやほか形式のデータや複雑なプロシージャルコンテンツの読み込みなどといった手順にもこのチュートリアルの基本概念は適用可能です。Canvasのグラフはポータブルであるので、DCCの垣根を越えてジオメトリ編集パイプラインを構築することができるでしょう。</p>
 <ul class="simple">
-<li><p class="first">GetTorusノードを挿入します(Create.GetTorus)</p>
-</li>
-<li><p class="first">DrawMeshノードを挿入します(Display.DrawMesh)</p>
-</li>
-<li><p class="first">GetTorusノードのメッシュ出力ポートと DrawMeshノードのメッシュ入力ポートを接続します。</p>
-</li>
-<li><p class="first">DrawMeshノードの drawThis出力ポートと右パネルのExposeポートをつなぎます。</p>
-</li>
+<li>GetTorusノードを挿入します(Create.GetTorus)</li>
+<li>DrawMeshノードを挿入します(Display.DrawMesh)</li>
+<li>GetTorusノードのメッシュ出力ポートと DrawMeshノードのメッシュ入力ポートを接続します。</li>
+<li>DrawMeshノードの drawThis出力ポートと右パネルのExposeポートをつなぎます。</li>
 </ul>
 <img alt="../_images/10_canvas_tut_03.png" src="../_images/10_canvas_tut_03.png" />
 <ul class="simple">
-<li><p class="first">新規Float32入力ポートに <em>timeline</em> と名付け作成します。グラフ中この名を持つノードは自動的にアプリケーションの時間を取得します。</p>
-</li>
-<li><p class="first">timelineポートをAdd Torusノードの外径、内径ポートに接続します。</p>
-</li>
-<li><p class="first">タイムスライダを操作し、どのようにトーラスが変化するかを確認します。</p>
-</li>
+<li>新規Float32入力ポートに <em>timeline</em> と名付け作成します。グラフ中この名を持つノードは自動的にアプリケーションの時間を取得します。</li>
+<li>timelineポートをAdd Torusノードの外径、内径ポートに接続します。</li>
+<li>タイムスライダを操作し、どのようにトーラスが変化するかを確認します。</li>
 </ul>
 <img alt="../_images/10_canvas_tut_03_1.png" src="../_images/10_canvas_tut_03_1.png" />
 </div>
@@ -148,34 +125,23 @@
 <h2>KL関数の作成<a class="headerlink" href="#custom-kl-function" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Canvasに於いて、KL関数の記述はとても強力な機能となります。グラフよりもコーディングのほうが問題解決に向いていることがあるためです。このチュートリアルではKL関数ノードの作成について説明しましょう。</p>
 <ul class="simple">
-<li><p class="first">Canvas上で右クリックし、<em>New empty function</em> を選択し名前に*MyMultiply* を入れます。</p>
-</li>
+<li>Canvas上で右クリックし、<em>New empty function</em> を選択し名前に*MyMultiply* を入れます。</li>
 </ul>
 <img alt="../_images/11_canvas_tut_04.png" src="../_images/11_canvas_tut_04.png" />
 <ul class="simple">
-<li><p class="first">作成されたノードをシフトを押しながらダブルクリックし、関数定義ダイアログを表示します。</p>
-</li>
-<li><p class="first">先頭ポートのモードを <em>in</em> 名前を <em>a</em> 型を <em>Float32</em> に設定します。</p>
-</li>
-<li><p class="first">Ctrl+Enter を押すか、右クリックから <em>Add new port</em> を選択しポートを追加します。</p>
-</li>
-<li><p class="first">2番めのポートのモードを <em>in</em> 名前を <em>b</em> 型を <em>Float32</em> に設定します。</p>
-</li>
-<li><p class="first">3番目のポートのモードを*out*名前を <em>result</em> 型を*Float32*に設定します。</p>
-</li>
-<li><p class="first">ソースコードは: <em>result = a + a + b;</em></p>
-</li>
+<li>作成されたノードをシフトを押しながらダブルクリックし、関数定義ダイアログを表示します。</li>
+<li>先頭ポートのモードを <em>in</em> 名前を <em>a</em> 型を <em>Float32</em> に設定します。</li>
+<li>Ctrl+Enter を押すか、右クリックから <em>Add new port</em> を選択しポートを追加します。</li>
+<li>2番めのポートのモードを <em>in</em> 名前を <em>b</em> 型を <em>Float32</em> に設定します。</li>
+<li>3番目のポートのモードを*out*名前を <em>result</em> 型を*Float32*に設定します。</li>
+<li>ソースコードは: <em>result = a + a + b;</em></li>
 </ul>
 <img alt="../_images/11_canvas_tut_04_1.png" src="../_images/11_canvas_tut_04_1.png" />
 <ul class="simple">
-<li><p class="first"><em>Save</em> し <em>Go Up</em> し抜けます</p>
-</li>
-<li><p class="first">a、bポートを左パネルExposeに接続し外部公開します。</p>
-</li>
-<li><p class="first">resultポートも右パネルに接続し外部公開します。</p>
-</li>
-<li><p class="first">左パネルをダブルクリックし、外部公開されたポートをバリュエディタ上で校閲します。resultに変更が正しく反映されるか確認しましょう。</p>
-</li>
+<li><em>Save</em> し <em>Go Up</em> し抜けます</li>
+<li>a、bポートを左パネルExposeに接続し外部公開します。</li>
+<li>resultポートも右パネルに接続し外部公開します。</li>
+<li>左パネルをダブルクリックし、外部公開されたポートをバリュエディタ上で校閲します。resultに変更が正しく反映されるか確認しましょう。</li>
 </ul>
 <img alt="../_images/11_canvas_tut_04_2.png" src="../_images/11_canvas_tut_04_2.png" />
 </div>

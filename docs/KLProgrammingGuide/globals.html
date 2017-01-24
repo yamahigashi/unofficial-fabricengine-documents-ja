@@ -68,14 +68,10 @@
 <span id="index-1"></span><h3>関数定義<a class="headerlink" href="#function-definitions" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>KLにおける関数定義は、JavaScriptにおける &#8220;伝統的な&#8221; 関数定義の文法とほとんど同じです。次の重要な違いを除いて：</p>
 <ul class="simple">
-<li><p class="first">戻り値の型と関数の各パラメーターの型は明示的に宣言しなければなりません。もし関数が値を返さないのなら、戻り値の型の指定は取り除く必要があります。</p>
-</li>
-<li><p class="first">パラメーター宣言では、追加的に、<code class="docutils literal"><span class="pre">in</span></code> を前につけることで、入力(読み込みのみ：デフォルトです)パラメーターとして、または、 <code class="docutils literal"><span class="pre">io</span></code> を前につけることで、入出力（読み書き）パラメーターとして宣言することができます。</p>
-</li>
-<li><p class="first">関数はオプションとして <code class="docutils literal"><span class="pre">function</span></code> の代わりに <code class="docutils literal"><span class="pre">inline</span></code> キーワードを使って定義することができます。詳細は <a class="reference internal" href="#inline"><span class="std std-ref">Inline 関数,メソッド</span></a> を見てください。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">function</span></code> キーワードはオプションです。もし <code class="docutils literal"><span class="pre">function</span></code> や <code class="docutils literal"><span class="pre">inline</span></code> が指定されなかった場合は、<code class="docutils literal"><span class="pre">function</span></code> が指定されたとみなされます。</p>
-</li>
+<li>戻り値の型と関数の各パラメーターの型は明示的に宣言しなければなりません。もし関数が値を返さないのなら、戻り値の型の指定は取り除く必要があります。</li>
+<li>パラメーター宣言では、追加的に、<code class="docutils literal"><span class="pre">in</span></code> を前につけることで、入力(読み込みのみ：デフォルトです)パラメーターとして、または、 <code class="docutils literal"><span class="pre">io</span></code> を前につけることで、入出力（読み書き）パラメーターとして宣言することができます。</li>
+<li>関数はオプションとして <code class="docutils literal"><span class="pre">function</span></code> の代わりに <code class="docutils literal"><span class="pre">inline</span></code> キーワードを使って定義することができます。詳細は <a class="reference internal" href="#inline"><span class="std std-ref">Inline 関数,メソッド</span></a> を見てください。</li>
+<li><code class="docutils literal"><span class="pre">function</span></code> キーワードはオプションです。もし <code class="docutils literal"><span class="pre">function</span></code> や <code class="docutils literal"><span class="pre">inline</span></code> が指定されなかった場合は、<code class="docutils literal"><span class="pre">function</span></code> が指定されたとみなされます。</li>
 </ul>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm">** Example: Function Definitions</span>
@@ -149,8 +145,7 @@
 <span id="index-3"></span><h3>関数プロトタイプ<a class="headerlink" href="#function-prototypes" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>KLにおける <em class="dfn">function prototype</em> はボディ（関数本体）のない関数宣言です。関数プロトタイプを使うことで、関数の定義より前の位置から、その関数を呼び出すことができます。</p>
 <ul>
-<li><p class="first">二つもしくはそれ以上の関数が互いを呼ぶとき、そのような関数は <em class="dfn">co-recursive</em> と呼ばれることがあります：</p>
-<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<li>二つもしくはそれ以上の関数が互いを呼ぶとき、そのような関数は <em class="dfn">co-recursive</em> と呼ばれることがあります：<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm">** Example: Co-recursive Functions</span>
 <span class="cm">*/</span>
 
@@ -188,8 +183,7 @@
 </pre></div>
 </div>
 </li>
-<li><p class="first">関数定義がFabricエクステンションから与えられたものだった場合、そのFabricエクステンション内の関数のシンボル名は、関数プロトタイプに <code class="samp docutils literal"><span class="pre">=</span> <span class="pre">&quot;</span><em><span class="pre">symbol</span> <span class="pre">name</span></em><span class="pre">&quot;</span></code> または <code class="samp docutils literal"><span class="pre">=</span> <span class="pre">'</span><em><span class="pre">symbol</span> <span class="pre">name</span></em><span class="pre">'</span></code> を追加したものになります。これらは通常、 <em class="dfn">external functions</em>: と呼ばれます。</p>
-<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<li>関数定義がFabricエクステンションから与えられたものだった場合、そのFabricエクステンション内の関数のシンボル名は、関数プロトタイプに <code class="samp docutils literal"><span class="pre">=</span> <span class="pre">&quot;</span><em><span class="pre">symbol</span> <span class="pre">name</span></em><span class="pre">&quot;</span></code> または <code class="samp docutils literal"><span class="pre">=</span> <span class="pre">'</span><em><span class="pre">symbol</span> <span class="pre">name</span></em><span class="pre">'</span></code> を追加したものになります。これらは通常、 <em class="dfn">external functions</em>: と呼ばれます。<div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm">** Example: External Functions</span>
 <span class="cm">*/</span>
 
@@ -215,8 +209,7 @@
 <p>KLは <em class="dfn">compile-time function polymorphism</em> をサポートしています。これは、関数のパラメーターの数が異なるか、または、これらのパラメーターで型やin/ioの修飾が異なる場合に限り、同じ名前の複数の関数を持つことができる、というものです。</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">全く同じ型のパラメータ群を持つ同じ名前の関数を２つ持とうとするとエラーになります（異なる型を返していたとしてもです）。</p>
-</div>
+全く同じ型のパラメータ群を持つ同じ名前の関数を２つ持とうとするとエラーになります（異なる型を返していたとしてもです）。</div>
 <p>関数呼び出しがKLソース内で書かれていた時に、もし同じ名前の複数の関数が存在していたら、その時はKLコンパイラはどの関数を呼び出すべきか決めるためにベストマッチ・システムを使用します。厳格なパラメーターの型のマッチング（訳者注：暗黙のキャストなどを伴わずに、互いに全く同じ型であると判別すること）は常に型キャストより優先して行われます。もしコンパイラが唯一の最適な関数を選べなかった場合は、多義性（曖昧さ）を示すエラーを報告します。</p>
 <p>次の例は、関数ポリモーフィズムの一つの使用例を示すものです。</p>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
@@ -423,8 +416,7 @@
 <p>もし関数呼び出し時の関数名が型の名前と同じだった場合、与えられた引数を取るコンストラクタは、指定された型の一時的な値を作るために呼び出されます。もし、呼び出し時に渡された引数とぴったりマッチするコンストラクタがない場合は、呼び出すべきコンストラクタを選ぶために、ベスト・マッチ・ポリモーフィズムルールが適用されます。これを <em class="dfn">temporary initialization</em> と呼びます。</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">KLはコンストラクションとキャスティングを区別しません。異なる型への値のキャストは、（与えられた値から適切なコンストラクタを選んで使用することにより、）与えられた型の一時的な値を生成して、それを初期化するのと同じです。</p>
-</div>
+KLはコンストラクションとキャスティングを区別しません。異なる型への値のキャストは、（与えられた値から適切なコンストラクタを選んで使用することにより、）与えられた型の一時的な値を生成して、それを初期化するのと同じです。</div>
 <p>例：</p>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">struct</span> <span class="nx">Vec2</span> <span class="p">{</span>
   <span class="kr">Float64</span> <span class="nx">x</span><span class="p">;</span>
@@ -828,10 +820,8 @@
 <p>どの二項演算子、算術演算子 (<code class="docutils literal"><span class="pre">+</span></code>, <code class="docutils literal"><span class="pre">-</span></code>, <code class="docutils literal"><span class="pre">*</span></code>, <code class="docutils literal"><span class="pre">/</span></code>, <code class="docutils literal"><span class="pre">%</span></code>), ビット演算子 (<code class="docutils literal"><span class="pre">|</span></code>, <code class="docutils literal"><span class="pre">&amp;</span></code>, <code class="docutils literal"><span class="pre">^</span></code>, <code class="docutils literal"><span class="pre">&lt;&lt;</span></code> and <code class="docutils literal"><span class="pre">&gt;&gt;</span></code>) 比較演算子 (<code class="docutils literal"><span class="pre">==</span></code>, <code class="docutils literal"><span class="pre">!=</span></code>, <code class="docutils literal"><span class="pre">&lt;</span></code>, <code class="docutils literal"><span class="pre">&lt;=</span></code>, <code class="docutils literal"><span class="pre">&gt;</span></code> and <code class="docutils literal"><span class="pre">&gt;=</span></code>) もオーバロード可能です。</p>
 <p>二項演算子のオーバロードには以下の制限があります:</p>
 <ul class="simple">
-<li><p class="first">パラメータを『２つ』とります。この２つのパラメータは、どのような型でも可能であり、互いに異なる型でもよいですが、双方 input-only のパラメータである必要があります。</p>
-</li>
-<li><p class="first">値を返します。ただし返り値の型は問いません。</p>
-</li>
+<li>パラメータを『２つ』とります。この２つのパラメータは、どのような型でも可能であり、互いに異なる型でもよいですが、双方 input-only のパラメータである必要があります。</li>
+<li>値を返します。ただし返り値の型は問いません。</li>
 </ul>
 </div>
 <div class="section" id="unary-operator-overloads">
@@ -873,8 +863,7 @@
 <p>単項演算子は  <code class="docutils literal"><span class="pre">+</span></code>, <code class="docutils literal"><span class="pre">-</span></code>, <code class="docutils literal"><span class="pre">~</span></code> のみオーバロード可能です。</p>
 <p>単項演算子のオーバーロードには以下の制限があります:</p>
 <ul class="simple">
-<li><p class="first">値を返します。ただし返り値の型は問いません。</p>
-</li>
+<li>値を返します。ただし返り値の型は問いません。</li>
 </ul>
 </div>
 <div class="section" id="direct-assignment-overloads">
@@ -916,10 +905,8 @@
 </div>
 <p>複合代入演算子のオーバロードは以下の制限に従います:</p>
 <ul class="simple">
-<li><p class="first">『１つ』パラメータを取ります。このパラメータはどのような型でも構いません。パラメータは input-only である必要があります。</p>
-</li>
-<li><p class="first">値を返しません。</p>
-</li>
+<li>『１つ』パラメータを取ります。このパラメータはどのような型でも構いません。パラメータは input-only である必要があります。</li>
+<li>値を返しません。</li>
 </ul>
 </div>
 <div class="section" id="compound-assignment-overloads">
@@ -951,10 +938,8 @@
 </div>
 <p>複合代入演算子のオーバロードは以下の制限に従います:</p>
 <ul class="simple">
-<li><p class="first">『１つ』パラメータを取ります。このパラメータはどのような型でも構いません。パラメータは input-only である必要があります。</p>
-</li>
-<li><p class="first">値を返しません。</p>
-</li>
+<li>『１つ』パラメータを取ります。このパラメータはどのような型でも構いません。パラメータは input-only である必要があります。</li>
+<li>値を返しません。</li>
 </ul>
 </div>
 </div>
@@ -1099,8 +1084,7 @@
 <dd><p><code class="samp docutils literal"><em><span class="pre">x</span></em></code> の逆正接(アークコタンジェント)を返します。返り値の単位はラジアンです。</p>
 <div class="admonition warning">
 <p class="first admonition-title">警告</p>
-<p class="last">この関数は巨大な <code class="samp docutils literal"><em><span class="pre">x</span></em></code> では機能しません。 <span class="math">\((-\pi/2,\pi/2)\)</span> の範囲でのみ値を返します。範囲外のものは <a class="reference internal" href="#atan2" title="atan2"><code class="xref kl kl-func docutils literal"><span class="pre">atan2</span></code></a> をかわりに使用します。</p>
-</div>
+この関数は巨大な <code class="samp docutils literal"><em><span class="pre">x</span></em></code> では機能しません。 <span class="math">\((-\pi/2,\pi/2)\)</span> の範囲でのみ値を返します。範囲外のものは <a class="reference internal" href="#atan2" title="atan2"><code class="xref kl kl-func docutils literal"><span class="pre">atan2</span></code></a> をかわりに使用します。</div>
 </dd></dl>
 
 <dl class="function">
@@ -1218,8 +1202,7 @@
 
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">ある浮動小数点数  <code class="docutils literal"><span class="pre">x</span></code> について、 <code class="docutils literal"><span class="pre">!x.isReg()</span></code> は  <code class="docutils literal"><span class="pre">x.isInf()</span> <span class="pre">||</span> <span class="pre">x.isNaN()</span></code> と同等です</p>
-</div>
+ある浮動小数点数  <code class="docutils literal"><span class="pre">x</span></code> について、 <code class="docutils literal"><span class="pre">!x.isReg()</span></code> は  <code class="docutils literal"><span class="pre">x.isInf()</span> <span class="pre">||</span> <span class="pre">x.isNaN()</span></code> と同等です</div>
 </div>
 </div>
 <div class="section" id="vector-functions">
@@ -1632,14 +1615,10 @@ const <code class="samp docutils literal"><em><span class="pre">Type</span></em>
 <p>どちらのケースも、 <code class="samp docutils literal"><em><span class="pre">Type</span></em></code> は boolean, integer, floating-point, string いずれかの型である; <code class="samp docutils literal"><em><span class="pre">name</span></em></code> は識別子;  <code class="samp docutils literal"><em><span class="pre">expr</span></em></code> は <cite>{Type}</cite> 型の定数として評価される定数を含む式である必要があります。スカラの名前付き定数の場合、その型は <code class="samp docutils literal"><em><span class="pre">Type</span></em></code> です。配列の名前付き定数の場合、その型は <code class="samp docutils literal"><em><span class="pre">Type</span></em></code> 型の要素の固定長配列です; この配列のサイズは、カッコ内に与えられた初期化する値の数と同一になります。</p>
 <p>以下のどれかをするとコンパイル時にエラーとなります。</p>
 <ul class="simple">
-<li><p class="first">名前付き定数への代入</p>
-</li>
-<li><p class="first">関数の <code class="docutils literal"><span class="pre">io</span></code> パラメータとして名前付き定数を渡す</p>
-</li>
-<li><p class="first">既存の関数（あるいはオペレータ、他の名前付き定数）と同名でグローバル名前付き定数を宣言</p>
-</li>
-<li><p class="first">同一スコープ内の、既存の変数（あるいは他の名前付き定数）と同名で非グローバルな名前付き定数を宣言</p>
-</li>
+<li>名前付き定数への代入</li>
+<li>関数の <code class="docutils literal"><span class="pre">io</span></code> パラメータとして名前付き定数を渡す</li>
+<li>既存の関数（あるいはオペレータ、他の名前付き定数）と同名でグローバル名前付き定数を宣言</li>
+<li>同一スコープ内の、既存の変数（あるいは他の名前付き定数）と同名で非グローバルな名前付き定数を宣言</li>
 </ul>
 <p>名前付き定数の例:</p>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">const</span> <span class="kr">String</span> <span class="nx">MODULE_NAME</span> <span class="o">=</span> <span class="s2">&quot;KL&quot;</span><span class="p">;</span>
@@ -1846,8 +1825,7 @@ SInt64Max=9223372036854775807
 <p>オーバーライドキー &#8220;MyOverride&#8221; を持つエクステンション全てを、異なるオーバーライドキーをもつ、同じエクステンションの異なるバージョンよりも優先する結果となります。</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">全ての環境変数はすべて大文字を使用します。</p>
-</div>
+全ての環境変数はすべて大文字を使用します。</div>
 <p>バージョン情報をエクステンションに埋め込むための、より詳しい情報については <a class="reference internal" href="../ExtensionAuthoringGuide/fpm.html#exts-versioning"><span class="std std-ref">version ：エクステンション・バージョニングの指定（任意）</span></a> をご参照ください。</p>
 </div>
 </div>

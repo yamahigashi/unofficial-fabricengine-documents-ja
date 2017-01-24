@@ -65,19 +65,15 @@
 <p>デフォルトでは、CanvasとSpliceノードはたとえ、Mayaの並列評価が有効になっていたとしても、互いに並列に動作することはありません。なぜかというと、Fabric for Mayaはあらゆる互いのノードが同時に実行されることが安全であるか、確証を持てないためです。例えば、ある２つのノードはスレッドセーフでないKLエクステンションを使っているかもしれません。</p>
 <p>Fabric for Mayaでは、ノードごとの並列評価動作を設定できます。２つの異なる動作があります。</p>
 <ul>
-<li><p class="first">共有実行（または評価）：Fabricノードは、共有実行が有効になっている他のあらゆる全てのFabricノードと、潜在的に並列に実行されます。</p>
-<div class="admonition note">
+<li>共有実行（または評価）：Fabricノードは、共有実行が有効になっている他のあらゆる全てのFabricノードと、潜在的に並列に実行されます。<div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">共有実行が有効になっているCanvasノードとSpliceノードは、潜在的に互いに並列実行されます。</p>
-</div>
+共有実行が有効になっているCanvasノードとSpliceノードは、潜在的に互いに並列実行されます。</div>
 </li>
-<li><p class="first">排他実行（または評価）（これがデフォルトです）：Fabricノードは他のFabricノードとは並列に実行されません。しかしながら、Fabricノードでない、他のノードとは並列に実行される可能性があります（この並列動作はMaya 2016によってコントロールされます）。</p>
-</li>
+<li>排他実行（または評価）（これがデフォルトです）：Fabricノードは他のFabricノードとは並列に実行されません。しかしながら、Fabricノードでない、他のノードとは並列に実行される可能性があります（この並列動作はMaya 2016によってコントロールされます）。</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">CanvasノードとSpliceノードの共有実行は、Canvasノード、Spliceノードの内部の並列評価とは異なります。たとえFabricノードが共有実行を有効にされていなくても、PEXコールのような内部的な並列操作は実行できるのです。</p>
-</div>
+CanvasノードとSpliceノードの共有実行は、Canvasノード、Spliceノードの内部の並列評価とは異なります。たとえFabricノードが共有実行を有効にされていなくても、PEXコールのような内部的な並列操作は実行できるのです。</div>
 <p>現在のところ、共有実行はスクリプティングを通してのみ、有効にすることができます。共有実行を有効にするためのスクリプトコマンドが、各Fabric CanvasとFabric Spliceにあります。</p>
 <p>Follow these steps to see an example showing the difference between shared and unshared execution of Canvas nodes:</p>
 <blockquote>
@@ -245,8 +241,7 @@ select -r &quot;inputLocator1&quot;;
 <p>Maya 2016では、２つの環境変数 <cite>FABRIC_CANVAS_PARALLEL_DEFAULT</cite> と <cite>FABRIC_SPLICE_PARALLEL_DEFAULT</cite> によって、標準でFabricノードの共有実行を有効にできます。</p>
 <div class="admonition warning">
 <p class="first admonition-title">警告</p>
-<p class="last">これらの変数は、非常によくコントロールされた状況下でのみ使用されるべきです。そうであるなら、全てのユーザーが作成したFabricノードが互いに並列に実行されるでしょう。もしこれらのノードが、（たとえ直接的でなくても）共通の共有リソースに書き込みをおこなったら、おそらくクラッシュを引き起こすでしょう。</p>
-</div>
+これらの変数は、非常によくコントロールされた状況下でのみ使用されるべきです。そうであるなら、全てのユーザーが作成したFabricノードが互いに並列に実行されるでしょう。もしこれらのノードが、（たとえ直接的でなくても）共通の共有リソースに書き込みをおこなったら、おそらくクラッシュを引き起こすでしょう。</div>
 </div>
 </div>
 

@@ -67,8 +67,7 @@
 <p>単純な文とは、条件のチェックをしない、もしくはネストしたスコープを作らない文のことです。単純な文は常に <code class="docutils literal"><span class="pre">;</span></code> (セミコロン)文字で終わります。</p>
 <div class="admonition warning">
 <p class="first admonition-title">警告</p>
-<p class="last">KLでも、C言語属においても、文末のセミコロン付け忘れは一般的な文法エラーですね。</p>
-</div>
+KLでも、C言語属においても、文末のセミコロン付け忘れは一般的な文法エラーですね。</div>
 <div class="section" id="expression-statements">
 <span id="expr-statements"></span><span id="index-2"></span><h3>式文（Expression Statements）<a class="headerlink" href="#expression-statements" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>どの式、<code class="docutils literal"><span class="pre">;</span></code> (セミコロン)で終わるものは全て文です。式を評価しその結果となる値（返り値がある場合）をすべて無視することで、文は動作します。最も一般的な式文は関数呼び出しです。（例えば <code class="docutils literal"><span class="pre">report</span></code>)</p>
@@ -109,12 +108,10 @@
 <p>プログラムの練習としてPEXの再帰呼び出しを試す価値があります。</p>
 <div class="admonition warning">
 <p class="first admonition-title">警告</p>
-<p class="last">KLは、追加引数に異なるコアより同時に渡される変数への変更を保護しません。あるPEX文において、特定のオペレータの２つの呼び出しが、同じ値を同時に変更しないように保証するのはプログラマの責任の範疇となります。このような同値同時変更を許してしまうと、追跡困難なバグの温床となり、ひいてはプログラムを破綻させます。</p>
-</div>
+KLは、追加引数に異なるコアより同時に渡される変数への変更を保護しません。あるPEX文において、特定のオペレータの２つの呼び出しが、同じ値を同時に変更しないように保証するのはプログラマの責任の範疇となります。このような同値同時変更を許してしまうと、追跡困難なバグの温床となり、ひいてはプログラムを破綻させます。</div>
 <div class="admonition warning">
 <p class="first admonition-title">警告</p>
-<p class="last">PEXには生来オーバーヘッドが存在します。そのため些細なオペレータ呼び出しをPEXで行うよりは、直列実行のほうが効率的な場合があります。並列実行（Parallel executions）は大規模なワークロードにおいて最も効果的です。</p>
-</div>
+PEXには生来オーバーヘッドが存在します。そのため些細なオペレータ呼び出しをPEXで行うよりは、直列実行のほうが効率的な場合があります。並列実行（Parallel executions）は大規模なワークロードにおいて最も効果的です。</div>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm">** Example: PEX Operations</span>
 <span class="cm">*/</span>
@@ -168,8 +165,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">現在KLでは、変数を宣言したその文において、配列を初期化することはできません。</p>
-</div>
+現在KLでは、変数を宣言したその文において、配列を初期化することはできません。</div>
 </div>
 <div class="section" id="constant-declaration-statements">
 <span id="klpg-const-decl-statements"></span><span id="index-6"></span><h3>定数宣言文<a class="headerlink" href="#constant-declaration-statements" title="このヘッドラインへのパーマリンク">¶</a></h3>
@@ -179,10 +175,8 @@
 <span id="return-statement"></span><span id="index-7"></span><h3><code class="docutils literal"><span class="pre">return</span></code> 文<a class="headerlink" href="#the-return-statement" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><code class="docutils literal"><span class="pre">return</span></code> 文には２種の形式があります：</p>
 <ul class="simple">
-<li><p class="first">値を返す関数において、 <code class="docutils literal"><span class="pre">return</span></code> 文は呼び出し元の関数へと、文に与えられた値を即座に返します。返却される値の型は、関数定義に指定された型へと暗黙的なキャストが行われます。</p>
-</li>
-<li><p class="first">値を返さない関数において、 <code class="docutils literal"><span class="pre">return</span></code> 文は値を取らず、呼び出し元関数へと即座に戻ります。</p>
-</li>
+<li>値を返す関数において、 <code class="docutils literal"><span class="pre">return</span></code> 文は呼び出し元の関数へと、文に与えられた値を即座に返します。返却される値の型は、関数定義に指定された型へと暗黙的なキャストが行われます。</li>
+<li>値を返さない関数において、 <code class="docutils literal"><span class="pre">return</span></code> 文は値を取らず、呼び出し元関数へと即座に戻ります。</li>
 </ul>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm">** Example: The return Statement</span>
@@ -207,8 +201,7 @@
 <p><code class="docutils literal"><span class="pre">throw</span></code> 文は、例外を投げます。KLコードの実行を即座に中止し、呼びだし元の環境へ(Fabric Engine あるいは the KL tool) 例外を返し、ユーザに表示されます。<code class="docutils literal"><span class="pre">throw</span></code> 文は、パラメータを１つ取ります。このパラメータはどんな値でも構いません。この値は、呼び出し元環境へと渡される前に、自動的に文字列へと変換されます。</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">KL内で例外を捕捉（catch exception）することはまだできません。64bit Windows での LLVM に例外ハンドリングが対応していないためです。</p>
-</div>
+KL内で例外を捕捉（catch exception）することはまだできません。64bit Windows での LLVM に例外ハンドリングが対応していないためです。</div>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm">** Example: The throw Statement</span>
 <span class="cm">*/</span>
@@ -243,10 +236,8 @@
 <span id="index-10"></span><span id="id4"></span><h3>合成文（Compound Statements）<a class="headerlink" href="#compound-statements" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>KLソースコード中、単文を挿入可能場所であれば、複数の文を挿入可能です。 <code class="docutils literal"><span class="pre">{</span></code> (左中括弧) and <code class="docutils literal"><span class="pre">}</span></code> (右中括弧)で包みます。このような影響があります：</p>
 <ul class="simple">
-<li><p class="first">この文は、１つの文であるかのように実行されます。</p>
-</li>
-<li><p class="first">新しい、ネストされたスコープが導入されます。 <a class="reference internal" href="scopes-namespaces.html#scope"><span class="std std-ref">Scoping Rules</span></a> 参照</p>
-</li>
+<li>この文は、１つの文であるかのように実行されます。</li>
+<li>新しい、ネストされたスコープが導入されます。 <a class="reference internal" href="scopes-namespaces.html#scope"><span class="std std-ref">Scoping Rules</span></a> 参照</li>
 </ul>
 </div>
 <div class="section" id="conditional-statements">
@@ -307,16 +298,11 @@ for (<code class="samp docutils literal"><em><span class="pre">startStmt</span><
 </pre>
 <p><code class="samp docutils literal"><em><span class="pre">startStmt</span></em></code> の場には文（空でも可）を, <code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> と <code class="samp docutils literal"><em><span class="pre">nextExpr</span></em></code> は任意に式を置き, <code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code> は文を置きます。ループは以下のように動作します:</p>
 <ul class="simple">
-<li><p class="first">新しいネストされたスコープを作ります。ループ完了で破棄します。</p>
-</li>
-<li><p class="first"><code class="samp docutils literal"><em><span class="pre">startStmt</span></em></code> 文を実行します。</p>
-</li>
-<li><p class="first"><code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> 式があれば評価します。結果の値を <code class="docutils literal"><span class="pre">Boolean</span></code> に変換します。 false であればループを終了します。</p>
-</li>
-<li><p class="first"><code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code> 文を実行します。</p>
-</li>
-<li><p class="first"><code class="samp docutils literal"><em><span class="pre">nextExpr</span></em></code> 式があれば評価します。結果の値は無視します。<code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> 式の評価へと実行ステップが戻されます。</p>
-</li>
+<li>新しいネストされたスコープを作ります。ループ完了で破棄します。</li>
+<li><code class="samp docutils literal"><em><span class="pre">startStmt</span></em></code> 文を実行します。</li>
+<li><code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> 式があれば評価します。結果の値を <code class="docutils literal"><span class="pre">Boolean</span></code> に変換します。 false であればループを終了します。</li>
+<li><code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code> 文を実行します。</li>
+<li><code class="samp docutils literal"><em><span class="pre">nextExpr</span></em></code> 式があれば評価します。結果の値は無視します。<code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> 式の評価へと実行ステップが戻されます。</li>
 </ul>
 <p><code class="samp docutils literal"><em><span class="pre">startStmt</span></em></code> は文であるため、ここに変数を宣言することが可能です。ループ終了とともにこの変数はスコープからはずれます。ループに束縛されたインデックス変数を <code class="samp docutils literal"><em><span class="pre">startStmt</span></em></code> に宣言することは一般的な慣習です。</p>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
@@ -339,12 +325,9 @@ while (<code class="samp docutils literal"><em><span class="pre">checkExpr</span
 </pre>
 <p><code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> の場には式を、 <code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code> 文を置きます。以下のように動作します:</p>
 <ul class="simple">
-<li><p class="first"><code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> 式を評価します。結果の値を <code class="docutils literal"><span class="pre">Boolean</span></code> に変換します。false であればループを終了します。</p>
-</li>
-<li><p class="first"><code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code> 文を実行します。</p>
-</li>
-<li><p class="first">実行ステップを <code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> 式の評価まで戻します。</p>
-</li>
+<li><code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> 式を評価します。結果の値を <code class="docutils literal"><span class="pre">Boolean</span></code> に変換します。false であればループを終了します。</li>
+<li><code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code> 文を実行します。</li>
+<li>実行ステップを <code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> 式の評価まで戻します。</li>
 </ul>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm">** Example: while Loops</span>
@@ -386,12 +369,9 @@ while (<code class="samp docutils literal"><em><span class="pre">checkExpr</span
 </pre>
 <p><code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> の場には式を、 <code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code> 文を置きます。以下のように動作します:</p>
 <ul class="simple">
-<li><p class="first"><code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code> 文を実行します。</p>
-</li>
-<li><p class="first"><code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> 式を評価します。結果の値を <code class="docutils literal"><span class="pre">Boolean</span></code> に変換します。false であればループを終了します。</p>
-</li>
-<li><p class="first"><code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code> 文の実行まで、実行ステップを戻します。</p>
-</li>
+<li><code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code> 文を実行します。</li>
+<li><code class="samp docutils literal"><em><span class="pre">checkExpr</span></em></code> 式を評価します。結果の値を <code class="docutils literal"><span class="pre">Boolean</span></code> に変換します。false であればループを終了します。</li>
+<li><code class="samp docutils literal"><em><span class="pre">bodyStmt</span></em></code> 文の実行まで、実行ステップを戻します。</li>
 </ul>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm">** Example: do-while Loops</span>

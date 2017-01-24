@@ -63,18 +63,12 @@
 <p>KLが開発された当初、可能な限り JavaScriptのシンタックスを模倣するよう設計しました。JavaScript自体は <em>C-like language</em> をシンタックスはともかく参照しています。この節ではKLの文法を詳細に掘り下げます。C言語に親しんでいない場合、レファレンスとなることでしょう。一方、もし既に JavaScript and/or C言語 に詳しいのであれば、この節はスキップし、ガイドの続きへ進むことをお薦めします。</p>
 <p>Cライクな言語の特徴：</p>
 <ul class="simple">
-<li><p class="first">プログラムは人間可読なプレーンテキストです。</p>
-</li>
-<li><p class="first">プログラムは一連の <span class="target" id="index-21"></span>tokens から成ります。トークンには4つの構成要素があります。 キーワード（keywords） 、識別子（identifiers）, シンボル（symbols）、定数（constants）</p>
-</li>
-<li><p class="first">トークンは任意の個数のホワイトスペースで区切ります。2つの隣接するトークン同士は、それぞれ個別に見えるようにスペースで分割しなければなりません。「ホワイトスペースによる」とは スペース（ASCII 32）、改行 n（ASCII 10）、タブ（ASCII 9）、キャリッジ・リターン r（ASCII 13）、ヴァーティカルタブ（ASCII 11）を意味します。</p>
-</li>
-<li><p class="first">プログラムにはどこにでもコメントを付することができます。コメントはコンピュータでの処理の際、ホワイトスペースと同じように扱われます。2つのコメント方法があります。 ブロックコメント、 <code class="docutils literal"><span class="pre">/*</span></code> で始まり次ので終わり <code class="docutils literal"><span class="pre">*/</span></code> 。そして行コメント <code class="docutils literal"><span class="pre">//</span></code> で始まり次の改行コード（n ASCII 10）まで続きます。</p>
-</li>
-<li><p class="first">ブロックは <code class="docutils literal"><span class="pre">{</span></code> と <code class="docutils literal"><span class="pre">}</span></code> により分割されます。</p>
-</li>
-<li><p class="first">文（statement）は <code class="docutils literal"><span class="pre">;</span></code> で終端です。</p>
-</li>
+<li>プログラムは人間可読なプレーンテキストです。</li>
+<li>プログラムは一連の <span class="target" id="index-21"></span>tokens から成ります。トークンには4つの構成要素があります。 キーワード（keywords） 、識別子（identifiers）, シンボル（symbols）、定数（constants）</li>
+<li>トークンは任意の個数のホワイトスペースで区切ります。2つの隣接するトークン同士は、それぞれ個別に見えるようにスペースで分割しなければなりません。「ホワイトスペースによる」とは スペース（ASCII 32）、改行 n（ASCII 10）、タブ（ASCII 9）、キャリッジ・リターン r（ASCII 13）、ヴァーティカルタブ（ASCII 11）を意味します。</li>
+<li>プログラムにはどこにでもコメントを付することができます。コメントはコンピュータでの処理の際、ホワイトスペースと同じように扱われます。2つのコメント方法があります。 ブロックコメント、 <code class="docutils literal"><span class="pre">/*</span></code> で始まり次ので終わり <code class="docutils literal"><span class="pre">*/</span></code> 。そして行コメント <code class="docutils literal"><span class="pre">//</span></code> で始まり次の改行コード（n ASCII 10）まで続きます。</li>
+<li>ブロックは <code class="docutils literal"><span class="pre">{</span></code> と <code class="docutils literal"><span class="pre">}</span></code> により分割されます。</li>
+<li>文（statement）は <code class="docutils literal"><span class="pre">;</span></code> で終端です。</li>
 </ul>
 <p>次にKLシンタックスの詳細を掘り下げます。</p>
 <div class="section" id="encoding">
@@ -221,16 +215,13 @@
 <span id="identifiers"></span><h3>識別子<a class="headerlink" href="#index-8" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><em class="dfn">Identifiers</em> とは、文字１つかそれ以上の連なりから成ります：</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">a...z</span></code>, <code class="docutils literal"><span class="pre">A...Z</span></code>, <code class="docutils literal"><span class="pre">_</span></code> などの文字から始まり、</p>
-</li>
-<li><p class="first">次の文字0個以上つづきます。 <code class="docutils literal"><span class="pre">a...z</span></code>, <code class="docutils literal"><span class="pre">A...Z</span></code>, <code class="docutils literal"><span class="pre">0...9</span></code> or <code class="docutils literal"><span class="pre">_</span></code></p>
-</li>
+<li><code class="docutils literal"><span class="pre">a...z</span></code>, <code class="docutils literal"><span class="pre">A...Z</span></code>, <code class="docutils literal"><span class="pre">_</span></code> などの文字から始まり、</li>
+<li>次の文字0個以上つづきます。 <code class="docutils literal"><span class="pre">a...z</span></code>, <code class="docutils literal"><span class="pre">A...Z</span></code>, <code class="docutils literal"><span class="pre">0...9</span></code> or <code class="docutils literal"><span class="pre">_</span></code></li>
 </ul>
 <p>識別子は、KLでの変数の名前、パラメータの名前、関数の名前、定数の名前、メソッドの名前、型の名前に使用します。</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">KLでの組み込み型（例： <code class="docutils literal"><span class="pre">Boolean</span></code>, <code class="docutils literal"><span class="pre">String</span></code>, <code class="docutils literal"><span class="pre">Float32</span></code> ）はキーワードではなく、識別子です。このことは言語設計の技術的詳細として重要ではありますが、実際にはあまり違いはありません。違いといえばシンタックスエラーのかわりにセマンティクスエラーがでる程度です。</p>
-</div>
+KLでの組み込み型（例： <code class="docutils literal"><span class="pre">Boolean</span></code>, <code class="docutils literal"><span class="pre">String</span></code>, <code class="docutils literal"><span class="pre">Float32</span></code> ）はキーワードではなく、識別子です。このことは言語設計の技術的詳細として重要ではありますが、実際にはあまり違いはありません。違いといえばシンタックスエラーのかわりにセマンティクスエラーがでる程度です。</div>
 <p>正常な識別子の例：</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">foo</span></code></li>
@@ -353,19 +344,14 @@
 <span id="index-12"></span><span id="id1"></span><h4>整数定数<a class="headerlink" href="#integer-constants" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p><em class="dfn">integer constant</em> の3つの形態:</p>
 <ul class="simple">
-<li><p class="first">一桁の <code class="docutils literal"><span class="pre">0</span></code></p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">1...9</span></code> の一桁から始まり、ゼロ桁以上の <code class="docutils literal"><span class="pre">0...9</span></code> が続く10進定数</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">0x</span></code> もしくは <code class="docutils literal"><span class="pre">0X</span></code> とそれに1つ以上の <code class="docutils literal"><span class="pre">0...9</span></code>, <code class="docutils literal"><span class="pre">a...f</span></code> and <code class="docutils literal"><span class="pre">A...F</span></code> の文字が続く16進定数</p>
-</li>
+<li>一桁の <code class="docutils literal"><span class="pre">0</span></code></li>
+<li><code class="docutils literal"><span class="pre">1...9</span></code> の一桁から始まり、ゼロ桁以上の <code class="docutils literal"><span class="pre">0...9</span></code> が続く10進定数</li>
+<li><code class="docutils literal"><span class="pre">0x</span></code> もしくは <code class="docutils literal"><span class="pre">0X</span></code> とそれに1つ以上の <code class="docutils literal"><span class="pre">0...9</span></code>, <code class="docutils literal"><span class="pre">a...f</span></code> and <code class="docutils literal"><span class="pre">A...F</span></code> の文字が続く16進定数</li>
 </ul>
 <p>どの形態であれ、整数定数では必要に応じ整数型の型の指定を行えます。整数型の指定では、符号（signededness）の可否、ビット長の指定、どの形態かについて指定します。</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">s</span></code> (signed) もしくは <code class="docutils literal"><span class="pre">u</span></code> (unsigned)に続けて、</p>
-</li>
-<li><p class="first">(任意) <code class="docutils literal"><span class="pre">8</span></code>, <code class="docutils literal"><span class="pre">16</span></code>, <code class="docutils literal"><span class="pre">32</span></code> or <code class="docutils literal"><span class="pre">64</span></code> (ビット幅)</p>
-</li>
+<li><code class="docutils literal"><span class="pre">s</span></code> (signed) もしくは <code class="docutils literal"><span class="pre">u</span></code> (unsigned)に続けて、</li>
+<li>(任意) <code class="docutils literal"><span class="pre">8</span></code>, <code class="docutils literal"><span class="pre">16</span></code>, <code class="docutils literal"><span class="pre">32</span></code> or <code class="docutils literal"><span class="pre">64</span></code> (ビット幅)</li>
 </ul>
 <p>ビット幅を指定しない場合、整数のビット幅は 32-bit です。なので、 <code class="docutils literal"><span class="pre">145u</span></code> は unsigned 32-bit 整数定数で <code class="docutils literal"><span class="pre">78s</span></code> は signed 32-bit 整数定数を意味します。</p>
 <p>型の指定がない場合、整数は signed 32-bitになります。なので <code class="docutils literal"><span class="pre">5421</span></code> は signed 32-bit 整数定数です。</p>
@@ -400,25 +386,17 @@
 <span id="index-13"></span><span id="id2"></span><h4>浮動小数点数定数<a class="headerlink" href="#floating-point-constants" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>KLの <em class="dfn">floating-point constant</em> は <code class="docutils literal"><span class="pre">Float32</span></code> と <code class="docutils literal"><span class="pre">Float64</span></code> の2つの型があります。シンタックスは C/C++ に非常に近く <code class="docutils literal"><span class="pre">Float32</span></code> は C での <code class="docutils literal"><span class="pre">float</span></code> を意味し <code class="docutils literal"><span class="pre">Float64</span></code> は C での <code class="docutils literal"><span class="pre">double</span></code> 型：</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">1.2</span></code> は <code class="docutils literal"><span class="pre">Float64</span></code> 型</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">1.2f</span></code> は <code class="docutils literal"><span class="pre">Float32</span></code> 型</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">.7</span></code> は <code class="docutils literal"><span class="pre">Float64</span></code> 型</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">3.4e7</span></code> や <code class="docutils literal"><span class="pre">3.4e+7</span></code> は <code class="docutils literal"><span class="pre">Float64</span></code> 型</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">3.4e7f</span></code> や <code class="docutils literal"><span class="pre">3.4e+7f</span></code> は <code class="docutils literal"><span class="pre">Float32</span></code> 型</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">.5e-4f</span></code> は <code class="docutils literal"><span class="pre">Float32</span></code> 型</p>
-</li>
+<li><code class="docutils literal"><span class="pre">1.2</span></code> は <code class="docutils literal"><span class="pre">Float64</span></code> 型</li>
+<li><code class="docutils literal"><span class="pre">1.2f</span></code> は <code class="docutils literal"><span class="pre">Float32</span></code> 型</li>
+<li><code class="docutils literal"><span class="pre">.7</span></code> は <code class="docutils literal"><span class="pre">Float64</span></code> 型</li>
+<li><code class="docutils literal"><span class="pre">3.4e7</span></code> や <code class="docutils literal"><span class="pre">3.4e+7</span></code> は <code class="docutils literal"><span class="pre">Float64</span></code> 型</li>
+<li><code class="docutils literal"><span class="pre">3.4e7f</span></code> や <code class="docutils literal"><span class="pre">3.4e+7f</span></code> は <code class="docutils literal"><span class="pre">Float32</span></code> 型</li>
+<li><code class="docutils literal"><span class="pre">.5e-4f</span></code> は <code class="docutils literal"><span class="pre">Float32</span></code> 型</li>
 </ul>
 <p>KLは C/C++ のシンタックスをさらに拡張し、<code class="docutils literal"><span class="pre">f32</span></code> and <code class="docutils literal"><span class="pre">f64</span></code> を接尾語として使うことでより明示的な型の指定を可能にします。例：</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">4.5e-6f32</span></code> は <code class="docutils literal"><span class="pre">4.5e-6f</span></code> と同じ</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">2.874f64</span></code> は <code class="docutils literal"><span class="pre">2.873</span></code> 同じ</p>
-</li>
+<li><code class="docutils literal"><span class="pre">4.5e-6f32</span></code> は <code class="docutils literal"><span class="pre">4.5e-6f</span></code> と同じ</li>
+<li><code class="docutils literal"><span class="pre">2.874f64</span></code> は <code class="docutils literal"><span class="pre">2.873</span></code> 同じ</li>
 </ul>
 <p><code class="docutils literal"><span class="pre">f</span></code>, <code class="docutils literal"><span class="pre">f32</span></code> も <code class="docutils literal"><span class="pre">f64</span></code> も接尾語に使われていない場合、浮動小数点数定数は <em class="dfn">untyped floating-point constant</em> になります。untyped floating-point 定数は自動的にその周囲の式の型を継承します。 例えば, 浮動小数点数定数 <code class="docutils literal"><span class="pre">.5</span></code> が <code class="docutils literal"><span class="pre">Float32</span></code> 型の変数に加算されるとその定数は <code class="docutils literal"><span class="pre">Float32</span></code> であるとして扱われます。</p>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
@@ -484,56 +462,41 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">IEEE浮動小数点形式では、ほとんどの少数や分数の式を表現することはできません。ですのでそのような式で出力された値が、多少ずれているように見えたとしても驚いてはいけません。上記の例では定数 <code class="docutils literal"><span class="pre">.12e20f32</span></code> など。</p>
-</div>
+IEEE浮動小数点形式では、ほとんどの少数や分数の式を表現することはできません。ですのでそのような式で出力された値が、多少ずれているように見えたとしても驚いてはいけません。上記の例では定数 <code class="docutils literal"><span class="pre">.12e20f32</span></code> など。</div>
 </div>
 <div class="section" id="string-constants">
 <span id="index-14"></span><span id="id3"></span><h4>文字列定数<a class="headerlink" href="#string-constants" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p><em class="dfn">string constant</em> とは <code class="docutils literal"><span class="pre">String</span></code> 型の定数値です。とりうる2つの形態:</p>
 <ul class="simple">
-<li><p class="first">文字の連なり。 ２つの <code class="docutils literal"><span class="pre">&quot;</span></code> (ダブルクォート)文字で囲われた、文字列定数のエスケープシーケンス（後述）を含む</p>
-</li>
-<li><p class="first">文字の連なり。２つの <code class="docutils literal"><span class="pre">'</span></code> (シングルクォート)文字で囲われた、文字列定数のエスケープシーケンス（後述）を含む</p>
-</li>
+<li>文字の連なり。 ２つの <code class="docutils literal"><span class="pre">&quot;</span></code> (ダブルクォート)文字で囲われた、文字列定数のエスケープシーケンス（後述）を含む</li>
+<li>文字の連なり。２つの <code class="docutils literal"><span class="pre">'</span></code> (シングルクォート)文字で囲われた、文字列定数のエスケープシーケンス（後述）を含む</li>
 </ul>
 <p><em class="dfn">string constant escape sequence</em> とは以下の、文字列に置き換えられる文字の連なりです。</p>
 <dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">\n</span></code></dt>
-<dd><p class="first last">単一の改行文字（ASCII 10）</p>
-</dd>
+<dd>単一の改行文字（ASCII 10）</dd>
 <dt><code class="docutils literal"><span class="pre">\f</span></code></dt>
-<dd><p class="first last">単一フォームフィード（ASCII12）文字</p>
-</dd>
+<dd>単一フォームフィード（ASCII12）文字</dd>
 <dt><code class="docutils literal"><span class="pre">\r</span></code></dt>
-<dd><p class="first last">単一のキャリッジリターン（ASCII 13）文字</p>
-</dd>
+<dd>単一のキャリッジリターン（ASCII 13）文字</dd>
 <dt><code class="docutils literal"><span class="pre">\t</span></code></dt>
-<dd><p class="first last">単一のキャリッジタブ（ASCII9）文字</p>
-</dd>
+<dd>単一のキャリッジタブ（ASCII9）文字</dd>
 <dt><code class="docutils literal"><span class="pre">\v</span></code></dt>
-<dd><p class="first last">単一の垂直タブ（ASCII11）文字</p>
-</dd>
+<dd>単一の垂直タブ（ASCII11）文字</dd>
 <dt><code class="docutils literal"><span class="pre">\a</span></code></dt>
-<dd><p class="first last">単一のベル（ASCII7）文字</p>
-</dd>
+<dd>単一のベル（ASCII7）文字</dd>
 <dt><code class="docutils literal"><span class="pre">\b</span></code></dt>
-<dd><p class="first last">単一のバックスペース（ASCII8）文字</p>
-</dd>
+<dd>単一のバックスペース（ASCII8）文字</dd>
 <dt><code class="docutils literal"><span class="pre">\0</span></code></dt>
-<dd><p class="first last">単一のヌル（ASCII0）文字</p>
-</dd>
+<dd>単一のヌル（ASCII0）文字</dd>
 <dt><code class="docutils literal"><span class="pre">\&quot;</span></code></dt>
-<dd><p class="first last">単一の二重引用符（ASCII34）文字</p>
-</dd>
+<dd>単一の二重引用符（ASCII34）文字</dd>
 <dt><code class="docutils literal"><span class="pre">\'</span></code></dt>
-<dd><p class="first last">単一のシングルクォート（ASCII39）文字</p>
-</dd>
+<dd>単一のシングルクォート（ASCII39）文字</dd>
 <dt><code class="docutils literal"><span class="pre">\\</span></code></dt>
-<dd><p class="first last">単一のバックスラッシュ（ASCII92）文字</p>
-</dd>
+<dd>単一のバックスラッシュ（ASCII92）文字</dd>
 <dt><code class="samp docutils literal"><span class="pre">\x</span><em><span class="pre">HH</span></em></code></dt>
-<dd><p class="first last">単一の文字、ASCIIコード16進数で指定。2つの文字 <code class="samp docutils literal"><em><span class="pre">HH</span></em></code> はともに16進文字です。（すなわち <code class="docutils literal"><span class="pre">0...9</span></code>, <code class="docutils literal"><span class="pre">a...f</span></code>, <code class="docutils literal"><span class="pre">A...F</span></code>)。例： <code class="docutils literal"><span class="pre">0x0A</span></code> (十進数の10) はエスケープシーケンスの <code class="docutils literal"><span class="pre">\n</span></code> (ASCII 10) に等しくなります。</p>
-</dd>
+<dd>単一の文字、ASCIIコード16進数で指定。2つの文字 <code class="samp docutils literal"><em><span class="pre">HH</span></em></code> はともに16進文字です。（すなわち <code class="docutils literal"><span class="pre">0...9</span></code>, <code class="docutils literal"><span class="pre">a...f</span></code>, <code class="docutils literal"><span class="pre">A...F</span></code>)。例： <code class="docutils literal"><span class="pre">0x0A</span></code> (十進数の10) はエスケープシーケンスの <code class="docutils literal"><span class="pre">\n</span></code> (ASCII 10) に等しくなります。</dd>
 </dl>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm">** Example: String Constants</span>
@@ -583,14 +546,10 @@
 <span id="index-15"></span><h2>プログラム構造<a class="headerlink" href="#program-structure" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>KLプログラムはそのシーケンス中にゼロ個以上の <span class="target" id="index-22"></span>global declarations から成ります。グローバル宣言は次のいずれかです：</p>
 <ul class="simple">
-<li><p class="first"><a class="reference internal" href="globals.html#functions"><span class="std std-ref">関数</span></a> 関数の宣言、関数プロトタイプの宣言、オペレータの宣言、コンストラクタの宣言、デストラクタの宣言、メソッドの宣言、演算子オーバーロードの宣言</p>
-</li>
-<li><p class="first"><a class="reference internal" href="types.html#klpg-types-structures"><span class="std std-ref">構造体（Structures）</span></a>, <a class="reference internal" href="types.html#klpg-types-objects"><span class="std std-ref">オブジェクト（Objects）</span></a> : 構造体の宣言、オブジェクトの宣言</p>
-</li>
-<li><p class="first"><a class="reference internal" href="globals.html#klpg-global-named-constants"><span class="std std-ref">名前付き定数</span></a> ：グローバル定数の宣言</p>
-</li>
-<li><p class="first"><a class="reference internal" href="globals.html#klpg-require"><span class="std std-ref">require による機能のインポート</span></a> ：  <code class="docutils literal"><span class="pre">require</span></code> 文</p>
-</li>
+<li><a class="reference internal" href="globals.html#functions"><span class="std std-ref">関数</span></a> 関数の宣言、関数プロトタイプの宣言、オペレータの宣言、コンストラクタの宣言、デストラクタの宣言、メソッドの宣言、演算子オーバーロードの宣言</li>
+<li><a class="reference internal" href="types.html#klpg-types-structures"><span class="std std-ref">構造体（Structures）</span></a>, <a class="reference internal" href="types.html#klpg-types-objects"><span class="std std-ref">オブジェクト（Objects）</span></a> : 構造体の宣言、オブジェクトの宣言</li>
+<li><a class="reference internal" href="globals.html#klpg-global-named-constants"><span class="std std-ref">名前付き定数</span></a> ：グローバル定数の宣言</li>
+<li><a class="reference internal" href="globals.html#klpg-require"><span class="std std-ref">require による機能のインポート</span></a> ：  <code class="docutils literal"><span class="pre">require</span></code> 文</li>
 </ul>
 <p>関数、オペレータ、他同様は、ゼロ以上の <span class="target" id="index-23"></span>statements を構成します。どの文も <code class="docutils literal"><span class="pre">;</span></code> （セミコロン）で終わります。KLで利用可能な文に関する詳しい情報は  <a class="reference internal" href="statements.html#statements"><span class="std std-ref">文（Statements）</span></a> を参照してください。</p>
 <p>中括弧（<code class="docutils literal"><span class="pre">{</span></code> と <code class="docutils literal"><span class="pre">}</span></code>）で囲まれた複数の文の連なりは、単文の場をとることができます。これによりネストされたスコープを導入できます。より詳しい情報は <a class="reference internal" href="scopes-namespaces.html#scope-compound-statement"><span class="std std-ref">Compound Statement Scope</span></a> を参照してください。</p>

@@ -143,8 +143,7 @@ candidates are:
 <h2>KLでのオブジェクト の RTVal の作成<a class="headerlink" href="#creating-an-rtval-for-kl-objects" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="admonition warning">
 <p class="first admonition-title">警告</p>
-<p class="last">KL中のオブジェクト同様、新規に作成したあるオブジェクト型な RTVal は、常にnullになります。非nullなオブジェクトRTValの作成には、 <code class="docutils literal"><span class="pre">client.RT.types.&lt;MyObjType&gt;.create(&lt;create</span> <span class="pre">args&gt;)</span></code> を呼びます。ただし、このKLオブジェクトが『複数のパラメタ付』のコンストラクタを実装している場合については、 <code class="docutils literal"><span class="pre">client.RT.types.&lt;MyObjType&gt;(&lt;create</span> <span class="pre">args&gt;)</span></code> を呼ぶことにより非nullの オブジェクトRTValを直接コンストラクトすることができます。</p>
-</div>
+KL中のオブジェクト同様、新規に作成したあるオブジェクト型な RTVal は、常にnullになります。非nullなオブジェクトRTValの作成には、 <code class="docutils literal"><span class="pre">client.RT.types.&lt;MyObjType&gt;.create(&lt;create</span> <span class="pre">args&gt;)</span></code> を呼びます。ただし、このKLオブジェクトが『複数のパラメタ付』のコンストラクタを実装している場合については、 <code class="docutils literal"><span class="pre">client.RT.types.&lt;MyObjType&gt;(&lt;create</span> <span class="pre">args&gt;)</span></code> を呼ぶことにより非nullの オブジェクトRTValを直接コンストラクトすることができます。</div>
 <p>Pythonでの構造体（もしくは基本型）とオブジェクトRTValのコンストラクト例を示します。KL オブジェクトと構造体宣言定義は MyExtエクステンションにあり：</p>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">object</span> <span class="nx">MyObj</span> <span class="p">{</span>
   <span class="kr">Float32</span> <span class="nx">value</span><span class="p">;</span>
@@ -303,8 +302,7 @@ None
 <p>メソッドの呼び出しには、単純にメソッドを呼び出します。引数もわたします。</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">Python でのメソッド呼び出しは、&lt;戻り値の型の名前&gt;を文字列で最初の引数に渡さなくてはいけません。戻り値がないメソッドでは、「空の文字列」をわたします。このクセのある挙動は将来の Fabric Engine で修正する予定です。</p>
-</div>
+Python でのメソッド呼び出しは、&lt;戻り値の型の名前&gt;を文字列で最初の引数に渡さなくてはいけません。戻り値がないメソッドでは、「空の文字列」をわたします。このクセのある挙動は将来の Fabric Engine で修正する予定です。</div>
 <div class="highlight-none"><div class="highlight"><pre><span></span>&gt;&gt;&gt; quat = client.RT.types.Quat()
 &gt;&gt;&gt; upVec = client.RT.types.Vec3(0, 1, 0)
 &gt;&gt;&gt; dirVec = client.RT.types.Vec3(1, 0, 0)
@@ -367,8 +365,7 @@ None
 <p>この2つのメソッドは イベント，イベントハンドラと共に使用することができます。</p>
 <div class="admonition warning">
 <p class="first admonition-title">警告</p>
-<p class="last"><code class="docutils literal"><span class="pre">getValue</span></code> を dependency graph ノードに対して呼ぶ場合、戻りRTVal は『コピー』です。参照では『ありません』。したがって戻りRTVal を変更しても元のノードの値は変更されずにおわります。</p>
-</div>
+<code class="docutils literal"><span class="pre">getValue</span></code> を dependency graph ノードに対して呼ぶ場合、戻りRTVal は『コピー』です。参照では『ありません』。したがって戻りRTVal を変更しても元のノードの値は変更されずにおわります。</div>
 </div>
 <div class="section" id="working-with-kl-rtval">
 <h2>KL <code class="xref std std-kl-ref docutils literal"><span class="pre">RTVal</span></code> の活用<a class="headerlink" href="#working-with-kl-rtval" title="このヘッドラインへのパーマリンク">¶</a></h2>

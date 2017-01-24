@@ -64,12 +64,9 @@
 <p>Canvas Core API の使用するオブジェクトは通常、 <code class="code docutils literal"><span class="pre">DFG</span></code> で始まります。（歴史的経緯によります）そのようなわけで、文書内 Canvas を &#8220;the DFG&#8221; と指す箇所があります。</p>
 <p>Canvas Core API の公開するメインのクラス：</p>
 <ul class="simple">
-<li><p class="first"><code class="code docutils literal"><span class="pre">FabricCore::DFGHost</span></code>: 複数の、Canvas 実行コード、バインディング間で共有する全てのオブジェクトを管理します。undo/redo スタックや、プリセットツリー、新しいバインディングの作成インタフェースなどです。</p>
-</li>
-<li><p class="first"><code class="code docutils literal"><span class="pre">FabricCore::DFGBinding</span></code>: 実行可能なバインディングです。引数の集まりと実際にCanvas内で行う計算処理へのインタフェースです。バインドされる実行コードはサブグラフを伴う非常に複雑なグラフ1個でもよいが、基本的にはすべての演算はそれぞれのバインディングレベルで行われます。</p>
-</li>
-<li><p class="first"><code class="code docutils literal"><span class="pre">FabricCore::DFGExec</span></code>: Canvasの実行コードです。ノードからなるグラフであったり、KL関数であった理します。</p>
-</li>
+<li><code class="code docutils literal"><span class="pre">FabricCore::DFGHost</span></code>: 複数の、Canvas 実行コード、バインディング間で共有する全てのオブジェクトを管理します。undo/redo スタックや、プリセットツリー、新しいバインディングの作成インタフェースなどです。</li>
+<li><code class="code docutils literal"><span class="pre">FabricCore::DFGBinding</span></code>: 実行可能なバインディングです。引数の集まりと実際にCanvas内で行う計算処理へのインタフェースです。バインドされる実行コードはサブグラフを伴う非常に複雑なグラフ1個でもよいが、基本的にはすべての演算はそれぞれのバインディングレベルで行われます。</li>
+<li><code class="code docutils literal"><span class="pre">FabricCore::DFGExec</span></code>: Canvasの実行コードです。ノードからなるグラフであったり、KL関数であった理します。</li>
 </ul>
 <p>これらのオブジェクトの API については詳細を後述します。</p>
 <div class="section" id="canvas-core-api-in-python">
@@ -99,16 +96,11 @@
 <blockquote>
 <div><p>Canvas グラフに存在するノードの型, 次のいずれか：</p>
 <ul class="simple">
-<li><p class="first"><code class="code docutils literal"><span class="pre">DFGNodeType_Inst</span></code> - 実行されるモノのインスタンス</p>
-</li>
-<li><p class="first"><code class="code docutils literal"><span class="pre">DFGNodeType_Get</span></code> - 変数取得ノード</p>
-</li>
-<li><p class="first"><code class="code docutils literal"><span class="pre">DFGNodeType_Set</span></code> - 変数設定ノード</p>
-</li>
-<li><p class="first"><code class="code docutils literal"><span class="pre">DFGNodeType_Var</span></code> - 変数定義ノード</p>
-</li>
-<li><p class="first"><code class="code docutils literal"><span class="pre">DFGNodeType_User</span></code> - ユーザノード</p>
-</li>
+<li><code class="code docutils literal"><span class="pre">DFGNodeType_Inst</span></code> - 実行されるモノのインスタンス</li>
+<li><code class="code docutils literal"><span class="pre">DFGNodeType_Get</span></code> - 変数取得ノード</li>
+<li><code class="code docutils literal"><span class="pre">DFGNodeType_Set</span></code> - 変数設定ノード</li>
+<li><code class="code docutils literal"><span class="pre">DFGNodeType_Var</span></code> - 変数定義ノード</li>
+<li><code class="code docutils literal"><span class="pre">DFGNodeType_User</span></code> - ユーザノード</li>
 </ul>
 </div></blockquote>
 </div>
@@ -519,8 +511,7 @@ String <code class="descclassname"></code><code class="descname">getErrors</code
 <dd><p>&lt;実行コード中の指定したインデックス番目のポート&gt;の解決された型を取得</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">解決された型のエイリアスを戻すことがあリ, 通常,型チェックへの使用には不適。例: この関数はグラフがどのように作成されたかによって <code class="code docutils literal"><span class="pre">Integer</span></code> あるいは <code class="code docutils literal"><span class="pre">SInt32</span></code> どちらかを返す。</p>
-</div>
+解決された型のエイリアスを戻すことがあリ, 通常,型チェックへの使用には不適。例: この関数はグラフがどのように作成されたかによって <code class="code docutils literal"><span class="pre">Integer</span></code> あるいは <code class="code docutils literal"><span class="pre">SInt32</span></code> どちらかを返す。</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -539,8 +530,7 @@ String <code class="descclassname"></code><code class="descname">getErrors</code
 <dd><p>Get the resolved type of the port in the executable with a given path.</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">解決された型のエイリアスを戻すことがあリ, 通常,型チェックへの使用には不適。例: この関数はグラフがどのように作成されたかによって <code class="code docutils literal"><span class="pre">Integer</span></code> あるいは <code class="code docutils literal"><span class="pre">SInt32</span></code> どちらかを返す。</p>
-</div>
+解決された型のエイリアスを戻すことがあリ, 通常,型チェックへの使用には不適。例: この関数はグラフがどのように作成されたかによって <code class="code docutils literal"><span class="pre">Integer</span></code> あるいは <code class="code docutils literal"><span class="pre">SInt32</span></code> どちらかを返す。</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1935,8 +1925,7 @@ the resolved type on the instance port.</p>
 <dd><p>viewオブジェクトを作成, viewオブジェクトは実行コード中で生じる notifications を受信する</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">view は非再帰; つまり &lt;実行コード自身, 内包するポート, 内包するノードとそのポート&gt; の notifications を受信することになるが, サブ実行コードもしくはサブ実行コードのコンポーネントの通知については受信しない</p>
-</div>
+view は非再帰; つまり &lt;実行コード自身, 内包するポート, 内包するノードとそのポート&gt; の notifications を受信することになるが, サブ実行コードもしくはサブ実行コードのコンポーネントの通知については受信しない</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2197,8 +2186,7 @@ elsewhere.</p>
 <dd><p>ノード一式を, 単一のノードへと畳み込む</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">複数のノードを畳み込むと, 畳み込まれるノード間に挟まれ, 接続されているような中間ノードも一緒に内包する</p>
-</div>
+複数のノードを畳み込むと, 畳み込まれるノード間に挟まれ, 接続されているような中間ノードも一緒に内包する</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2251,8 +2239,7 @@ elsewhere.</p>
 <dd><p>実行コードにプリセットGUIDを設定。プリセットGUIDは厳密に 32 hex digitでなければならない</p>
 <div class="admonition warning">
 <p class="first admonition-title">警告</p>
-<p class="last">この関数は実行コードをプリセットから splitしない。つまりそのプリセットのインスタンス『全て』のプリセットGUIDを変更することになる</p>
-</div>
+この関数は実行コードをプリセットから splitしない。つまりそのプリセットのインスタンス『全て』のプリセットGUIDを変更することになる</div>
 </dd></dl>
 
 <dl class="function">
@@ -2662,8 +2649,7 @@ binding will be emitted.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Result:</th><td class="field-body"><p class="first last">Canvas変数の JSONエンコードされた description</p>
-</td>
+<tr class="field-odd field"><th class="field-name">Result:</th><td class="field-body">Canvas変数の JSONエンコードされた description</td>
 </tr>
 </tbody>
 </table>
@@ -2677,8 +2663,7 @@ binding will be emitted.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Result:</th><td class="field-body"><p class="first last">バインディングのバージョン</p>
-</td>
+<tr class="field-odd field"><th class="field-name">Result:</th><td class="field-body">バインディングのバージョン</td>
 </tr>
 </tbody>
 </table>

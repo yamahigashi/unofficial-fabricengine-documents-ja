@@ -119,14 +119,10 @@
 <h2><a class="toc-backref" href="#id4">Memory マネジメント</a><a class="headerlink" href="#memory-management" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>GPUコンピューティングでは、4つのメモリー利用モードがある。ユーザーは必要に応じ、最適なものを選択できる。このうち3つのモードは：</p>
 <ul class="simple">
-<li><p class="first"><em>CPU</em>: 標準的なCPUメモリ。malloc() より heap 領域に確保される。CPU上に作成される全ての型のメモリ確保先のディフォルトです。</p>
-</li>
-<li><p class="first"><em>GPU</em>: 標準的なGPUに確保されるメモリ。GPUのみからアクセスが可能であり、CPUからアクセスを行うと、 <code class="docutils literal"><span class="pre">guarded</span></code> モードではエラーが返り <code class="docutils literal"><span class="pre">unguarded</span></code> モードではクラッシュする。</p>
-</li>
-<li><p class="first"><em>SVM</em>: Shared Virtual Memory を意味する。CUDAでは、CUDA Managed Memory と呼ばれるものを指す。この種のメモリは、CPUからもGPUからもアクセスが可能である。NVIDIAのドライバによりデータは透過的に転送される。このため、メモリが実際にはどこに存在すべきか知るひつようのないような新参利用者にとって、一番簡単なメモリモードとなる。ただし、経験豊富なユーザーにとっては、よりきめ細やかな制御を必要とする可能性がある。</p>
-</li>
-<li><p class="first"><em>GLBuffer</em>: OpenGLバッファーとして読み込まれ、GPUオペレータでの処理に費やされるメモリ。この種のメモリーについては、以下の <span class="xref std std-ref">gpupg-gl-binding</span> セクションで詳述します。</p>
-</li>
+<li><em>CPU</em>: 標準的なCPUメモリ。malloc() より heap 領域に確保される。CPU上に作成される全ての型のメモリ確保先のディフォルトです。</li>
+<li><em>GPU</em>: 標準的なGPUに確保されるメモリ。GPUのみからアクセスが可能であり、CPUからアクセスを行うと、 <code class="docutils literal"><span class="pre">guarded</span></code> モードではエラーが返り <code class="docutils literal"><span class="pre">unguarded</span></code> モードではクラッシュする。</li>
+<li><em>SVM</em>: Shared Virtual Memory を意味する。CUDAでは、CUDA Managed Memory と呼ばれるものを指す。この種のメモリは、CPUからもGPUからもアクセスが可能である。NVIDIAのドライバによりデータは透過的に転送される。このため、メモリが実際にはどこに存在すべきか知るひつようのないような新参利用者にとって、一番簡単なメモリモードとなる。ただし、経験豊富なユーザーにとっては、よりきめ細やかな制御を必要とする可能性がある。</li>
+<li><em>GLBuffer</em>: OpenGLバッファーとして読み込まれ、GPUオペレータでの処理に費やされるメモリ。この種のメモリーについては、以下の <span class="xref std std-ref">gpupg-gl-binding</span> セクションで詳述します。</li>
 </ul>
 <div class="section" id="changing-memory-backing">
 <h3><a class="toc-backref" href="#id5">Memory 確保先の変更</a><a class="headerlink" href="#changing-memory-backing" title="このヘッドラインへのパーマリンク">¶</a></h3>

@@ -67,28 +67,19 @@
 <p>以下の用例を KLコードのスタイル標準手引としてご利用ください。</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">中括弧を行末尾に開きます</p>
-</li>
-<li><p class="first">コンマの後ろにスペースを入れる, ただし括弧の前後には入れない.</p>
-</li>
-<li><p class="first">メンバや関数のプライバシーの説明のためにアンダースコアを用いては <strong>いけない</strong>. かわりに doxygen 修飾子を使用しましょう. ドキュメンテーションやコード補間など全てのシステムは  <code class="docutils literal"><span class="pre">internal</span></code> 修飾子を尊重します。古い KLエクステンションには、頭にアンダースコアを入れたものが存在するかもしれませんが、そのようなものは <code class="docutils literal"><span class="pre">internal</span></code> 修飾子を使用するようにアップグレードするようにします。</p>
-</li>
-<li><p class="first">doxygen記法を使用し、ドキュメンテーションをKL中に埋め込みます</p>
-</li>
-<li><p class="first">メンバのドキュメンテーションはそのメンバの <strong>前</strong> に記します</p>
-</li>
-<li><p class="first">関数のパラメータのドキュメンテーションは、関数ドキュメンテーションに  param修飾子を用い記載します。</p>
-</li>
-<li><p class="first">用法を example と endexample 修飾子を使いコードに埋め込むことができます。</p>
-</li>
-<li><p class="first">カスタム restructured テキストのブロックを rst, endrst 修飾子を使いドキュメンテーション中に記載可能です。</p>
-</li>
+<li>中括弧を行末尾に開きます</li>
+<li>コンマの後ろにスペースを入れる, ただし括弧の前後には入れない.</li>
+<li>メンバや関数のプライバシーの説明のためにアンダースコアを用いては <strong>いけない</strong>. かわりに doxygen 修飾子を使用しましょう. ドキュメンテーションやコード補間など全てのシステムは  <code class="docutils literal"><span class="pre">internal</span></code> 修飾子を尊重します。古い KLエクステンションには、頭にアンダースコアを入れたものが存在するかもしれませんが、そのようなものは <code class="docutils literal"><span class="pre">internal</span></code> 修飾子を使用するようにアップグレードするようにします。</li>
+<li>doxygen記法を使用し、ドキュメンテーションをKL中に埋め込みます</li>
+<li>メンバのドキュメンテーションはそのメンバの <strong>前</strong> に記します</li>
+<li>関数のパラメータのドキュメンテーションは、関数ドキュメンテーションに  param修飾子を用い記載します。</li>
+<li>用法を example と endexample 修飾子を使いコードに埋め込むことができます。</li>
+<li>カスタム restructured テキストのブロックを rst, endrst 修飾子を使いドキュメンテーション中に記載可能です。</li>
 </ul>
 </div></blockquote>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">ドキュメンテーションに使用する3連続スラッシュ（///）は、Fabricのドキュメンテーションシステム ――バージョン 1.13 から含まれる― に準じます。また、将来のリリースにはドキュメンテーションシステムをどのように活用し、独自のKLベースのドキュメントページを生成するかについてのガイドが含まれる予定です。</p>
-</div>
+ドキュメンテーションに使用する3連続スラッシュ（///）は、Fabricのドキュメンテーションシステム ――バージョン 1.13 から含まれる― に準じます。また、将来のリリースにはドキュメンテーションシステムをどのように活用し、独自のKLベースのドキュメントページを生成するかについてのガイドが含まれる予定です。</div>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm">** Example: StyleGuide</span>
 <span class="cm">*/</span>
@@ -166,24 +157,15 @@
 <span id="kldoxygenqualifiers"></span><h2>KL での Doxygen サポート<a class="headerlink" href="#kl-doxygen-support" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>KL AST（抽象構文木, abstract syntax tree）埋め込みドキュメントの作成は以下のdoxygen記法に従います。頭を /// もしくは /** で始めます。標準的な doxygen 修飾子と、いくつかの特別な修飾子を付け加えます。</p>
 <ul class="simple">
-<li><p class="first"><em>brief</em> : 簡単な説明</p>
-</li>
-<li><p class="first"><em>param</em> : 単一パラメータの説明</p>
-</li>
-<li><p class="first"><em>category</em> : メソッド, 関数のカテゴリ</p>
-</li>
-<li><p class="first"><em>internal</em> : この関数, メソッド, 型を internal としてマークします。Internal な要素はドキュメントに表示されません。</p>
-</li>
-<li><p class="first"><em>versionadded</em> : sphinx のversionadded ディレクティブを生成します。</p>
-</li>
-<li><p class="first"><em>note</em> : 以下のテキストから sphinx の適切な noteディレクティブを作成します。</p>
-</li>
-<li><p class="first"><em>seealso</em> : コンマ区切りされた値それぞれから sphinx の適切な see-also ディレクティブを作成します。</p>
-</li>
-<li><p class="first"><em>example</em>, <em>endexample</em> : KLの用例を含める2対の修飾子。ここにはオペレータのエントリーコードを含める必要はありません。また、エクステンションの require 文も自動的に追加されます。</p>
-</li>
-<li><p class="first"><em>rst</em>, <em>endrst</em> : 追加のカスタム rstコードを含む2対の修飾子。</p>
-</li>
+<li><em>brief</em> : 簡単な説明</li>
+<li><em>param</em> : 単一パラメータの説明</li>
+<li><em>category</em> : メソッド, 関数のカテゴリ</li>
+<li><em>internal</em> : この関数, メソッド, 型を internal としてマークします。Internal な要素はドキュメントに表示されません。</li>
+<li><em>versionadded</em> : sphinx のversionadded ディレクティブを生成します。</li>
+<li><em>note</em> : 以下のテキストから sphinx の適切な noteディレクティブを作成します。</li>
+<li><em>seealso</em> : コンマ区切りされた値それぞれから sphinx の適切な see-also ディレクティブを作成します。</li>
+<li><em>example</em>, <em>endexample</em> : KLの用例を含める2対の修飾子。ここにはオペレータのエントリーコードを含める必要はありません。また、エクステンションの require 文も自動的に追加されます。</li>
+<li><em>rst</em>, <em>endrst</em> : 追加のカスタム rstコードを含む2対の修飾子。</li>
 </ul>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="kr">require</span> <span class="nx">Math</span><span class="p">;</span>
 

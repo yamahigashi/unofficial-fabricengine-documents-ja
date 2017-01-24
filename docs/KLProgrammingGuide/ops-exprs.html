@@ -83,14 +83,10 @@
 <h4>インクリメント・デクリメント演算子<a class="headerlink" href="#increment-and-decrement-operators" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p><code class="docutils literal"><span class="pre">++</span></code> (インクリメント)、 <code class="docutils literal"><span class="pre">--</span></code> （デクリメント）演算子は、変数のひとつ加算、減算に用います。これらの演算子は以下の特徴があります。</p>
 <ul class="simple">
-<li><p class="first">変数、もしくは入出力パラメータ（io parameter）のみに使用可能です。式の値を変更するため定数や入力パラメータ（input parameter）は操作できません。</p>
-</li>
-<li><p class="first">整数値のみ操作できます。</p>
-</li>
-<li><p class="first">どの演算子も、変数に対し前置あるいは後置のどちらでも作用します。前置する場合、式の値は変数のインクリメント <em>後</em> の値となります。これは <em>prefix</em> インクリメント（デクリメント）と呼ばれます。後置する場合、式の値は変数のインクリメント <em>前</em> の値となります。これは <em>postfix</em> インクリメント（デクリメント）と呼ばれます。</p>
-</li>
-<li><p class="first">オーバーロード不可能です。</p>
-</li>
+<li>変数、もしくは入出力パラメータ（io parameter）のみに使用可能です。式の値を変更するため定数や入力パラメータ（input parameter）は操作できません。</li>
+<li>整数値のみ操作できます。</li>
+<li>どの演算子も、変数に対し前置あるいは後置のどちらでも作用します。前置する場合、式の値は変数のインクリメント <em>後</em> の値となります。これは <em>prefix</em> インクリメント（デクリメント）と呼ばれます。後置する場合、式の値は変数のインクリメント <em>前</em> の値となります。これは <em>postfix</em> インクリメント（デクリメント）と呼ばれます。</li>
+<li>オーバーロード不可能です。</li>
 </ul>
 </div>
 </div>
@@ -116,8 +112,7 @@
 <p><code class="docutils literal"><span class="pre">&amp;&amp;</span></code> を２つの式の間におくと、 <em class="dfn">logical AND</em> として扱います。論理AND 演算子は以下のように振る舞います。左オペランドを <code class="docutils literal"><span class="pre">Boolean</span></code> にキャストし <code class="docutils literal"><span class="pre">true</span></code> であれば、 演算子の結果は右オペランド、 <code class="docutils literal"><span class="pre">false</span></code> であれば結果は左オペランド。（左オペランドをキャストするということはつまり、左オペラントより <code class="docutils literal"><span class="pre">Boolean</span></code> の値がコンストラクトされるということです）</p>
 <div class="admonition warning">
 <p class="first admonition-title">警告</p>
-<p class="last">論理AND の動作はJavaScriptと同じですが、C言語とは異なります。Cでは、論理ANDの結果は常に整数です。（C++ では bool）</p>
-</div>
+論理AND の動作はJavaScriptと同じですが、C言語とは異なります。Cでは、論理ANDの結果は常に整数です。（C++ では bool）</div>
 <p>論理AND 演算子のオーバロードは不可能です。ただし、カスタム型（構造体）に対し、 <code class="docutils literal"><span class="pre">Boolean</span></code> コンストラクタを作成し、そのコンストラクタを左オペラントの型と同じ型をパラメータを１つとるように定義することで、論理AND を有効にすることはできます。</p>
 </div>
 <div class="section" id="logical-or">
@@ -125,8 +120,7 @@
 <p><code class="docutils literal"><span class="pre">||</span></code>  を２つの式の間におくと、 <em class="dfn">logical OR</em> として扱います。論理 OR 演算子は以下のように振る舞います。左オペランドを <code class="docutils literal"><span class="pre">Boolean</span></code> にキャストし <code class="docutils literal"><span class="pre">true</span></code> であれば、 演算子の結果は左オペランド、 <code class="docutils literal"><span class="pre">false</span></code> であれば結果は右オペランド。（左オペランドをキャストするということはつまり、左オペラントより <code class="docutils literal"><span class="pre">Boolean</span></code> の値がコンストラクトされるということです）</p>
 <div class="admonition warning">
 <p class="first admonition-title">警告</p>
-<p class="last">論理OR の動作はJavaScriptと同じですが、C言語とは異なります。Cでは、論理ORの結果は常に整数です。（C++ では bool）</p>
-</div>
+論理OR の動作はJavaScriptと同じですが、C言語とは異なります。Cでは、論理ORの結果は常に整数です。（C++ では bool）</div>
 <p>論理OR 演算子のオーバロードは不可能です。ただし、カスタム型（構造体）に対し、 <code class="docutils literal"><span class="pre">Boolean</span></code> コンストラクタを作成し、そのコンストラクタを左オペラントの型と同じ型をパラメータを１つとるように定義することで、論理OR を有効にすることはできます。</p>
 </div>
 <div class="section" id="logical-not">
@@ -190,10 +184,8 @@
 <span id="simple-exprs"></span><h3>単純式<a class="headerlink" href="#simple-expressions" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>単純式 <em class="dfn">Simple expressions</em> とはより複雑な式を導出するためのものです。単純式とは：</p>
 <ul class="simple">
-<li><p class="first">変数を参照するシンボルであり、関数の引数であり、あるいは定数であります。単純式の型は、参照するデータの実態（entity）の型となります。例：: <code class="docutils literal"><span class="pre">foo</span></code>, <code class="docutils literal"><span class="pre">myParam</span></code>, <code class="docutils literal"><span class="pre">mathPI</span></code>.   シンボルがどのように解決されるかは <a class="reference internal" href="scopes-namespaces.html#scope"><span class="std std-ref">Scoping Rules</span></a> を参照してください。</p>
-</li>
-<li><p class="first">Boolean, integer, floating-point, string 定数。この単純式の方は、すなわち定数の型です。例：: <code class="docutils literal"><span class="pre">true</span></code>, <code class="docutils literal"><span class="pre">42</span></code>, <code class="docutils literal"><span class="pre">3.14159</span></code>, <code class="docutils literal"><span class="pre">FILE</span></code>, <code class="docutils literal"><span class="pre">LINE</span></code>.  <a class="reference internal" href="syntax.html#literal-constants"><span class="std std-ref">定数</span></a> を参照してください。</p>
-</li>
+<li>変数を参照するシンボルであり、関数の引数であり、あるいは定数であります。単純式の型は、参照するデータの実態（entity）の型となります。例：: <code class="docutils literal"><span class="pre">foo</span></code>, <code class="docutils literal"><span class="pre">myParam</span></code>, <code class="docutils literal"><span class="pre">mathPI</span></code>.   シンボルがどのように解決されるかは <a class="reference internal" href="scopes-namespaces.html#scope"><span class="std std-ref">Scoping Rules</span></a> を参照してください。</li>
+<li>Boolean, integer, floating-point, string 定数。この単純式の方は、すなわち定数の型です。例：: <code class="docutils literal"><span class="pre">true</span></code>, <code class="docutils literal"><span class="pre">42</span></code>, <code class="docutils literal"><span class="pre">3.14159</span></code>, <code class="docutils literal"><span class="pre">FILE</span></code>, <code class="docutils literal"><span class="pre">LINE</span></code>.  <a class="reference internal" href="syntax.html#literal-constants"><span class="std std-ref">定数</span></a> を参照してください。</li>
 </ul>
 </div>
 <div class="section" id="compound-expressions">
@@ -207,19 +199,14 @@
 <col width="57%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><p class="first last">タイプ</p>
-</th>
-<th class="head"><p class="first last">結合規則</p>
-</th>
-<th class="head"><p class="first last">式（複数可）</p>
-</th>
+<tr class="row-odd"><th class="head">タイプ</th>
+<th class="head">結合規則</th>
+<th class="head">式（複数可）</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td rowspan="6"><p class="first last">後置</p>
-</td>
-<td rowspan="6"><p class="first last">左から右</p>
-</td>
+<tr class="row-even"><td rowspan="6">後置</td>
+<td rowspan="6">左から右</td>
 <td><code class="samp docutils literal"><em><span class="pre">functionName</span></em><span class="pre">(</span><em><span class="pre">args</span></em><span class="pre">)</span></code></td>
 </tr>
 <tr class="row-odd"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em><span class="pre">[</span><em><span class="pre">expr</span></em><span class="pre">]</span></code></td>
@@ -232,10 +219,8 @@
 </tr>
 <tr class="row-odd"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em><span class="pre">--</span></code></td>
 </tr>
-<tr class="row-even"><td rowspan="6"><p class="first last">前置</p>
-</td>
-<td rowspan="6"><p class="first last">右から左</p>
-</td>
+<tr class="row-even"><td rowspan="6">前置</td>
+<td rowspan="6">右から左</td>
 <td><code class="samp docutils literal"><span class="pre">+</span><em><span class="pre">expr</span></em></code></td>
 </tr>
 <tr class="row-odd"><td><code class="samp docutils literal"><span class="pre">-</span><em><span class="pre">expr</span></em></code></td>
@@ -248,36 +233,28 @@
 </tr>
 <tr class="row-odd"><td><code class="samp docutils literal"><span class="pre">~</span><em><span class="pre">expr</span></em></code></td>
 </tr>
-<tr class="row-even"><td rowspan="3"><p class="first last">乗法</p>
-</td>
-<td rowspan="3"><p class="first last">左から右</p>
-</td>
+<tr class="row-even"><td rowspan="3">乗法</td>
+<td rowspan="3">左から右</td>
 <td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">*</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
 <tr class="row-odd"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">/</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
 <tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">%</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
-<tr class="row-odd"><td rowspan="2"><p class="first last">加法</p>
-</td>
-<td rowspan="2"><p class="first last">左から右</p>
-</td>
+<tr class="row-odd"><td rowspan="2">加法</td>
+<td rowspan="2">左から右</td>
 <td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">+</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
 <tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">-</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
-<tr class="row-odd"><td rowspan="2"><p class="first last">シフト</p>
-</td>
-<td rowspan="2"><p class="first last">左から右</p>
-</td>
+<tr class="row-odd"><td rowspan="2">シフト</td>
+<td rowspan="2">左から右</td>
 <td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">&lt;&lt;</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
 <tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">&gt;&gt;</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
-<tr class="row-odd"><td rowspan="4"><p class="first last">関係</p>
-</td>
-<td rowspan="4"><p class="first last">左から右</p>
-</td>
+<tr class="row-odd"><td rowspan="4">関係</td>
+<td rowspan="4">左から右</td>
 <td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">&lt;</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
 <tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">&lt;=</span> <em><span class="pre">expr</span></em></code></td>
@@ -286,10 +263,8 @@
 </tr>
 <tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">&gt;=</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
-<tr class="row-odd"><td rowspan="4"><p class="first last">等価</p>
-</td>
-<td rowspan="4"><p class="first last">左から右</p>
-</td>
+<tr class="row-odd"><td rowspan="4">等価</td>
+<td rowspan="4">左から右</td>
 <td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">==</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
 <tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">!=</span> <em><span class="pre">expr</span></em></code></td>
@@ -298,46 +273,32 @@
 </tr>
 <tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">!==</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
-<tr class="row-odd"><td><p class="first last">ビット AND</p>
-</td>
-<td><p class="first last">左から右</p>
-</td>
+<tr class="row-odd"><td>ビット AND</td>
+<td>左から右</td>
 <td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">&amp;</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
-<tr class="row-even"><td><p class="first last">ビット XOR</p>
-</td>
-<td><p class="first last">左から右</p>
-</td>
+<tr class="row-even"><td>ビット XOR</td>
+<td>左から右</td>
 <td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">^</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
-<tr class="row-odd"><td><p class="first last">ビット OR</p>
-</td>
-<td><p class="first last">左から右</p>
-</td>
+<tr class="row-odd"><td>ビット OR</td>
+<td>左から右</td>
 <td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">|</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
-<tr class="row-even"><td><p class="first last">論理 AND</p>
-</td>
-<td><p class="first last">左から右</p>
-</td>
+<tr class="row-even"><td>論理 AND</td>
+<td>左から右</td>
 <td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">&amp;&amp;</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
-<tr class="row-odd"><td><p class="first last">論理 OR</p>
-</td>
-<td><p class="first last">左から右</p>
-</td>
+<tr class="row-odd"><td>論理 OR</td>
+<td>左から右</td>
 <td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">||</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
-<tr class="row-even"><td><p class="first last">条件</p>
-</td>
-<td><p class="first last">右から左</p>
-</td>
+<tr class="row-even"><td>条件</td>
+<td>右から左</td>
 <td><code class="samp docutils literal"><em><span class="pre">expr</span></em><span class="pre">?</span> <em><span class="pre">expr</span></em><span class="pre">:</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
-<tr class="row-odd"><td rowspan="11"><p class="first last">代入</p>
-</td>
-<td rowspan="11"><p class="first last">右から左</p>
-</td>
+<tr class="row-odd"><td rowspan="11">代入</td>
+<td rowspan="11">右から左</td>
 <td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">=</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
 <tr class="row-even"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">+=</span> <em><span class="pre">expr</span></em></code></td>
@@ -360,10 +321,8 @@
 </tr>
 <tr class="row-odd"><td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">|=</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
-<tr class="row-even"><td><p class="first last">コンマ</p>
-</td>
-<td><p class="first last">左から右</p>
-</td>
+<tr class="row-even"><td>コンマ</td>
+<td>左から右</td>
 <td><code class="samp docutils literal"><em><span class="pre">expr</span></em> <span class="pre">,</span> <em><span class="pre">expr</span></em></code></td>
 </tr>
 </tbody>
