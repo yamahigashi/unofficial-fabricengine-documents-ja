@@ -63,12 +63,12 @@
 <span id="polygonmeshstructure"></span><h1>PolygonMesh&#8217;s structure<a class="headerlink" href="#polygonmesh-s-structure" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="section" id="introduction">
 <h2>概要<a class="headerlink" href="#introduction" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p><a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> はポリゴン群で作られた幾何学表面(geometric surface)を表し、それぞれのポリゴンは3つ以上の3Dポイント(以下&#8221;頂点&#8221;)の閉じたループで定義されます。1つの頂点は複数のポリゴンを結びつけることができます。 <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> の基本定義はとても標準的ですが、 <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> 構造はメモリ消費とパフォーマンスのバランスを取ることを可能にするという特性を含んでいます。</p>
+<p><a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> はポリゴン群で作られた幾何学表面(geometric surface)を表し、それぞれのポリゴンは3つ以上の3Dポイント(以下&#8221;頂点&#8221;)の閉じたループで定義されます。1つの頂点は複数のポリゴンを結びつけることができます。 <a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> の基本定義はとても標準的ですが、 <a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> 構造はメモリ消費とパフォーマンスのバランスを取ることを可能にするという特性を含んでいます。</p>
 <ul class="simple">
 <li>構造はインデックス付けされた頂点とポリゴンで識別できます。エッジやポリゴン頂点(フェース頂点(face-vertex))は含まれません。詳細は <a class="reference internal" href="utilizinggpucompute.html#polygonmeshcomponents"><span class="std std-ref">ポリゴンメッシュ</span></a> をご覧ください。</li>
 <li><a class="reference internal" href="GeometryAttribute.html#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a> 要素は、OpenGLなどのAPIハードウェアドローイングのダイレクトマッピングのために整列されています。詳細は <a class="reference internal" href="#polygonmeshattributes"><span class="std std-ref">ポリゴンメッシュアトリビュート</span></a> をご覧ください。</li>
 <li>メッシュ構造を変更する際には、いくつかの特別なルールが適用されます。詳細は <a class="reference internal" href="#modifyingpolygonmeshstructure"><span class="std std-ref">メッシュ構造の変更</span></a> をご覧ください。</li>
-<li>the <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> structure tries to reduce memory consumption and fragmentation by
+<li>the <a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> structure tries to reduce memory consumption and fragmentation by
 grouping most of its topological data into a few contiguous arrays, which can improve speed, particularly for
 larger meshes. See <a class="reference internal" href="#internalpolygonmeshdata"><span class="std std-ref">内部データの構成</span></a> for more details.</li>
 </ul>
@@ -79,12 +79,12 @@ larger meshes. See <a class="reference internal" href="#internalpolygonmeshdata"
 </div>
 <div class="section" id="polygonmeshtopology">
 <span id="polygonmeshcomponents"></span><h2>ポリゴンメッシュトポロジー<a class="headerlink" href="#polygonmeshtopology" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p><a class="reference internal" href="PolygonMeshTopology.html#polygonmeshtopology"><span class="std std-ref">PolygonMeshTopology</span></a> は1つの <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> のトポロジー情報をカプセル化します。これは主に頂点データとポリゴンデータの格納という2つのシンメトリ構造から構成されます。各頂点はインデックスに関連付けられ、隣接するポリゴンのコーナー群 (ポリゴン頂点) へのリファレンスを格納したコンパクトな配列を持っています。同様に、各ポリゴンもインデックスに関連付けられ、ポリゴンに連結した頂点群へのリファレンスを格納したコンパクトな配列を持っています。</p>
+<p><a class="reference internal" href="PolygonMeshTopology.html#polygonmeshtopology"><span class="std std-ref">PolygonMeshTopology</span></a> は1つの <a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> のトポロジー情報をカプセル化します。これは主に頂点データとポリゴンデータの格納という2つのシンメトリ構造から構成されます。各頂点はインデックスに関連付けられ、隣接するポリゴンのコーナー群 (ポリゴン頂点) へのリファレンスを格納したコンパクトな配列を持っています。同様に、各ポリゴンもインデックスに関連付けられ、ポリゴンに連結した頂点群へのリファレンスを格納したコンパクトな配列を持っています。</p>
 <p>次の図は、頂点やポリゴンそしてそれらのローカルインデックス ( &#8216;neighborPolygonIndex&#8217;, &#8216;neighborPointIndex&#8217; ) の概念を示しています。</p>
 <img alt="../../_images/components.png" src="../../_images/components.png" />
 <p>次の表は、ストレージ及びこれらのコンポーネント間の関係の概略図です。</p>
 <img alt="../../_images/component_tables.png" src="../../_images/component_tables.png" />
-<p>この例では、上記図で示した構造のレポートを行うために <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63322"><span class="std std-ref">PolygonMesh.getDesc</span></a> 関数を使用しています。</p>
+<p>この例では、上記図で示した構造のレポートを行うために <a class="reference internal" href="PolygonMesh.html#id63322"><span class="std std-ref">PolygonMesh.getDesc</span></a> 関数を使用しています。</p>
 <div class="highlight-kl" id="griddumpexample"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm">** Example: Structure dump of a 2X2 grid:</span>
 <span class="cm">*/</span>
@@ -125,32 +125,32 @@ larger meshes. See <a class="reference internal" href="#internalpolygonmeshdata"
 </div>
 <p>様々なコンポーネント型やインデックスの詳細について:</p>
 <ul class="simple">
-<li><em class="dfn">point</em>: インデックスで表され、１つの頂点は可変数のポリゴン (または無し) に接続されます。ポリゴンメッシュの頂点は <cite>vertex</cite> と同じです。頂点の特定データを取得または設定する <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> 関数は、通常それぞれ <cite>.getPoint</cite> または <cite>.setPoint</cite> で開始します。</li>
-<li><em class="dfn">polygon</em>: インデックスで表され、1つのポリゴンは3つ以上の頂点の順序付けリストで定義されます。ポリゴンの特定データを取得または設定する <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> 関数は、通常それぞれ <cite>.getPolygon</cite> または <cite>.setPolygon</cite> で開始します。</li>
+<li><em class="dfn">point</em>: インデックスで表され、１つの頂点は可変数のポリゴン (または無し) に接続されます。ポリゴンメッシュの頂点は <cite>vertex</cite> と同じです。頂点の特定データを取得または設定する <a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> 関数は、通常それぞれ <cite>.getPoint</cite> または <cite>.setPoint</cite> で開始します。</li>
+<li><em class="dfn">polygon</em>: インデックスで表され、1つのポリゴンは3つ以上の頂点の順序付けリストで定義されます。ポリゴンの特定データを取得または設定する <a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> 関数は、通常それぞれ <cite>.getPolygon</cite> または <cite>.setPolygon</cite> で開始します。</li>
 </ul>
 <ul id="neighborpolygonindex">
-<li><em class="dfn">neighborPolygon</em>: 1つの頂点と、頂点を取り囲むポリゴン群の内の１つとのペアです。 <cite>neighborPolygon</cite> は、頂点インデックスと <cite>neighborPolygonIndex</cite> によるインデックスのペアで表されます。 <cite>neighborPolygonIndex</cite> は頂点ごとに割り振られた　[<cite>0</cite> ~ <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id62799"><span class="std std-ref">PolygonMesh.getPointPolygonCount</span></a> <cite>()-1</cite> ]の範囲のローカルインデックスで、各インデックスは頂点に接続するポリゴンに相当します。 <cite>neighborPolygon</cite> と <cite>polygonPoint</cite> (後述します)は同じ位置を指しますが、それぞれ&#8217;頂点からの相対位置&#8217;と&#8217;ポリゴンからの相対位置&#8217;です。</li>
-<li><em class="dfn">polygonPoint</em>: 1つのポリゴンと、頂点に接続されたポリゴンの角にあたる部分( <cite>フェース頂点</cite> や <cite>ポリゴンノード</cite> と呼ばれるもの)とのペアです。 <cite>polygonPoint</cite> は、ポリゴンインデックスと <cite>polygonPointIndex</cite> によるインデックスのペアで表されます。 <cite>polygonPointIndex</cite> はポリゴンごとに割り振られた [ <cite>0</cite> ～ <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id62939"><span class="std std-ref">PolygonMesh.getPolygonSize</span></a> <cite>()-1</cite> ] の範囲のローカルインデックスで、各インデックスはポリゴンに接続する頂点に相当します。 <cite>neighborPolygon</cite> と <cite>polygonPoint</cite> は同じ位置を指しますが、それぞれ&#8217;頂点からの相対位置&#8217;と&#8217;ポリゴンからの相対位置&#8217;です。</li>
+<li><em class="dfn">neighborPolygon</em>: 1つの頂点と、頂点を取り囲むポリゴン群の内の１つとのペアです。 <cite>neighborPolygon</cite> は、頂点インデックスと <cite>neighborPolygonIndex</cite> によるインデックスのペアで表されます。 <cite>neighborPolygonIndex</cite> は頂点ごとに割り振られた　[<cite>0</cite> ~ <a class="reference internal" href="PolygonMesh.html#id62799"><span class="std std-ref">PolygonMesh.getPointPolygonCount</span></a> <cite>()-1</cite> ]の範囲のローカルインデックスで、各インデックスは頂点に接続するポリゴンに相当します。 <cite>neighborPolygon</cite> と <cite>polygonPoint</cite> (後述します)は同じ位置を指しますが、それぞれ&#8217;頂点からの相対位置&#8217;と&#8217;ポリゴンからの相対位置&#8217;です。</li>
+<li><em class="dfn">polygonPoint</em>: 1つのポリゴンと、頂点に接続されたポリゴンの角にあたる部分( <cite>フェース頂点</cite> や <cite>ポリゴンノード</cite> と呼ばれるもの)とのペアです。 <cite>polygonPoint</cite> は、ポリゴンインデックスと <cite>polygonPointIndex</cite> によるインデックスのペアで表されます。 <cite>polygonPointIndex</cite> はポリゴンごとに割り振られた [ <cite>0</cite> ～ <a class="reference internal" href="PolygonMesh.html#id62939"><span class="std std-ref">PolygonMesh.getPolygonSize</span></a> <cite>()-1</cite> ] の範囲のローカルインデックスで、各インデックスはポリゴンに接続する頂点に相当します。 <cite>neighborPolygon</cite> と <cite>polygonPoint</cite> は同じ位置を指しますが、それぞれ&#8217;頂点からの相対位置&#8217;と&#8217;ポリゴンからの相対位置&#8217;です。</li>
 <li><a class="reference internal" href="PolygonMeshEdge.html#polygonmeshedge"><span class="std std-ref">PolygonMeshEdge</span></a>: 大半のメッシュ構造とは対照的に、ポリゴンエッジ群はファーストクラスコンポーネントではありません。しかし、ポリゴンインデックスと頂点インデックスのペアで定義される構造体によって表されます。<div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh (object)</span></a> 構造はエッジとポリゴン頂点群(フェース頂点)を明確なインデックスに関連付けせず、助長を回避することでよりコンパクトにできます。一般的には、エッジインデックスはDCCツール等で他のメッシュに対し転送する、もしくは転送されることは無いのでこれは問題にはならないでしょう。エッジやポリゴン頂点のテーブルの格納を回避することは、同等のハーフエッジ構造よりも50%のデータ縮小を可能にします。そして、メモリの局所性によって大半のオペレーションが高速で実行されます。</div>
+<a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh (object)</span></a> 構造はエッジとポリゴン頂点群(フェース頂点)を明確なインデックスに関連付けせず、助長を回避することでよりコンパクトにできます。一般的には、エッジインデックスはDCCツール等で他のメッシュに対し転送する、もしくは転送されることは無いのでこれは問題にはならないでしょう。エッジやポリゴン頂点のテーブルの格納を回避することは、同等のハーフエッジ構造よりも50%のデータ縮小を可能にします。そして、メモリの局所性によって大半のオペレーションが高速で実行されます。</div>
 </li>
 </ul>
 <p>ポリゴンメッシュ構造データの構成方法に関する詳細は <a class="reference internal" href="#internalpolygonmeshdata"><span class="std std-ref">内部データの構成</span></a> を参照してください。</p>
 <div class="section" id="bounds-checking">
 <h3>境界チェック(Bounds checking)<a class="headerlink" href="#bounds-checking" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p><a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> の内部構造は、単一のメモリ バッファーに複数の小さい配列を格納します。このためKL guarded モードでは、大半の関数でインデックスが境界を順守するかどうかの検証を（特殊な Fabric_Guarded KLコンディションを使用し）明示的に行います。たとえば..</p>
+<p><a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> の内部構造は、単一のメモリ バッファーに複数の小さい配列を格納します。このためKL guarded モードでは、大半の関数でインデックスが境界を順守するかどうかの検証を（特殊な Fabric_Guarded KLコンディションを使用し）明示的に行います。たとえば..</p>
 <ul class="simple">
-<li><cite>point</cite> と <cite>neighborPolygonIndex</cite> を取得する関数で、後者は [0 ～ <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id62799"><span class="std std-ref">PolygonMesh.getPointPolygonCount</span></a> -1] の範囲内であると保証されます。</li>
-<li><cite>polygon</cite> と <cite>polygonPointIndex</cite> を取得する関数で、後者は [0 ～ <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id62939"><span class="std std-ref">PolygonMesh.getPolygonSize</span></a> -1] の範囲内であると保証されます。</li>
+<li><cite>point</cite> と <cite>neighborPolygonIndex</cite> を取得する関数で、後者は [0 ～ <a class="reference internal" href="PolygonMesh.html#id62799"><span class="std std-ref">PolygonMesh.getPointPolygonCount</span></a> -1] の範囲内であると保証されます。</li>
+<li><cite>polygon</cite> と <cite>polygonPointIndex</cite> を取得する関数で、後者は [0 ～ <a class="reference internal" href="PolygonMesh.html#id62939"><span class="std std-ref">PolygonMesh.getPolygonSize</span></a> -1] の範囲内であると保証されます。</li>
 </ul>
-<p>これらの正確な限界値のチェックと <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh (object)</span></a> では配列の使用率が高いことが合わさり、通常 <cite>unguarded</cite> コンパイルは大半のPolygonMeshメソッドで30%の高速化をもたらします。</p>
+<p>これらの正確な限界値のチェックと <a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh (object)</span></a> では配列の使用率が高いことが合わさり、通常 <cite>unguarded</cite> コンパイルは大半のPolygonMeshメソッドで30%の高速化をもたらします。</p>
 </div>
 </div>
 <div class="section" id="polygonmesh-attributes">
 <span id="polygonmeshattributes"></span><h2>ポリゴンメッシュアトリビュート<a class="headerlink" href="#polygonmesh-attributes" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>他の <a class="reference internal" href="Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> 型のように、 <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> はアトリビュート群を <a class="reference internal" href="GeometryAttributes.html#geometryattributes"><span class="std std-ref">GeometryAttributes</span></a> コンテナに格納します。このことは、全ての <a class="reference internal" href="GeometryAttribute.html#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a> の値は整列したインデックスで、かつ同じサイズを持つことを意味し、アトリビュート値の配列をOpenGLのようなドローイングバッファーに直接マッピングすることを可能にします。しかし、頂点の周りの共有の値をサポートすると同時にグローバル値の配置を維持するには、 <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> にアトリビュートの管理機能の追加を必要とします。そしてこれはAPIに影響を与えます。</p>
-<p><a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> のAPIにおいて、 <em class="dfn">attributeIndex</em> は <a class="reference internal" href="GeometryAttribute.html#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a> の値の配列（ <a class="reference internal" href="GeometryAttributes.html#id52602"><span class="std std-ref">GeometryAttributes.size</span></a> のエレメントの合計）と関連があります。 <cite>attributeIndex</cite> と頂点インデックスが一致するかは、頂点の周りのアトリビュート値の共有（もしくは分割）レイアウトに依存する重要な問題です。様々なアトリビュートの中で１つでも頂点を分割したアトリビュートが存在するなら、頂点と連結する各 <cite>polygonPoint</cite> の値は異なる <cite>attributeIndex`に格納されます。一方[0～:kl-ref:`PolygonMesh.pointCount</cite> () - 1] の範囲内の <cite>attributeIndex</cite> は、同じインデックスの頂点に所有します。</p>
+<p>他の <a class="reference internal" href="Geometry.html#geometry"><span class="std std-ref">Geometry</span></a> 型のように、 <a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> はアトリビュート群を <a class="reference internal" href="GeometryAttributes.html#geometryattributes"><span class="std std-ref">GeometryAttributes</span></a> コンテナに格納します。このことは、全ての <a class="reference internal" href="GeometryAttribute.html#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a> の値は整列したインデックスで、かつ同じサイズを持つことを意味し、アトリビュート値の配列をOpenGLのようなドローイングバッファーに直接マッピングすることを可能にします。しかし、頂点の周りの共有の値をサポートすると同時にグローバル値の配置を維持するには、 <a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> にアトリビュートの管理機能の追加を必要とします。そしてこれはAPIに影響を与えます。</p>
+<p><a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> のAPIにおいて、 <em class="dfn">attributeIndex</em> は <a class="reference internal" href="GeometryAttribute.html#geometryattribute"><span class="std std-ref">GeometryAttribute</span></a> の値の配列（ <a class="reference internal" href="GeometryAttributes.html#id52602"><span class="std std-ref">GeometryAttributes.size</span></a> のエレメントの合計）と関連があります。 <cite>attributeIndex</cite> と頂点インデックスが一致するかは、頂点の周りのアトリビュート値の共有（もしくは分割）レイアウトに依存する重要な問題です。様々なアトリビュートの中で１つでも頂点を分割したアトリビュートが存在するなら、頂点と連結する各 <cite>polygonPoint</cite> の値は異なる <cite>attributeIndex`に格納されます。一方[0～:kl-ref:`PolygonMesh.pointCount</cite> () - 1] の範囲内の <cite>attributeIndex</cite> は、同じインデックスの頂点に所有します。</p>
 <p>以下の図では、分割したアトリビュート値が <cite>attributeIndex</cite> へ追加で割り当てられる方法を紹介します。</p>
 <img alt="../../_images/attribute_indices.png" src="../../_images/attribute_indices.png" />
 <p>頂点位置の値についても、グローバルアトリビュートの配列を確保するために順に沿って複製されることに注意してください。</p>
@@ -222,13 +222,13 @@ larger meshes. See <a class="reference internal" href="#internalpolygonmeshdata"
 </div>
 <p>以下のメソッド群では、明示的なアトリビュート値をセットすることが可能です。</p>
 <ul>
-<li>頂点共有の値(一律の値)： <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63612"><span class="std std-ref">PolygonMesh.setPointAttribute</span></a> <cite>(Size point, io GeometryAttribute attribute, Value value)</cite>: これらメソッド群は、同じ頂点でも非共有のアトリビュートがある場合に備えて、すべての値が明示的な設定であると保証します。 <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id62755"><span class="std std-ref">PolygonMesh.setPointPosition</span></a> と <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id62784"><span class="std std-ref">PolygonMesh.setPointNormal</span></a> の特別なメソッドは類似しています。これらメソッドはアトリビュートの共通レイアウト( <cite>attributeIndex</cite> )を変更せず、レイアウトが変更しない場合はスレッドセーフです。<div class="admonition note">
+<li>頂点共有の値(一律の値)： <a class="reference internal" href="PolygonMesh.html#id63612"><span class="std std-ref">PolygonMesh.setPointAttribute</span></a> <cite>(Size point, io GeometryAttribute attribute, Value value)</cite>: これらメソッド群は、同じ頂点でも非共有のアトリビュートがある場合に備えて、すべての値が明示的な設定であると保証します。 <a class="reference internal" href="PolygonMesh.html#id62755"><span class="std std-ref">PolygonMesh.setPointPosition</span></a> と <a class="reference internal" href="PolygonMesh.html#id62784"><span class="std std-ref">PolygonMesh.setPointNormal</span></a> の特別なメソッドは類似しています。これらメソッドはアトリビュートの共通レイアウト( <cite>attributeIndex</cite> )を変更せず、レイアウトが変更しない場合はスレッドセーフです。<div class="admonition note">
 <p class="first admonition-title">注釈</p>
 これらメソッドは、GeometryAttribute型(例えば <a class="reference internal" href="Vec3Attribute.html#vec3attribute"><span class="std std-ref">Vec3Attribute</span></a> )の特定のセットのみで定義されています。 カスタムアトリビュート型を含むような他の型では、コード内で似たような関数を定義することで簡単に機能を拡張します。</div>
 </li>
 <li>頂点の周りで共有が解除される可能性のある値:<ul class="simple">
-<li>隣接頂点ごと: <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63612"><span class="std std-ref">PolygonMesh.setPointAttribute</span></a> <cite>(Size point, Size neighborPolygonIndex, io GeometryAttribute attribute, Value value)</cite></li>
-<li>ポリゴン頂点ごと: <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63764"><span class="std std-ref">PolygonMesh.setPolygonAttribute</span></a> <cite>(Size polygon, Size polygonPointIndex, io GeometryAttribute attribute, Value value)</cite></li>
+<li>隣接頂点ごと: <a class="reference internal" href="PolygonMesh.html#id63612"><span class="std std-ref">PolygonMesh.setPointAttribute</span></a> <cite>(Size point, Size neighborPolygonIndex, io GeometryAttribute attribute, Value value)</cite></li>
+<li>ポリゴン頂点ごと: <a class="reference internal" href="PolygonMesh.html#id63764"><span class="std std-ref">PolygonMesh.setPolygonAttribute</span></a> <cite>(Size polygon, Size polygonPointIndex, io GeometryAttribute attribute, Value value)</cite></li>
 </ul>
 <p>これらのメソッドは、特定の隣接するポリゴン(ポリゴン頂点)に値を設定します。それらは、以前に設定された値との比較によって頂点の共有が維持できるかどうかをチェックし、可能でない場合には新しい <cite>attributeIndex</cite> を割り当てます。これらのメソッド群は、アトリビュートの共有レイアウト( <cite>attributeIndex</cite> )を変更するのであればスレッド セーフでは&#8221;ありません&#8221;。</p>
 <div class="admonition note">
@@ -237,12 +237,12 @@ larger meshes. See <a class="reference internal" href="#internalpolygonmeshdata"
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
 <p>値の共有を正しく管理するために、ポリゴンメッシュは内部でアトリビュートごとの <cite>Boolean initialized</cite> 状態を管理します。それは明示的に設定された値と既定値の両者の区別をすることができます。</p>
-<a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63437"><span class="std std-ref">PolygonMesh.resetAttributeAndAvoidSharingChanges</span></a> メソッドは、不要な分割および既存のアトリビュートの共有レイアウト( <cite>attributeIndex</cite> )を維持しようとしたアトリビュート値を無効にすることができます。</div>
+<a class="reference internal" href="PolygonMesh.html#id63437"><span class="std std-ref">PolygonMesh.resetAttributeAndAvoidSharingChanges</span></a> メソッドは、不要な分割および既存のアトリビュートの共有レイアウト( <cite>attributeIndex</cite> )を維持しようとしたアトリビュート値を無効にすることができます。</div>
 </li>
 </ul>
-<p><cite>attributeIndex</cite> は <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63445"><span class="std std-ref">PolygonMesh.getPointAttributeIndex</span></a> か <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63668"><span class="std std-ref">PolygonMesh.getPolygonAttributeIndex</span></a> メソッドのいずれかを使用して取得できます。</p>
-<p><a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63457"><span class="std std-ref">PolygonMesh.arePointAttributesUniform</span></a> と <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63461"><span class="std std-ref">PolygonMesh.isPointAttributeUniform</span></a> は、それぞれ全てまたは特定のアトリビュートで値が１つのポイントで共有されているかどうかを教えてくれます。</p>
-<p>メッシュは描画API(OpenGLなど)で使いやすい整列されたアトリビュート値を維持するので、トライアングル描画リストは <cite>attributeIndex</cite> の3つセットと直接一致します。 <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63310"><span class="std std-ref">PolygonMesh.generateAttributesTriangleList</span></a> メソッドはそのリストを返します。</p>
+<p><cite>attributeIndex</cite> は <a class="reference internal" href="PolygonMesh.html#id63445"><span class="std std-ref">PolygonMesh.getPointAttributeIndex</span></a> か <a class="reference internal" href="PolygonMesh.html#id63668"><span class="std std-ref">PolygonMesh.getPolygonAttributeIndex</span></a> メソッドのいずれかを使用して取得できます。</p>
+<p><a class="reference internal" href="PolygonMesh.html#id63457"><span class="std std-ref">PolygonMesh.arePointAttributesUniform</span></a> と <a class="reference internal" href="PolygonMesh.html#id63461"><span class="std std-ref">PolygonMesh.isPointAttributeUniform</span></a> は、それぞれ全てまたは特定のアトリビュートで値が１つのポイントで共有されているかどうかを教えてくれます。</p>
+<p>メッシュは描画API(OpenGLなど)で使いやすい整列されたアトリビュート値を維持するので、トライアングル描画リストは <cite>attributeIndex</cite> の3つセットと直接一致します。 <a class="reference internal" href="PolygonMesh.html#id63310"><span class="std std-ref">PolygonMesh.generateAttributesTriangleList</span></a> メソッドはそのリストを返します。</p>
 </div>
 <div class="section" id="borders-and-wings">
 <span id="borderandwings"></span><h2>ボーダーとウィング<a class="headerlink" href="#borders-and-wings" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -355,17 +355,17 @@ larger meshes. See <a class="reference internal" href="#internalpolygonmeshdata"
 </pre></div>
 </div>
 <ul class="simple">
-<li>頂点のボーダーとウィングの情報は、 <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id62871"><span class="std std-ref">PolygonMesh.getPointBorderInfo</span></a> と <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id62886"><span class="std std-ref">PolygonMesh.getPointPolygonFullBorderInfo</span></a> メソッドで取得できます。</li>
-<li>ポリゴンのボーダー情報は、 <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63078"><span class="std std-ref">PolygonMesh.isPolygonBorder</span></a> メソッドで取得できます。</li>
-<li><cite>neighborPolygonIndex</cite> について、ウィング内の前後の <cite>neighborPolygonIndex</cite> は <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id62904"><span class="std std-ref">PolygonMesh.getPointPrevNeighborPolygonIndexInWing</span></a> と <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id62909"><span class="std std-ref">PolygonMesh.getPointNextNeighborPolygonIndexInWing</span></a> で取得することができます。</li>
+<li>頂点のボーダーとウィングの情報は、 <a class="reference internal" href="PolygonMesh.html#id62871"><span class="std std-ref">PolygonMesh.getPointBorderInfo</span></a> と <a class="reference internal" href="PolygonMesh.html#id62886"><span class="std std-ref">PolygonMesh.getPointPolygonFullBorderInfo</span></a> メソッドで取得できます。</li>
+<li>ポリゴンのボーダー情報は、 <a class="reference internal" href="PolygonMesh.html#id63078"><span class="std std-ref">PolygonMesh.isPolygonBorder</span></a> メソッドで取得できます。</li>
+<li><cite>neighborPolygonIndex</cite> について、ウィング内の前後の <cite>neighborPolygonIndex</cite> は <a class="reference internal" href="PolygonMesh.html#id62904"><span class="std std-ref">PolygonMesh.getPointPrevNeighborPolygonIndexInWing</span></a> と <a class="reference internal" href="PolygonMesh.html#id62909"><span class="std std-ref">PolygonMesh.getPointNextNeighborPolygonIndexInWing</span></a> で取得することができます。</li>
 </ul>
 </div>
 <div class="section" id="modifying-the-mesh-structure">
 <span id="modifyingpolygonmeshstructure"></span><h2>メッシュ構造の変更<a class="headerlink" href="#modifying-the-mesh-structure" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Various methods can modify the mesh structure, such as <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63168"><span class="std std-ref">PolygonMesh.addPolygon</span></a>, <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63139"><span class="std std-ref">PolygonMesh.createPoints</span></a>
-and <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63943"><span class="std std-ref">PolygonMesh.deletePolygon</span></a>. All these functions are not threadsafe, and a calls to one of these while another
+<p>Various methods can modify the mesh structure, such as <a class="reference internal" href="PolygonMesh.html#id63168"><span class="std std-ref">PolygonMesh.addPolygon</span></a>, <a class="reference internal" href="PolygonMesh.html#id63139"><span class="std std-ref">PolygonMesh.createPoints</span></a>
+and <a class="reference internal" href="PolygonMesh.html#id63943"><span class="std std-ref">PolygonMesh.deletePolygon</span></a>. All these functions are not threadsafe, and a calls to one of these while another
 thread is accessing the mesh will cause an undefined behavior.</p>
-<p>ここで少しだけ触れておくと、メッシュ構造の変更は <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63102"><span class="std std-ref">PolygonMesh.beginStructureChanges</span></a> と <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63136"><span class="std std-ref">PolygonMesh.endStructureChanges</span></a> のブラケット(または <cite>PolygonMeshStructureChangeBracket</cite> の使用)を呼び出した間で発生させる必要があります。この要求は、頂点の配列の概念(以下に示す)に従い、最適なパフォーマンスを可能にすると同時により複雑なメッシュAPIを作り出します。</p>
+<p>ここで少しだけ触れておくと、メッシュ構造の変更は <a class="reference internal" href="PolygonMesh.html#id63102"><span class="std std-ref">PolygonMesh.beginStructureChanges</span></a> と <a class="reference internal" href="PolygonMesh.html#id63136"><span class="std std-ref">PolygonMesh.endStructureChanges</span></a> のブラケット(または <cite>PolygonMeshStructureChangeBracket</cite> の使用)を呼び出した間で発生させる必要があります。この要求は、頂点の配列の概念(以下に示す)に従い、最適なパフォーマンスを可能にすると同時により複雑なメッシュAPIを作り出します。</p>
 <p>いくつかの規定されたメッシュモデリングメソッドは、構造変更ブラケット外で呼ばれた場合エラーメッセージが出力されます。</p>
 <div class="highlight-kl"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm">** Example: Missing :kl-ref:`PolygonMesh.beginStructureChanges` and :kl-ref:`PolygonMesh.endStructureChanges`</span>
@@ -398,7 +398,7 @@ thread is accessing the mesh will cause an undefined behavior.</p>
 <div class="section" id="delayed-point-ordering">
 <span id="delayedpointordering"></span><h3>頂点の順序付けを遅らせる<a class="headerlink" href="#delayed-point-ordering" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>ある頂点に対し全ての隣り合う隣接ポリゴンが連続した &#8216;polygonPointNeighbor&#8217; のインデックスを有せば、頂点は <cite>順序付けされたポリゴン群</cite> を持っています。頂点を囲むポリゴンの順序の更新に併せて、頂点の順序付けプロセスには頂点へのウィングやボーダーの情報の更新も含まれます( <a class="reference internal" href="#borderandwings"><span class="std std-ref">ボーダーとウィング</span></a> を参照してください)。</p>
-<p>複数のポリゴンを修正する際、最適なパフォーマンスを得るために <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63168"><span class="std std-ref">PolygonMesh.addPolygon</span></a> のようないくつかのメソッドではメッシュ構造変更ブラケットを閉じる( <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63136"><span class="std std-ref">PolygonMesh.endStructureChanges</span></a> を使う)までは頂点の順序を更新しません。順序付けされていない頂点の内部リストを用いて、メッシュは順序付けられていない頂点だけを更新するようにします。</p>
+<p>複数のポリゴンを修正する際、最適なパフォーマンスを得るために <a class="reference internal" href="PolygonMesh.html#id63168"><span class="std std-ref">PolygonMesh.addPolygon</span></a> のようないくつかのメソッドではメッシュ構造変更ブラケットを閉じる( <a class="reference internal" href="PolygonMesh.html#id63136"><span class="std std-ref">PolygonMesh.endStructureChanges</span></a> を使う)までは頂点の順序を更新しません。順序付けされていない頂点の内部リストを用いて、メッシュは順序付けられていない頂点だけを更新するようにします。</p>
 <p>複数ポリゴンを追加または削除するといった状況で頂点ポリゴン群の順序付けを遅らせることは、これら２つの最適化を可能にします。</p>
 <ul class="simple">
 <li>１つの頂点は通常 4 つ以上のポリゴンに隣接しているため、隣接するポリゴンを追加または削除するたびに更新するのではなく、一度だけの更新で頂点の順序付けを行うようにします。</li>
@@ -428,24 +428,24 @@ thread is accessing the mesh will cause an undefined behavior.</p>
 </div>
 <p>特殊な状況では、構造変更ブラケット内であっても強制的に頂点ポリゴンの順序付けを行う必要があるかもしれません。以下のメソッドは、このような更新を許可します。</p>
 <ul class="simple">
-<li><a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63129"><span class="std std-ref">PolygonMesh.updatePointsPolygonOrder</span></a> : すべての順序付けされていない全ての頂点に適するようにポリゴン群を順序付けます。</li>
-<li><a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63132"><span class="std std-ref">PolygonMesh.updatePointPolygonOrder</span></a> : 順序付けされていない特定の頂点のためにポリゴンを順序付けます。</li>
+<li><a class="reference internal" href="PolygonMesh.html#id63129"><span class="std std-ref">PolygonMesh.updatePointsPolygonOrder</span></a> : すべての順序付けされていない全ての頂点に適するようにポリゴン群を順序付けます。</li>
+<li><a class="reference internal" href="PolygonMesh.html#id63132"><span class="std std-ref">PolygonMesh.updatePointPolygonOrder</span></a> : 順序付けされていない特定の頂点のためにポリゴンを順序付けます。</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63152"><span class="std std-ref">PolygonMesh.addPolygonAndUpdateStructure</span></a> は <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63168"><span class="std std-ref">PolygonMesh.addPolygon</span></a> メソッドに似ていますが、関連する頂点を直ちに順序付けます。</div>
+<a class="reference internal" href="PolygonMesh.html#id63152"><span class="std std-ref">PolygonMesh.addPolygonAndUpdateStructure</span></a> は <a class="reference internal" href="PolygonMesh.html#id63168"><span class="std std-ref">PolygonMesh.addPolygon</span></a> メソッドに似ていますが、関連する頂点を直ちに順序付けます。</div>
 </div>
 <div class="section" id="replacement-of-deleted-component-indices">
 <span id="deletedcomponentsreplacement"></span><h3>削除されたコンポーネントインデックス群の置換<a class="headerlink" href="#replacement-of-deleted-component-indices" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>一般的に、 <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> は頂点とポリゴンのインデックスの連続した範囲(<cite>0..N-1</cite>)を維持します。このため、シンプルなインデックスループを用いたポリゴンや頂点の反復処理は安全です。</p>
-<p>ただし <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63943"><span class="std std-ref">PolygonMesh.deletePolygon</span></a> のような頂点やポリゴンを削除するモデリングオペレーションでは、関連するインデックスは <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63136"><span class="std std-ref">PolygonMesh.endStructureChanges</span></a> ブラケットが呼ばれるまで未使用のまま存在し続けます。この方策の目的は、複数のモデリングオペレーションで安全かつ安定的にポリゴンや頂点のインデックスの使用を可能にすることです。</p>
+<p>一般的に、 <a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> は頂点とポリゴンのインデックスの連続した範囲(<cite>0..N-1</cite>)を維持します。このため、シンプルなインデックスループを用いたポリゴンや頂点の反復処理は安全です。</p>
+<p>ただし <a class="reference internal" href="PolygonMesh.html#id63943"><span class="std std-ref">PolygonMesh.deletePolygon</span></a> のような頂点やポリゴンを削除するモデリングオペレーションでは、関連するインデックスは <a class="reference internal" href="PolygonMesh.html#id63136"><span class="std std-ref">PolygonMesh.endStructureChanges</span></a> ブラケットが呼ばれるまで未使用のまま存在し続けます。この方策の目的は、複数のモデリングオペレーションで安全かつ安定的にポリゴンや頂点のインデックスの使用を可能にすることです。</p>
 <p>これは、コンポーネント群を削除したメッシュを処理するコードでは、インデックスがすでに無効（コンポーネントが削除された）となっているものがあるため注意を要します。PolygonMesh.isPolygonDeleted や PolygonMesh.isPointDeletedメソッドを使用することで、ある特定のインデックスが有効であるかを確認することができます。</p>
-<p>一度 <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#id63136"><span class="std std-ref">PolygonMesh.endStructureChanges</span></a> に達すると、メッシュは利用可能な未使用インデックスに置き換えることによってインデックスを圧縮し直し、インデックスの範囲を減らします。この時点で、シンプルなインデックス ループを使用する全ての頂点やポリゴンにおいて反復処理は再び安全です。</p>
+<p>一度 <a class="reference internal" href="PolygonMesh.html#id63136"><span class="std std-ref">PolygonMesh.endStructureChanges</span></a> に達すると、メッシュは利用可能な未使用インデックスに置き換えることによってインデックスを圧縮し直し、インデックスの範囲を減らします。この時点で、シンプルなインデックス ループを使用する全ての頂点やポリゴンにおいて反復処理は再び安全です。</p>
 </div>
 </div>
 <div class="section" id="internal-data-organization">
 <span id="internalpolygonmeshdata"></span><h2>内部データの構成<a class="headerlink" href="#internal-data-organization" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>The internal data structure of the <a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> is very complex in order to allow both
+<p>The internal data structure of the <a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> is very complex in order to allow both
 a low memory consumption and fast query and modeling operations. In order to achieve this,
 the structure does the following:</p>
 <ul class="simple">
@@ -461,7 +461,7 @@ the structure does the following:</p>
 </div>
 <div class="section" id="current-limitations">
 <span id="polygonmeshlimitations"></span><h2>現在の制限<a class="headerlink" href="#current-limitations" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p><a class="reference internal" href="../AttributeHelpers/PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> 構造には現在次の制限があります。</p>
+<p><a class="reference internal" href="PolygonMesh.html#polygonmesh"><span class="std std-ref">PolygonMesh</span></a> 構造には現在次の制限があります。</p>
 <ul class="simple">
 <li>メッシュのポリゴン群は常に三角形化され、凹形ポリゴンを生成することができます。</li>
 <li>ポリゴンのホールはサポートされていません。</li>
